@@ -1,0 +1,82 @@
+package main
+
+import (
+	"fmt"
+	"github.com/brianvoe/gofakeit/v6"
+	"github.com/google/uuid"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
+	"strconv"
+	"strings"
+	"time"
+)
+
+const batches = 10
+const eventsInBatch = 1000
+
+func seedEvents(dp *depot.Depot, clear bool, modelSite *model.Site) error {
+	now := time.Now()
+
+	if clear {
+		err := dp.ClickHouse().
+			Exec("set mutations_sync = 1").
+			Error
+		if err != nil {
+			return err
+		}
+
+		err = dp.ClickHouse().
+			Exec("optimize table events_buffer").
+			Error
+		if err != nil {
+			return err
+		}
+
+		err = dp.ClickHouse().
+			Exec("alter table events delete where 1 = 1").
+			Error
+		if err != nil {
+			return err
+		}
+
+		err = dp.ClickHouse().
+			Exec("set mutations_sync = 0").
+			Error
+		if err != nil {
+			return err
+		}
+	}
+
+	for i := 0; i < batches; i += 1 {
+		events := []*model.Event{}
+
+		for j := 0; j < eventsInBatch; j += 1 {
+			event := &model.Event{
+				CountryIsoCode: nil,
+				DateTime:       gofakeit.DateRange(now.Add(-31*24*time.Hour), now),
+				Duration:       uint32(gofakeit.IntRange(1, 1200)),
+				Id:             uuid.NewString(),
+				Kind:           model.EventKindPageView,
+				Language:       nil,
+				Locale:         nil,
+				SiteId:         modelSite.Id,
+				VisitorId:      strconv.Itoa(gofakeit.IntRange(1, 10)),
+			}
+
+			rawUrlParts := strings.SplitN(gofakeit.URL(), "/", 4)
+			url := fmt.Sprintf("https://%s%s", modelSite.Domain, fmt.Sprintf("/%s", rawUrlParts[len(rawUrlParts)-1]))
+
+			event.FillFromUrl(url)
+			event.FillFromUserAgent(gofakeit.UserAgent())
+
+			events = append(events, event)
+		}
+
+		err := dp.ClickHouse().Table("events_buffer").Create(&events).Error
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}

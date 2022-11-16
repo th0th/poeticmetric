@@ -1,0 +1,40 @@
+@import "./bootstrap";
+
+body {
+  background-image: url("/waimakariri.svg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+svg {
+  fill: currentColor;
+}
+
+.h-1rem {
+  height: 0.75rem !important;
+}
+
+.mw-32rem {
+  max-width: 32rem !important;
+}
+
+.w-4rem {
+  width: 4rem !important;
+}
+
+.w-6rem {
+  width: 6rem !important;
+}
+
+.d-parent {
+  &:focus-within, &:hover {
+    .d-parent-block {
+      display: block !important;
+    }
+  }
+
+  [class^="d-parent"], [class*=" d-parent"] {
+    display: none !important;
+  }
+}

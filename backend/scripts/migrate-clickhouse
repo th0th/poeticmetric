@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+exec migrate \
+  -database "clickhouse://${POETICMETRIC_CLICKHOUSE_HOST}:${POETICMETRIC_CLICKHOUSE_TCP_PORT}?username=${POETICMETRIC_CLICKHOUSE_USER}&password=${POETICMETRIC_CLICKHOUSE_PASSWORD}&database=${POETICMETRIC_CLICKHOUSE_DATABASE}&x-multi-statement=true" \
+  -source "file:///poeticmetric/migrations/clickhouse" \
+  "$@"

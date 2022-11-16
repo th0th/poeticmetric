@@ -1,0 +1,1 @@
+type SiteReportChangeColor = "green" | "red";
