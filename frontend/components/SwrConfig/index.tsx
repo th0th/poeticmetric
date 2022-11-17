@@ -1,8 +1,8 @@
-import React from 'react';
-import { SWRConfig } from 'swr';
-import { apiCall, setUserAccessToken } from '../../helpers';
+import React from "react";
+import { SWRConfig } from "swr";
+import { apiCall, setUserAccessToken } from "../../helpers";
 
-type Props = {
+export type SwrConfigProps = {
   children: React.ReactNode,
 };
 
@@ -13,7 +13,7 @@ async function fetcher(endpoint: string, init?: RequestInit) {
     response = await apiCall(endpoint, init);
   } catch (e) {
     // TODO: handle better
-    throw new Error('An error occurred while fetching the data.');
+    throw new Error("An error occurred while fetching the data.");
     // throw new SwrError('An error occurred while fetching the data.');
   }
 
@@ -23,15 +23,15 @@ async function fetcher(endpoint: string, init?: RequestInit) {
     }
 
     // TODO: handle better
-    const responseJson = await response.json();
-    throw new Error('An error occurred while fetching the data.');
+    throw new Error("An error occurred while fetching the data.");
+    // const responseJson = await response.json();
     // throw new SwrError('An error occurred while fetching the data.', response.status, responseJson);
   }
 
   return response.json();
 }
 
-export function SwrConfig({ children }: Props) {
+export function SwrConfig({ children }: SwrConfigProps) {
   return (
     <SWRConfig value={{ fetcher, refreshInterval: 60000 }}>
       {children}

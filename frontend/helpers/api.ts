@@ -1,11 +1,11 @@
-import { getUserAccessToken } from './userAccessToken';
+import { getUserAccessToken } from "./userAccessToken";
 
 export function apiCall(endpoint: string, init?: RequestInit) {
   const userAccessToken = getUserAccessToken();
 
   const headers: HeadersInit = {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
+    Accept: "application/json",
+    "Content-Type": "application/json",
     ...userAccessToken === null ? {} : { authorization: `bearer ${userAccessToken}` },
     ...init?.headers,
   };
@@ -14,17 +14,17 @@ export function apiCall(endpoint: string, init?: RequestInit) {
 }
 
 export const api = {
-  delete(endpoint: string, payload?: object, config?: Omit<RequestInit, 'body' | 'method'>) {
-    return apiCall(endpoint, { ...config, body: payload ? JSON.stringify(payload) : undefined, method: 'DELETE' });
+  delete(endpoint: string, payload?: object, config?: Omit<RequestInit, "body" | "method">) {
+    return apiCall(endpoint, { ...config, body: payload ? JSON.stringify(payload) : undefined, method: "DELETE" });
   },
   get: apiCall,
-  patch(endpoint: string, payload: object, config?: Omit<RequestInit, 'body' | 'method'>) {
-    return apiCall(endpoint, { ...config, body: JSON.stringify(payload), method: 'PATCH' });
+  patch(endpoint: string, payload: object, config?: Omit<RequestInit, "body" | "method">) {
+    return apiCall(endpoint, { ...config, body: JSON.stringify(payload), method: "PATCH" });
   },
-  post(endpoint: string, payload?: object, config?: Omit<RequestInit, 'body' | 'method'>) {
-    return apiCall(endpoint, { ...config, body: JSON.stringify(payload), method: 'POST' });
+  post(endpoint: string, payload?: object, config?: Omit<RequestInit, "body" | "method">) {
+    return apiCall(endpoint, { ...config, body: JSON.stringify(payload), method: "POST" });
   },
-  put(endpoint: string, payload: object, config?: Omit<RequestInit, 'body' | 'method'>) {
-    return apiCall(endpoint, { ...config, body: JSON.stringify(payload), method: 'PUT' });
+  put(endpoint: string, payload: object, config?: Omit<RequestInit, "body" | "method">) {
+    return apiCall(endpoint, { ...config, body: JSON.stringify(payload), method: "PUT" });
   },
 };
