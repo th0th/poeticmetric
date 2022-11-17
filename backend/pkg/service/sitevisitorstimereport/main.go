@@ -4,6 +4,7 @@ import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereportfilters"
 	"gorm.io/gorm"
+	"math"
 	"strings"
 	"time"
 )
@@ -68,6 +69,19 @@ func Get(dp *depot.Depot, filters *sitereportfilters.Filters) (*Report, error) {
 		Error
 	if err != nil {
 		return nil, err
+	}
+
+	// AverageVisitorCount
+	var visitorCountsSum float64 = 0
+	var visitorCountsLength float64 = 0
+
+	for _, d := range report.Data {
+		visitorCountsSum += float64(d.VisitorCount)
+		visitorCountsLength += 1
+	}
+
+	if visitorCountsLength != 0 {
+		report.AverageVisitorCount = uint64(math.Round(visitorCountsSum / visitorCountsLength))
 	}
 
 	return report, nil

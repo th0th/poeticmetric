@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import Link from "next/link";
 import React from "react";
 import { Breadcrumb, Col, Container, Row } from "react-bootstrap";
@@ -8,6 +9,7 @@ import {
   SiteReportsFiltersHandler,
   SiteReportsTimeWindowInput,
 } from "../../components";
+import styles from "./SiteReports.module.scss";
 
 export function SiteReports() {
   return (
@@ -30,8 +32,8 @@ export function SiteReports() {
 
           <SiteOverviewReport className="mt-3" />
 
-          <Row className="mt-3">
-            <Col lg={8} xs={12}>
+          <Row className="g-3 mt-0">
+            <Col className={styles.sitePageViewsAndVisitorsReportCol} lg={8} xs={12}>
               <SitePageViewsAndVisitorsReport />
             </Col>
 

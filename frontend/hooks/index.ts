@@ -7,6 +7,7 @@ export * from "./useSitePageViewCountsReport";
 export * from "./useSitePageViewDurationsReport";
 export * from "./useSitePageViewsTimeReport";
 export * from "./useSiteReports";
+export * from "./useSiteVisitorsTimeReport";
 export * from "./useSites";
 export * from "./useSwrMatchMutate";
 export * from "./useUsers";
