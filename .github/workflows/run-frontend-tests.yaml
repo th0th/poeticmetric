@@ -28,6 +28,7 @@ jobs:
           filter_mode: nofilter
           github_token: ${{ secrets.github_token }}
           reporter: github-pr-review
+          stylelint_input: '**/*.scss'
           workdir: frontend
 
       - name: Run eslint
