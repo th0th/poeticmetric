@@ -5,7 +5,7 @@ export function useSwrMatchMutate() {
 
   return (matcher: string | RegExp, data?: any | Promise<any> | MutatorCallback, opts?: boolean | MutatorOptions) => {
     if (!(cache instanceof Map)) {
-      throw new Error('matchMutate requires the cache provider to be a Map instance');
+      throw new Error("matchMutate requires the cache provider to be a Map instance");
     }
 
     const keys: Array<string> = [];

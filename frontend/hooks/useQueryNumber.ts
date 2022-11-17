@@ -1,5 +1,5 @@
-import { useRouter } from 'next/router';
-import { useMemo } from 'react';
+import { useRouter } from "next/router";
+import { useMemo } from "react";
 
 export function useQueryNumber(p: string) {
   const router = useRouter();

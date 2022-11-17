@@ -31,12 +31,7 @@ export function User({ user, ...props }: UserProps) {
         <div className="d-flex flex-column flex-sm-row">
           <Link className="btn btn-sm btn-primary" href={`/team/edit?id=${user.id}`}>Edit</Link>
 
-          <Link
-            className={classNames(
-              "mt-2 mt-sm-0 ms-sm-2 btn btn-sm btn-danger",
-              user.isOrganizationOwner && "disabled",
-            )} href="/"
-          >
+          <Link className={classNames("mt-2 mt-sm-0 ms-sm-2 btn btn-sm btn-danger", user.isOrganizationOwner && "disabled",)} href="/">
             Delete
           </Link>
         </div>
