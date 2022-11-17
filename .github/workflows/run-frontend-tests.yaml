@@ -6,10 +6,6 @@ on:
       - "**"
 
 jobs:
-  run-frontend-tests:
-    defaults:
-      run:
-        working-directory: frontend
     name: Run tests
     runs-on: ubuntu-latest
     steps:
@@ -31,6 +27,7 @@ jobs:
           filter_mode: nofilter
           github_token: ${{ secrets.github_token }}
           reporter: github-pr-review
+          workdir: frontend
 
       - name: Run eslint
         uses: reviewdog/action-eslint@v1
@@ -38,3 +35,4 @@ jobs:
           eslint_flags: '--ext .js,.ts,.tsx .'
           fail_on_error: true
           filter_mode: nofilter
+          workdir: frontend
