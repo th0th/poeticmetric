@@ -5,10 +5,6 @@ on:
     branches:
       - "**"
 
-defaults:
-  run:
-    working-directory: frontend
-
 jobs:
   run-tests:
     name: Run tests
@@ -25,6 +21,7 @@ jobs:
 
       - name: Install dependencies
         run: yarn install
+        working-directory: frontend
 
       - name: Run stylelint
         uses: reviewdog/action-stylelint@v1
@@ -33,6 +30,7 @@ jobs:
           filter_mode: nofilter
           github_token: ${{ secrets.github_token }}
           reporter: github-pr-review
+        working-directory: frontend
 
       - name: Run eslint
         uses: reviewdog/action-eslint@v1
@@ -40,3 +38,4 @@ jobs:
           eslint_flags: '--ext .js,.ts,.tsx .'
           fail_on_error: true
           filter_mode: nofilter
+        working-directory: frontend
