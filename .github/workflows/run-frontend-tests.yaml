@@ -5,6 +5,10 @@ on:
     branches:
       - "**"
 
+defaults:
+  run:
+    working-directory: frontend
+
 jobs:
   run-tests:
     name: Run tests
