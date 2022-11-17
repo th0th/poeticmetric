@@ -19,23 +19,29 @@ jobs:
           cache: 'yarn'
           node-version: '19.1.0'
 
-      - name: Install dependencies
+      - defaults:
+          run:
+            working-directory: frontend
+        name: Install dependencies
         run: yarn install
-        working-directory: frontend
 
-      - name: Run stylelint
+      - defaults:
+          run:
+            working-directory: frontend
+        name: Run stylelint
         uses: reviewdog/action-stylelint@v1
         with:
           fail_on_error: true
           filter_mode: nofilter
           github_token: ${{ secrets.github_token }}
           reporter: github-pr-review
-        working-directory: frontend
 
-      - name: Run eslint
+      - defaults:
+          run:
+            working-directory: frontend
+        name: Run eslint
         uses: reviewdog/action-eslint@v1
         with:
           eslint_flags: '--ext .js,.ts,.tsx .'
           fail_on_error: true
           filter_mode: nofilter
-        working-directory: frontend
