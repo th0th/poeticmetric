@@ -36,7 +36,7 @@ export function Actions({ className, ...props }: ActionsProps) {
 
     return (
       <UserMenu />
-    )
+    );
   }, [router.pathname, user]);
 
   return (

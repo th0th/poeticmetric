@@ -12,7 +12,7 @@ module.exports = {
     "@typescript-eslint/semi": "error",
     "import/no-extraneous-dependencies": "error",
     "import/no-unresolved": "error",
-    "max-len": ["error", { code: 140, ignoreStrings: true }],
+    "max-len": ["error", { code: 140, ignoreComments: true, ignoreStrings: true }],
     "object-curly-newline": ["error", { consistent: true }],
     "quote-props": ["error", "as-needed"],
     "react/jsx-closing-bracket-location": ["error"],

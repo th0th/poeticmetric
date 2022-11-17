@@ -1,10 +1,10 @@
-type Dayjs = import('dayjs').Dayjs;
+type Dayjs = import("dayjs").Dayjs;
 
 type SiteReportsFilters = {
   browserName: string | null,
   browserVersion: string | null,
   countryIsoCode: string | null,
-  deviceType: 'desktop' | 'mobile' | 'tablet' | null,
+  deviceType: "desktop" | "mobile" | "tablet" | null,
   end: Dayjs,
   id: number,
   language: string | null,

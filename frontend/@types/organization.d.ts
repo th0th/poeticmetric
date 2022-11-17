@@ -1,7 +1,5 @@
-
-
-type OrganizationSubscriptionPeriod = 'MONTH' | 'YEAR';
-type OrganizationSubscriptionPeriodDisplay = 'monthly' | 'yearly';
+type OrganizationSubscriptionPeriod = "MONTH" | "YEAR";
+type OrganizationSubscriptionPeriodDisplay = "monthly" | "yearly";
 
 type Organization = {
   createdAt: string,
