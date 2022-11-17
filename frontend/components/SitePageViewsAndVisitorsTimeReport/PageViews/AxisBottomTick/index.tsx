@@ -2,7 +2,6 @@ import { TickRendererProps } from "@visx/axis";
 import classNames from "classnames";
 import dayjs, { Dayjs } from "dayjs";
 import React, { useMemo } from "react";
-import styles from "./AxisBottomTick.module.scss";
 
 export type AxisBottomTickProps = TickRendererProps;
 
@@ -16,8 +15,12 @@ export function AxisBottomTick({ className, formattedValue, ...props }: AxisBott
   }, [formattedValue]);
 
   return d === undefined ? null : (
-    <text {...props} className={classNames(styles.axisBottomTick, className)}>
-      <tspan className="fw-semibold">
+    <text
+      {...props}
+      className={classNames("fss-3 text-black", className)}
+      fill={window.getComputedStyle(document.documentElement).getPropertyValue("--bs-black")}
+    >
+      <tspan className="fw-medium">
         {d.format("LT")}
       </tspan>
 

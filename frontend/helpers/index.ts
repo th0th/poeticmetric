@@ -6,4 +6,5 @@ export * from "./hydrateSiteOverviewReport";
 export * from "./hydrateSitePageViewCountsReport";
 export * from "./hydrateSitePageViewDurationsReport";
 export * from "./hydrateSitePageViewsTimeReport";
+export * from "./hydrateSiteVisitorsTimeReport";
 export * from "./userAccessToken";

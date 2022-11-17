@@ -1,2 +1,3 @@
 .DS_Store
 /backend/etc/ssl
+/frontend/styles/style.css

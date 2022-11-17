@@ -1,12 +1,10 @@
 type HydratedSitePageViewsTimeDatum = SitePageViewsTimeDatum & {
+  dateTimeDate: Date,
   dateTimeDayjs: import("dayjs").Dayjs,
-  pageViewCountDisplay: string,
 };
 
 type HydratedSitePageViewsTimeReport = SitePageViewsTimeReport & {
-  averagePageViewCountDisplay: string,
   hydratedData: Array<HydratedSitePageViewsTimeDatum>,
-  intervalSeconds: number,
 };
 
 type SitePageViewsTimeDatum = {
