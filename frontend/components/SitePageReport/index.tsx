@@ -10,9 +10,9 @@ import { ViewCounts } from "./ViewCounts";
 export type SitePageReportProps = Omit<CardProps, "children">;
 
 type Section = {
-  content: React.ReactNode,
-  slug: string | null,
-  title: string,
+  content: React.ReactNode;
+  slug: string | null;
+  title: string;
 };
 
 const slugRouterQueryKey = "pages";

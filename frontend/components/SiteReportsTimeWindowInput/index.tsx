@@ -6,9 +6,9 @@ import { Dropdown } from "react-bootstrap";
 import { SiteReportsFiltersContext } from "../../contexts";
 
 type Option = {
-  getEnd: () => dayjs.Dayjs,
-  getStart: () => dayjs.Dayjs,
-  title: string,
+  getEnd: () => dayjs.Dayjs;
+  getStart: () => dayjs.Dayjs;
+  title: string;
 };
 
 const options: Array<Array<Option>> = [

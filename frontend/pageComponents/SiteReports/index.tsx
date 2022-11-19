@@ -1,10 +1,11 @@
-import classNames from "classnames";
 import Link from "next/link";
 import React from "react";
 import { Breadcrumb, Col, Container, Row } from "react-bootstrap";
 import {
   Layout,
-  SiteOverviewReport, SitePageReport,
+  SiteGeoReport,
+  SiteOverviewReport,
+  SitePageReport,
   SitePageViewsAndVisitorsReport,
   SiteReportsFiltersHandler,
   SiteReportsTimeWindowInput,
@@ -39,6 +40,12 @@ export function SiteReports() {
 
             <Col lg={4} xs={12}>
               <SitePageReport className="h-100" />
+            </Col>
+          </Row>
+
+          <Row className="mt-3">
+            <Col className={styles.reportCol}>
+              <SiteGeoReport />
             </Col>
           </Row>
         </Container>

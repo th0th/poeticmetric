@@ -4,13 +4,13 @@ import { CloseButton, CloseButtonProps, Toast as BsToast, ToastProps as BsToastP
 import { ToastsContextToast, ToastsContextValue } from "../../../contexts";
 
 type ToastProps = Overwrite<Omit<BsToastProps, "autohide" | "children">, {
-  deleteToast: ToastsContextValue["deleteToast"],
-  toast: ToastsContextToast,
+  deleteToast: ToastsContextValue["deleteToast"];
+  toast: ToastsContextToast;
 }>;
 
 type State = {
-  autoHide: boolean,
-  isShown: boolean,
+  autoHide: boolean;
+  isShown: boolean;
 };
 
 const toastBgs: Record<ToastsContextToast["variant"], BsToastProps["bg"]> = {

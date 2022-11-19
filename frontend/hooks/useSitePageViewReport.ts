@@ -4,12 +4,12 @@ import { hydrateSitePageViewsTimeReport } from "../helpers";
 import { useReportQueryParams } from "./useReportQueryParams";
 
 type HydratedSwrResponse = SWRResponse<SitePageViewsTimeReport> & {
-  hydratedData?: HydratedSitePageViewsTimeReport,
+  hydratedData?: HydratedSitePageViewsTimeReport;
 };
 
-export function useSitePageViewsTimeReport(): HydratedSwrResponse {
+export function useSitePageViewReport(): HydratedSwrResponse {
   const reportQueryParams = useReportQueryParams();
-  const swrResponse = useSWR<SitePageViewsTimeReport>(`/site-reports/page-views-time?${reportQueryParams}`);
+  const swrResponse = useSWR<SitePageViewsTimeReport>(`/site-reports/page-view?${reportQueryParams}`);
 
   const hydratedData = useMemo<HydratedSitePageViewsTimeReport | undefined>(() => {
     if (swrResponse.data === undefined) {

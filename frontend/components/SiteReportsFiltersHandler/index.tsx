@@ -7,7 +7,7 @@ import { Spinner } from "react-bootstrap";
 import { SiteReportsFiltersContext, SiteReportsFiltersContextValue } from "../../contexts";
 
 export type SiteReportsFiltersHandlerProps = {
-  children: React.ReactNode,
+  children: React.ReactNode;
 };
 
 function getFilter(queryString: string | Array<string> | undefined): string | null {

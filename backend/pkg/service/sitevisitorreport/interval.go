@@ -1,4 +1,4 @@
-package sitevisitorstimereport
+package sitevisitorreport
 
 import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereportfilters"

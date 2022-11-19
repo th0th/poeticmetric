@@ -6,7 +6,7 @@ import { Spinner } from "react-bootstrap";
 import { AuthAndApiContext } from "../../contexts";
 
 type WrappedProps = {
-  pageProps: AppProps["pageProps"],
+  pageProps: AppProps["pageProps"];
 };
 
 export function withAuth(Page: NextPage, authenticated: boolean, ownerOnly?: true) {

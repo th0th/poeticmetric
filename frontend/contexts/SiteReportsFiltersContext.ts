@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { createContext } from 'react';
+import { createContext } from "react";
 
 export type SiteReportsFiltersContextValue = SiteReportsFilters;
 

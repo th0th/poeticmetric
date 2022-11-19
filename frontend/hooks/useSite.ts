@@ -7,7 +7,7 @@ type HydratedData = Site;
 type Config = SWRConfiguration<Data, any, BareFetcher<Data>>;
 
 type Response = Overwrite<SWRResponse<Data>, {
-  data: HydratedData | undefined,
+  data: HydratedData | undefined;
 }>;
 
 export function useSite(id?: number, disable?: boolean, config?: Config): Response {

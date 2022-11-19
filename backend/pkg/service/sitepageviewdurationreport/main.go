@@ -1,4 +1,4 @@
-package sitepageviewcountsreport
+package sitepageviewdurationreport
 
 import (
 	"fmt"
@@ -6,14 +6,12 @@ import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereportfilters"
 	"gorm.io/gorm"
-	"strings"
 )
 
 type Datum struct {
-	Page                string `json:"page"`
-	Url                 string `json:"url"`
-	ViewCount           uint64 `json:"viewCount"`
-	ViewCountPercentage uint16 `json:"viewCountPercentage"`
+	Page         string `json:"page"`
+	Url          string `json:"url"`
+	ViewDuration uint64 `json:"viewDuration"`
 }
 
 type Report struct {
@@ -35,25 +33,15 @@ func Get(dp *depot.Depot, filters *sitereportfilters.Filters) (*Report, error) {
 
 	q := sitereportfilters.Apply(dp, filters)
 
-	totalCountSubQuery := q.
-		Session(&gorm.Session{}).
-		Select("count(*)")
-
 	err = q.
 		Session(&gorm.Session{}).
 		Select(
-			strings.Join([]string{
-				"page",
-				fmt.Sprintf("concat('https://%s', page) as url", modelSite.Domain),
-				"count(*) as view_count",
-				"toUInt16(round(100 * count(*) / (@totalCountSubQuery), 2)) as view_count_percentage",
-			}, ","),
-			map[string]any{
-				"totalCountSubQuery": totalCountSubQuery,
-			},
+			"page",
+			fmt.Sprintf("concat('https://%s', page) as url", modelSite.Domain),
+			"round(avg(duration)) as view_duration",
 		).
 		Group("page").
-		Order("view_count desc").
+		Order("round(avg(duration)) desc").
 		Find(&report.Data).
 		Error
 	if err != nil {

@@ -1,6 +1,6 @@
 export const subscriptionPeriodDisplays: Record<OrganizationSubscriptionPeriod, OrganizationSubscriptionPeriodDisplay> = {
-  MONTH: 'monthly',
-  YEAR: 'yearly',
+  MONTH: "monthly",
+  YEAR: "yearly",
 };
 
 export function hydrateOrganization(o: Organization): HydratedOrganization {

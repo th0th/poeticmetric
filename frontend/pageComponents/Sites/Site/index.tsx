@@ -6,7 +6,7 @@ import { Omit } from "react-bootstrap/helpers";
 import { FavIcon } from "../../../components";
 
 type SiteProps = Overwrite<Omit<CardProps, "children">, {
-  site: Site,
+  site: Site;
 }>;
 
 export function Site({ site, ...props }: SiteProps) {

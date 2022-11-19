@@ -3,13 +3,13 @@ package sitereport
 import (
 	"github.com/gofiber/fiber/v2"
 	dm "github.com/poeticmetric/poeticmetric/backend/pkg/restapi/middleware/depot"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitepageviewdurationsreport"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitepageviewdurationreport"
 )
 
-func pageViewDurations(c *fiber.Ctx) error {
+func pageViewDuration(c *fiber.Ctx) error {
 	dp := dm.Get(c)
 
-	report, err := sitepageviewdurationsreport.Get(dp, getFilters(c))
+	report, err := sitepageviewdurationreport.Get(dp, getFilters(c))
 	if err != nil {
 		return err
 	}

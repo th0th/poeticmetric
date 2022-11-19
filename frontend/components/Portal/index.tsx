@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 export type PortalProps = {
-  children: React.ReactNode,
+  children: React.ReactNode;
 };
 
 export function Portal({ children }: PortalProps) {

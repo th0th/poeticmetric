@@ -1,4 +1,4 @@
-function hydrateSitePageViewCountsDatum(d: SitePageViewCountsDatum): HydratedSitePageViewCountsDatum {
+function hydrateSitePageViewCountsDatum(d: SitePageViewCountsReportDatum): HydratedSitePageViewCountsReportDatum {
   return {
     ...d,
     viewCountPercentageDisplay: `${d.viewCountPercentage}%`,

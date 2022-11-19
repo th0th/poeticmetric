@@ -6,5 +6,5 @@ export function Home() {
     <Layout>
 
     </Layout>
-  )
+  );
 }

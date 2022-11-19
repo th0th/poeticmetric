@@ -1,4 +1,4 @@
-const userAccessTokenLocalStorageKey = 'poeticmetric-user-access-token';
+const userAccessTokenLocalStorageKey = "poeticmetric-user-access-token";
 
 export function getUserAccessToken(): string | null {
   return window.localStorage.getItem(userAccessTokenLocalStorageKey);

@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import useSWR, { BareFetcher, mutate, SWRConfiguration, SWRResponse } from 'swr';
+import { useEffect, useState } from "react";
+import useSWR, { BareFetcher, mutate, SWRConfiguration, SWRResponse } from "swr";
 
 type Data = Array<Site>;
 type HydratedData = Array<Site>;
@@ -7,11 +7,11 @@ type HydratedData = Array<Site>;
 type Config = SWRConfiguration<Data, any, BareFetcher<Data>>;
 
 type Response = Overwrite<SWRResponse<Data>, {
-  data: HydratedData | undefined,
+  data: HydratedData | undefined;
 }>;
 
 export function useSites(disable?: boolean, config?: Config): Response {
-  const { data: rawData, ...swrResponse } = useSWR<Data>(disable ? null : '/sites', config);
+  const { data: rawData, ...swrResponse } = useSWR<Data>(disable ? null : "/sites", config);
   const [hydratedData, setHydratedData] = useState<HydratedData>();
 
   useEffect(() => {

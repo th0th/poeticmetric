@@ -10,11 +10,15 @@ const localsFiltersKey = "filters"
 func Add(app *fiber.App) {
 	group := app.Group("/site-reports", filtersMiddleware)
 
+	group.Get("/country", country)
+	group.Get("/language", language)
 	group.Get("/overview", overview)
-	group.Get("/page-views-time", pageViewsTime)
-	group.Get("/page-view-counts", pageViewCounts)
-	group.Get("/page-view-durations", pageViewDurations)
-	group.Get("/visitors-time", visitorsTime)
+	group.Get("/page-view", pageView)
+	group.Get("/page-view-count", pageViewCount)
+	group.Get("/page-view-duration", pageViewDuration)
+	group.Get("/referrer-page", referrerPage)
+	group.Get("/referrer-domain", referrerDomain)
+	group.Get("/visitor", visitor)
 }
 
 func getFilters(c *fiber.Ctx) *sitereportfilters.Filters {

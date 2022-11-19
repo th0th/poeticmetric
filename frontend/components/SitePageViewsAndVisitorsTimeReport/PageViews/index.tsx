@@ -12,42 +12,42 @@ import { NumberValue, ScaleLinear, ScaleTime } from "d3-scale";
 import dayjs from "dayjs";
 import React, { useCallback, useContext, useMemo } from "react";
 import { SiteReportsFiltersContext } from "../../../contexts";
-import { useSitePageViewsTimeReport } from "../../../hooks";
+import { useSitePageViewReport } from "../../../hooks";
 import { ChartTooltip } from "../../ChartTooltip";
 import { AxisBottomTick } from "./AxisBottomTick";
 
 export type PageViewsProps = Overwrite<Omit<React.PropsWithoutRef<JSX.IntrinsicElements["svg"]>, "children">, {
-  debounceTime?: number,
-  enableDebounceLeadingCall?: boolean,
-  parentHeight?: number,
-  parentWidth?: number,
+  debounceTime?: number;
+  enableDebounceLeadingCall?: boolean;
+  parentHeight?: number;
+  parentWidth?: number;
 }>;
 
 type State = {
-  averagePageViewCount: number,
-  averagePageViewCountY: number,
-  data: Array<StateDatum>,
-  height: number,
-  innerHeight: number,
-  innerWidth: number,
-  interval: SitePageViewsTimeInterval,
-  width: number,
-  xDomain: [Date, Date],
-  xScale: ScaleTime<number, number>,
-  yDomain: [number, number],
-  yScale: ScaleLinear<number, number>,
+  averagePageViewCount: number;
+  averagePageViewCountY: number;
+  data: Array<StateDatum>;
+  height: number;
+  innerHeight: number;
+  innerWidth: number;
+  interval: SitePageViewsTimeInterval;
+  width: number;
+  xDomain: [Date, Date];
+  xScale: ScaleTime<number, number>;
+  yDomain: [number, number];
+  yScale: ScaleLinear<number, number>;
 };
 
 type StateDatum = {
-  datum: HydratedSitePageViewsTimeDatum,
-  x: number,
-  y: number,
+  datum: HydratedSitePageViewsTimeDatum;
+  x: number;
+  y: number;
 };
 
 type Tooltip = {
-  endDayjs: dayjs.Dayjs,
-  startDayjs: dayjs.Dayjs,
-  stateDatum: StateDatum,
+  endDayjs: dayjs.Dayjs;
+  startDayjs: dayjs.Dayjs;
+  stateDatum: StateDatum;
 };
 
 const padding = { bottom: 24, left: 40, top: 8 };
@@ -57,7 +57,7 @@ const xBisect = bisector((d: StateDatum) => d.datum.dateTimeDate).center;
 function BasePageViews({ className, debounceTime: _, enableDebounceLeadingCall: __, parentHeight, parentWidth, ...props }: PageViewsProps) {
   const { hideTooltip, showTooltip: rawShowTooltip, tooltipData, tooltipLeft, tooltipOpen, tooltipTop } = useTooltip<Tooltip>();
   const { end, start } = useContext(SiteReportsFiltersContext);
-  const { hydratedData: report } = useSitePageViewsTimeReport();
+  const { hydratedData: report } = useSitePageViewReport();
 
   const state = useMemo<State | null>(() => {
     if (report === undefined || parentWidth === undefined || parentHeight === undefined) {
@@ -230,9 +230,9 @@ function BasePageViews({ className, debounceTime: _, enableDebounceLeadingCall: 
             fill="transparent"
             height={state.innerHeight}
             onMouseLeave={hideTooltip}
-            onMouseMove={(event) => showTooltip(event)}
+            onMouseMove={showTooltip}
             onTouchEnd={hideTooltip}
-            onTouchMove={(event) => showTooltip(event)}
+            onTouchMove={showTooltip}
             width={state.width}
             x={0}
             y={0}

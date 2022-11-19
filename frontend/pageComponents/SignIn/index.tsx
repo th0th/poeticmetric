@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import Head from "next/head";
 import Link from "next/link";
 import React, { useCallback, useContext, useMemo } from "react";
@@ -9,13 +8,13 @@ import { api, base64Encode } from "../../helpers";
 import { useForm } from "../../hooks";
 
 type Form = {
-  email: string,
-  password: string,
+  email: string;
+  password: string;
 };
 
 export function SignIn() {
   const { setUserAccessToken } = useContext(AuthAndApiContext);
-  const [values, setValues, updateValue, errors, setErrors] = useForm<Form>({ email: "", password: "" });
+  const [values, , updateValue, errors, setErrors] = useForm<Form>({ email: "", password: "" });
 
   const errorNode = useMemo(() => (errors.detail !== undefined ? (
     <Alert variant="danger">

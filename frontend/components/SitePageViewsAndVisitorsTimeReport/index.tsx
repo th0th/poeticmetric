@@ -9,9 +9,9 @@ import { Visitors } from "./Visitors";
 export type SitePageViewsAndVisitorsReportProps = Omit<CardProps, "children">;
 
 type Section = {
-  content: React.ReactNode,
-  slug: string | null,
-  title: string,
+  content: React.ReactNode;
+  slug: string | null;
+  title: string;
 };
 
 const sectionSlugRouterQueryKey = "pageViewsAndVisitors";
