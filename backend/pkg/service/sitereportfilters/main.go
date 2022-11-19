@@ -18,7 +18,7 @@ type Filters struct {
 	OperatingSystemName    *string   `query:"operatingSystemName"`
 	OperatingSystemVersion *string   `query:"operatingSystemVersion"`
 	Page                   *string   `query:"page"`
-	ReferrerSite           *string   `query:"referrerSite"`
+	ReferrerDomain         *string   `query:"referrerDomain"`
 	SiteId                 uint64    `query:"siteId"`
 	Start                  time.Time `query:"start"`
 	TimeZone               *string   `query:"timeZone"`
@@ -72,8 +72,10 @@ func Apply(dp *depot.Depot, filters *Filters) *gorm.DB {
 		clickHouseSession.Where("page = ?", *filters.Page)
 	}
 
-	if filters.ReferrerSite != nil {
-		clickHouseSession.Where("referrer_site = ?", *filters.ReferrerSite)
+	if filters.ReferrerDomain != nil {
+		clickHouseSession.
+			Where("domain(referrer) != domain(url)").
+			Where("domain(referrer) = ?", *filters.ReferrerDomain)
 	}
 
 	return clickHouseSession

@@ -35,7 +35,7 @@ func Get(dp *depot.Depot, filters *sitereportfilters.Filters) (*Report, error) {
 		OperatingSystemName:    filters.OperatingSystemName,
 		OperatingSystemVersion: filters.OperatingSystemVersion,
 		Page:                   filters.Page,
-		ReferrerSite:           filters.ReferrerSite,
+		ReferrerDomain:         filters.ReferrerDomain,
 		SiteId:                 filters.SiteId,
 		Start:                  filters.Start.Add(filters.End.Sub(filters.Start)),
 		TimeZone:               filters.TimeZone,
