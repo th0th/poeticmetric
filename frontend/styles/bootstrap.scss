@@ -37,6 +37,14 @@ $utilities: (
         ),
     ),
   ),
+  "cursor": (
+    property: cursor,
+    class: cursor,
+    state: hover,
+    values: (
+      pointer,
+    ),
+  ),
   "font-weight": (
     property: font-weight,
     class: fw,

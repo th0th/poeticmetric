@@ -1,18 +1,18 @@
-type HydratedSitePageViewCountsDatum = SitePageViewCountsDatum & {
-  viewCountPercentageDisplay: string,
+type HydratedSitePageViewCountsReportDatum = SitePageViewCountsReportDatum & {
+  viewCountPercentageDisplay: string;
 };
 
 type HydratedSitePageViewCountsReport = SitePageViewCountsReport & {
-  hydratedData: Array<HydratedSitePageViewCountsDatum>,
+  hydratedData: Array<HydratedSitePageViewCountsReportDatum>;
 };
 
-type SitePageViewCountsDatum = {
-  page: string,
-  url: string,
-  viewCount: number,
-  viewCountPercentage: number,
+type SitePageViewCountsReportDatum = {
+  page: string;
+  url: string;
+  viewCount: number;
+  viewCountPercentage: number;
 };
 
 type SitePageViewCountsReport = {
-  data: Array<SitePageViewCountsDatum>,
+  data: Array<SitePageViewCountsReportDatum>;
 };

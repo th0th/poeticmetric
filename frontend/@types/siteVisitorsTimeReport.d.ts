@@ -1,25 +1,25 @@
 type HydratedSiteVisitorsTimeDatum = SiteVisitorsTimeDatum & {
-  dateTimeDate: Date,
-  dateTimeDayjs: import("dayjs").Dayjs,
+  dateTimeDate: Date;
+  dateTimeDayjs: import("dayjs").Dayjs;
 };
 
 type HydratedSiteVisitorsTimeReport = SiteVisitorsTimeReport & {
-  hydratedData: Array<HydratedSiteVisitorsTimeDatum>,
+  hydratedData: Array<HydratedSiteVisitorsTimeDatum>;
 };
 
 type SiteVisitorsTimeDatum = {
-  dateTime: string,
-  visitorCount: number,
+  dateTime: string;
+  visitorCount: number;
 };
 
 type SiteVisitorsTimeInterval = {
-  factor: number,
-  unit: import("dayjs/plugin/duration").DurationUnitType,
+  factor: number;
+  unit: import("dayjs/plugin/duration").DurationUnitType;
 };
 
 type SiteVisitorsTimeReport = {
-  averageVisitorCount: number,
-  data: Array<SiteVisitorsTimeDatum>,
-  interval: SiteVisitorsTimeInterval,
+  averageVisitorCount: number;
+  data: Array<SiteVisitorsTimeDatum>;
+  interval: SiteVisitorsTimeInterval;
 };
 

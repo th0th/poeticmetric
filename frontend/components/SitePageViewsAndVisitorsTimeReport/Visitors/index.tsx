@@ -12,42 +12,42 @@ import { NumberValue, ScaleLinear, ScaleTime } from "d3-scale";
 import dayjs from "dayjs";
 import React, { useCallback, useContext, useMemo } from "react";
 import { SiteReportsFiltersContext } from "../../../contexts";
-import { useSiteVisitorsTimeReport } from "../../../hooks";
+import { useSiteVisitorReport } from "../../../hooks";
 import { ChartTooltip } from "../../ChartTooltip";
 import { AxisBottomTick } from "./AxisBottomTick";
 
 export type VisitorsProps = Overwrite<Omit<React.PropsWithoutRef<JSX.IntrinsicElements["svg"]>, "children">, {
-  debounceTime?: number,
-  enableDebounceLeadingCall?: boolean,
-  parentHeight?: number,
-  parentWidth?: number,
+  debounceTime?: number;
+  enableDebounceLeadingCall?: boolean;
+  parentHeight?: number;
+  parentWidth?: number;
 }>;
 
 type State = {
-  averageVisitorCount: number,
-  averageVisitorCountY: number,
-  data: Array<StateDatum>,
-  height: number,
-  innerHeight: number,
-  innerWidth: number,
-  interval: SiteVisitorsTimeInterval,
-  width: number,
-  xDomain: [Date, Date],
-  xScale: ScaleTime<number, number>,
-  yDomain: [number, number],
-  yScale: ScaleLinear<number, number>,
+  averageVisitorCount: number;
+  averageVisitorCountY: number;
+  data: Array<StateDatum>;
+  height: number;
+  innerHeight: number;
+  innerWidth: number;
+  interval: SiteVisitorsTimeInterval;
+  width: number;
+  xDomain: [Date, Date];
+  xScale: ScaleTime<number, number>;
+  yDomain: [number, number];
+  yScale: ScaleLinear<number, number>;
 };
 
 type StateDatum = {
-  datum: HydratedSiteVisitorsTimeDatum,
-  x: number,
-  y: number,
+  datum: HydratedSiteVisitorsTimeDatum;
+  x: number;
+  y: number;
 };
 
 type Tooltip = {
-  endDayjs: dayjs.Dayjs,
-  startDayjs: dayjs.Dayjs,
-  stateDatum: StateDatum,
+  endDayjs: dayjs.Dayjs;
+  startDayjs: dayjs.Dayjs;
+  stateDatum: StateDatum;
 };
 
 const padding = { bottom: 24, left: 40, top: 8 };
@@ -57,7 +57,7 @@ const xBisect = bisector((d: StateDatum) => d.datum.dateTimeDate).center;
 function BaseVisitors({ className, debounceTime: _, enableDebounceLeadingCall: __, parentHeight, parentWidth, ...props }: VisitorsProps) {
   const { hideTooltip, showTooltip: rawShowTooltip, tooltipData, tooltipLeft, tooltipOpen, tooltipTop } = useTooltip<Tooltip>();
   const { end, start } = useContext(SiteReportsFiltersContext);
-  const { hydratedData: report } = useSiteVisitorsTimeReport();
+  const { hydratedData: report } = useSiteVisitorReport();
 
   const state = useMemo<State | null>(() => {
     if (report === undefined || parentWidth === undefined || parentHeight === undefined) {

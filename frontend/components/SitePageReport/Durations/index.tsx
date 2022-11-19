@@ -2,12 +2,12 @@ import classNames from "classnames";
 import Link from "next/link";
 import React from "react";
 import { Spinner } from "react-bootstrap";
-import { useSitePageViewDurationsReport } from "../../../hooks";
+import { useSitePageViewDurationReport } from "../../../hooks";
 
 export type DurationsProps = Omit<React.PropsWithoutRef<JSX.IntrinsicElements["div"]>, "children">;
 
 export function Durations({ className, ...props }: DurationsProps) {
-  const { hydratedData: data } = useSitePageViewDurationsReport();
+  const { hydratedData: data } = useSitePageViewDurationReport();
 
   return data === undefined ? (
     <Spinner animation="border" />

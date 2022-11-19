@@ -2,9 +2,9 @@ import Image, { ImageProps } from "next/image";
 import React from "react";
 
 type FavIconProps = Overwrite<Omit<ImageProps, "height" | "src" | "width">, {
-  alt: string,
-  domain: string,
-  size: number,
+  alt: string;
+  domain: string;
+  size: number;
 }>;
 
 export function FavIcon({ alt, domain, size, ...props }: FavIconProps) {

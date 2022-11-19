@@ -7,6 +7,8 @@ module.exports = {
   ],
   root: true,
   rules: {
+    "@typescript-eslint/comma-dangle": ["error", "always-multiline"],
+    "@typescript-eslint/member-delimiter-style": ["error"],
     "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "_", varsIgnorePattern: "_" }],
     "@typescript-eslint/quotes": ["error", "double", { avoidEscape: true }],
     "@typescript-eslint/semi": "error",
@@ -20,6 +22,7 @@ module.exports = {
     "react/jsx-max-props-per-line": ["error", { when: "multiline" }],
     "react/jsx-one-expression-per-line": ["error", { allow: "single-child" }],
     "react/jsx-sort-props": "error",
+    "react/jsx-tag-spacing": "error",
     "sort-keys": "error",
     "typescript-sort-keys/interface": "error",
     "typescript-sort-keys/string-enum": "error",

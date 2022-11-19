@@ -6,11 +6,11 @@ import { Portal } from "../Portal";
 import { Toast } from "./Toast";
 
 type ToastsHandlerProps = {
-  children: React.ReactNode,
+  children: React.ReactNode;
 };
 
 type State = {
-  toasts: Array<ToastsContextToast>,
+  toasts: Array<ToastsContextToast>;
 };
 
 export function ToastsHandler({ children }: ToastsHandlerProps) {

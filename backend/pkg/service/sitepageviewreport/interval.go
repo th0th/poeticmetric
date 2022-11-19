@@ -1,4 +1,4 @@
-package sitepageviewstimereport
+package sitepageviewreport
 
 import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereportfilters"

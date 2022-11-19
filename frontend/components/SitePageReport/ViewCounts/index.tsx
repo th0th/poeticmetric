@@ -2,12 +2,12 @@ import classNames from "classnames";
 import Link from "next/link";
 import React from "react";
 import { Spinner } from "react-bootstrap";
-import { useSitePageViewCountsReport } from "../../../hooks";
+import { useSitePageViewCountReport } from "../../../hooks";
 
 export type ViewCountsProps = Omit<React.PropsWithoutRef<JSX.IntrinsicElements["div"]>, "children">;
 
 export function ViewCounts({ className, ...props }: ViewCountsProps) {
-  const { hydratedData: data } = useSitePageViewCountsReport();
+  const { hydratedData: data } = useSitePageViewCountReport();
 
   return data === undefined ? (
     <Spinner animation="border" />

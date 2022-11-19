@@ -5,7 +5,7 @@ import { Card, CardProps } from "react-bootstrap";
 import { Avatar } from "../../../components";
 
 export type UserProps = Overwrite<Omit<CardProps, "children">, {
-  user: User,
+  user: User;
 }>;
 
 export function User({ user, ...props }: UserProps) {

@@ -8,8 +8,8 @@ import { api, base64Encode } from "../../helpers";
 import { useForm } from "../../hooks";
 
 type Form = {
-  email: string,
-  password: string,
+  email: string;
+  password: string;
 };
 
 export function SignIn() {

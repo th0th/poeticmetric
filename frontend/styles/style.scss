@@ -7,26 +7,6 @@ body {
   background-size: cover;
 }
 
-svg {
-  fill: currentColor;
-}
-
-.h-1rem {
-  height: 0.75rem !important;
-}
-
-.mw-32rem {
-  max-width: 32rem !important;
-}
-
-.w-4rem {
-  width: 4rem !important;
-}
-
-.w-6rem {
-  width: 6rem !important;
-}
-
 .d-parent {
   &:focus-within, &:hover {
     .d-parent-block {
@@ -37,4 +17,24 @@ svg {
   [class^="d-parent"], [class*=" d-parent"] {
     display: none !important;
   }
+}
+
+.h-1rem {
+  height: 0.75rem !important;
+}
+
+.mw-32rem {
+  max-width: 32rem !important;
+}
+
+svg {
+  fill: currentColor;
+}
+
+.w-4rem {
+  width: 4rem !important;
+}
+
+.w-6rem {
+  width: 6rem !important;
 }

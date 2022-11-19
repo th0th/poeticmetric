@@ -8,12 +8,12 @@ import { AuthAndApiContext, ToastsContext } from "../../contexts";
 import { useForm, useQueryNumber } from "../../hooks";
 
 type State = {
-  isDisabled: boolean,
+  isDisabled: boolean;
 };
 
 type Form = {
-  domain: string,
-  name: string,
+  domain: string;
+  name: string;
 };
 
 export function SiteForm() {

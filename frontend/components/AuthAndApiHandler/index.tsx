@@ -4,12 +4,12 @@ import { AuthAndApiContext, AuthAndApiContextValue } from "../../contexts";
 import { getUserAccessToken, hydrateOrganization, setUserAccessToken as setUserAccessTokenInLocalStorage } from "../../helpers";
 
 type AuthAndApiHandlerProps = {
-  children: React.ReactNode,
+  children: React.ReactNode;
 };
 
 type State = {
-  isLocalStorageChecked: boolean,
-  userAccessToken: string | null,
+  isLocalStorageChecked: boolean;
+  userAccessToken: string | null;
 };
 
 export function AuthAndApiHandler({ children }: AuthAndApiHandlerProps) {

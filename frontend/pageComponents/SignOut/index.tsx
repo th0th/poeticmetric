@@ -5,8 +5,8 @@ import { AuthAndApiContext } from "../../contexts";
 import { api } from "../../helpers";
 
 type State = {
-  isDone: boolean,
-  isReady: boolean,
+  isDone: boolean;
+  isReady: boolean;
 };
 
 export function SignOut() {

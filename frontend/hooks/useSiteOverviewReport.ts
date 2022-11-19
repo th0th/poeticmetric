@@ -4,7 +4,7 @@ import { hydrateSiteOverviewReport } from "../helpers";
 import { useReportQueryParams } from "./useReportQueryParams";
 
 type HydratedSwrResponse = SWRResponse<SiteOverviewReport> & {
-  hydratedData?: HydratedSiteOverviewReport,
+  hydratedData?: HydratedSiteOverviewReport;
 };
 
 export function useSiteOverviewReport(): HydratedSwrResponse {

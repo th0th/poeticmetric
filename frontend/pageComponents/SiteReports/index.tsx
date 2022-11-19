@@ -3,6 +3,7 @@ import React from "react";
 import { Breadcrumb, Col, Container, Row } from "react-bootstrap";
 import {
   Layout,
+  SiteGeoReport,
   SiteOverviewReport,
   SitePageReport,
   SitePageViewsAndVisitorsReport,
@@ -39,6 +40,12 @@ export function SiteReports() {
 
             <Col lg={4} xs={12}>
               <SitePageReport className="h-100" />
+            </Col>
+          </Row>
+
+          <Row className="mt-3">
+            <Col className={styles.reportCol}>
+              <SiteGeoReport />
             </Col>
           </Row>
         </Container>

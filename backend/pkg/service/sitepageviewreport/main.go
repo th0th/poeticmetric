@@ -1,4 +1,4 @@
-package sitevisitorstimereport
+package sitepageviewreport
 
 import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
@@ -10,14 +10,14 @@ import (
 )
 
 type Datum struct {
-	DateTime     time.Time `json:"dateTime"`
-	VisitorCount uint64    `json:"visitorCount"`
+	DateTime      time.Time `json:"dateTime"`
+	PageViewCount uint64    `json:"pageViewCount"`
 }
 
 type Report struct {
-	AverageVisitorCount uint64    `json:"averageVisitorCount"`
-	Data                []Datum   `json:"data"`
-	Interval            *Interval `json:"interval"`
+	AveragePageViewCount uint64    `json:"averagePageViewCount"`
+	Data                 []Datum   `json:"data"`
+	Interval             *Interval `json:"interval"`
 }
 
 func Get(dp *depot.Depot, filters *sitereportfilters.Filters) (*Report, error) {
@@ -32,7 +32,7 @@ func Get(dp *depot.Depot, filters *sitereportfilters.Filters) (*Report, error) {
 		Select(
 			strings.Join([]string{
 				"toStartOfInterval(date_time, @timeWindowInterval, @timeZone) as date_time",
-				"count(*) as visitor_count",
+				"count(*) as page_view_count",
 			}, ","),
 			map[string]interface{}{
 				"timeWindowInterval": gorm.Expr(interval.ToQuery()),
@@ -47,7 +47,7 @@ func Get(dp *depot.Depot, filters *sitereportfilters.Filters) (*Report, error) {
 				"select",
 				strings.Join([]string{
 					"@start + interval arrayJoin(range(0, toUInt64(dateDiff('second', @start, @end)), @intervalSeconds)) second as date_time",
-					"0 as visitor_count",
+					"0 as page_view_count",
 				}, ","),
 			}, " "),
 			map[string]any{
@@ -61,7 +61,7 @@ func Get(dp *depot.Depot, filters *sitereportfilters.Filters) (*Report, error) {
 		Table("((?) union all (?))", valueSubQuery, fillerSubQuery).
 		Select(
 			"date_time",
-			"sum(visitor_count) as visitor_count",
+			"sum(page_view_count) as page_view_count",
 		).
 		Group("date_time").
 		Order("date_time").
@@ -71,17 +71,17 @@ func Get(dp *depot.Depot, filters *sitereportfilters.Filters) (*Report, error) {
 		return nil, err
 	}
 
-	// AverageVisitorCount
-	var visitorCountsSum float64 = 0
-	var visitorCountsLength float64 = 0
+	// AveragePageViewCount
+	var pageViewCountsSum float64 = 0
+	var pageViewCountsLength float64 = 0
 
 	for _, d := range report.Data {
-		visitorCountsSum += float64(d.VisitorCount)
-		visitorCountsLength += 1
+		pageViewCountsSum += float64(d.PageViewCount)
+		pageViewCountsLength += 1
 	}
 
-	if visitorCountsLength != 0 {
-		report.AverageVisitorCount = uint64(math.Round(visitorCountsSum / visitorCountsLength))
+	if pageViewCountsLength != 0 {
+		report.AveragePageViewCount = uint64(math.Round(pageViewCountsSum / pageViewCountsLength))
 	}
 
 	return report, nil

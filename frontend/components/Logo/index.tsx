@@ -1,7 +1,7 @@
 import React from "react";
 
 export type Props = Overwrite<React.PropsWithoutRef<JSX.IntrinsicElements["svg"]>, {
-  logotype?: boolean,
+  logotype?: boolean;
 }>;
 
 export function Logo({ logotype = false, ...props }: Props) {

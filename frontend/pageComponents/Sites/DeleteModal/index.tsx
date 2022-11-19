@@ -8,7 +8,7 @@ import { useQueryNumber, useSwrMatchMutate } from "../../../hooks";
 const routerQueryKey = "deleteSiteId";
 
 type State = {
-  site: Site | undefined,
+  site: Site | undefined;
 };
 
 export function DeleteModal() {

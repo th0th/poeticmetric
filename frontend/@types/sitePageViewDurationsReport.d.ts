@@ -1,17 +1,17 @@
 type HydratedSitePageViewDurationsDatum = SitePageViewDurationsDatum & {
-  viewDurationDisplay: string,
+  viewDurationDisplay: string;
 };
 
 type HydratedSitePageViewDurationsReport = SitePageViewDurationsReport & {
-  hydratedData: Array<HydratedSitePageViewDurationsDatum>,
+  hydratedData: Array<HydratedSitePageViewDurationsDatum>;
 };
 
 type SitePageViewDurationsDatum = {
-  page: string,
-  url: string,
-  viewDuration: number,
+  page: string;
+  url: string;
+  viewDuration: number;
 };
 
 type SitePageViewDurationsReport = {
-  data: Array<SitePageViewDurationsDatum>,
+  data: Array<SitePageViewDurationsDatum>;
 };

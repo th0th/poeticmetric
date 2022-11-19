@@ -4,9 +4,9 @@ import Image, { ImageProps } from "next/image";
 import React, { useMemo } from "react";
 
 export type AvatarProps = Overwrite<Omit<ImageProps, "src">, {
-  alt: string,
-  email: string,
-  size?: number,
+  alt: string;
+  email: string;
+  size?: number;
 }>;
 
 export function Avatar({ alt, className, email, size = 32, ...props }: AvatarProps) {

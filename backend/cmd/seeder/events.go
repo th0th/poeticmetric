@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"github.com/brianvoe/gofakeit/v6"
 	"github.com/google/uuid"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/country"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/locale"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
 	"strconv"
 	"strings"
@@ -51,16 +53,20 @@ func seedEvents(dp *depot.Depot, clear bool, modelSite *model.Site) error {
 		events := []*model.Event{}
 
 		for j := 0; j < eventsInBatch; j += 1 {
+			languageBcp := gofakeit.LanguageBCP()
+			timeZone := gofakeit.TimeZoneRegion()
+
 			event := &model.Event{
-				CountryIsoCode: nil,
+				CountryIsoCode: country.GetIsoCodeFromTimeZoneName(timeZone),
 				DateTime:       gofakeit.DateRange(now.Add(-31*24*time.Hour), now),
 				Duration:       uint32(gofakeit.IntRange(1, 1200)),
 				Id:             uuid.NewString(),
 				Kind:           model.EventKindPageView,
-				Language:       nil,
-				Locale:         nil,
+				Language:       locale.GetLanguage(languageBcp),
+				Locale:         &languageBcp,
 				SiteId:         modelSite.Id,
-				VisitorId:      strconv.Itoa(gofakeit.IntRange(1, 10)),
+				TimeZone:       &timeZone,
+				VisitorId:      strconv.Itoa(gofakeit.IntRange(1, 1000)),
 			}
 
 			rawUrlParts := strings.SplitN(gofakeit.URL(), "/", 4)

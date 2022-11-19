@@ -3,7 +3,7 @@ import { SWRConfig } from "swr";
 import { apiCall, setUserAccessToken } from "../../helpers";
 
 export type SwrConfigProps = {
-  children: React.ReactNode,
+  children: React.ReactNode;
 };
 
 async function fetcher(endpoint: string, init?: RequestInit) {

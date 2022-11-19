@@ -2,6 +2,7 @@ export * from "./api";
 export * from "./base64";
 export * from "./getAvatarUrl";
 export * from "./hydrateOrganization";
+export * from "./hydrateSiteLanguageReport";
 export * from "./hydrateSiteOverviewReport";
 export * from "./hydrateSitePageViewCountsReport";
 export * from "./hydrateSitePageViewDurationsReport";

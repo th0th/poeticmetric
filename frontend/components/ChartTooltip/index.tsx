@@ -4,8 +4,8 @@ import React from "react";
 import { Portal } from "../Portal";
 
 type ChartTooltipProps = Overwrite<React.PropsWithoutRef<JSX.IntrinsicElements["div"]>, {
-  left?: number,
-  top?: number,
+  left?: number;
+  top?: number;
 }>;
 
 export function ChartTooltip({ children, className, ...props }: ChartTooltipProps) {
