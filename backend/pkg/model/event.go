@@ -1,6 +1,9 @@
 package model
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
+	"fmt"
 	"github.com/mileusna/useragent"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/pointer"
 	"net/url"
@@ -50,6 +53,12 @@ func (event *Event) TableName() string {
 	return "events_buffer"
 }
 
+func (event *Event) FillVisitorId(ipAddress string, userAgent string) {
+	h := sha256.Sum256([]byte(fmt.Sprintf("%s%s", ipAddress, userAgent)))
+
+	event.VisitorId = hex.EncodeToString(h[:])
+}
+
 func (event *Event) FillFromUrl(urlString string) {
 	event.Url = urlString
 
@@ -68,7 +77,6 @@ func (event *Event) FillFromUserAgent(userAgent string) {
 
 	event.BrowserName = &ua.Name
 	event.BrowserVersion = &ua.Version
-	event.DeviceType = &ua.Device
 	event.IsBot = ua.Bot
 	event.OperatingSystemName = &ua.OS
 	event.OperatingSystemVersion = &ua.OSVersion

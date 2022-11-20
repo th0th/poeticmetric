@@ -11,6 +11,7 @@ func Add(app *fiber.App) {
 	group := app.Group("/site-reports", filtersMiddleware)
 
 	group.Get("/country", country)
+	group.Get("/device-type", deviceType)
 	group.Get("/language", language)
 	group.Get("/overview", overview)
 	group.Get("/page-view", pageView)
