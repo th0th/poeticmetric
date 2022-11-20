@@ -8,6 +8,7 @@ import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/locale"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/pointer"
 	"strconv"
 	"strings"
 	"time"
@@ -67,6 +68,14 @@ func seedEvents(dp *depot.Depot, clear bool, modelSite *model.Site) error {
 				SiteId:         modelSite.Id,
 				TimeZone:       &timeZone,
 				VisitorId:      strconv.Itoa(gofakeit.IntRange(1, 1000)),
+			}
+
+			if gofakeit.Bool() {
+				event.Referrer = pointer.Get(strings.Join([]string{
+					"https://dynamicrevolutionize.biz",
+					"/",
+					gofakeit.Word(),
+				}, ""))
 			}
 
 			rawUrlParts := strings.SplitN(gofakeit.URL(), "/", 4)
