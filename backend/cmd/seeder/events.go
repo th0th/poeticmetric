@@ -9,7 +9,6 @@ import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/locale"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/pointer"
-	"strconv"
 	"strings"
 	"time"
 )
@@ -56,6 +55,7 @@ func seedEvents(dp *depot.Depot, clear bool, modelSite *model.Site) error {
 		for j := 0; j < eventsInBatch; j += 1 {
 			languageBcp := gofakeit.LanguageBCP()
 			timeZone := gofakeit.TimeZoneRegion()
+			userAgent := gofakeit.UserAgent()
 
 			event := &model.Event{
 				CountryIsoCode: country.GetIsoCodeFromTimeZoneName(timeZone),
@@ -67,7 +67,6 @@ func seedEvents(dp *depot.Depot, clear bool, modelSite *model.Site) error {
 				Locale:         &languageBcp,
 				SiteId:         modelSite.Id,
 				TimeZone:       &timeZone,
-				VisitorId:      strconv.Itoa(gofakeit.IntRange(1, 1000)),
 			}
 
 			if gofakeit.Bool() {
@@ -82,7 +81,8 @@ func seedEvents(dp *depot.Depot, clear bool, modelSite *model.Site) error {
 			url := fmt.Sprintf("https://%s%s", modelSite.Domain, fmt.Sprintf("/%s", rawUrlParts[len(rawUrlParts)-1]))
 
 			event.FillFromUrl(url)
-			event.FillFromUserAgent(gofakeit.UserAgent())
+			event.FillFromUserAgent(userAgent)
+			event.FillVisitorId(gofakeit.IPv4Address(), userAgent)
 
 			events = append(events, event)
 		}
