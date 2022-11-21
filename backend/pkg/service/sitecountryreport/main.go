@@ -15,12 +15,10 @@ type Datum struct {
 	VisitorPercentage uint16 `json:"visitorPercentage"`
 }
 
-type Report struct {
-	Data []Datum `json:"data"`
-}
+type Report []*Datum
 
-func Get(dp *depot.Depot, filters *sitereportfilters.Filters) (*Report, error) {
-	report := &Report{}
+func Get(dp *depot.Depot, filters *sitereportfilters.Filters) (Report, error) {
+	report := Report{}
 
 	baseQuery := sitereportfilters.Apply(dp, filters).
 		Where("country_iso_code is not null")
@@ -43,14 +41,14 @@ func Get(dp *depot.Depot, filters *sitereportfilters.Filters) (*Report, error) {
 		).
 		Group("country_iso_code").
 		Order("visitor_count desc").
-		Find(&report.Data).
+		Find(&report).
 		Error
 	if err != nil {
 		return nil, err
 	}
 
-	for i := range report.Data {
-		report.Data[i].Country = country.GetNameFromIsoCode(report.Data[i].CountryIsoCode)
+	for i := range report {
+		report[i].Country = country.GetNameFromIsoCode(report[i].CountryIsoCode)
 	}
 
 	return report, nil

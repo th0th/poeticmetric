@@ -1,22 +1,45 @@
-name: Run tests
-
+name: Run PR checks
 on:
   pull_request:
     branches:
       - "**"
-
+env:
+  DOCKER_SCAN_SUGGEST: false
 jobs:
-  run-frontend-tests:
-    name: Run tests
+  run-backend-tests:
+    name: Run backend tests
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/setup-go@v3
+        with:
+          go-version: '1.19.3'
+
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Pull required images
+        run: docker compose --env-file ./.env.test pull clickhouse postgres rabbitmq
+        working-directory: backend
+
+      - name: Build development image
+        run: make test-build
+        working-directory: backend
+
+      - name: Run tests
+        run: make test
+        working-directory: backend
+
+  run-frontend-tests:
+    name: Run frontend tests
+    runs-on: ubuntu-latest
+    steps:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: '19.1.0'
+
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - name: Install dependencies
         run: yarn install
@@ -26,7 +49,6 @@ jobs:
         with:
           fail_on_error: true
           filter_mode: nofilter
-          github_token: ${{ secrets.github_token }}
           reporter: github-pr-review
           stylelint_input: '**/*.scss'
           workdir: frontend
