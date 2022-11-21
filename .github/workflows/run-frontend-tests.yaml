@@ -1,22 +1,22 @@
-name: Run tests
-
+name: Run frontend tests
 on:
   pull_request:
     branches:
       - "**"
-
+env:
+  DOCKER_SCAN_SUGGEST: false
 jobs:
   run-frontend-tests:
-    name: Run tests
+    name: Run frontend tests
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: '19.1.0'
+
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - name: Install dependencies
         run: yarn install

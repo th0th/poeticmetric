@@ -18,7 +18,8 @@ COPY pkg pkg
 
 COPY scripts/migrate-clickhouse /usr/local/bin/
 COPY scripts/migrate-postgres /usr/local/bin/
-#COPY scripts/run-tests /usr/local/bin/
+COPY scripts/run-tests /usr/local/bin/
+COPY scripts/wait-for-it /usr/local/bin/
 COPY docker-entrypoint.sh /usr/local/bin/
 
 EXPOSE 80

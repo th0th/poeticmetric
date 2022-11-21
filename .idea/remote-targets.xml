@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteTargetsManager">
+    <targets>
+      <target name="rest-api" type="docker-compose" uuid="996a580c-f75a-4565-809f-f27451f9f048">
+        <config>
+          <option name="targetPlatform">
+            <TargetPlatform />
+          </option>
+          <option name="configurationFiles">
+            <list>
+              <option value="$PROJECT_DIR$/backend/docker-compose.yml" />
+            </list>
+          </option>
+          <option name="envs">
+            <map>
+              <entry key="COMPOSE_CLICKHOUSE_HOST_PORT" value="8124" />
+              <entry key="COMPOSE_CLICKHOUSE_TCP_HOST_PORT" value="9001" />
+              <entry key="COMPOSE_POSTGRES_HOST_PORT" value="5433" />
+              <entry key="COMPOSE_PROJECT_NAME" value="poeticmetric-test" />
+              <entry key="COMPOSE_RABBITMQ_HOST_PORT" value="5673" />
+              <entry key="COMPOSE_RABBITMQ_MANAGEMENT_HOST_PORT" value="15673" />
+              <entry key="POETICMETRIC_AWS_ACCESS_KEY_ID" value="noop" />
+              <entry key="POETICMETRIC_AWS_REGION" value="eu-west-1" />
+              <entry key="POETICMETRIC_AWS_SECRET_ACCESS_KEY" value="noop" />
+              <entry key="POETICMETRIC_AWS_SES_DOMAIN" value="development.poeticmetric.com" />
+              <entry key="POETICMETRIC_CHATWOOT_HMAC_TOKEN" value="noop" />
+              <entry key="POETICMETRIC_CLICKHOUSE_DATABASE" value="poeticmetric_test" />
+              <entry key="POETICMETRIC_CLICKHOUSE_HOST" value="clickhouse" />
+              <entry key="POETICMETRIC_CLICKHOUSE_PASSWORD" value="poeticmetric" />
+              <entry key="POETICMETRIC_CLICKHOUSE_TCP_PORT" value="9000" />
+              <entry key="POETICMETRIC_CLICKHOUSE_USER" value="poeticmetric" />
+              <entry key="POETICMETRIC_FRONTEND_BASE_URL" value="https://dev.poeticmetric.com" />
+              <entry key="POETICMETRIC_MAIL_BLUSTER_API_KEY" value="noop" />
+              <entry key="POETICMETRIC_POSTGRES_DATABASE" value="poeticmetric_test" />
+              <entry key="POETICMETRIC_POSTGRES_HOST" value="postgres" />
+              <entry key="POETICMETRIC_POSTGRES_PASSWORD" value="poeticmetric" />
+              <entry key="POETICMETRIC_POSTGRES_PORT" value="5432" />
+              <entry key="POETICMETRIC_POSTGRES_USER" value="poeticmetric" />
+              <entry key="POETICMETRIC_RABBITMQ_HOST" value="rabbitmq" />
+              <entry key="POETICMETRIC_RABBITMQ_PASSWORD" value="poeticmetric" />
+              <entry key="POETICMETRIC_RABBITMQ_PORT" value="5672" />
+              <entry key="POETICMETRIC_RABBITMQ_USER" value="poeticmetric" />
+              <entry key="POETICMETRIC_RABBITMQ_VHOST" value="poeticmetric_test" />
+              <entry key="POETICMETRIC_REDIS_HOST" value="redis" />
+              <entry key="POETICMETRIC_REDIS_PASSWORD" value="redis" />
+              <entry key="POETICMETRIC_REDIS_PORT" value="6379" />
+              <entry key="POETICMETRIC_RESOURCES_BASE_URL" value="https://poeticmetric-resources.s3-eu-west-1.amazonaws.com" />
+              <entry key="POETICMETRIC_REST_API_DEBUG" value="0" />
+              <entry key="POETICMETRIC_REST_API_DEBUG_PORT" value="2345" />
+              <entry key="POETICMETRIC_SCHEDULER_DEBUG" value="0" />
+              <entry key="POETICMETRIC_SCHEDULER_DEBUG_PORT" value="2346" />
+              <entry key="POETICMETRIC_SEEDER_DEBUG" value="0" />
+              <entry key="POETICMETRIC_SEEDER_DEBUG_PORT" value="2347" />
+              <entry key="POETICMETRIC_SENTRY_DSN" value="https://dba063fcc0d84fa281545ef248c4b2f9@o527624.ingest.sentry.io/5644080" />
+              <entry key="POETICMETRIC_SLACK_CLIENT_ID" value="noop" />
+              <entry key="POETICMETRIC_SLACK_CLIENT_SECRET" value="noop" />
+              <entry key="POETICMETRIC_SLACK_WEBHOOK_BUSINESS_URL" value="noop" />
+              <entry key="POETICMETRIC_STAGE" value="development" />
+              <entry key="POETICMETRIC_STRIPE_SECRET_KEY" value="noop" />
+              <entry key="POETICMETRIC_STRIPE_WEBHOOK_SIGNING_SECRET" value="noop" />
+              <entry key="POETICMETRIC_WORKER_CONCURRENCY" value="1" />
+              <entry key="POETICMETRIC_WORKER_DEBUG" value="0" />
+              <entry key="POETICMETRIC_WORKER_DEBUG_PORT" value="2348" />
+            </map>
+          </option>
+          <option name="serviceName" value="rest-api" />
+        </config>
+        <ContributedStateBase type="GoLanguageRuntime">
+          <config>
+            <option name="goPath" value="/go" />
+            <option name="goRoot" value="/usr/local/go/bin/go" />
+            <option name="goVersion" value="go1.19.3 linux/arm64" />
+          </config>
+        </ContributedStateBase>
+      </target>
+    </targets>
+  </component>
+</project>

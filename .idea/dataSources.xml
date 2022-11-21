@@ -15,5 +15,12 @@
       <jdbc-url>jdbc:clickhouse://localhost:8123/poeticmetric</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="test - clickhouse" uuid="96aa3f1e-c51a-4066-97ef-3ba93ce53ab3">
+      <driver-ref>clickhouse</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.clickhouse.jdbc.ClickHouseDriver</jdbc-driver>
+      <jdbc-url>jdbc:clickhouse://localhost:8124/poeticmetric_test</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
