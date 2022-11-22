@@ -10,6 +10,8 @@ const localsFiltersKey = "filters"
 func Add(app *fiber.App) {
 	group := app.Group("/site-reports", filtersMiddleware)
 
+	group.Get("/browser-name", browserName)
+	group.Get("/browser-version", browserVersion)
 	group.Get("/country", country)
 	group.Get("/device-type", deviceType)
 	group.Get("/language", language)
