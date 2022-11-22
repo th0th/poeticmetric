@@ -78,8 +78,14 @@ func (event *Event) FillFromUserAgent(userAgent string) {
 	event.BrowserName = &ua.Name
 	event.BrowserVersion = &ua.Version
 	event.IsBot = ua.Bot
-	event.OperatingSystemName = &ua.OS
-	event.OperatingSystemVersion = &ua.OSVersion
+
+	if ua.OS != "" {
+		event.OperatingSystemName = &ua.OS
+	}
+
+	if ua.OSVersion != "" {
+		event.OperatingSystemVersion = &ua.OSVersion
+	}
 
 	if ua.Desktop {
 		event.DeviceType = pointer.Get(EventDeviceTypeDesktop)

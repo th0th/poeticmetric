@@ -33,9 +33,6 @@ postgres-wait:
 seed:
 	@docker compose --env-file $(DEVELOPMENT_ENV_FILE) run --rm rest-api bash -c "cd cmd/seeder && go run . -clear" 2> /dev/null
 
-seed-no-analytics:
-	@docker compose --env-file $(DEVELOPMENT_ENV_FILE) run --rm rest-api bash -c "cd cmd/seeder && go run . -clear -gazer-results=false -pulse-beats=false" 2> /dev/null
-
 test: test-run test-postgres-drop-database test-clickhouse-drop-database test-down
 
 test-build:

@@ -15,6 +15,7 @@ func Add(app *fiber.App) {
 	group.Get("/country", country)
 	group.Get("/device-type", deviceType)
 	group.Get("/language", language)
+	group.Get("/operating-system-name", operatingSystemName)
 	group.Get("/overview", overview)
 	group.Get("/page-view", pageView)
 	group.Get("/page-view-count", pageViewCount)
