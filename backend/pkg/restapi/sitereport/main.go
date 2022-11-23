@@ -24,6 +24,7 @@ func Add(app *fiber.App) {
 	group.Get("/referrer-page", referrerPage)
 	group.Get("/referrer-domain", referrerDomain)
 	group.Get("/utm-campaign", utmCampaign)
+	group.Get("/utm-medium", utmMedium)
 	group.Get("/utm-source", utmSource)
 	group.Get("/visitor", visitor)
 }
