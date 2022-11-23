@@ -49,6 +49,22 @@ func seedEvents(dp *depot.Depot, clear bool, modelSite *model.Site) error {
 		}
 	}
 
+	utmSources := []string{
+		"email",
+		"facebook",
+		"github",
+		"linkedin",
+		"twitter",
+	}
+
+	utmCampaigns := []string{
+		gofakeit.BuzzWord(),
+		gofakeit.BuzzWord(),
+		gofakeit.BuzzWord(),
+		gofakeit.BuzzWord(),
+		gofakeit.BuzzWord(),
+	}
+
 	for i := 0; i < batches; i += 1 {
 		events := []*model.Event{}
 
@@ -75,6 +91,14 @@ func seedEvents(dp *depot.Depot, clear bool, modelSite *model.Site) error {
 					"/",
 					gofakeit.Word(),
 				}, ""))
+			}
+
+			if gofakeit.Bool() && gofakeit.Bool() {
+				event.UtmSource = pointer.Get(gofakeit.RandomString(utmSources))
+				event.UtmCampaign = pointer.Get(gofakeit.RandomString(utmCampaigns))
+				event.UtmMedium = pointer.Get(gofakeit.BuzzWord())
+				event.UtmContent = pointer.Get(gofakeit.BuzzWord())
+				event.UtmTerm = pointer.Get(gofakeit.BuzzWord())
 			}
 
 			rawUrlParts := strings.SplitN(gofakeit.URL(), "/", 4)
