@@ -83,6 +83,19 @@ func seedEvents(dp *depot.Depot, clear bool, modelSite *model.Site) error {
 		gofakeit.BuzzWord(),
 	}
 
+	utmContents := []string{
+		gofakeit.BuzzWord(),
+		gofakeit.BuzzWord(),
+		gofakeit.BuzzWord(),
+		gofakeit.BuzzWord(),
+		gofakeit.BuzzWord(),
+		gofakeit.BuzzWord(),
+		gofakeit.BuzzWord(),
+		gofakeit.BuzzWord(),
+		gofakeit.BuzzWord(),
+		gofakeit.BuzzWord(),
+	}
+
 	for i := 0; i < batches; i += 1 {
 		events := []*model.Event{}
 
@@ -115,7 +128,7 @@ func seedEvents(dp *depot.Depot, clear bool, modelSite *model.Site) error {
 				event.UtmSource = pointer.Get(gofakeit.RandomString(utmSources))
 				event.UtmCampaign = pointer.Get(gofakeit.RandomString(utmCampaigns))
 				event.UtmMedium = pointer.Get(gofakeit.RandomString(utmMediums))
-				event.UtmContent = pointer.Get(gofakeit.BuzzWord())
+				event.UtmContent = pointer.Get(gofakeit.RandomString(utmContents))
 				event.UtmTerm = pointer.Get(gofakeit.BuzzWord())
 			}
 
