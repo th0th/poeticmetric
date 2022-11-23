@@ -38,6 +38,7 @@ const (
 	ClickHousePassword         = "POETICMETRIC_CLICKHOUSE_PASSWORD"
 	ClickHouseTcpPort          = "POETICMETRIC_CLICKHOUSE_TCP_PORT"
 	ClickHouseUser             = "POETICMETRIC_CLICKHOUSE_USER"
+	Debug                      = "POETICMETRIC_DEBUG"
 	FrontendBaseUrl            = "POETICMETRIC_FRONTEND_BASE_URL"
 	Instance                   = "POETICMETRIC_INSTANCE"
 	MailBlusterApiKey          = "POETICMETRIC_MAIL_BLUSTER_API_KEY"
@@ -140,6 +141,10 @@ func Get(name string) string {
 	return os.Getenv(name)
 }
 
+func GetDebug() bool {
+	return Get(Debug) != ""
+}
+
 func GetAwsConfig() *aws.Config {
 	return &aws.Config{
 		Credentials: credentials.NewStaticCredentials(Get(AwsAccessKeyId), Get(AwsSecretAccessKey), ""),
@@ -161,7 +166,7 @@ func GetClickhouseDsn() string {
 func GetGormClickhouseConfig() *gorm.Config {
 	logLevel := logger.Silent
 
-	if Get(Stage) == StageDevelopment {
+	if GetDebug() {
 		logLevel = logger.Info
 	}
 
@@ -180,7 +185,7 @@ func GetGormClickhouseConfig() *gorm.Config {
 func GetGormPostgresConfig() *gorm.Config {
 	logLevel := logger.Silent
 
-	if Get(Stage) == StageDevelopment {
+	if GetDebug() {
 		logLevel = logger.Info
 	}
 
