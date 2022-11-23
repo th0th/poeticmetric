@@ -27,6 +27,7 @@ func Add(app *fiber.App) {
 	group.Get("/utm-content", utmContent)
 	group.Get("/utm-medium", utmMedium)
 	group.Get("/utm-source", utmSource)
+	group.Get("/utm-term", utmTerm)
 	group.Get("/visitor", visitor)
 }
 
