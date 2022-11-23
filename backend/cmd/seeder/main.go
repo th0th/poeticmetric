@@ -88,6 +88,8 @@ func main() {
 		var err2 error
 
 		if clear {
+			fmt.Print("🧼 Deleting existing data from Postgres...")
+
 			err2 = dp2.Postgres().
 				Where("1 = 1").
 				Delete(&model.Plan{}).
@@ -96,11 +98,15 @@ func main() {
 				return err
 			}
 
+			fmt.Println(" ✅")
+
 			err2 = postgresFixSequences(dp2)
 			if err2 != nil {
 				return err
 			}
 		}
+
+		fmt.Print("➕ Adding new data to Postgres...")
 
 		err2 = dp2.Postgres().
 			Create(modelPlan).
@@ -127,7 +133,11 @@ func main() {
 			return err2
 		}
 
+		fmt.Println(" ✅")
+
 		if createDummySite {
+			fmt.Print("🏠 Creating site on Postgres...")
+
 			modelSite := &model.Site{
 				Domain:         "dev.poeticmetric.com",
 				Name:           "PoeticMetric - DEV",
@@ -141,10 +151,16 @@ func main() {
 				return err2
 			}
 
+			fmt.Println(" ✅")
+
+			fmt.Print("📊 Adding events to ClickHouse...")
+
 			err2 = seedEvents(dp, clear, modelSite)
 			if err2 != nil {
 				return err2
 			}
+
+			fmt.Println(" ✅")
 		}
 
 		return nil
@@ -160,6 +176,8 @@ func main() {
 }
 
 func postgresFixSequences(dp *depot.Depot) error {
+	fmt.Print("🔑 Fixing sequence information on Postgres...")
+
 	var sequenceFixingQueries []string
 
 	err := dp.Postgres().Raw(`
@@ -194,6 +212,8 @@ func postgresFixSequences(dp *depot.Depot) error {
 			return err
 		}
 	}
+
+	fmt.Println(" ✅")
 
 	return nil
 }

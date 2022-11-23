@@ -1,4 +1,4 @@
-package siteutmsourcereport
+package siteutmcampaignreport
 
 import (
 	"github.com/brianvoe/gofakeit/v6"
@@ -30,24 +30,24 @@ func TestGet(t *testing.T) {
 	events := []*model.Event{}
 
 	testData := []struct {
-		UtmSource    *string
+		UtmCampaign  *string
 		VisitorCount int
 	}{
-		{UtmSource: nil, VisitorCount: 237},
-		{UtmSource: pointer.Get("twitter"), VisitorCount: 143},
-		{UtmSource: pointer.Get("mastodon"), VisitorCount: 52},
-		{UtmSource: pointer.Get("linkedin"), VisitorCount: 4},
-		{UtmSource: pointer.Get("facebook"), VisitorCount: 1},
+		{UtmCampaign: nil, VisitorCount: 237},
+		{UtmCampaign: pointer.Get("moderator"), VisitorCount: 120},
+		{UtmCampaign: pointer.Get("analyzing"), VisitorCount: 48},
+		{UtmCampaign: pointer.Get("application"), VisitorCount: 23},
+		{UtmCampaign: pointer.Get("monitoring"), VisitorCount: 9},
 	}
 
 	for _, d := range testData {
 		for i := 0; i < d.VisitorCount; i += 1 {
 			events = append(events, &model.Event{
-				DateTime:  gofakeit.DateRange(start, end),
-				Id:        uuid.NewString(),
-				SiteId:    modelSite.Id,
-				UtmSource: d.UtmSource,
-				VisitorId: uuid.NewString(),
+				DateTime:    gofakeit.DateRange(start, end),
+				Id:          uuid.NewString(),
+				SiteId:      modelSite.Id,
+				UtmCampaign: d.UtmCampaign,
+				VisitorId:   uuid.NewString(),
 			})
 		}
 	}
@@ -66,24 +66,24 @@ func TestGet(t *testing.T) {
 
 	expectedReport := Report{
 		{
-			UtmSource:         "twitter",
-			VisitorCount:      143,
-			VisitorPercentage: 72,
+			UtmCampaign:       "moderator",
+			VisitorCount:      120,
+			VisitorPercentage: 60,
 		},
 		{
-			UtmSource:         "mastodon",
-			VisitorCount:      52,
-			VisitorPercentage: 26,
+			UtmCampaign:       "analyzing",
+			VisitorCount:      48,
+			VisitorPercentage: 24,
 		},
 		{
-			UtmSource:         "linkedin",
-			VisitorCount:      4,
-			VisitorPercentage: 2,
+			UtmCampaign:       "application",
+			VisitorCount:      23,
+			VisitorPercentage: 12,
 		},
 		{
-			UtmSource:         "facebook",
-			VisitorCount:      1,
-			VisitorPercentage: 0,
+			UtmCampaign:       "monitoring",
+			VisitorCount:      9,
+			VisitorPercentage: 4,
 		},
 	}
 

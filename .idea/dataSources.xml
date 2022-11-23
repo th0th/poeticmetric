@@ -22,5 +22,12 @@
       <jdbc-url>jdbc:clickhouse://localhost:8124/poeticmetric_test</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="test - postgres" uuid="f7c23d83-b489-4eed-9dc4-eaab90f61b01">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5433/poeticmetric_test</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
