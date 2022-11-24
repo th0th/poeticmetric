@@ -21,6 +21,7 @@ func Add(app *fiber.App) {
 	group.Get("/page-view", pageView)
 	group.Get("/page-view-count", pageViewCount)
 	group.Get("/page-view-duration", pageViewDuration)
+	group.Get("/page-view-trends", pageViewTrends)
 	group.Get("/referrer-page", referrerPage)
 	group.Get("/referrer-domain", referrerDomain)
 	group.Get("/utm-campaign", utmCampaign)

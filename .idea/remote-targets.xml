@@ -2,7 +2,7 @@
 <project version="4">
   <component name="RemoteTargetsManager">
     <targets>
-      <target name="rest-api" type="docker-compose" uuid="996a580c-f75a-4565-809f-f27451f9f048">
+      <target name="test - rest-api" type="docker-compose" uuid="996a580c-f75a-4565-809f-f27451f9f048">
         <config>
           <option name="targetPlatform">
             <TargetPlatform />
@@ -30,6 +30,7 @@
               <entry key="POETICMETRIC_CLICKHOUSE_PASSWORD" value="poeticmetric" />
               <entry key="POETICMETRIC_CLICKHOUSE_TCP_PORT" value="9000" />
               <entry key="POETICMETRIC_CLICKHOUSE_USER" value="poeticmetric" />
+              <entry key="POETICMETRIC_DEBUG" value="0" />
               <entry key="POETICMETRIC_FRONTEND_BASE_URL" value="https://dev.poeticmetric.com" />
               <entry key="POETICMETRIC_MAIL_BLUSTER_API_KEY" value="noop" />
               <entry key="POETICMETRIC_POSTGRES_DATABASE" value="poeticmetric_test" />
