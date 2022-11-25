@@ -142,7 +142,7 @@ func Get(name string) string {
 }
 
 func GetDebug() bool {
-	return Get(Debug) != ""
+	return Get(Debug) != "" && Get(Debug) != "0"
 }
 
 func GetAwsConfig() *aws.Config {

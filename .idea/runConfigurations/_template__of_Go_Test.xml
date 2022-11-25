@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
     <module name="poeticmetric" />
-    <target name="rest-api" />
+    <target name="test - rest-api" />
     <working_directory value="$PROJECT_DIR$" />
     <kind value="DIRECTORY" />
     <directory value="$PROJECT_DIR$" />
