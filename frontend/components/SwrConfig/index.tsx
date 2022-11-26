@@ -12,9 +12,7 @@ async function fetcher(endpoint: string, init?: RequestInit) {
   try {
     response = await apiCall(endpoint, init);
   } catch (e) {
-    // TODO: handle better
     throw new Error("An error occurred while fetching the data.");
-    // throw new SwrError('An error occurred while fetching the data.');
   }
 
   if (!response.ok) {
@@ -22,10 +20,9 @@ async function fetcher(endpoint: string, init?: RequestInit) {
       setUserAccessToken(null);
     }
 
-    // TODO: handle better
-    throw new Error("An error occurred while fetching the data.");
-    // const responseJson = await response.json();
-    // throw new SwrError('An error occurred while fetching the data.', response.status, responseJson);
+    const responseJson = await response.json();
+
+    throw new Error(responseJson.detail || "An error has occurred while fetching the data.");
   }
 
   return response.json();
