@@ -1,6 +1,7 @@
 import Link from "next/link";
-import React from "react";
-import { Breadcrumb, Col, Container, Row } from "react-bootstrap";
+import { useRouter } from "next/router";
+import React, { useContext, useEffect } from "react";
+import { Breadcrumb, Col, Container, Row, Spinner } from "react-bootstrap";
 import {
   Layout,
   SiteGeoReport,
@@ -10,46 +11,72 @@ import {
   SiteReportsFiltersHandler,
   SiteReportsTimeWindowInput,
 } from "../../components";
+import { ToastsContext } from "../../contexts";
+import { useQueryNumber, useSite } from "../../hooks";
 import styles from "./SiteReports.module.scss";
 
 export function SiteReports() {
+  const router = useRouter();
+  const id = useQueryNumber("id");
+  const { data: site, error } = useSite(id);
+  const { addToast } = useContext(ToastsContext);
+
+  useEffect(() => {
+    if (id === undefined || error !== undefined) {
+      if (error !== undefined) {
+        addToast({ body: error.message, variant: "danger" });
+      }
+
+      router.replace("/sites");
+    }
+  }, [addToast, error, id, router]);
+
   return (
-    <SiteReportsFiltersHandler>
-      <Layout>
-        <Container className="py-4">
-          <Breadcrumb>
-            <li className="breadcrumb-item">
-              <Link href="/">Home</Link>
-            </li>
+    <Layout>
+      <Container className="d-flex flex-column flex-grow-1 py-4">
+        {site === undefined ? (
+          <div className="d-flex flex-grow-1 align-items-center justify-content-center">
+            <Spinner />
+          </div>
+        ) : (
+          <SiteReportsFiltersHandler>
+            <Breadcrumb>
+              <li className="breadcrumb-item">
+                <Link href="/">Home</Link>
+              </li>
 
-            <li className="breadcrumb-item">
-              <Link href="/sites">Sites</Link>
-            </li>
-          </Breadcrumb>
+              <li className="breadcrumb-item">
+                <Link href="/sites">Sites</Link>
+              </li>
+            </Breadcrumb>
 
-          <h1 className="fw-bold">test</h1>
+            <h1 className="fw-bold">test</h1>
 
-          <SiteReportsTimeWindowInput />
+            <SiteReportsTimeWindowInput />
 
-          <SiteOverviewReport className="mt-3" />
+            <SiteOverviewReport className="mt-3" />
 
-          <Row className="g-3 mt-0">
-            <Col className={styles.sitePageViewsAndVisitorsReportCol} lg={8} xs={12}>
-              <SitePageViewsAndVisitorsReport />
-            </Col>
+            <Row className="g-3 mt-0">
+              <Col className={styles.sitePageViewsAndVisitorsReportCol} lg={8}>
+                <SitePageViewsAndVisitorsReport />
+              </Col>
 
-            <Col lg={4} xs={12}>
-              <SitePageReport className="h-100" />
-            </Col>
-          </Row>
+              <Col lg={4}>
+                <SitePageReport className="h-100" />
+              </Col>
+            </Row>
 
-          <Row className="mt-3">
-            <Col className={styles.reportCol}>
-              <SiteGeoReport />
-            </Col>
-          </Row>
-        </Container>
-      </Layout>
-    </SiteReportsFiltersHandler>
+            <Row className="mt-3">
+              <Col className={styles.reportCol} lg={4}>
+              </Col>
+
+              <Col className={styles.reportCol} lg={8}>
+                <SiteGeoReport />
+              </Col>
+            </Row>
+          </SiteReportsFiltersHandler>
+        )}
+      </Container>
+    </Layout>
   );
 }
