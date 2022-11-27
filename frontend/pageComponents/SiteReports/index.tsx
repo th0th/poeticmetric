@@ -57,7 +57,7 @@ export function SiteReports() {
             <SiteOverviewReport className="mt-3" />
 
             <Row className="g-3 mt-0">
-              <Col className={styles.sitePageViewsAndVisitorsReportCol} lg={8}>
+              <Col className={styles.reportCol} lg={8}>
                 <SitePageViewsAndVisitorsReport />
               </Col>
 
