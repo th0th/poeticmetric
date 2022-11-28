@@ -42,7 +42,7 @@ export function SitePageViewsAndVisitorsReport({ className, ...props }: SitePage
   }, [router]);
 
   return (
-    <Card {...props} className={classNames("h-100", className)}>
+    <Card {...props} className={classNames("h-100 site-report-card", className)}>
       <Card.Body className="d-flex flex-column flex-grow-1">
         <div className="align-items-center d-flex flex-row gap-3 mb-2">
           <Card.Title className="fs-6 mb-0">Page views and visitors</Card.Title>

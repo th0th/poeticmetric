@@ -5,7 +5,7 @@ const nextConfig = {
   reactStrictMode: true,
   sassOptions: {
     includePaths: [path.resolve(__dirname, "styles")],
-    // prependData: '@import "~bootstrap.scss/scss/functions"; @import "~bootstrap.scss/scss/variables"; @import "~bootstrap.scss/scss/mixins";',
+    prependData: '@import "bootstrap/utilities"; @import "bootstrap/variables";',
   },
   swcMinify: true,
   webpack(config) {

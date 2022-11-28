@@ -12,7 +12,7 @@ export function ViewCounts({ className, ...props }: ViewCountsProps) {
   return data === undefined ? (
     <Spinner animation="border" />
   ) : (
-    <div {...props} className={classNames("small", className)}>
+    <div {...props} className={classNames("fss-1 lh-lg", className)}>
       <div className="d-flex flex-row py-1">
         <div className="flex-grow-1 fw-semibold pe-1">Page</div>
 

@@ -42,7 +42,7 @@ export function SitePageReport({ className, ...props }: SitePageReportProps) {
   }, [router]);
 
   return (
-    <Card {...props} className={classNames("overflow-hidden", className)}>
+    <Card {...props} className={classNames("overflow-hidden site-report-card", className)}>
       <Card.Body>
         <div className="align-items-center d-flex flex-row gap-3 mb-2">
           <Card.Title className="fs-6 mb-0">Pages</Card.Title>

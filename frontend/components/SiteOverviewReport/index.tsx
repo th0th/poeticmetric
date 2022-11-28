@@ -1,22 +1,14 @@
-import IconArrowDownShort from "bootstrap-icons/icons/arrow-down-short.svg";
-import IconArrowRightShort from "bootstrap-icons/icons/arrow-right-short.svg";
-import IconArrowUpShort from "bootstrap-icons/icons/arrow-up-short.svg";
-import IconClockFill from "bootstrap-icons/icons/clock-fill.svg";
-import IconFileTextFill from "bootstrap-icons/icons/file-text-fill.svg";
-import IconLayersHalf from "bootstrap-icons/icons/layers-half.svg";
-import IconPersonFill from "bootstrap-icons/icons/person-fill.svg";
 import classNames from "classnames";
 import React from "react";
 import { Card, CardProps, Col, Row, Spinner } from "react-bootstrap";
 import { useSiteOverviewReport } from "../../hooks";
-import styles from "./SiteOverviewReport.module.scss";
 
 export type SiteOverviewReportsProps = Omit<CardProps, "children">;
 
-const changeIcons: Record<SiteOverviewReportChangeVariant, any> = {
-  danger: IconArrowDownShort,
-  muted: IconArrowRightShort,
-  success: IconArrowUpShort,
+const changeIconClassNames: Record<SiteOverviewReportChangeVariant, string> = {
+  danger: "bi-arrow-down-short",
+  muted: "bi-arrow-right-short",
+  success: "bi-arrow-up-short",
 };
 
 export function SiteOverviewReport({ ...props }: SiteOverviewReportsProps) {
@@ -33,17 +25,20 @@ export function SiteOverviewReport({ ...props }: SiteOverviewReportsProps) {
               <div className="fw-semibold mb-1">Page views</div>
 
               <div className="align-items-center d-flex flex-row">
-                <div className={classNames("flex-grow-0 flex-shrink-0 d-flex flex-column align-items-center justify-content-center bg-white rounded-circle text-primary border-3 border-primary border me-2 p-1", styles.iconWrapper)}>
-                  <IconFileTextFill className="d-block" />
+                <div className="align-items-center bg-white border border-4 border-primary d-flex flex-column flex-grow-0 flex-shrink-0 h-2rem justify-content-center me-2 p-1 rounded-circle text-primary w-2rem">
+                  <i className="bi-file-text-fill fss-1" />
                 </div>
 
                 <span className="fs-5 fw-bold">{data.pageViewCount}</span>
               </div>
 
-              <Card.Subtitle className={classNames("d-flex flex-row align-items-center mt-2 fw-semibold", `text-${data.pageViewCountPercentageChangeVariant}`)}>
-                {React.createElement(changeIcons[data.pageViewCountPercentageChangeVariant], {
-                  className: classNames("d-block flex-grow-0 flex-shrink-0", styles.changeIndicator),
-                })}
+              <Card.Subtitle
+                className={classNames(
+                  "align-items-center d-flex flex-row fw-semibold mt-2",
+                  `text-${data.pageViewCountPercentageChangeVariant}`,
+                )}
+              >
+                <i className={`${changeIconClassNames[data.pageViewCountPercentageChangeVariant]} fs-4`} />
 
                 <span>{`${data.pageViewCountPercentageChange}%`}</span>
               </Card.Subtitle>
@@ -53,17 +48,20 @@ export function SiteOverviewReport({ ...props }: SiteOverviewReportsProps) {
               <div className="mb-1 fw-semibold">Visitors</div>
 
               <div className="d-flex flex-row align-items-center">
-                <div className={classNames("flex-grow-0 flex-shrink-0 d-flex flex-column align-items-center justify-content-center bg-white rounded-circle text-primary border-3 border-primary border me-2 p-1", styles.iconWrapper)}>
-                  <IconPersonFill className="d-block" />
+                <div className="align-items-center bg-white border border-4 border-primary d-flex flex-column flex-grow-0 flex-shrink-0 h-2rem justify-content-center me-2 p-1 rounded-circle text-primary w-2rem">
+                  <i className="bi-person-fill fss-1" />
                 </div>
 
                 <span className="fs-5 fw-bold">{data.visitorCount}</span>
               </div>
 
-              <Card.Subtitle className={classNames("d-flex flex-row align-items-center mt-2 fw-semibold", `text-${data.visitorCountPercentageChangeVariant}`)}>
-                {React.createElement(changeIcons[data.visitorCountPercentageChangeVariant], {
-                  className: classNames("d-block flex-grow-0 flex-shrink-0", styles.changeIndicator),
-                })}
+              <Card.Subtitle
+                className={classNames(
+                  "align-items-center d-flex flex-row fw-semibold mt-2",
+                  `text-${data.visitorCountPercentageChangeVariant}`,
+                )}
+              >
+                <i className={`${changeIconClassNames[data.visitorCountPercentageChangeVariant]} fs-4`} />
 
                 <span>{`${data.visitorCountPercentageChange}%`}</span>
               </Card.Subtitle>
@@ -73,19 +71,22 @@ export function SiteOverviewReport({ ...props }: SiteOverviewReportsProps) {
               <div className="mb-1 fw-semibold">Page views per visitor</div>
 
               <div className="d-flex flex-row align-items-center">
-                <div className={classNames("flex-grow-0 flex-shrink-0 d-flex flex-column align-items-center justify-content-center bg-white rounded-circle text-primary border-3 border-primary border me-2 p-1", styles.iconWrapper)}>
-                  <IconLayersHalf className="d-block" />
+                <div className="align-items-center bg-white border border-4 border-primary d-flex flex-column flex-grow-0 flex-shrink-0 h-2rem justify-content-center me-2 p-1 rounded-circle text-primary w-2rem">
+                  <i className="bi-layers-half fss-1" />
                 </div>
 
                 <span className="fs-5 fw-bold">{data.pageViewCountPerVisitor}</span>
               </div>
 
-              <Card.Subtitle className={classNames("d-flex flex-row align-items-center mt-2 fw-semibold", `text-${data.pageViewCountPercentageChangeVariant}`)}>
-                {React.createElement(changeIcons[data.pageViewCountPercentageChangeVariant], {
-                  className: classNames("d-block flex-grow-0 flex-shrink-0", styles.changeIndicator),
-                })}
+              <Card.Subtitle
+                className={classNames(
+                  "align-items-center d-flex flex-row fw-semibold mt-2",
+                  `text-${data.pageViewCountPerVisitorPercentageChangeVariant}`,
+                )}
+              >
+                <i className={`${changeIconClassNames[data.pageViewCountPerVisitorPercentageChangeVariant]} fs-4`} />
 
-                <span>{`${data.pageViewCountPercentageChange}%`}</span>
+                <span>{`${data.pageViewCountPerVisitorPercentageChange}%`}</span>
               </Card.Subtitle>
             </Col>
 
@@ -93,17 +94,20 @@ export function SiteOverviewReport({ ...props }: SiteOverviewReportsProps) {
               <div className="mb-1 fw-semibold">Average page duration</div>
 
               <div className="d-flex flex-row align-items-center">
-                <div className={classNames("flex-grow-0 flex-shrink-0 d-flex flex-column align-items-center justify-content-center bg-white rounded-circle text-primary border-3 border-primary border me-2 p-1", styles.iconWrapper)}>
-                  <IconClockFill className="d-block" />
+                <div className="align-items-center bg-white border border-4 border-primary d-flex flex-column flex-grow-0 flex-shrink-0 h-2rem justify-content-center me-2 p-1 rounded-circle text-primary w-2rem">
+                  <i className="bi-clock-fill fss-1" />
                 </div>
 
                 <span className="fs-5 fw-bold">{data.pageViewCountPerVisitor}</span>
               </div>
 
-              <Card.Subtitle className={classNames("d-flex flex-row align-items-center mt-2 fw-semibold", `text-${data.averagePageViewDurationPercentageChangeVariant}`)}>
-                {React.createElement(changeIcons[data.averagePageViewDurationPercentageChangeVariant], {
-                  className: classNames("d-block flex-grow-0 flex-shrink-0", styles.changeIndicator),
-                })}
+              <Card.Subtitle
+                className={classNames(
+                  "align-items-center d-flex flex-row fw-semibold mt-2",
+                  `text-${data.averagePageViewDurationPercentageChangeVariant}`,
+                )}
+              >
+                <i className={`${changeIconClassNames[data.averagePageViewDurationPercentageChangeVariant]} fs-4`} />
 
                 <span>{`${data.averagePageViewDurationPercentageChange}%`}</span>
               </Card.Subtitle>

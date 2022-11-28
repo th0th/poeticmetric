@@ -1,80 +1,9 @@
-// Configuration
-@import "bootstrap/scss/functions";
-@import "bootstrap/scss/variables";
-@import "bootstrap/scss/maps";
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;1,1000&display=swap");
 
-$border-color-translucent: rgba($black, .125);
-$font-family-base: "Inter";
+@import "./variables";
+@import "./utilities";
 
-$utilities: (
-  "background-color": (
-    property: background-color,
-    class: bg,
-    local-vars: (
-      "bg-opacity": 1
-    ),
-    state: hover,
-    values: map-merge(
-        $utilities-bg-colors,
-        (
-          "transparent": transparent
-        ),
-    ),
-  ),
-  "color": (
-    property: color,
-    class: text,
-    local-vars: (
-      "text-opacity": 1
-    ),
-    state: hover,
-    values: map-merge(
-        $utilities-text-colors,
-        (
-          "muted": $text-muted,
-          "reset": inherit,
-        ),
-    ),
-  ),
-  "cursor": (
-    property: cursor,
-    class: cursor,
-    state: hover,
-    values: (
-      pointer,
-    ),
-  ),
-  "font-weight": (
-    property: font-weight,
-    class: fw,
-    values: (
-      bold: $font-weight-bold,
-      bolder: $font-weight-bolder,
-      light: $font-weight-light,
-      lighter: $font-weight-lighter,
-      medium: 500,
-      normal: $font-weight-normal,
-      semibold: $font-weight-semibold,
-    ),
-  ),
-  "font-size-small": (
-    property: font-size,
-    class: fss,
-    values: (
-      1: 0.875rem,
-      2: 0.75rem,
-      3: 0.625rem,
-      4: 0.5rem,
-    ),
-  ),
-  "text-decoration": (
-    property: text-decoration,
-    state: hover,
-    values: none underline line-through
-  ),
-);
-
+// Configuration
 @import "bootstrap/scss/mixins";
 @import "bootstrap/scss/utilities";
 
