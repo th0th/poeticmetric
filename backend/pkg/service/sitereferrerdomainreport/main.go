@@ -8,42 +8,40 @@ import (
 )
 
 type Datum struct {
-	Count      uint64 `json:"count"`
-	Domain     string `json:"domain"`
-	Percentage uint16 `json:"percentage"`
+	ReferrerDomain    string `json:"referrerDomain"`
+	VisitorCount      uint64 `json:"visitorCount"`
+	VisitorPercentage uint16 `json:"visitorPercentage"`
 }
 
-type Report struct {
-	Data []Datum `json:"data"`
-}
+type Report []*Datum
 
-func Get(dp *depot.Depot, filters *sitereportfilters.Filters) (*Report, error) {
-	report := &Report{}
+func Get(dp *depot.Depot, filters *sitereportfilters.Filters) (Report, error) {
+	report := Report{}
 
 	baseQuery := sitereportfilters.Apply(dp, filters).
 		Where("referrer is not null").
-		Where("referrer in ('http', 'https')").
+		Where("protocol(referrer) in ('http', 'https')").
 		Where("domain(referrer) != domain(url)")
 
-	totalCountSubQuery := baseQuery.
+	totalVisitorCountSubQuery := baseQuery.
 		Session(&gorm.Session{}).
-		Select("count(*)")
+		Select("count(distinct visitor_id)")
 
 	err := baseQuery.
 		Session(&gorm.Session{}).
 		Select(
 			strings.Join([]string{
-				"count(domain(referrer)) as count",
-				"domain(referrer) as domain",
-				"toUInt16(round(100 * count / (@totalCountSubQuery))) as percentage",
+				"domain(referrer) as referrer_domain",
+				"count(domain(referrer)) as visitor_count",
+				"toUInt16(round(100 * visitor_count / (@totalVisitorCountSubQuery))) as visitor_percentage",
 			}, ", "),
 			map[string]any{
-				"totalCountSubQuery": totalCountSubQuery,
+				"totalVisitorCountSubQuery": totalVisitorCountSubQuery,
 			},
 		).
-		Group("domain").
-		Order("count desc").
-		Find(&report.Data).
+		Group("referrer_domain").
+		Order("visitor_count desc").
+		Find(&report).
 		Error
 	if err != nil {
 		return nil, err
