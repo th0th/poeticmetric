@@ -3,6 +3,7 @@ import { omit } from "lodash";
 import { useRouter } from "next/router";
 import React, { useCallback, useMemo } from "react";
 import { Card, CardProps, Form } from "react-bootstrap";
+import { Country } from "./Country";
 import { Language } from "./Language";
 
 export type SiteGeoReportProps = Omit<CardProps, "children">;
@@ -16,8 +17,8 @@ type Section = {
 const sectionSlugRouterQueryKey = "geo";
 
 const sections: Array<Section> = [
-  { content: <Language />, slug: null, title: "Language" },
-  { content: null, slug: "location", title: "Location" },
+  { content: <Language />, slug: null, title: "Languages" },
+  { content: <Country />, slug: "country", title: "Countries" },
 ];
 
 export function SiteGeoReport({ className, ...props }: SiteGeoReportProps) {
@@ -40,9 +41,9 @@ export function SiteGeoReport({ className, ...props }: SiteGeoReportProps) {
   }, [router]);
 
   return (
-    <Card {...props} className={classNames("h-100", className)}>
-      <Card.Body className="d-flex flex-column flex-grow-1">
-        <div className="align-items-center d-flex flex-row gap-3 mb-2">
+    <Card {...props} className={classNames("d-flex site-report-card", className)}>
+      <Card.Body className="d-flex flex-column flex-grow-1 flex-shrink-1 pb-0 pe-0 min-h-0">
+        <div className="align-items-center d-flex flex-row gap-3 mb-2 pe-3">
           <Card.Title className="fs-6 mb-0">Geography</Card.Title>
 
           <div className="ms-auto">

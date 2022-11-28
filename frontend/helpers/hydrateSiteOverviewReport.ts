@@ -17,7 +17,7 @@ export function hydrateSiteOverviewReport(r: SiteOverviewReport): HydratedSiteOv
     ...r,
     averagePageViewDurationDisplay: dayjs.duration(r.averagePageViewDuration, "seconds").humanize(),
     averagePageViewDurationPercentageChangeVariant: getVariant(r.averagePageViewDurationPercentageChange),
-    pageViewCountPerVisitorPercentageChangeVariant: getVariant(r.pageViewCountPercentageChange),
+    pageViewCountPerVisitorPercentageChangeVariant: getVariant(r.pageViewCountPerVisitorPercentageChange),
     pageViewCountPercentageChangeVariant: getVariant(r.pageViewCountPercentageChange),
     visitorCountPercentageChangeVariant: getVariant(r.visitorCountPercentageChange),
   };

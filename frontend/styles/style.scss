@@ -1,10 +1,20 @@
-@import "./bootstrap";
+@import "./bootstrap/bootstrap";
 
 body {
   background-attachment: fixed;
   background-image: url("/waimakariri.svg");
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+div#__next {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+svg {
+  fill: currentColor;
 }
 
 .d-parent {
@@ -19,28 +29,13 @@ body {
   }
 }
 
-.h-1rem {
-  height: 0.75rem !important;
+@include media-breakpoint-up(lg) {
+  .site-report-card {
+    height: 290px;
+    overflow: hidden;
+  }
 }
 
 .mw-32rem {
   max-width: 32rem !important;
-}
-
-svg {
-  fill: currentColor;
-}
-
-.w-4rem {
-  width: 4rem !important;
-}
-
-.w-6rem {
-  width: 6rem !important;
-}
-
-div#__next {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
 }

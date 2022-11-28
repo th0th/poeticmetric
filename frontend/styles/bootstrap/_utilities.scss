@@ -1,0 +1,89 @@
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/maps";
+
+$fixed-sizes: (1rem 2rem 3rem 4rem 5rem 6rem);
+
+$utilities: (
+  "background-color": (
+    property: background-color,
+    class: bg,
+    local-vars: (
+      "bg-opacity": 1
+    ),
+    state: hover,
+    values: map-merge(
+        $utilities-bg-colors,
+        (
+          "transparent": transparent
+        ),
+    ),
+  ),
+  "color": (
+    property: color,
+    class: text,
+    local-vars: (
+      "text-opacity": 1
+    ),
+    state: hover,
+    values: map-merge(
+        $utilities-text-colors,
+        (
+          "muted": $text-muted,
+          "reset": inherit,
+        ),
+    ),
+  ),
+  "cursor": (
+    property: cursor,
+    class: cursor,
+    values: (
+      pointer,
+    ),
+  ),
+  "font-weight": (
+    property: font-weight,
+    class: fw,
+    values: (
+      bold: $font-weight-bold,
+      bolder: $font-weight-bolder,
+      light: $font-weight-light,
+      lighter: $font-weight-lighter,
+      medium: 500,
+      normal: $font-weight-normal,
+      semibold: $font-weight-semibold,
+    ),
+  ),
+  "font-size-small": (
+    property: font-size,
+    class: fss,
+    values: (
+      1: 0.875rem,
+      2: 0.75rem,
+      3: 0.625rem,
+      4: 0.5rem,
+    ),
+  ),
+  "height-fixed": (
+    class: h,
+    property: height,
+    values: $fixed-sizes,
+  ),
+  "min-height": (
+    property: min-height,
+    class: min-h,
+    values: (
+      0: 0,
+    ),
+  ),
+  "text-decoration": (
+    property: text-decoration,
+    state: hover,
+    values: none underline line-through
+  ),
+  "width-fixed": (
+    class: w,
+    property: width,
+    values: $fixed-sizes,
+  ),
+);

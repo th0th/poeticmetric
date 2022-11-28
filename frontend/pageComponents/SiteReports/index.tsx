@@ -13,7 +13,6 @@ import {
 } from "../../components";
 import { ToastsContext } from "../../contexts";
 import { useQueryNumber, useSite } from "../../hooks";
-import styles from "./SiteReports.module.scss";
 
 export function SiteReports() {
   const router = useRouter();
@@ -57,7 +56,7 @@ export function SiteReports() {
             <SiteOverviewReport className="mt-3" />
 
             <Row className="g-3 mt-0">
-              <Col className={styles.sitePageViewsAndVisitorsReportCol} lg={8}>
+              <Col lg={8}>
                 <SitePageViewsAndVisitorsReport />
               </Col>
 
@@ -67,10 +66,10 @@ export function SiteReports() {
             </Row>
 
             <Row className="mt-3">
-              <Col className={styles.reportCol} lg={4}>
+              <Col lg={4}>
               </Col>
 
-              <Col className={styles.reportCol} lg={8}>
+              <Col lg={8}>
                 <SiteGeoReport />
               </Col>
             </Row>

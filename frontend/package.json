@@ -22,6 +22,7 @@
     "@visx/tooltip": "^2.16.0",
     "bootstrap": "^5.2.2",
     "bootstrap-icons": "^1.9.1",
+    "chroma-js": "^2.4.2",
     "classnames": "^2.3.2",
     "d3-array": "^3.2.0",
     "d3-scale": "^4.0.2",
@@ -37,6 +38,7 @@
   },
   "devDependencies": {
     "@svgr/webpack": "^6.5.1",
+    "@types/chroma-js": "^2.1.4",
     "@types/d3-array": "^3.0.3",
     "@types/lodash": "^4.14.188",
     "@types/md5": "^2.3.2",
