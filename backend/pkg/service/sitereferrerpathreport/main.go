@@ -1,4 +1,4 @@
-package sitereferrerpagereport
+package sitereferrerpathreport
 
 import (
 	v "github.com/RussellLuo/validating/v3"
@@ -9,10 +9,10 @@ import (
 )
 
 type Datum struct {
-	Path       string `json:"path"`
-	Count      uint64 `json:"count"`
-	Percentage uint16 `json:"percentage"`
-	Url        string `json:"url"`
+	ReferrerPath      string `json:"referrerPath"`
+	Referrer          string `json:"referrer"`
+	VisitorCount      uint64 `json:"visitorCount"`
+	VisitorPercentage uint16 `json:"visitorPercentage"`
 }
 
 type Report []*Datum
@@ -27,34 +27,33 @@ func Get(dp *depot.Depot, filters *sitereportfilters.Filters) (Report, error) {
 
 	baseQuery := sitereportfilters.Apply(dp, filters)
 
-	totalCountSubQuery := baseQuery.
+	totalVisitorCountSubQuery := baseQuery.
 		Session(&gorm.Session{}).
-		Select("count(*)")
+		Select("count(distinct visitor_id)")
 
 	baseSubQuery := dp.ClickHouse().
 		Table("(?)", baseQuery).
 		Select(
 			strings.Join([]string{
-				"count(*) as count",
-				"concat(protocol(referrer), '://', domain(referrer)) as domain",
-				"pathFull(referrer) as path",
-				"toUInt16(round(100 * count / (@totalCountSubQuery))) as percentage",
-				"concat(domain, path) as url",
+				"referrer",
+				"pathFull(referrer) as referrer_path",
+				"count(distinct visitor_id) as visitor_count",
+				"toUInt16(round(100 * visitor_count / (@totalVisitorCountSubQuery))) as visitor_percentage",
 			}, ", "),
 			map[string]any{
-				"totalCountSubQuery": totalCountSubQuery,
+				"totalVisitorCountSubQuery": totalVisitorCountSubQuery,
 			},
 		).
-		Group("path, domain").
-		Order("count desc")
+		Group("referrer").
+		Order("visitor_count desc")
 
 	err = dp.ClickHouse().
 		Table("(?)", baseSubQuery).
 		Select(
-			"count",
-			"path",
-			"percentage",
-			"url",
+			"referrer",
+			"referrer_path",
+			"visitor_count",
+			"visitor_percentage",
 		).
 		Find(&report).
 		Error
@@ -67,7 +66,7 @@ func Get(dp *depot.Depot, filters *sitereportfilters.Filters) (Report, error) {
 
 func validateFilters(filters *sitereportfilters.Filters) error {
 	errs := v.Validate(v.Schema{
-		v.F("referrerSite", filters.ReferrerDomain): v.All(
+		v.F("referrerSite", filters.ReferrerSite): v.All(
 			v.Nonzero[*string]().Msg("This field is required."),
 		),
 	})

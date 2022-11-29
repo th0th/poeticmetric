@@ -15,7 +15,6 @@ CREATE TABLE "events" (
   "page" String,
   "path" String,
   "referrer" Nullable(String),
-  "referrer_domain" Nullable(String),
   "site_id" UInt64,
   "time_zone" Nullable(String),
   "url" String,

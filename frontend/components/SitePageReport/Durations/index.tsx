@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 import { Spinner } from "react-bootstrap";
 import { useSitePageViewDurationReport } from "../../../hooks";
@@ -7,12 +8,13 @@ import { useSitePageViewDurationReport } from "../../../hooks";
 export type DurationsProps = Omit<React.PropsWithoutRef<JSX.IntrinsicElements["div"]>, "children">;
 
 export function Durations({ className, ...props }: DurationsProps) {
+  const router = useRouter();
   const { hydratedData: data } = useSitePageViewDurationReport();
 
   return data === undefined ? (
     <Spinner animation="border" />
   ) : (
-    <div {...props} className={classNames("small", className)}>
+    <div {...props} className={classNames("fss-1 lh-lg", className)}>
       <div className="d-flex flex-row py-1">
         <div className="flex-grow-1 fw-semibold pe-1">Page</div>
 
@@ -22,7 +24,12 @@ export function Durations({ className, ...props }: DurationsProps) {
       {data.hydratedData.slice(0, 5).map((d) => (
         <div className="align-items-center d-flex d-parent flex-row lh-lg" key={d.page}>
           <div className="align-items-center d-flex flex-grow-1 flex-row pe-1 overflow-hidden">
-            <Link className="text-body text-decoration-none text-decoration-underline-hover text-truncate" href="/" title={d.page}>
+            <Link
+              className="text-body text-decoration-none text-decoration-underline-hover text-truncate"
+              href={{ pathname: router.pathname, query: { ...router.query, path: d.page } }}
+              scroll={false}
+              title={d.page}
+            >
               {d.page}
             </Link>
 

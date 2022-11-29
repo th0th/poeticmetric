@@ -93,56 +93,58 @@ export function Country() {
 
   return state === null ? null : (
     <>
-      <Row className="min-h-0">
-        <Col className="h-100 pb-3" lg={7}>
-          <svg className="d-block mx-auto mh-100" viewBox="0 0 1008.27 650.94">
-            {state.mapData.map((md) => (
-              <path
-                className={md.className}
-                d={md.d}
-                fill={md.fill}
-                key={md.key}
-                onClick={md.handleClick}
-                onMouseMove={md.handleMouseEvent}
-                onMouseOut={hideTooltip}
-                onTouchEnd={hideTooltip}
-                onTouchMove={md.handleMouseEvent}
-                stroke={window.getComputedStyle(document.documentElement).getPropertyValue("--bs-gray-300")}
-              />
-            ))}
-          </svg>
-        </Col>
+      <div className="min-h-0 ps-3">
+        <Row className="h-100">
+          <Col className="h-100 pb-3" lg={7}>
+            <svg className="d-block mx-auto mh-100" viewBox="0 0 1008.27 650.94">
+              {state.mapData.map((md) => (
+                <path
+                  className={md.className}
+                  d={md.d}
+                  fill={md.fill}
+                  key={md.key}
+                  onClick={md.handleClick}
+                  onMouseMove={md.handleMouseEvent}
+                  onMouseOut={hideTooltip}
+                  onTouchEnd={hideTooltip}
+                  onTouchMove={md.handleMouseEvent}
+                  stroke={window.getComputedStyle(document.documentElement).getPropertyValue("--bs-gray-300")}
+                />
+              ))}
+            </svg>
+          </Col>
 
-        <Col className="d-flex flex-column" lg={5}>
-          <div className="border-1 border-start flex-grow-1 fss-1 lh-lg pb-3 pe-3 ps-3">
-            <div className="d-flex flex-row py-1">
-              <div className="flex-grow-1 fw-semibold pe-1">Page</div>
+          <Col className="d-flex flex-column" lg={5}>
+            <div className="border-1 border-start flex-grow-1 fss-1 lh-lg pb-3 pe-3 ps-3">
+              <div className="d-flex flex-row py-1">
+                <div className="flex-grow-1 fw-semibold pe-1">Page</div>
 
-              <div className="fw-semibold ps-1 text-end w-4rem" title="View count">Views</div>
+                <div className="fw-semibold ps-1 text-end w-4rem" title="View count">Views</div>
+              </div>
+
+              {state.data.map((d) => (
+                <div className="align-items-center d-flex d-parent flex-row lh-lg" key={d.countryIsoCode}>
+                  <div className="align-items-center d-flex flex-grow-1 flex-row pe-1 overflow-hidden">
+                    <Link className="text-body text-decoration-none text-decoration-underline-hover text-truncate" href="/" title={d.country}>
+                      {d.country}
+                    </Link>
+                  </div>
+
+                  <div className="text-end ps-1 w-4rem" title="View count">{d.visitorCount}</div>
+                </div>
+              ))}
             </div>
 
-            {state.data.map((d) => (
-              <div className="align-items-center d-flex d-parent flex-row lh-lg" key={d.countryIsoCode}>
-                <div className="align-items-center d-flex flex-grow-1 flex-row pe-1 overflow-hidden">
-                  <Link className="text-body text-decoration-none text-decoration-underline-hover text-truncate" href="/" title={d.country}>
-                    {d.country}
-                  </Link>
-                </div>
-
-                <div className="text-end ps-1 w-4rem" title="View count">{d.visitorCount}</div>
-              </div>
-            ))}
-          </div>
-
-          <Link
-            className="bg-light-hover border-1 border-top border-start d-block fw-medium mt-auto py-2 text-center text-decoration-none"
-            href={{ pathname: router.pathname, query: { ...router.query, detail: "country" } }}
-            scroll={false}
-          >
-            See more
-          </Link>
-        </Col>
-      </Row>
+            <Link
+              className="bg-light-hover border-1 border-top border-start d-block fw-medium mt-auto py-2 text-center text-decoration-none"
+              href={{ pathname: router.pathname, query: { ...router.query, detail: "country" } }}
+              scroll={false}
+            >
+              See more
+            </Link>
+          </Col>
+        </Row>
+      </div>
 
       {tooltipOpen && tooltipData !== undefined ? (
         <ChartTooltip left={tooltipLeft} top={tooltipTop}>

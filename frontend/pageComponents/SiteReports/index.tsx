@@ -7,7 +7,7 @@ import {
   SiteGeoReport,
   SiteOverviewReport,
   SitePageReport,
-  SitePageViewsAndVisitorsReport,
+  SitePageViewsAndVisitorsReport, SiteReferrerReport,
   SiteReportsFiltersHandler,
   SiteReportsTimeWindowInput,
 } from "../../components";
@@ -67,6 +67,7 @@ export function SiteReports() {
 
             <Row className="mt-3">
               <Col lg={4}>
+                <SiteReferrerReport />
               </Col>
 
               <Col lg={8}>
