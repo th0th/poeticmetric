@@ -26,7 +26,6 @@ type Event struct {
 	OperatingSystemVersion *string
 	Page                   string
 	Referrer               *string
-	ReferrerDomain         *string
 	SiteId                 uint64
 	TimeZone               *string
 	Url                    string

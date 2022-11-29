@@ -42,8 +42,8 @@ export function SiteGeoReport({ className, ...props }: SiteGeoReportProps) {
 
   return (
     <Card {...props} className={classNames("d-flex site-report-card", className)}>
-      <Card.Body className="d-flex flex-column flex-grow-1 flex-shrink-1 pb-0 pe-0 min-h-0">
-        <div className="align-items-center d-flex flex-row gap-3 mb-2 pe-3">
+      <Card.Body className="d-flex flex-column flex-grow-1 flex-shrink-1 pb-0 pe-0 ps-0 min-h-0">
+        <div className="align-items-center d-flex flex-row gap-3 mb-2 pe-3 ps-3">
           <Card.Title className="fs-6 mb-0">Geography</Card.Title>
 
           <div className="ms-auto">

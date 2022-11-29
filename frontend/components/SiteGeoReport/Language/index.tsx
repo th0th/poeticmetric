@@ -62,7 +62,6 @@ function BaseLanguage({ debounceTime: _, enableDebounceLeadingCall: __, parentHe
 
     const width = parentWidth;
     const height = parentHeight;
-    // const height = reportData.length * 42;
 
     const innerWidth = width - padding.left;
     const innerHeight = height - padding.top - padding.bottom;

@@ -10,6 +10,7 @@ export * from "./SiteGeoReport";
 export * from "./SiteOverviewReport";
 export * from "./SitePageReport";
 export * from "./SitePageViewsAndVisitorsTimeReport";
+export * from "./SiteReferrerReport";
 export * from "./SiteReportsFiltersHandler";
 export * from "./SiteReportsTimeWindowInput";
 export * from "./SwrConfig";

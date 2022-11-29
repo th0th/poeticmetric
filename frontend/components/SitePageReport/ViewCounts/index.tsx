@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 import { Spinner } from "react-bootstrap";
 import { useSitePageViewCountReport } from "../../../hooks";
@@ -7,6 +8,7 @@ import { useSitePageViewCountReport } from "../../../hooks";
 export type ViewCountsProps = Omit<React.PropsWithoutRef<JSX.IntrinsicElements["div"]>, "children">;
 
 export function ViewCounts({ className, ...props }: ViewCountsProps) {
+  const router = useRouter();
   const { hydratedData: data } = useSitePageViewCountReport();
 
   return data === undefined ? (
@@ -22,7 +24,12 @@ export function ViewCounts({ className, ...props }: ViewCountsProps) {
       {data.hydratedData.slice(0, 5).map((d) => (
         <div className="align-items-center d-flex d-parent flex-row lh-lg" key={d.page}>
           <div className="align-items-center d-flex flex-grow-1 flex-row pe-1 overflow-hidden">
-            <Link className="text-body text-decoration-none text-decoration-underline-hover text-truncate" href="/" title={d.page}>
+            <Link
+              className="text-body text-decoration-none text-decoration-underline-hover text-truncate"
+              href={{ pathname: router.pathname, query: { ...router.query, path: d.page } }}
+              scroll={false}
+              title={d.page}
+            >
               {d.page}
             </Link>
 

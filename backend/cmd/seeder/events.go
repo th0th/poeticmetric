@@ -49,6 +49,45 @@ func seedEvents(dp *depot.Depot, clear bool, modelSite *model.Site) error {
 		}
 	}
 
+	referrerDomains := []string{
+		gofakeit.DomainName(),
+		gofakeit.DomainName(),
+		gofakeit.DomainName(),
+		gofakeit.DomainName(),
+		gofakeit.DomainName(),
+		gofakeit.DomainName(),
+		gofakeit.DomainName(),
+		gofakeit.DomainName(),
+		gofakeit.DomainName(),
+		gofakeit.DomainName(),
+	}
+
+	referrerPaths := []string{
+		getRandomUrlPath(),
+		getRandomUrlPath(),
+		getRandomUrlPath(),
+		getRandomUrlPath(),
+		getRandomUrlPath(),
+		getRandomUrlPath(),
+		getRandomUrlPath(),
+		getRandomUrlPath(),
+		getRandomUrlPath(),
+		getRandomUrlPath(),
+	}
+
+	urlPaths := []string{
+		getRandomUrlPath(),
+		getRandomUrlPath(),
+		getRandomUrlPath(),
+		getRandomUrlPath(),
+		getRandomUrlPath(),
+		getRandomUrlPath(),
+		getRandomUrlPath(),
+		getRandomUrlPath(),
+		getRandomUrlPath(),
+		getRandomUrlPath(),
+	}
+
 	utmSources := []string{
 		"email",
 		"facebook",
@@ -130,11 +169,13 @@ func seedEvents(dp *depot.Depot, clear bool, modelSite *model.Site) error {
 			}
 
 			if gofakeit.Bool() {
-				event.Referrer = pointer.Get(strings.Join([]string{
-					"https://dynamicrevolutionize.biz",
-					"/",
-					gofakeit.Word(),
-				}, ""))
+				event.Referrer = pointer.Get(
+					fmt.Sprintf(
+						"https://%s%s",
+						gofakeit.RandomString(referrerDomains),
+						gofakeit.RandomString(referrerPaths),
+					),
+				)
 			}
 
 			if gofakeit.Bool() && gofakeit.Bool() {
@@ -145,8 +186,7 @@ func seedEvents(dp *depot.Depot, clear bool, modelSite *model.Site) error {
 				event.UtmTerm = pointer.Get(gofakeit.RandomString(utmTerms))
 			}
 
-			rawUrlParts := strings.SplitN(gofakeit.URL(), "/", 4)
-			url := fmt.Sprintf("https://%s%s", modelSite.Domain, fmt.Sprintf("/%s", rawUrlParts[len(rawUrlParts)-1]))
+			url := fmt.Sprintf("https://%s%s", modelSite.Domain, gofakeit.RandomString(urlPaths))
 
 			event.FillFromUrl(url)
 			event.FillFromUserAgent(userAgent)
@@ -162,4 +202,8 @@ func seedEvents(dp *depot.Depot, clear bool, modelSite *model.Site) error {
 	}
 
 	return nil
+}
+
+func getRandomUrlPath() string {
+	return fmt.Sprintf("/%s", strings.SplitN(gofakeit.URL(), "/", 4)[3])
 }

@@ -1,4 +1,4 @@
-package sitereferrerdomainreport
+package sitereferrerpathreport
 
 import (
 	"fmt"
@@ -28,14 +28,16 @@ func TestGet(t *testing.T) {
 
 	modelSite := h.Site(dp, nil)
 
+	referrerSite := "https://www.webgazer.io"
+
 	testData := []*struct {
-		ReferrerDomain string
-		VisitorCount   int
+		ReferrerPath string
+		VisitorCount int
 	}{
-		{ReferrerDomain: "www.webgazer.io", VisitorCount: 159},
-		{ReferrerDomain: "www.google.com", VisitorCount: 18},
-		{ReferrerDomain: "www.bing.com", VisitorCount: 14},
-		{ReferrerDomain: "www.yahoo.com", VisitorCount: 9},
+		{ReferrerPath: "/analytics", VisitorCount: 159},
+		{ReferrerPath: "/privacy-first", VisitorCount: 18},
+		{ReferrerPath: "/awesome", VisitorCount: 14},
+		{ReferrerPath: "/yeah", VisitorCount: 9},
 	}
 
 	events := []*model.Event{}
@@ -46,7 +48,7 @@ func TestGet(t *testing.T) {
 				DateTime:  gofakeit.DateRange(start, end),
 				Id:        uuid.NewString(),
 				Kind:      model.EventKindPageView,
-				Referrer:  pointer.Get(fmt.Sprintf("https://%s/%s", d.ReferrerDomain, gofakeit.Word())),
+				Referrer:  pointer.Get(fmt.Sprintf("%s%s", referrerSite, d.ReferrerPath)),
 				SiteId:    modelSite.Id,
 				VisitorId: uuid.NewString(),
 			})
@@ -59,17 +61,18 @@ func TestGet(t *testing.T) {
 	assert.NoError(t, err)
 
 	report, err := Get(dp, &sitereportfilters.Filters{
-		End:    end,
-		SiteId: modelSite.Id,
-		Start:  start,
+		End:          end,
+		ReferrerSite: &referrerSite,
+		SiteId:       modelSite.Id,
+		Start:        start,
 	})
 	assert.NoError(t, err)
 
 	expectedReport := Report{
-		{ReferrerDomain: "www.webgazer.io", VisitorCount: 159, VisitorPercentage: 80},
-		{ReferrerDomain: "www.google.com", VisitorCount: 18, VisitorPercentage: 9},
-		{ReferrerDomain: "www.bing.com", VisitorCount: 14, VisitorPercentage: 7},
-		{ReferrerDomain: "www.yahoo.com", VisitorCount: 9, VisitorPercentage: 4},
+		{Referrer: "https://www.webgazer.io/analytics", ReferrerPath: "/analytics", VisitorCount: 159, VisitorPercentage: 80},
+		{Referrer: "https://www.webgazer.io/privacy-first", ReferrerPath: "/privacy-first", VisitorCount: 18, VisitorPercentage: 9},
+		{Referrer: "https://www.webgazer.io/awesome", ReferrerPath: "/awesome", VisitorCount: 14, VisitorPercentage: 7},
+		{Referrer: "https://www.webgazer.io/yeah", ReferrerPath: "/yeah", VisitorCount: 9, VisitorPercentage: 4},
 	}
 
 	assert.Equal(t, expectedReport, report)
