@@ -1,5 +1,3 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
 import React, { useMemo } from "react";
 import { useSiteReferrerPathReport } from "../../../hooks";
 
@@ -8,7 +6,6 @@ type State = {
 };
 
 export function Path() {
-  const router = useRouter();
   const { data } = useSiteReferrerPathReport();
 
   const state = useMemo<State | null>(() => {
