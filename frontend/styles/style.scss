@@ -39,3 +39,9 @@ svg {
 .mw-32rem {
   max-width: 32rem !important;
 }
+
+.visx-axis-tick {
+  text {
+    font-family: inherit;
+  }
+}

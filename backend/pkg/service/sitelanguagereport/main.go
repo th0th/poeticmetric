@@ -13,12 +13,10 @@ type Datum struct {
 	VisitorPercentage uint16 `json:"visitorPercentage"`
 }
 
-type Report struct {
-	Data []Datum `json:"data"`
-}
+type Report []*Datum
 
-func Get(dp *depot.Depot, filters *sitereportfilters.Filters) (*Report, error) {
-	report := &Report{}
+func Get(dp *depot.Depot, filters *sitereportfilters.Filters) (Report, error) {
+	report := Report{}
 
 	baseQuery := sitereportfilters.Apply(dp, filters).
 		Where("language is not null")
@@ -41,7 +39,7 @@ func Get(dp *depot.Depot, filters *sitereportfilters.Filters) (*Report, error) {
 		).
 		Group("language").
 		Order("visitor_count desc").
-		Find(&report.Data).
+		Find(&report).
 		Error
 	if err != nil {
 		return nil, err

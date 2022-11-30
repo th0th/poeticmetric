@@ -1,17 +1,13 @@
-type HydratedSiteLanguageReportDatum = SiteLanguageReportDatum & {
+type HydratedSiteLanguageDatum = SiteLanguageDatum & {
   visitorPercentageDisplay: string;
 };
 
-type HydratedSiteLanguageReport = SiteLanguageReport & {
-  hydratedData: Array<HydratedSiteLanguageReportDatum>;
-};
+type HydratedSiteLanguageReport = Array<HydratedSiteLanguageDatum>;
 
-type SiteLanguageReportDatum = {
+type SiteLanguageDatum = {
   language: string;
   visitorCount: number;
   visitorPercentage: number;
 };
 
-type SiteLanguageReport = {
-  data: Array<SiteLanguageReportDatum>;
-};
+type SiteLanguageReport = Array<SiteLanguageDatum>;

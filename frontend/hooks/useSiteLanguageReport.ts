@@ -3,21 +3,25 @@ import useSWR, { SWRResponse } from "swr";
 import { hydrateSiteLanguageReport } from "../helpers";
 import { useReportQueryParams } from "./useReportQueryParams";
 
-type HydratedSwrResponse = SWRResponse<SiteLanguageReport> & {
-  hydratedData?: HydratedSiteLanguageReport;
-};
+type Data = SiteLanguageReport;
+type HydratedData = HydratedSiteLanguageReport;
+
+type SwrResponse = SWRResponse<Data, Error>;
+type HydratedSwrResponse = Overwrite<SwrResponse, {
+  data?: HydratedData;
+}>;
 
 export function useSiteLanguageReport(): HydratedSwrResponse {
   const reportQueryParams = useReportQueryParams();
-  const swrResponse = useSWR<SiteLanguageReport>(`/site-reports/language?${reportQueryParams}`);
+  const { data: rawData, ...swrResponse } = useSWR<Data>(`/site-reports/language?${reportQueryParams}`);
 
-  const hydratedData = useMemo<HydratedSiteLanguageReport | undefined>(() => {
-    if (swrResponse.data === undefined) {
+  const data = useMemo<HydratedSwrResponse["data"]>(() => {
+    if (rawData === undefined) {
       return undefined;
     }
 
-    return hydrateSiteLanguageReport(swrResponse.data);
-  }, [swrResponse.data]);
+    return hydrateSiteLanguageReport(rawData);
+  }, [rawData]);
 
-  return { ...swrResponse, hydratedData };
+  return { data, ...swrResponse };
 }
