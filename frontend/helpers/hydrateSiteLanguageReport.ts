@@ -1,4 +1,4 @@
-function hydrateSiteLanguageReportDatum(d: SiteLanguageReportDatum): HydratedSiteLanguageReportDatum {
+function hydrateSiteLanguageDatum(d: SiteLanguageDatum): HydratedSiteLanguageDatum {
   return {
     ...d,
     visitorPercentageDisplay: `${d.visitorPercentage}%`,
@@ -6,8 +6,5 @@ function hydrateSiteLanguageReportDatum(d: SiteLanguageReportDatum): HydratedSit
 }
 
 export function hydrateSiteLanguageReport(r: SiteLanguageReport): HydratedSiteLanguageReport {
-  return {
-    ...r,
-    hydratedData: r.data.map(hydrateSiteLanguageReportDatum),
-  };
+  return r.map(hydrateSiteLanguageDatum);
 }

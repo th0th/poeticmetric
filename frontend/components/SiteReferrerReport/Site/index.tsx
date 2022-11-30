@@ -52,7 +52,7 @@ export function Site() {
             </a>
           </div>
 
-          <div className="text-end ps-1 w-4rem" title={d.visitorPercentageDisplay}>{d.visitorCount}</div>
+          <div className="ps-1 text-end w-4rem" title={d.visitorPercentageDisplay}>{d.visitorCount}</div>
         </div>
       ))}
     </div>
