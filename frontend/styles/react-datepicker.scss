@@ -1,0 +1,19 @@
+@import "./bootstrap/variables";
+@import "bootstrap/scss/mixins";
+
+$datepicker__background-color: $white;
+$datepicker__border-color: $gray-300;
+$datepicker__border-radius: $border-radius;
+$datepicker__font-family: inherit;
+
+@import "react-datepicker/src/stylesheets/datepicker";
+
+.react-datepicker {
+  .react-datepicker__navigation-icon {
+    font-size: inherit;
+  }
+
+  @include media-breakpoint-up(lg) {
+    margin-top: -1px !important;
+  }
+}

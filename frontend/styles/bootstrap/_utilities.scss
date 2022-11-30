@@ -19,6 +19,11 @@ $utilities: (
         ),
     ),
   ),
+  "bottom": (
+    property: bottom,
+    responsive: true,
+    values: $position-values
+  ),
   "color": (
     property: color,
     class: text,
@@ -40,6 +45,12 @@ $utilities: (
     values: (
       pointer,
     ),
+  ),
+  "end": (
+    property: right,
+    class: end,
+    responsive: true,
+    values: $position-values
   ),
   "font-weight": (
     property: font-weight,
@@ -76,10 +87,21 @@ $utilities: (
       0: 0,
     ),
   ),
+  "start": (
+    class: start,
+    property: left,
+    responsive: true,
+    values: $position-values
+  ),
   "text-decoration": (
     property: text-decoration,
     state: hover,
     values: none underline line-through
+  ),
+  "top": (
+    property: top,
+    responsive: true,
+    values: $position-values
   ),
   "width-fixed": (
     class: w,

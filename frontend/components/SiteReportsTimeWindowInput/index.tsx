@@ -1,14 +1,20 @@
 import dayjs from "dayjs";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useContext, useMemo } from "react";
+import React, { useCallback, useContext, useMemo, useState } from "react";
 import { Dropdown } from "react-bootstrap";
+import DatePicker from "react-datepicker";
 import { SiteReportsFiltersContext } from "../../contexts";
 
 type Option = {
   getEnd: () => dayjs.Dayjs;
   getStart: () => dayjs.Dayjs;
   title: string;
+};
+
+type State = {
+  isDatePickerVisible: boolean;
+  start?: Date;
 };
 
 const options: Array<Array<Option>> = [
@@ -70,11 +76,42 @@ const options: Array<Array<Option>> = [
 export function SiteReportsTimeWindowInput() {
   const router = useRouter();
   const { start, end } = useContext(SiteReportsFiltersContext);
+  const [state, setState] = useState<State>({ isDatePickerVisible: false });
 
   const selectedOption = useMemo<Option | null>(
     () => options.flat().find((o) => o.getEnd().isSame(end) && o.getStart().isSame(start)) || null,
     [end, start],
   );
+
+  const handleToggle = useCallback((nextShow: boolean) => {
+    if (!nextShow) {
+      setState((s) => ({ ...s, isDatePickerVisible: false }));
+    }
+  }, []);
+
+  const handleCustomButtonClick = useCallback(() => setState((s) => ({ ...s, isDatePickerVisible: true })), []);
+
+  const handleDatePickerChange = useCallback(async (
+    date: [Date | null, Date | null],
+  ) => {
+    const [ds, de] = date;
+
+    if (de === null) {
+      setState((s) => ({ ...s, start: ds || undefined }));
+    } else {
+      await router.push({
+        pathname: router.pathname,
+        query: {
+          ...router.query,
+          end: dayjs(de).endOf("day").toISOString(),
+          start: dayjs(ds).toISOString(),
+        },
+      });
+
+      setState((s) => ({ ...s, start: undefined }));
+      window.document.body.click();
+    }
+  }, [router]);
 
   const toggleBody = useMemo<React.ReactNode>(() => {
     if (selectedOption === null) {
@@ -85,7 +122,7 @@ export function SiteReportsTimeWindowInput() {
   }, [end, selectedOption, start]);
 
   return (
-    <Dropdown>
+    <Dropdown onToggle={handleToggle}>
       <Dropdown.Toggle>
         {toggleBody}
       </Dropdown.Toggle>
@@ -119,7 +156,20 @@ export function SiteReportsTimeWindowInput() {
           </React.Fragment>
         ))}
 
-        <Link className="dropdown-item" href="/">Custom</Link>
+        <button className="dropdown-item" onClick={handleCustomButtonClick}>Custom</button>
+
+        {state.isDatePickerVisible ? (
+          <DatePicker
+            calendarClassName="position-absolute start-md-100 top-100 top-md-0"
+            endDate={state.start === undefined ? end.toDate() : undefined}
+            inline
+            locale="en-GB"
+            maxDate={new Date()}
+            onChange={handleDatePickerChange}
+            selectsRange
+            startDate={state.start || start.toDate()}
+          />
+        ) : null}
       </Dropdown.Menu>
     </Dropdown>
   );
