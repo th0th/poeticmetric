@@ -4,7 +4,7 @@ type SiteReportsFilters = {
   browserName: string | null;
   browserVersion: string | null;
   countryIsoCode: string | null;
-  deviceType: "desktop" | "mobile" | "tablet" | null;
+  deviceType: string | null;
   end: Dayjs;
   id: number;
   language: string | null;

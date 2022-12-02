@@ -23,15 +23,6 @@ export function SiteReportsFiltersHandler({ children }: SiteReportsFiltersHandle
   // const { data: sites } = useSWR<Array<Site>>(correctSiteHost ? "/sites" : null);
 
   const reportFilters = useMemo<SiteReportsFiltersContextValue>(() => {
-    // deviceType
-    let deviceType = getFilter(router.query.deviceType);
-
-    if (deviceType !== null) {
-      if (!["desktop", "mobile", "tablet"].includes(deviceType)) {
-        deviceType = null;
-      }
-    }
-
     // end
     let end = dayjs().endOf("day");
 
@@ -67,7 +58,7 @@ export function SiteReportsFiltersHandler({ children }: SiteReportsFiltersHandle
       browserName: getFilter(router.query.browserName),
       browserVersion: getFilter(router.query.browserVersion),
       countryIsoCode: getFilter(router.query.countryIsoCode),
-      deviceType: (deviceType as SiteReportsFiltersContextValue["deviceType"]),
+      deviceType: getFilter(router.query.deviceType),
       end,
       id,
       language: getFilter(router.query.language),
