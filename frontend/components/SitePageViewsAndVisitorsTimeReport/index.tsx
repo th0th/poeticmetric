@@ -38,11 +38,11 @@ export function SitePageViewsAndVisitorsReport({ className, ...props }: SitePage
       query[sectionSlugRouterQueryKey] = event.target.value;
     }
 
-    await router.push({ pathname: router.pathname, query });
+    await router.push({ pathname: router.pathname, query }, undefined, { scroll: false });
   }, [router]);
 
   return (
-    <Card {...props} className={classNames("h-100 site-report-card", className)}>
+    <Card {...props} className={classNames("site-report-card", className)}>
       <Card.Body className="d-flex flex-column flex-grow-1">
         <div className="align-items-center d-flex flex-row gap-3 mb-2">
           <Card.Title className="fs-6 mb-0">Page views and visitors</Card.Title>

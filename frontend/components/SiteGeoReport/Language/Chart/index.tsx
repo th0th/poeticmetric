@@ -104,7 +104,7 @@ function BaseChart({ debounceTime: _, enableDebounceLeadingCall: __, parentHeigh
   }, [parentHeight, parentWidth, data]);
 
   const handleRectClick = useCallback(async (d: HydratedSiteLanguageDatum) => {
-    await router.push({ pathname: router.pathname, query: { ...router.query, language: d.language } });
+    await router.push({ pathname: router.pathname, query: { ...router.query, language: d.language } }, undefined, { scroll: false });
   }, [router]);
 
   const showTooltip = useCallback((

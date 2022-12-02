@@ -1,13 +1,13 @@
 import classNames from "classnames";
 import { omit } from "lodash";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useCallback, useMemo } from "react";
 import { Card, CardProps, Form } from "react-bootstrap";
-import { Durations } from "./Durations";
-import { ViewCounts } from "./ViewCounts";
+import { Browser } from "./Browser";
+import { Device } from "./Device";
+import { OperatingSystem } from "./OperatingSystem";
 
-export type SitePageReportProps = Omit<CardProps, "children">;
+export type SiteTechReportProps = Omit<CardProps, "children">;
 
 type Section = {
   content: React.ReactNode;
@@ -18,11 +18,12 @@ type Section = {
 const slugRouterQueryKey = "pages";
 
 const sections: Array<Section> = [
-  { content: <ViewCounts />, slug: null, title: "Views" },
-  { content: <Durations />, slug: "duration", title: "Duration" },
+  { content: <Device />, slug: null, title: "Devices" },
+  { content: <Browser />, slug: "browsers", title: "Browsers" },
+  { content: <OperatingSystem />, slug: "operating-systems", title: "Operating systems" },
 ];
 
-export function SitePageReport({ className, ...props }: SitePageReportProps) {
+export function SiteTechReport({ className, ...props }: SiteTechReportProps) {
   const router = useRouter();
 
   const section = useMemo<Section>(() => {
@@ -43,9 +44,9 @@ export function SitePageReport({ className, ...props }: SitePageReportProps) {
 
   return (
     <Card {...props} className={classNames("overflow-hidden site-report-card", className)}>
-      <Card.Body>
-        <div className="align-items-center d-flex flex-row gap-3 mb-2">
-          <Card.Title className="fs-6 mb-0">Pages</Card.Title>
+      <Card.Body className="d-flex flex-column pb-0 pe-0 ps-0">
+        <div className="align-items-center d-flex flex-row gap-3 mb-2 pe-3 ps-3">
+          <Card.Title className="fs-6 mb-0">Technology</Card.Title>
 
           <div className="ms-auto">
             <Form.Select onChange={handleSectionChange} size="sm" value={router.query[slugRouterQueryKey] || ""}>
@@ -56,12 +57,10 @@ export function SitePageReport({ className, ...props }: SitePageReportProps) {
           </div>
         </div>
 
-        {section.content}
+        <div className="d-flex flex-column flex-grow-1 flex-shrink-1">
+          {section.content}
+        </div>
       </Card.Body>
-
-      <Link className="bg-light-hover border-1 border-top d-block fw-medium py-2 text-center text-decoration-none" href="/">
-        See more
-      </Link>
     </Card>
   );
 }

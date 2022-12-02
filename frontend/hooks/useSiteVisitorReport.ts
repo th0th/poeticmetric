@@ -9,7 +9,7 @@ type HydratedSwrResponse = SWRResponse<SiteVisitorsTimeReport> & {
 
 export function useSiteVisitorReport(): HydratedSwrResponse {
   const reportQueryParams = useReportQueryParams();
-  const swrResponse = useSWR<SiteVisitorsTimeReport>(`/site-reports/visitors?${reportQueryParams}`);
+  const swrResponse = useSWR<SiteVisitorsTimeReport>(`/site-reports/visitor?${reportQueryParams}`);
 
   const hydratedData = useMemo<HydratedSiteVisitorsTimeReport | undefined>(() => {
     if (swrResponse.data === undefined) {

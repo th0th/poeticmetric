@@ -16,11 +16,11 @@ export function UserMenu({ ...props }: UserMenuProps) {
       </Dropdown.Toggle>
 
       <Dropdown.Menu align="end">
-        <Dropdown.Item>test</Dropdown.Item>
+        <Link className="dropdown-item" href="/settings">Settings</Link>
 
         <Dropdown.Divider />
 
-        <Link className="dropdown-item link-danger" href="/sign-out">Sign out</Link>
+        <Link className="dropdown-item" href="/sign-out">Sign out</Link>
       </Dropdown.Menu>
     </Dropdown>
   ) : null;

@@ -13,6 +13,7 @@ export * from "./SitePageViewsAndVisitorsTimeReport";
 export * from "./SiteReferrerReport";
 export * from "./SiteReportsFiltersHandler";
 export * from "./SiteReportsTimeWindowInput";
+export * from "./SiteTechReport";
 export * from "./SwrConfig";
 export * from "./ToastsHandler";
 export * from "./UserMenu";
