@@ -6,12 +6,12 @@ type SiteReportsFilters = {
   countryIsoCode: string | null;
   deviceType: string | null;
   end: Dayjs;
-  id: number;
   language: string | null;
   operatingSystemName: string | null;
   operatingSystemVersion: string | null;
   page: string | null;
   referrerSite: string | null;
+  siteId: number;
   start: Dayjs;
   utmCampaign: string | null;
   utmContent: string | null;

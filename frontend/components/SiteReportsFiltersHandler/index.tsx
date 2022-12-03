@@ -5,6 +5,7 @@ import { ParsedUrlQuery } from "querystring";
 import React, { useEffect, useMemo } from "react";
 import { Spinner } from "react-bootstrap";
 import { SiteReportsFiltersContext, SiteReportsFiltersContextValue } from "../../contexts";
+import { useQueryNumber } from "../../hooks";
 
 export type SiteReportsFiltersHandlerProps = {
   children: React.ReactNode;
@@ -20,6 +21,7 @@ function getFilter(queryString: string | Array<string> | undefined): string | nu
 
 export function SiteReportsFiltersHandler({ children }: SiteReportsFiltersHandlerProps) {
   const router = useRouter();
+  const siteId = useQueryNumber("id");
   // const { data: sites } = useSWR<Array<Site>>(correctSiteHost ? "/sites" : null);
 
   const reportFilters = useMemo<SiteReportsFiltersContextValue>(() => {
@@ -32,15 +34,6 @@ export function SiteReportsFiltersHandler({ children }: SiteReportsFiltersHandle
       if (endTemp.isValid()) {
         end = endTemp;
       }
-    }
-
-    // id
-    let id: number = 0;
-
-    const queryId = router.query.id;
-
-    if (queryId !== undefined) {
-      id = Number(queryId);
     }
 
     // start
@@ -60,7 +53,6 @@ export function SiteReportsFiltersHandler({ children }: SiteReportsFiltersHandle
       countryIsoCode: getFilter(router.query.countryIsoCode),
       deviceType: getFilter(router.query.deviceType),
       end,
-      id,
       language: getFilter(router.query.language),
       operatingSystemName: getFilter(router.query.operatingSystemName),
       operatingSystemVersion: getFilter(router.query.operatingSystemVersion),
@@ -68,6 +60,7 @@ export function SiteReportsFiltersHandler({ children }: SiteReportsFiltersHandle
       path: getFilter(router.query.path),
       referrerSite: getFilter(router.query.referrerSite),
       scheme: getFilter(router.query.scheme),
+      siteId: siteId || 0,
       start,
       utmCampaign: getFilter(router.query.utmCampaign),
       utmContent: getFilter(router.query.utmContent),
@@ -75,7 +68,7 @@ export function SiteReportsFiltersHandler({ children }: SiteReportsFiltersHandle
       utmSource: getFilter(router.query.utmSource),
       utmTerm: getFilter(router.query.utmTerm),
     };
-  }, [router.query]);
+  }, [router, siteId]);
 
   useEffect(() => {
     if (!router.isReady) return;

@@ -7,7 +7,7 @@ import {
   SiteGeoReport,
   SiteOverviewReport,
   SitePageReport,
-  SitePageViewsAndVisitorsReport, SiteReferrerReport,
+  SitePageViewsAndVisitorsReport, SiteReferrerReport, SiteReportsFilters,
   SiteReportsFiltersHandler,
   SiteReportsTimeWindowInput, SiteTechReport,
 } from "../../components";
@@ -51,7 +51,13 @@ export function SiteReports() {
 
             <h1 className="fw-bold">test</h1>
 
-            <SiteReportsTimeWindowInput />
+            <div className="d-flex flex-row">
+              <SiteReportsTimeWindowInput />
+
+              <div className="flex-grow-1 w-auto pe-3" />
+
+              <SiteReportsFilters />
+            </div>
 
             <SiteOverviewReport className="mt-3" />
 

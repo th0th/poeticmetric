@@ -11,6 +11,7 @@ export * from "./SiteOverviewReport";
 export * from "./SitePageReport";
 export * from "./SitePageViewsAndVisitorsTimeReport";
 export * from "./SiteReferrerReport";
+export * from "./SiteReportsFilters";
 export * from "./SiteReportsFiltersHandler";
 export * from "./SiteReportsTimeWindowInput";
 export * from "./SiteTechReport";

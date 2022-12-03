@@ -8,7 +8,7 @@ export function useReportQueryParams(): string {
 
   return useMemo<string>(() => {
     const q: Record<string, string> = {
-      siteId: siteReportsFilters.id.toString(),
+      siteId: siteReportsFilters.siteId.toString(),
       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     };
 
