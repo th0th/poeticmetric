@@ -123,7 +123,7 @@ export function SiteReportsTimeWindowInput() {
 
   return (
     <Dropdown onToggle={handleToggle}>
-      <Dropdown.Toggle>
+      <Dropdown.Toggle as="button" className="btn btn-outline-primary">
         {toggleBody}
       </Dropdown.Toggle>
 
