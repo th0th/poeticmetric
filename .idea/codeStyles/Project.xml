@@ -5,6 +5,8 @@
     <HTMLCodeStyleSettings>
       <option name="HTML_ATTRIBUTE_WRAP" value="4" />
       <option name="HTML_SPACE_INSIDE_EMPTY_TAG" value="true" />
+      <option name="HTML_ELEMENTS_TO_INSERT_NEW_LINE_BEFORE" value="" />
+      <option name="HTML_ELEMENTS_TO_REMOVE_NEW_LINE_BEFORE" value="" />
       <option name="HTML_DO_NOT_INDENT_CHILDREN_OF" value="" />
       <option name="HTML_ENFORCE_QUOTES" value="true" />
       <option name="HTML_NEWLINE_BEFORE_FIRST_ATTRIBUTE" value="When multiline" />
