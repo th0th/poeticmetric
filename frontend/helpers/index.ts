@@ -15,5 +15,6 @@ export * from "./hydrateSitePageViewDurationsReport";
 export * from "./hydrateSitePageViewsTimeReport";
 export * from "./hydrateSiteReferrerPathReport";
 export * from "./hydrateSiteReferrerSiteReport";
+export * from "./hydrateSiteVisitorTrendsReport";
 export * from "./hydrateSiteVisitorsTimeReport";
 export * from "./userAccessToken";
