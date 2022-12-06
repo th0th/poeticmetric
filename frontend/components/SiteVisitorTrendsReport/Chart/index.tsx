@@ -88,10 +88,10 @@ export function BaseChart({ parentHeight, parentWidth }: BaseChartProps) {
       const x = xScale(datum.hour) || 0;
       const y = yScale(datum.day) || 0;
 
-      return {
-        color: colorScale(datum.visitorCount).hex(),
-        datum,
-        handleMouseEvent: (event) => {
+      let handleMouseEvent: StateDatum["handleMouseEvent"] = undefined;
+
+      if (datum.visitorCount > 0) {
+        handleMouseEvent = (event) => {
           const coords = localPoint(document.body, event);
 
           if (coords === null) return;
@@ -103,7 +103,13 @@ export function BaseChart({ parentHeight, parentWidth }: BaseChartProps) {
             tooltipLeft: coords.x,
             tooltipTop: coords.y,
           });
-        },
+        };
+      }
+
+      return {
+        color: colorScale(datum.visitorCount).hex(),
+        datum,
+        handleMouseEvent,
         height: yScale.bandwidth(),
         key,
         width: xScale.bandwidth(),
