@@ -1,4 +1,4 @@
-export function hydrateSiteReferrerSiteDatum(d: SiteReferrerSiteDatum): HydratedSiteReferrerSiteDatum {
+function hydrateSiteReferrerSiteDatum(d: SiteReferrerSiteDatum): HydratedSiteReferrerSiteDatum {
   return {
     ...d,
     visitorPercentageDisplay: `${d.visitorPercentage}%`,

@@ -19,6 +19,7 @@ func Get(dp *depot.Depot, filters *sitereportfilters.Filters) (Report, error) {
 	report := Report{}
 
 	baseQuery := sitereportfilters.Apply(dp, filters).
+		Session(&gorm.Session{}).
 		Where("utm_source is not null")
 
 	totalVisitorCountSubQuery := baseQuery.

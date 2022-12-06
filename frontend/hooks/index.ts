@@ -16,7 +16,7 @@ export * from "./useSitePageViewReport";
 export * from "./useSiteReferrerPathReport";
 export * from "./useSiteReferrerSiteReport";
 export * from "./useSiteReferrerSiteReport";
-export * from "./useSiteReports";
+export * from "./useSiteUtmSourceReport";
 export * from "./useSiteVisitorReport";
 export * from "./useSiteVisitorTrendsReport";
 export * from "./useSites";
