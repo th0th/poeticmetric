@@ -7,9 +7,13 @@ import {
   SiteGeoReport,
   SiteOverviewReport,
   SitePageReport,
-  SitePageViewsAndVisitorsReport, SiteReferrerReport, SiteReportsFilters,
+  SitePageViewsAndVisitorsReport,
+  SiteReferrerReport,
+  SiteReportsFilters,
   SiteReportsFiltersHandler,
-  SiteReportsTimeWindowInput, SiteTechReport,
+  SiteReportsTimeWindowInput,
+  SiteTechReport,
+  SiteVisitorTrendsReport,
 } from "../../components";
 import { ToastsContext } from "../../contexts";
 import { useQueryNumber, useSite } from "../../hooks";
@@ -86,8 +90,8 @@ export function SiteReports() {
                 <SiteTechReport />
               </Col>
 
-              <Col lg={8}>
-
+              <Col lg={4}>
+                <SiteVisitorTrendsReport />
               </Col>
             </Row>
           </SiteReportsFiltersHandler>

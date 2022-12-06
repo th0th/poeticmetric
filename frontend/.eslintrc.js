@@ -17,6 +17,7 @@ module.exports = {
     "max-len": ["error", { code: 140, ignoreComments: true, ignoreStrings: true }],
     "no-console": "error",
     "object-curly-newline": ["error", { consistent: true }],
+    "object-curly-spacing": ["error", "always" ],
     "quote-props": ["error", "as-needed"],
     "react/jsx-closing-bracket-location": ["error"],
     "react/jsx-first-prop-new-line": ["error", "multiline"],

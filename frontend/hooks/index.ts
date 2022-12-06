@@ -18,6 +18,7 @@ export * from "./useSiteReferrerSiteReport";
 export * from "./useSiteReferrerSiteReport";
 export * from "./useSiteReports";
 export * from "./useSiteVisitorReport";
+export * from "./useSiteVisitorTrendsReport";
 export * from "./useSites";
 export * from "./useSwrMatchMutate";
 export * from "./useUsers";

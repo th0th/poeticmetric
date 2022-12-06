@@ -83,6 +83,8 @@ services:
       - clickhouse:/var/lib/clickhouse
 
   ingress:
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     image: jwilder/nginx-proxy
     ports:
       - "127.0.0.1:443:443"
@@ -91,7 +93,6 @@ services:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - ./etc/ssl:/etc/nginx/certs
       - ./etc/ingress/dev.poeticmetric.com.nginx:/etc/nginx/conf.d/dev.poeticmetric.com.conf
-      - ./etc/ingress/global.nginx:/etc/nginx/conf.d/global.conf
 
   postgres:
     environment:

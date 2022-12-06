@@ -128,16 +128,14 @@ export function BaseChart({ parentHeight, parentWidth }: BaseChartProps) {
             />
 
             {state.data.map((d) => (
-              <>
-                <Bar
-                  fill={window.getComputedStyle(document.documentElement).getPropertyValue("--bs-primary")}
-                  height={d.height}
-                  key={d.datum.operatingSystemName}
-                  width={d.width}
-                  x={d.x}
-                  y={d.y}
-                />
-              </>
+              <Bar
+                fill={window.getComputedStyle(document.documentElement).getPropertyValue("--bs-primary")}
+                height={d.height}
+                key={d.datum.operatingSystemName}
+                width={d.width}
+                x={d.x}
+                y={d.y}
+              />
             ))}
           </Group>
 
