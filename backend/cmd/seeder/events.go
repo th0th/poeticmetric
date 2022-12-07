@@ -13,8 +13,8 @@ import (
 	"time"
 )
 
-const batches = 10
-const eventsInBatch = 1000
+const batches = 100
+const eventsInBatch = 100
 
 func seedEvents(dp *depot.Depot, clear bool, modelSite *model.Site) error {
 	now := time.Now()

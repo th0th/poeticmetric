@@ -4,7 +4,11 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useCallback, useMemo } from "react";
 import { Card, CardProps, Form } from "react-bootstrap";
+import { Campaign } from "./Campaign";
+import { Content } from "./Content";
+import { Medium } from "./Medium";
 import { Source } from "./Source";
+import { Term } from "./Term";
 
 type SiteUtmReportsProps = Omit<CardProps, "children">;
 
@@ -17,11 +21,11 @@ type Section = {
 const sectionSlugRouterQueryKey = "utm";
 
 const sections: Array<Section> = [
-  { content: <Source />, slug: null, title: "Sources" },
-  { content: null, slug: "campaigns", title: "Campaigns" },
-  { content: null, slug: "mediums", title: "Mediums" },
-  { content: null, slug: "contents", title: "Contents" },
-  { content: null, slug: "terms", title: "Terms" },
+  { content: <Source />, slug: null, title: "Source" },
+  { content: <Campaign />, slug: "campaign", title: "Campaign" },
+  { content: <Medium />, slug: "medium", title: "Medium" },
+  { content: <Content />, slug: "content", title: "Content" },
+  { content: <Term />, slug: "term", title: "Term" },
 ];
 
 export function SiteUtmReports({ className, ...props }: SiteUtmReportsProps) {

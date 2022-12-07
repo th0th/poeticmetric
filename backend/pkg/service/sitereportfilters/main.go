@@ -78,10 +78,6 @@ func Apply(dp *depot.Depot, filters *Filters) *gorm.DB {
 			Where("concat(protocol(referrer), '://', domain(referrer)) = ?", *filters.ReferrerSite)
 	}
 
-	if filters.TimeZone != nil {
-		clickHouseSession.Where("time_zone = ?", *filters.TimeZone)
-	}
-
 	if filters.UtmCampaign != nil {
 		clickHouseSession.Where("utm_campaign = ?", *filters.UtmCampaign)
 	}
