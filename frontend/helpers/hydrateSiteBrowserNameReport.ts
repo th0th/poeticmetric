@@ -1,4 +1,4 @@
-export function hydrateSiteBrowserNameDatum(d: SiteBrowserNameDatum): HydratedSiteBrowserNameDatum {
+function hydrateSiteBrowserNameDatum(d: SiteBrowserNameDatum): HydratedSiteBrowserNameDatum {
   return {
     ...d,
     visitorPercentageDisplay: `${d.visitorPercentage}%`,

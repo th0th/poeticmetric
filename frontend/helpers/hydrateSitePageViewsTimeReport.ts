@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 
-export function hydrateSitePageViewsTimeDatum(d: SitePageViewsTimeDatum): HydratedSitePageViewsTimeDatum {
+function hydrateSitePageViewsTimeDatum(d: SitePageViewsTimeDatum): HydratedSitePageViewsTimeDatum {
   const dateTimeDayjs = dayjs(d.dateTime);
 
   return {

@@ -1,6 +1,6 @@
 import { toLower, upperFirst } from "lodash";
 
-export function hydrateSiteDeviceTypeDatum(d: SiteDeviceTypeDatum): HydratedSiteDeviceTypeDatum {
+function hydrateSiteDeviceTypeDatum(d: SiteDeviceTypeDatum): HydratedSiteDeviceTypeDatum {
   return {
     ...d,
     deviceTypeDisplay: upperFirst(toLower(d.deviceType)),

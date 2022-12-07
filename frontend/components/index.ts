@@ -15,6 +15,7 @@ export * from "./SiteReportsFilters";
 export * from "./SiteReportsFiltersHandler";
 export * from "./SiteReportsTimeWindowInput";
 export * from "./SiteTechReport";
+export * from "./SiteUtmReport";
 export * from "./SiteVisitorTrendsReport";
 export * from "./SwrConfig";
 export * from "./ToastsHandler";

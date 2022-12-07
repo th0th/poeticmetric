@@ -78,6 +78,26 @@ func Apply(dp *depot.Depot, filters *Filters) *gorm.DB {
 			Where("concat(protocol(referrer), '://', domain(referrer)) = ?", *filters.ReferrerSite)
 	}
 
+	if filters.UtmCampaign != nil {
+		clickHouseSession.Where("utm_campaign = ?", *filters.UtmCampaign)
+	}
+
+	if filters.UtmContent != nil {
+		clickHouseSession.Where("utm_content = ?", *filters.UtmContent)
+	}
+
+	if filters.UtmMedium != nil {
+		clickHouseSession.Where("utm_medium = ?", *filters.UtmMedium)
+	}
+
+	if filters.UtmSource != nil {
+		clickHouseSession.Where("utm_source = ?", *filters.UtmSource)
+	}
+
+	if filters.UtmTerm != nil {
+		clickHouseSession.Where("utm_term = ?", *filters.UtmTerm)
+	}
+
 	return clickHouseSession
 }
 

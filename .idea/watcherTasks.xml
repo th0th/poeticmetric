@@ -9,14 +9,14 @@
       <option name="fileExtension" value="scss" />
       <option name="immediateSync" value="true" />
       <option name="name" value="SCSS" />
-      <option name="output" value="$Projectpath$/frontend/styles" />
+      <option name="output" value="$Projectpath$/frontend/styles/style.css" />
       <option name="outputFilters">
         <array />
       </option>
       <option name="outputFromStdout" value="false" />
-      <option name="program" value="sass" />
+      <option name="program" value="$PROJECT_DIR$/frontend/node_modules/.bin/sass" />
       <option name="runOnExternalChanges" value="true" />
-      <option name="scopeName" value="style files" />
+      <option name="scopeName" value="All Places" />
       <option name="trackOnlyRoot" value="true" />
       <option name="workingDir" value="$FileDir$" />
       <envs />

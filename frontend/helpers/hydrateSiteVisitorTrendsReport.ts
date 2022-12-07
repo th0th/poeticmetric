@@ -1,4 +1,4 @@
-export function hydrateSiteVisitorTrendsDatum(d: SiteVisitorTrendsDatum): HydratedSiteVisitorTrendsDatum {
+function hydrateSiteVisitorTrendsDatum(d: SiteVisitorTrendsDatum): HydratedSiteVisitorTrendsDatum {
   return {
     ...d,
     dayDisplay: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"][d.day - 1],
