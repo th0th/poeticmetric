@@ -15,6 +15,7 @@ $utilities: (
     values: map-merge(
         $utilities-bg-colors,
         (
+          "gray": $gray-300,
           "transparent": transparent
         ),
     ),

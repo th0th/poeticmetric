@@ -10,7 +10,6 @@ import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/pointer"
 	h "github.com/poeticmetric/poeticmetric/backend/pkg/testhelper"
-	"strings"
 	"time"
 )
 
@@ -50,91 +49,15 @@ func seedEvents(dp *depot.Depot, clear bool, modelSite *model.Site) error {
 		}
 	}
 
-	referrerDomains := []string{
-		gofakeit.DomainName(),
-		gofakeit.DomainName(),
-		gofakeit.DomainName(),
-		gofakeit.DomainName(),
-		gofakeit.DomainName(),
-		gofakeit.DomainName(),
-		gofakeit.DomainName(),
-		gofakeit.DomainName(),
-		gofakeit.DomainName(),
-		gofakeit.DomainName(),
-	}
-
-	referrerPaths := []string{
-		getRandomUrlPath(),
-		getRandomUrlPath(),
-		getRandomUrlPath(),
-		getRandomUrlPath(),
-		getRandomUrlPath(),
-		getRandomUrlPath(),
-		getRandomUrlPath(),
-		getRandomUrlPath(),
-		getRandomUrlPath(),
-		getRandomUrlPath(),
-	}
-
-	utmSources := []string{
-		"email",
-		"facebook",
-		"github",
-		"linkedin",
-		"twitter",
-	}
-
-	utmCampaigns := []string{
-		gofakeit.BuzzWord(),
-		gofakeit.BuzzWord(),
-		gofakeit.BuzzWord(),
-		gofakeit.BuzzWord(),
-		gofakeit.BuzzWord(),
-		gofakeit.BuzzWord(),
-		gofakeit.BuzzWord(),
-		gofakeit.BuzzWord(),
-		gofakeit.BuzzWord(),
-		gofakeit.BuzzWord(),
-	}
-
-	utmMediums := []string{
-		gofakeit.BuzzWord(),
-		gofakeit.BuzzWord(),
-		gofakeit.BuzzWord(),
-		gofakeit.BuzzWord(),
-		gofakeit.BuzzWord(),
-		gofakeit.BuzzWord(),
-		gofakeit.BuzzWord(),
-		gofakeit.BuzzWord(),
-		gofakeit.BuzzWord(),
-		gofakeit.BuzzWord(),
-	}
-
-	utmContents := []string{
-		gofakeit.BuzzWord(),
-		gofakeit.BuzzWord(),
-		gofakeit.BuzzWord(),
-		gofakeit.BuzzWord(),
-		gofakeit.BuzzWord(),
-		gofakeit.BuzzWord(),
-		gofakeit.BuzzWord(),
-		gofakeit.BuzzWord(),
-		gofakeit.BuzzWord(),
-		gofakeit.BuzzWord(),
-	}
-
-	utmTerms := []string{
-		gofakeit.HipsterWord(),
-		gofakeit.HipsterWord(),
-		gofakeit.HipsterWord(),
-		gofakeit.HipsterWord(),
-		gofakeit.HipsterWord(),
-		gofakeit.HipsterWord(),
-		gofakeit.HipsterWord(),
-		gofakeit.HipsterWord(),
-		gofakeit.HipsterWord(),
-		gofakeit.HipsterWord(),
-	}
+	referrers := generateSlice(35, gofakeit.URL)
+	urls := generateSlice(35, func() string { return fmt.Sprintf("https://%s%s", modelSite.Domain, h.GetRandomUrlPath()) })
+	utmSources := generateSlice(35, gofakeit.Word)
+	utmCampaigns := generateSlice(35, gofakeit.Word)
+	utmMediums := generateSlice(35, gofakeit.Word)
+	utmContents := generateSlice(35, gofakeit.Word)
+	utmTerms := generateSlice(35, gofakeit.Word)
+	visitorIds := generateSlice(4000, gofakeit.UUID)
+	userAgents := generateSlice(100, gofakeit.UserAgent)
 
 	for i := 0; i < batches; i += 1 {
 		events := []*model.Event{}
@@ -142,7 +65,6 @@ func seedEvents(dp *depot.Depot, clear bool, modelSite *model.Site) error {
 		for j := 0; j < eventsInBatch; j += 1 {
 			languageBcp := gofakeit.LanguageBCP()
 			timeZone := gofakeit.TimeZoneRegion()
-			userAgent := gofakeit.UserAgent()
 
 			event := &model.Event{
 				CountryIsoCode: country.GetIsoCodeFromTimeZoneName(timeZone),
@@ -157,13 +79,7 @@ func seedEvents(dp *depot.Depot, clear bool, modelSite *model.Site) error {
 			}
 
 			if gofakeit.Bool() {
-				event.Referrer = pointer.Get(
-					fmt.Sprintf(
-						"https://%s%s",
-						gofakeit.RandomString(referrerDomains),
-						gofakeit.RandomString(referrerPaths),
-					),
-				)
+				event.Referrer = pointer.Get(gofakeit.RandomString(referrers))
 			}
 
 			if gofakeit.Bool() && gofakeit.Bool() {
@@ -174,11 +90,14 @@ func seedEvents(dp *depot.Depot, clear bool, modelSite *model.Site) error {
 				event.UtmTerm = pointer.Get(gofakeit.RandomString(utmTerms))
 			}
 
-			url := fmt.Sprintf("https://%s%s", modelSite.Domain, h.GetRandomUrlPath())
+			if gofakeit.Bool() && gofakeit.Bool() && gofakeit.Bool() {
+				event.IsBounce = true
+			}
 
-			event.FillFromUrl(url)
-			event.FillFromUserAgent(userAgent)
-			event.FillVisitorId(gofakeit.IPv4Address(), userAgent)
+			event.FillFromUrl(gofakeit.RandomString(urls))
+			event.FillFromUserAgent(gofakeit.RandomString(userAgents))
+
+			event.VisitorId = gofakeit.RandomString(visitorIds)
 
 			events = append(events, event)
 		}
@@ -192,6 +111,12 @@ func seedEvents(dp *depot.Depot, clear bool, modelSite *model.Site) error {
 	return nil
 }
 
-func getRandomUrlPath() string {
-	return fmt.Sprintf("/%s", strings.SplitN(gofakeit.URL(), "/", 4)[3])
+func generateSlice[T any](count int, f func() T) []T {
+	s := []T{}
+
+	for i := 0; i < count; i += 1 {
+		s = append(s, f())
+	}
+
+	return s
 }

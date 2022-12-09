@@ -12,7 +12,7 @@ export * from "./useSiteOperatingSystemVersionReport";
 export * from "./useSiteOverviewReport";
 export * from "./useSitePageViewDurationReport";
 export * from "./useSitePageViewReport";
-export * from "./useSitePathVisitorCountReport";
+export * from "./useSitePathReport";
 export * from "./useSiteReferrerPathReport";
 export * from "./useSiteReferrerSiteReport";
 export * from "./useSiteReportQueryParams";

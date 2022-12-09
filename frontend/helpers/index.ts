@@ -12,7 +12,7 @@ export * from "./hydrateSiteOperatingSystemVersionReport";
 export * from "./hydrateSiteOverviewReport";
 export * from "./hydrateSitePageViewDurationsReport";
 export * from "./hydrateSitePageViewsTimeReport";
-export * from "./hydrateSitePathVisitorCountReport";
+export * from "./hydrateSitePathReport";
 export * from "./hydrateSiteReferrerPathReport";
 export * from "./hydrateSiteReferrerSiteReport";
 export * from "./hydrateSiteUtmCampaignReport";

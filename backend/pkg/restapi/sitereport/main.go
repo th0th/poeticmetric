@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"github.com/gofiber/fiber/v2"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/filter"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/pathvisitor"
+	sitereportpath "github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/path"
 )
 
 const localsFiltersKey = "filters"
@@ -25,7 +25,7 @@ func Add(app *fiber.App) {
 	group.Get("/page-view", pageView)
 	group.Get("/page-view-trends", pageViewTrends)
 	group.Get("/path-duration", pathDuration)
-	group.Get("/path-visitor", paginationCursorMiddleware[pathvisitor.PaginationCursor](), pathVisitor)
+	group.Get("/path", paginationCursorMiddleware[sitereportpath.PaginationCursor](), path)
 	group.Get("/referrer-path", referrerPath)
 	group.Get("/referrer-site", referrerSite)
 	group.Get("/utm-campaign", utmCampaign)

@@ -15,6 +15,7 @@ import {
   SiteTechReport, SiteUtmReports,
   SiteVisitorTrendsReport,
 } from "../../components";
+import { Title } from "../../components/Title";
 import { ToastsContext } from "../../contexts";
 import { useQueryNumber, useSite } from "../../hooks";
 
@@ -36,6 +37,8 @@ export function SiteReports() {
 
   return (
     <Layout>
+      <Title>{site === undefined ? "..." : `Reports - ${site.name}`}</Title>
+
       <Container className="d-flex flex-column flex-grow-1 py-4">
         {site === undefined ? (
           <div className="d-flex flex-grow-1 align-items-center justify-content-center">

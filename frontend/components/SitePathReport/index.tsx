@@ -1,61 +1,93 @@
-import { omit } from "lodash";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useCallback, useMemo } from "react";
-import { Card, CardProps, Form } from "react-bootstrap";
-import { Durations } from "./Durations";
-import { Visitor } from "./Visitor";
+import React, { useMemo } from "react";
+import { Card, CardProps, Spinner, Table } from "react-bootstrap";
+import { useSitePathReport } from "../../hooks";
+import { Modal } from "./Modal";
 
 export type SitePathReportProps = Omit<CardProps, "children">;
 
-type Section = {
-  content: React.ReactNode;
-  slug: string | null;
-  title: string;
-};
-
-const slugRouterQueryKey = "pages";
-
-const sections: Array<Section> = [
-  { content: <Visitor />, slug: null, title: "Visitors" },
-  { content: <Durations />, slug: "duration", title: "Duration" },
-];
+type Data = Array<HydratedSitePathDatum>;
 
 export function SitePathReport({ className, ...props }: SitePathReportProps) {
   const router = useRouter();
+  const { data: rawData } = useSitePathReport();
 
-  const section = useMemo<Section>(() => {
-    const slug = router.query[slugRouterQueryKey]?.toString() || null;
-
-    return sections.find((s) => s.slug === slug) || sections.find((s) => s.slug === null) || sections[0];
-  }, [router.query]);
-
-  const handleSectionChange = useCallback<React.ChangeEventHandler<HTMLSelectElement>>(async (event) => {
-    const query = omit(router.query, slugRouterQueryKey);
-
-    if (event.target.value !== "") {
-      query[slugRouterQueryKey] = event.target.value;
+  const data = useMemo<Data | null>(() => {
+    if (rawData === undefined) {
+      return null;
     }
 
-    await router.push({ pathname: router.pathname, query }, undefined, { scroll: false });
-  }, [router]);
+    return rawData[0].data.slice(0, 5);
+  }, [rawData]);
 
   return (
-    <Card {...props} className={`site-report-card ${className}`}>
-      <Card.Body className="d-flex flex-column">
-        <div className="align-items-center d-flex flex-row gap-3 mb-2">
-          <Card.Title className="fs-6 mb-0">Pages</Card.Title>
+    <>
+      <Card {...props} className={`site-report-card ${className}`}>
+        <Card.Body className="d-flex flex-column">
+          <Card.Title className="fs-6">Pages</Card.Title>
 
-          <div className="ms-auto">
-            <Form.Select onChange={handleSectionChange} size="sm" value={router.query[slugRouterQueryKey] || ""}>
-              {sections.map((s) => (
-                <option key={s.title} value={s.slug || ""}>{s.title}</option>
-              ))}
-            </Form.Select>
-          </div>
-        </div>
+          {data === null ? (
+            <Spinner className="m-auto" />
+          ) : (
+            <>
+              <Table borderless className="fss-1 table-layout-fixed" responsive size="sm">
+                <thead>
+                  <tr>
+                    <th className="w-5rem">Page</th>
+                    <th />
 
-        {section.content}
-      </Card.Body>
-    </Card>
+                    <th className="text-end w-4rem">Visitors</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {data.map((d) => (
+                    <tr className="d-parent" key={d.path}>
+                      <td colSpan={2}>
+                        <div className="align-items-center d-flex flex-grow-1 flex-row min-w-0 pe-1">
+                          <Link
+                            className="text-body text-decoration-none text-decoration-underline-hover text-truncate"
+                            href={{ pathname: router.pathname, query: { ...router.query, path: d.path } }}
+                            scroll={false}
+                            title={d.path}
+                          >
+                            {d.path}
+                          </Link>
+
+                          <a
+                            className="d-parent-block flex-grow-0 flex-shrink-0 lh-1 ms-2 text-black text-primary-hover"
+                            href={d.url}
+                            rel="noreferrer"
+                            target="_blank"
+                            title="Go to the page"
+                          >
+                            <i className="bi-box-arrow-up-right h-1rem" />
+                          </a>
+                        </div>
+                      </td>
+
+                      <td className="text-end w-4rem">
+                        <span className="fw-medium" title={d.visitorCount.toString()}>{d.visitorCountDisplay}</span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+
+              <Link
+                className="bg-light-hover border-1 border-top d-block fw-medium mb-n3 mt-auto mx-n3 p-2 rounded-bottom text-center text-decoration-none"
+                href={{ pathname: router.pathname, query: { ...router.query, detail: "path" } }}
+                scroll={false}
+              >
+                See more
+              </Link>
+            </>
+          )}
+        </Card.Body>
+      </Card>
+
+      <Modal />
+    </>
   );
 }

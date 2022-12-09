@@ -2,15 +2,15 @@ import { stringify } from "querystring";
 import { useCallback, useMemo } from "react";
 import { Arguments } from "swr";
 import useSWRInfinite, { SWRInfiniteResponse } from "swr/infinite";
-import { hydrateSitePathVisitorCountReport } from "../helpers";
+import { hydrateSitePathReport } from "../helpers";
 import { useSiteReportQueryParams } from "./useSiteReportQueryParams";
 
-type Data = SitePathVisitorCountReport;
-type HydratedData = HydratedSitePathVisitorCountReport;
-type HydratedSwrInfiniteResponse = Overwrite<SWRInfiniteResponse<SitePathVisitorCountReport, Error>, { data?: Array<HydratedData> }>;
+type Data = SitePathReport;
+type HydratedData = HydratedSitePathReport;
+type HydratedSwrInfiniteResponse = Overwrite<SWRInfiniteResponse<SitePathReport, Error>, { data?: Array<HydratedData> }>;
 type KeyLoader = (index: number, previousPageData: HydratedData | null) => Arguments;
 
-export function useSitePathVisitorCountReport(): HydratedSwrInfiniteResponse {
+export function useSitePathReport(): HydratedSwrInfiniteResponse {
   const siteReportQueryParams = useSiteReportQueryParams();
 
   const getKey = useCallback<KeyLoader>((index, previousPageData) => {
@@ -24,17 +24,20 @@ export function useSitePathVisitorCountReport(): HydratedSwrInfiniteResponse {
       }
     }
 
-    return `/site-reports/path-visitor?${stringify(queryParams)}`;
+    return `/site-reports/path?${stringify(queryParams)}`;
   }, [siteReportQueryParams]);
 
-  const { data: rawData, ...swrResponse } = useSWRInfinite<Data, Error, KeyLoader>(getKey);
+  const { data: rawData, ...swrResponse } = useSWRInfinite<Data, Error, KeyLoader>(getKey, {
+    persistSize: true,
+    revalidateFirstPage: false,
+  });
 
   const data = useMemo<HydratedSwrInfiniteResponse["data"] | undefined>(() => {
     if (rawData === undefined) {
       return undefined;
     }
 
-    return rawData.map(hydrateSitePathVisitorCountReport);
+    return rawData.map(hydrateSitePathReport);
   }, [rawData]);
 
   return { ...swrResponse, data };

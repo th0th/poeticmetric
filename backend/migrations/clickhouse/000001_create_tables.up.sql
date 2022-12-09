@@ -7,6 +7,7 @@ CREATE TABLE "events" (
   "duration" UInt32,
   "id" UUID,
   "is_bot" UInt8,
+  "is_bounce" UInt8,
   "kind" String,
   "language" Nullable(String),
   "locale" Nullable(String),
