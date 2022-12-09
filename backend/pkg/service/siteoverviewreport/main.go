@@ -3,7 +3,7 @@ package siteoverviewreport
 import (
 	"context"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereportfilters"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/filter"
 	"golang.org/x/sync/errgroup"
 	"gorm.io/gorm"
 	"math"
@@ -20,11 +20,11 @@ type Report struct {
 	VisitorCountPercentageChange            int16   `json:"visitorCountPercentageChange"`
 }
 
-func Get(dp *depot.Depot, filters *sitereportfilters.Filters) (*Report, error) {
+func Get(dp *depot.Depot, filters *filter.Filters) (*Report, error) {
 	previousReport := &Report{}
 	report := &Report{}
 
-	previousQ := sitereportfilters.Apply(dp, &sitereportfilters.Filters{
+	previousQ := filter.Apply(dp, &filter.Filters{
 		BrowserName:            filters.BrowserName,
 		BrowserVersion:         filters.BrowserVersion,
 		CountryIsoCode:         filters.CountryIsoCode,
@@ -34,7 +34,7 @@ func Get(dp *depot.Depot, filters *sitereportfilters.Filters) (*Report, error) {
 		Locale:                 filters.Locale,
 		OperatingSystemName:    filters.OperatingSystemName,
 		OperatingSystemVersion: filters.OperatingSystemVersion,
-		Page:                   filters.Page,
+		Path:                   filters.Path,
 		ReferrerSite:           filters.ReferrerSite,
 		SiteId:                 filters.SiteId,
 		Start:                  filters.Start.Add(filters.End.Sub(filters.Start)),
@@ -45,7 +45,7 @@ func Get(dp *depot.Depot, filters *sitereportfilters.Filters) (*Report, error) {
 		UtmSource:              filters.UtmSource,
 		UtmTerm:                filters.UtmTerm,
 	})
-	q := sitereportfilters.Apply(dp, filters)
+	q := filter.Apply(dp, filters)
 
 	errs, _ := errgroup.WithContext(context.Background())
 

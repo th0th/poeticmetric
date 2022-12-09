@@ -6,7 +6,7 @@ import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/pointer"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereportfilters"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/filter"
 	h "github.com/poeticmetric/poeticmetric/backend/pkg/testhelper"
 	"github.com/stretchr/testify/assert"
 	"os"
@@ -60,7 +60,7 @@ func TestGet(t *testing.T) {
 		Error
 	assert.NoError(t, err)
 
-	report, err := Get(dp, &sitereportfilters.Filters{
+	report, err := Get(dp, &filter.Filters{
 		End:                 end,
 		OperatingSystemName: &operatingSystemName,
 		SiteId:              modelSite.Id,

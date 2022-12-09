@@ -12,7 +12,6 @@ CREATE TABLE "events" (
   "locale" Nullable(String),
   "operating_system_name" Nullable(String),
   "operating_system_version" Nullable(String),
-  "page" String,
   "path" String,
   "referrer" Nullable(String),
   "site_id" UInt64,

@@ -6,7 +6,7 @@ import {
   Layout,
   SiteGeoReport,
   SiteOverviewReport,
-  SitePageReport,
+  SitePathReport,
   SitePageViewsAndVisitorsReport,
   SiteReferrerReport,
   SiteReportsFilters,
@@ -53,7 +53,7 @@ export function SiteReports() {
               </li>
             </Breadcrumb>
 
-            <h1 className="fw-bold">test</h1>
+            <h1 className="fw-bold">{site.name}</h1>
 
             <div className="d-flex flex-row">
               <SiteReportsTimeWindowInput />
@@ -71,7 +71,7 @@ export function SiteReports() {
               </Col>
 
               <Col lg={4}>
-                <SitePageReport className="h-100" />
+                <SitePathReport className="h-100" />
               </Col>
             </Row>
 

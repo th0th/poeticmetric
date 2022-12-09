@@ -2,7 +2,7 @@ package sitepageviewreport
 
 import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereportfilters"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/filter"
 	"gorm.io/gorm"
 	"math"
 	"strings"
@@ -20,13 +20,13 @@ type Report struct {
 	Interval             *Interval `json:"interval"`
 }
 
-func Get(dp *depot.Depot, filters *sitereportfilters.Filters) (*Report, error) {
+func Get(dp *depot.Depot, filters *filter.Filters) (*Report, error) {
 	interval := getInterval(filters)
 	report := &Report{
 		Interval: interval,
 	}
 
-	q := sitereportfilters.Apply(dp, filters)
+	q := filter.Apply(dp, filters)
 
 	valueSubQuery := q.
 		Select(

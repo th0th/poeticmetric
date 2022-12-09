@@ -1,13 +1,11 @@
-import classNames from "classnames";
 import { omit } from "lodash";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useCallback, useMemo } from "react";
 import { Card, CardProps, Form } from "react-bootstrap";
 import { Durations } from "./Durations";
-import { ViewCounts } from "./ViewCounts";
+import { Visitor } from "./Visitor";
 
-export type SitePageReportProps = Omit<CardProps, "children">;
+export type SitePathReportProps = Omit<CardProps, "children">;
 
 type Section = {
   content: React.ReactNode;
@@ -18,11 +16,11 @@ type Section = {
 const slugRouterQueryKey = "pages";
 
 const sections: Array<Section> = [
-  { content: <ViewCounts />, slug: null, title: "Views" },
+  { content: <Visitor />, slug: null, title: "Visitors" },
   { content: <Durations />, slug: "duration", title: "Duration" },
 ];
 
-export function SitePageReport({ className, ...props }: SitePageReportProps) {
+export function SitePathReport({ className, ...props }: SitePathReportProps) {
   const router = useRouter();
 
   const section = useMemo<Section>(() => {
@@ -42,8 +40,8 @@ export function SitePageReport({ className, ...props }: SitePageReportProps) {
   }, [router]);
 
   return (
-    <Card {...props} className={classNames("overflow-hidden site-report-card", className)}>
-      <Card.Body>
+    <Card {...props} className={`site-report-card ${className}`}>
+      <Card.Body className="d-flex flex-column">
         <div className="align-items-center d-flex flex-row gap-3 mb-2">
           <Card.Title className="fs-6 mb-0">Pages</Card.Title>
 
@@ -58,10 +56,6 @@ export function SitePageReport({ className, ...props }: SitePageReportProps) {
 
         {section.content}
       </Card.Body>
-
-      <Link className="bg-light-hover border-1 border-top d-block fw-medium py-2 text-center text-decoration-none" href="/">
-        See more
-      </Link>
     </Card>
   );
 }

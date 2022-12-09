@@ -2,7 +2,7 @@ package sitereferrersitereport
 
 import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereportfilters"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/filter"
 	"gorm.io/gorm"
 	"strings"
 )
@@ -15,10 +15,10 @@ type Datum struct {
 
 type Report []*Datum
 
-func Get(dp *depot.Depot, filters *sitereportfilters.Filters) (Report, error) {
+func Get(dp *depot.Depot, filters *filter.Filters) (Report, error) {
 	report := Report{}
 
-	baseQuery := sitereportfilters.Apply(dp, filters).
+	baseQuery := filter.Apply(dp, filters).
 		Where("referrer is not null").
 		Where("protocol(referrer) in ('http', 'https')").
 		Where("domain(referrer) != domain(events_buffer.url)")

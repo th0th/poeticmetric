@@ -9,11 +9,12 @@ import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/locale"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/pointer"
+	h "github.com/poeticmetric/poeticmetric/backend/pkg/testhelper"
 	"strings"
 	"time"
 )
 
-const batches = 100
+const batches = 1000
 const eventsInBatch = 100
 
 func seedEvents(dp *depot.Depot, clear bool, modelSite *model.Site) error {
@@ -63,19 +64,6 @@ func seedEvents(dp *depot.Depot, clear bool, modelSite *model.Site) error {
 	}
 
 	referrerPaths := []string{
-		getRandomUrlPath(),
-		getRandomUrlPath(),
-		getRandomUrlPath(),
-		getRandomUrlPath(),
-		getRandomUrlPath(),
-		getRandomUrlPath(),
-		getRandomUrlPath(),
-		getRandomUrlPath(),
-		getRandomUrlPath(),
-		getRandomUrlPath(),
-	}
-
-	urlPaths := []string{
 		getRandomUrlPath(),
 		getRandomUrlPath(),
 		getRandomUrlPath(),
@@ -186,7 +174,7 @@ func seedEvents(dp *depot.Depot, clear bool, modelSite *model.Site) error {
 				event.UtmTerm = pointer.Get(gofakeit.RandomString(utmTerms))
 			}
 
-			url := fmt.Sprintf("https://%s%s", modelSite.Domain, gofakeit.RandomString(urlPaths))
+			url := fmt.Sprintf("https://%s%s", modelSite.Domain, h.GetRandomUrlPath())
 
 			event.FillFromUrl(url)
 			event.FillFromUserAgent(userAgent)

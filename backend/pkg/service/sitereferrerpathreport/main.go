@@ -3,7 +3,7 @@ package sitereferrerpathreport
 import (
 	v "github.com/RussellLuo/validating/v3"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereportfilters"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/filter"
 	"gorm.io/gorm"
 	"strings"
 )
@@ -17,7 +17,7 @@ type Datum struct {
 
 type Report []*Datum
 
-func Get(dp *depot.Depot, filters *sitereportfilters.Filters) (Report, error) {
+func Get(dp *depot.Depot, filters *filter.Filters) (Report, error) {
 	err := validateFilters(filters)
 	if err != nil {
 		return nil, err
@@ -25,7 +25,7 @@ func Get(dp *depot.Depot, filters *sitereportfilters.Filters) (Report, error) {
 
 	report := Report{}
 
-	baseQuery := sitereportfilters.Apply(dp, filters)
+	baseQuery := filter.Apply(dp, filters)
 
 	totalVisitorCountSubQuery := baseQuery.
 		Session(&gorm.Session{}).
@@ -64,7 +64,7 @@ func Get(dp *depot.Depot, filters *sitereportfilters.Filters) (Report, error) {
 	return report, nil
 }
 
-func validateFilters(filters *sitereportfilters.Filters) error {
+func validateFilters(filters *filter.Filters) error {
 	errs := v.Validate(v.Schema{
 		v.F("referrerSite", filters.ReferrerSite): v.All(
 			v.Nonzero[*string]().Msg("This field is required."),

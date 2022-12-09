@@ -24,7 +24,7 @@ type Event struct {
 	Locale                 *string
 	OperatingSystemName    *string
 	OperatingSystemVersion *string
-	Page                   string
+	Path                   string
 	Referrer               *string
 	SiteId                 uint64
 	TimeZone               *string
@@ -66,7 +66,7 @@ func (event *Event) FillFromUrl(urlString string) {
 		// TODO: handle error
 	}
 
-	event.Page = u.Path
+	event.Path = u.Path
 }
 
 func (event *Event) FillFromUserAgent(userAgent string) {

@@ -1,4 +1,4 @@
-package sitereportfilters
+package filter
 
 import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
@@ -17,7 +17,7 @@ type Filters struct {
 	Locale                 *string   `query:"locale"`
 	OperatingSystemName    *string   `query:"operatingSystemName"`
 	OperatingSystemVersion *string   `query:"operatingSystemVersion"`
-	Page                   *string   `query:"page"`
+	Path                   *string   `query:"path"`
 	ReferrerSite           *string   `query:"referrerSite"`
 	SiteId                 uint64    `query:"siteId"`
 	Start                  time.Time `query:"start"`
@@ -68,8 +68,8 @@ func Apply(dp *depot.Depot, filters *Filters) *gorm.DB {
 		clickHouseSession.Where("operating_system_version = ?", *filters.OperatingSystemVersion)
 	}
 
-	if filters.Page != nil {
-		clickHouseSession.Where("page = ?", *filters.Page)
+	if filters.Path != nil {
+		clickHouseSession.Where("path = ?", *filters.Path)
 	}
 
 	if filters.ReferrerSite != nil {

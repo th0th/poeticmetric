@@ -1,7 +1,7 @@
 package sitepageviewreport
 
 import (
-	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereportfilters"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/filter"
 	"strconv"
 	"time"
 )
@@ -19,7 +19,7 @@ const (
 	IntervalUnitMinute IntervalUnit = "minute"
 )
 
-func getInterval(filters *sitereportfilters.Filters) *Interval {
+func getInterval(filters *filter.Filters) *Interval {
 	timeWindowInterval := &Interval{
 		Factor: 10,
 		Unit:   "minute",
