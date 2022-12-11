@@ -1,11 +1,12 @@
 package sitereport
 
 import (
-	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/filter"
-	sitereportpath "github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/path"
+	sitepathreport "github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/path"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/referrersite"
 )
 
 const localsFiltersKey = "filters"
@@ -25,15 +26,16 @@ func Add(app *fiber.App) {
 	group.Get("/page-view", pageView)
 	group.Get("/page-view-trends", pageViewTrends)
 	group.Get("/path-duration", pathDuration)
-	group.Get("/path", paginationCursorMiddleware[sitereportpath.PaginationCursor](), path)
+	group.Get("/path", paginationCursorMiddleware[sitepathreport.PaginationCursor](), path)
 	group.Get("/referrer-path", referrerPath)
-	group.Get("/referrer-site", referrerSite)
+	group.Get("/referrer-site", paginationCursorMiddleware[referrersite.PaginationCursor](), referrerSite)
 	group.Get("/utm-campaign", utmCampaign)
 	group.Get("/utm-content", utmContent)
 	group.Get("/utm-medium", utmMedium)
 	group.Get("/utm-source", utmSource)
 	group.Get("/utm-term", utmTerm)
 	group.Get("/visitor", visitor)
+	group.Get("/visitor-page-view", visitorPageView)
 	group.Get("/visitor-trends", visitorTrends)
 }
 
@@ -73,18 +75,7 @@ func paginationCursorMiddleware[T any]() fiber.Handler {
 		if paginationCursorString != "" {
 			var paginationCursor T
 
-			var paginationCursorByteSlice []byte
-
-			paginationCursorByteSlice, err = base64.StdEncoding.DecodeString(paginationCursorString)
-			if err != nil {
-				return c.
-					Status(fiber.StatusBadRequest).
-					JSON(map[string]string{
-						"paginationCursor": "Invalid pagination cursor.",
-					})
-			}
-
-			err = json.Unmarshal(paginationCursorByteSlice, &paginationCursor)
+			err = json.Unmarshal([]byte(fmt.Sprintf(`"%s"`, paginationCursorString)), &paginationCursor)
 			if err != nil {
 				return c.
 					Status(fiber.StatusBadRequest).

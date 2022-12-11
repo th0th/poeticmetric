@@ -1,4 +1,4 @@
-package sitevisitorreport
+package interval
 
 import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/filter"
@@ -14,12 +14,12 @@ type Interval struct {
 }
 
 const (
-	IntervalUnitDay    IntervalUnit = "day"
-	IntervalUnitHour   IntervalUnit = "hour"
-	IntervalUnitMinute IntervalUnit = "minute"
+	UnitDay    IntervalUnit = "day"
+	UnitHour   IntervalUnit = "hour"
+	UnitMinute IntervalUnit = "minute"
 )
 
-func getInterval(filters *filter.Filters) *Interval {
+func GetVisitorPageViewInterval(filters *filter.Filters) *Interval {
 	timeWindowInterval := &Interval{
 		Factor: 10,
 		Unit:   "minute",
@@ -43,11 +43,11 @@ func getInterval(filters *filter.Filters) *Interval {
 
 func (i *Interval) ToDuration() time.Duration {
 	switch i.Unit {
-	case IntervalUnitDay:
+	case UnitDay:
 		return time.Duration(i.Factor) * 24 * time.Hour
-	case IntervalUnitHour:
+	case UnitHour:
 		return time.Duration(i.Factor) * time.Hour
-	case IntervalUnitMinute:
+	case UnitMinute:
 		return time.Duration(i.Factor) * time.Minute
 	default:
 		panic("invalid factor")

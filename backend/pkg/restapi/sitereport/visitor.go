@@ -3,7 +3,7 @@ package sitereport
 import (
 	"github.com/gofiber/fiber/v2"
 	dm "github.com/poeticmetric/poeticmetric/backend/pkg/restapi/middleware/depot"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitevisitorreport"
+	sitevisitorreport "github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/visitor"
 )
 
 func visitor(c *fiber.Ctx) error {

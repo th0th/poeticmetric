@@ -7,7 +7,7 @@ import { useSiteReportQueryParams } from "./useSiteReportQueryParams";
 
 type Data = SitePathReport;
 type HydratedData = HydratedSitePathReport;
-type HydratedSwrInfiniteResponse = Overwrite<SWRInfiniteResponse<SitePathReport, Error>, { data?: Array<HydratedData> }>;
+type HydratedSwrInfiniteResponse = Overwrite<SWRInfiniteResponse<Data, Error>, { data?: Array<HydratedData> }>;
 type KeyLoader = (index: number, previousPageData: HydratedData | null) => Arguments;
 
 export function useSitePathReport(): HydratedSwrInfiniteResponse {

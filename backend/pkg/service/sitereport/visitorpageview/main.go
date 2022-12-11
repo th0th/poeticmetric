@@ -1,8 +1,9 @@
-package sitevisitorreport
+package visitorpageview
 
 import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/filter"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/interval"
 	"gorm.io/gorm"
 	"math"
 	"strings"
@@ -10,18 +11,20 @@ import (
 )
 
 type Datum struct {
-	DateTime     time.Time `json:"dateTime"`
-	VisitorCount uint64    `json:"visitorCount"`
+	DateTime      time.Time `json:"dateTime"`
+	PageViewCount uint64    `json:"pageViewCount"`
+	VisitorCount  uint64    `json:"visitorCount"`
 }
 
 type Report struct {
-	AverageVisitorCount uint64    `json:"averageVisitorCount"`
-	Data                []Datum   `json:"data"`
-	Interval            *Interval `json:"interval"`
+	AveragePageViewCount uint64             `json:"averagePageViewCount"`
+	AverageVisitorCount  uint64             `json:"averageVisitorCount"`
+	Data                 []Datum            `json:"data"`
+	Interval             *interval.Interval `json:"interval"`
 }
 
 func Get(dp *depot.Depot, filters *filter.Filters) (*Report, error) {
-	interval := getInterval(filters)
+	interval := interval.GetVisitorPageViewInterval(filters)
 	report := &Report{
 		Interval: interval,
 	}
@@ -32,6 +35,7 @@ func Get(dp *depot.Depot, filters *filter.Filters) (*Report, error) {
 		Select(
 			strings.Join([]string{
 				"toStartOfInterval(date_time, @timeWindowInterval, @timeZone) as date_time",
+				"count(*) as page_view_count",
 				"count(distinct visitor_id) as visitor_count",
 			}, ","),
 			map[string]interface{}{
@@ -47,6 +51,7 @@ func Get(dp *depot.Depot, filters *filter.Filters) (*Report, error) {
 				"select",
 				strings.Join([]string{
 					"@start + interval arrayJoin(range(0, toUInt64(dateDiff('second', @start, @end)), @intervalSeconds)) second as date_time",
+					"0 as page_view_count",
 					"0 as visitor_count",
 				}, ","),
 			}, " "),
@@ -61,6 +66,7 @@ func Get(dp *depot.Depot, filters *filter.Filters) (*Report, error) {
 		Table("((?) union all (?))", valueSubQuery, fillerSubQuery).
 		Select(
 			"date_time",
+			"sum(page_view_count) as page_view_count",
 			"sum(visitor_count) as visitor_count",
 		).
 		Group("date_time").
@@ -71,17 +77,20 @@ func Get(dp *depot.Depot, filters *filter.Filters) (*Report, error) {
 		return nil, err
 	}
 
-	// AverageVisitorCount
-	var visitorCountsSum float64 = 0
-	var visitorCountsLength float64 = 0
+	// AveragePageViewCount
+	var length float64 = 0
+	var pageViewCountsSum float64 = 0
+	var visitorCountSum float64 = 0
 
 	for _, d := range report.Data {
-		visitorCountsSum += float64(d.VisitorCount)
-		visitorCountsLength += 1
+		length += 1
+		pageViewCountsSum += float64(d.PageViewCount)
+		visitorCountSum += float64(d.VisitorCount)
 	}
 
-	if visitorCountsLength != 0 {
-		report.AverageVisitorCount = uint64(math.Round(visitorCountsSum / visitorCountsLength))
+	if length != 0 {
+		report.AveragePageViewCount = uint64(math.Round(pageViewCountsSum / length))
+		report.AverageVisitorCount = uint64(math.Round(visitorCountSum / length))
 	}
 
 	return report, nil

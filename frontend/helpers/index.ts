@@ -20,6 +20,7 @@ export * from "./hydrateSiteUtmContentReport";
 export * from "./hydrateSiteUtmMediumReport";
 export * from "./hydrateSiteUtmSourceReport";
 export * from "./hydrateSiteUtmTermReport";
+export * from "./hydrateSiteVisitorPageViewReport";
 export * from "./hydrateSiteVisitorTrendsReport";
 export * from "./hydrateSiteVisitorsTimeReport";
 export * from "./userAccessToken";

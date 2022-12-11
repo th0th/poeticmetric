@@ -25,7 +25,9 @@ export function SitePathReport({ className, ...props }: SitePathReportProps) {
     <>
       <Card {...props} className={`site-report-card ${className}`}>
         <Card.Body className="d-flex flex-column">
-          <Card.Title className="fs-6">Pages</Card.Title>
+          <div className="align-items-center d-flex flex-row mb-3">
+            <h6 className="mb-0">Pages</h6>
+          </div>
 
           {data === null ? (
             <Spinner className="m-auto" />

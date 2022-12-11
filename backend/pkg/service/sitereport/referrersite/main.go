@@ -1,4 +1,4 @@
-package path
+package referrersite
 
 import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
@@ -7,20 +7,16 @@ import (
 	"gorm.io/gorm"
 )
 
-type PaginationCursor struct {
-	Path         string `json:"path"`
-	VisitorCount uint64 `json:"visitorCount"`
+type Datum struct {
+	Domain            string `json:"domain"`
+	ReferrerSite      string `json:"referrerSite"`
+	VisitorCount      uint64 `json:"visitorCount"`
+	VisitorPercentage uint16 `json:"visitorPercentage"`
 }
 
-type Datum struct {
-	AverageDuration   uint32  `json:"averageDuration"`
-	BouncePercentage  float32 `json:"bouncePercentage"`
-	Path              string  `json:"path"`
-	Url               string  `json:"url"`
-	ViewCount         uint64  `json:"viewCount"`
-	ViewPercentage    float32 `json:"viewPercentage"`
-	VisitorCount      uint64  `json:"visitorCount"`
-	VisitorPercentage float32 `json:"visitorPercentage"`
+type PaginationCursor struct {
+	ReferrerSite string `json:"referrerSite"`
+	VisitorCount uint64 `json:"visitorCount"`
 }
 
 type Report struct {
@@ -31,24 +27,20 @@ type Report struct {
 func Get(dp *depot.Depot, filters *filter.Filters, paginationCursor *PaginationCursor) (*Report, error) {
 	report := &Report{}
 
-	baseQuery := filter.Apply(dp, filters)
-
-	baseSubQuery := baseQuery.
+	baseSubQuery := filter.Apply(dp, filters).
+		Where("referrer is not null").
+		Where("protocol(referrer) in ('http', 'https')").
+		Where("domain(referrer) != domain(events_buffer.url)").
 		Session(&gorm.Session{}).
 		Joins("cross join (select count(distinct visitor_id) as count from events_buffer) total_visitors").
-		Joins("cross join (select count(1) as count from events_buffer) total_views").
 		Select(
-			"round(avg(duration)) as average_duration",
-			"round(100 * countIf(is_bounce = 1) / view_count) as bounce_percentage",
-			"path",
-			"url",
-			"count(*) as view_count",
-			"round(100 * view_count / total_views.count) as view_percentage",
+			"domain(referrer) as domain",
+			"concat(protocol(referrer), '://', domain(referrer)) as referrer_site",
 			"count(distinct visitor_id) as visitor_count",
-			"round(100 * visitor_count / total_visitors.count) as visitor_percentage",
+			"toUInt16(round(100 * visitor_count / total_visitors.count)) as visitor_percentage",
 		).
-		Group("path, url, total_visitors.count, total_views.count").
-		Order("visitor_count desc, path")
+		Group("domain, referrer_site, total_visitors.count").
+		Order("visitor_count desc, referrer_site")
 
 	query := dp.ClickHouse().
 		Table("(?)", baseSubQuery)
@@ -56,10 +48,10 @@ func Get(dp *depot.Depot, filters *filter.Filters, paginationCursor *PaginationC
 	if paginationCursor != nil {
 		query.
 			Where(
-				"visitor_count < ? or (visitor_count = ? and path > ?)",
+				"visitor_count < ? or (visitor_count = ? and referrer_site > ?)",
 				paginationCursor.VisitorCount,
 				paginationCursor.VisitorCount,
-				paginationCursor.Path,
+				paginationCursor.ReferrerSite,
 			)
 	}
 
@@ -73,7 +65,7 @@ func Get(dp *depot.Depot, filters *filter.Filters, paginationCursor *PaginationC
 
 	if len(report.Data) > 1 {
 		report.PaginationCursor = &PaginationCursor{
-			Path:         report.Data[len(report.Data)-1].Path,
+			ReferrerSite: report.Data[len(report.Data)-1].ReferrerSite,
 			VisitorCount: report.Data[len(report.Data)-1].VisitorCount,
 		}
 	}
@@ -97,7 +89,7 @@ func (pc *PaginationCursor) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	pc.Path = a.Path
+	pc.ReferrerSite = a.ReferrerSite
 	pc.VisitorCount = a.VisitorCount
 
 	return nil

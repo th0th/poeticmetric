@@ -1,8 +1,9 @@
-package sitepageviewreport
+package pageview
 
 import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/filter"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/interval"
 	"gorm.io/gorm"
 	"math"
 	"strings"
@@ -15,13 +16,13 @@ type Datum struct {
 }
 
 type Report struct {
-	AveragePageViewCount uint64    `json:"averagePageViewCount"`
-	Data                 []Datum   `json:"data"`
-	Interval             *Interval `json:"interval"`
+	AveragePageViewCount uint64             `json:"averagePageViewCount"`
+	Data                 []Datum            `json:"data"`
+	Interval             *interval.Interval `json:"interval"`
 }
 
 func Get(dp *depot.Depot, filters *filter.Filters) (*Report, error) {
-	interval := getInterval(filters)
+	interval := interval.GetVisitorPageViewInterval(filters)
 	report := &Report{
 		Interval: interval,
 	}

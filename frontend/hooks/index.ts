@@ -21,6 +21,7 @@ export * from "./useSiteUtmContentReport";
 export * from "./useSiteUtmMediumReport";
 export * from "./useSiteUtmSourceReport";
 export * from "./useSiteUtmTermReport";
+export * from "./useSiteVisitorPageViewReport";
 export * from "./useSiteVisitorReport";
 export * from "./useSiteVisitorTrendsReport";
 export * from "./useSites";

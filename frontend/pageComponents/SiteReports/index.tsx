@@ -13,7 +13,7 @@ import {
   SiteReportsFiltersHandler,
   SiteReportsTimeWindowInput,
   SiteTechReport, SiteUtmReports,
-  SiteVisitorTrendsReport,
+  SiteVisitorTrendsReport, SiteVisitorPageViewReport,
 } from "../../components";
 import { Title } from "../../components/Title";
 import { ToastsContext } from "../../contexts";
@@ -70,11 +70,11 @@ export function SiteReports() {
 
             <Row className="g-3 mt-0">
               <Col lg={8}>
-                <SitePageViewsAndVisitorsReport />
+                <SiteVisitorPageViewReport />
               </Col>
 
               <Col lg={4}>
-                <SitePathReport className="h-100" />
+                <SitePathReport />
               </Col>
             </Row>
 
