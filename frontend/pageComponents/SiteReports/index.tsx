@@ -7,13 +7,14 @@ import {
   SiteGeoReport,
   SiteOverviewReport,
   SitePathReport,
-  SitePageViewsAndVisitorsReport,
   SiteReferrerReport,
   SiteReportsFilters,
   SiteReportsFiltersHandler,
   SiteReportsTimeWindowInput,
-  SiteTechReport, SiteUtmReports,
-  SiteVisitorTrendsReport, SiteVisitorPageViewReport,
+  SiteTechReport,
+  SiteUtmReports,
+  SiteVisitorPageViewReport,
+  SiteVisitorTrendsReport,
 } from "../../components";
 import { Title } from "../../components/Title";
 import { ToastsContext } from "../../contexts";
