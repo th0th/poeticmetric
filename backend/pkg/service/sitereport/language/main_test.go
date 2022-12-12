@@ -1,4 +1,4 @@
-package sitelanguagereport
+package language
 
 import (
 	"github.com/brianvoe/gofakeit/v6"

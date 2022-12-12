@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/filter"
+	language2 "github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/language"
 	sitepathreport "github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/path"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/referrerpath"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/referrersite"
@@ -20,7 +21,7 @@ func Add(app *fiber.App) {
 	group.Get("/browser-version", browserVersion)
 	group.Get("/country", country)
 	group.Get("/device-type", deviceType)
-	group.Get("/language", language)
+	group.Get("/language", paginationCursorMiddleware[language2.PaginationCursor](), language)
 	group.Get("/operating-system-name", operatingSystemName)
 	group.Get("/operating-system-version", operatingSystemVersion)
 	group.Get("/overview", overview)
