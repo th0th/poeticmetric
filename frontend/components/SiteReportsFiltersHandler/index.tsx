@@ -58,6 +58,7 @@ export function SiteReportsFiltersHandler({ children }: SiteReportsFiltersHandle
       operatingSystemVersion: getFilter(router.query.operatingSystemVersion),
       page: getFilter(router.query.page),
       path: getFilter(router.query.path),
+      referrer: getFilter(router.query.referrer),
       referrerSite: getFilter(router.query.referrerSite),
       scheme: getFilter(router.query.scheme),
       siteId: siteId || 0,

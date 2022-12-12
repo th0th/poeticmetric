@@ -2,7 +2,7 @@
 @import "bootstrap/scss/variables";
 @import "bootstrap/scss/maps";
 
-$fixed-sizes: (1rem 2rem 3rem 4rem 5rem 6rem);
+$fixed-sizes: (1rem 2rem 3rem 4rem 5rem 6rem 7rem 8rem);
 
 $utilities: (
   "background-color": (
@@ -15,6 +15,7 @@ $utilities: (
     values: map-merge(
         $utilities-bg-colors,
         (
+          "gray": $gray-300,
           "transparent": transparent
         ),
     ),
@@ -83,6 +84,13 @@ $utilities: (
   "min-height": (
     property: min-height,
     class: min-h,
+    values: (
+      0: 0,
+    ),
+  ),
+  "min-width": (
+    property: min-width,
+    class: min-w,
     values: (
       0: 0,
     ),

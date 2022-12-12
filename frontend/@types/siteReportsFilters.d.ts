@@ -10,6 +10,7 @@ type SiteReportsFilters = {
   operatingSystemName: string | null;
   operatingSystemVersion: string | null;
   page: string | null;
+  referrer: string | null;
   referrerSite: string | null;
   siteId: number;
   start: Dayjs;

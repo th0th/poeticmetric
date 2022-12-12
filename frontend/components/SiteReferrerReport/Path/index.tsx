@@ -1,52 +1,82 @@
+import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useMemo } from "react";
+import { Table } from "react-bootstrap";
 import { useSiteReferrerPathReport } from "../../../hooks";
+import { FavIcon } from "../../FavIcon";
+import { Modal } from "./Modal";
 
-type State = {
-  data: HydratedSiteReferrerPathReport;
-};
+type Data = Array<HydratedSiteReferrerPathDatum>;
 
 export function Path() {
-  const { data } = useSiteReferrerPathReport();
+  const router = useRouter();
+  const { data: rawData } = useSiteReferrerPathReport();
 
-  const state = useMemo<State | null>(() => {
-    if (data === undefined) {
+  const data = useMemo<Data | null>(() => {
+    if (rawData === undefined) {
       return null;
     }
 
-    return {
-      data: data.slice(0, 5),
-    };
-  }, [data]);
+    return rawData[0].data.slice(0, 5);
+  }, [rawData]);
 
-  return state === null ? null : (
-    <div className="fss-1 lh-lg">
-      <div className="d-flex flex-row py-1">
-        <div className="flex-grow-1 fw-semibold pe-1">Page</div>
+  return data === null ? null : (
+    <>
+      <Table borderless className="fss-1 table-layout-fixed" responsive size="sm">
+        <thead>
+          <tr>
+            <th>Page</th>
+            <th />
 
-        <div className="fw-semibold ps-1 text-end w-4rem" title="Visitor count">Visitors</div>
-      </div>
+            <th className="text-end w-4rem">Visitors</th>
+          </tr>
+        </thead>
 
-      {state.data.slice(0, 5).map((d) => (
-        <div className="align-items-center d-flex d-parent flex-row lh-lg" key={d.referrerPath}>
-          <div className="align-items-center d-flex flex-grow-1 flex-row pe-1 overflow-hidden">
-            <div className="text-truncate" title={d.referrer}>
-              {d.referrer}
-            </div>
+        <tbody>
+          {data.map((d) => (
+            <tr className="d-parent" key={d.referrerPath}>
+              <td colSpan={2}>
+                <div className="align-items-center d-flex flex-grow-1 flex-row min-w-0 pe-1">
+                  <Link
+                    className="align-items-center d-flex flex-row min-w-0 text-body text-decoration-none text-decoration-underline-hover"
+                    href={{ pathname: router.pathname, query: { ...router.query, referrer: d.referrer } }}
+                    scroll={false}
+                    title={d.referrer}
+                  >
+                    <FavIcon alt={d.domain} className="d-block flex-shrink-0 me-1" domain={d.domain} size={16} />
 
-            <a
-              className="d-parent-block flex-grow-0 flex-shrink-0 lh-1 ms-2 text-black text-primary-hover"
-              href={d.referrer}
-              rel="noreferrer"
-              target="_blank"
-              title="Go to the page"
-            >
-              <i className="bi-box-arrow-up-right h-1rem" />
-            </a>
-          </div>
+                    <span className="text-truncate">{d.referrer}</span>
+                  </Link>
 
-          <div className="text-end ps-1 w-4rem" title={d.visitorPercentageDisplay}>{d.visitorCount}</div>
-        </div>
-      ))}
-    </div>
+                  <a
+                    className="d-parent-block flex-grow-0 flex-shrink-0 lh-1 ms-2 text-black text-primary-hover"
+                    href={d.referrer}
+                    rel="noreferrer"
+                    target="_blank"
+                    title="Go to the page"
+                  >
+                    <i className="bi-box-arrow-up-right h-1rem" />
+                  </a>
+                </div>
+              </td>
+
+              <td className="text-end w-4rem">
+                <span className="fw-medium" title={`${d.visitorCount.toString()} visitors`}>{d.visitorCountDisplay}</span>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+
+      <Link
+        className="bg-light-hover border-1 border-top d-block fw-medium mb-n3 mt-auto mx-n3 p-2 rounded-bottom text-center text-decoration-none"
+        href={{ pathname: router.pathname, query: { ...router.query, detail: "referrer-path" } }}
+        scroll={false}
+      >
+        See more
+      </Link>
+
+      <Modal />
+    </>
   );
 }

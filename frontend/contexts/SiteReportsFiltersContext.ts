@@ -13,6 +13,7 @@ export const SiteReportsFiltersContext = createContext<SiteReportsFiltersContext
   operatingSystemName: null,
   operatingSystemVersion: null,
   page: null,
+  referrer: null,
   referrerSite: null,
   siteId: 0,
   start: dayjs().startOf("day"),

@@ -6,15 +6,17 @@ import {
   Layout,
   SiteGeoReport,
   SiteOverviewReport,
-  SitePageReport,
-  SitePageViewsAndVisitorsReport,
+  SitePathReport,
   SiteReferrerReport,
   SiteReportsFilters,
   SiteReportsFiltersHandler,
   SiteReportsTimeWindowInput,
-  SiteTechReport, SiteUtmReports,
+  SiteTechReport,
+  SiteUtmReports,
+  SiteVisitorPageViewReport,
   SiteVisitorTrendsReport,
 } from "../../components";
+import { Title } from "../../components/Title";
 import { ToastsContext } from "../../contexts";
 import { useQueryNumber, useSite } from "../../hooks";
 
@@ -36,6 +38,8 @@ export function SiteReports() {
 
   return (
     <Layout>
+      <Title>{site === undefined ? "..." : `Reports - ${site.name}`}</Title>
+
       <Container className="d-flex flex-column flex-grow-1 py-4">
         {site === undefined ? (
           <div className="d-flex flex-grow-1 align-items-center justify-content-center">
@@ -53,7 +57,7 @@ export function SiteReports() {
               </li>
             </Breadcrumb>
 
-            <h1 className="fw-bold">test</h1>
+            <h1 className="fw-bold">{site.name}</h1>
 
             <div className="d-flex flex-row">
               <SiteReportsTimeWindowInput />
@@ -67,11 +71,11 @@ export function SiteReports() {
 
             <Row className="g-3 mt-0">
               <Col lg={8}>
-                <SitePageViewsAndVisitorsReport />
+                <SiteVisitorPageViewReport />
               </Col>
 
               <Col lg={4}>
-                <SitePageReport className="h-100" />
+                <SitePathReport />
               </Col>
             </Row>
 

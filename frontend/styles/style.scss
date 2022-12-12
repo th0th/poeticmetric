@@ -40,12 +40,21 @@ svg {
 @include media-breakpoint-up(lg) {
   .site-report-card {
     height: 290px;
-    overflow: hidden;
   }
 }
 
 .mw-32rem {
   max-width: 32rem !important;
+}
+
+.striped {
+  > *:nth-child(2n) {
+    background-color: $table-striped-bg;
+  }
+}
+
+.table-layout-fixed {
+  table-layout: fixed !important;
 }
 
 .visx-axis-tick {

@@ -140,7 +140,7 @@ func main() {
 
 			modelSite := &model.Site{
 				Domain:         "dev.poeticmetric.com",
-				Name:           "PoeticMetric - DEV",
+				Name:           "PoeticMetric DEV",
 				OrganizationId: modelOrganization.Id,
 			}
 
