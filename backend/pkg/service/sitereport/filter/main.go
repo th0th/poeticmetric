@@ -18,6 +18,7 @@ type Filters struct {
 	OperatingSystemName    *string   `query:"operatingSystemName"`
 	OperatingSystemVersion *string   `query:"operatingSystemVersion"`
 	Path                   *string   `query:"path"`
+	Referrer               *string   `query:"referrer"`
 	ReferrerSite           *string   `query:"referrerSite"`
 	SiteId                 uint64    `query:"siteId"`
 	Start                  time.Time `query:"start"`
@@ -70,6 +71,11 @@ func Apply(dp *depot.Depot, filters *Filters) *gorm.DB {
 
 	if filters.Path != nil {
 		clickHouseSession.Where("path = ?", *filters.Path)
+	}
+
+	if filters.Referrer != nil {
+		clickHouseSession.
+			Where("referrer = ?", *filters.Referrer)
 	}
 
 	if filters.ReferrerSite != nil {

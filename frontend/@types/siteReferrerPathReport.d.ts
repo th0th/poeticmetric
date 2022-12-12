@@ -1,8 +1,12 @@
 type HydratedSiteReferrerPathDatum = SiteReferrerPathDatum & {
+  domain: string;
+  visitorCountDisplay: string;
   visitorPercentageDisplay: string;
 };
 
-type HydratedSiteReferrerPathReport = Array<HydratedSiteReferrerPathDatum>;
+type HydratedSiteReferrerPathReport = Overwrite<SiteReferrerPathReport, {
+  data: Array<HydratedSiteReferrerPathDatum>;
+}>;
 
 type SiteReferrerPathDatum = {
   referrer: string;
@@ -11,5 +15,8 @@ type SiteReferrerPathDatum = {
   visitorPercentage: number;
 };
 
-type SiteReferrerPathReport = Array<SiteReferrerPathDatum>;
+type SiteReferrerPathReport = {
+  data: Array<SiteReferrerPathDatum>;
+  paginationCursor: string | null;
+};
 
