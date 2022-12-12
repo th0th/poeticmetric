@@ -49,7 +49,12 @@ func seedEvents(dp *depot.Depot, clear bool, modelSite *model.Site) error {
 		}
 	}
 
-	referrers := generateSlice(35, gofakeit.URL)
+	referrerSites := generateSlice(35, func() string {
+		protocol := gofakeit.RandomString([]string{"http", "https"})
+
+		return fmt.Sprintf("%s://%s", protocol, gofakeit.DomainName())
+	})
+	referrerPaths := generateSlice(100, h.GetRandomUrlPath)
 	urls := generateSlice(35, func() string { return fmt.Sprintf("https://%s%s", modelSite.Domain, h.GetRandomUrlPath()) })
 	utmSources := generateSlice(35, gofakeit.Word)
 	utmCampaigns := generateSlice(35, gofakeit.Word)
@@ -79,7 +84,7 @@ func seedEvents(dp *depot.Depot, clear bool, modelSite *model.Site) error {
 			}
 
 			if gofakeit.Bool() {
-				event.Referrer = pointer.Get(gofakeit.RandomString(referrers))
+				event.Referrer = pointer.Get(fmt.Sprintf("%s%s", gofakeit.RandomString(referrerSites), gofakeit.RandomString(referrerPaths)))
 			}
 
 			if gofakeit.Bool() && gofakeit.Bool() {
