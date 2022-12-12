@@ -6,6 +6,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/filter"
 	sitepathreport "github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/path"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/referrerpath"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/referrersite"
 )
 
@@ -27,7 +28,7 @@ func Add(app *fiber.App) {
 	group.Get("/page-view-trends", pageViewTrends)
 	group.Get("/path-duration", pathDuration)
 	group.Get("/path", paginationCursorMiddleware[sitepathreport.PaginationCursor](), path)
-	group.Get("/referrer-path", referrerPath)
+	group.Get("/referrer-path", paginationCursorMiddleware[referrerpath.PaginationCursor](), referrerPath)
 	group.Get("/referrer-site", paginationCursorMiddleware[referrersite.PaginationCursor](), referrerSite)
 	group.Get("/utm-campaign", utmCampaign)
 	group.Get("/utm-content", utmContent)

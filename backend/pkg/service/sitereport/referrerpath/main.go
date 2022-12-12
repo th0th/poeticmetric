@@ -1,6 +1,7 @@
-package referrersite
+package referrerpath
 
 import (
+	v "github.com/RussellLuo/validating/v3"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/filter"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/pagination"
@@ -8,14 +9,14 @@ import (
 )
 
 type Datum struct {
-	Domain            string `json:"domain"`
-	ReferrerSite      string `json:"referrerSite"`
+	ReferrerPath      string `json:"referrerPath"`
+	Referrer          string `json:"referrer"`
 	VisitorCount      uint64 `json:"visitorCount"`
 	VisitorPercentage uint16 `json:"visitorPercentage"`
 }
 
 type PaginationCursor struct {
-	ReferrerSite string `json:"referrerSite"`
+	ReferrerPath string `json:"referrerPath"`
 	VisitorCount uint64 `json:"visitorCount"`
 }
 
@@ -25,6 +26,11 @@ type Report struct {
 }
 
 func Get(dp *depot.Depot, filters *filter.Filters, paginationCursor *PaginationCursor) (*Report, error) {
+	err := validateFilters(filters)
+	if err != nil {
+		return nil, err
+	}
+
 	report := &Report{}
 
 	baseSubQuery := filter.Apply(dp, filters).
@@ -34,13 +40,13 @@ func Get(dp *depot.Depot, filters *filter.Filters, paginationCursor *PaginationC
 		Where("domain(referrer) != domain(events_buffer.url)").
 		Joins("cross join (select count(distinct visitor_id) as count from events_buffer) total_visitors").
 		Select(
-			"domain(referrer) as domain",
-			"concat(protocol(referrer), '://', domain(referrer)) as referrer_site",
+			"referrer",
+			"pathFull(referrer) as referrer_path",
 			"count(distinct visitor_id) as visitor_count",
 			"toUInt16(round(100 * visitor_count / total_visitors.count)) as visitor_percentage",
 		).
-		Group("domain, referrer_site, total_visitors.count").
-		Order("visitor_count desc, referrer_site")
+		Group("referrer, total_visitors.count").
+		Order("visitor_count desc, referrer_path")
 
 	query := dp.ClickHouse().
 		Table("(?)", baseSubQuery)
@@ -48,14 +54,14 @@ func Get(dp *depot.Depot, filters *filter.Filters, paginationCursor *PaginationC
 	if paginationCursor != nil {
 		query.
 			Where(
-				"visitor_count < ? or (visitor_count = ? and referrer_site > ?)",
+				"visitor_count < ? or (visitor_count = ? and referrer_path > ?)",
 				paginationCursor.VisitorCount,
 				paginationCursor.VisitorCount,
-				paginationCursor.ReferrerSite,
+				paginationCursor.ReferrerPath,
 			)
 	}
 
-	err := query.
+	err = query.
 		Limit(pagination.Size).
 		Find(&report.Data).
 		Error
@@ -63,14 +69,28 @@ func Get(dp *depot.Depot, filters *filter.Filters, paginationCursor *PaginationC
 		return nil, err
 	}
 
-	if len(report.Data) > 1 {
+	if len(report.Data) == pagination.Size {
 		report.PaginationCursor = &PaginationCursor{
-			ReferrerSite: report.Data[len(report.Data)-1].ReferrerSite,
+			ReferrerPath: report.Data[len(report.Data)-1].ReferrerPath,
 			VisitorCount: report.Data[len(report.Data)-1].VisitorCount,
 		}
 	}
 
 	return report, nil
+}
+
+func validateFilters(filters *filter.Filters) error {
+	errs := v.Validate(v.Schema{
+		v.F("referrerSite", filters.ReferrerSite): v.All(
+			v.Nonzero[*string]().Msg("This field is required."),
+		),
+	})
+
+	if len(errs) > 0 {
+		return errs
+	}
+
+	return nil
 }
 
 func (pc *PaginationCursor) MarshalJSON() ([]byte, error) {
@@ -89,7 +109,7 @@ func (pc *PaginationCursor) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	pc.ReferrerSite = a.ReferrerSite
+	pc.ReferrerPath = a.ReferrerPath
 	pc.VisitorCount = a.VisitorCount
 
 	return nil
