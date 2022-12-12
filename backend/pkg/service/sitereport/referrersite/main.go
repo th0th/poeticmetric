@@ -27,12 +27,18 @@ type Report struct {
 func Get(dp *depot.Depot, filters *filter.Filters, paginationCursor *PaginationCursor) (*Report, error) {
 	report := &Report{}
 
-	baseSubQuery := filter.Apply(dp, filters).
-		Session(&gorm.Session{}).
+	baseQuery := filter.Apply(dp, filters).
 		Where("referrer is not null").
 		Where("protocol(referrer) in ('http', 'https')").
-		Where("domain(referrer) != domain(events_buffer.url)").
-		Joins("cross join (select count(distinct visitor_id) as count from events_buffer) total_visitors").
+		Where("domain(referrer) != domain(events_buffer.url)")
+
+	totalVisitorCountSubQuery := baseQuery.
+		Session(&gorm.Session{}).
+		Select("count(distinct visitor_id) as count")
+
+	baseSubQuery := baseQuery.
+		Session(&gorm.Session{}).
+		Joins("cross join (?) total_visitors", totalVisitorCountSubQuery).
 		Select(
 			"domain(referrer) as domain",
 			"concat(protocol(referrer), '://', domain(referrer)) as referrer_site",
