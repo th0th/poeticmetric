@@ -1,8 +1,11 @@
-type HydratedSiteLanguageDatum = SiteLanguageDatum & {
+type HydratedSiteLanguageDatum = Overwrite<SiteLanguageDatum, {
+  visitorCountDisplay: string;
   visitorPercentageDisplay: string;
-};
+}>;
 
-type HydratedSiteLanguageReport = Array<HydratedSiteLanguageDatum>;
+type HydratedSiteLanguageReport = Overwrite<SiteLanguageReport, {
+  data: Array<HydratedSiteLanguageDatum>;
+}>;
 
 type SiteLanguageDatum = {
   language: string;
@@ -10,4 +13,7 @@ type SiteLanguageDatum = {
   visitorPercentage: number;
 };
 
-type SiteLanguageReport = Array<SiteLanguageDatum>;
+type SiteLanguageReport = {
+  data: Array<SiteLanguageDatum>;
+  paginationCursor: string | null;
+};
