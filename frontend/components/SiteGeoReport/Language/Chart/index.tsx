@@ -52,7 +52,6 @@ function BaseChart({ data, debounceTime: _, enableDebounceLeadingCall: __, paren
   const router = useRouter();
   const { hideTooltip, showTooltip: rawShowTooltip, tooltipData, tooltipLeft, tooltipOpen, tooltipTop } = useTooltip<Tooltip>();
   const { end, start } = useContext(SiteReportsFiltersContext);
-  // const { data } = useSiteLanguageReport();
 
   const state = useMemo<State | null>(() => {
     if (data === undefined || parentWidth === undefined || parentHeight == undefined) {

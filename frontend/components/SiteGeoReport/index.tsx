@@ -14,7 +14,6 @@ type Section = {
   title: string;
 };
 
-
 const routerQuerySectionSlugKey = "geo";
 
 const sections: Array<Section> = [

@@ -29,7 +29,7 @@ export function Modal() {
   const handleLoadMoreClick = useCallback<React.MouseEventHandler<HTMLButtonElement>>(() => setSize((s) => s + 1), [setSize]);
 
   return (
-    <BsModal onHide={onHide} show={show} size="lg">
+    <BsModal onHide={onHide} show={show}>
       <BsModal.Header closeButton>
         <BsModal.Title>Pages</BsModal.Title>
       </BsModal.Header>
