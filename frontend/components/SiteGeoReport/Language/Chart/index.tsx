@@ -12,7 +12,14 @@ import { useRouter } from "next/router";
 import React, { useCallback, useContext, useMemo } from "react";
 import { ChartTooltip } from "../../..";
 import { SiteReportsFiltersContext } from "../../../../contexts";
-import { useSiteLanguageReport } from "../../../../hooks";
+
+export type ChartProps = Overwrite<Omit<React.PropsWithoutRef<JSX.IntrinsicElements["svg"]>, "children">, {
+  data: Array<HydratedSiteLanguageDatum>;
+  debounceTime?: number;
+  enableDebounceLeadingCall?: boolean;
+  parentHeight?: number;
+  parentWidth?: number;
+}>;
 
 type State = {
   data: Array<StateDatum>;
@@ -41,18 +48,10 @@ type Tooltip = {
 
 const padding = { bottom: 32, left: 8, top: 8 };
 
-export type ChartProps = Overwrite<Omit<React.PropsWithoutRef<JSX.IntrinsicElements["svg"]>, "children">, {
-  debounceTime?: number;
-  enableDebounceLeadingCall?: boolean;
-  parentHeight?: number;
-  parentWidth?: number;
-}>;
-
-function BaseChart({ debounceTime: _, enableDebounceLeadingCall: __, parentHeight, parentWidth }: ChartProps) {
+function BaseChart({ data, debounceTime: _, enableDebounceLeadingCall: __, parentHeight, parentWidth }: ChartProps) {
   const router = useRouter();
   const { hideTooltip, showTooltip: rawShowTooltip, tooltipData, tooltipLeft, tooltipOpen, tooltipTop } = useTooltip<Tooltip>();
   const { end, start } = useContext(SiteReportsFiltersContext);
-  const { data } = useSiteLanguageReport();
 
   const state = useMemo<State | null>(() => {
     if (data === undefined || parentWidth === undefined || parentHeight == undefined) {

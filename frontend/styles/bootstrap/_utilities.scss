@@ -95,6 +95,11 @@ $utilities: (
       0: 0,
     ),
   ),
+  "rounded-bottom-end": (
+    property: border-bottom-right-radius,
+    class: rounded-bottom-end,
+    values: (null: var(--#{$prefix}border-radius))
+  ),
   "start": (
     class: start,
     property: left,
