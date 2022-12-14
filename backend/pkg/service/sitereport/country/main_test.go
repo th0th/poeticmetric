@@ -1,14 +1,6 @@
-<<<<<<<< HEAD:backend/pkg/service/sitereport/country/main_test.go
 package country
-========
-package language
->>>>>>>> development:backend/pkg/service/sitereport/language/main_test.go
 
 import (
-	"os"
-	"testing"
-	"time"
-
 	"github.com/brianvoe/gofakeit/v6"
 	"github.com/google/uuid"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
@@ -17,6 +9,9 @@ import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/filter"
 	h "github.com/poeticmetric/poeticmetric/backend/pkg/testhelper"
 	"github.com/stretchr/testify/assert"
+	"os"
+	"testing"
+	"time"
 )
 
 var (
@@ -32,28 +27,6 @@ func TestGet(t *testing.T) {
 	end, err := time.Parse("2006-01-02", "2022-12-31")
 	assert.NoError(t, err)
 
-<<<<<<<< HEAD:backend/pkg/service/sitereport/country/main_test.go
-========
-	modelSite := h.Site(dp, nil)
-
-	testData := []*struct {
-		Language     string
-		VisitorCount int
-	}{
-		{Language: "English", VisitorCount: 652},
-		{Language: "Turkish", VisitorCount: 292},
-		{Language: "German", VisitorCount: 147},
-		{Language: "French", VisitorCount: 144},
-		{Language: "Spanish", VisitorCount: 128},
-		{Language: "Hindi", VisitorCount: 116},
-		{Language: "Portuguese", VisitorCount: 109},
-		{Language: "Russian", VisitorCount: 107},
-		{Language: "Japanese", VisitorCount: 104},
-		{Language: "Korean", VisitorCount: 101},
-		{Language: "Italian", VisitorCount: 100},
-	}
-
->>>>>>>> development:backend/pkg/service/sitereport/language/main_test.go
 	events := []*model.Event{}
 
 	testData := []struct {
@@ -61,9 +34,17 @@ func TestGet(t *testing.T) {
 		VisitorCount   int
 	}{
 		{CountryIsoCode: nil, VisitorCount: 237},
-		{CountryIsoCode: pointer.Get("TUR"), VisitorCount: 52},
-		{CountryIsoCode: pointer.Get("DEU"), VisitorCount: 34},
-		{CountryIsoCode: pointer.Get("USA"), VisitorCount: 14},
+		{CountryIsoCode: pointer.Get("TUR"), VisitorCount: 628},
+		{CountryIsoCode: pointer.Get("DEU"), VisitorCount: 470},
+		{CountryIsoCode: pointer.Get("USA"), VisitorCount: 387},
+		{CountryIsoCode: pointer.Get("IND"), VisitorCount: 226},
+		{CountryIsoCode: pointer.Get("EST"), VisitorCount: 195},
+		{CountryIsoCode: pointer.Get("BLR"), VisitorCount: 59},
+		{CountryIsoCode: pointer.Get("SWE"), VisitorCount: 25},
+		{CountryIsoCode: pointer.Get("UKR"), VisitorCount: 4},
+		{CountryIsoCode: pointer.Get("GBR"), VisitorCount: 3},
+		{CountryIsoCode: pointer.Get("ITA"), VisitorCount: 2},
+		{CountryIsoCode: pointer.Get("GRC"), VisitorCount: 1},
 	}
 
 	for _, d := range testData {
@@ -90,43 +71,23 @@ func TestGet(t *testing.T) {
 	}, nil)
 	assert.NoError(t, err)
 
-<<<<<<<< HEAD:backend/pkg/service/sitereport/country/main_test.go
-	expectedReport := Report{
-		{
-			Country:           "Turkey",
-			CountryIsoCode:    "TUR",
-			VisitorCount:      52,
-			VisitorPercentage: 52,
-		},
-		{
-			Country:           "Germany",
-			CountryIsoCode:    "DEU",
-			VisitorCount:      34,
-			VisitorPercentage: 34,
-		},
-		{
-			Country:           "United States",
-			CountryIsoCode:    "USA",
-			VisitorCount:      14,
-			VisitorPercentage: 14,
-		},
-========
-	// total is 2000
 	expectedReport := &Report{
 		Data: []*Datum{
-			{Language: "English", VisitorCount: 652, VisitorPercentage: 33},
-			{Language: "Turkish", VisitorCount: 292, VisitorPercentage: 15},
-			{Language: "German", VisitorCount: 147, VisitorPercentage: 7},
-			{Language: "French", VisitorCount: 144, VisitorPercentage: 7},
-			{Language: "Spanish", VisitorCount: 128, VisitorPercentage: 6},
-			{Language: "Hindi", VisitorCount: 116, VisitorPercentage: 6},
-			{Language: "Portuguese", VisitorCount: 109, VisitorPercentage: 5},
-			{Language: "Russian", VisitorCount: 107, VisitorPercentage: 5},
-			{Language: "Japanese", VisitorCount: 104, VisitorPercentage: 5},
-			{Language: "Korean", VisitorCount: 101, VisitorPercentage: 5},
+			{Country: "Turkey", CountryIsoCode: "TUR", VisitorCount: 628, VisitorPercentage: 31},
+			{Country: "Germany", CountryIsoCode: "DEU", VisitorCount: 470, VisitorPercentage: 24},
+			{Country: "United States", CountryIsoCode: "USA", VisitorCount: 387, VisitorPercentage: 19},
+			{Country: "India", CountryIsoCode: "IND", VisitorCount: 226, VisitorPercentage: 11},
+			{Country: "Estonia", CountryIsoCode: "EST", VisitorCount: 195, VisitorPercentage: 10},
+			{Country: "Belarus", CountryIsoCode: "BLR", VisitorCount: 59, VisitorPercentage: 3},
+			{Country: "Sweden", CountryIsoCode: "SWE", VisitorCount: 25, VisitorPercentage: 1},
+			{Country: "Ukraine", CountryIsoCode: "UKR", VisitorCount: 4, VisitorPercentage: 0},
+			{Country: "United Kingdom", CountryIsoCode: "GBR", VisitorCount: 3, VisitorPercentage: 0},
+			{Country: "Italy", CountryIsoCode: "ITA", VisitorCount: 2, VisitorPercentage: 0},
 		},
-		PaginationCursor: &PaginationCursor{Language: "Korean", VisitorCount: 101},
->>>>>>>> development:backend/pkg/service/sitereport/language/main_test.go
+		PaginationCursor: &PaginationCursor{
+			CountryIsoCode: "ITA",
+			VisitorCount:   2,
+		},
 	}
 
 	assert.Equal(t, expectedReport, report)
