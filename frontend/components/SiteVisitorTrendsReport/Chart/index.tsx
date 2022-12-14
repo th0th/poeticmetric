@@ -73,12 +73,12 @@ export function BaseChart({ parentHeight, parentWidth }: BaseChartProps) {
 
     const colorScale = chroma
       .scale([
-        "#e9ecef",
-        "#cfe2ff",
-        "#9ec5fe",
-        "#6ea8fe",
-        "#3d8bfd",
-        "#0d6efd",
+        "#EFF8FD",
+        "#BEE3F8",
+        "#90CDF4",
+        "#63B3ED",
+        "#4299E1",
+        "#3182CE",
       ])
       .domain([0, Math.max(...rawData.map((d) => d.visitorCount))]);
 

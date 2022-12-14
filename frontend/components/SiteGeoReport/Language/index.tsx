@@ -33,7 +33,7 @@ export function Language() {
               </Col>
 
               <Col className="d-flex flex-column" lg={5}>
-                <div className="border-1 border-start d-flex flex-column flex-grow-1 ps-3">
+                <div className="border-1 border-start-lg d-flex flex-column flex-grow-1 ps-lg-3">
                   <Table borderless className="fss-1 table-layout-fixed" responsive size="sm">
                     <thead>
                       <tr>
@@ -46,7 +46,7 @@ export function Language() {
 
                     <tbody>
                       {data.map((d) => (
-                        <tr className="d-parent" key={d.language}>
+                        <tr className="parent-d" key={d.language}>
                           <td colSpan={2}>
                             <Link
                               className="text-body text-decoration-none text-decoration-underline-hover text-truncate"
@@ -67,7 +67,7 @@ export function Language() {
                   </Table>
 
                   <Link
-                    className="bg-light-hover border-1 border-top d-block fw-medium mt-auto mx-n3 p-2 rounded-bottom-end text-center text-decoration-none"
+                    className="bg-light-hover border-1 border-top d-block fw-medium mt-auto mx-n3 p-2 rounded-bottom rounded-bottom-start-lg-0 text-center text-decoration-none"
                     href={{ pathname: router.pathname, query: { ...router.query, detail: "language" } }}
                     scroll={false}
                   >

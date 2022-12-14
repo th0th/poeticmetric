@@ -45,7 +45,7 @@ export function SitePathReport({ className, ...props }: SitePathReportProps) {
 
                 <tbody>
                   {data.map((d) => (
-                    <tr className="d-parent" key={d.path}>
+                    <tr className="parent-d" key={d.path}>
                       <td colSpan={2}>
                         <div className="align-items-center d-flex flex-grow-1 flex-row min-w-0 pe-1">
                           <Link
@@ -58,7 +58,7 @@ export function SitePathReport({ className, ...props }: SitePathReportProps) {
                           </Link>
 
                           <a
-                            className="d-parent-block flex-grow-0 flex-shrink-0 lh-1 ms-2 text-black text-primary-hover"
+                            className="parent-d-block flex-grow-0 flex-shrink-0 lh-1 ms-2 text-black text-primary-hover"
                             href={d.url}
                             rel="noreferrer"
                             target="_blank"

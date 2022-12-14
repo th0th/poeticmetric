@@ -1,4 +1,4 @@
-package sitecountryreport
+package country
 
 import (
 	"github.com/brianvoe/gofakeit/v6"

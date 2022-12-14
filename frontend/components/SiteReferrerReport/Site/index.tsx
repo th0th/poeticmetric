@@ -34,7 +34,7 @@ export function Site() {
 
         <tbody>
           {data.map((d) => (
-            <tr className="d-parent" key={d.referrerSite}>
+            <tr className="parent-d" key={d.referrerSite}>
               <td colSpan={2}>
                 <div className="align-items-center d-flex flex-grow-1 flex-row min-w-0 pe-1">
                   <Link
@@ -49,7 +49,7 @@ export function Site() {
                   </Link>
 
                   <a
-                    className="d-parent-block flex-grow-0 flex-shrink-0 lh-1 ms-2 text-black text-primary-hover"
+                    className="parent-d-block flex-grow-0 flex-shrink-0 lh-1 ms-2 text-black text-primary-hover"
                     href={d.referrerSite}
                     rel="noreferrer"
                     target="_blank"

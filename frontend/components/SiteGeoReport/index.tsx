@@ -44,7 +44,7 @@ export function SiteGeoReport({ className, ...props }: SiteGeoReportProps) {
     <Card {...props} className={classNames("d-flex site-report-card", className)}>
       <Card.Body className="d-flex flex-column flex-grow-1 flex-shrink-1 min-h-0">
         <div className="align-items-center d-flex flex-row mb-3">
-          <h6 className="mb-0">Visitors and page views</h6>
+          <h6 className="mb-0">Geography</h6>
 
           <div className="ms-auto">
             <Dropdown onSelect={handleDropdownSelect}>

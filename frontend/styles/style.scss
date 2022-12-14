@@ -1,5 +1,151 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;1,1000&display=swap");
-@import "./bootstrap/bootstrap";
+// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
+@import "bootstrap/scss/functions";
+
+// 2. Include any default variable overrides here
+$enable-negative-margins: true;
+$min-contrast-ratio: 4.5;
+
+$blue: #2B6CB0;
+$gray: #718096;
+$red: #C53030;
+$yellow: #D69E2E;
+
+$font-weight-medium: 500;
+
+// 3. Include remainder of required Bootstrap stylesheets
+@import "bootstrap/scss/variables";
+
+// 4. Include any default map overrides here
+$border-color-translucent: rgba($black, .125);
+
+// 5. Include remainder of required parts
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/root";
+
+// 5.5 Utilities
+@import "bootstrap/scss/utilities";
+
+$fixed-sizes: (1rem 2rem 3rem 4rem 5rem 6rem 7rem 8rem);
+
+$utilities: map-merge($utilities, (
+  "background-color": map-merge(map-get($utilities, "background-color"), (
+    state: hover,
+  )),
+  "border-start": map-merge(map-get($utilities, "border-start"), (
+    responsive: true,
+  )),
+  "bottom": map-merge(map-get($utilities, "bottom"), (
+    responsive: true,
+  )),
+  "color": map-merge(map-get($utilities, "color"), (
+    state: hover,
+  )),
+  "cursor": (
+    property: cursor,
+    class: cursor,
+    values: (
+      pointer,
+    ),
+  ),
+  "end": map-merge(map-get($utilities, "end"), (
+    responsive: true,
+  )),
+  "font-weight": map-merge(map-get($utilities, "font-weight"), (
+    values: map-merge(map-get(map-get($utilities, "font-weight"), "values"), (
+      medium: $font-weight-medium,
+    )),
+  )),
+  "font-size-small": (
+    property: font-size,
+    class: fss,
+    values: (
+      1: 0.875rem,
+      2: 0.75rem,
+      3: 0.625rem,
+      4: 0.5rem,
+    ),
+  ),
+  "height-fixed": (
+    class: h,
+    property: height,
+    values: $fixed-sizes,
+  ),
+  "min-height": (
+    property: min-height,
+    class: min-h,
+    values: (
+      0: 0,
+    ),
+  ),
+  "min-width": (
+    property: min-width,
+    class: min-w,
+    values: (
+      0: 0,
+    ),
+  ),
+  "rounded-bottom-end": (
+    class: rounded-bottom-end,
+    property: border-bottom-right-radius,
+    responsive: true,
+    values: (
+      0: 0,
+      null: var(--#{$prefix}border-radius),
+    )
+  ),
+  "rounded-bottom-start": (
+    class: rounded-bottom-start,
+    property: border-bottom-left-radius,
+    responsive: true,
+    values: (
+      0: 0,
+      null: var(--#{$prefix}border-radius),
+    )
+  ),
+  "start": map-merge(map-get($utilities, "start"), (
+    responsive: true,
+  )),
+  "text-decoration": map-merge(map-get($utilities, "text-decoration"), (
+    state: hover,
+  )),
+  "top": map-merge(map-get($utilities, "top"), (
+    responsive: true,
+  )),
+  "width-fixed": (
+    class: w,
+    property: width,
+    values: $fixed-sizes,
+  ),
+));
+
+// 6. Optionally include any other parts as needed
+@import "bootstrap/scss/alert";
+@import "bootstrap/scss/breadcrumb";
+@import "bootstrap/scss/buttons";
+@import "bootstrap/scss/card";
+@import "bootstrap/scss/close";
+@import "bootstrap/scss/containers";
+@import "bootstrap/scss/dropdown";
+@import "bootstrap/scss/forms";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/helpers";
+@import "bootstrap/scss/modal";
+@import "bootstrap/scss/nav";
+@import "bootstrap/scss/navbar";
+@import "bootstrap/scss/reboot";
+@import "bootstrap/scss/root";
+@import "bootstrap/scss/spinners";
+@import "bootstrap/scss/tables";
+@import "bootstrap/scss/toasts";
+@import "bootstrap/scss/type";
+
+// 7. Optionally include utilities API last to generate classes based on the Sass map in `_utilities.scss`
+@import "bootstrap/scss/utilities/api";
+
+// 8. Add additional custom code here
+@import "bootstrap-icons/font/bootstrap-icons";
+@import "flag-icons/sass/flag-icons";
 @import "./react-datepicker";
 
 body {
@@ -8,8 +154,8 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
 
-  font-feature-settings: 'kern';
-  font-feature-settings: 'calt' off;
+  font-feature-settings: "kern";
+  font-feature-settings: "calt" off;
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -25,15 +171,23 @@ svg {
   fill: currentColor;
 }
 
-.d-parent {
+.parent-d {
   &:focus-within, &:hover {
-    .d-parent-block {
+    .parent-d-block {
       display: block !important;
     }
   }
 
-  [class^="d-parent"], [class*=" d-parent"] {
+  [class^="parent-d"], [class*=" parent-d"] {
     display: none !important;
+  }
+}
+
+.parent-text-decoration {
+  &:hover {
+    .parent-hover-text-decoration-underline {
+      text-decoration: underline;
+    }
   }
 }
 

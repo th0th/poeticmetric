@@ -30,7 +30,7 @@ export function Medium() {
       </div>
 
       {state.data.slice(0, 5).map((d) => (
-        <div className="align-items-center d-flex d-parent flex-row lh-lg" key={d.utmMedium}>
+        <div className="align-items-center d-flex parent-d flex-row lh-lg" key={d.utmMedium}>
           <div className="align-items-center d-flex flex-grow-1 flex-row pe-1 overflow-hidden">
             <Link
               className="text-reset text-decoration-none text-decoration-underline-hover text-truncate"

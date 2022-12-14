@@ -48,7 +48,7 @@ export function Modal() {
           <tbody>
             {data.map((d) => (
               <tr key={d.language}>
-                <td className="d-parent" colSpan={2}>
+                <td className="parent-d" colSpan={2}>
                   <div className="d-flex flex-row">
                     <Link
                       className="text-body text-decoration-none text-decoration-underline-hover text-truncate"
