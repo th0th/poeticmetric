@@ -1,4 +1,3 @@
-import isoCountries from "i18n-iso-countries";
 import { omit } from "lodash";
 import Link from "next/link";
 import { useRouter } from "next/router";
