@@ -1,6 +1,14 @@
+<<<<<<<< HEAD:backend/pkg/service/sitereport/country/main_test.go
 package country
+========
+package language
+>>>>>>>> development:backend/pkg/service/sitereport/language/main_test.go
 
 import (
+	"os"
+	"testing"
+	"time"
+
 	"github.com/brianvoe/gofakeit/v6"
 	"github.com/google/uuid"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
@@ -9,9 +17,6 @@ import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/filter"
 	h "github.com/poeticmetric/poeticmetric/backend/pkg/testhelper"
 	"github.com/stretchr/testify/assert"
-	"os"
-	"testing"
-	"time"
 )
 
 var (
@@ -27,6 +32,28 @@ func TestGet(t *testing.T) {
 	end, err := time.Parse("2006-01-02", "2022-12-31")
 	assert.NoError(t, err)
 
+<<<<<<<< HEAD:backend/pkg/service/sitereport/country/main_test.go
+========
+	modelSite := h.Site(dp, nil)
+
+	testData := []*struct {
+		Language     string
+		VisitorCount int
+	}{
+		{Language: "English", VisitorCount: 652},
+		{Language: "Turkish", VisitorCount: 292},
+		{Language: "German", VisitorCount: 147},
+		{Language: "French", VisitorCount: 144},
+		{Language: "Spanish", VisitorCount: 128},
+		{Language: "Hindi", VisitorCount: 116},
+		{Language: "Portuguese", VisitorCount: 109},
+		{Language: "Russian", VisitorCount: 107},
+		{Language: "Japanese", VisitorCount: 104},
+		{Language: "Korean", VisitorCount: 101},
+		{Language: "Italian", VisitorCount: 100},
+	}
+
+>>>>>>>> development:backend/pkg/service/sitereport/language/main_test.go
 	events := []*model.Event{}
 
 	testData := []struct {
@@ -60,9 +87,10 @@ func TestGet(t *testing.T) {
 		End:    end,
 		SiteId: modelSite.Id,
 		Start:  start,
-	})
+	}, nil)
 	assert.NoError(t, err)
 
+<<<<<<<< HEAD:backend/pkg/service/sitereport/country/main_test.go
 	expectedReport := Report{
 		{
 			Country:           "Turkey",
@@ -82,6 +110,23 @@ func TestGet(t *testing.T) {
 			VisitorCount:      14,
 			VisitorPercentage: 14,
 		},
+========
+	// total is 2000
+	expectedReport := &Report{
+		Data: []*Datum{
+			{Language: "English", VisitorCount: 652, VisitorPercentage: 33},
+			{Language: "Turkish", VisitorCount: 292, VisitorPercentage: 15},
+			{Language: "German", VisitorCount: 147, VisitorPercentage: 7},
+			{Language: "French", VisitorCount: 144, VisitorPercentage: 7},
+			{Language: "Spanish", VisitorCount: 128, VisitorPercentage: 6},
+			{Language: "Hindi", VisitorCount: 116, VisitorPercentage: 6},
+			{Language: "Portuguese", VisitorCount: 109, VisitorPercentage: 5},
+			{Language: "Russian", VisitorCount: 107, VisitorPercentage: 5},
+			{Language: "Japanese", VisitorCount: 104, VisitorPercentage: 5},
+			{Language: "Korean", VisitorCount: 101, VisitorPercentage: 5},
+		},
+		PaginationCursor: &PaginationCursor{Language: "Korean", VisitorCount: 101},
+>>>>>>>> development:backend/pkg/service/sitereport/language/main_test.go
 	}
 
 	assert.Equal(t, expectedReport, report)
