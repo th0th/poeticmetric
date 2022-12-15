@@ -34,7 +34,7 @@ export function Path() {
 
         <tbody>
           {data.map((d) => (
-            <tr className="d-parent" key={d.referrerPath}>
+            <tr className="parent-d" key={d.referrerPath}>
               <td colSpan={2}>
                 <div className="align-items-center d-flex flex-grow-1 flex-row min-w-0 pe-1">
                   <Link
@@ -49,7 +49,7 @@ export function Path() {
                   </Link>
 
                   <a
-                    className="d-parent-block flex-grow-0 flex-shrink-0 lh-1 ms-2 text-black text-primary-hover"
+                    className="parent-d-block flex-grow-0 flex-shrink-0 lh-1 ms-2 text-black text-primary-hover"
                     href={d.referrer}
                     rel="noreferrer"
                     target="_blank"

@@ -3,10 +3,12 @@ package sitereport
 import (
 	"encoding/json"
 	"fmt"
+
 	"github.com/gofiber/fiber/v2"
+	country2 "github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/country"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/filter"
 	language2 "github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/language"
-	sitepathreport "github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/path"
+	path2 "github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/path"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/referrerpath"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/referrersite"
 )
@@ -19,7 +21,7 @@ func Add(app *fiber.App) {
 
 	group.Get("/browser-name", browserName)
 	group.Get("/browser-version", browserVersion)
-	group.Get("/country", country)
+	group.Get("/country", paginationCursorMiddleware[country2.PaginationCursor](), country)
 	group.Get("/device-type", deviceType)
 	group.Get("/language", paginationCursorMiddleware[language2.PaginationCursor](), language)
 	group.Get("/operating-system-name", operatingSystemName)
@@ -28,7 +30,7 @@ func Add(app *fiber.App) {
 	group.Get("/page-view", pageView)
 	group.Get("/page-view-trends", pageViewTrends)
 	group.Get("/path-duration", pathDuration)
-	group.Get("/path", paginationCursorMiddleware[sitepathreport.PaginationCursor](), path)
+	group.Get("/path", paginationCursorMiddleware[path2.PaginationCursor](), path)
 	group.Get("/referrer-path", paginationCursorMiddleware[referrerpath.PaginationCursor](), referrerPath)
 	group.Get("/referrer-site", paginationCursorMiddleware[referrersite.PaginationCursor](), referrerSite)
 	group.Get("/utm-campaign", utmCampaign)

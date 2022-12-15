@@ -1,8 +1,12 @@
-type HydratedSiteCountryDatum = SiteCountryDatum & {
+type HydratedSiteCountryDatum = Overwrite<SiteCountryDatum, {
+  countryIsoAlpha2Code: string;
+  visitorCountDisplay: string;
   visitorPercentageDisplay: string;
-};
+}>;
 
-type HydratedSiteCountryReport = Array<HydratedSiteCountryDatum>;
+type HydratedSiteCountryReport = Overwrite<SiteCountryReport, {
+  data: Array<HydratedSiteCountryDatum>;
+}>;
 
 type SiteCountryDatum = {
   country: string;
@@ -11,4 +15,7 @@ type SiteCountryDatum = {
   visitorPercentage: number;
 };
 
-type SiteCountryReport = Array<SiteCountryDatum>;
+type SiteCountryReport = {
+  data: Array<SiteCountryDatum>;
+  paginationCursor: string | null;
+};

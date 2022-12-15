@@ -54,7 +54,7 @@ export function Modal() {
           <tbody>
             {data.map((d) => (
               <tr key={d.path}>
-                <td className="d-parent" colSpan={2}>
+                <td className="parent-d" colSpan={2}>
                   <div className="d-flex flex-row">
                     <Link
                       className="text-body text-decoration-none text-decoration-underline-hover text-truncate"
@@ -66,7 +66,7 @@ export function Modal() {
                     </Link>
 
                     <a
-                      className="d-parent-block flex-grow-0 flex-shrink-0 lh-1 ms-2 text-black text-primary-hover"
+                      className="parent-d-block flex-grow-0 flex-shrink-0 lh-1 ms-2 text-black text-primary-hover"
                       href={d.url}
                       rel="noreferrer"
                       target="_blank"
