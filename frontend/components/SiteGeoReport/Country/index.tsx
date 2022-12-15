@@ -123,7 +123,7 @@ export function Country() {
 
               <Col className="d-flex flex-column" lg={5}>
                 <div className="border-1 border-start-lg d-flex flex-column flex-grow-1 mb-n3 ps-lg-3">
-                  <Table borderless className="fss-1 table-layout-fixed" responsive size="sm">
+                  <Table borderless className="fs-sm table-layout-fixed" responsive size="sm">
                     <thead>
                       <tr>
                         <th className="w-5rem">Country</th>
@@ -158,7 +158,7 @@ export function Country() {
                   </Table>
 
                   <Link
-                    className="bg-light-hover border-1 border-top d-block fw-medium mt-auto mx-n3 p-2 rounded-bottom rounded-bottom-end-lg text-center text-decoration-none"
+                    className="bg-light-hover border-1 border-top d-block fw-semibold mt-auto mx-n3 p-2 rounded-bottom rounded-bottom-end-lg text-center text-decoration-none"
                     href={{ pathname: router.pathname, query: { ...router.query, detail: "country" } }}
                     scroll={false}
                   >
@@ -173,7 +173,7 @@ export function Country() {
         {tooltipOpen && tooltipData !== undefined ? (
           <ChartTooltip left={tooltipLeft} top={tooltipTop}>
             <div className="text-center">
-              <div className="fss-2 fw-medium">{tooltipData.datum.country}</div>
+              <div className="fs-xs fw-medium">{tooltipData.datum.country}</div>
               <div className="mt-1">{`${tooltipData.datum.visitorCount} visitors (${tooltipData.datum.visitorPercentageDisplay})`}</div>
             </div>
           </ChartTooltip>

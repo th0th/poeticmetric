@@ -10,7 +10,7 @@ export function Name() {
       </div>
 
       <Link
-        className="bg-light-hover border-1 border-top d-block fw-medium mt-auto py-2 text-center text-decoration-none"
+        className="bg-light-hover border-1 border-top d-block fw-semibold mt-auto py-2 text-center text-decoration-none"
         href="/"
         scroll={false}
       >

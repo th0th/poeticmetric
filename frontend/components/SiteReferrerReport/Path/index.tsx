@@ -22,7 +22,7 @@ export function Path() {
 
   return data === null ? null : (
     <>
-      <Table borderless className="fss-1 table-layout-fixed" responsive size="sm">
+      <Table borderless className="fs-sm table-layout-fixed" responsive size="sm">
         <thead>
           <tr>
             <th>Page</th>
@@ -69,7 +69,7 @@ export function Path() {
       </Table>
 
       <Link
-        className="bg-light-hover border-1 border-top d-block fw-medium mb-n3 mt-auto mx-n3 p-2 rounded-bottom text-center text-decoration-none"
+        className="bg-light-hover border-1 border-top d-block fw-semibold mb-n3 mt-auto mx-n3 p-2 rounded-bottom text-center text-decoration-none"
         href={{ pathname: router.pathname, query: { ...router.query, detail: "referrer-path" } }}
         scroll={false}
       >

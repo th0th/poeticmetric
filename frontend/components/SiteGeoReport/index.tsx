@@ -50,7 +50,7 @@ export function SiteGeoReport({ className, ...props }: SiteGeoReportProps) {
             <Dropdown onSelect={handleDropdownSelect}>
               <Dropdown.Toggle
                 as={"button"}
-                className="bg-transparent bg-light-hover border-0 d-block fss-2 outline-none my-n1 py-1 rounded-2"
+                className="bg-transparent bg-light-hover border-0 d-block fs-xs outline-none my-n1 py-1 rounded-2"
               >
                 {section.title}
               </Dropdown.Toggle>

@@ -35,7 +35,7 @@ export function Modal() {
       </BsModal.Header>
 
       <BsModal.Body>
-        <Table borderless className="fss-1 table-layout-fixed" hover responsive striped>
+        <Table borderless className="fs-sm table-layout-fixed" hover responsive striped>
           <thead>
             <tr>
               <th className="w-8rem">Site</th>

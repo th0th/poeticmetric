@@ -11,7 +11,7 @@ type ChartTooltipProps = Overwrite<React.PropsWithoutRef<JSX.IntrinsicElements["
 export function ChartTooltip({ children, className, ...props }: ChartTooltipProps) {
   return (
     <Portal>
-      <TooltipWithBounds {...props} className={classNames("bg-dark fss-2 p-2 position-absolute rounded-1 text-white", className)} unstyled>
+      <TooltipWithBounds {...props} className={classNames("bg-dark fs-xs p-2 position-absolute rounded-1 text-white", className)} unstyled>
         {children}
       </TooltipWithBounds>
     </Portal>

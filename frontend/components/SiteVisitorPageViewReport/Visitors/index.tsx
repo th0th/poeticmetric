@@ -188,7 +188,7 @@ function BaseVisitors({ className, debounceTime: _, enableDebounceLeadingCall: _
             />
 
             <text
-              className="fss-3 text-muted"
+              className="fs-xxs text-muted"
               dy="1em"
               textAnchor="end"
               x={state.innerWidth}
@@ -246,7 +246,7 @@ function BaseVisitors({ className, debounceTime: _, enableDebounceLeadingCall: _
             <div>
               <div>{tooltipData.startDayjs.format("HH:mm")}</div>
 
-              <div className="fss-3">{tooltipData.startDayjs.format("MMM D")}</div>
+              <div className="fs-xxs">{tooltipData.startDayjs.format("MMM D")}</div>
             </div>
 
             <div>&rarr;</div>
@@ -254,7 +254,7 @@ function BaseVisitors({ className, debounceTime: _, enableDebounceLeadingCall: _
             <div>
               <div>{tooltipData.endDayjs.format("HH:mm")}</div>
 
-              <div className="fss-3">{tooltipData.endDayjs.format("MMM D")}</div>
+              <div className="fs-xxs">{tooltipData.endDayjs.format("MMM D")}</div>
             </div>
           </div>
 

@@ -74,7 +74,7 @@ export function SiteReportsFilters({ ...props }: SiteReportsFiltersProps) {
 
       <Dropdown.Menu>
         {state.filters.map((f) => (
-          <div className="align-items-center d-flex flex-row fss-1 dropdown-item-text dropdown-item" key={f.key}>
+          <div className="align-items-center d-flex flex-row fs-sm dropdown-item-text dropdown-item" key={f.key}>
             <div className="flex-grow-1">
               <span className="fw-medium">{`${f.keyDisplay}: `}</span>
 

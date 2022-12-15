@@ -48,7 +48,7 @@ export function SiteVisitorPageViewReport({ className, ...props }: SiteVisitorPa
 
             <div className="ms-auto">
               <Dropdown onSelect={handleDropdownSelect}>
-                <Dropdown.Toggle as={"button"} className="bg-transparent bg-light-hover border-0 d-block fss-2 outline-none my-n1 py-1 rounded-2">
+                <Dropdown.Toggle as={"button"} className="bg-transparent bg-light-hover border-0 d-block fs-xs outline-none my-n1 py-1 rounded-2">
                   {section.title}
                 </Dropdown.Toggle>
 
