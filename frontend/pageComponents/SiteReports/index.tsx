@@ -12,7 +12,7 @@ import {
   SiteReportsFiltersHandler,
   SiteReportsTimeWindowInput,
   SiteTechReport,
-  SiteUtmReports,
+  SiteUtmReport,
   SiteVisitorPageViewReport,
   SiteVisitorTrendsReport,
 } from "../../components";
@@ -99,7 +99,7 @@ export function SiteReports() {
               </Col>
 
               <Col lg={4}>
-                <SiteUtmReports />
+                <SiteUtmReport />
               </Col>
             </Row>
           </SiteReportsFiltersHandler>

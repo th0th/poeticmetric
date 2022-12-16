@@ -7,7 +7,7 @@ import { Browser } from "./Browser";
 import { Device } from "./Device";
 import { OperatingSystem } from "./OperatingSystem";
 
-export type SiteGeoReportProps = Omit<CardProps, "children">;
+export type SiteTechReportProps = Omit<CardProps, "children">;
 
 type Section = {
   content: React.ReactNode;
@@ -23,7 +23,7 @@ const sections: Array<Section> = [
   { content: <OperatingSystem />, slug: "operating-system", title: "Operating system" },
 ];
 
-export function SiteTechReport({ className, ...props }: SiteGeoReportProps) {
+export function SiteTechReport({ className, ...props }: SiteTechReportProps) {
   const router = useRouter();
 
   const section = useMemo<Section>(() => {

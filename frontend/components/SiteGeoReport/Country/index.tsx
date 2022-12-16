@@ -144,7 +144,7 @@ export function Country() {
                               scroll={false}
                               title={d.country}
                             >
-                              <span className={`fi fi-${d.countryIsoAlpha2Code} fis me-1 rounded-circle text-decoration-none`} />
+                              <span className={`fi fi-${d.countryIsoAlpha2Code} fis me-1 rounded-circle shadow-sm text-decoration-none`} />
 
                               <span className="parent-hover-text-decoration-underline text-truncate">{d.country}</span>
                             </Link>

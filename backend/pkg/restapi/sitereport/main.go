@@ -7,6 +7,7 @@ import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/browserversion"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/operatingsystemname"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/operatingsystemversion"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/utmsource"
 
 	"github.com/gofiber/fiber/v2"
 	country2 "github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/country"
@@ -40,7 +41,7 @@ func Add(app *fiber.App) {
 	group.Get("/utm-campaign", utmCampaign)
 	group.Get("/utm-content", utmContent)
 	group.Get("/utm-medium", utmMedium)
-	group.Get("/utm-source", utmSource)
+	group.Get("/utm-source", paginationCursorMiddleware[utmsource.PaginationCursor], utmSource)
 	group.Get("/utm-term", utmTerm)
 	group.Get("/visitor", visitor)
 	group.Get("/visitor-page-view", visitorPageView)
