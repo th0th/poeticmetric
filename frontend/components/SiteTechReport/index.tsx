@@ -2,64 +2,73 @@ import classNames from "classnames";
 import { omit } from "lodash";
 import { useRouter } from "next/router";
 import React, { useCallback, useMemo } from "react";
-import { Card, CardProps, Form } from "react-bootstrap";
+import { Card, CardProps, Dropdown, DropdownProps } from "react-bootstrap";
 import { Browser } from "./Browser";
 import { Device } from "./Device";
 import { OperatingSystem } from "./OperatingSystem";
 
-export type SiteTechReportProps = Omit<CardProps, "children">;
+export type SiteGeoReportProps = Omit<CardProps, "children">;
 
 type Section = {
   content: React.ReactNode;
-  slug: string | null;
+  slug?: string;
   title: string;
 };
 
-const slugRouterQueryKey = "pages";
+const routerQuerySectionSlugKey = "tech";
 
 const sections: Array<Section> = [
-  { content: <Device />, slug: null, title: "Devices" },
-  { content: <Browser />, slug: "browsers", title: "Browsers" },
-  { content: <OperatingSystem />, slug: "operating-systems", title: "Operating systems" },
+  { content: <Device />, title: "Devices" },
+  { content: <Browser />, slug: "browser", title: "Browsers" },
+  { content: <OperatingSystem />, slug: "operating-system", title: "Operating system" },
 ];
 
-export function SiteTechReport({ className, ...props }: SiteTechReportProps) {
+export function SiteTechReport({ className, ...props }: SiteGeoReportProps) {
   const router = useRouter();
 
   const section = useMemo<Section>(() => {
-    const slug = router.query[slugRouterQueryKey]?.toString() || null;
+    const slug = router.query[routerQuerySectionSlugKey]?.toString() || null;
 
     return sections.find((s) => s.slug === slug) || sections.find((s) => s.slug === null) || sections[0];
   }, [router.query]);
 
-  const handleSectionChange = useCallback<React.ChangeEventHandler<HTMLSelectElement>>(async (event) => {
-    const query = omit(router.query, slugRouterQueryKey);
+  const handleDropdownSelect = useCallback<Exclude<DropdownProps["onSelect"], undefined>>(async (eventKey) => {
+    const query = omit(router.query, routerQuerySectionSlugKey);
 
-    if (event.target.value !== "") {
-      query[slugRouterQueryKey] = event.target.value;
+    if (eventKey !== null) {
+      query[routerQuerySectionSlugKey] = eventKey;
     }
 
     await router.push({ pathname: router.pathname, query }, undefined, { scroll: false });
   }, [router]);
 
   return (
-    <Card {...props} className={classNames("overflow-hidden site-report-card", className)}>
-      <Card.Body className="d-flex flex-column pb-0 pe-0 ps-0">
-        <div className="align-items-center d-flex flex-row gap-3 mb-2 pe-3 ps-3">
-          <Card.Title className="fs-6 mb-0">Technology</Card.Title>
+    <Card {...props} className={classNames("d-flex site-report-card", className)}>
+      <Card.Body className="d-flex flex-column flex-grow-1 flex-shrink-1 min-h-0">
+        <div className="align-items-center d-flex flex-row mb-3">
+          <h6 className="mb-0">Technology</h6>
 
           <div className="ms-auto">
-            <Form.Select onChange={handleSectionChange} size="sm" value={router.query[slugRouterQueryKey] || ""}>
-              {sections.map((s) => (
-                <option key={s.title} value={s.slug || ""}>{s.title}</option>
-              ))}
-            </Form.Select>
+            <Dropdown onSelect={handleDropdownSelect}>
+              <Dropdown.Toggle
+                as={"button"}
+                className="bg-transparent bg-light-hover border-0 d-block fs-xs outline-none my-n1 py-1 rounded-2"
+              >
+                {section.title}
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                {sections.map((d) => (
+                  <Dropdown.Item eventKey={d.slug} key={d.title}>
+                    {d.title}
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
           </div>
         </div>
 
-        <div className="d-flex flex-column flex-grow-1 flex-shrink-1">
-          {section.content}
-        </div>
+        {section.content}
       </Card.Body>
     </Card>
   );

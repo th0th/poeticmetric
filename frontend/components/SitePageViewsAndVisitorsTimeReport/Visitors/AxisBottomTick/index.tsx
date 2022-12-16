@@ -17,7 +17,7 @@ export function AxisBottomTick({ className, formattedValue, ...props }: AxisBott
   return d === undefined ? null : (
     <text
       {...props}
-      className={classNames("fss-3 text-black", className)}
+      className={classNames("fs-xxs text-black", className)}
       fill={window.getComputedStyle(document.documentElement).getPropertyValue("--bs-black")}
     >
       <tspan className="fw-medium">

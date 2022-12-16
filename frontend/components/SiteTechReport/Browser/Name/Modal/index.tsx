@@ -3,24 +3,25 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useCallback, useMemo } from "react";
 import { Button, Modal as BsModal, ModalProps as BsModalProps, Spinner, Table } from "react-bootstrap";
-import { useSiteLanguageReport } from "../../../../hooks";
+import { useSiteBrowserNameReport } from "../../../../../hooks";
 
 export function Modal() {
   const router = useRouter();
-  const show = useMemo<BsModalProps["show"]>(() => router.query.detail === "language", [router.query.detail]);
+  const show = useMemo<BsModalProps["show"]>(() => router.query.detail === "browser-name", [router.query.detail]);
 
   const onHide = useCallback<Exclude<BsModalProps["onHide"], undefined>>(
     () => router.push({ pathname: router.pathname, query: omit(router.query, "detail") }, undefined, { scroll: false }),
     [router],
   );
-  const { data: rawData, isValidating, setSize } = useSiteLanguageReport();
 
-  const data = useMemo<Array<HydratedSiteLanguageDatum>>(() => {
+  const { data: rawData, isValidating, setSize } = useSiteBrowserNameReport();
+
+  const data = useMemo<Array<HydratedSiteBrowserNameDatum>>(() => {
     if (rawData === undefined) {
       return [];
     }
 
-    return rawData.reduce<Array<HydratedSiteLanguageDatum>>((a, v) => [...a, ...v.data], []);
+    return rawData.reduce<Array<HydratedSiteBrowserNameDatum>>((a, v) => [...a, ...v.data], []);
   }, [rawData]);
 
   const hasMore = useMemo<boolean>(() => !!(rawData?.at(-1)?.paginationCursor), [rawData]);
@@ -30,39 +31,39 @@ export function Modal() {
   return (
     <BsModal onHide={onHide} show={show}>
       <BsModal.Header closeButton>
-        <BsModal.Title>Languages</BsModal.Title>
+        <BsModal.Title>Browsers</BsModal.Title>
       </BsModal.Header>
 
       <BsModal.Body>
         <Table borderless className="fs-sm table-layout-fixed" hover responsive striped>
           <thead>
             <tr>
-              <th className="w-8rem">Language</th>
+              <th className="w-8rem">Browser</th>
 
               <th />
 
-              <th className="text-center w-7rem">Visitors</th>
+              <th className="text-end w-7rem">Visitors</th>
             </tr>
           </thead>
 
           <tbody>
             {data.map((d) => (
-              <tr key={d.language}>
+              <tr key={d.browserName}>
                 <td className="parent-d" colSpan={2}>
                   <div className="d-flex flex-row">
                     <Link
                       className="text-body text-decoration-none text-decoration-underline-hover text-truncate"
-                      href={{ pathname: router.pathname, query: { ...router.query, language: d.language } }}
+                      href={{ pathname: router.pathname, query: { ...router.query, browserName: d.browserName } }}
                       scroll={false}
-                      title={d.language}
+                      title={d.browserName}
                     >
-                      {d.language}
+                      {d.browserName}
                     </Link>
                   </div>
                 </td>
 
-                <td className="fw-medium text-center">
-                  <span title={d.visitorCount.toString()}>{d.visitorCountDisplay}</span>
+                <td className="fw-medium text-end">
+                  <span title={`${d.visitorCount} visitors`}>{d.visitorCountDisplay}</span>
                 </td>
               </tr>
             ))}

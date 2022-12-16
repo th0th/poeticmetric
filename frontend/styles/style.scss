@@ -3,13 +3,15 @@
 
 // 2. Include any default variable overrides here
 $enable-negative-margins: true;
-$min-contrast-ratio: 4.5;
+$min-contrast-ratio: 4;
 
-$blue: #2B6CB0;
+$blue: #3182CE;
 $gray: #718096;
 $red: #C53030;
 $yellow: #D69E2E;
 
+$font-size-xs: 0.75rem;
+$font-size-xxs: 0.5rem;
 $font-weight-medium: 500;
 
 // 3. Include remainder of required Bootstrap stylesheets
@@ -17,6 +19,8 @@ $font-weight-medium: 500;
 
 // 4. Include any default map overrides here
 $border-color-translucent: rgba($black, .125);
+$btn-font-weight: $font-weight-semibold;
+$dropdown-font-size: $font-size-sm;
 
 // 5. Include remainder of required parts
 @import "bootstrap/scss/maps";
@@ -56,16 +60,13 @@ $utilities: map-merge($utilities, (
       medium: $font-weight-medium,
     )),
   )),
-  "font-size-small": (
-    property: font-size,
-    class: fss,
-    values: (
-      1: 0.875rem,
-      2: 0.75rem,
-      3: 0.625rem,
-      4: 0.5rem,
-    ),
-  ),
+  "font-size": map-merge(map-get($utilities, "font-size"), (
+    values: map-merge(map-get(map-get($utilities, "font-size"), "values"), (
+      sm: $font-size-sm,
+      xs: $font-size-xs,
+      xxs: $font-size-xxs,
+    )),
+  )),
   "height-fixed": (
     class: h,
     property: height,
@@ -171,6 +172,10 @@ svg {
   fill: currentColor;
 }
 
+.dropdown-item {
+  font-weight: $font-weight-medium;
+}
+
 .parent-d {
   &:focus-within, &:hover {
     .parent-d-block {
@@ -214,5 +219,6 @@ svg {
 .visx-axis-tick {
   text {
     font-family: inherit;
+    font-weight: $font-weight-medium;
   }
 }

@@ -26,7 +26,7 @@ export function SiteOverviewReport({ ...props }: SiteOverviewReportsProps) {
 
               <div className="align-items-center d-flex flex-row">
                 <div className="align-items-center bg-white border border-4 border-primary d-flex flex-column flex-grow-0 flex-shrink-0 h-2rem justify-content-center me-2 p-1 rounded-circle text-primary w-2rem">
-                  <i className="bi-file-text-fill fss-1" />
+                  <i className="bi-file-text-fill fs-sm" />
                 </div>
 
                 <span className="fs-5 fw-bold">{data.pageViewCount}</span>
@@ -49,7 +49,7 @@ export function SiteOverviewReport({ ...props }: SiteOverviewReportsProps) {
 
               <div className="d-flex flex-row align-items-center">
                 <div className="align-items-center bg-white border border-4 border-primary d-flex flex-column flex-grow-0 flex-shrink-0 h-2rem justify-content-center me-2 p-1 rounded-circle text-primary w-2rem">
-                  <i className="bi-person-fill fss-1" />
+                  <i className="bi-person-fill fs-sm" />
                 </div>
 
                 <span className="fs-5 fw-bold">{data.visitorCount}</span>
@@ -72,7 +72,7 @@ export function SiteOverviewReport({ ...props }: SiteOverviewReportsProps) {
 
               <div className="d-flex flex-row align-items-center">
                 <div className="align-items-center bg-white border border-4 border-primary d-flex flex-column flex-grow-0 flex-shrink-0 h-2rem justify-content-center me-2 p-1 rounded-circle text-primary w-2rem">
-                  <i className="bi-layers-half fss-1" />
+                  <i className="bi-layers-half fs-sm" />
                 </div>
 
                 <span className="fs-5 fw-bold">{data.pageViewCountPerVisitor}</span>
@@ -95,7 +95,7 @@ export function SiteOverviewReport({ ...props }: SiteOverviewReportsProps) {
 
               <div className="d-flex flex-row align-items-center">
                 <div className="align-items-center bg-white border border-4 border-primary d-flex flex-column flex-grow-0 flex-shrink-0 h-2rem justify-content-center me-2 p-1 rounded-circle text-primary w-2rem">
-                  <i className="bi-clock-fill fss-1" />
+                  <i className="bi-clock-fill fs-sm" />
                 </div>
 
                 <span className="fs-5 fw-bold">{data.pageViewCountPerVisitor}</span>

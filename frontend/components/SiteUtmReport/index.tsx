@@ -65,7 +65,7 @@ export function SiteUtmReports({ className, ...props }: SiteUtmReportsProps) {
         {section.content}
       </Card.Body>
 
-      <Link className="bg-light-hover border-1 border-top d-block fw-medium py-2 text-center text-decoration-none" href="/" scroll={false}>
+      <Link className="bg-light-hover border-1 border-top d-block fw-semibold py-2 text-center text-decoration-none" href="/" scroll={false}>
         See more
       </Link>
     </Card>

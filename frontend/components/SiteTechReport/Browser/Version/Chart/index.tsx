@@ -41,7 +41,7 @@ type Tooltip = {
   datum: HydratedSiteBrowserVersionDatum;
 };
 
-const padding = { bottom: 10, left: 64, right: 10, top: 10 };
+const padding = { bottom: 10, left: 72, right: 10, top: 10 };
 
 export function BaseChart({ parentHeight, parentWidth }: BaseChartProps) {
   const router = useRouter();
@@ -61,7 +61,7 @@ export function BaseChart({ parentHeight, parentWidth }: BaseChartProps) {
       return null;
     }
 
-    const slicedData = rawData.slice(0, 5);
+    const slicedData = rawData[0].data.slice(0, 5);
 
     const height = parentHeight;
     const width = parentWidth;
@@ -166,7 +166,7 @@ export function BaseChart({ parentHeight, parentWidth }: BaseChartProps) {
             <div>
               <div>{start.format("HH:mm")}</div>
 
-              <div className="fss-3">{start.format("MMM D")}</div>
+              <div className="fs-xxs">{start.format("MMM D")}</div>
             </div>
 
             <div>&rarr;</div>
@@ -174,12 +174,12 @@ export function BaseChart({ parentHeight, parentWidth }: BaseChartProps) {
             <div>
               <div>{end.format("HH:mm")}</div>
 
-              <div className="fss-3">{end.format("MMM D")}</div>
+              <div className="fs-xxs">{end.format("MMM D")}</div>
             </div>
           </div>
 
           <div className="mt-2 text-center">
-            <div className="fss-2 fw-medium">{tooltipData.datum.browserVersion}</div>
+            <div className="fs-xs fw-medium">{`${tooltipData.datum.browserName} ${tooltipData.datum.browserVersion}`}</div>
 
             <div className="mt-1">{`${tooltipData.datum.visitorCount} visitors (${tooltipData.datum.visitorPercentageDisplay})`}</div>
           </div>

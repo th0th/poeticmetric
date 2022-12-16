@@ -166,7 +166,7 @@ export function BaseChart({ parentHeight, parentWidth }: BaseChartProps) {
             <div>
               <div>{start.format("HH:mm")}</div>
 
-              <div className="fss-3">{start.format("MMM D")}</div>
+              <div className="fs-xxs">{start.format("MMM D")}</div>
             </div>
 
             <div>&rarr;</div>
@@ -174,12 +174,12 @@ export function BaseChart({ parentHeight, parentWidth }: BaseChartProps) {
             <div>
               <div>{end.format("HH:mm")}</div>
 
-              <div className="fss-3">{end.format("MMM D")}</div>
+              <div className="fs-xxs">{end.format("MMM D")}</div>
             </div>
           </div>
 
           <div className="mt-2 text-center">
-            <div className="fss-2 fw-medium">{tooltipData.datum.operatingSystemName}</div>
+            <div className="fs-xs fw-medium">{tooltipData.datum.operatingSystemName}</div>
 
             <div className="mt-1">{`${tooltipData.datum.visitorCount} visitors (${tooltipData.datum.visitorPercentageDisplay})`}</div>
           </div>

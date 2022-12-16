@@ -34,7 +34,7 @@ export function Language() {
 
               <Col className="d-flex flex-column" lg={5}>
                 <div className="border-1 border-start-lg d-flex flex-column flex-grow-1 ps-lg-3">
-                  <Table borderless className="fss-1 table-layout-fixed" responsive size="sm">
+                  <Table borderless className="fs-sm table-layout-fixed" responsive size="sm">
                     <thead>
                       <tr>
                         <th className="w-5rem">Language</th>
@@ -67,7 +67,7 @@ export function Language() {
                   </Table>
 
                   <Link
-                    className="bg-light-hover border-1 border-top d-block fw-medium mt-auto mx-n3 p-2 rounded-bottom rounded-bottom-start-lg-0 text-center text-decoration-none"
+                    className="bg-light-hover border-1 border-top d-block fw-semibold mt-auto mx-n3 p-2 rounded-bottom rounded-bottom-start-lg-0 text-center text-decoration-none"
                     href={{ pathname: router.pathname, query: { ...router.query, detail: "language" } }}
                     scroll={false}
                   >

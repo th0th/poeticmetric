@@ -58,7 +58,7 @@ export function BaseChart({ parentHeight, parentWidth }: BaseChartProps) {
       return null;
     }
 
-    const slicedData = rawData.slice(0, 5);
+    const slicedData = rawData[0].data.slice(0, 5);
 
     const height = parentHeight;
     const width = parentWidth;
@@ -125,16 +125,14 @@ export function BaseChart({ parentHeight, parentWidth }: BaseChartProps) {
             />
 
             {state.data.map((d) => (
-              <>
-                <Bar
-                  fill={window.getComputedStyle(document.documentElement).getPropertyValue("--bs-primary")}
-                  height={d.height}
-                  key={d.datum.browserName}
-                  width={d.width}
-                  x={d.x}
-                  y={d.y}
-                />
-              </>
+              <Bar
+                fill={window.getComputedStyle(document.documentElement).getPropertyValue("--bs-primary")}
+                height={d.height}
+                key={d.datum.browserName}
+                width={d.width}
+                x={d.x}
+                y={d.y}
+              />
             ))}
           </Group>
 
@@ -165,7 +163,7 @@ export function BaseChart({ parentHeight, parentWidth }: BaseChartProps) {
             <div>
               <div>{start.format("HH:mm")}</div>
 
-              <div className="fss-3">{start.format("MMM D")}</div>
+              <div className="fs-xxs">{start.format("MMM D")}</div>
             </div>
 
             <div>&rarr;</div>
@@ -173,12 +171,12 @@ export function BaseChart({ parentHeight, parentWidth }: BaseChartProps) {
             <div>
               <div>{end.format("HH:mm")}</div>
 
-              <div className="fss-3">{end.format("MMM D")}</div>
+              <div className="fs-xxs">{end.format("MMM D")}</div>
             </div>
           </div>
 
           <div className="mt-2 text-center">
-            <div className="fss-2 fw-medium">{tooltipData.datum.browserName}</div>
+            <div className="fs-xs fw-medium">{tooltipData.datum.browserName}</div>
 
             <div className="mt-1">{`${tooltipData.datum.visitorCount} visitors (${tooltipData.datum.visitorPercentageDisplay})`}</div>
           </div>

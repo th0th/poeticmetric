@@ -22,7 +22,7 @@ export function Term() {
   }, [data]);
 
   return state === null ? null : (
-    <div className="fss-1 lh-lg">
+    <div className="fs-sm lh-lg">
       <div className="d-flex flex-row py-1">
         <div className="flex-grow-1 fw-semibold pe-1">UTM term</div>
 
