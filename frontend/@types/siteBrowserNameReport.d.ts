@@ -1,8 +1,11 @@
-type HydratedSiteBrowserNameDatum = SiteBrowserNameDatum & {
+type HydratedSiteBrowserNameDatum = Overwrite<SiteBrowserNameDatum, {
+  visitorCountDisplay: string;
   visitorPercentageDisplay: string;
-};
+}>;
 
-type HydratedSiteBrowserNameReport = Array<HydratedSiteBrowserNameDatum>;
+type HydratedSiteBrowserNameReport = Overwrite<SiteBrowserNameReport, {
+  data: Array<HydratedSiteBrowserNameDatum>;
+}>;
 
 type SiteBrowserNameDatum = {
   browserName: string;
@@ -10,4 +13,7 @@ type SiteBrowserNameDatum = {
   visitorPercentage: number;
 };
 
-type SiteBrowserNameReport = Array<SiteBrowserNameDatum>;
+type SiteBrowserNameReport = {
+  data: Array<HydratedSiteBrowserNameDatum>;
+  paginationCursor: string | null;
+};

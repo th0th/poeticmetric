@@ -58,7 +58,7 @@ export function BaseChart({ parentHeight, parentWidth }: BaseChartProps) {
       return null;
     }
 
-    const slicedData = rawData.slice(0, 5);
+    const slicedData = rawData[0].data.slice(0, 5);
 
     const height = parentHeight;
     const width = parentWidth;
@@ -125,16 +125,14 @@ export function BaseChart({ parentHeight, parentWidth }: BaseChartProps) {
             />
 
             {state.data.map((d) => (
-              <>
-                <Bar
-                  fill={window.getComputedStyle(document.documentElement).getPropertyValue("--bs-primary")}
-                  height={d.height}
-                  key={d.datum.browserName}
-                  width={d.width}
-                  x={d.x}
-                  y={d.y}
-                />
-              </>
+              <Bar
+                fill={window.getComputedStyle(document.documentElement).getPropertyValue("--bs-primary")}
+                height={d.height}
+                key={d.datum.browserName}
+                width={d.width}
+                x={d.x}
+                y={d.y}
+              />
             ))}
           </Group>
 

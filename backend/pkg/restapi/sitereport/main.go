@@ -3,6 +3,8 @@ package sitereport
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/browsername"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/browserversion"
 
 	"github.com/gofiber/fiber/v2"
 	country2 "github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/country"
@@ -19,8 +21,8 @@ const localsPaginationCursorKey = "paginationCursor"
 func Add(app *fiber.App) {
 	group := app.Group("/site-reports", filtersMiddleware)
 
-	group.Get("/browser-name", browserName)
-	group.Get("/browser-version", browserVersion)
+	group.Get("/browser-name", paginationCursorMiddleware[browsername.PaginationCursor](), browserName)
+	group.Get("/browser-version", paginationCursorMiddleware[browserversion.PaginationCursor](), browserVersion)
 	group.Get("/country", paginationCursorMiddleware[country2.PaginationCursor](), country)
 	group.Get("/device-type", deviceType)
 	group.Get("/language", paginationCursorMiddleware[language2.PaginationCursor](), language)
