@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/browsername"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/browserversion"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/operatingsystemname"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/operatingsystemversion"
 
 	"github.com/gofiber/fiber/v2"
 	country2 "github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/country"
@@ -21,20 +23,20 @@ const localsPaginationCursorKey = "paginationCursor"
 func Add(app *fiber.App) {
 	group := app.Group("/site-reports", filtersMiddleware)
 
-	group.Get("/browser-name", paginationCursorMiddleware[browsername.PaginationCursor](), browserName)
-	group.Get("/browser-version", paginationCursorMiddleware[browserversion.PaginationCursor](), browserVersion)
-	group.Get("/country", paginationCursorMiddleware[country2.PaginationCursor](), country)
+	group.Get("/browser-name", paginationCursorMiddleware[browsername.PaginationCursor], browserName)
+	group.Get("/browser-version", paginationCursorMiddleware[browserversion.PaginationCursor], browserVersion)
+	group.Get("/country", paginationCursorMiddleware[country2.PaginationCursor], country)
 	group.Get("/device-type", deviceType)
-	group.Get("/language", paginationCursorMiddleware[language2.PaginationCursor](), language)
-	group.Get("/operating-system-name", operatingSystemName)
-	group.Get("/operating-system-version", operatingSystemVersion)
+	group.Get("/language", paginationCursorMiddleware[language2.PaginationCursor], language)
+	group.Get("/operating-system-name", paginationCursorMiddleware[operatingsystemname.PaginationCursor], operatingSystemName)
+	group.Get("/operating-system-version", paginationCursorMiddleware[operatingsystemversion.PaginationCursor], operatingSystemVersion)
 	group.Get("/overview", overview)
 	group.Get("/page-view", pageView)
 	group.Get("/page-view-trends", pageViewTrends)
 	group.Get("/path-duration", pathDuration)
-	group.Get("/path", paginationCursorMiddleware[path2.PaginationCursor](), path)
-	group.Get("/referrer-path", paginationCursorMiddleware[referrerpath.PaginationCursor](), referrerPath)
-	group.Get("/referrer-site", paginationCursorMiddleware[referrersite.PaginationCursor](), referrerSite)
+	group.Get("/path", paginationCursorMiddleware[path2.PaginationCursor], path)
+	group.Get("/referrer-path", paginationCursorMiddleware[referrerpath.PaginationCursor], referrerPath)
+	group.Get("/referrer-site", paginationCursorMiddleware[referrersite.PaginationCursor], referrerSite)
 	group.Get("/utm-campaign", utmCampaign)
 	group.Get("/utm-content", utmContent)
 	group.Get("/utm-medium", utmMedium)
@@ -72,27 +74,25 @@ func filtersMiddleware(c *fiber.Ctx) error {
 	return c.Next()
 }
 
-func paginationCursorMiddleware[T any]() fiber.Handler {
-	return func(c *fiber.Ctx) error {
-		var err error
+func paginationCursorMiddleware[T any](c *fiber.Ctx) error {
+	var err error
 
-		paginationCursorString := c.Query("paginationCursor")
+	paginationCursorString := c.Query("paginationCursor")
 
-		if paginationCursorString != "" {
-			var paginationCursor T
+	if paginationCursorString != "" {
+		var paginationCursor T
 
-			err = json.Unmarshal([]byte(fmt.Sprintf(`"%s"`, paginationCursorString)), &paginationCursor)
-			if err != nil {
-				return c.
-					Status(fiber.StatusBadRequest).
-					JSON(map[string]string{
-						"paginationCursor": "Invalid pagination cursor.",
-					})
-			}
-
-			c.Locals(localsPaginationCursorKey, &paginationCursor)
+		err = json.Unmarshal([]byte(fmt.Sprintf(`"%s"`, paginationCursorString)), &paginationCursor)
+		if err != nil {
+			return c.
+				Status(fiber.StatusBadRequest).
+				JSON(map[string]string{
+					"paginationCursor": "Invalid pagination cursor.",
+				})
 		}
 
-		return c.Next()
+		c.Locals(localsPaginationCursorKey, &paginationCursor)
 	}
+
+	return c.Next()
 }

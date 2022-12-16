@@ -115,6 +115,7 @@ export function Country() {
                       onMouseOut={hideTooltip}
                       onTouchEnd={hideTooltip}
                       onTouchMove={md.handleMouseEvent}
+                      opacity={md.key === tooltipData?.datum.countryIsoCode ? 0.9 : 1}
                       stroke={window.getComputedStyle(document.documentElement).getPropertyValue("--bs-gray-300")}
                     />
                   ))}

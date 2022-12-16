@@ -1,22 +1,21 @@
-package browsername
+package operatingsystemname
 
 import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/filter"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/pagination"
 	"gorm.io/gorm"
-	"log"
 )
 
 type Datum struct {
-	BrowserName       string `json:"browserName"`
-	VisitorCount      uint64 `json:"visitorCount"`
-	VisitorPercentage uint16 `json:"visitorPercentage"`
+	OperatingSystemName string `json:"operatingSystemName"`
+	VisitorCount        uint64 `json:"visitorCount"`
+	VisitorPercentage   uint16 `json:"visitorPercentage"`
 }
 
 type PaginationCursor struct {
-	BrowserName  string `json:"browserName"`
-	VisitorCount uint64 `json:"visitorCount"`
+	OperatingSystemName string `json:"operatingSystemName"`
+	VisitorCount        uint64 `json:"visitorCount"`
 }
 
 type Report struct {
@@ -25,38 +24,37 @@ type Report struct {
 }
 
 func Get(dp *depot.Depot, filters *filter.Filters, paginationCursor *PaginationCursor) (*Report, error) {
-	log.Println(paginationCursor)
-
 	report := &Report{}
 
 	baseQuery := filter.Apply(dp, filters).
-		Where("browser_name is not null")
+		Where("operating_system_name is not null")
 
 	totalVisitorCountSubQuery := baseQuery.
 		Session(&gorm.Session{}).
-		Select("count(distinct visitor_id) count")
+		Select("count(distinct visitor_id) as count")
 
 	baseSubQuery := baseQuery.
 		Session(&gorm.Session{}).
 		Joins("cross join (?) total_visitors", totalVisitorCountSubQuery).
 		Select(
-			"browser_name",
+			"operating_system_name",
 			"count(distinct visitor_id) as visitor_count",
 			"toUInt16(round(100 * visitor_count / total_visitors.count)) as visitor_percentage",
 		).
-		Group("browser_name, total_visitors.count").
-		Order("visitor_count desc, browser_name")
+		Group("operating_system_name, total_visitors.count").
+		Order("visitor_count desc, operating_system_name")
 
 	query := dp.ClickHouse().
 		Table("(?)", baseSubQuery)
 
 	if paginationCursor != nil {
-		query.Where(
-			"visitor_count < ? or (visitor_count = ? and browser_name > ?)",
-			paginationCursor.VisitorCount,
-			paginationCursor.VisitorCount,
-			paginationCursor.BrowserName,
-		)
+		query.
+			Where(
+				"(visitor_count = ? and operating_system_name > ?) or visitor_count < ?",
+				paginationCursor.VisitorCount,
+				paginationCursor.OperatingSystemName,
+				paginationCursor.VisitorCount,
+			)
 	}
 
 	err := query.
@@ -69,8 +67,8 @@ func Get(dp *depot.Depot, filters *filter.Filters, paginationCursor *PaginationC
 
 	if len(report.Data) == pagination.Size {
 		report.PaginationCursor = &PaginationCursor{
-			BrowserName:  report.Data[pagination.Size-1].BrowserName,
-			VisitorCount: report.Data[pagination.Size-1].VisitorCount,
+			OperatingSystemName: report.Data[pagination.Size-1].OperatingSystemName,
+			VisitorCount:        report.Data[pagination.Size-1].VisitorCount,
 		}
 	}
 
@@ -93,7 +91,7 @@ func (pc *PaginationCursor) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	pc.BrowserName = a.BrowserName
+	pc.OperatingSystemName = a.OperatingSystemName
 	pc.VisitorCount = a.VisitorCount
 
 	return nil

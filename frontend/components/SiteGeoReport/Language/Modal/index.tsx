@@ -41,7 +41,7 @@ export function Modal() {
 
               <th />
 
-              <th className="text-center w-7rem">Visitors</th>
+              <th className="text-end w-7rem">Visitors</th>
             </tr>
           </thead>
 
@@ -61,7 +61,7 @@ export function Modal() {
                   </div>
                 </td>
 
-                <td className="fw-medium text-center">
+                <td className="fw-medium text-end">
                   <span title={d.visitorCount.toString()}>{d.visitorCountDisplay}</span>
                 </td>
               </tr>
