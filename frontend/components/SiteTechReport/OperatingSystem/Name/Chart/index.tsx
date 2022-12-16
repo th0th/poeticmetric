@@ -61,7 +61,7 @@ export function BaseChart({ parentHeight, parentWidth }: BaseChartProps) {
       return null;
     }
 
-    const slicedData = rawData.slice(0, 5);
+    const slicedData = rawData[0].data.slice(0, 5);
 
     const height = parentHeight;
     const width = parentWidth;

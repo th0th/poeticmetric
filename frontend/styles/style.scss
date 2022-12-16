@@ -30,7 +30,7 @@ $dropdown-font-size: $font-size-sm;
 // 5.5 Utilities
 @import "bootstrap/scss/utilities";
 
-$fixed-sizes: (1rem 2rem 3rem 4rem 5rem 6rem 7rem 8rem);
+$fixed-sizes: (1rem 2rem 3rem 4rem 5rem 6rem 7rem 8rem 9rem 10rem);
 
 $utilities: map-merge($utilities, (
   "background-color": map-merge(map-get($utilities, "background-color"), (
@@ -138,6 +138,7 @@ $utilities: map-merge($utilities, (
 @import "bootstrap/scss/root";
 @import "bootstrap/scss/spinners";
 @import "bootstrap/scss/tables";
+@import 'bootstrap/scss/transitions';
 @import "bootstrap/scss/toasts";
 @import "bootstrap/scss/type";
 

@@ -1,8 +1,9 @@
-type HydratedSiteOperatingSystemNameDatum = SiteOperatingSystemNameDatum & {
+type HydratedSiteOperatingSystemNameDatum = Overwrite<SiteOperatingSystemNameDatum, {
+  visitorCountDisplay: string;
   visitorPercentageDisplay: string;
-};
+}>;
 
-type HydratedSiteOperatingSystemNameReport = Array<HydratedSiteOperatingSystemNameDatum>;
+type HydratedSiteOperatingSystemNameReport = PaginatedSiteReport<HydratedSiteOperatingSystemNameDatum>;
 
 type SiteOperatingSystemNameDatum = {
   operatingSystemName: string;
@@ -10,4 +11,4 @@ type SiteOperatingSystemNameDatum = {
   visitorPercentage: number;
 };
 
-type SiteOperatingSystemNameReport = Array<SiteOperatingSystemNameDatum>;
+type SiteOperatingSystemNameReport = PaginatedSiteReport<SiteOperatingSystemNameDatum>;
