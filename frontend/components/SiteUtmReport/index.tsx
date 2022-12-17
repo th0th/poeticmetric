@@ -7,6 +7,7 @@ import { Campaign } from "./Campaign";
 import { Content } from "./Content";
 import { Medium } from "./Medium";
 import { Source } from "./Source";
+import { Term } from "./Term";
 
 export type SiteUtmReportProps = Omit<CardProps, "children">;
 
@@ -23,6 +24,7 @@ const sections: Array<Section> = [
   { content: <Campaign />, slug: "utm-campaign", title: "UTM campaign" },
   { content: <Medium />, slug: "utm-medium", title: "UTM medium" },
   { content: <Content />, slug: "utm-content", title: "UTM content" },
+  { content: <Term />, slug: "utm-term", title: "UTM term" },
 ];
 
 export function SiteUtmReport({ className, ...props }: SiteUtmReportProps) {
