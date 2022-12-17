@@ -34,7 +34,7 @@ func Get(dp *depot.Depot, filters *filter.Filters, paginationCursor *PaginationC
 
 	totalVisitorCountSubQuery := baseQuery.
 		Session(&gorm.Session{}).
-		Select("count(distinct visitor_id) count")
+		Select("count(distinct visitor_id) as count")
 
 	baseSubQuery := baseQuery.
 		Session(&gorm.Session{}).

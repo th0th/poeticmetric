@@ -3,13 +3,13 @@ package sitereport
 import (
 	"github.com/gofiber/fiber/v2"
 	dm "github.com/poeticmetric/poeticmetric/backend/pkg/restapi/middleware/depot"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/service/siteutmcampaignreport"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/utmcampaign"
 )
 
 func utmCampaign(c *fiber.Ctx) error {
 	dp := dm.Get(c)
 
-	report, err := siteutmcampaignreport.Get(dp, getFilters(c))
+	report, err := utmcampaign.Get(dp, getFilters(c), getPaginationCursor[utmcampaign.PaginationCursor](c))
 	if err != nil {
 		return err
 	}

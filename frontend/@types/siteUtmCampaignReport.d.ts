@@ -1,8 +1,9 @@
-type HydratedSiteUtmCampaignDatum = SiteUtmCampaignDatum & {
+type HydratedSiteUtmCampaignDatum = Overwrite<SiteUtmCampaignDatum, {
+  visitorCountDisplay: string;
   visitorPercentageDisplay: string;
-};
+}>;
 
-type HydratedSiteUtmCampaignReport = Array<HydratedSiteUtmCampaignDatum>;
+type HydratedSiteUtmCampaignReport = PaginatedSiteReport<HydratedSiteUtmCampaignDatum>;
 
 type SiteUtmCampaignDatum = {
   utmCampaign: string;
@@ -10,4 +11,4 @@ type SiteUtmCampaignDatum = {
   visitorPercentage: number;
 };
 
-type SiteUtmCampaignReport = Array<SiteUtmCampaignDatum>;
+type SiteUtmCampaignReport = PaginatedSiteReport<SiteUtmCampaignDatum>;

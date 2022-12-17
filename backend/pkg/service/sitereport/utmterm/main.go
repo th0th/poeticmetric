@@ -1,7 +1,6 @@
-package browserversion
+package utmterm
 
 import (
-	v "github.com/RussellLuo/validating/v3"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/filter"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/pagination"
@@ -9,15 +8,14 @@ import (
 )
 
 type Datum struct {
-	BrowserName       string `json:"browserName"`
-	BrowserVersion    string `json:"browserVersion"`
+	UtmTerm           string `json:"utmTerm"`
 	VisitorCount      uint64 `json:"visitorCount"`
 	VisitorPercentage uint16 `json:"visitorPercentage"`
 }
 
 type PaginationCursor struct {
-	BrowserVersion string `json:"browserVersion"`
-	VisitorCount   uint64 `json:"visitorCount"`
+	UtmTerm      string `json:"utmTerm"`
+	VisitorCount uint64 `json:"visitorCount"`
 }
 
 type Report struct {
@@ -26,15 +24,10 @@ type Report struct {
 }
 
 func Get(dp *depot.Depot, filters *filter.Filters, paginationCursor *PaginationCursor) (*Report, error) {
-	err := validateFilters(filters)
-	if err != nil {
-		return nil, err
-	}
-
 	report := &Report{}
 
 	baseQuery := filter.Apply(dp, filters).
-		Where("browser_version is not null")
+		Where("utm_term is not null")
 
 	totalVisitorCountSubQuery := baseQuery.
 		Session(&gorm.Session{}).
@@ -42,30 +35,30 @@ func Get(dp *depot.Depot, filters *filter.Filters, paginationCursor *PaginationC
 
 	baseSubQuery := baseQuery.
 		Session(&gorm.Session{}).
-		Joins("cross join (?) total_visitors", totalVisitorCountSubQuery).
+		Joins("cross join (?) as total_visitors", totalVisitorCountSubQuery).
 		Select(
-			"browser_name",
-			"browser_version",
+			"utm_term",
 			"count(distinct visitor_id) as visitor_count",
 			"toUInt16(round(100 * visitor_count / total_visitors.count)) as visitor_percentage",
 		).
-		Group("browser_name, browser_version, total_visitors.count").
-		Order("visitor_count desc")
+		Group("utm_term, total_visitors.count").
+		Order("visitor_count desc, utm_term")
 
 	query := dp.ClickHouse().
-		Table("(?)", baseSubQuery).
-		Limit(pagination.Size)
+		Table("(?)", baseSubQuery)
 
 	if paginationCursor != nil {
-		query.Where(
-			"(visitor_count = ? and browser_version > ?) or visitor_count < ?",
-			paginationCursor.VisitorCount,
-			paginationCursor.BrowserVersion,
-			paginationCursor.VisitorCount,
-		)
+		query.
+			Where(
+				"(visitor_count = ? and utm_term > ?) or visitor_count < ?",
+				paginationCursor.VisitorCount,
+				paginationCursor.UtmTerm,
+				paginationCursor.VisitorCount,
+			)
 	}
 
-	err = query.
+	err := query.
+		Limit(pagination.Size).
 		Find(&report.Data).
 		Error
 	if err != nil {
@@ -74,26 +67,12 @@ func Get(dp *depot.Depot, filters *filter.Filters, paginationCursor *PaginationC
 
 	if len(report.Data) == pagination.Size {
 		report.PaginationCursor = &PaginationCursor{
-			BrowserVersion: report.Data[pagination.Size-1].BrowserVersion,
-			VisitorCount:   report.Data[pagination.Size-1].VisitorCount,
+			UtmTerm:      report.Data[pagination.Size-1].UtmTerm,
+			VisitorCount: report.Data[pagination.Size-1].VisitorCount,
 		}
 	}
 
 	return report, nil
-}
-
-func validateFilters(filters *filter.Filters) error {
-	errs := v.Validate(v.Schema{
-		v.F("browserName", filters.BrowserName): v.All(
-			v.Nonzero[*string]().Msg("This field is required."),
-		),
-	})
-
-	if len(errs) > 0 {
-		return errs
-	}
-
-	return nil
 }
 
 func (pc *PaginationCursor) MarshalJSON() ([]byte, error) {
@@ -112,7 +91,7 @@ func (pc *PaginationCursor) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	pc.BrowserVersion = a.BrowserVersion
+	pc.UtmTerm = a.UtmTerm
 	pc.VisitorCount = a.VisitorCount
 
 	return nil

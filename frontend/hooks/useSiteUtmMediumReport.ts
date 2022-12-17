@@ -1,27 +1,44 @@
-import { useMemo } from "react";
-import useSWR, { SWRResponse } from "swr";
+import { stringify } from "querystring";
+import { useCallback, useMemo } from "react";
+import { Arguments } from "swr";
+import useSWRInfinite, { SWRInfiniteResponse } from "swr/infinite";
 import { hydrateSiteUtmMediumReport } from "../helpers";
-import { useReportQueryParams } from "./useReportQueryParams";
+import { useSiteReportQueryParams } from "./useSiteReportQueryParams";
 
 type Data = SiteUtmMediumReport;
 type HydratedData = HydratedSiteUtmMediumReport;
+type HydratedSwrInfiniteResponse = Overwrite<SWRInfiniteResponse<Data, Error>, { data?: Array<HydratedData> }>;
+type KeyLoader = (index: number, previousPageData: HydratedData | null) => Arguments;
 
-type SwrResponse = SWRResponse<Data, Error>;
-type HydratedSwrResponse = Overwrite<SwrResponse, {
-  data?: HydratedData;
-}>;
+export function useSiteUtmMediumReport(): HydratedSwrInfiniteResponse {
+  const siteReportQueryParams = useSiteReportQueryParams();
 
-export function useSiteUtmMediumReport(): HydratedSwrResponse {
-  const reportQueryParams = useReportQueryParams();
-  const { data: rawData, ...swrResponse } = useSWR<Data>(`/site-reports/utm-medium?${reportQueryParams}`);
+  const getKey = useCallback<KeyLoader>((index, previousPageData) => {
+    let queryParams = { ...siteReportQueryParams };
 
-  const data = useMemo<HydratedSwrResponse["data"]>(() => {
+    if (index !== 0 && previousPageData !== null) {
+      const { paginationCursor } = previousPageData;
+
+      if (paginationCursor !== null) {
+        queryParams.paginationCursor = paginationCursor;
+      }
+    }
+
+    return `/site-reports/utm-medium?${stringify(queryParams)}`;
+  }, [siteReportQueryParams]);
+
+  const { data: rawData, ...swrResponse } = useSWRInfinite<Data, Error, KeyLoader>(getKey, {
+    persistSize: true,
+    revalidateFirstPage: false,
+  });
+
+  const data = useMemo<HydratedSwrInfiniteResponse["data"] | undefined>(() => {
     if (rawData === undefined) {
       return undefined;
     }
 
-    return hydrateSiteUtmMediumReport(rawData);
+    return rawData.map(hydrateSiteUtmMediumReport);
   }, [rawData]);
 
-  return { data, ...swrResponse };
+  return { ...swrResponse, data };
 }
