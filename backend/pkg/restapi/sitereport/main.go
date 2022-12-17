@@ -7,6 +7,7 @@ import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/browserversion"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/operatingsystemname"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/operatingsystemversion"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/utmcampaign"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/utmsource"
 
 	"github.com/gofiber/fiber/v2"
@@ -38,7 +39,7 @@ func Add(app *fiber.App) {
 	group.Get("/path", paginationCursorMiddleware[path2.PaginationCursor], path)
 	group.Get("/referrer-path", paginationCursorMiddleware[referrerpath.PaginationCursor], referrerPath)
 	group.Get("/referrer-site", paginationCursorMiddleware[referrersite.PaginationCursor], referrerSite)
-	group.Get("/utm-campaign", utmCampaign)
+	group.Get("/utm-campaign", paginationCursorMiddleware[utmcampaign.PaginationCursor], utmCampaign)
 	group.Get("/utm-content", utmContent)
 	group.Get("/utm-medium", utmMedium)
 	group.Get("/utm-source", paginationCursorMiddleware[utmsource.PaginationCursor], utmSource)

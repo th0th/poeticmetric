@@ -22,7 +22,7 @@ export function Source() {
   return (
     <>
       {data === null ? (
-        <Spinner />
+        <Spinner className="m-auto" />
       ) : (
         <>
           <Table borderless className="fs-sm table-layout-fixed" responsive size="sm">
