@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import React, { useCallback, useMemo } from "react";
 import { Card, CardProps, Dropdown, DropdownProps } from "react-bootstrap";
 import { Campaign } from "./Campaign";
+import { Content } from "./Content";
 import { Medium } from "./Medium";
 import { Source } from "./Source";
 
@@ -21,6 +22,7 @@ const sections: Array<Section> = [
   { content: <Source />, title: "UTM source" },
   { content: <Campaign />, slug: "utm-campaign", title: "UTM campaign" },
   { content: <Medium />, slug: "utm-medium", title: "UTM medium" },
+  { content: <Content />, slug: "utm-content", title: "UTM content" },
 ];
 
 export function SiteUtmReport({ className, ...props }: SiteUtmReportProps) {
