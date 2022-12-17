@@ -161,6 +161,7 @@ function BaseChart({ data, debounceTime: _, enableDebounceLeadingCall: __, paren
                 onMouseMove={(event) => showTooltip(event, d.datum)}
                 onTouchEnd={hideTooltip}
                 onTouchMove={(event) => showTooltip(event, d.datum)}
+                tabIndex={0}
                 width={d.width}
                 x={d.x}
                 y={0}

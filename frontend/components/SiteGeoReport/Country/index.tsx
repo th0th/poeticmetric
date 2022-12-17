@@ -38,6 +38,7 @@ export function Country() {
       return null;
     }
 
+    const rawMapData = report.reduce<Array<HydratedSiteCountryDatum>>((a, d) => ([...a, ...d.data]), []);
     const rawData = report[0].data.slice(0, 5);
 
     const colorScale = chroma
@@ -57,7 +58,7 @@ export function Country() {
       .domain([0, Math.max(...rawData.map((d) => d.visitorCount))]);
 
     const mapData: State["mapData"] = map.map((md) => {
-      const datum = rawData.find((rd) => rd.countryIsoCode === md.isoCode);
+      const datum = rawMapData.find((rd) => rd.countryIsoCode === md.isoCode);
 
       const visitorCount = datum?.visitorCount || 0;
 
@@ -117,6 +118,7 @@ export function Country() {
                       onTouchMove={md.handleMouseEvent}
                       opacity={md.key === tooltipData?.datum.countryIsoCode ? 0.9 : 1}
                       stroke={window.getComputedStyle(document.documentElement).getPropertyValue("--bs-gray-300")}
+                      tabIndex={md.handleClick === undefined ? undefined : 0}
                     />
                   ))}
                 </svg>
