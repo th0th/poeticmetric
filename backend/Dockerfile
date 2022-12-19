@@ -19,15 +19,15 @@ FROM alpine:3.16
 
 RUN apk update && apk add bash tzdata
 
-WORKDIR /webgazer
+WORKDIR /poeticmetric
 
 COPY migrations migrations
 COPY scripts/migrate-clickhouse /usr/local/bin/migrate-clickhouse
 COPY scripts/migrate-postgres /usr/local/bin/migrate-postgres
 
 COPY --from=0 /go/bin/migrate /usr/local/bin/migrate
-COPY --from=0 /usr/src/webgazer/bin/rest-api /usr/local/bin/webgazer-rest-api
-COPY --from=0 /usr/src/webgazer/bin/seeder /usr/local/bin/webgazer-seeder
+COPY --from=0 /usr/src/poeticmetric/bin/rest-api /usr/local/bin/poeticmetric-rest-api
+COPY --from=0 /usr/src/poeticmetric/bin/seeder /usr/local/bin/poeticmetric-seeder
 
 COPY docker-entrypoint.sh /usr/local/bin/
 
