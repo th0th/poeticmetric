@@ -1,4 +1,4 @@
-name: Build and deploy frontend backend
+name: Build and deploy
 on:
   push:
     branches:
@@ -39,11 +39,16 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Setup go
+        uses: actions/setup-go@v3
+        with:
+          go-version: '1.19.4'
+
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ github.repository }}/frontend
+          images: ${{ env.REGISTRY }}/${{ github.repository }}/backend
           tags: |
             type=raw,value=latest,enable=${{ github.ref == format('refs/heads/main') }}
             type=raw,value=staging,enable=${{ github.ref == format('refs/heads/staging') }}
@@ -51,7 +56,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
-          context: ./frontend
+          context: ./backend
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

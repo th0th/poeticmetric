@@ -1,0 +1,15 @@
+server {
+    listen 80;
+
+    error_page 404 /404.html;
+
+    location / {
+        root /usr/share/nginx/html;
+        index index.html;
+
+        if ($request_uri ~ ^/(.*)\.html) {
+            return 302 /$1;
+        }
+        try_files $uri $uri.html $uri/ =404;
+    }
+}
