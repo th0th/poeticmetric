@@ -1,4 +1,4 @@
-name: Build and deploy
+name: Build and deploy frontend
 on:
   push:
     branches:
@@ -7,8 +7,8 @@ on:
 env:
   REGISTRY: ghcr.io
 jobs:
-  build-and-deploy-backend:
-    name: Build and deploy backend
+  build-and-deploy-frontend:
+    name: Build and deploy frontend
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -39,16 +39,16 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Setup go
-        uses: actions/setup-go@v3
+      - name: Setup node
+        uses: actions/setup-node@v3
         with:
-          go-version: '1.19.4'
+          node-version: 16
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ github.repository }}/backend
+          images: ${{ env.REGISTRY }}/${{ github.repository }}/frontend
           tags: |
             type=raw,value=latest,enable=${{ github.ref == format('refs/heads/main') }}
             type=raw,value=staging,enable=${{ github.ref == format('refs/heads/staging') }}
@@ -56,7 +56,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
-          context: ./backend
+          context: ./frontend
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
