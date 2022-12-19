@@ -12,7 +12,7 @@ COPY pkg pkg
 
 RUN mkdir bin
 
-RUN CGO_ENABLED=0 go build -a -o bin/rest-api cmd/rest_api/*
+RUN CGO_ENABLED=0 go build -a -o bin/rest-api cmd/restapi/*
 RUN CGO_ENABLED=0 go build -a -o bin/seeder cmd/seeder/*
 
 FROM alpine:3.16
