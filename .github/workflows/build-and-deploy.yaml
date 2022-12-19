@@ -87,7 +87,6 @@ jobs:
             echo "RANCHER_WORKLOADS=${{ secrets.RANCHER_WORKLOADS }}" >> $GITHUB_ENV
             echo "POETICMETRIC_STAGE=production" >> $GITHUB_ENV
 
-
           else
             echo Invalid ref.
             exit 1
@@ -117,6 +116,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
+          build-args: |
+            POETICMETRIC_STAGE=${{ env.POETICMETRIC_STAGE }}
           context: ./frontend
           push: true
           tags: ${{ steps.meta.outputs.tags }}
