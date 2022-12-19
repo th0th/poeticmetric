@@ -1,0 +1,10 @@
+name: "Sign in to Github container registry"
+runs:
+  using: "composite"
+  steps:
+    - name: "Sign in to Github container registry"
+      uses: docker/login-action@v2
+      with:
+        registry: "ghcr.io"
+        username: ${{ inputs.actor }}
+        password: ${{ inputs.github_token }}

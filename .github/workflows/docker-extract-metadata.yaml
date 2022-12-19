@@ -1,0 +1,12 @@
+name: "Extract Docker metadata"
+runs:
+  using: "composite"
+  steps:
+    - name: "Extract Docker metadata"
+      id: meta
+      uses: docker/metadata-action@v4
+      with:
+        images: ${{ inputs.image }}
+        tags: |
+          type=raw,value=latest,enable=${{ github.ref == format('refs/heads/main') }}
+          type=raw,value=staging,enable=${{ github.ref == format('refs/heads/staging') }}

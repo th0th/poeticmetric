@@ -1,0 +1,108 @@
+name: Build and deploy
+on:
+  push:
+    branches:
+      - main
+      - staging
+env:
+  REGISTRY: ghcr.io
+jobs:
+  build-and-deploy-backend:
+    name: Build and deploy backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v3
+
+      - name: "Setup go"
+        uses: actions/setup-go@v3
+        with:
+          go-version: '1.19.4'
+
+      - name: "Set Rancher environment variables"
+        uses: ./.github/actions/set-rancher-env-vars
+        with:
+          rancher_bearer_token: ${{ secrets.RANCHER_BEARER_TOKEN }}
+          rancher_cluster_id: ${{ secrets.RANCHER_CLUSTER_ID }}
+          rancher_project_id: ${{ secrets.RANCHER_PROJECT_ID }}
+          rancher_staging_namespace: poeticmetric-staging
+          rancher_staging_workloads: poeticmetric-staging
+          rancher_url: ${{ secrets.RANCHER_URL }}
+
+      - name: "Sign in to Github container registry"
+        uses: ./.github/actions/sign-in-to-ghcr
+        with:
+          actor: ${{ github.actor }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "Docker - Extract metadata"
+        uses: ./.github/actions/docker-extract-metadata
+        with:
+          image: ghcr.io/th0th/poeticmetric/backend
+
+#  sign-in-to-registry:
+#    name: Sign in to registry
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Log in to the container registry
+#        uses: docker/login-action@v2
+#        with:
+#          registry: ${{ env.REGISTRY }}
+#          username: ${{ github.actor }}
+#          password: ${{ secrets.GITHUB_TOKEN }}
+#
+#  build-and-deploy:
+#    name: Build and deploy
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/setup-go@v3
+#        with:
+#          go-version: '1.19.4'
+#
+#      - name: Checkout
+#        uses: actions/checkout@v3
+#
+#      - name: Log in to the container registry
+#        uses: docker/login-action@v2
+#        with:
+#          registry: ${{ env.REGISTRY }}
+#          username: ${{ github.actor }}
+#          password: ${{ secrets.GITHUB_TOKEN }}
+#
+#      - name: Set environment variables
+#        run: |
+#          echo "RANCHER_BEARER_TOKEN=${{ secrets.RANCHER_BEARER_TOKEN }}" >> $GITHUB_ENV
+#          echo "RANCHER_CLUSTER_ID=${{ secrets.RANCHER_CLUSTER_ID }}" >> $GITHUB_ENV
+#          echo "RANCHER_PROJECT_ID=${{ secrets.RANCHER_PROJECT_ID }}" >> $GITHUB_ENV
+#          echo "RANCHER_URL=${{ secrets.RANCHER_URL }}" >> $GITHUB_ENV
+#          if [[ ${{ github.ref }} == refs/heads/staging ]]; then
+#            echo "RANCHER_NAMESPACE=${{ secrets.RANCHER_STAGING_NAMESPACE }}" >> $GITHUB_ENV
+#            echo "RANCHER_WORKLOADS=${{ secrets.RANCHER_STAGING_WORKLOADS }}" >> $GITHUB_ENV
+#          elif [[ ${{ github.ref }} == refs/heads/main ]]; then
+#            echo "RANCHER_NAMESPACE=${{ secrets.RANCHER_NAMESPACE }}" >> $GITHUB_ENV
+#            echo "RANCHER_WORKLOADS=${{ secrets.RANCHER_WORKLOADS }}" >> $GITHUB_ENV
+#
+#          else
+#            echo Invalid ref.
+#            exit 1
+#          fi
+#
+#      - name: Extract metadata (tags, labels) for Docker
+#        id: meta
+#        uses: docker/metadata-action@v4
+#        with:
+#          images: ${{ env.REGISTRY }}/${{ github.repository }}
+#          tags: |
+#            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/main') }}
+#            type=raw,value=staging,enable=${{ github.ref == format('refs/heads/staging') }}
+#
+#      - name: Build and push Docker image
+#        uses: docker/build-push-action@v3
+#        with:
+#          context: .
+#          push: true
+#          tags: ${{ steps.meta.outputs.tags }}
+#          labels: ${{ steps.meta.outputs.labels }}
+#
+#      - name: Update Rancher workloads
+#        uses: th0th/rancher-redeploy-workload@v0.9
