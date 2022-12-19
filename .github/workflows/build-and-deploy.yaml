@@ -122,6 +122,5 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-#
 #      - name: Update Rancher workloads
 #        uses: th0th/rancher-redeploy-workload@v0.9

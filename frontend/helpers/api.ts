@@ -10,7 +10,7 @@ export function apiCall(endpoint: string, init?: RequestInit) {
     ...init?.headers,
   };
 
-  return fetch(`${process.env.NEXT_PUBLIC_POETICMETRIC_API_BASE_URL}${endpoint}`, { ...init, headers });
+  return fetch(`${process.env.NEXT_PUBLIC_POETICMETRIC_REST_API_BASE_URL}${endpoint}`, { ...init, headers });
 }
 
 export const api = {
