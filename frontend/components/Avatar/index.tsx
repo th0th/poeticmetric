@@ -1,9 +1,8 @@
 import classNames from "classnames";
 import md5 from "md5";
-import Image, { ImageProps } from "next/image";
 import React, { useMemo } from "react";
 
-export type AvatarProps = Overwrite<Omit<ImageProps, "src">, {
+export type AvatarProps = Overwrite<Omit<React.PropsWithoutRef<JSX.IntrinsicElements["img"]>, "src">, {
   alt: string;
   email: string;
   size?: number;
@@ -17,14 +16,13 @@ export function Avatar({ alt, className, email, size = 32, ...props }: AvatarPro
   }, [email, size]);
 
   return (
-    <Image
+    <img
       {...props}
       alt={alt}
       className={classNames("d-block rounded-circle", className)}
       height={size}
       loading="lazy"
       src={src}
-      unoptimized
       width={size}
     />
   );
