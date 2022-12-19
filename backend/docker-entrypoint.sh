@@ -9,7 +9,7 @@ DEVELOPMENT_DEBUG_CMD="reflex -R __debug_bin -s -d none -- /go/bin/dlv --headles
 cd /poeticmetric
 
 case "$POETICMETRIC_INSTANCE" in
-  rest_api)
+  rest-api)
     if [[ $POETICMETRIC_STAGE == "development" ]]; then
       if [[ $POETICMETRIC_REST_API_DEBUG == "1" ]]; then
         exec $DEVELOPMENT_DEBUG_CMD cmd/rest_api/main.go
