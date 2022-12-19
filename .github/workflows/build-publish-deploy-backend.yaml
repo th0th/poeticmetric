@@ -48,7 +48,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ github.repository }}-backend
+          images: ${{ env.REGISTRY }}/${{ github.repository }}/backend
           tags: |
             type=raw,value=latest,enable=${{ github.ref == format('refs/heads/main') }}
             type=raw,value=staging,enable=${{ github.ref == format('refs/heads/staging') }}
