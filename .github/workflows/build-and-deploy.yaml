@@ -81,11 +81,11 @@ jobs:
           if [[ ${{ github.ref }} == refs/heads/staging ]]; then
             echo "RANCHER_NAMESPACE=${{ secrets.RANCHER_STAGING_NAMESPACE }}" >> $GITHUB_ENV
             echo "RANCHER_WORKLOADS=${{ secrets.RANCHER_STAGING_WORKLOADS }}" >> $GITHUB_ENV
-            echo "WEBGAZER_STAGE=staging" >> $GITHUB_ENV
+            echo "POETICMETRIC_STAGE=staging" >> $GITHUB_ENV
           elif [[ ${{ github.ref }} == refs/heads/main ]]; then
             echo "RANCHER_NAMESPACE=${{ secrets.RANCHER_NAMESPACE }}" >> $GITHUB_ENV
             echo "RANCHER_WORKLOADS=${{ secrets.RANCHER_WORKLOADS }}" >> $GITHUB_ENV
-            echo "WEBGAZER_STAGE=production" >> $GITHUB_ENV
+            echo "POETICMETRIC_STAGE=production" >> $GITHUB_ENV
 
 
           else
