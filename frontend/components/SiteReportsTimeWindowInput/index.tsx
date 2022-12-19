@@ -131,9 +131,24 @@ export function SiteReportsTimeWindowInput() {
         {options.map((g) => (
           <React.Fragment key={g.map((o) => o.title).join("-")}>
             {g.map((o) => (
+              // <Link
+              //   className={`dropdown-item ${selectedOption?.title === o.title ? "active" : ""}`}
+              //   href={{
+              //     pathname: router.pathname,
+              //     query: {
+              //       ...router.query,
+              //       end: o.getEnd().toISOString(),
+              //       start: o.getStart().toISOString(),
+              //     },
+              //   }}
+              //   key={o.title}
+              // >
+              //   {o.title}
+              // </Link>
+
               <Dropdown.Item
                 active={selectedOption?.title === o.title}
-                as={(props) => (
+                as={({ as: _, ...props }) => (
                   <Link
                     {...props}
                     href={{
