@@ -7,6 +7,7 @@ module.exports = {
   ],
   root: true,
   rules: {
+    "@next/next/no-img-element": 0,
     "@typescript-eslint/comma-dangle": ["error", "always-multiline"],
     "@typescript-eslint/member-delimiter-style": ["error"],
     "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "_", varsIgnorePattern: "_" }],
