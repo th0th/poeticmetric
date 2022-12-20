@@ -134,7 +134,7 @@ services:
       - rabbitmq
     environment:
       <<: *backend-common-environment
-      POETICMETRIC_INSTANCE: rest_api
+      POETICMETRIC_INSTANCE: rest-api
       VIRTUAL_HOST: api.dev.poeticmetric.com
     ports:
       - "127.0.0.1:${POETICMETRIC_REST_API_DEBUG_PORT}:2345"
