@@ -12,7 +12,7 @@ case "$POETICMETRIC_INSTANCE" in
   rest-api)
     if [[ $POETICMETRIC_STAGE == "development" ]]; then
       if [[ $POETICMETRIC_REST_API_DEBUG == "1" ]]; then
-        exec $DEVELOPMENT_DEBUG_CMD cmd/rest_api/main.go
+        exec $DEVELOPMENT_DEBUG_CMD cmd/restapi/main.go
       else
          exec reflex -s -d none -- bash -c 'cd cmd/restapi && go run .'
       fi

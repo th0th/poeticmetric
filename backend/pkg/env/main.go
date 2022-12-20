@@ -2,8 +2,6 @@ package env
 
 import (
 	"fmt"
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/credentials"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 	"gorm.io/gorm"
@@ -22,17 +20,12 @@ const (
 )
 
 const (
-	InstanceRestApi   = "rest_api"
+	InstanceRestApi   = "rest-api"
 	InstanceScheduler = "scheduler"
 	InstanceWorker    = "worker"
 )
 
 const (
-	AwsAccessKeyId             = "POETICMETRIC_AWS_ACCESS_KEY_ID"
-	AwsRegion                  = "POETICMETRIC_AWS_REGION"
-	AwsSecretAccessKey         = "POETICMETRIC_AWS_SECRET_ACCESS_KEY"
-	AwsSesDomain               = "POETICMETRIC_AWS_SES_DOMAIN"
-	ChatwootHmacToken          = "POETICMETRIC_CHATWOOT_HMAC_TOKEN"
 	ClickHouseDatabase         = "POETICMETRIC_CLICKHOUSE_DATABASE"
 	ClickHouseHost             = "POETICMETRIC_CLICKHOUSE_HOST"
 	ClickHousePassword         = "POETICMETRIC_CLICKHOUSE_PASSWORD"
@@ -41,7 +34,6 @@ const (
 	Debug                      = "POETICMETRIC_DEBUG"
 	FrontendBaseUrl            = "POETICMETRIC_FRONTEND_BASE_URL"
 	Instance                   = "POETICMETRIC_INSTANCE"
-	MailBlusterApiKey          = "POETICMETRIC_MAIL_BLUSTER_API_KEY"
 	PostgresDatabase           = "POETICMETRIC_POSTGRES_DATABASE"
 	PostgresHost               = "POETICMETRIC_POSTGRES_HOST"
 	PostgresPassword           = "POETICMETRIC_POSTGRES_PASSWORD"
@@ -57,9 +49,6 @@ const (
 	RedisPort                  = "POETICMETRIC_REDIS_PORT"
 	ResourcesBaseUrl           = "POETICMETRIC_RESOURCES_BASE_URL"
 	SentryDsn                  = "POETICMETRIC_SENTRY_DSN"
-	SlackClientId              = "POETICMETRIC_SLACK_CLIENT_ID"
-	SlackClientSecret          = "POETICMETRIC_SLACK_CLIENT_SECRET"
-	SlackWebhookBusinessUrl    = "POETICMETRIC_SLACK_WEBHOOK_BUSINESS_URL"
 	Stage                      = "POETICMETRIC_STAGE"
 	StripeSecretKey            = "POETICMETRIC_STRIPE_SECRET_KEY"
 	StripeWebhookSigningSecret = "POETICMETRIC_STRIPE_WEBHOOK_SIGNING_SECRET"
@@ -69,11 +58,6 @@ const (
 
 var (
 	commonEnvVarNames = []string{
-		AwsAccessKeyId,
-		AwsRegion,
-		AwsSecretAccessKey,
-		AwsSesDomain,
-		ChatwootHmacToken,
 		ClickHouseDatabase,
 		ClickHouseHost,
 		ClickHousePassword,
@@ -81,7 +65,6 @@ var (
 		ClickHouseUser,
 		FrontendBaseUrl,
 		Instance,
-		MailBlusterApiKey,
 		PostgresDatabase,
 		PostgresHost,
 		PostgresPassword,
@@ -97,9 +80,6 @@ var (
 		RedisPort,
 		ResourcesBaseUrl,
 		SentryDsn,
-		SlackClientId,
-		SlackClientSecret,
-		SlackWebhookBusinessUrl,
 		Stage,
 		StripeSecretKey,
 		StripeWebhookSigningSecret,
@@ -143,13 +123,6 @@ func Get(name string) string {
 
 func GetDebug() bool {
 	return Get(Debug) != "" && Get(Debug) != "0"
-}
-
-func GetAwsConfig() *aws.Config {
-	return &aws.Config{
-		Credentials: credentials.NewStaticCredentials(Get(AwsAccessKeyId), Get(AwsSecretAccessKey), ""),
-		Region:      aws.String(Get(AwsRegion)),
-	}
 }
 
 func GetClickhouseDsn() string {
