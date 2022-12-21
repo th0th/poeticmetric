@@ -4,7 +4,7 @@ import useSWR, { BareFetcher, mutate, SWRConfiguration, SWRResponse } from "swr"
 type Data = Array<User>;
 type HydratedData = Array<HydratedUser>;
 
-type Config = SWRConfiguration<Data, any, BareFetcher<Data>>;
+type Config = SWRConfiguration<Data, Error, BareFetcher<Data>>;
 
 type Response = Overwrite<SWRResponse<Data>, {
   data: HydratedData | undefined;
