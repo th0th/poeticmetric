@@ -68,26 +68,21 @@ func TestGet(t *testing.T) {
 		End:    end,
 		SiteId: modelSite.Id,
 		Start:  start,
-	}, nil)
+	})
 	assert.NoError(t, err)
 
-	expectedReport := &Report{
-		Data: []*Datum{
-			{Country: "Turkey", CountryIsoCode: "TUR", VisitorCount: 628, VisitorPercentage: 31},
-			{Country: "Germany", CountryIsoCode: "DEU", VisitorCount: 470, VisitorPercentage: 24},
-			{Country: "United States", CountryIsoCode: "USA", VisitorCount: 387, VisitorPercentage: 19},
-			{Country: "India", CountryIsoCode: "IND", VisitorCount: 226, VisitorPercentage: 11},
-			{Country: "Estonia", CountryIsoCode: "EST", VisitorCount: 195, VisitorPercentage: 10},
-			{Country: "Belarus", CountryIsoCode: "BLR", VisitorCount: 59, VisitorPercentage: 3},
-			{Country: "Sweden", CountryIsoCode: "SWE", VisitorCount: 25, VisitorPercentage: 1},
-			{Country: "Ukraine", CountryIsoCode: "UKR", VisitorCount: 4, VisitorPercentage: 0},
-			{Country: "United Kingdom", CountryIsoCode: "GBR", VisitorCount: 3, VisitorPercentage: 0},
-			{Country: "Italy", CountryIsoCode: "ITA", VisitorCount: 2, VisitorPercentage: 0},
-		},
-		PaginationCursor: &PaginationCursor{
-			CountryIsoCode: "ITA",
-			VisitorCount:   2,
-		},
+	expectedReport := Report{
+		{Country: "Turkey", CountryIsoCode: "TUR", VisitorCount: 628, VisitorPercentage: 31},
+		{Country: "Germany", CountryIsoCode: "DEU", VisitorCount: 470, VisitorPercentage: 24},
+		{Country: "United States", CountryIsoCode: "USA", VisitorCount: 387, VisitorPercentage: 19},
+		{Country: "India", CountryIsoCode: "IND", VisitorCount: 226, VisitorPercentage: 11},
+		{Country: "Estonia", CountryIsoCode: "EST", VisitorCount: 195, VisitorPercentage: 10},
+		{Country: "Belarus", CountryIsoCode: "BLR", VisitorCount: 59, VisitorPercentage: 3},
+		{Country: "Sweden", CountryIsoCode: "SWE", VisitorCount: 25, VisitorPercentage: 1},
+		{Country: "Ukraine", CountryIsoCode: "UKR", VisitorCount: 4, VisitorPercentage: 0},
+		{Country: "United Kingdom", CountryIsoCode: "GBR", VisitorCount: 3, VisitorPercentage: 0},
+		{Country: "Italy", CountryIsoCode: "ITA", VisitorCount: 2, VisitorPercentage: 0},
+		{Country: "Greece", CountryIsoCode: "GRC", VisitorCount: 1, VisitorPercentage: 0},
 	}
 
 	assert.Equal(t, expectedReport, report)

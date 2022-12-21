@@ -11,8 +11,5 @@ function hydrateSiteCountryDatum(d: SiteCountryDatum): HydratedSiteCountryDatum 
 }
 
 export function hydrateSiteCountryReport(r: SiteCountryReport): HydratedSiteCountryReport {
-  return {
-    ...r,
-    data: r.data.map(hydrateSiteCountryDatum),
-  };
+  return r.map(hydrateSiteCountryDatum);
 }

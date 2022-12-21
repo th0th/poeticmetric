@@ -38,9 +38,6 @@ export function Country() {
       return null;
     }
 
-    const rawMapData = report.reduce<Array<HydratedSiteCountryDatum>>((a, d) => ([...a, ...d.data]), []);
-    const rawData = report[0].data.slice(0, 5);
-
     const colorScale = chroma
       .scale([
         "#EBF8FF",
@@ -55,10 +52,10 @@ export function Country() {
         "#2A4365",
         "#1A365D",
       ])
-      .domain([0, Math.max(...rawData.map((d) => d.visitorCount))]);
+      .domain([0, report.reduce<number>((a, d) => d.visitorCount > a ? d.visitorCount : a, 0)]);
 
     const mapData: State["mapData"] = map.map((md) => {
-      const datum = rawMapData.find((rd) => rd.countryIsoCode === md.isoCode);
+      const datum = report.find((rd) => rd.countryIsoCode === md.isoCode);
 
       const visitorCount = datum?.visitorCount || 0;
 
@@ -90,7 +87,7 @@ export function Country() {
     });
 
     return {
-      data: rawData.slice(0, 5),
+      data: report.slice(0, 5),
       mapData,
     };
   }, [rawShowTooltip, report, router]);

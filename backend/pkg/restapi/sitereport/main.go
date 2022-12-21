@@ -14,7 +14,6 @@ import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/utmterm"
 
 	"github.com/gofiber/fiber/v2"
-	country2 "github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/country"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/filter"
 	language2 "github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/language"
 	path2 "github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/path"
@@ -30,7 +29,7 @@ func Add(app *fiber.App) {
 
 	group.Get("/browser-name", paginationCursorMiddleware[browsername.PaginationCursor], browserName)
 	group.Get("/browser-version", paginationCursorMiddleware[browserversion.PaginationCursor], browserVersion)
-	group.Get("/country", paginationCursorMiddleware[country2.PaginationCursor], country)
+	group.Get("/country", country)
 	group.Get("/device-type", deviceType)
 	group.Get("/language", paginationCursorMiddleware[language2.PaginationCursor], language)
 	group.Get("/operating-system-name", paginationCursorMiddleware[operatingsystemname.PaginationCursor], operatingSystemName)

@@ -2,7 +2,7 @@ import { omit } from "lodash";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useCallback, useMemo } from "react";
-import { Button, Modal as BsModal, ModalProps as BsModalProps, Spinner, Table } from "react-bootstrap";
+import { Modal as BsModal, ModalProps as BsModalProps, Spinner, Table } from "react-bootstrap";
 import { useSiteCountryReport } from "../../../../hooks";
 
 export function Modal() {
@@ -13,19 +13,7 @@ export function Modal() {
     () => router.push({ pathname: router.pathname, query: omit(router.query, "detail") }, undefined, { scroll: false }),
     [router],
   );
-  const { data: rawData, isValidating, setSize } = useSiteCountryReport();
-
-  const data = useMemo<Array<HydratedSiteCountryDatum>>(() => {
-    if (rawData === undefined) {
-      return [];
-    }
-
-    return rawData.reduce<Array<HydratedSiteCountryDatum>>((a, v) => [...a, ...v.data], []);
-  }, [rawData]);
-
-  const hasMore = useMemo<boolean>(() => !!(rawData?.at(-1)?.paginationCursor), [rawData]);
-
-  const handleLoadMoreClick = useCallback<React.MouseEventHandler<HTMLButtonElement>>(() => setSize((s) => s + 1), [setSize]);
+  const { data } = useSiteCountryReport();
 
   return (
     <BsModal onHide={onHide} show={show}>
@@ -34,54 +22,46 @@ export function Modal() {
       </BsModal.Header>
 
       <BsModal.Body>
-        <Table borderless className="fs-sm table-layout-fixed" hover responsive striped>
-          <thead>
-            <tr>
-              <th className="w-8rem">Country</th>
+        {data === undefined ? (
+          <Spinner />
+        ) : (
+          <Table borderless className="fs-sm table-layout-fixed" hover responsive striped>
+            <thead>
+              <tr>
+                <th className="w-8rem">Country</th>
 
-              <th />
+                <th />
 
-              <th className="text-end w-7rem">Visitors</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {data.map((d) => (
-              <tr key={d.countryIsoCode}>
-                <td className="parent-d" colSpan={2}>
-                  <div className="d-flex flex-row">
-                    <Link
-                      className="align-items-center d-flex parent-text-decoration flex-row text-body text-decoration-none"
-                      href={{ pathname: router.pathname, query: { ...router.query, countryIsoCode: d.countryIsoCode } }}
-                      scroll={false}
-                      title={d.country}
-                    >
-                      <span className={`fi fi-${d.countryIsoAlpha2Code} fis me-1 rounded-circle shadow-sm text-decoration-none`} />
-
-                      <span className="parent-hover-text-decoration-underline text-truncate">{d.country}</span>
-                    </Link>
-                  </div>
-                </td>
-
-                <td className="fw-medium text-end">
-                  <span title={d.visitorCount.toString()}>{d.visitorCountDisplay}</span>
-                </td>
+                <th className="text-end w-7rem">Visitors</th>
               </tr>
-            ))}
-          </tbody>
-        </Table>
+            </thead>
 
-        {isValidating ? (
-          <div className="py-3">
-            <Spinner className="d-block mx-auto" />
-          </div>
-        ) : null}
+            <tbody>
+              {data.map((d) => (
+                <tr key={d.countryIsoCode}>
+                  <td className="parent-d" colSpan={2}>
+                    <div className="d-flex flex-row">
+                      <Link
+                        className="align-items-center d-flex parent-text-decoration flex-row text-body text-decoration-none"
+                        href={{ pathname: router.pathname, query: { ...router.query, countryIsoCode: d.countryIsoCode } }}
+                        scroll={false}
+                        title={d.country}
+                      >
+                        <span className={`fi fi-${d.countryIsoAlpha2Code} fis me-1 rounded-circle shadow-sm text-decoration-none`} />
 
-        {hasMore ? (
-          <Button className="d-block mx-auto" disabled={isValidating} onClick={handleLoadMoreClick}>
-            Load more
-          </Button>
-        ) : null}
+                        <span className="parent-hover-text-decoration-underline text-truncate">{d.country}</span>
+                      </Link>
+                    </div>
+                  </td>
+
+                  <td className="fw-medium text-end">
+                    <span title={d.visitorCount.toString()}>{d.visitorCountDisplay}</span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        )}
       </BsModal.Body>
     </BsModal>
   );

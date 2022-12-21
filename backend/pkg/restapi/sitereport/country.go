@@ -9,7 +9,7 @@ import (
 func country(c *fiber.Ctx) error {
 	dp := dm.Get(c)
 
-	report, err := country2.Get(dp, getFilters(c), getPaginationCursor[country2.PaginationCursor](c))
+	report, err := country2.Get(dp, getFilters(c))
 	if err != nil {
 		return err
 	}
