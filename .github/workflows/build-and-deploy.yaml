@@ -95,6 +95,7 @@ jobs:
 
   update-deployments:
     needs: [build-backend, build-frontend]
+    runs-on: ubuntu-latest
     steps:
       - name: Set environment variables
         run: |
