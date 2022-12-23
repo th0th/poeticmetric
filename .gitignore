@@ -1,3 +1,4 @@
 .DS_Store
+/backend/.env.development
 /backend/etc/ssl
 /frontend/styles/style.css

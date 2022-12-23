@@ -8,7 +8,7 @@ export type AvatarProps = Overwrite<Omit<React.PropsWithoutRef<JSX.IntrinsicElem
   size?: number;
 }>;
 
-export function Avatar({ alt, className, email, size = 32, ...props }: AvatarProps) {
+function BaseAvatar({ alt, className, email, size = 32, ...props }: AvatarProps, ref: React.Ref<HTMLImageElement>) {
   const src = useMemo<string>(() => {
     const hash = md5(email);
 
@@ -22,8 +22,11 @@ export function Avatar({ alt, className, email, size = 32, ...props }: AvatarPro
       className={classNames("d-block rounded-circle", className)}
       height={size}
       loading="lazy"
+      ref={ref}
       src={src}
       width={size}
     />
   );
 }
+
+export const Avatar = React.forwardRef(BaseAvatar);

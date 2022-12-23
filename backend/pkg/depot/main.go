@@ -20,7 +20,5 @@ type Depot struct {
 }
 
 func New() *Depot {
-	return &Depot{
-		rabbitMq: rabbitmq.New(),
-	}
+	return &Depot{}
 }

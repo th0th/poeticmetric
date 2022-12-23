@@ -35,7 +35,7 @@ export function useForm<V>(initialValues: V): [
 
       name = event.target.name as keyof V;
 
-      if (event.target.type === "checkbox") {
+      if (["checkbox", "radio"].includes(event.target.type)) {
         value = (event.target as HTMLInputElement).checked;
       } else {
         value = event.target.value;

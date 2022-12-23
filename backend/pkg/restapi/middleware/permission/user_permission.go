@@ -8,9 +8,10 @@ import (
 )
 
 type userPermissionMiddlewareConfig struct {
-	AuthKind        *authentication.AuthKind
-	IsAuthenticated *bool
-	IsEmailVerified *bool
+	AuthKind            *authentication.AuthKind
+	IsAuthenticated     *bool
+	IsEmailVerified     *bool
+	IsOrganizationOwner *bool
 }
 
 func User(cfg *userPermissionMiddlewareConfig) fiber.Handler {
@@ -44,6 +45,15 @@ func User(cfg *userPermissionMiddlewareConfig) fiber.Handler {
 			}
 		}
 
+		// IsOwner
+		if cfg.IsOrganizationOwner != nil {
+			if auth.User == nil || auth.User.IsOrganizationOwner != *cfg.IsOrganizationOwner {
+				return c.
+					Status(fiber.StatusForbidden).
+					JSON(helpers.Detail("You need to be an owner."))
+			}
+		}
+
 		return c.Next()
 	}
 }
@@ -71,6 +81,12 @@ func UserBasicAuthenticated(c *fiber.Ctx) error {
 func UserEmailVerified(c *fiber.Ctx) error {
 	return User(&userPermissionMiddlewareConfig{
 		IsEmailVerified: pointer.Get(true),
+	})(c)
+}
+
+func UserOwner(c *fiber.Ctx) error {
+	return User(&userPermissionMiddlewareConfig{
+		IsOrganizationOwner: pointer.Get(true),
 	})(c)
 }
 

@@ -10,4 +10,6 @@ func Add(app *fiber.App) {
 
 	group.Get("/", permission.UserAuthenticated, list)
 	group.Get("/me", permission.UserAuthenticated, readSelf)
+	group.Patch("/me", permission.UserAuthenticated, updateSelf)
+	group.Post("/change-password", permission.UserBasicAuthenticated, changePassword)
 }

@@ -2,6 +2,13 @@ package model
 
 import "time"
 
+const (
+	UserNameMaxLength = 70
+	UserNameMinLength = 1
+	UserPasswordMaxLength = 128
+	UserPasswordMinLength = 8
+)
+
 type User struct {
 	CreatedAt                time.Time `gorm:"not null"`
 	Email                    string    `gorm:"not null;uniqueIndex"`
