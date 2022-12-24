@@ -1,7 +1,6 @@
 CREATE TABLE "plans" (
   "created_at" timestamptz NOT NULL,
   "id" bigserial,
-  "is_live_chat_support_enabled" boolean NOT NULL,
   "max_events_per_month" bigint,
   "max_users" int,
   "name" text UNIQUE NOT NULL,
@@ -25,6 +24,22 @@ CREATE TABLE "organizations" (
 );
 
 CREATE INDEX "idx_organizations_plan_id" ON "organizations" ("plan_id");
+
+CREATE TABLE "organization_deletions" (
+  "date_time" timestamptz NOT NULL,
+  "details" text,
+  "id" bigserial,
+  "organization_created_at" timestamptz NOT NULL,
+  "organization_id" bigint NOT NULL,
+  "organization_name" text NOT NULL,
+  "organization_plan_name" text NOT NULL,
+  "organization_stripe_customer_id" text,
+  "reason" text NOT NULL,
+  "user_email" text NOT NULL,
+  "user_id" bigint NOT NULL,
+  "user_name" text NOT NULL,
+  PRIMARY KEY ("id")
+);
 
 CREATE TABLE "users" (
   "created_at" timestamptz NOT NULL,

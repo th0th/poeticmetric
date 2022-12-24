@@ -21,6 +21,8 @@ $font-weight-medium: 500;
 $border-color-translucent: rgba($black, .125);
 $btn-font-weight: $font-weight-semibold;
 $dropdown-font-size: $font-size-sm;
+$form-label-font-weight: $font-weight-medium;
+$nav-link-font-weight: $font-weight-medium;
 
 // 5. Include remainder of required parts
 @import "bootstrap/scss/maps";
@@ -134,6 +136,7 @@ $utilities: map-merge($utilities, (
 @import "bootstrap/scss/modal";
 @import "bootstrap/scss/nav";
 @import "bootstrap/scss/navbar";
+@import "bootstrap/scss/popover";
 @import "bootstrap/scss/reboot";
 @import "bootstrap/scss/root";
 @import "bootstrap/scss/spinners";
@@ -149,6 +152,10 @@ $utilities: map-merge($utilities, (
 @import "bootstrap-icons/font/bootstrap-icons";
 @import "flag-icons/sass/flag-icons";
 @import "./react-datepicker";
+
+:disabled {
+  cursor: not-allowed;
+}
 
 body {
   background-attachment: fixed;
@@ -215,6 +222,10 @@ svg {
 
 .table-layout-fixed {
   table-layout: fixed !important;
+}
+
+textarea {
+  height: 8rem;
 }
 
 .visx-axis-tick {

@@ -8,5 +8,7 @@ import (
 func Add(app *fiber.App) {
 	group := app.Group("/organization")
 
+	group.Delete("/", permission.UserBasicAuthenticated, permission.UserOwner, destroy)
 	group.Get("/", permission.UserAuthenticated, read)
+	group.Patch("/", permission.UserOwner, update)
 }

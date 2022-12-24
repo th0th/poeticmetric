@@ -52,6 +52,7 @@ const (
 	Stage                      = "POETICMETRIC_STAGE"
 	StripeSecretKey            = "POETICMETRIC_STRIPE_SECRET_KEY"
 	StripeWebhookSigningSecret = "POETICMETRIC_STRIPE_WEBHOOK_SIGNING_SECRET"
+	WebhookUrl                 = "POETICMETRIC_WEBHOOK_URL"
 	WorkerConcurrency          = "POETICMETRIC_WORKER_CONCURRENCY"
 	WorkerQueues               = "POETICMETRIC_WORKER_QUEUES"
 )

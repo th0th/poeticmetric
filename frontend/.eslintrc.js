@@ -17,6 +17,7 @@ module.exports = {
     "import/no-unresolved": "error",
     "max-len": ["error", { code: 140, ignoreComments: true, ignoreStrings: true }],
     "no-console": "error",
+    "no-useless-return": ["error"],
     "object-curly-newline": ["error", { consistent: true }],
     "object-curly-spacing": ["error", "always" ],
     "quote-props": ["error", "as-needed"],

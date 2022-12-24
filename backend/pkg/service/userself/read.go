@@ -17,9 +17,5 @@ func Read(dp *depot.Depot, id uint64) (*UserSelf, error) {
 		return nil, err
 	}
 
-	//if userSelf.IsChatwootIdentifierEnabled {
-	//	userSelf.ChatwootIdentifier = pointer.Get(chatwoot.CalculateIdentifier(userSelf.Email))
-	//}
-
 	return userSelf, err
 }

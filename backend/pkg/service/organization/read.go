@@ -20,6 +20,8 @@ func Read(dp *depot.Depot, organizationId uint64) (*Organization, error) {
 			"organizations.subscription_period",
 			"organizations.trial_ends_at",
 			"organizations.updated_at",
+			"plans.max_events_per_month as plan__max_events_per_month",
+			"plans.max_users as plan__max_users",
 			"plans.name as plan__name",
 		).
 		Where("organizations.id = ?", organizationId).

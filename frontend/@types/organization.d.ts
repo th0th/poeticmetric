@@ -11,7 +11,6 @@ type Organization = {
     isGazerPerformanceMonitoringEnabled: boolean;
     isGazerRequestConfigurationEnabled: boolean;
     isGazerTimesEnabled: boolean;
-    isLiveChatSupportEnabled: boolean;
     maxAlertCount: number;
     maxGazerCount: number;
     maxPulseCount: number;
