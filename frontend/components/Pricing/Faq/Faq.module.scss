@@ -1,0 +1,10 @@
+@import "styles/base";
+
+@include media-breakpoint-up(lg) {
+  .accordionWrapper {
+    background-image: url("./faq.svg");
+    background-position: right 10% top 0;
+    background-repeat: no-repeat;
+    background-size: 36% auto;
+  }
+}
