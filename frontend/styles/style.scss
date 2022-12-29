@@ -1,128 +1,6 @@
-// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
-@import "bootstrap/scss/functions";
+@import "./base";
 
-// 2. Include any default variable overrides here
-$enable-negative-margins: true;
-$min-contrast-ratio: 4;
-
-$blue: #3182CE;
-$gray: #718096;
-$red: #C53030;
-$yellow: #D69E2E;
-
-$font-size-xs: 0.75rem;
-$font-size-xxs: 0.5rem;
-$font-weight-medium: 500;
-
-// 3. Include remainder of required Bootstrap stylesheets
-@import "bootstrap/scss/variables";
-
-// 4. Include any default map overrides here
-$border-color-translucent: rgba($black, .125);
-$btn-font-weight: $font-weight-semibold;
-$dropdown-font-size: $font-size-sm;
-$form-label-font-weight: $font-weight-medium;
-$nav-link-font-weight: $font-weight-medium;
-
-// 5. Include remainder of required parts
-@import "bootstrap/scss/maps";
-@import "bootstrap/scss/mixins";
-@import "bootstrap/scss/root";
-
-// 5.5 Utilities
-@import "bootstrap/scss/utilities";
-
-$fixed-sizes: (1rem 2rem 3rem 4rem 5rem 6rem 7rem 8rem 9rem 10rem);
-
-$utilities: map-merge($utilities, (
-  "background-color": map-merge(map-get($utilities, "background-color"), (
-    state: hover,
-  )),
-  "border-start": map-merge(map-get($utilities, "border-start"), (
-    responsive: true,
-  )),
-  "bottom": map-merge(map-get($utilities, "bottom"), (
-    responsive: true,
-  )),
-  "color": map-merge(map-get($utilities, "color"), (
-    state: hover,
-  )),
-  "cursor": (
-    property: cursor,
-    class: cursor,
-    values: (
-      pointer,
-    ),
-  ),
-  "end": map-merge(map-get($utilities, "end"), (
-    responsive: true,
-  )),
-  "font-weight": map-merge(map-get($utilities, "font-weight"), (
-    values: map-merge(map-get(map-get($utilities, "font-weight"), "values"), (
-      medium: $font-weight-medium,
-    )),
-  )),
-  "font-size": map-merge(map-get($utilities, "font-size"), (
-    values: map-merge(map-get(map-get($utilities, "font-size"), "values"), (
-      sm: $font-size-sm,
-      xs: $font-size-xs,
-      xxs: $font-size-xxs,
-    )),
-  )),
-  "height-fixed": (
-    class: h,
-    property: height,
-    values: $fixed-sizes,
-  ),
-  "min-height": (
-    property: min-height,
-    class: min-h,
-    values: (
-      0: 0,
-    ),
-  ),
-  "min-width": (
-    property: min-width,
-    class: min-w,
-    values: (
-      0: 0,
-    ),
-  ),
-  "rounded-bottom-end": (
-    class: rounded-bottom-end,
-    property: border-bottom-right-radius,
-    responsive: true,
-    values: (
-      0: 0,
-      null: var(--#{$prefix}border-radius),
-    )
-  ),
-  "rounded-bottom-start": (
-    class: rounded-bottom-start,
-    property: border-bottom-left-radius,
-    responsive: true,
-    values: (
-      0: 0,
-      null: var(--#{$prefix}border-radius),
-    )
-  ),
-  "start": map-merge(map-get($utilities, "start"), (
-    responsive: true,
-  )),
-  "text-decoration": map-merge(map-get($utilities, "text-decoration"), (
-    state: hover,
-  )),
-  "top": map-merge(map-get($utilities, "top"), (
-    responsive: true,
-  )),
-  "width-fixed": (
-    class: w,
-    property: width,
-    values: $fixed-sizes,
-  ),
-));
-
-// 6. Optionally include any other parts as needed
+@import "bootstrap/scss/accordion";
 @import "bootstrap/scss/alert";
 @import "bootstrap/scss/breadcrumb";
 @import "bootstrap/scss/buttons";
@@ -141,11 +19,11 @@ $utilities: map-merge($utilities, (
 @import "bootstrap/scss/root";
 @import "bootstrap/scss/spinners";
 @import "bootstrap/scss/tables";
-@import 'bootstrap/scss/transitions';
 @import "bootstrap/scss/toasts";
+@import "bootstrap/scss/tooltip";
+@import "bootstrap/scss/transitions";
 @import "bootstrap/scss/type";
 
-// 7. Optionally include utilities API last to generate classes based on the Sass map in `_utilities.scss`
 @import "bootstrap/scss/utilities/api";
 
 // 8. Add additional custom code here
@@ -208,10 +86,6 @@ svg {
   .site-report-card {
     height: 290px;
   }
-}
-
-.mw-32rem {
-  max-width: 32rem !important;
 }
 
 .striped {

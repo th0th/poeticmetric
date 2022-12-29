@@ -3,8 +3,8 @@ import { Layout } from "../../components";
 
 export function Home() {
   return (
-    <Layout>
-
+    <Layout headerKind="website">
+      Home
     </Layout>
   );
 }

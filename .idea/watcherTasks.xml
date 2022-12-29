@@ -9,7 +9,7 @@
       <option name="fileExtension" value="scss" />
       <option name="immediateSync" value="true" />
       <option name="name" value="SCSS" />
-      <option name="output" value="$Projectpath$/frontend/styles/style.css" />
+      <option name="output" value="$ProjectFileDir$/frontend/styles/style.css" />
       <option name="outputFilters">
         <array />
       </option>
@@ -18,7 +18,7 @@
       <option name="runOnExternalChanges" value="true" />
       <option name="scopeName" value="All Places" />
       <option name="trackOnlyRoot" value="true" />
-      <option name="workingDir" value="$FileDir$" />
+      <option name="workingDir" value="$ProjectFileDir$/frontend/styles" />
       <envs />
     </TaskOptions>
   </component>
