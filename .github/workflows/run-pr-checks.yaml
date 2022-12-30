@@ -44,9 +44,18 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
+      - name: Run tsc
+        uses: EPMatt/reviewdog-action-tsc@v1
+        with:
+          fail_on_error: true
+          filter_mode: nofilter
+          reporter: github-pr-review
+          workdir: frontend
+
       - name: Run stylelint
         uses: reviewdog/action-stylelint@v1
         with:
+          fail_on_error: true
           filter_mode: nofilter
           reporter: github-pr-review
           stylelint_input: '**/*.scss'
@@ -56,12 +65,6 @@ jobs:
         uses: reviewdog/action-eslint@v1
         with:
           eslint_flags: '--ext .js,.ts,.tsx .'
+          fail_on_error: true
           filter_mode: nofilter
-          workdir: frontend
-
-      - name: Run tsc
-        uses: EPMatt/reviewdog-action-tsc@v1
-        with:
-          filter_mode: nofilter
-          reporter: github-pr-review
           workdir: frontend
