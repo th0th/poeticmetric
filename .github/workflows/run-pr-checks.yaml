@@ -44,6 +44,14 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
+      - name: Run tsc
+        uses: EPMatt/reviewdog-action-tsc@v1
+        with:
+          fail_on_error: true
+          filter_mode: nofilter
+          reporter: github-pr-review
+          workdir: frontend
+
       - name: Run stylelint
         uses: reviewdog/action-stylelint@v1
         with:

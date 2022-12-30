@@ -43,7 +43,7 @@ export function Team() {
   }, [users]);
 
   return (
-    <Layout>
+    <Layout headerKind="app">
       <Container className="py-4">
         {topNode}
 

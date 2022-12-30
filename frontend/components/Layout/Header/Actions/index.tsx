@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useContext, useMemo } from "react";
@@ -16,7 +15,7 @@ export function Actions({ className, ...props }: ActionsProps) {
       return (
         <>
           {router.pathname !== "/sign-in" ? (
-            <Link className="btn btn-outline-primary" href="/Users/th0th/Workspace/poeticmetric/poeticmetric/frontend/pages/sign-in">
+            <Link className="btn btn-outline-primary" href="/sign-in">
               Sign in
             </Link>
           ) : null}
@@ -26,7 +25,7 @@ export function Actions({ className, ...props }: ActionsProps) {
           ) : null}
 
           {router.pathname !== "/sign-up" ? (
-            <Link className="btn btn-primary" href="/Users/th0th/Workspace/poeticmetric/poeticmetric/frontend/pages/sign-up">
+            <Link className="btn btn-primary" href="/sign-up">
               Sign up
             </Link>
           ) : null}
@@ -40,7 +39,7 @@ export function Actions({ className, ...props }: ActionsProps) {
   }, [router.pathname, user]);
 
   return (
-    <div {...props} className={classNames("d-flex flex-row", className)}>
+    <div {...props} className={`d-flex flex-row ${className}`}>
       {contentNode}
     </div>
   );

@@ -25,7 +25,7 @@ const stateFilterKeyDisplays: Record<StateFilter["key"], string> = {
   language: "Language",
   operatingSystemName: "Operating system",
   operatingSystemVersion: "Operating system version",
-  page: "Page",
+  path: "Page",
   referrer: "Referer",
   referrerSite: "Referrer site",
   utmCampaign: "UTM campaign",

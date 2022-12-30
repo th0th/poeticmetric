@@ -9,7 +9,7 @@ type SiteReportsFilters = {
   language: string | null;
   operatingSystemName: string | null;
   operatingSystemVersion: string | null;
-  page: string | null;
+  path: string | null;
   referrer: string | null;
   referrerSite: string | null;
   siteId: number;

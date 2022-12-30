@@ -12,7 +12,7 @@ export const SiteReportsFiltersContext = createContext<SiteReportsFiltersContext
   language: null,
   operatingSystemName: null,
   operatingSystemVersion: null,
-  page: null,
+  path: null,
   referrer: null,
   referrerSite: null,
   siteId: 0,
