@@ -64,5 +64,6 @@ jobs:
       - name: Run tsc
         uses: EPMatt/reviewdog-action-tsc@v1
         with:
+          fail_on_error: true
           reporter: github-pr-review
           workdir: frontend
