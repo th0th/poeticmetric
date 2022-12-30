@@ -28,7 +28,7 @@ export function Sites() {
   }, [sites]);
 
   return (
-    <Layout>
+    <Layout headerKind="app">
       <Container className="py-4">
         <div className="d-flex flex-row align-items-end justify-content-between">
           <div>

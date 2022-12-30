@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useContext, useMemo } from "react";
@@ -40,7 +39,7 @@ export function Actions({ className, ...props }: ActionsProps) {
   }, [router.pathname, user]);
 
   return (
-    <div {...props} className={classNames("d-flex flex-row", className)}>
+    <div {...props} className={`d-flex flex-row ${className}`}>
       {contentNode}
     </div>
   );

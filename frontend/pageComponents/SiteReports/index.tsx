@@ -37,7 +37,7 @@ export function SiteReports() {
   }, [addToast, error, id, router]);
 
   return (
-    <Layout>
+    <Layout headerKind="app">
       <Title>{site === undefined ? "..." : `Reports - ${site.name}`}</Title>
 
       <Container className="d-flex flex-column flex-grow-1 py-4">

@@ -40,7 +40,7 @@ export function SignIn() {
   }, [setErrors, setUserAccessToken, values.email, values.password]);
 
   return (
-    <Layout>
+    <Layout headerKind="app">
       <Head>
         <title>Sign in</title>
       </Head>
