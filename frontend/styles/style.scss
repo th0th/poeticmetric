@@ -54,6 +54,12 @@ div#__next {
   min-height: 100vh;
 }
 
+p {
+  &:not(:first-child) {
+    margin-block-start: 1em;
+  }
+}
+
 svg {
   fill: currentColor;
 }

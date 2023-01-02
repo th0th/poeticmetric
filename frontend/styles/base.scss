@@ -1,30 +1,23 @@
 @import "bootstrap/scss/functions";
 
 $enable-negative-margins: true;
+$font-size-xs: 0.75rem;
+$font-size-xxs: 0.5rem;
+$font-weight-medium: 500;
+$headings-margin-bottom: 1em;
 $min-contrast-ratio: 4;
+$paragraph-margin-bottom: 0;
 
 $blue: #3182CE;
 $gray: #718096;
 $red: #C53030;
 $yellow: #D69E2E;
 
-$font-size-xs: 0.75rem;
-$font-size-xxs: 0.5rem;
-$font-weight-medium: 500;
-
 @import "bootstrap/scss/variables";
 
 $border-color-translucent: rgba($black, .125);
 $btn-font-weight: $font-weight-semibold;
 $dropdown-font-size: $font-size-sm;
-$font-sizes: (
-  1: $h1-font-size,
-  2: $h2-font-size,
-  3: $h3-font-size,
-  4: $h4-font-size,
-  5: $h5-font-size,
-  6: $h6-font-size
-);
 $form-label-font-weight: $font-weight-medium;
 $nav-link-font-weight: $font-weight-medium;
 
