@@ -1,0 +1,80 @@
+@import "styles/base";
+
+.markdown {
+  line-height: $line-height-lg;
+
+  a {
+    color: $blue-500;
+    font-weight: 600;
+    text-decoration: none;
+
+    &.focus-visible, &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  h2, h3, h4, h5, h6 {
+    margin-block: 1em 0.5em;
+  }
+
+  h2 {
+    font-size: $font-size-base * 1.375;
+    font-weight: $font-weight-bold;
+  }
+
+  h3 {
+    font-size: $font-size-base * 1.25;
+    font-weight: $font-weight-bold;
+  }
+
+  h4 {
+    font-size: $font-size-base * 1.125;
+    font-weight: $font-weight-bold;
+  }
+
+  h5 {
+    font-size: $font-size-base;
+    font-weight: $font-weight-bold;
+  }
+
+  ol {
+    border: 1px solid $border-color;
+    border-radius: $border-radius;
+    counter-reset: list;
+    list-style: none;
+    margin: 16px 0;
+    padding: 16px;
+
+    > li {
+      counter-increment: list;
+      padding-left: 36px;
+      position: relative;
+
+      &:before {
+        align-items: center;
+        background-color: $blue-500;
+        border-radius: 50%;
+        color: $white;
+        content: counter(list);
+        display: flex;
+        flex-direction: column;
+        font-size: 14px;
+        font-weight: 700;
+        height: 24px;
+        justify-content: center;
+        left: 0;
+        margin-top: 4px;
+        position: absolute;
+        text-align: center;
+        top: 0;
+        width: 24px;
+      }
+
+      > p {
+        &:not(:first-child) {
+          margin-block-start: 1em;
+        }
+      }
+    }
+  }
+}
