@@ -3,7 +3,7 @@ import { Layout } from "../../components";
 
 export function Home() {
   return (
-    <Layout headerKind="website">
+    <Layout kind="website">
       Home
     </Layout>
   );

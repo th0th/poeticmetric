@@ -3,14 +3,12 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useContext, useMemo } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
-import { Logo } from "../..";
+import { LayoutProps, Logo } from "../..";
 import { AuthAndApiContext } from "../../../contexts";
 import { Actions } from "./Actions";
 
-type HeaderKind = "app" | "website";
-
 export type HeaderProps = Overwrite<React.PropsWithoutRef<JSX.IntrinsicElements["header"]>, {
-  kind: HeaderKind;
+  kind: LayoutProps["kind"];
 }>;
 
 const navbarId: string = "header-navbar";

@@ -28,7 +28,7 @@ export function Settings() {
   }, [router]);
 
   return (
-    <Layout headerKind="app">
+    <Layout kind="app">
       <Head>
         <title>Settings</title>
       </Head>

@@ -6,7 +6,7 @@ import { Faq } from "./Faq";
 
 export function Pricing() {
   return (
-    <Layout headerKind="website">
+    <Layout kind="website">
       <Title>Pricing</Title>
       <Description>
         Get the insights and analytics you need to grow your business with PoeticMetric. Our pricing plans are flexible and designed to fit
