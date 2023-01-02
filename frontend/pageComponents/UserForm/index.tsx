@@ -10,7 +10,7 @@ export function UserForm() {
   const title = useMemo(() => (id === undefined ? "Invite new team member" : "Edit team member"), [id]);
 
   return (
-    <Layout headerKind="app">
+    <Layout kind="app">
       <Container className="py-4">
         <Breadcrumb>
           <li className="breadcrumb-item">

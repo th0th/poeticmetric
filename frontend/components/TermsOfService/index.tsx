@@ -8,7 +8,7 @@ export type TermsOfServiceProps = {
 
 export function TermsOfService({ content }: TermsOfServiceProps) {
   return (
-    <Layout headerKind="website">
+    <Layout kind="website">
       <Title>Terms of service</Title>
 
       <Container className="py-5">

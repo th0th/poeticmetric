@@ -8,7 +8,7 @@ export type PrivacyPolicyProps = {
 
 export function PrivacyPolicy({ content }: PrivacyPolicyProps) {
   return (
-    <Layout headerKind="website">
+    <Layout kind="website">
       <Title>Privacy policy</Title>
 
       <Container className="py-5">

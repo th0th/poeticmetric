@@ -72,7 +72,7 @@ export function SiteForm() {
   }, [addToast, api, id, router, setValues]);
 
   return (
-    <Layout headerKind="app">
+    <Layout kind="app">
       <Head>
         <title>{title}</title>
       </Head>
