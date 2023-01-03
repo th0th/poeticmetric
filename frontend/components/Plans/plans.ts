@@ -1,12 +1,3 @@
-type Plan = {
-  description: string;
-  isPriorityEmailSupportEnabled: boolean;
-  maxEventsPerMonth: number;
-  maxUsers: number;
-  name: string;
-  priceMonthly: number;
-};
-
 export const plans: Array<Plan> = [
   {
     description: "A straightforward, privacy-focused analytics solution for small businesses",

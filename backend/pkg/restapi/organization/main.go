@@ -11,4 +11,6 @@ func Add(app *fiber.App) {
 	group.Delete("/", permission.UserBasicAuthenticated, permission.UserOwner, destroy)
 	group.Get("/", permission.UserAuthenticated, read)
 	group.Patch("/", permission.UserOwner, update)
+	group.Post("/stripe-checkout-session", permission.UserOwner, createStripeCheckoutSession)
+	group.Post("/stripe-billing-portal-session", permission.UserOwner, createStripeBillingPortalSession)
 }

@@ -4,7 +4,6 @@ go 1.19
 
 require (
 	github.com/RussellLuo/validating/v3 v3.0.0-beta.1
-	github.com/aws/aws-sdk-go v1.44.158
 	github.com/brianvoe/gofakeit/v6 v6.19.0
 	github.com/getsentry/sentry-go v0.16.0
 	github.com/go-redis/redis/v9 v9.0.0-rc.2
@@ -14,6 +13,7 @@ require (
 	github.com/mileusna/useragent v1.2.1
 	github.com/rabbitmq/amqp091-go v1.5.0
 	github.com/stretchr/testify v1.8.1
+	github.com/stripe/stripe-go/v74 v74.4.0
 	golang.org/x/crypto v0.4.0
 	golang.org/x/sync v0.1.0
 	golang.org/x/text v0.5.0

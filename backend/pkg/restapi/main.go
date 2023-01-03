@@ -13,6 +13,7 @@ import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/restapi/root"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/restapi/site"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/restapi/sitereport"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/restapi/stripe"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/restapi/user"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/restapi/useraccesstoken"
 )
@@ -33,6 +34,7 @@ func New(dp *depot.Depot) *fiber.App {
 	root.Add(app)
 	site.Add(app)
 	sitereport.Add(app)
+	stripe.Add(app)
 	user.Add(app)
 	useraccesstoken.Add(app)
 
