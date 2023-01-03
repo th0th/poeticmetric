@@ -28,7 +28,7 @@ export function Pricing() {
           </div>
         </div>
 
-        <Plans />
+        <Plans signUp />
 
         <div className="align-items-center d-flex flex-column py-4">
           <Link className="btn btn-lg btn-primary" href="/sign-up">Start your free trial</Link>

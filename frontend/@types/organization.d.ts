@@ -18,7 +18,7 @@ type Organization = {
     maxUserCount: number;
     minGazerRunInterval: number;
     name: string;
-  };
+  } | null;
   stripeCustomerId: string | null;
   subscriptionPeriod: OrganizationSubscriptionPeriod | null;
   trialEndsAt: string | null;

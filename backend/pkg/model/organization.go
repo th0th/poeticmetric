@@ -18,9 +18,9 @@ type Organization struct {
 	IsOnTrial          bool
 	Name               string
 	Plan               *Plan
-	PlanId             uint64
+	PlanId             *uint64
 	StripeCustomerId   *string
-	SubscriptionPeriod *string
+	SubscriptionPeriod *OrganizationSubscriptionPeriod
 	TrialEndsAt        *time.Time
 	UpdatedAt          time.Time
 }

@@ -20,6 +20,8 @@ func seedEvents(dp *depot.Depot, clear bool, modelSite *model.Site) error {
 	now := time.Now()
 
 	if clear {
+		fmt.Print("🧼 Deleting existing data from Clickhouse...")
+
 		err := dp.ClickHouse().
 			Exec("set mutations_sync = 1").
 			Error
@@ -47,6 +49,8 @@ func seedEvents(dp *depot.Depot, clear bool, modelSite *model.Site) error {
 		if err != nil {
 			return err
 		}
+
+		fmt.Println(" ✅")
 	}
 
 	referrerSites := generateSlice(35, func() string {
@@ -63,6 +67,8 @@ func seedEvents(dp *depot.Depot, clear bool, modelSite *model.Site) error {
 	utmTerms := generateSlice(35, gofakeit.Word)
 	visitorIds := generateSlice(4000, gofakeit.UUID)
 	userAgents := generateSlice(100, gofakeit.UserAgent)
+
+	fmt.Print("📊 Adding events to ClickHouse...")
 
 	for i := 0; i < batches; i += 1 {
 		events := []*model.Event{}
@@ -112,6 +118,8 @@ func seedEvents(dp *depot.Depot, clear bool, modelSite *model.Site) error {
 			return err
 		}
 	}
+
+	fmt.Println(" ✅")
 
 	return nil
 }

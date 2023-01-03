@@ -14,11 +14,6 @@ func Organization(dp *depot.Depot, m *model.Organization) *model.Organization {
 		m = &model.Organization{}
 	}
 
-	if m.PlanId == 0 {
-		modelPlan := Plan(dp, nil)
-		m.PlanId = modelPlan.Id
-	}
-
 	err := dp.Postgres().
 		Create(m).
 		Error

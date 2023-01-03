@@ -14,13 +14,13 @@ CREATE TABLE "organizations" (
   "id" bigserial,
   "is_on_trial" boolean NOT NULL,
   "name" text NOT NULL,
-  "plan_id" bigint NOT NULL,
+  "plan_id" bigint,
   "stripe_customer_id" text,
   "subscription_period" text,
   "trial_ends_at" timestamptz,
   "updated_at" timestamptz NOT NULL,
   PRIMARY KEY ("id"),
-  CONSTRAINT "fk_organizations_plan" FOREIGN KEY ("plan_id") REFERENCES "plans" ("id") ON DELETE CASCADE
+  CONSTRAINT "fk_organizations_plan_id" FOREIGN KEY ("plan_id") REFERENCES "plans" ("id") ON DELETE CASCADE
 );
 
 CREATE INDEX "idx_organizations_plan_id" ON "organizations" ("plan_id");
@@ -55,7 +55,7 @@ CREATE TABLE "users" (
   "password_reset_token" text UNIQUE,
   "updated_at" timestamptz NOT NULL,
   PRIMARY KEY ("id"),
-  CONSTRAINT "fk_users_organization" FOREIGN KEY ("organization_id") REFERENCES "organizations" ("id") ON DELETE CASCADE
+  CONSTRAINT "fk_users_organization_id" FOREIGN KEY ("organization_id") REFERENCES "organizations" ("id") ON DELETE CASCADE
 );
 
 CREATE INDEX "idx_users_organization_id" ON "users" ("organization_id");

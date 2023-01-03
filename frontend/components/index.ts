@@ -1,5 +1,6 @@
 export * from "./AuthAndApiHandler";
 export * from "./Avatar";
+export * from "./Billing";
 export * from "./ChartTooltip";
 export * from "./Description";
 export * from "./FavIcon";

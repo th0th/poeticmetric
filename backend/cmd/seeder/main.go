@@ -1,92 +1,80 @@
 package main
 
 import (
-	"bufio"
 	"flag"
 	"fmt"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/service/userpassword"
-	"os"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/pointer"
 )
+
+var organizations = []*model.Organization{
+	{
+		Id:     1,
+		Name:   "PoeticMetric",
+		PlanId: pointer.Get(uint64(3)),
+	},
+}
+
+var plans = []*model.Plan{
+	{
+		Id:                1,
+		MaxEventsPerMonth: pointer.Get(uint64(100000)),
+		MaxUsers:          pointer.Get(uint64(1)),
+		Name:              "Basic",
+		StripeProductId:   pointer.Get("prod_KXK6a9Zmy3qcLz"),
+	},
+	{
+		Id:                2,
+		MaxEventsPerMonth: pointer.Get(uint64(1000000)),
+		MaxUsers:          pointer.Get(uint64(3)),
+		Name:              "Pro",
+		StripeProductId:   pointer.Get("prod_KXK7HFnQGBmP6D"),
+	},
+	{
+		Id:                3,
+		MaxEventsPerMonth: pointer.Get(uint64(5000000)),
+		MaxUsers:          pointer.Get(uint64(50)),
+		Name:              "Business",
+		StripeProductId:   pointer.Get("prod_KXK83fu8EQrKfM"),
+	},
+}
+
+var sites = []*model.Site{
+	{
+		Domain:         "dev.poeticmetric.com",
+		Id:             1,
+		Name:           "PoeticMetric DEV",
+		OrganizationId: organizations[0].Id,
+	},
+}
+
+var users = []*model.User{
+	{
+		Email:               "gokhan@poeticmetric.com",
+		Id:                  1,
+		IsEmailVerified:     true,
+		IsOrganizationOwner: true,
+		Name:                "Gokhan",
+		OrganizationId:      organizations[0].Id,
+		Password:            "$2a$10$ufcHVVBZveNWbqCB.7XrKeBB2uXXs7F4.ugz3OBK33lV0zntj954S",
+	},
+}
 
 func main() {
 	var err error
 
-	dp := depot.New()
-
-	modelPlan := &model.Plan{
-		Name: "Default",
-	}
-
-	modelOrganization := &model.Organization{
-		PlanId: modelPlan.Id,
-	}
-
-	modelUser := &model.User{
-		IsEmailVerified:     true,
-		IsOrganizationOwner: true,
-		OrganizationId:      modelOrganization.Id,
-	}
-
-	clear := false
-	userPassword := ""
-	createDummySite := false
-
-	flag.BoolVar(&clear, "clear", false, "Delete existing data.")
-	flag.StringVar(&modelOrganization.Name, "organizationName", "", "Name of the organization.")
-	flag.StringVar(&modelUser.Email, "userEmail", "", "User e-mail address.")
-	flag.StringVar(&modelUser.Name, "userName", "", "User full name.")
-	flag.StringVar(&userPassword, "userPassword", "", "User password.")
-	flag.BoolVar(&createDummySite, "createDummySite", false, "Create dummy site.")
+	flagClear := flag.Bool("clear", false, "Delete all data before inserting.")
+	flagEvents := flag.Bool("events", false, "Seed events.")
 
 	flag.Parse()
 
-	reader := bufio.NewReader(os.Stdin)
-
-	if modelOrganization.Name == "" {
-		fmt.Print("enter the organization name: ")
-		modelOrganization.Name, err = reader.ReadString('\n')
-		if err != nil {
-			panic(err)
-		}
-	}
-
-	if modelUser.Name == "" {
-		fmt.Print("enter the user full name: ")
-		modelUser.Name, err = reader.ReadString('\n')
-		if err != nil {
-			panic(err)
-		}
-	}
-
-	if modelUser.Email == "" {
-		fmt.Print("enter the user e-mail address: ")
-		modelUser.Email, err = reader.ReadString('\n')
-		if err != nil {
-			panic(err)
-		}
-	}
-
-	if userPassword == "" {
-		fmt.Print("enter the user password: ")
-		userPassword, err = reader.ReadString('\n')
-		if err != nil {
-			panic(err)
-		}
-	}
-
-	userPasswordHash, err := userpassword.GetHash(userPassword)
-	if err != nil {
-		panic(err)
-	}
-
-	modelUser.Password = *userPasswordHash
+	dp := depot.New()
 
 	err = dp.WithPostgresTransaction(func(dp2 *depot.Depot) error {
 		var err2 error
 
-		if clear {
+		if *flagClear {
 			fmt.Print("🧼 Deleting existing data from Postgres...")
 
 			err2 = dp2.Postgres().
@@ -94,72 +82,39 @@ func main() {
 				Delete(&model.Plan{}).
 				Error
 			if err2 != nil {
-				return err
+				return err2
 			}
 
 			fmt.Println(" ✅")
-
-			err2 = postgresFixSequences(dp2)
-			if err2 != nil {
-				return err
-			}
 		}
 
 		fmt.Print("➕ Adding new data to Postgres...")
 
-		err2 = dp2.Postgres().
-			Create(modelPlan).
-			Error
+		err2 = dp2.Postgres().Create(plans).Error
 		if err2 != nil {
 			return err2
 		}
 
-		modelOrganization.PlanId = modelPlan.Id
-
-		err2 = dp2.Postgres().
-			Create(modelOrganization).
-			Error
+		err2 = dp2.Postgres().Create(organizations).Error
 		if err2 != nil {
 			return err2
 		}
 
-		modelUser.OrganizationId = modelOrganization.Id
+		err2 = dp2.Postgres().Create(users).Error
+		if err2 != nil {
+			return err2
+		}
 
-		err2 = dp2.Postgres().
-			Create(modelUser).
-			Error
+		err2 = dp2.Postgres().Create(sites).Error
 		if err2 != nil {
 			return err2
 		}
 
 		fmt.Println(" ✅")
 
-		if createDummySite {
-			fmt.Print("🏠 Creating site on Postgres...")
-
-			modelSite := &model.Site{
-				Domain:         "dev.poeticmetric.com",
-				Name:           "PoeticMetric DEV",
-				OrganizationId: modelOrganization.Id,
-			}
-
-			err2 = dp2.Postgres().
-				Create(modelSite).
-				Error
-			if err2 != nil {
-				return err2
-			}
-
-			fmt.Println(" ✅")
-
-			fmt.Print("📊 Adding events to ClickHouse...")
-
-			err2 = seedEvents(dp, clear, modelSite)
-			if err2 != nil {
-				return err2
-			}
-
-			fmt.Println(" ✅")
+		err2 = postgresFixSequences(dp2)
+		if err2 != nil {
+			return err2
 		}
 
 		return nil
@@ -168,9 +123,11 @@ func main() {
 		panic(err)
 	}
 
-	err = postgresFixSequences(dp)
-	if err != nil {
-		panic(err)
+	if *flagEvents {
+		err = seedEvents(dp, *flagClear, sites[0])
+		if err != nil {
+			panic(err)
+		}
 	}
 }
 

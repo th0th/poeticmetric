@@ -1,21 +1,27 @@
 import millify from "millify";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useContext, useMemo } from "react";
 import { Card, Col, Form, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import { PlansContext } from "../../contexts";
+import { ActionButton } from "./ActionButton";
 import { plans } from "./plans";
+
+type PlansProps = {
+  signUp?: boolean;
+};
 
 interface PricingPlan {
   priceMonthly: number;
 }
 
-type State = {
-  isYearSwitchOn: boolean;
-};
+export function Plans({ signUp = false }: PlansProps) {
+  const { set, subscriptionPeriod } = useContext(PlansContext);
 
-export function Plans() {
-  const [state, setState] = useState<State>({ isYearSwitchOn: false });
+  const getActionButtonNode = useCallback((plan: Plan) => (signUp ? null : (
+    <ActionButton className="mt-auto" plan={plan} />
+  )), [signUp]);
 
   const getPriceNode = useCallback((plan: PricingPlan) => {
-    if (state.isYearSwitchOn) {
+    if (subscriptionPeriod === "YEAR") {
       return (
         <div>
           <div>
@@ -44,11 +50,11 @@ export function Plans() {
         <div className="fs-sm fw-medium text-muted">{" paid monthly"}</div>
       </div>
     );
-  }, [state.isYearSwitchOn]);
+  }, [subscriptionPeriod]);
 
   const handleYearlySwitchChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>((event) => {
-    setState((s) => ({ ...s, isYearSwitchOn: event.target.checked }));
-  }, []);
+    set((s) => ({ ...s, subscriptionPeriod: event.target.checked ? "YEAR" : "MONTH" }));
+  }, [set]);
 
   const dataOwnershipTooltipNode = useMemo(() => (
     <Tooltip className="fw-medium fs-xs">
@@ -66,7 +72,7 @@ export function Plans() {
     <div>
       <div className="align-items-center d-flex flex-column p-3">
         <Form.Switch
-          checked={state.isYearSwitchOn}
+          checked={subscriptionPeriod === "YEAR"}
           className="align-items-center d-flex flex-row gap-2"
           id="plans.period"
           label={(<span className="fs-5 fw-medium">Yearly billing (2 months free)</span>)}
@@ -91,7 +97,7 @@ export function Plans() {
 
                 <ul className="mt-3">
                   <li>
-                    <OverlayTrigger overlay={dataOwnershipTooltipNode} placement="bottom" rootClose trigger="hover">
+                    <OverlayTrigger overlay={dataOwnershipTooltipNode} placement="bottom" rootClose trigger={["focus", "hover"]}>
                       <a className="border-black border-2 border-bottom border-dotted cursor-pointer text-black text-decoration-none">
                         100% data ownership
                       </a>
@@ -106,7 +112,7 @@ export function Plans() {
 
                   {p.isPriorityEmailSupportEnabled ? (
                     <li>
-                      <OverlayTrigger overlay={prioritySupportTooltipNode} placement="bottom" rootClose trigger="hover">
+                      <OverlayTrigger overlay={prioritySupportTooltipNode} placement="bottom" rootClose trigger={["focus", "hover"]}>
                         <a className="border-black border-2 border-bottom border-dotted cursor-pointer text-black text-decoration-none">
                           Priority support
                         </a>
@@ -114,6 +120,8 @@ export function Plans() {
                     </li>
                   ) : null}
                 </ul>
+
+                {getActionButtonNode(p)}
               </Card.Body>
             </Card>
           </Col>

@@ -10,7 +10,7 @@ func Read(dp *depot.Depot, organizationId uint64) (*Organization, error) {
 
 	err := dp.Postgres().
 		Model(&model.Organization{}).
-		Joins("inner join plans on plans.id = organizations.plan_id").
+		Joins("left join plans on plans.id = organizations.plan_id").
 		Select(
 			"organizations.created_at",
 			"organizations.id",
@@ -29,6 +29,10 @@ func Read(dp *depot.Depot, organizationId uint64) (*Organization, error) {
 		Error
 	if err != nil {
 		return nil, err
+	}
+
+	if organization.Plan.Name == "" {
+		organization.Plan = nil
 	}
 
 	return organization, nil

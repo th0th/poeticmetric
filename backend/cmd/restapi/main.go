@@ -5,6 +5,7 @@ import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/env"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/restapi"
+	"github.com/stripe/stripe-go/v74"
 )
 
 func main() {
@@ -23,6 +24,9 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	// stripe
+	stripe.Key = env.Get(env.StripeSecretKey)
 
 	dp := depot.New()
 
