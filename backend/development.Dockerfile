@@ -11,7 +11,7 @@ RUN go install -tags 'clickhouse,postgres' github.com/golang-migrate/migrate/v4/
 COPY go.mod go.sum ./
 RUN go mod download
 
-#COPY assets assets
+COPY assets assets
 COPY cmd cmd
 #COPY migrations migrations
 COPY pkg pkg

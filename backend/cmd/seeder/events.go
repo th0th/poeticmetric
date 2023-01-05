@@ -16,42 +16,40 @@ import (
 const batches = 1000
 const eventsInBatch = 100
 
-func seedEvents(dp *depot.Depot, clear bool, modelSite *model.Site) error {
-	now := time.Now()
-
-	if clear {
-		fmt.Print("🧼 Deleting existing data from Clickhouse...")
-
-		err := dp.ClickHouse().
-			Exec("set mutations_sync = 1").
-			Error
-		if err != nil {
-			return err
-		}
-
-		err = dp.ClickHouse().
-			Exec("optimize table events_buffer").
-			Error
-		if err != nil {
-			return err
-		}
-
-		err = dp.ClickHouse().
-			Exec("alter table events delete where 1 = 1").
-			Error
-		if err != nil {
-			return err
-		}
-
-		err = dp.ClickHouse().
-			Exec("set mutations_sync = 0").
-			Error
-		if err != nil {
-			return err
-		}
-
-		fmt.Println(" ✅")
+func clearEvents(dp *depot.Depot) error {
+	err := dp.ClickHouse().
+		Exec("set mutations_sync = 1").
+		Error
+	if err != nil {
+		return err
 	}
+
+	err = dp.ClickHouse().
+		Exec("optimize table events_buffer").
+		Error
+	if err != nil {
+		return err
+	}
+
+	err = dp.ClickHouse().
+		Exec("alter table events delete where 1 = 1").
+		Error
+	if err != nil {
+		return err
+	}
+
+	err = dp.ClickHouse().
+		Exec("set mutations_sync = 0").
+		Error
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func seedEvents(dp *depot.Depot, modelSite *model.Site) error {
+	now := time.Now()
 
 	referrerSites := generateSlice(35, func() string {
 		protocol := gofakeit.RandomString([]string{"http", "https"})
@@ -105,7 +103,7 @@ func seedEvents(dp *depot.Depot, clear bool, modelSite *model.Site) error {
 				event.IsBounce = true
 			}
 
-			event.FillFromUrl(gofakeit.RandomString(urls))
+			event.FillFromUrl(gofakeit.RandomString(urls), nil)
 			event.FillFromUserAgent(gofakeit.RandomString(userAgents))
 
 			event.VisitorId = gofakeit.RandomString(visitorIds)

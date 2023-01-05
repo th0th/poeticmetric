@@ -18,7 +18,7 @@ CREATE TABLE "events" (
   "site_id" UInt64,
   "time_zone" Nullable(String),
   "url" String,
-  "user_agent" Nullable(String),
+  "user_agent" String,
   "utm_campaign" Nullable(String),
   "utm_content" Nullable(String),
   "utm_medium" Nullable(String),

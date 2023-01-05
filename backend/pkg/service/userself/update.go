@@ -46,10 +46,9 @@ func validateUpdatePayload(payload *UpdatePayload) error {
 			v.All(
 				v.Nonzero[*string]().Msg("This field is required."),
 
-				v.Is(
-					func(t *string) bool {
-						return len(*t) >= model.UserNameMinLength && len(*t) <= model.UserNameMaxLength
-					}).Msg(fmt.Sprintf(
+				v.Is(func(t *string) bool {
+					return len(*t) >= model.UserNameMinLength && len(*t) <= model.UserNameMaxLength
+				}).Msg(fmt.Sprintf(
 					"This field should be between %d and %d characters in length.",
 					model.UserNameMinLength,
 					model.UserNameMaxLength,

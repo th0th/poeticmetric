@@ -86,6 +86,15 @@ func main() {
 			}
 
 			fmt.Println(" ✅")
+
+			fmt.Print("🧼 Deleting existing data from Clickhouse...")
+
+			err2 = clearEvents(dp)
+			if err2 != nil {
+				return err2
+			}
+
+			fmt.Println(" ✅")
 		}
 
 		fmt.Print("➕ Adding new data to Postgres...")
@@ -124,7 +133,7 @@ func main() {
 	}
 
 	if *flagEvents {
-		err = seedEvents(dp, *flagClear, sites[0])
+		err = seedEvents(dp, sites[0])
 		if err != nil {
 			panic(err)
 		}

@@ -52,10 +52,9 @@ func validateCreatePayload(dp *depot.Depot, payload *CreatePayload) error {
 		v.F("name", payload.Name): v.All(
 			v.Nonzero[*string]().Msg("This field is required."),
 
-			v.Is(
-				func(t *string) bool {
-					return len(*t) >= model.SiteNameMinLength && len(*t) <= model.SiteNameMaxLength
-				}).Msg(fmt.Sprintf(
+			v.Is(func(t *string) bool {
+				return len(*t) >= model.SiteNameMinLength && len(*t) <= model.SiteNameMaxLength
+			}).Msg(fmt.Sprintf(
 				"This field should be between %d and %d characters in length.",
 				model.SiteNameMinLength,
 				model.SiteNameMaxLength,

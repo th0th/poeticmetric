@@ -1,4 +1,5 @@
 .DS_Store
+/.idea/dataSources.xml
 /backend/.env.development
 /backend/etc/ssl
 /frontend/styles/style.css

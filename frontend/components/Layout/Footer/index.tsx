@@ -1,10 +1,13 @@
 import Link from "next/link";
-import React from "react";
+import React, { useContext } from "react";
 import { Container, Nav } from "react-bootstrap";
+import { LayoutContext } from "../../../contexts";
 import { Logo } from "../../Logo";
 
 export function Footer() {
-  return (
+  const { kind } = useContext(LayoutContext);
+
+  return kind === "website" ? (
     <footer className="bg-white border-top">
       <Container className="py-4">
         <div className="d-flex flex-column-reverse flex-lg-row gap-4 gap-lg-5">
@@ -21,9 +24,7 @@ export function Footer() {
           <div className="justify-content-between d-flex flex-wrap gap-3 gap-lg-5">
             <div>
               <Nav className="flex-column">
-                <Nav.Item className="fw-semibold px-2 py-1">
-                  PoeticMetric
-                </Nav.Item>
+                <Nav.Item className="fw-semibold px-2 py-1">PoeticMetric</Nav.Item>
 
                 <Nav.Item>
                   <Nav.Link
@@ -68,9 +69,7 @@ export function Footer() {
 
             <div>
               <Nav className="flex-column">
-                <Nav.Item className="fw-semibold px-2 py-1">
-                  Resources
-                </Nav.Item>
+                <Nav.Item className="fw-semibold px-2 py-1">Resources</Nav.Item>
 
                 <Nav.Item>
                   <Nav.Link
@@ -116,9 +115,7 @@ export function Footer() {
 
             <div>
               <Nav className="flex-column">
-                <Nav.Item className="fw-semibold px-2 py-1">
-                  Contact
-                </Nav.Item>
+                <Nav.Item className="fw-semibold px-2 py-1">Community</Nav.Item>
 
                 <Nav.Item>
                   <Nav.Link
@@ -146,5 +143,5 @@ export function Footer() {
         </div>
       </Container>
     </footer>
-  );
+  ) : null;
 }

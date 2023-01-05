@@ -1,4 +1,5 @@
-import React, { useMemo } from "react";
+import React from "react";
+import { LayoutContext } from "../../contexts";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 
@@ -10,17 +11,13 @@ export type LayoutProps = {
 };
 
 export function Layout({ children, kind }: LayoutProps) {
-  const headerNode = useMemo<React.ReactNode>(() => <Header kind={kind} />, [kind]);
-
-  const footerNode = useMemo<React.ReactNode>(() => (kind === "website" ? <Footer /> : null), [kind]);
-
   return (
-    <>
-      {headerNode}
+    <LayoutContext.Provider value={{ kind }}>
+      <Header />
 
       <div className="flex-grow-1">{children}</div>
 
-      {footerNode}
-    </>
+      <Footer />
+    </LayoutContext.Provider>
   );
 }
