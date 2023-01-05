@@ -15,8 +15,8 @@ import {
   SiteUtmReport,
   SiteVisitorPageViewReport,
   SiteVisitorTrendsReport,
+  Title,
 } from "../../components";
-import { Title } from "../../components/Title";
 import { ToastsContext } from "../../contexts";
 import { useQueryNumber, useSite } from "../../hooks";
 

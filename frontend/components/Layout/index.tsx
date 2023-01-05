@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { LayoutContext } from "../../contexts";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
