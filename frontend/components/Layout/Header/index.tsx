@@ -3,19 +3,18 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useContext, useMemo } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
-import { LayoutProps, Logo } from "../..";
-import { AuthAndApiContext } from "../../../contexts";
+import { Logo } from "../..";
+import { AuthAndApiContext, LayoutContext } from "../../../contexts";
 import { Actions } from "./Actions";
 
-export type HeaderProps = Overwrite<React.PropsWithoutRef<JSX.IntrinsicElements["header"]>, {
-  kind: LayoutProps["kind"];
-}>;
+export type HeaderProps = React.PropsWithoutRef<JSX.IntrinsicElements["header"]>;
 
 const navbarId: string = "header-navbar";
 
-export function Header({ className, kind, ...props }: HeaderProps) {
+export function Header({ className, ...props }: HeaderProps) {
   const router = useRouter();
   const { user } = useContext(AuthAndApiContext);
+  const { kind } = useContext(LayoutContext);
 
   const navbarToggleNode = useMemo<React.ReactNode>(() => (kind === "app" && user !== null) || kind === "website" ? (
     <Navbar.Toggle aria-controls={navbarId} className="me-3" />

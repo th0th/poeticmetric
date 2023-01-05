@@ -57,7 +57,7 @@ func TestGet(t *testing.T) {
 			VisitorId: uuid.NewString(),
 		}
 
-		event.FillFromUrl(d.Url)
+		event.FillFromUrl(d.Url, nil)
 
 		events = append(events, event)
 	}

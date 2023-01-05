@@ -78,10 +78,9 @@ func validateChangePasswordPayload(payload *ChangePasswordPayload) error {
 		v.F("newPassword", payload.NewPassword): v.All(
 			v.Nonzero[*string]().Msg("This field is required."),
 
-			v.Is(
-				func(t *string) bool {
-					return len(*t) >= model.UserPasswordMinLength && len(*t) <= model.UserPasswordMaxLength
-				}).Msg(fmt.Sprintf(
+			v.Is(func(t *string) bool {
+				return len(*t) >= model.UserPasswordMinLength && len(*t) <= model.UserPasswordMaxLength
+			}).Msg(fmt.Sprintf(
 				"This field should be between %d and %d characters in length.",
 				model.UserPasswordMinLength,
 				model.UserPasswordMaxLength,

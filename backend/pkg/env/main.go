@@ -48,6 +48,7 @@ const (
 	RedisPassword              = "POETICMETRIC_REDIS_PASSWORD"
 	RedisPort                  = "POETICMETRIC_REDIS_PORT"
 	ResourcesBaseUrl           = "POETICMETRIC_RESOURCES_BASE_URL"
+	RestApiBaseUrl             = "POETICMETRIC_REST_API_BASE_URL"
 	SentryDsn                  = "POETICMETRIC_SENTRY_DSN"
 	Stage                      = "POETICMETRIC_STAGE"
 	StripeSecretKey            = "POETICMETRIC_STRIPE_SECRET_KEY"
@@ -80,6 +81,7 @@ var (
 		RedisPassword,
 		RedisPort,
 		ResourcesBaseUrl,
+		RestApiBaseUrl,
 		SentryDsn,
 		Stage,
 		StripeSecretKey,

@@ -78,6 +78,7 @@ CREATE TABLE "sites" (
   "id" bigserial,
   "name" text,
   "organization_id" bigint,
+  "safe_query_parameters" text[] NOT NULL DEFAULT ARRAY []::text[],
   "updated_at" timestamptz NOT NULL,
   PRIMARY KEY ("id"),
   CONSTRAINT "fk_sites_organization_id" FOREIGN KEY ("organization_id") REFERENCES "organizations" ("id") ON DELETE CASCADE

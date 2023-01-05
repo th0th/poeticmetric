@@ -10,6 +10,7 @@ import (
 )
 
 var Queues = []*rabbitmq.Queue{
+	{Name: CreateEventQueue},
 	{Name: SendWebhookQueue},
 }
 
@@ -28,6 +29,7 @@ func Run(dp *depot.Depot, queues []string) error {
 	log.Println("Starting to listen...")
 
 	runners := map[rabbitmq.QueueName]func(*depot.Depot, []byte) error{
+		CreateEventQueue: createEvent,
 		SendWebhookQueue: sendWebhook,
 	}
 

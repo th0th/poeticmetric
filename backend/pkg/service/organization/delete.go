@@ -154,10 +154,9 @@ func validateDeletionPayload(payload *DeletionPayload) error {
 		v.F("details", payload.Details): v.Any(
 			v.Zero[*string](),
 
-			v.Is(
-				func(t *string) bool {
-					return len(*t) >= model.OrganizationDeletionDetailsMinLength && len(*t) <= model.OrganizationDeletionDetailsMaxLength
-				}).Msg(fmt.Sprintf(
+			v.Is(func(t *string) bool {
+				return len(*t) >= model.OrganizationDeletionDetailsMinLength && len(*t) <= model.OrganizationDeletionDetailsMaxLength
+			}).Msg(fmt.Sprintf(
 				"This field should be between %d and %d characters in length.",
 				model.OrganizationDeletionDetailsMinLength,
 				model.OrganizationDeletionDetailsMaxLength,
@@ -167,10 +166,9 @@ func validateDeletionPayload(payload *DeletionPayload) error {
 		v.F("reason", payload.Reason): v.All(
 			v.Nonzero[*string]().Msg("This field is required."),
 
-			v.Is(
-				func(t *string) bool {
-					return len(*t) >= model.OrganizationDeletionReasonMinLength && len(*t) <= model.OrganizationDeletionReasonMaxLength
-				}).Msg(fmt.Sprintf(
+			v.Is(func(t *string) bool {
+				return len(*t) >= model.OrganizationDeletionReasonMinLength && len(*t) <= model.OrganizationDeletionReasonMaxLength
+			}).Msg(fmt.Sprintf(
 				"This field should be between %d and %d characters in length.",
 				model.OrganizationDeletionReasonMinLength,
 				model.OrganizationDeletionReasonMaxLength,

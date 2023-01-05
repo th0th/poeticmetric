@@ -9,7 +9,7 @@ import updateLocale from "dayjs/plugin/updateLocale";
 import { AppProps } from "next/app";
 import React, { useEffect } from "react";
 import { registerLocale } from "react-datepicker";
-import { AuthAndApiHandler, SwrConfig, ToastsHandler } from "../components";
+import { AuthAndApiHandler, PoeticMetric, SwrConfig, ToastsHandler } from "../components";
 import "../styles/style.scss";
 
 dayjs.extend(updateLocale);
@@ -32,6 +32,8 @@ export default function App({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </ToastsHandler>
       </AuthAndApiHandler>
+
+      <PoeticMetric />
     </SwrConfig>
   );
 }

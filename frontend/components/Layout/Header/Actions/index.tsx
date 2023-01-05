@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useContext, useMemo } from "react";
-import { AuthAndApiContext } from "../../../../contexts";
+import { AuthAndApiContext, LayoutContext } from "../../../../contexts";
 import { UserMenu } from "../../../UserMenu";
 
 export type ActionsProps = React.PropsWithoutRef<JSX.IntrinsicElements["div"]>;
@@ -9,6 +9,7 @@ export type ActionsProps = React.PropsWithoutRef<JSX.IntrinsicElements["div"]>;
 export function Actions({ className, ...props }: ActionsProps) {
   const router = useRouter();
   const { user } = useContext(AuthAndApiContext);
+  const { kind } = useContext(LayoutContext);
 
   const contentNode = useMemo(() => {
     if (user === null) {
@@ -34,12 +35,20 @@ export function Actions({ className, ...props }: ActionsProps) {
     }
 
     return (
-      <UserMenu />
+      <>
+        {kind === "website" ? (
+          <Link className="btn btn-primary btn-sm" href="/sites">
+            Go to app
+          </Link>
+        ) : null}
+
+        <UserMenu />
+      </>
     );
-  }, [router.pathname, user]);
+  }, [kind, router.pathname, user]);
 
   return (
-    <div {...props} className={`d-flex flex-row ${className}`}>
+    <div {...props} className={`align-items-center d-flex flex-row gap-2 ${className}`}>
       {contentNode}
     </div>
   );
