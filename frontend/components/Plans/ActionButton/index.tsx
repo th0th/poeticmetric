@@ -3,7 +3,7 @@ import React, { useCallback, useContext, useMemo } from "react";
 import { Button, ButtonProps } from "react-bootstrap";
 import { AuthAndApiContext, PlansContext, ToastsContext } from "../../../contexts";
 
-export type ActionButtonProps = Overwrite<Omit<ButtonProps, "children" | "disabled" |  "onClick" | "type">, {
+export type ActionButtonProps = Overwrite<Omit<ButtonProps, "children" | "disabled" | "onClick" | "type">, {
   plan: Plan;
 }>;
 
@@ -12,9 +12,7 @@ export function ActionButton({ plan, ...props }: ActionButtonProps) {
   const { addToast } = useContext(ToastsContext);
   const { isDisabled, set, subscriptionPeriod } = useContext(PlansContext);
 
-  const isShown = useMemo<boolean>(() => {
-    return organization !== null && organization.stripeCustomerId === null;
-  }, [organization]);
+  const isShown = useMemo<boolean>(() => organization !== null && organization.plan === null, [organization]);
 
   const buttonContent = useMemo<string>(() => (organization?.plan === null ? "Subscribe" : "Change plan"), [organization]);
 

@@ -16,6 +16,7 @@ import (
 )
 
 type CreateStripeCheckoutSessionData struct {
+	OrganizationPlanId           *uint64
 	OrganizationStripeCustomerId *string
 	UserEmail                    string
 }
@@ -32,6 +33,7 @@ func CreateStripeCheckoutSession(dp *depot.Depot, id uint64, payload *CreateStri
 		Model(&model.User{}).
 		Joins("inner join organizations on organizations.id = users.organization_id").
 		Select(
+			"organizations.plan_id as organization_plan_id",
 			"organizations.stripe_customer_id as organization_stripe_customer_id",
 			"users.email as user_email",
 		).
@@ -43,7 +45,7 @@ func CreateStripeCheckoutSession(dp *depot.Depot, id uint64, payload *CreateStri
 		return nil, err
 	}
 
-	err = validateCreateStripeCheckoutSessionPayload(dp, id, payload, data)
+	err = validateCreateStripeCheckoutSessionPayload(dp, payload, data)
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +78,6 @@ func CreateStripeCheckoutSession(dp *depot.Depot, id uint64, payload *CreateStri
 	})
 
 	stripeCheckoutSessionParams := &stripe.CheckoutSessionParams{
-		AllowPromotionCodes: pointer.Get(true),
 		AutomaticTax:        &stripe.CheckoutSessionAutomaticTaxParams{Enabled: pointer.Get(true)},
 		CancelURL:           pointer.Get(frontend.GenerateUrl("/billing")),
 		Customer:            data.OrganizationStripeCustomerId,
@@ -85,7 +86,6 @@ func CreateStripeCheckoutSession(dp *depot.Depot, id uint64, payload *CreateStri
 			Quantity: pointer.Get(int64(1)),
 		}},
 		Mode:               pointer.Get(string(stripe.CheckoutSessionModeSubscription)),
-		PaymentMethodTypes: []*string{pointer.Get(string(stripe.PaymentMethodTypeCard))},
 		SuccessURL:         pointer.Get(frontend.GenerateUrl("/billing")),
 	}
 
@@ -101,7 +101,7 @@ func CreateStripeCheckoutSession(dp *depot.Depot, id uint64, payload *CreateStri
 	return stripeCheckoutSession, nil
 }
 
-func validateCreateStripeCheckoutSessionPayload(dp *depot.Depot, id uint64, payload *CreateStripeCheckoutSessionPayload, data *CreateStripeCheckoutSessionData) error {
+func validateCreateStripeCheckoutSessionPayload(dp *depot.Depot, payload *CreateStripeCheckoutSessionPayload, data *CreateStripeCheckoutSessionData) error {
 	subscriptionPeriods := []string{
 		string(model.OrganizationSubscriptionPeriodMonth),
 		string(model.OrganizationSubscriptionPeriodYear),
@@ -114,7 +114,7 @@ func validateCreateStripeCheckoutSessionPayload(dp *depot.Depot, id uint64, payl
 
 	errs := v.Validate(v.Schema{
 		v.F("detail", payload): v.Is(func(t any) bool {
-			return data.OrganizationStripeCustomerId == nil
+			return data.OrganizationPlanId == nil
 		}).Msg("You need to use billing portal to change plan."),
 
 		v.F("planName", payload.PlanName): v.All(

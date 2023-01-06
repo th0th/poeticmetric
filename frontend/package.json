@@ -17,7 +17,7 @@
     "chroma-js": "^2.4.2",
     "classnames": "^2.3.2",
     "d3-array": "^3.2.0",
-    "d3-scale": "3.3.0",
+    "d3-scale": "^4.0.2",
     "date-fns": "^2.29.3",
     "dayjs": "^1.11.6",
     "flag-icons": "^6.6.6",
@@ -52,14 +52,10 @@
     "postcss-scss": "^4.0.5",
     "sass": "^1.56.0",
     "stylelint": "^14.15.0",
-    "stylelint-order": "^5.0.0"
+    "stylelint-order": "^6.0.0"
   },
   "license": "AGPL-3.0",
   "name": "frontend",
-  "resolutions": {
-    "d3-scale": "3.3.0",
-    "d3-interpolate": "1.4.0"
-  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
