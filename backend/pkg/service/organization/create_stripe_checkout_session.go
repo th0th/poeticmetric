@@ -86,7 +86,6 @@ func CreateStripeCheckoutSession(dp *depot.Depot, id uint64, payload *CreateStri
 			Quantity: pointer.Get(int64(1)),
 		}},
 		Mode:               pointer.Get(string(stripe.CheckoutSessionModeSubscription)),
-		PaymentMethodTypes: []*string{pointer.Get(string(stripe.PaymentMethodTypeCard))},
 		SuccessURL:         pointer.Get(frontend.GenerateUrl("/billing")),
 	}
 
