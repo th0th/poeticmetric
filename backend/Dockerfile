@@ -14,6 +14,7 @@ RUN mkdir bin
 
 RUN CGO_ENABLED=0 go build -a -o bin/rest-api cmd/restapi/*
 RUN CGO_ENABLED=0 go build -a -o bin/seeder cmd/seeder/*
+RUN CGO_ENABLED=0 go build -a -o bin/worker cmd/worker/*
 
 FROM alpine:3.16
 
@@ -28,6 +29,7 @@ COPY scripts/migrate-postgres /usr/local/bin/migrate-postgres
 COPY --from=0 /go/bin/migrate /usr/local/bin/migrate
 COPY --from=0 /usr/src/poeticmetric/bin/rest-api /usr/local/bin/poeticmetric-rest-api
 COPY --from=0 /usr/src/poeticmetric/bin/seeder /usr/local/bin/poeticmetric-seeder
+COPY --from=0 /usr/src/poeticmetric/bin/worker /usr/local/bin/poeticmetric-worker
 
 COPY docker-entrypoint.sh /usr/local/bin/
 
