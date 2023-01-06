@@ -22,6 +22,7 @@ RUN apk update && apk add bash tzdata
 
 WORKDIR /poeticmetric
 
+COPY assets assets
 COPY migrations migrations
 COPY scripts/migrate-clickhouse /usr/local/bin/migrate-clickhouse
 COPY scripts/migrate-postgres /usr/local/bin/migrate-postgres
