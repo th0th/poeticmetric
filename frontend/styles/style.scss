@@ -14,6 +14,7 @@
 @import "bootstrap/scss/modal";
 @import "bootstrap/scss/nav";
 @import "bootstrap/scss/navbar";
+@import "bootstrap/scss/pagination";
 @import "bootstrap/scss/popover";
 @import "bootstrap/scss/reboot";
 @import "bootstrap/scss/root";
@@ -62,6 +63,11 @@ p {
 
 svg {
   fill: currentColor;
+}
+
+.bg-cover {
+  background-position: center;
+  background-size: cover;
 }
 
 .dropdown-item {

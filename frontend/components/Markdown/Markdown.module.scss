@@ -13,6 +13,20 @@
     }
   }
 
+  figure {
+    margin: 16px auto;
+
+    img {
+      margin: 0 auto;
+    }
+
+    figcaption {
+      font-size: $font-size-sm;
+      font-weight: $font-weight-medium;
+      text-align: center;
+    }
+  }
+
   h2, h3, h4, h5, h6 {
     margin-block: 1em 0.5em;
   }
@@ -35,6 +49,14 @@
   h5 {
     font-size: $font-size-base;
     font-weight: $font-weight-bold;
+  }
+
+  img {
+    border: 1px solid $gray-200;
+    border-radius: $border-radius;
+    display: block;
+    margin: 1rem auto;
+    max-width: 100%;
   }
 
   ol {
