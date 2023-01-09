@@ -31,7 +31,7 @@ $utilities-border-colors: map-merge($utilities-border-colors, (
 
 @import "bootstrap/scss/utilities";
 
-$fixed-sizes: (1rem 2rem 3rem 4rem 5rem 6rem 7rem 8rem 9rem 10rem);
+$fixed-sizes: (1rem 2rem 3rem 4rem 5rem 6rem 7rem 8rem 9rem 10rem 16rem);
 
 $utilities: map-merge($utilities, (
   "background-color": map-merge(map-get($utilities, "background-color"), (
@@ -71,6 +71,7 @@ $utilities: map-merge($utilities, (
     )),
   )),
   "font-size": map-merge(map-get($utilities, "font-size"), (
+    responsive: true,
     values: map-merge(map-get(map-get($utilities, "font-size"), "values"), (
       sm: $font-size-sm,
       xs: $font-size-xs,
@@ -86,6 +87,7 @@ $utilities: map-merge($utilities, (
     values: map-merge(map-get(map-get($utilities, "max-width"), "values"), (
       32rem: 32rem,
       34rem: 34rem,
+      45rem: 45rem,
     ))
   )),
   "min-height": (

@@ -1,0 +1,23 @@
+@import "styles/base";
+
+@include media-breakpoint-up(lg) {
+  .wrapper {
+    background-image: url("./newsletter.svg");
+    background-position: right top;
+    background-repeat: no-repeat;
+    background-size: auto 320px;
+  }
+}
+
+@include media-breakpoint-up(xl) {
+  .wrapper {
+    background-position: right 10% top;
+    background-size: auto 400px;
+  }
+}
+
+@include media-breakpoint-up(xxl) {
+  .wrapper {
+    background-position: right 20% top;
+  }
+}

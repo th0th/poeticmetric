@@ -1,0 +1,13 @@
+.postLink {
+  &, .postLinkWrapper {
+    transition: all 0.2s ease-in-out;
+  }
+
+  &:focus-visible, &:hover {
+    transform: scale(1.1);
+
+    .postLinkWrapper {
+      backdrop-filter: blur(10px);
+    }
+  }
+}
