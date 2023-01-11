@@ -48,7 +48,7 @@ export function PasswordRecovery() {
 
       <Container className="py-5">
         <div className="mx-auto mw-32rem text-center">
-          <h1 className="fw-bold">Recovery your password</h1>
+          <h1>Recovery your password</h1>
 
           <div className="mt-3">
             <p>Enter your e-mail address and we will send you an e-mail with the instructions to reset your password.</p>

@@ -50,7 +50,7 @@ export function BlogPost({ nextPost, post, previousPost }: BlogPostProps) {
         <div className="mw-45rem mx-auto">
           <div className="fs-sm fw-bold text-muted">{post.date.format("MMMM D, YYYY")}</div>
 
-          <h1 className="fw-bold">{post.title}</h1>
+          <h1>{post.title}</h1>
 
           <img alt={post.title} className="d-block mt-3 w-100" src={post.image} />
 

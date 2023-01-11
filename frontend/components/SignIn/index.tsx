@@ -44,7 +44,7 @@ export function SignIn() {
 
       <Container className="py-5">
         <div className="text-center">
-          <h1 className="fw-bold">Sign in to continue</h1>
+          <h1>Sign in to continue</h1>
 
           <div className="mt-3">
             {"Don't have an account? "}

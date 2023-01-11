@@ -12,7 +12,7 @@ export function TermsOfService({ content }: TermsOfServiceProps) {
       <Title>Terms of service</Title>
 
       <Container className="py-5">
-        <h1 className="fs-2 fw-bold mb-3">Terms of service</h1>
+        <h1>Terms of service</h1>
 
         <Card>
           <Card.Body>

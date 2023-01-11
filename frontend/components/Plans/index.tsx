@@ -87,7 +87,7 @@ export function Plans({ signUp = false }: PlansProps) {
           <Col className="flex-grow-1" key={p.name}>
             <Card className="h-100">
               <Card.Body className="d-flex flex-column">
-                <h4 className="fw-bold">{p.name}</h4>
+                <h4>{p.name}</h4>
 
                 <div className="fs-sm fw-medium text-muted">{p.description}</div>
 

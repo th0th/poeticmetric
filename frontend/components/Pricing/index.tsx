@@ -15,7 +15,7 @@ export function Pricing() {
 
       <Container className="my-5">
         <div className="mw-34rem">
-          <h1 className="fw-bold">Simple pricing</h1>
+          <h1>Simple pricing</h1>
 
           <div className="fs-5 mw-34rem mt-3">
             <p>

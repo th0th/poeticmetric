@@ -4,10 +4,10 @@ $enable-negative-margins: true;
 $font-size-xs: 0.75rem;
 $font-size-xxs: 0.5rem;
 $font-weight-medium: 500;
+$headings-margin-bottom: 0.5em;
 $min-contrast-ratio: 4;
 $navbar-toggler-font-size: 1rem;
 $navbar-toggler-padding-x: 0.5rem;
-$paragraph-margin-bottom: 0;
 
 $blue: #3182CE;
 $gray: #718096;
@@ -20,6 +20,7 @@ $border-color-translucent: rgba($black, .125);
 $btn-font-weight: $font-weight-semibold;
 $dropdown-font-size: $font-size-sm;
 $form-label-font-weight: $font-weight-medium;
+$headings-font-weight: $font-weight-bold;
 $nav-link-font-weight: $font-weight-medium;
 
 @import "bootstrap/scss/maps";

@@ -2,7 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { Alert, Breadcrumb, Button, Card, Container, Form } from "react-bootstrap";
+import { Breadcrumb, Button, Card, Container, Form } from "react-bootstrap";
 import { Layout } from "../../components";
 import { AuthAndApiContext, ToastsContext } from "../../contexts";
 import { useForm, useQueryNumber } from "../../hooks";
@@ -88,7 +88,7 @@ export function SiteForm() {
           </li>
         </Breadcrumb>
 
-        <h1 className="fw-bold">{title}</h1>
+        <h1>{title}</h1>
 
         <Card>
           <Card.Body>
@@ -97,21 +97,23 @@ export function SiteForm() {
                 <Form.Group controlId="form-domain">
                   <Form.Label>Domain</Form.Label>
 
-                  <Form.Control disabled={id !== undefined} name="domain" onChange={updateValue} value={values.domain} />
+                  <Form.Control
+                    disabled={id !== undefined}
+                    isInvalid={errors.domain !== undefined}
+                    name="domain"
+                    onChange={updateValue}
+                    value={values.domain}
+                  />
 
-                  {errors.domain !== undefined ? (
-                    <Alert variant="danger">{errors.domain}</Alert>
-                  ) : null}
+                  <Form.Control.Feedback type="invalid">{errors.domain}</Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group controlId="form-name">
                   <Form.Label>Name</Form.Label>
 
-                  <Form.Control name="name" onChange={updateValue} value={values.name} />
+                  <Form.Control isInvalid={errors.name !== undefined} name="name" onChange={updateValue} value={values.name} />
 
-                  {errors.name !== undefined ? (
-                    <Alert variant="danger">{errors.name}</Alert>
-                  ) : null}
+                  <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
                 </Form.Group>
 
                 <div className="mt-2">

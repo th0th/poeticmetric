@@ -20,6 +20,12 @@
       <option name="SPACES_WITHIN_OBJECT_LITERAL_BRACES" value="true" />
       <option name="SPACES_WITHIN_IMPORTS" value="true" />
     </JSCodeStyleSettings>
+    <Markdown>
+      <option name="WRAP_TEXT_IF_LONG" value="false" />
+      <option name="WRAP_TEXT_INSIDE_BLOCKQUOTES" value="false" />
+      <option name="INSERT_QUOTE_ARROWS_ON_WRAP" value="false" />
+      <option name="FORMAT_TABLES" value="false" />
+    </Markdown>
     <ScssCodeStyleSettings>
       <option name="ENFORCE_QUOTES_ON_FORMAT" value="true" />
     </ScssCodeStyleSettings>
@@ -89,6 +95,9 @@
         <option name="CONTINUATION_INDENT_SIZE" value="2" />
         <option name="TAB_SIZE" value="2" />
       </indentOptions>
+    </codeStyleSettings>
+    <codeStyleSettings language="Markdown">
+      <option name="RIGHT_MARGIN" value="999" />
     </codeStyleSettings>
     <codeStyleSettings language="SCSS">
       <indentOptions>
