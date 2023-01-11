@@ -35,7 +35,7 @@ export function SignUp() {
     } else {
       setErrors(responseJson);
     }
-  }, [setErrors, setUserAccessToken, values]);
+  }, [addToast, setErrors, setUserAccessToken, values]);
 
   return (
     <Layout kind="app">
