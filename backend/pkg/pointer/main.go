@@ -11,3 +11,13 @@ func StringOrNil(v string) *string {
 
 	return &v
 }
+
+func StringSlice(v []string) []*string {
+	r := make([]*string, len(v))
+
+	for i := range v {
+		r[i] = &v[i]
+	}
+
+	return r
+}

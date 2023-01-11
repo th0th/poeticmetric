@@ -1,8 +1,7 @@
-import Head from "next/head";
 import Link from "next/link";
 import React, { useCallback, useContext, useMemo } from "react";
 import { Alert, Button, Card, Container, Form } from "react-bootstrap";
-import { Layout } from "../../components";
+import { Layout, Title } from "..";
 import { AuthAndApiContext } from "../../contexts";
 import { api, base64Encode } from "../../helpers";
 import { useForm } from "../../hooks";
@@ -12,7 +11,7 @@ type Form = {
   password: string;
 };
 
-export function SignUp() {
+export function SignIn() {
   const { setUserAccessToken } = useContext(AuthAndApiContext);
   const [values, , updateValue, errors, setErrors] = useForm<Form>({ email: "", password: "" });
 
@@ -41,9 +40,7 @@ export function SignUp() {
 
   return (
     <Layout kind="app">
-      <Head>
-        <title>Sign in</title>
-      </Head>
+      <Title>Sign in</Title>
 
       <Container className="py-5">
         <div className="text-center">
@@ -56,34 +53,47 @@ export function SignUp() {
           </div>
         </div>
 
-        <Card className="mw-32rem">
+        <Card className="mt-4 mx-auto mw-32rem">
           <Card.Body>
             {errorNode}
 
             <Form onSubmit={handleSubmit}>
-              <Form.Group className="mt-3">
+              <Form.Group>
                 <Form.Label>E-mail address</Form.Label>
-                <Form.Control isInvalid={!!errors.email} name="email" onChange={updateValue} type="email" value={values.email} />
+
+                <Form.Control
+                  isInvalid={errors.email !== undefined}
+                  name="email"
+                  onChange={updateValue}
+                  required
+                  type="email"
+                  value={values.email}
+                />
               </Form.Group>
 
               <Form.Group className="mt-2">
                 <Form.Label>Password</Form.Label>
+
                 <Form.Control
-                  isInvalid={!!errors.password}
+                  isInvalid={errors.password !== undefined}
                   name="password"
                   onChange={updateValue}
+                  required
                   type="password"
                   value={values.password}
                 />
               </Form.Group>
 
               <div className="d-grid mt-4">
-                <Button className="fw-semibold" type="submit" variant="primary">Sign in</Button>
+                <Button type="submit" variant="primary">Sign in</Button>
               </div>
 
               <div className="align-items-center d-flex flex-column mt-2">
-                <Link className="fw-semibold" href="/password-recovery">
-                  <small>Forgot password?</small>
+                <Link
+                  className="fs-sm fw-semibold"
+                  href={{ pathname: "/password-recovery", query: values.email === "" ? undefined : { email: values.email } }}
+                >
+                  Forgot password?
                 </Link>
               </div>
             </Form>

@@ -12,4 +12,8 @@ func Add(app *fiber.App) {
 	group.Get("/me", permission.UserAuthenticated, readSelf)
 	group.Patch("/me", permission.UserAuthenticated, updateSelf)
 	group.Post("/change-password", permission.UserBasicAuthenticated, changePassword)
+	group.Post("/password-recovery", permission.UserUnauthenticated, passwordRecovery)
+	group.Post("/password-reset", permission.UserUnauthenticated, passwordReset)
+	group.Post("/sign-up", permission.UserUnauthenticated, signUp)
+	group.Post("/verify-email-address", verifyEmailAddress)
 }

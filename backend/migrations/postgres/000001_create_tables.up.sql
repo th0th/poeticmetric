@@ -17,7 +17,7 @@ CREATE TABLE "organizations" (
   "plan_id" bigint,
   "stripe_customer_id" text,
   "subscription_period" text,
-  "trial_ends_at" timestamptz,
+  "trial_ends_at" date,
   "updated_at" timestamptz NOT NULL,
   PRIMARY KEY ("id"),
   CONSTRAINT "fk_organizations_plan_id" FOREIGN KEY ("plan_id") REFERENCES "plans" ("id") ON DELETE CASCADE

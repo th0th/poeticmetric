@@ -50,6 +50,10 @@ const (
 	ResourcesBaseUrl           = "POETICMETRIC_RESOURCES_BASE_URL"
 	RestApiBaseUrl             = "POETICMETRIC_REST_API_BASE_URL"
 	SentryDsn                  = "POETICMETRIC_SENTRY_DSN"
+	SmtpHost                   = "POETICMETRIC_SMTP_HOST"
+	SmtpPassword               = "POETICMETRIC_SMTP_PASSWORD"
+	SmtpPort                   = "POETICMETRIC_SMTP_PORT"
+	SmtpUser                   = "POETICMETRIC_SMTP_USER"
 	Stage                      = "POETICMETRIC_STAGE"
 	StripeSecretKey            = "POETICMETRIC_STRIPE_SECRET_KEY"
 	StripeWebhookSigningSecret = "POETICMETRIC_STRIPE_WEBHOOK_SIGNING_SECRET"
@@ -83,6 +87,10 @@ var (
 		ResourcesBaseUrl,
 		RestApiBaseUrl,
 		SentryDsn,
+		SmtpHost,
+		SmtpPassword,
+		SmtpPort,
+		SmtpUser,
 		Stage,
 		StripeSecretKey,
 		StripeWebhookSigningSecret,

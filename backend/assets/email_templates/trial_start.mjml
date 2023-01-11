@@ -1,0 +1,104 @@
+<mjml>
+  <mj-head>
+    <mj-preview>
+      Your 30-day free trial with PoeticMetric has already begun, make the most of it and discover how to boost your website's performance
+      with valuable insights and analysis.
+    </mj-preview>
+
+    <mj-attributes>
+      <mj-button
+          background-color="#3182CE"
+          border-radius="6px"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+          font-size="16px"
+          font-weight="600"
+      />
+
+      <mj-text
+          color="#2D3748"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+          font-size="16px"
+          font-weight="400"
+          line-height="24px"
+          padding-left="40px"
+          padding-right="40px"
+      />
+    </mj-attributes>
+
+    <mj-style inline="inline">
+      a {
+        font-weight: 700;
+        text-decoration: none;
+        color: #3182CE;
+      }
+    </mj-style>
+  </mj-head>
+
+  <mj-body background-color="#F7FAFC">
+    <mj-section>
+      <mj-column>
+        <mj-spacer height="20px" />
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#EBF8FF" border-radius="8px 8px 0 0">
+      <mj-column>
+        <mj-image
+            width="200px"
+            src="https://user-images.githubusercontent.com/698079/139349672-47706255-455f-4859-955c-2d1e927add90.png"
+            align="center"
+            alt="PoeticMetric Logo"
+            href="{{.FrontendBaseUrl}}"
+        />
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff" border-radius="0 0 6px 6px">
+      <mj-column>
+        <mj-text>
+          <p>Greetings,</p>
+
+          <p>Thank you for choosing PoeticMetric.</p>
+
+          <p>We're excited to have you on board and we want to make sure that you make the most of your free trial.</p>
+
+          <p>Here are a few things you can do to get started:</p>
+
+          <p>1. <strong>Review our documentation</strong> and tutorials to understand how to set up PoeticMetric on your website.
+          </p>
+
+          <p>2. <strong>Connect with our support team</strong> if you have any questions or need assistance.
+          </p>
+
+          <p>
+            3. <strong>Start exploring</strong> the platform and discover how PoeticMetric can help you gain valuable insights into your
+            website traffic.
+          </p>
+
+          <p>
+            We'll be here to support you throughout the trial and beyond.
+            <strong>
+              And remember, if you decide to continue using PoeticMetric after the trial period, you can easily upgrade to one of our paid
+              plans.
+            </strong>
+          </p>
+
+          <p>
+            If you have any questions or need any help getting set up, please don't hesitate to contact us at
+            <a href="mailto:support@poeticmetric.com">support@poeticmetric.com</a>.
+          </p>
+
+          <p>Cheers,</p>
+
+          <p>The PoeticMetric Team</p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section padding-top="8px">
+      <mj-column>
+        <mj-text font-size="12px" align="center">Copyright © WebGazer, Inc.</mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>
