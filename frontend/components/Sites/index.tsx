@@ -40,7 +40,7 @@ export function Sites() {
               </li>
             </Breadcrumb>
 
-            <h1 className="fw-bold">Sites</h1>
+            <h1>Sites</h1>
           </div>
 
           <Link className="btn btn-primary" href="/sites/add">Add new site</Link>

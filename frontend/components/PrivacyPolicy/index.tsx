@@ -12,7 +12,7 @@ export function PrivacyPolicy({ content }: PrivacyPolicyProps) {
       <Title>Privacy policy</Title>
 
       <Container className="py-5">
-        <h1 className="fs-2 fw-bold mb-3">Privacy policy</h1>
+        <h1>Privacy policy</h1>
 
         <Card>
           <Card.Body>

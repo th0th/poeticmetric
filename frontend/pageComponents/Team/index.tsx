@@ -19,7 +19,7 @@ export function Team() {
           </li>
         </Breadcrumb>
 
-        <h1 className="fw-bold">{`${organization?.name} team`}</h1>
+        <h1>{`${organization?.name} team`}</h1>
       </div>
 
       <Link className="btn btn-primary" href="/team/invite">Invite new team member</Link>

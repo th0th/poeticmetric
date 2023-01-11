@@ -43,7 +43,7 @@ export function SignUp() {
 
       <Container className="py-5">
         <div className="text-center">
-          <h1 className="fw-bold">Sign up</h1>
+          <h1>Sign up</h1>
 
           <div className="mt-3">
             {"Already have an account? "}

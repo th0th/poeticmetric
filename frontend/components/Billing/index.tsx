@@ -75,7 +75,7 @@ export function Billing() {
         <Title>Billing</Title>
 
         <Container className="py-4">
-          <h1 className="fw-bold">Billing</h1>
+          <h1>Billing</h1>
 
           {descriptionNode}
 

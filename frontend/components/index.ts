@@ -11,6 +11,7 @@ export * from "./Home";
 export * from "./Layout";
 export * from "./Logo";
 export * from "./Markdown";
+export * from "./MetaOpenGraph";
 export * from "./PasswordRecovery";
 export * from "./PasswordReset";
 export * from "./Plans";

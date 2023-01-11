@@ -75,7 +75,7 @@ export function BlogPage({ currentPage, pageCount, posts }: BlogPageProps) {
                       styles.postLinkWrapper,
                     )}
                   >
-                    <h2 className="fs-6 fs-md-5 fw-bold lh-base">{p.title}</h2>
+                    <h6 className="fs-md-5 lh-base">{p.title}</h6>
 
                     <div className="fs-sm fw-semibold">
                       <span>{p.date.format("MMMM D, YYYY")}</span>

@@ -22,7 +22,7 @@ export function UserForm() {
           </li>
         </Breadcrumb>
 
-        <h1 className="fw-bold">{title}</h1>
+        <h1>{title}</h1>
       </Container>
     </Layout>
   );

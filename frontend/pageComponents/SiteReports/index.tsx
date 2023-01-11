@@ -57,7 +57,7 @@ export function SiteReports() {
               </li>
             </Breadcrumb>
 
-            <h1 className="fw-bold">{site.name}</h1>
+            <h1>{site.name}</h1>
 
             <div className="d-flex flex-row">
               <SiteReportsTimeWindowInput />

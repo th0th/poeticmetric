@@ -43,7 +43,7 @@ export function MailListForm({ className, ...props }: MailListFormProps) {
   return (
     <Container {...props} className={classNames(styles.wrapper, className)}>
       <div className="mw-34rem">
-        <h1 className="fw-bold">PoeticMetric Blog</h1>
+        <h1>PoeticMetric Blog</h1>
 
         <div className="fs-5 mt-4">
           <p>

@@ -75,7 +75,7 @@ export function PasswordReset() {
 
       <Container className="py-5">
         <div className="mx-auto mw-32rem text-center">
-          <h1 className="fw-bold">Reset your password</h1>
+          <h1>Reset your password</h1>
         </div>
 
         <Card className="mt-4 mx-auto mw-32rem">
