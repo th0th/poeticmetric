@@ -5,9 +5,10 @@ go 1.19
 require (
 	github.com/RussellLuo/validating/v3 v3.0.0-beta.1
 	github.com/brianvoe/gofakeit/v6 v6.20.1
+	github.com/dchest/uniuri v1.2.0
 	github.com/getsentry/sentry-go v0.16.0
 	github.com/go-redis/redis/v9 v9.0.0-rc.2
-	github.com/gofiber/contrib/fibersentry v0.0.0-20230104210539-ac38bf6e480c
+	github.com/gofiber/contrib/fibersentry v0.0.0-20230110211841-e15f0399e374
 	github.com/gofiber/fiber/v2 v2.41.0
 	github.com/google/uuid v1.3.0
 	github.com/lib/pq v1.10.7

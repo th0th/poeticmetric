@@ -8,7 +8,7 @@ import (
 )
 
 func create(c *fiber.Ctx) error {
-	userAccessToken, err := useraccesstoken.CreateByUserId(dm.Get(c), authentication.Get(c).User.Id)
+	userAccessToken, err := useraccesstoken.Create(dm.Get(c), authentication.Get(c).User.Id)
 	if err != nil {
 		return err
 	}

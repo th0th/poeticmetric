@@ -6,7 +6,7 @@ import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
 )
 
-func CreateByUserId(dp *depot.Depot, userId uint64) (*UserAccessToken, error) {
+func Create(dp *depot.Depot, userId uint64) (*UserAccessToken, error) {
 	modelUserAccessToken := &model.UserAccessToken{
 		Token:  uuid.NewString(),
 		UserId: userId,

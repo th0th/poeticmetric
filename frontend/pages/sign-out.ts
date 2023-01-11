@@ -1,3 +1,3 @@
-import { SignOut } from "../pageComponents";
+import { SignOut } from "../components";
 
 export default SignOut;

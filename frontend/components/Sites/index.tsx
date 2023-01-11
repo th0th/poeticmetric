@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React, { useMemo } from "react";
 import { Breadcrumb, Col, Container, Row, Spinner } from "react-bootstrap";
-import { Layout } from "../../components";
+import { Layout, Title } from "..";
 import { useSites } from "../../hooks";
 import { DeleteModal } from "./DeleteModal";
 import { Site } from "./Site";
@@ -29,6 +29,8 @@ export function Sites() {
 
   return (
     <Layout kind="app">
+      <Title>Sites</Title>
+
       <Container className="py-4">
         <div className="d-flex flex-row align-items-end justify-content-between">
           <div>

@@ -45,7 +45,7 @@ func ChangePassword(dp *depot.Depot, id uint64, payload *ChangePasswordPayload) 
 			return err
 		}
 
-		userAccessToken, err = useraccesstoken.CreateByUserId(dp, id)
+		userAccessToken, err = useraccesstoken.Create(dp, id)
 		if err != nil {
 			return err
 		}

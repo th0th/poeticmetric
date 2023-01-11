@@ -21,10 +21,6 @@ export function Actions({ className, ...props }: ActionsProps) {
             </Link>
           ) : null}
 
-          {!["/sign-in", "/sign-up"].includes(router.pathname) ? (
-            <div className="px-1" />
-          ) : null}
-
           {router.pathname !== "/sign-up" ? (
             <Link className="btn btn-primary" href="/sign-up">
               Sign up
@@ -37,7 +33,7 @@ export function Actions({ className, ...props }: ActionsProps) {
     return (
       <>
         {kind === "website" ? (
-          <Link className="btn btn-primary btn-sm" href="/sites">
+          <Link className="btn btn-primary" href="/sites">
             Go to app
           </Link>
         ) : null}
@@ -48,7 +44,7 @@ export function Actions({ className, ...props }: ActionsProps) {
   }, [kind, router.pathname, user]);
 
   return (
-    <div {...props} className={`align-items-center d-flex flex-row gap-2 ${className}`}>
+    <div {...props} className={`align-items-center d-flex flex-row gap-3 ${className}`}>
       {contentNode}
     </div>
   );

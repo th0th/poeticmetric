@@ -15,7 +15,7 @@ export function Layout({ children, kind }: LayoutProps) {
     <LayoutContext.Provider value={{ kind }}>
       <Header />
 
-      <div className="flex-grow-1">{children}</div>
+      <div className="d-flex flex-column flex-grow-1">{children}</div>
 
       <Footer />
     </LayoutContext.Provider>

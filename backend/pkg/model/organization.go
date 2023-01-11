@@ -3,11 +3,10 @@ package model
 import "time"
 
 const (
+	OrganizationNameMaxLength = 70
+	OrganizationNameMinLength = 2
 	OrganizationSubscriptionPeriodMonth OrganizationSubscriptionPeriod = "MONTH"
 	OrganizationSubscriptionPeriodYear  OrganizationSubscriptionPeriod = "YEAR"
-
-	OrganizationNameMinLength = 2
-	OrganizationNameMaxLength = 70
 )
 
 type OrganizationSubscriptionPeriod string

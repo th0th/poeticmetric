@@ -1,4 +1,3 @@
-import { withAuth } from "../components";
-import { SignIn } from "../pageComponents";
+import { SignIn, withAuth } from "../components";
 
 export default withAuth(SignIn, false);

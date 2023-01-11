@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { Card, CardProps } from "react-bootstrap";
 import { Omit } from "react-bootstrap/helpers";
-import { FavIcon } from "../../../components";
+import { FavIcon } from "../..";
 
 type SiteProps = Overwrite<Omit<CardProps, "children">, {
   site: Site;
