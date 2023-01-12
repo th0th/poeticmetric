@@ -20,6 +20,7 @@ COPY components components
 COPY contexts contexts
 COPY helpers helpers
 COPY hooks hooks
+COPY lib lib
 COPY pageComponents pageComponents
 COPY pages pages
 COPY public public
