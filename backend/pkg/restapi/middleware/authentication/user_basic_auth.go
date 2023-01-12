@@ -45,6 +45,7 @@ func NewUserBasicAuth() fiber.Handler {
 
 		err = dp.Postgres().
 			Model(&model.User{}).
+			Where("is_active is true").
 			Where("email = ?", email).
 			First(modelUser).
 			Error

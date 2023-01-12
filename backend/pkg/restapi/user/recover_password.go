@@ -7,7 +7,7 @@ import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/userself"
 )
 
-func passwordRecovery(c *fiber.Ctx) error {
+func recoverPassword(c *fiber.Ctx) error {
 	dp := dm.Get(c)
 
 	payload := &userself.RecoverPasswordPayload{}

@@ -1,0 +1,99 @@
+<mjml>
+  <mj-head>
+    <mj-preview>You're invited to join {{.OrganizationName}} on PoeticMetric, gain valuable insights, collaborate with your team, and access
+      all features with our privacy-first analytics platform. Click to join now!
+    </mj-preview>
+
+    <mj-attributes>
+      <mj-button
+          background-color="#3182CE"
+          border-radius="6px"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+          font-size="16px"
+          font-weight="600"
+      />
+
+      <mj-text
+          color="#2D3748"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+          font-size="16px"
+          font-weight="400"
+          line-height="24px"
+          padding-left="40px"
+          padding-right="40px"
+      />
+    </mj-attributes>
+
+    <mj-style inline="inline">
+      a {
+        font-weight: 700;
+        text-decoration: none;
+        color: #3182CE;
+      }
+    </mj-style>
+  </mj-head>
+
+  <mj-body background-color="#F7FAFC">
+    <mj-section>
+      <mj-column>
+        <mj-spacer height="20px" />
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#EBF8FF" border-radius="8px 8px 0 0">
+      <mj-column>
+        <mj-image
+            width="200px"
+            src="https://user-images.githubusercontent.com/698079/139349672-47706255-455f-4859-955c-2d1e927add90.png"
+            align="center"
+            alt="PoeticMetric Logo"
+            href="{{.FrontendBaseUrl}}"
+        />
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff" border-radius="0 0 6px 6px">
+      <mj-column>
+        <mj-text>
+          <p>Greetings,</p>
+
+          <p>
+            We are excited to invite you to join <strong>{{.OrganizationName}}</strong> on PoeticMetric, our privacy-first,
+            regulation-compliant, and blazingly fast analytics platform.
+          </p>
+
+          <p>
+            As a member of the <strong>{{.OrganizationName}}</strong> team, you will have access to all the features and benefits of
+            PoeticMetric, including:
+          </p>
+
+          <ul>
+            <li><strong>Gain valuable insights</strong> into {{.OrganizationName}}'s website traffic</li>
+
+            <li><strong>Collaborate with the rest of the team</strong> on analyzing data</li>
+
+            <li><strong>Have access to all the features and benefits</strong> of PoeticMetric</li>
+          </ul>
+
+          <p>To accept the invitation and join the team, please click on the following link:</p>
+        </mj-text>
+
+        <mj-button href="{{.ActivationUrl}}">Accept the invite</mj-button>
+
+        <mj-text>
+          <p>If you have any questions or need assistance, please don't hesitate to reach out to our support team.</p>
+
+          <p>Cheers,</p>
+
+          <p>The PoeticMetric Team</p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section padding-top="8px">
+      <mj-column>
+        <mj-text font-size="12px" align="center">Copyright © WebGazer, Inc.</mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

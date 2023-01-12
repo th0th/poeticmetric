@@ -1,3 +1,4 @@
+export * from "./Activation";
 export * from "./AuthAndApiHandler";
 export * from "./Avatar";
 export * from "./Billing";
@@ -38,6 +39,8 @@ export * from "./SiteVisitorPageViewReport";
 export * from "./SiteVisitorTrendsReport";
 export * from "./Sites";
 export * from "./SwrConfig";
+export * from "./Team";
+export * from "./TeamMemberForm";
 export * from "./TermsOfService";
 export * from "./Title";
 export * from "./ToastsHandler";
