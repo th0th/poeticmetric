@@ -53,6 +53,7 @@ var users = []*model.User{
 	{
 		Email:               "gokhan@poeticmetric.com",
 		Id:                  1,
+		IsActive:            true,
 		IsEmailVerified:     true,
 		IsOrganizationOwner: true,
 		Name:                "Gokhan",

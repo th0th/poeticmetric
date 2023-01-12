@@ -8,7 +8,7 @@ import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/userself"
 )
 
-func passwordReset(c *fiber.Ctx) error {
+func resetPassword(c *fiber.Ctx) error {
 	dp := dm.Get(c)
 
 	payload := &userself.ResetPasswordPayload{}

@@ -25,7 +25,7 @@ export function PasswordRecovery() {
 
     setState((s) => ({ ...s, isDisabled: true }));
 
-    const response = await api.post("/users/password-recovery", values);
+    const response = await api.post("/users/recover-password", values);
     const responseJson = await response.json();
 
     if (response.ok) {

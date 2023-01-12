@@ -69,7 +69,7 @@ func SignUp(dp *depot.Depot, payload *SignUpPayload) (*UserSelf, error) {
 			Template: email.TemplateWelcome,
 			TemplateData: map[string]string{
 				"FrontEndBaseUrl":      env.Get(env.FrontendBaseUrl),
-				"EmailVerificationUrl": frontend.GenerateUrl(fmt.Sprintf("email-address-verification/?t=%s", *modelUser.EmailVerificationToken)),
+				"EmailVerificationUrl": frontend.GenerateUrl(fmt.Sprintf("/email-address-verification?t=%s", *modelUser.EmailVerificationToken)),
 			},
 			To: modelUser.Email,
 		})

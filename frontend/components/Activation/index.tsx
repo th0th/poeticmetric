@@ -16,7 +16,7 @@ type State = {
   isReady: boolean | null;
 };
 
-export function PasswordReset() {
+export function Activation() {
   const router = useRouter();
   const { setUserAccessToken } = useContext(AuthAndApiContext);
   const { addToast } = useContext(ToastsContext);
@@ -28,24 +28,24 @@ export function PasswordReset() {
 
     setState((s) => ({ ...s, isDisabled: true }));
 
-    const response = await api.post("/users/reset-password", { ...values, passwordResetToken: router.query.t });
+    const response = await api.post("/users/activate", { ...values, activationToken: router.query.t });
     const responseJson = await response.json();
 
     if (response.ok) {
       setUserAccessToken(responseJson.userAccessToken.token);
 
-      addToast({ body: "Your password is successfully reset. Now signing you in...", variant: "success" });
+      addToast({ body: "Your account is successfully activated. Welcome!", variant: "success" });
     } else {
       setErrors(responseJson);
       setState((s) => ({ ...s, isDisabled: false }));
     }
   }, [addToast, router.query.t, setErrors, setUserAccessToken, values]);
 
-  const validatePasswordResetToken = useCallback(async () => {
-    const response = await api.post("/users/reset-password", { passwordResetToken: router.query.t });
+  const validateActivationToken = useCallback(async () => {
+    const response = await api.post("/users/activate", { activationToken: router.query.t });
     const responseJson = await response.json();
 
-    if (responseJson.passwordResetToken !== undefined) {
+    if (responseJson.activationToken !== undefined) {
       addToast({
         body: (
           <>
@@ -68,25 +68,28 @@ export function PasswordReset() {
   useEffect(() => {
     if (router.isReady && state.isReady === null) {
       setState((s) => ({ ...s, isReady: false }));
-      validatePasswordResetToken();
+
+      validateActivationToken();
     }
-  }, [router.isReady, state.isReady, validatePasswordResetToken]);
+  }, [router.isReady, state.isReady, validateActivationToken]);
 
   return (
     <Layout kind="app">
-      <Title>Reset your password</Title>
+      <Title>Activation</Title>
 
       {state.isReady === true ? (
         <Container className="py-5">
-          <div className="mx-auto mw-32rem text-center">
-            <h1>Reset your password</h1>
+          <div className="text-center">
+            <h1>Activate your account</h1>
+
+            <div className="mt-3">Please set your password to continue.</div>
           </div>
 
           <Card className="mt-4 mx-auto mw-32rem">
             <Card.Body>
               <Form onSubmit={handleSubmit}>
                 <fieldset disabled={state.isDisabled}>
-                  <Form.Group>
+                  <Form.Group className="mt-2">
                     <Form.Label>New password</Form.Label>
 
                     <Form.Control
@@ -103,7 +106,7 @@ export function PasswordReset() {
                     <Form.Control.Feedback type="invalid">{errors.newPassword}</Form.Control.Feedback>
                   </Form.Group>
 
-                  <Form.Group className="mt-3">
+                  <Form.Group className="mt-2">
                     <Form.Label>New password (again)</Form.Label>
 
                     <Form.Control
@@ -121,7 +124,7 @@ export function PasswordReset() {
                   </Form.Group>
 
                   <div className="d-grid mt-4">
-                    <Button type="submit" variant="primary">Reset password</Button>
+                    <Button type="submit" variant="primary">Continue</Button>
                   </div>
                 </fieldset>
               </Form>
