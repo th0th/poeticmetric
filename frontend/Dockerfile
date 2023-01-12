@@ -16,6 +16,7 @@ RUN yarn install
 
 # copy the rest of the files
 COPY @types @types
+COPY blog blog
 COPY components components
 COPY contexts contexts
 COPY helpers helpers
