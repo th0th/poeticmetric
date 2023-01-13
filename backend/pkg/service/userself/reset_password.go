@@ -45,7 +45,7 @@ func ResetPassword(dp *depot.Depot, payload *ResetPasswordPayload) (*UserSelf, e
 		Select("password", "password_reset_token").
 		Where("password_reset_token = ?", *payload.PasswordResetToken).
 		Updates(&model.User{
-			Password:           *passwordHash,
+			Password:           passwordHash,
 			PasswordResetToken: nil,
 		}).
 		Error

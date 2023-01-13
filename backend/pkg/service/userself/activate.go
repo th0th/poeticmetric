@@ -5,6 +5,7 @@ import (
 	v "github.com/RussellLuo/validating/v3"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/service/userpassword"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/validator"
 )
 
@@ -16,6 +17,11 @@ type ActivatePayload struct {
 
 func Activate(dp *depot.Depot, payload *ActivatePayload) (*UserSelf, error) {
 	err := validateActivatePayload(dp, payload)
+	if err != nil {
+		return nil, err
+	}
+
+	userPassword, err := userpassword.GetHash(*payload.NewPassword)
 	if err != nil {
 		return nil, err
 	}
@@ -40,6 +46,7 @@ func Activate(dp *depot.Depot, payload *ActivatePayload) (*UserSelf, error) {
 			ActivationToken: nil,
 			IsActive:        true,
 			IsEmailVerified: true,
+			Password:        userPassword,
 		}).
 		Error
 	if err != nil {

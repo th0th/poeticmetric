@@ -22,7 +22,7 @@ type User struct {
 	Name                     string
 	Organization             Organization
 	OrganizationId           uint64
-	Password                 string
+	Password                 *string
 	PasswordResetToken       *string
 	UpdatedAt                time.Time
 }
