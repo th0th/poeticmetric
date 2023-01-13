@@ -1,4 +1,3 @@
-import { withAuth } from "../../components";
-import { Team } from "../../pageComponents";
+import { Team, withAuth } from "../../components";
 
 export default withAuth(Team, true);

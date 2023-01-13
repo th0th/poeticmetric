@@ -46,6 +46,7 @@ func NewUserAccessTokenAuth() fiber.Handler {
 		modelUser := &model.User{}
 
 		err = dp.Postgres().
+			Where("is_active is true").
 			Where("id = ?", modelUserAccessToken.UserId).
 			First(modelUser).
 			Error

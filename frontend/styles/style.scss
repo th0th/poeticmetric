@@ -32,7 +32,7 @@
 @import "flag-icons/sass/flag-icons";
 @import "./react-datepicker";
 
-:disabled {
+:disabled, .disabled {
   cursor: not-allowed;
 }
 

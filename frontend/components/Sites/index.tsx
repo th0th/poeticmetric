@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React, { useMemo } from "react";
-import { Breadcrumb, Col, Container, Row, Spinner } from "react-bootstrap";
-import { Layout, Title } from "..";
+import { Col, Container, Row, Spinner } from "react-bootstrap";
+import { Breadcrumb, Layout, Title } from "..";
 import { useSites } from "../../hooks";
 import { DeleteModal } from "./DeleteModal";
 import { Site } from "./Site";
@@ -32,16 +32,8 @@ export function Sites() {
       <Title>Sites</Title>
 
       <Container className="py-4">
-        <div className="d-flex flex-row align-items-end justify-content-between">
-          <div>
-            <Breadcrumb>
-              <li className="breadcrumb-item">
-                <Link href="/">Home</Link>
-              </li>
-            </Breadcrumb>
-
-            <h1>Sites</h1>
-          </div>
+        <div className="d-flex flex-row align-items-center justify-content-between">
+          <Breadcrumb title="Sites" />
 
           <Link className="btn btn-primary" href="/sites/add">Add new site</Link>
         </div>

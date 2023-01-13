@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"path/filepath"
+	"strings"
 )
 
 type RawTemplate *struct {
@@ -22,6 +23,7 @@ type TemplateName string
 const (
 	basePath = "/poeticmetric/assets/email_templates"
 
+	TemplateInvite           TemplateName = "invite"
 	TemplatePasswordRecovery TemplateName = "password_recovery"
 	TemplateTrialStart       TemplateName = "trial_start"
 	TemplateWelcome          TemplateName = "welcome"
@@ -29,6 +31,9 @@ const (
 
 var (
 	templates = map[TemplateName]RawTemplate{
+		TemplateInvite: {
+			Subject: "Join [OrganizationName] on PoeticMetric",
+		},
 		TemplatePasswordRecovery: {
 			Subject: "Password recovery for PoeticMetric",
 		},
@@ -64,6 +69,6 @@ func GetTemplate(name TemplateName, data map[string]string) (*Template, error) {
 
 	return &Template{
 		Html:    buffer.Bytes(),
-		Subject: t.Subject,
+		Subject: strings.ReplaceAll(t.Subject, "[OrganizationName]", data["OrganizationName"]),
 	}, nil
 }

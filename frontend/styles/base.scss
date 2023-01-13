@@ -4,7 +4,6 @@ $enable-negative-margins: true;
 $font-size-xs: 0.75rem;
 $font-size-xxs: 0.5rem;
 $font-weight-medium: 500;
-$headings-margin-bottom: 0.5em;
 $min-contrast-ratio: 4;
 $navbar-toggler-font-size: 1rem;
 $navbar-toggler-padding-x: 0.5rem;
@@ -32,7 +31,20 @@ $utilities-border-colors: map-merge($utilities-border-colors, (
 
 @import "bootstrap/scss/utilities";
 
-$fixed-sizes: (1rem 2rem 3rem 4rem 5rem 6rem 7rem 8rem 9rem 10rem 16rem);
+$fixed-sizes: (
+  1rem: 1rem,
+  "1_5rem": 1.5rem,
+  2rem: 2rem,
+  3rem: 3rem,
+  4rem: 4rem,
+  5rem: 5rem,
+  6rem: 6rem,
+  7rem: 7rem,
+  8rem: 8rem,
+  9rem: 9rem,
+  10rem: 10rem,
+  16rem: 16rem,
+);
 
 $utilities: map-merge($utilities, (
   "background-color": map-merge(map-get($utilities, "background-color"), (

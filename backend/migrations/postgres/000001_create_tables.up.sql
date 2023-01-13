@@ -42,10 +42,12 @@ CREATE TABLE "organization_deletions" (
 );
 
 CREATE TABLE "users" (
+  "activation_token" text UNIQUE,
   "created_at" timestamptz NOT NULL,
   "email" text UNIQUE NOT NULL,
   "email_verification_token" text UNIQUE,
   "id" bigserial,
+  "is_active" boolean NOT NULL,
   "is_email_verified" boolean NOT NULL,
   "is_organization_owner" boolean NOT NULL,
   "last_access_token_created_at" timestamptz,
