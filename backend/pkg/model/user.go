@@ -5,7 +5,7 @@ import "time"
 const (
 	UserNameMaxLength     = 70
 	UserNameMinLength     = 1
-	UserPasswordMaxLength = 128
+	UserPasswordMaxLength = 72
 	UserPasswordMinLength = 8
 )
 
