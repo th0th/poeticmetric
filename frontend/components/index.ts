@@ -12,6 +12,7 @@ export * from "./FavIcon";
 export * from "./Home";
 export * from "./Layout";
 export * from "./Logo";
+export * from "./Manifesto";
 export * from "./Markdown";
 export * from "./MetaOpenGraph";
 export * from "./PasswordRecovery";
