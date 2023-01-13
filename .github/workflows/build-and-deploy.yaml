@@ -83,6 +83,10 @@ jobs:
             type=raw,value=latest,enable=${{ github.ref == format('refs/heads/main') }}
             type=raw,value=staging,enable=${{ github.ref == format('refs/heads/staging') }}
 
+      - name: Copy Manifesto.md
+        run: |
+          cp MANIFESTO.md frontend/components/Manifesto/manifesto.md
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
@@ -114,6 +118,6 @@ jobs:
             echo Invalid ref.
             exit 1
           fi
-          
+
       - name: Update Rancher workloads
         uses: th0th/rancher-redeploy-workload@v0.9
