@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { Button, Card, Container, Form, Spinner } from "react-bootstrap";
-import { Layout, Title } from "..";
+import { Breadcrumb, Layout, Title } from "..";
 import { AuthAndApiContext, ToastsContext } from "../../contexts";
 import { useForm, useQueryNumber, useSwrMatchMutate } from "../../hooks";
 
@@ -93,7 +93,7 @@ export function TeamMemberForm() {
 
       {state.isReady ? (
         <Container className="py-5">
-          <h1 className="mb-3">{title}</h1>
+          <Breadcrumb items={[{ href: "/team", title: "Team" }]} title={title} />
 
           <Card>
             <Card.Body>

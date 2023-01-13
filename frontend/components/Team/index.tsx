@@ -1,44 +1,56 @@
-import Link from "next/link";
-import React, { useContext, useMemo } from "react";
+import { useRouter } from "next/router";
+import React, { useMemo } from "react";
 import { Col, Container, Row, Spinner } from "react-bootstrap";
 import { Layout, Title } from "..";
-import { AuthAndApiContext } from "../../contexts";
 import { useUsers } from "../../hooks";
 import { DeleteModal } from "./DeleteModal";
+import { Header } from "./Header";
 import { User } from "./User";
 
 export function Team() {
-  const { organization } = useContext(AuthAndApiContext);
+  const router = useRouter();
   const { data: users } = useUsers();
 
-  const usersNode = useMemo(() => {
+  const filteredUsers = useMemo<Array<HydratedUser> | null>(() => {
     if (users === undefined) {
+      return null;
+    }
+
+    return users.filter((user) => {
+      if ((router.query.status === "active" && !user.isActive) || (router.query.status === "pending" && user.isActive)) {
+        return false;
+      }
+
+      return true;
+    });
+  }, [router.query, users]);
+
+  const usersNode = useMemo(() => {
+    if (filteredUsers === null) {
       return (
-        <Spinner animation="border" />
+        <div className="align-items-center d-flex flex-column flex-grow-1 justify-content-center p-3">
+          <Spinner className="align-self-center" variant="primary" />
+        </div>
       );
     }
 
     return (
       <Row className="g-4" lg={3} md={2} xs={1} xxl={4}>
-        {users.map((u) => (
+        {filteredUsers.map((u) => (
           <Col key={u.id}>
             <User user={u} />
           </Col>
         ))}
       </Row>
     );
-  }, [users]);
+  }, [filteredUsers]);
 
   return (
     <Layout kind="app">
       <Title>Team</Title>
 
-      <Container className="py-5">
-        <div className="align-items-md-center d-flex flex-column flex-sm-row gap-3 justify-content-between mb-3">
-          <h1 className="mb-0 text-center">{`${organization?.name} team`}</h1>
-
-          <Link className="btn btn-primary" href="/team/invite">Invite new team member</Link>
-        </div>
+      <Container className="d-flex flex-column flex-grow-1 py-5">
+        <Header />
 
         {usersNode}
       </Container>

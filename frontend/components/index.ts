@@ -4,6 +4,7 @@ export * from "./Avatar";
 export * from "./Billing";
 export * from "./BlogPage";
 export * from "./BlogPost";
+export * from "./Breadcrumb";
 export * from "./ChartTooltip";
 export * from "./Description";
 export * from "./EmailAddressVerification";
