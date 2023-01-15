@@ -105,7 +105,6 @@ func (e *Event) FillFromUrl(url string, safeQueryParameters []string) {
 	u.RawQuery = q.Encode()
 	e.Url = u.String()
 
-	log.Println(e.Url)
 	e.Path = u.Path
 }
 

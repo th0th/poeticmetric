@@ -1,4 +1,3 @@
-import { withAuth } from "../../components";
-import { SiteReports } from "../../pageComponents";
+import { SiteReports, withAuth } from "../../components";
 
 export default withAuth(SiteReports, true);
