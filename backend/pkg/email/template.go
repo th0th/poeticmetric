@@ -23,13 +23,14 @@ type TemplateName string
 const (
 	basePath = "/poeticmetric/assets/email_templates"
 
-	TemplateInvite           TemplateName = "invite"
-	TemplatePasswordRecovery TemplateName = "password_recovery"
-	TemplateTrialEnd         TemplateName = "trial_end"
-	TemplateTrialEnding      TemplateName = "trial_ending"
-	TemplateTrialMidway      TemplateName = "trial_midway"
-	TemplateTrialStart       TemplateName = "trial_start"
-	TemplateWelcome          TemplateName = "welcome"
+	TemplateInvite            TemplateName = "invite"
+	TemplatePasswordRecovery  TemplateName = "password_recovery"
+	TemplateSubscriptionStart TemplateName = "subscription_start"
+	TemplateTrialEnd          TemplateName = "trial_end"
+	TemplateTrialEnding       TemplateName = "trial_ending"
+	TemplateTrialMidway       TemplateName = "trial_midway"
+	TemplateTrialStart        TemplateName = "trial_start"
+	TemplateWelcome           TemplateName = "welcome"
 )
 
 var (
@@ -38,7 +39,10 @@ var (
 			Subject: "Join [OrganizationName] on PoeticMetric",
 		},
 		TemplatePasswordRecovery: {
-			Subject: "Password recovery for PoeticMetric",
+			Subject: "Password reset request",
+		},
+		TemplateSubscriptionStart: {
+			Subject: "Thank you for choosing PoeticMetric",
 		},
 		TemplateTrialEnd: {
 			Subject: "Your PoeticMetric free trial has ended",

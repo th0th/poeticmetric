@@ -12,7 +12,13 @@ export function ActionButton({ plan, ...props }: ActionButtonProps) {
   const { addToast } = useContext(ToastsContext);
   const { isDisabled, set, subscriptionPeriod } = useContext(PlansContext);
 
-  const isShown = useMemo<boolean>(() => organization !== null && organization.plan === null, [organization]);
+  const isShown = useMemo<boolean>(() => {
+    if (organization === null) {
+      return false;
+    }
+
+    return organization.plan === null || organization.stripeCustomerId === null;
+  }, [organization]);
 
   const buttonContent = useMemo<string>(() => (organization?.plan === null ? "Subscribe" : "Change plan"), [organization]);
 

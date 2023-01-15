@@ -114,7 +114,7 @@ func validateCreateStripeCheckoutSessionPayload(dp *depot.Depot, payload *Create
 
 	errs := v.Validate(v.Schema{
 		v.F("detail", payload): v.Is(func(t any) bool {
-			return data.OrganizationPlanId == nil
+			return data.OrganizationPlanId == nil || data.OrganizationStripeCustomerId == nil
 		}).Msg("You need to use billing portal to change plan."),
 
 		v.F("planName", payload.PlanName): v.All(
