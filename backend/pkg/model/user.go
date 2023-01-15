@@ -5,7 +5,7 @@ import "time"
 const (
 	UserNameMaxLength     = 70
 	UserNameMinLength     = 1
-	UserPasswordMaxLength = 128
+	UserPasswordMaxLength = 72
 	UserPasswordMinLength = 8
 )
 
@@ -22,7 +22,7 @@ type User struct {
 	Name                     string
 	Organization             Organization
 	OrganizationId           uint64
-	Password                 string
+	Password                 *string
 	PasswordResetToken       *string
 	UpdatedAt                time.Time
 }

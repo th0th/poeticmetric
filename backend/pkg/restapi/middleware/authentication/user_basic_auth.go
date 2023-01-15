@@ -46,6 +46,7 @@ func NewUserBasicAuth() fiber.Handler {
 		err = dp.Postgres().
 			Model(&model.User{}).
 			Where("is_active is true").
+			Where("password is not null").
 			Where("email = ?", email).
 			First(modelUser).
 			Error
@@ -57,7 +58,7 @@ func NewUserBasicAuth() fiber.Handler {
 			return err
 		}
 
-		if bcrypt.CompareHashAndPassword([]byte(modelUser.Password), []byte(password)) != nil {
+		if bcrypt.CompareHashAndPassword([]byte(*modelUser.Password), []byte(password)) != nil {
 			return fiber.ErrUnauthorized
 		}
 

@@ -1,0 +1,96 @@
+<mjml>
+  <mj-head>
+    <mj-preview>
+      Your PoeticMetric free trial has ended, events will still be collected, upgrade now to access the reports. Check your e-mail for more
+      information
+    </mj-preview>
+
+    <mj-attributes>
+      <mj-button
+          background-color="#3182CE"
+          border-radius="6px"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+          font-size="16px"
+          font-weight="600"
+      />
+
+      <mj-text
+          color="#2D3748"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+          font-size="16px"
+          font-weight="400"
+          line-height="24px"
+          padding-left="40px"
+          padding-right="40px"
+      />
+    </mj-attributes>
+
+    <mj-style inline="inline">
+      a {
+        font-weight: 700;
+        text-decoration: none;
+        color: #3182CE;
+      }
+    </mj-style>
+  </mj-head>
+
+  <mj-body background-color="#F7FAFC">
+    <mj-section>
+      <mj-column>
+        <mj-spacer height="20px" />
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#EBF8FF" border-radius="8px 8px 0 0">
+      <mj-column>
+        <mj-image
+            width="200px"
+            src="https://user-images.githubusercontent.com/698079/139349672-47706255-455f-4859-955c-2d1e927add90.png"
+            align="center"
+            alt="PoeticMetric Logo"
+            href="{{.FrontendBaseUrl}}"
+        />
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff" border-radius="0 0 6px 6px">
+      <mj-column>
+        <mj-text>
+          <p>Greetings,</p>
+
+          <p>
+            We wanted to reach out to let you know that your <strong>30-day free trial of PoeticMetric has ended</strong>. We hope that
+            you've been able to gain valuable insights into your website's traffic during your trial period.
+          </p>
+
+          <p>
+            As your trial has ended, you will no longer have access to all of the features and benefits of PoeticMetric.
+            <strong>
+              However, we would like to inform you that your events will still be collected, but you will not be able to access the reports
+              unless you upgrade to one of our paid plans.
+            </strong>
+            Our plans are designed to fit the needs of any organization and budget. You can find more information on our
+            <a href="{{.FrontendBaseUrl}}/pricing">pricing page</a>
+            .
+          </p>
+
+          <p>
+            If you have any questions or need assistance, please don't hesitate to reach out to our support team. We're always here to help.
+          </p>
+        </mj-text>
+
+        <mj-text>
+          <p>Cheers,</p>
+
+          <p>The PoeticMetric Team</p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section padding-top="8px">
+      <mj-column>
+        <mj-text font-size="12px" align="center">Copyright © WebGazer, Inc.</mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

@@ -58,7 +58,7 @@ var users = []*model.User{
 		IsOrganizationOwner: true,
 		Name:                "Gokhan",
 		OrganizationId:      organizations[0].Id,
-		Password:            "$2a$10$ufcHVVBZveNWbqCB.7XrKeBB2uXXs7F4.ugz3OBK33lV0zntj954S",
+		Password:            pointer.Get("$2a$10$ufcHVVBZveNWbqCB.7XrKeBB2uXXs7F4.ugz3OBK33lV0zntj954S"),
 	},
 }
 

@@ -40,7 +40,7 @@ func SignUp(dp *depot.Depot, payload *SignUpPayload) (*UserSelf, error) {
 		EmailVerificationToken: pointer.Get(uniuri.NewLen(24)),
 		IsOrganizationOwner:    true,
 		Name:                   *payload.Name,
-		Password:               *passwordHash,
+		Password:               passwordHash,
 	}
 
 	err = dp.WithPostgresTransaction(func(dp2 *depot.Depot) error {

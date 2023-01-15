@@ -13,7 +13,7 @@ RUN go mod download
 
 COPY assets assets
 COPY cmd cmd
-#COPY migrations migrations
+COPY migrations migrations
 COPY pkg pkg
 
 COPY scripts/migrate-clickhouse /usr/local/bin/

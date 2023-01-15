@@ -4,10 +4,13 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/gofiber/fiber/v2"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/email"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/env"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/frontend"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/pointer"
 	dm "github.com/poeticmetric/poeticmetric/backend/pkg/restapi/middleware/depot"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/worker"
 	"github.com/stripe/stripe-go/v74"
 	"github.com/stripe/stripe-go/v74/customer"
 	webhook2 "github.com/stripe/stripe-go/v74/webhook"
@@ -76,13 +79,23 @@ func webhook(c *fiber.Ctx) error {
 					err = dp.Postgres().
 						Model(&model.User{}).
 						Joins("inner join organizations on organizations.id = users.organization_id").
-						Select(
-							"organizations.id",
-						).
+						Select("organizations.id").
 						Where("users.email = ?", stripeCustomer.Email).
 						Where("users.is_organization_owner = ?", true).
 						First(modelOrganization).
 						Error
+					if err != nil {
+						return err
+					}
+
+					err = worker.SendEmail(dp, &worker.SendEmailPayload{
+						From:     pointer.Get("support@poeticmetric.com"),
+						Template: email.TemplateSubscriptionStart,
+						TemplateData: map[string]string{
+							"FrontendBaseUrl": frontend.GenerateUrl(""),
+						},
+						To: stripeCustomer.Email,
+					})
 					if err != nil {
 						return err
 					}
