@@ -7,10 +7,14 @@ import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/signal"
 	amqp "github.com/rabbitmq/amqp091-go"
 	"log"
+	"time"
 )
 
 var Queues = []*rabbitmq.Queue{
 	{Name: CreateEventQueue},
+	{Name: EndTrialsQueue},
+	{Name: NotifyAboutEndingTrialsQueue, Ttl: 24 * time.Hour},
+	{Name: NotifyAboutTrialMidwaysQueue, Ttl: 15 * 24 * time.Hour},
 	{Name: SendEmailQueue},
 	{Name: SendWebhookQueue},
 }
@@ -30,9 +34,12 @@ func Run(dp *depot.Depot, queues []string) error {
 	log.Println("Starting to listen...")
 
 	runners := map[rabbitmq.QueueName]func(*depot.Depot, []byte) error{
-		CreateEventQueue: createEvent,
-		SendEmailQueue:   sendEmail,
-		SendWebhookQueue: sendWebhook,
+		CreateEventQueue:             createEvent,
+		EndTrialsQueue:               endTrials,
+		NotifyAboutEndingTrialsQueue: notifyAboutEndingTrials,
+		NotifyAboutTrialMidwaysQueue: notifyAboutTrialMidways,
+		SendEmailQueue:               sendEmail,
+		SendWebhookQueue:             sendWebhook,
 	}
 
 	deliveries := make(chan amqp.Delivery)

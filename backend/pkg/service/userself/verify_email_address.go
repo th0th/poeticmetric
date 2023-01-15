@@ -4,6 +4,7 @@ import (
 	v "github.com/RussellLuo/validating/v3"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/email"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/env"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/frontend"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/pointer"
@@ -50,29 +51,31 @@ func VerifyEmailAddress(dp *depot.Depot, payload *VerifyEmailAddressPayload) (*U
 			return err2
 		}
 
-		err2 = dp2.Postgres().
-			Model(&model.Organization{}).
-			Where("id = ?", modelUser.OrganizationId).
-			Updates(map[string]any{
-				"is_on_trial":   true,
-				"plan_id":       gorm.Expr("(select id from plans where name = 'Business')"),
-				"trial_ends_at": gorm.Expr("(select current_date + interval '30 day')"),
-			}).
-			Error
-		if err2 != nil {
-			return err2
-		}
+		if env.GetIsHosted() {
+			err2 = dp2.Postgres().
+				Model(&model.Organization{}).
+				Where("id = ?", modelUser.OrganizationId).
+				Updates(map[string]any{
+					"is_on_trial":   true,
+					"plan_id":       gorm.Expr("(select id from plans where name = 'Business')"),
+					"trial_ends_at": gorm.Expr("(select current_date + interval '30 day')"),
+				}).
+				Error
+			if err2 != nil {
+				return err2
+			}
 
-		err2 = worker.SendEmail(dp2, &worker.SendEmailPayload{
-			From:     pointer.Get("support@poeticmetric.com"),
-			Template: email.TemplateTrialStart,
-			TemplateData: map[string]string{
-				"FrontendBaseUrl": frontend.GenerateUrl(""),
-			},
-			To: modelUser.Email,
-		})
-		if err2 != nil {
-			return err2
+			err2 = worker.SendEmail(dp2, &worker.SendEmailPayload{
+				From:     pointer.Get("support@poeticmetric.com"),
+				Template: email.TemplateTrialStart,
+				TemplateData: map[string]string{
+					"FrontendBaseUrl": frontend.GenerateUrl(""),
+				},
+				To: modelUser.Email,
+			})
+			if err2 != nil {
+				return err2
+			}
 		}
 
 		return nil

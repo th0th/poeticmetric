@@ -2,8 +2,6 @@ package env
 
 import (
 	"fmt"
-	"golang.org/x/text/cases"
-	"golang.org/x/text/language"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"log"
@@ -33,6 +31,7 @@ const (
 	ClickHouseUser             = "POETICMETRIC_CLICKHOUSE_USER"
 	Debug                      = "POETICMETRIC_DEBUG"
 	FrontendBaseUrl            = "POETICMETRIC_FRONTEND_BASE_URL"
+	Hosted                     = "POETICMETRIC_HOSTED"
 	Instance                   = "POETICMETRIC_INSTANCE"
 	PostgresDatabase           = "POETICMETRIC_POSTGRES_DATABASE"
 	PostgresHost               = "POETICMETRIC_POSTGRES_HOST"
@@ -207,12 +206,10 @@ func GetRabbitMqUrl() string {
 	)
 }
 
-func GetStageDisplay() string {
-	titleCase := cases.Title(language.AmericanEnglish)
-
-	return titleCase.String(Get(Stage))
-}
-
 func GetWorkerQueues() []string {
 	return strings.Split(Get(WorkerQueues), ",")
+}
+
+func GetIsHosted() bool {
+	return Get(Hosted) == "true"
 }

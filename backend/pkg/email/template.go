@@ -25,6 +25,9 @@ const (
 
 	TemplateInvite           TemplateName = "invite"
 	TemplatePasswordRecovery TemplateName = "password_recovery"
+	TemplateTrialEnd         TemplateName = "trial_end"
+	TemplateTrialEnding      TemplateName = "trial_ending"
+	TemplateTrialMidway      TemplateName = "trial_midway"
 	TemplateTrialStart       TemplateName = "trial_start"
 	TemplateWelcome          TemplateName = "welcome"
 )
@@ -36,6 +39,15 @@ var (
 		},
 		TemplatePasswordRecovery: {
 			Subject: "Password recovery for PoeticMetric",
+		},
+		TemplateTrialEnd: {
+			Subject: "Your PoeticMetric free trial has ended",
+		},
+		TemplateTrialEnding: {
+			Subject: "Last day of your PoeticMetric free trial",
+		},
+		TemplateTrialMidway: {
+			Subject: "Make the most of your PoeticMetric free trial",
 		},
 		TemplateTrialStart: {
 			Subject: "30-Day Free Trial: Gain valuable insights into your website's traffic with PoeticMetric",
