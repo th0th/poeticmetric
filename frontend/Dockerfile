@@ -29,6 +29,7 @@ COPY styles styles
 COPY .env.$POETICMETRIC_STAGE .env
 COPY .eslintrc.js .eslintrc.js
 COPY .stylelintrc.js .stylelintrc.js
+COPY next-sitemap.config.js next-sitemap.config.js
 COPY next.config.js next.config.js
 COPY tsconfig.json tsconfig.json
 
