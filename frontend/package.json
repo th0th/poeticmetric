@@ -28,6 +28,7 @@
     "md5": "^2.3.0",
     "millify": "^5.0.1",
     "next": "^13.0.5",
+    "next-sitemap": "^3.1.45",
     "react": "^18.2.0",
     "react-bootstrap": "^2.5.0",
     "react-datepicker": "^4.8.0",
@@ -61,7 +62,8 @@
     "build": "next build",
     "export": "next export",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postbuild": "next-sitemap"
   },
   "version": "0.1.0"
 }
