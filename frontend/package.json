@@ -64,7 +64,7 @@
     "build-site-map": "next-sitemap",
     "dev": "next dev",
     "export": "next export",
-    "lint": "next lint",
+    "lint": "eslint --ext .js,.ts,.tsx .",
     "start": "next start"
   },
   "version": "0.1.0"

@@ -69,7 +69,7 @@ export function SiteForm() {
     if (id !== undefined) {
       readSite();
     }
-  }, [addToast, api, id, router, setValues]);
+  }, [addToast, id, router, setValues]);
 
   return (
     <Layout kind="app">
