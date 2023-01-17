@@ -3,7 +3,7 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Button, Card, Container, Form, Spinner } from "react-bootstrap";
 import { Layout, Title } from "..";
 import { AuthAndApiContext, ToastsContext } from "../../contexts";
-import { api } from "../../helpers";
+import { api, setUserAccessToken } from "../../helpers";
 import { useForm } from "../../hooks";
 
 type Form = {
@@ -18,7 +18,7 @@ type State = {
 
 export function Activation() {
   const router = useRouter();
-  const { setUserAccessToken } = useContext(AuthAndApiContext);
+  const { mutate } = useContext(AuthAndApiContext);
   const { addToast } = useContext(ToastsContext);
   const [state, setState] = useState<State>({ isDisabled: false, isReady: null });
   const [values, , updateValue, errors, setErrors] = useForm<Form>({ newPassword: "", newPassword2: "" });
@@ -33,13 +33,13 @@ export function Activation() {
 
     if (response.ok) {
       setUserAccessToken(responseJson.userAccessToken.token);
-
       addToast({ body: "Your account is successfully activated. Welcome!", variant: "success" });
+      await mutate();
     } else {
       setErrors(responseJson);
       setState((s) => ({ ...s, isDisabled: false }));
     }
-  }, [addToast, router.query.t, setErrors, setUserAccessToken, values]);
+  }, [addToast, mutate, router.query.t, setErrors, values]);
 
   const validateActivationToken = useCallback(async () => {
     const response = await api.post("/users/activate", { activationToken: router.query.t });

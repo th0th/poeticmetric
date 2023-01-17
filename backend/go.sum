@@ -47,8 +47,8 @@ github.com/go-ole/go-ole v1.2.6/go.mod h1:pprOEPIfldk/42T2oK7lQ4v4JSDwmV0As9GaiU
 github.com/go-redis/redis/v9 v9.0.0-rc.2 h1:IN1eI8AvJJeWHjMW/hlFAv2sAfvTun2DVksDDJ3a6a0=
 github.com/go-redis/redis/v9 v9.0.0-rc.2/go.mod h1:cgBknjwcBJa2prbnuHH/4k/Mlj4r0pWNV2HBanHujfY=
 github.com/go-sql-driver/mysql v1.4.0/go.mod h1:zAC/RDZ24gD3HViQzih4MyKcchzm+sOG5ZlKdlhCg5w=
-github.com/gofiber/contrib/fibersentry v0.0.0-20230113074415-4d4a0314fd41 h1:p44wb7payYfGFztvgGByPCnt9ZDE8wdI8ZHnOgsWR7E=
-github.com/gofiber/contrib/fibersentry v0.0.0-20230113074415-4d4a0314fd41/go.mod h1:AdnGkItVsZMMFx6DZ2mPtTB8BDBQZcxJJLTI/j9oI5o=
+github.com/gofiber/contrib/fibersentry v0.0.0-20230116072133-939d79692a7f h1:v3EMYQkdCWny8ObbJ9iC3CU/ohoAe/EjoYebpX/ge2I=
+github.com/gofiber/contrib/fibersentry v0.0.0-20230116072133-939d79692a7f/go.mod h1:AdnGkItVsZMMFx6DZ2mPtTB8BDBQZcxJJLTI/j9oI5o=
 github.com/gofiber/fiber/v2 v2.41.0 h1:YhNoUS/OTjEz+/WLYuQ01xI7RXgKEFnGBKMagAu5f0M=
 github.com/gofiber/fiber/v2 v2.41.0/go.mod h1:RdebcCuCRFp4W6hr3968/XxwJVg0K+jr9/Ae0PFzZ0Q=
 github.com/gogo/protobuf v1.3.2/go.mod h1:P1XiOD3dCwIKUDQYPy72D8LYyHL2YPYrpS2s69NZV8Q=

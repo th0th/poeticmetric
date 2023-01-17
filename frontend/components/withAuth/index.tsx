@@ -12,13 +12,9 @@ type WrappedProps = {
 export function withAuth(Page: NextPage, authenticated: boolean, ownerOnly?: true) {
   function Wrapped({ pageProps }: WrappedProps) {
     const router = useRouter();
-    const { inProgress, user } = useContext(AuthAndApiContext);
+    const { user } = useContext(AuthAndApiContext);
 
     const isPermitted = useMemo<boolean>(() => {
-      if (inProgress) {
-        return false;
-      }
-
       if (!authenticated) {
         return user === null;
       }
@@ -28,11 +24,11 @@ export function withAuth(Page: NextPage, authenticated: boolean, ownerOnly?: tru
       }
 
       return user !== null;
-    }, [inProgress, user]);
+    }, [user]);
 
     const spinnerNode = useMemo(() => (
       <div className="d-flex flex-column align-items-center justify-content-center min-vh-100">
-        <Spinner animation="border" />
+        <Spinner variant="primary" />
       </div>
     ), []);
 
@@ -47,7 +43,7 @@ export function withAuth(Page: NextPage, authenticated: boolean, ownerOnly?: tru
     }, [isPermitted, pageProps, spinnerNode]);
 
     useEffect(() => {
-      if (!inProgress && !isPermitted) {
+      if (!isPermitted) {
         if (user !== null) {
           const next = router.query.next === undefined ? null : router.query.next.toString();
 
@@ -56,7 +52,7 @@ export function withAuth(Page: NextPage, authenticated: boolean, ownerOnly?: tru
           router.replace(`/sign-in?next=${router.asPath}`);
         }
       }
-    }, [inProgress, isPermitted, router, user]);
+    }, [isPermitted, router, user]);
 
     if (!isPermitted) {
       return spinnerNode;

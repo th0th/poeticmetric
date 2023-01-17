@@ -1,13 +1,14 @@
 import React, { useCallback, useContext, useState } from "react";
 import { Button } from "react-bootstrap";
 import { AuthAndApiContext, ToastsContext } from "../../../contexts";
+import { api } from "../../../helpers";
 
 export type BillingPortalButtonProps = {
   className?: string;
 };
 
 export function BillingPortalButton({ className }: BillingPortalButtonProps) {
-  const { api, organization } = useContext(AuthAndApiContext);
+  const { organization } = useContext(AuthAndApiContext);
   const { addToast } = useContext(ToastsContext);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
@@ -22,7 +23,7 @@ export function BillingPortalButton({ className }: BillingPortalButtonProps) {
       addToast({ body: responseJson.detail, variant: "danger" });
       setIsDisabled(false);
     }
-  }, [addToast, api]);
+  }, [addToast]);
 
   return organization !== null && organization.stripeCustomerId !== null ? (
     <Button className={`mt-3 ${className}`} disabled={isDisabled} onClick={goToBillingPortal} type="button">

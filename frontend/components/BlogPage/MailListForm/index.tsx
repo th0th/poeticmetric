@@ -22,11 +22,9 @@ export function MailListForm({ className, ...props }: MailListFormProps) {
   const handleSubmit = useCallback<React.FormEventHandler<HTMLFormElement>>(async (event) => {
     event.preventDefault();
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_POETICMETRIC_NODE_RED_BASE_URL}/mail-list`, {
+    const response = await fetch(`${window.poeticMetric?.nodeRedBaseUrl}/mail-list`, {
       body: JSON.stringify(values),
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       method: "POST",
     });
 
@@ -63,7 +61,14 @@ export function MailListForm({ className, ...props }: MailListFormProps) {
 
             <div className="align-items-start d-flex flex-row gap-3">
               <div className="flex-grow-1">
-                <Form.Control isInvalid={errors.email !== undefined} name="email" onChange={updateValue} required type="email" value={values.email} />
+                <Form.Control
+                  isInvalid={errors.email !== undefined}
+                  name="email"
+                  onChange={updateValue}
+                  required
+                  type="email"
+                  value={values.email}
+                />
 
                 <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
               </div>

@@ -3,7 +3,7 @@ import React, { useCallback, useContext } from "react";
 import { Button, Card, Container, Form } from "react-bootstrap";
 import { Layout, Title } from "..";
 import { AuthAndApiContext, ToastsContext } from "../../contexts";
-import { api } from "../../helpers";
+import { api, setUserAccessToken } from "../../helpers";
 import { useForm } from "../../hooks";
 
 type Form = {
@@ -14,7 +14,7 @@ type Form = {
 };
 
 export function SignUp() {
-  const { setUserAccessToken } = useContext(AuthAndApiContext);
+  const { mutate } = useContext(AuthAndApiContext);
   const { addToast } = useContext(ToastsContext);
 
   const [values, , updateValue, errors, setErrors] = useForm<Form>({ email: "", name: "", organizationName: "", password: "" });
@@ -32,10 +32,12 @@ export function SignUp() {
       });
 
       setUserAccessToken(responseJson.userAccessToken.token);
+
+      await mutate();
     } else {
       setErrors(responseJson);
     }
-  }, [addToast, setErrors, setUserAccessToken, values]);
+  }, [addToast, mutate, setErrors, values]);
 
   return (
     <Layout kind="app">

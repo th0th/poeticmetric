@@ -1,6 +1,6 @@
 import { getUserAccessToken } from "./userAccessToken";
 
-export function apiCall(endpoint: string, init?: RequestInit) {
+export async function apiCall(endpoint: string, init?: RequestInit): Promise<Response> {
   const userAccessToken = getUserAccessToken();
 
   const headers: HeadersInit = {
@@ -10,7 +10,7 @@ export function apiCall(endpoint: string, init?: RequestInit) {
     ...init?.headers,
   };
 
-  return fetch(`${process.env.NEXT_PUBLIC_POETICMETRIC_REST_API_BASE_URL}${endpoint}`, { ...init, headers });
+  return fetch(`${window.poeticMetric?.restApiBaseUrl}${endpoint}`, { ...init, headers });
 }
 
 export const api = {

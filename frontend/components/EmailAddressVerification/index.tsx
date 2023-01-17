@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Container, Spinner } from "react-bootstrap";
-import { mutate } from "swr";
 import { Layout, Title } from "..";
 import { AuthAndApiContext, ToastsContext } from "../../contexts";
+import { api, setUserAccessToken } from "../../helpers";
 
 type State = {
   isDone: boolean;
@@ -11,7 +11,7 @@ type State = {
 
 export function EmailAddressVerification() {
   const router = useRouter();
-  const { api, setUserAccessToken } = useContext(AuthAndApiContext);
+  const { mutate } = useContext(AuthAndApiContext);
   const { addToast } = useContext(ToastsContext);
   const [state, setState] = useState<State>({ isDone: false });
 
@@ -21,14 +21,11 @@ export function EmailAddressVerification() {
 
     if (response.ok) {
       setUserAccessToken(responseJson.userAccessToken.token);
-
-      await Promise.all([mutate("/users/me"), mutate("/organization")]);
-
       addToast({
         body: "Congratulations! Your 30-day free trial of PoeticMetric has been enabled. Get ready to boost your website's performance!",
         variant: "success",
       });
-
+      await mutate();
       await router.push("/sites");
     } else {
       addToast({
@@ -44,7 +41,7 @@ export function EmailAddressVerification() {
 
       await router.replace("/sign-in");
     }
-  }, [addToast, api, router, setUserAccessToken]);
+  }, [addToast, mutate, router]);
 
   useEffect(() => {
     if (router.isReady && !state.isDone) {

@@ -1,6 +1,7 @@
 import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { Button, Card, Form, OverlayTrigger, Popover, Stack } from "react-bootstrap";
 import { AuthAndApiContext, ToastsContext } from "../../../contexts";
+import { api } from "../../../helpers";
 import { useForm } from "../../../hooks";
 import { Avatar } from "../../Avatar";
 
@@ -14,7 +15,7 @@ type State = {
 };
 
 export function Profile() {
-  const { api, user } = useContext(AuthAndApiContext);
+  const { user } = useContext(AuthAndApiContext);
   const { addToast } = useContext(ToastsContext);
 
   const [state, setState] = useState<State>({ isDisabled: false });
@@ -53,7 +54,7 @@ export function Profile() {
     }
 
     setState((s) => ({ ...s, isDisabled: false }));
-  }, [addToast, api, setErrors, values]);
+  }, [addToast, setErrors, values]);
 
   useEffect(() => {
     if (user !== null) {
