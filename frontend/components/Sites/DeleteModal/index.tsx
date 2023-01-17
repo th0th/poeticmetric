@@ -2,7 +2,8 @@ import { omit } from "lodash";
 import { useRouter } from "next/router";
 import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { Button, Modal, Spinner } from "react-bootstrap";
-import { AuthAndApiContext, ToastsContext } from "../../../contexts";
+import { ToastsContext } from "../../../contexts";
+import { api } from "../../../helpers";
 import { useQueryNumber, useSwrMatchMutate } from "../../../hooks";
 
 const routerQueryKey = "deleteSiteId";
@@ -13,7 +14,6 @@ type State = {
 
 export function DeleteModal() {
   const router = useRouter();
-  const { api } = useContext(AuthAndApiContext);
   const { addToast } = useContext(ToastsContext);
   const swrMatchMutate = useSwrMatchMutate();
   const id = useQueryNumber(routerQueryKey);
@@ -37,7 +37,7 @@ export function DeleteModal() {
 
       addToast({ body: responseJson || "An error has occurred.", variant: "danger" });
     }
-  }, [addToast, api, handleHide, id, swrMatchMutate]);
+  }, [addToast, handleHide, id, swrMatchMutate]);
 
   const handleExited = useCallback(() => setState((s) => ({ ...s, site: undefined })), []);
 
@@ -94,7 +94,7 @@ export function DeleteModal() {
     if (id !== undefined) {
       read();
     }
-  }, [addToast, api, handleHide, id]);
+  }, [addToast, handleHide, id]);
 
   return (
     <Modal onExited={handleExited} onHide={handleHide} show={id !== undefined}>

@@ -2,6 +2,7 @@ import Link from "next/link";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Alert, Button, Card, Form, InputGroup, Stack } from "react-bootstrap";
 import { AuthAndApiContext, ToastsContext } from "../../../contexts";
+import { api } from "../../../helpers";
 import { useForm } from "../../../hooks";
 
 type Form = {
@@ -13,7 +14,7 @@ type State = {
 };
 
 export function OrganizationDetails() {
-  const { api, organization } = useContext(AuthAndApiContext);
+  const { organization } = useContext(AuthAndApiContext);
   const { addToast } = useContext(ToastsContext);
 
   const [state, setState] = useState<State>({ isDisabled: false });
@@ -34,7 +35,7 @@ export function OrganizationDetails() {
     }
 
     setState((s) => ({ ...s, isDisabled: false }));
-  }, [addToast, api, setErrors, values]);
+  }, [addToast, setErrors, values]);
 
   useEffect(() => {
     if (organization !== null) {

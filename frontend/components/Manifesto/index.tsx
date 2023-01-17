@@ -20,7 +20,7 @@ export function Manifesto({ content }: ManifestoProps) {
         description="Privacy is not dead unlike they told us and we are here to back it up. Here are the four principles we stay true to in the making of the PoeticMetric."
         image={{
           height: 1080,
-          url: `${process.env.NEXT_PUBLIC_POETICMETRIC_FRONTEND_BASE_URL}/whatsapp-privacy-newspaper.jpg`,
+          path: "/whatsapp-privacy-newspaper.jpg",
           width: 1920,
         }}
         title="Manifesto"

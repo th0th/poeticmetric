@@ -2,7 +2,8 @@ import { useRouter } from "next/router";
 import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { Button, Card, Container, Form, Spinner } from "react-bootstrap";
 import { Breadcrumb, Layout, Title } from "..";
-import { AuthAndApiContext, ToastsContext } from "../../contexts";
+import { ToastsContext } from "../../contexts";
+import { api } from "../../helpers";
 import { useForm, useQueryNumber, useSwrMatchMutate } from "../../hooks";
 
 type Form = {
@@ -18,7 +19,6 @@ type State = {
 export function TeamMemberForm() {
   const router = useRouter();
   const swrMatchMutate = useSwrMatchMutate();
-  const { api } = useContext(AuthAndApiContext);
   const { addToast } = useContext(ToastsContext);
   const id = useQueryNumber("id");
   const [values, setValues, updateValue, errors, setErrors] = useForm<Form>({ email: "", name: "" });
@@ -53,7 +53,7 @@ export function TeamMemberForm() {
 
       setErrors(responseJson);
     }
-  }, [addToast, api, id, router, setErrors, swrMatchMutate, values]);
+  }, [addToast, id, router, setErrors, swrMatchMutate, values]);
 
   const read = useCallback(async () => {
     if (id === undefined) {
@@ -73,7 +73,7 @@ export function TeamMemberForm() {
     setValues((v) => ({ ...v, email: responseJson.email, name: responseJson.name }));
 
     setState((s) => ({ ...s, isReady: true }));
-  }, [addToast, api, id, router, setValues]);
+  }, [addToast, id, router, setValues]);
 
   useEffect(() => {
     if (router.isReady && state.isReady === null) {

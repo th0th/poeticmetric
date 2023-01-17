@@ -2,13 +2,14 @@ import { loadStripe } from "@stripe/stripe-js";
 import React, { useCallback, useContext, useMemo } from "react";
 import { Button, ButtonProps } from "react-bootstrap";
 import { AuthAndApiContext, PlansContext, ToastsContext } from "../../../contexts";
+import { api } from "../../../helpers";
 
 export type ActionButtonProps = Overwrite<Omit<ButtonProps, "children" | "disabled" | "onClick" | "type">, {
   plan: Plan;
 }>;
 
 export function ActionButton({ plan, ...props }: ActionButtonProps) {
-  const { api, organization } = useContext(AuthAndApiContext);
+  const { organization } = useContext(AuthAndApiContext);
   const { addToast } = useContext(ToastsContext);
   const { isDisabled, set, subscriptionPeriod } = useContext(PlansContext);
 
@@ -34,7 +35,7 @@ export function ActionButton({ plan, ...props }: ActionButtonProps) {
       const responseJson = await response.json();
 
       if (response.ok) {
-        const stripe = await loadStripe(process.env.NEXT_PUBLIC_POETICMETRIC_STRIPE_API_PUBLISHABLE_KEY as string);
+        const stripe = await loadStripe(window.poeticMetric?.stripeApiPublishableKey || "");
 
         await stripe?.redirectToCheckout({ sessionId: responseJson.stripeCheckoutSessionId });
       } else {
@@ -45,7 +46,7 @@ export function ActionButton({ plan, ...props }: ActionButtonProps) {
     } finally {
       set((s) => ({ ...s, isDisabled: false }));
     }
-  }, [addToast, api, organization, plan, set, subscriptionPeriod]);
+  }, [addToast, organization, plan, set, subscriptionPeriod]);
 
   return isShown ? (
     <Button {...props} disabled={isDisabled} onClick={handleClick} type="button">

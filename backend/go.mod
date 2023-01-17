@@ -8,7 +8,7 @@ require (
 	github.com/dchest/uniuri v1.2.0
 	github.com/getsentry/sentry-go v0.17.0
 	github.com/go-redis/redis/v9 v9.0.0-rc.2
-	github.com/gofiber/contrib/fibersentry v0.0.0-20230113074415-4d4a0314fd41
+	github.com/gofiber/contrib/fibersentry v0.0.0-20230116072133-939d79692a7f
 	github.com/gofiber/fiber/v2 v2.41.0
 	github.com/google/uuid v1.3.0
 	github.com/lib/pq v1.10.7

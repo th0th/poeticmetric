@@ -1,11 +1,13 @@
 const path = require("path");
+const { withSentryConfig } = require("@sentry/nextjs");
 
-/** @type {import("next").NextConfig} */
+const isSentryEnabled = process.env.SENTRY_ENABLED === "true";
+
+/** @type {import("@sentry/nextjs/types/config/types").ExportedNextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   sassOptions: {
     includePaths: [path.resolve(__dirname, "styles")],
-    // prependData: '@import "bootstrap/utilities"; @import "bootstrap/variables";',
   },
   swcMinify: true,
   webpack(config) {
@@ -27,4 +29,18 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+if (isSentryEnabled) {
+  nextConfig.sentry = {
+    disableClientWebpackPlugin: !isSentryEnabled,
+    disableServerWebpackPlugin: !isSentryEnabled,
+    hideSourceMaps: true,
+  };
+}
+
+const sentryWebpackPluginOptions = {
+  silent: true,
+};
+
+module.exports = isSentryEnabled
+  ? withSentryConfig(nextConfig, sentryWebpackPluginOptions)
+  : nextConfig;

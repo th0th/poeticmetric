@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React, { useCallback, useContext, useMemo, useState } from "react";
 import { Alert, Button, Form, FormGroup, Modal as BsModal, ModalProps, Stack } from "react-bootstrap";
 import { AuthAndApiContext, ToastsContext } from "../../../../contexts";
-import { base64Encode } from "../../../../helpers";
+import { api, base64Encode } from "../../../../helpers";
 import { useForm } from "../../../../hooks";
 
 type Form = {
@@ -53,7 +53,7 @@ const reasons: Reason[] = [
 
 export function Modal() {
   const router = useRouter();
-  const { api, user } = useContext(AuthAndApiContext);
+  const { user } = useContext(AuthAndApiContext);
   const { addToast } = useContext(ToastsContext);
   const [state, setState] = useState<State>({ isDisabled: false });
   const [values, setValues, updateValue, errors, setErrors] = useForm<Form>(initialValues);
@@ -115,7 +115,7 @@ export function Modal() {
     }
 
     setState((s) => ({ ...s, isDisabled: false }));
-  }, [addToast, api, router, setErrors, user, values]);
+  }, [addToast, router, setErrors, user, values]);
 
   return (
     <BsModal

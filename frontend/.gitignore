@@ -36,6 +36,7 @@ yarn-error.log*
 next-env.d.ts
 
 # development
-/styles/style.css
+/public/config.js
 /public/robots.txt
 /public/sitemap*.xml
+/styles/style.css

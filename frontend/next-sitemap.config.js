@@ -14,7 +14,7 @@ module.exports = {
   ],
   generateRobotsTxt: true,
   robotsTxtOptions: {
-    policies: process.env.NEXT_PUBLIC_POETICMETRIC_STAGE !== "production" ? [{
+    policies: process.env.HOSTED !== "true" || process.env.STAGE !== "production" ? [{
       disallow: ["/"],
       userAgent: "*",
     }] : [{
@@ -22,5 +22,5 @@ module.exports = {
       userAgent: "*",
     }],
   },
-  siteUrl: process.env.NEXT_PUBLIC_POETICMETRIC_FRONTEND_BASE_URL,
+  siteUrl: process.env.BASE_URL,
 };

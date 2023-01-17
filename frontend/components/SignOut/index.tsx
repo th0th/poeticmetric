@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import { AuthAndApiContext } from "../../contexts";
-import { api } from "../../helpers";
+import { setUserAccessToken } from "../../helpers";
 
 type State = {
   isDone: boolean;
@@ -11,23 +11,14 @@ type State = {
 
 export function SignOut() {
   const router = useRouter();
-  const { setUserAccessToken } = useContext(AuthAndApiContext);
-  // const { addToast } = useContext(ToastsContext);
+  const { mutate } = useContext(AuthAndApiContext);
   const [state, setState] = useState<State>({ isDone: false, isReady: false });
 
   const signOut = useCallback(async () => {
-    if (router.query.skipCall !== "true") {
-      await api.delete("/user-access-tokens");
-    }
-
     setUserAccessToken(null);
-
-    if (router.query.skipToast !== "true") {
-      // addToast({ children: 'You have successfully signed out.', status: 'success' });
-    }
-
+    await mutate();
     await router.replace("/");
-  }, [router, setUserAccessToken]);
+  }, [mutate, router]);
 
   useEffect(() => {
     if (router.isReady && !state.isReady) {
@@ -44,8 +35,6 @@ export function SignOut() {
   }, [signOut, state]);
 
   return (
-    <div className="d-flex flex-column align-items-center justify-content-center min-vh-100">
-      <Spinner animation="border" />
-    </div>
+    <Spinner className="m-auto" variant="primary" />
   );
 }

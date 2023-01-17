@@ -4,7 +4,8 @@ import { useRouter } from "next/router";
 import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { Breadcrumb, Button, Card, Container, Form } from "react-bootstrap";
 import { Layout } from "../../components";
-import { AuthAndApiContext, ToastsContext } from "../../contexts";
+import { ToastsContext } from "../../contexts";
+import { api } from "../../helpers";
 import { useForm, useQueryNumber } from "../../hooks";
 
 type State = {
@@ -18,7 +19,6 @@ type Form = {
 
 export function SiteForm() {
   const router = useRouter();
-  const { api } = useContext(AuthAndApiContext);
   const { addToast } = useContext(ToastsContext);
   const [values, setValues, updateValue, errors, setErrors] = useForm<Form>({ domain: "", name: "" });
   const id = useQueryNumber("id");
@@ -43,7 +43,7 @@ export function SiteForm() {
     } else {
       setErrors(responseJson);
     }
-  }, [addToast, api, id, router, setErrors, values]);
+  }, [addToast, id, router, setErrors, values]);
 
   useEffect(() => {
     async function readSite() {
@@ -69,7 +69,7 @@ export function SiteForm() {
     if (id !== undefined) {
       readSite();
     }
-  }, [addToast, api, id, router, setValues]);
+  }, [addToast, id, router, setValues]);
 
   return (
     <Layout kind="app">

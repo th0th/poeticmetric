@@ -3,7 +3,7 @@ import React, { useCallback, useContext, useMemo } from "react";
 import { Alert, Button, Card, Container, Form } from "react-bootstrap";
 import { Layout, Title } from "..";
 import { AuthAndApiContext } from "../../contexts";
-import { api, base64Encode } from "../../helpers";
+import { api, base64Encode, setUserAccessToken } from "../../helpers";
 import { useForm } from "../../hooks";
 
 type Form = {
@@ -12,7 +12,7 @@ type Form = {
 };
 
 export function SignIn() {
-  const { setUserAccessToken } = useContext(AuthAndApiContext);
+  const { mutate } = useContext(AuthAndApiContext);
   const [values, , updateValue, errors, setErrors] = useForm<Form>({ email: "", password: "" });
 
   const errorNode = useMemo(() => (errors.detail !== undefined ? (
@@ -33,10 +33,11 @@ export function SignIn() {
 
     if (response.ok) {
       setUserAccessToken(responseJson.token);
+      await mutate();
     } else {
       setErrors(responseJson);
     }
-  }, [setErrors, setUserAccessToken, values.email, values.password]);
+  }, [mutate, setErrors, values.email, values.password]);
 
   return (
     <Layout kind="app">

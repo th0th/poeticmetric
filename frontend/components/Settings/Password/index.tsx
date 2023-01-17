@@ -2,7 +2,7 @@ import { omit } from "lodash";
 import React, { useCallback, useContext, useId, useState } from "react";
 import { Alert, Button, Card, Form, Stack } from "react-bootstrap";
 import { AuthAndApiContext, ToastsContext } from "../../../contexts";
-import { base64Encode } from "../../../helpers";
+import { api, base64Encode, setUserAccessToken } from "../../../helpers";
 import { useForm } from "../../../hooks";
 
 type Form = {
@@ -18,7 +18,7 @@ type State = {
 const initialForm: Form = { newPassword: "", newPassword2: "", password: "" };
 
 export function Password() {
-  const { api, setUserAccessToken, user } = useContext(AuthAndApiContext);
+  const { mutate, user } = useContext(AuthAndApiContext);
   const { addToast } = useContext(ToastsContext);
   const [state, setState] = useState<State>({ isDisabled: false });
   const [values, setValues, updateValue, errors, setErrors] = useForm<Form>(initialForm);
@@ -37,10 +37,9 @@ export function Password() {
 
     if (response.ok) {
       setUserAccessToken(responseJson.userAccessToken.token);
-
       setValues(initialForm);
-
       addToast({ body: "Your password has been changed.", variant: "success" });
+      await mutate();
     } else {
       if (response.status === 401) {
         setErrors({ password: "Incorrect password." });
@@ -50,7 +49,7 @@ export function Password() {
     }
 
     setState((s) => ({ ...s, isDisabled: false }));
-  }, [addToast, api, setErrors, setUserAccessToken, setValues, user?.email, values]);
+  }, [addToast, mutate, setErrors, setValues, user?.email, values]);
 
   return (
     <Card>

@@ -16,9 +16,7 @@ export default function ManifestoPage({ content }: ManifestoProps) {
 }
 
 export function getStaticProps(): GetStaticPropsResult<ManifestoProps> {
-  const markdownFilePath = process.env.NEXT_PUBLIC_POETICMETRIC_STAGE === "development"
-    ? path.join(path.dirname(process.cwd()), "MANIFESTO.md")
-    : path.join(process.cwd(), "components", "Manifesto", "manifesto.md");
+  const markdownFilePath = path.join(process.cwd(), "components", "Manifesto", "manifesto.md");
 
   const markdownFileBuffer = fs.readFileSync(markdownFilePath);
 
