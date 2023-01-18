@@ -1,6 +1,5 @@
 import React from "react";
 import { Breadcrumb } from "../Breadcrumb";
-import { Description } from "../Description";
 import { Layout } from "../Layout";
 import { Markdown } from "../Markdown";
 import { Title } from "../Title";
