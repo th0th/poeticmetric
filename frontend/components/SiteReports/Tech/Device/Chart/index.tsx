@@ -11,7 +11,8 @@ import React, { useCallback, useContext, useMemo } from "react";
 import { Spinner } from "react-bootstrap";
 import { SiteReportsFiltersContext } from "../../../../../contexts";
 import { useSiteDeviceTypeReport } from "../../../../../hooks";
-import { ChartTooltip, NoData } from "../../../..";
+import { ChartTooltip } from "../../../..";
+import { NoData } from "../../../NoData";
 
 type BaseChartProps = {
   parentHeight?: number;

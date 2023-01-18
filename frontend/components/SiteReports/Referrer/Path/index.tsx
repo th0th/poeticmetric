@@ -2,8 +2,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useMemo } from "react";
 import { Spinner, Table } from "react-bootstrap";
-import { NoData, FavIcon } from "../../..";
+import { FavIcon } from "../../..";
 import { useSiteReferrerPathReport } from "../../../../hooks";
+import { NoData } from "../../NoData";
 import { Modal } from "./Modal";
 
 type Data = Array<HydratedSiteReferrerPathDatum>;

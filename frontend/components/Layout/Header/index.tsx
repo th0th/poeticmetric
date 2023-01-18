@@ -6,6 +6,7 @@ import { Container, Nav, Navbar } from "react-bootstrap";
 import { Logo } from "../..";
 import { AuthAndApiContext, LayoutContext } from "../../../contexts";
 import { Actions } from "./Actions";
+import styles from "./Header.module.scss";
 
 export type HeaderProps = React.PropsWithoutRef<JSX.IntrinsicElements["header"]>;
 
@@ -69,7 +70,7 @@ export function Header({ className, ...props }: HeaderProps) {
   }, [kind, router.pathname]);
 
   return (
-    <header {...props} className={classNames("border-bottom border-1 bg-white", className)}>
+    <header {...props} className={classNames("bg-white border-1 border-bottom position-sticky sticky-top top-0", styles.header, className)}>
       <Navbar className="justify-content-start" collapseOnSelect expand="md">
         <Container>
           {navbarToggleNode}

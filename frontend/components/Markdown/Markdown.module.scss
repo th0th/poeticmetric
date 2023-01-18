@@ -5,7 +5,7 @@
 
   a {
     color: $blue-500;
-    font-weight: 600;
+    font-weight: $font-weight-medium;
     text-decoration: none;
 
     &.focus-visible, &:hover {
@@ -55,6 +55,7 @@
   }
 
   ol {
+    background-color: $white;
     border: 1px solid $border-color;
     border-radius: $border-radius;
     counter-reset: list;
