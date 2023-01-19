@@ -44,14 +44,11 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
+      - name: Run linter
+        run: yarn lint
+
       - name: Run tsc
-        uses: EPMatt/reviewdog-action-tsc@v1
-        with:
-          github_token: ${{ secrets.github_token }}
-          fail_on_error: true
-          filter_mode: nofilter
-          reporter: github-pr-review
-          workdir: frontend
+        run: yarn tsc
 
       - name: Run stylelint
         uses: reviewdog/action-stylelint@v1
@@ -60,12 +57,4 @@ jobs:
           filter_mode: nofilter
           reporter: github-pr-review
           stylelint_input: '**/*.scss'
-          workdir: frontend
-
-      - name: Run eslint
-        uses: reviewdog/action-eslint@v1
-        with:
-          eslint_flags: '--ext .js,.ts,.tsx .'
-          fail_on_error: true
-          filter_mode: nofilter
           workdir: frontend
