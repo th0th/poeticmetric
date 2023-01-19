@@ -3,8 +3,8 @@ import Link, { LinkProps } from "next/link";
 import React, { useMemo } from "react";
 
 type BreadcrumbItem = {
-  href: LinkProps["href"];
-  title: React.ReactNode;
+  href?: LinkProps["href"];
+  title: string;
 };
 
 export type BreadcrumbProps = Overwrite<Omit<React.PropsWithoutRef<JSX.IntrinsicElements["div"]>, "children">, {
@@ -20,8 +20,12 @@ export function Breadcrumb({ className, items, title, ...props }: BreadcrumbProp
 
     return items.map((item) => {
       return (
-        <React.Fragment key={item.href.toString()}>
-          <Link className="fs-5 fw-bold text-decoration-none" href={item.href}>{item.title}</Link>
+        <React.Fragment key={item.title}>
+          {item.href !== undefined ? (
+            <Link className="fs-5 fw-bold text-decoration-none" href={item.href}>{item.title}</Link>
+          ) : (
+            <span className="fs-5 fw-bold">{item.title}</span>
+          )}
 
           <span className="px-2 text-primary">&rarr;</span>
         </React.Fragment>

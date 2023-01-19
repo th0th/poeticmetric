@@ -6,7 +6,8 @@ import { useRouter } from "next/router";
 import React, { useMemo } from "react";
 import { Col, Row, Spinner, Table } from "react-bootstrap";
 import { useSiteCountryReport } from "../../../../hooks";
-import { ChartTooltip, NoData } from "../../..";
+import { ChartTooltip } from "../../..";
+import { NoData } from "../../NoData";
 import { map } from "./map";
 import { Modal } from "./Modal";
 

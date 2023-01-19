@@ -1,0 +1,9 @@
+@import "styles/base";
+
+.innerWrapper {
+  top: $header-height + 1px;
+
+  .categories {
+    max-height: calc(100vh - $header-height - 1px);
+  }
+}

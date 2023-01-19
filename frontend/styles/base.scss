@@ -4,6 +4,7 @@ $enable-negative-margins: true;
 $font-size-xs: 0.75rem;
 $font-size-xxs: 0.5rem;
 $font-weight-medium: 500;
+$header-height: 64px;
 $min-contrast-ratio: 4;
 $navbar-toggler-font-size: 1rem;
 $navbar-toggler-padding-x: 0.5rem;
@@ -48,7 +49,11 @@ $fixed-sizes: (
 
 $utilities: map-merge($utilities, (
   "background-color": map-merge(map-get($utilities, "background-color"), (
+    responsive: true,
     state: hover,
+  )),
+  "border-end": map-merge(map-get($utilities, "border-end"), (
+    responsive: true,
   )),
   "border-start": map-merge(map-get($utilities, "border-start"), (
     responsive: true,
