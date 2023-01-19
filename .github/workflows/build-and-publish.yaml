@@ -1,4 +1,4 @@
-name: Build and deploy
+name: Build and publish
 on:
   release:
     types: [published]
