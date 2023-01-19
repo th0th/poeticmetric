@@ -27,6 +27,7 @@ jobs:
         with:
           images: poeticmetric/backend
           tags: |
+            type=raw,value=latest
             type=semver,pattern={{version}}
 
       - name: Build and push Docker image
