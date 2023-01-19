@@ -1,4 +1,4 @@
-name: Build and deploy backend
+name: Build and deploy
 on:
   push:
     branches:
@@ -53,9 +53,11 @@ jobs:
       - name: Set environment variables
         run: |
           if [[ ${{ github.ref }} == refs/heads/staging ]]; then
-            echo "POETICMETRIC_STAGE=staging" >> $GITHUB_ENV
+            echo "FRONTEND_BASE_URL=${{ secrets.STAGING_FRONTEND_BASE_URL }}" >> $GITHUB_ENV
+            echo "STAGE=staging" >> $GITHUB_ENV
           elif [[ ${{ github.ref }} == refs/heads/main ]]; then
-            echo "POETICMETRIC_STAGE=production" >> $GITHUB_ENV
+            echo "FRONTEND_BASE_URL=${{ secrets.FRONTEND_BASE_URL }}" >> $GITHUB_ENV
+            echo "STAGE=production" >> $GITHUB_ENV
 
           else
             echo Invalid ref.
@@ -72,7 +74,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: '19.4.0'
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
@@ -83,15 +85,18 @@ jobs:
             type=raw,value=latest,enable=${{ github.ref == format('refs/heads/main') }}
             type=raw,value=staging,enable=${{ github.ref == format('refs/heads/staging') }}
 
-      - name: Copy Manifesto.md
-        run: |
-          cp MANIFESTO.md frontend/components/Manifesto/manifesto.md
-
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
           build-args: |
-            POETICMETRIC_STAGE=${{ env.POETICMETRIC_STAGE }}
+            BASE_URL=${{ env.FRONTEND_BASE_URL }}
+            HOSTED=true
+            SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
+            SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+            SENTRY_ORG=${{ secrets.SENTRY_ORG }}
+            SENTRY_PROJECT=${{ secrets.SENTRY_PROJECT }}
+            SENTRY_URL=${{ secrets.SENTRY_URL }}
+            STAGE=${{ env.STAGE }}
           context: ./frontend
           push: true
           tags: ${{ steps.meta.outputs.tags }}
