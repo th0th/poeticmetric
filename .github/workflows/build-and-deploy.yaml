@@ -113,8 +113,8 @@ jobs:
           echo "RANCHER_PROJECT_ID=${{ secrets.RANCHER_PROJECT_ID }}" >> $GITHUB_ENV
           echo "RANCHER_URL=${{ secrets.RANCHER_URL }}" >> $GITHUB_ENV
           if [[ ${{ github.ref }} == refs/heads/staging ]]; then
-            echo "RANCHER_NAMESPACE=${{ secrets.RANCHER_STAGING_NAMESPACE }}" >> $GITHUB_ENV
-            echo "RANCHER_WORKLOADS=${{ secrets.RANCHER_STAGING_WORKLOADS }}" >> $GITHUB_ENV
+            echo "RANCHER_NAMESPACE=${{ secrets.STAGING_RANCHER_NAMESPACE }}" >> $GITHUB_ENV
+            echo "RANCHER_WORKLOADS=${{ secrets.STAGING_RANCHER_WORKLOADS }}" >> $GITHUB_ENV
           elif [[ ${{ github.ref }} == refs/heads/main ]]; then
             echo "RANCHER_NAMESPACE=${{ secrets.RANCHER_NAMESPACE }}" >> $GITHUB_ENV
             echo "RANCHER_WORKLOADS=${{ secrets.RANCHER_WORKLOADS }}" >> $GITHUB_ENV
