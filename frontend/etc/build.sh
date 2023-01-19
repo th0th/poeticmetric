@@ -13,7 +13,7 @@ export SENTRY_ENABLED
 
 yarn build
 
-if [ "$HOSTED" != "false" ]
+if [ "$HOSTED" == "true" ]
 then
   yarn build-site-map
 fi
