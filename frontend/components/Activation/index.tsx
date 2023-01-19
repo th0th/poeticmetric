@@ -20,7 +20,7 @@ export function Activation() {
   const router = useRouter();
   const { mutate } = useContext(AuthAndApiContext);
   const { addToast } = useContext(ToastsContext);
-  const [state, setState] = useState<State>({ isDisabled: "asd", isReady: null });
+  const [state, setState] = useState<State>({ isDisabled: false, isReady: null });
   const [values, , updateValue, errors, setErrors] = useForm<Form>({ newPassword: "", newPassword2: "" });
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = useCallback(async (event) => {
