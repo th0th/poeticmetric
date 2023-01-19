@@ -46,9 +46,11 @@ jobs:
 
       - name: Run linter
         run: yarn lint
+        working-directory: frontend
 
       - name: Run tsc
         run: yarn tsc
+        working-directory: frontend
 
       - name: Run stylelint
         uses: reviewdog/action-stylelint@v1
