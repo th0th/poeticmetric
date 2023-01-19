@@ -43,6 +43,7 @@ jobs:
 
       - name: Install dependencies
         run: yarn install
+        working-directory: frontend
 
       - name: Run linter
         run: yarn lint
