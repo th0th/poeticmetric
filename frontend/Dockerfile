@@ -25,6 +25,7 @@ COPY @types @types
 COPY blog blog
 COPY components components
 COPY contexts contexts
+COPY docs docs
 COPY helpers helpers
 COPY hooks hooks
 COPY lib lib
