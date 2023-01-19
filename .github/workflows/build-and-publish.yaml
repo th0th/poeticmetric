@@ -1,4 +1,4 @@
-name: Build and deploy
+name: Build and publish
 on:
   release:
     types: [published]
@@ -25,10 +25,9 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: poeticmetric/backend
+          images: poeticmetric/frontend
           tags: |
-            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/main') }}
-            type=raw,value=staging,enable=${{ github.ref == format('refs/heads/staging') }}
+            type=semver,pattern={{version}}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
