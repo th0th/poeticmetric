@@ -33,25 +33,24 @@ jobs:
     name: Run frontend tests
     runs-on: ubuntu-latest
     steps:
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '19.4.0'
-
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install dependencies
-        run: yarn install
-        working-directory: frontend
-
-      - name: Run linter
-        run: yarn lint
-        working-directory: frontend
-
       - name: Run tsc
-        run: yarn tsc
-        working-directory: frontend
+        uses: EPMatt/reviewdog-action-tsc@v1
+        with:
+          fail_on_error: true
+          filter_mode: nofilter
+          reporter: github-pr-review
+          workdir: frontend
+
+      - name: Run eslint
+        uses: reviewdog/action-eslint@v1
+        with:
+          eslint_flags: '--ext .js,.ts,.tsx .'
+          fail_on_error: true
+          filter_mode: nofilter
+          workdir: frontend
 
       - name: Run stylelint
         uses: reviewdog/action-stylelint@v1

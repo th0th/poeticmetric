@@ -12,7 +12,7 @@ type Form = {
 };
 
 type State = {
-  isDisabled: boolean;
+  isDisabled: boolean,
   isReady: boolean | null;
 };
 
