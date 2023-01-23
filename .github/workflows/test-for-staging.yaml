@@ -1,0 +1,20 @@
+name: Test for staging
+on:
+  pull_request:
+    branches:
+      - "staging"
+env:
+  DOCKER_SCAN_SUGGEST: false
+jobs:
+  build-staging-docker-image:
+    name: Build staging docker image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: ./backend
+          push: false

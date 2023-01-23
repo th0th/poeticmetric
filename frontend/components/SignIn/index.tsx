@@ -24,6 +24,8 @@ export function SignIn() {
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = useCallback(async (event) => {
     event.preventDefault();
 
+    throw new Error("err");
+
     const response = await api.post("/user-access-tokens", {}, {
       headers: {
         authorization: `basic ${base64Encode(`${values.email}:${values.password}`)}`,

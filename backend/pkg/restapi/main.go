@@ -7,6 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/restapi/bootstrap"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/restapi/event"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/restapi/middleware/authentication"
 	depotmiddleware "github.com/poeticmetric/poeticmetric/backend/pkg/restapi/middleware/depot"
@@ -27,13 +28,16 @@ func New(dp *depot.Depot) *fiber.App {
 	app.Use(cors.New())
 	app.Use(fibersentry.New(fibersentry.Config{Repanic: true, WaitForDelivery: true}))
 	app.Use(depotmiddleware.New(dp))
+
+	bootstrap.Add(app)
+	root.Add(app)
+
 	app.Use(authentication.New())
 	app.Use(authentication.NewUserBasicAuth())
 	app.Use(authentication.NewUserAccessTokenAuth())
 
 	event.Add(app)
 	organization.Add(app)
-	root.Add(app)
 	site.Add(app)
 	sitereport.Add(app)
 	stripe.Add(app)

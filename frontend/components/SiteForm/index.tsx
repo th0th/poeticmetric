@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { Breadcrumb, Button, Card, Container, Form } from "react-bootstrap";
-import { Layout } from "../../components";
+import { Layout } from "..";
 import { ToastsContext } from "../../contexts";
 import { api } from "../../helpers";
 import { useForm, useQueryNumber } from "../../hooks";

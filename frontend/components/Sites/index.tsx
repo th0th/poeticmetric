@@ -12,7 +12,7 @@ export function Sites() {
   const contentNode = useMemo(() => {
     if (sites === undefined) {
       return (
-        <Spinner animation="border" />
+        <Spinner className="m-auto" variant="primary" />
       );
     }
 

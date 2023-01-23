@@ -5,7 +5,6 @@ import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/env"
 	amqp "github.com/rabbitmq/amqp091-go"
 	"log"
-	"strconv"
 	"time"
 )
 
@@ -165,12 +164,7 @@ func (r *RabbitMq) openConsumeChannel() error {
 		return err
 	}
 
-	prefetchCount, err := strconv.Atoi(env.Get(env.WorkerConcurrency))
-	if err != nil {
-		return err
-	}
-
-	err = r.consumeChannel.Qos(prefetchCount, 0, false)
+	err = r.consumeChannel.Qos(env.GetWorkerCount(), 0, false)
 	if err != nil {
 		return err
 	}

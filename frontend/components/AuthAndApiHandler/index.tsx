@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useInterval } from "react-use";
 import useSWR from "swr";
 import { AuthAndApiContext, AuthAndApiContextValue } from "../../contexts";
@@ -9,11 +9,12 @@ type AuthAndApiHandlerProps = {
 };
 
 type State = {
+  isReady: boolean;
   userAccessToken: string | null;
 };
 
 export function AuthAndApiHandler({ children }: AuthAndApiHandlerProps) {
-  const [state, setState] = useState<State>({ userAccessToken: null });
+  const [state, setState] = useState<State>({ isReady: false, userAccessToken: null });
 
   const {
     data: userData,
@@ -25,17 +26,27 @@ export function AuthAndApiHandler({ children }: AuthAndApiHandlerProps) {
     error: organizationError,
   } = useSWR<Organization>(state.userAccessToken === null ? null : "/organization");
 
-  const updateUserAccessToken = useCallback((force: boolean = false) => {
+  const updateUserAccessToken = useCallback(() => {
+    let stateUpdate: Partial<State> = {};
+
+    if (!state.isReady) {
+      stateUpdate.isReady = true;
+    }
+
     const userAccessToken = getUserAccessToken();
 
-    if (state.userAccessToken !== userAccessToken || force) {
-      setState((s) => ({ ...s, userAccessToken: getUserAccessToken() }));
+    if (state.userAccessToken !== userAccessToken) {
+      stateUpdate.userAccessToken = userAccessToken;
     }
-  }, [state.userAccessToken]);
+
+    if (Object.keys(stateUpdate).length > 0) {
+      setState((s) => ({ ...s, ...stateUpdate }));
+    }
+  }, [state.isReady, state.userAccessToken]);
 
   const mutate = useCallback<AuthAndApiContextValue["mutate"]>(async () => {
-    updateUserAccessToken(true);
-  }, [updateUserAccessToken]);
+    setState((s) => ({ ...s, userAccessToken: getUserAccessToken() }));
+  }, []);
 
   const value = useMemo<AuthAndApiContextValue>(() => {
     let user: AuthUser | null = null;
@@ -46,10 +57,14 @@ export function AuthAndApiHandler({ children }: AuthAndApiHandlerProps) {
       organization = hydrateOrganization(organizationData);
     }
 
-    return { mutate, organization, user };
-  }, [mutate, organizationData, organizationError, userData, userError]);
+    const isReady = state.isReady;
 
-  useInterval(() => updateUserAccessToken(), 5000);
+    return { isReady, mutate, organization, user };
+  }, [mutate, organizationData, organizationError, state.isReady, userData, userError]);
+
+  useEffect(() => updateUserAccessToken(), [updateUserAccessToken]);
+
+  useInterval(() => updateUserAccessToken(), 10000);
 
   return (
     <AuthAndApiContext.Provider value={value}>
