@@ -1,4 +1,3 @@
-import { loadStripe } from "@stripe/stripe-js";
 import React, { useCallback, useContext, useMemo } from "react";
 import { Button, ButtonProps } from "react-bootstrap";
 import { AuthAndApiContext, PlansContext, ToastsContext } from "../../../contexts";
@@ -35,7 +34,9 @@ export function ActionButton({ plan, ...props }: ActionButtonProps) {
       const responseJson = await response.json();
 
       if (response.ok) {
-        const stripe = await loadStripe(window.poeticMetric?.stripeApiPublishableKey || "");
+        const { loadStripe } = await import("@stripe/stripe-js");
+
+        const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_API_PUBLISHABLE_KEY || "");
 
         await stripe?.redirectToCheckout({ sessionId: responseJson.stripeCheckoutSessionId });
       } else {

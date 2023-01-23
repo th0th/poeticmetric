@@ -96,7 +96,7 @@ func errorHandler(c *fiber.Ctx, err error) error {
 		GetHubFromContext(c).
 		CaptureException(err)
 
-	if env.Get(env.Stage) == env.StageDevelopment {
+	if env.GetDebug() {
 		return c.
 			Status(fiber.StatusInternalServerError).
 			SendString(err.Error())

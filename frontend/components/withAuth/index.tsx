@@ -12,7 +12,7 @@ type WrappedProps = {
 export function withAuth(Page: NextPage, authenticated: boolean, ownerOnly?: true) {
   function Wrapped({ pageProps }: WrappedProps) {
     const router = useRouter();
-    const { user } = useContext(AuthAndApiContext);
+    const { isReady, user } = useContext(AuthAndApiContext);
 
     const isPermitted = useMemo<boolean>(() => {
       if (!authenticated) {
@@ -33,17 +33,17 @@ export function withAuth(Page: NextPage, authenticated: boolean, ownerOnly?: tru
     ), []);
 
     const content = useMemo<React.ReactNode>(() => {
-      if (!isPermitted) {
+      if (!isReady || !isPermitted) {
         return spinnerNode;
       }
 
       return (
         <Page {...pageProps} />
       );
-    }, [isPermitted, pageProps, spinnerNode]);
+    }, [isPermitted, isReady, pageProps, spinnerNode]);
 
     useEffect(() => {
-      if (!isPermitted) {
+      if (!isPermitted && isReady) {
         if (user !== null) {
           const next = router.query.next === undefined ? null : router.query.next.toString();
 
@@ -52,7 +52,7 @@ export function withAuth(Page: NextPage, authenticated: boolean, ownerOnly?: tru
           router.replace(`/sign-in?next=${router.asPath}`);
         }
       }
-    }, [isPermitted, router, user]);
+    }, [isPermitted, isReady, router, user]);
 
     if (!isPermitted) {
       return spinnerNode;

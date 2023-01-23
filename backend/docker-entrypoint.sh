@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
-# worker concurrency
-POETICMETRIC_WORKER_CONCURRENCY=${POETICMETRIC_WORKER_CONCURRENCY:-1}
-
 DEVELOPMENT_DEBUG_CMD="reflex -R __debug_bin -s -d none -- /go/bin/dlv --headless=true --listen=:2345 --api-version=2 --accept-multiclient debug"
 
 cd /poeticmetric

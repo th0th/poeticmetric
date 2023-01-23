@@ -1,4 +1,3 @@
-import { withAuth } from "../../components";
-import { SiteForm } from "../../pageComponents";
+import { SiteForm, withAuth } from "../../components";
 
 export default withAuth(SiteForm, true);

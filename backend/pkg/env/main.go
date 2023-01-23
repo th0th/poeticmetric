@@ -6,21 +6,9 @@ import (
 	"gorm.io/gorm/logger"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 	"time"
-)
-
-const (
-	StageDevelopment = "development"
-	StageProduction  = "production"
-	StageStaging     = "staging"
-	StageTest        = "test"
-)
-
-const (
-	InstanceRestApi   = "rest-api"
-	InstanceScheduler = "scheduler"
-	InstanceWorker    = "worker"
 )
 
 const (
@@ -46,7 +34,6 @@ const (
 	RedisHost                  = "POETICMETRIC_REDIS_HOST"
 	RedisPassword              = "POETICMETRIC_REDIS_PASSWORD"
 	RedisPort                  = "POETICMETRIC_REDIS_PORT"
-	ResourcesBaseUrl           = "POETICMETRIC_RESOURCES_BASE_URL"
 	RestApiBaseUrl             = "POETICMETRIC_REST_API_BASE_URL"
 	SentryDsn                  = "POETICMETRIC_SENTRY_DSN"
 	SmtpHost                   = "POETICMETRIC_SMTP_HOST"
@@ -57,7 +44,7 @@ const (
 	StripeSecretKey            = "POETICMETRIC_STRIPE_SECRET_KEY"
 	StripeWebhookSigningSecret = "POETICMETRIC_STRIPE_WEBHOOK_SIGNING_SECRET"
 	WebhookUrl                 = "POETICMETRIC_WEBHOOK_URL"
-	WorkerConcurrency          = "POETICMETRIC_WORKER_CONCURRENCY"
+	WorkerCount                = "POETICMETRIC_WORKER_COUNT"
 	WorkerQueues               = "POETICMETRIC_WORKER_QUEUES"
 )
 
@@ -83,21 +70,11 @@ var (
 		RedisHost,
 		RedisPassword,
 		RedisPort,
-		ResourcesBaseUrl,
 		RestApiBaseUrl,
-		SentryDsn,
 		SmtpHost,
 		SmtpPassword,
 		SmtpPort,
 		SmtpUser,
-		Stage,
-		StripeSecretKey,
-		StripeWebhookSigningSecret,
-	}
-
-	workerEnvVarNames = []string{
-		WorkerConcurrency,
-		WorkerQueues,
 	}
 )
 
@@ -109,14 +86,6 @@ func Check() error {
 	for _, envVarName := range commonEnvVarNames {
 		if Get(envVarName) == "" {
 			missingEnvVarNames = append(missingEnvVarNames, envVarName)
-		}
-	}
-
-	if Get(Instance) == InstanceWorker {
-		for _, envVarName := range workerEnvVarNames {
-			if Get(envVarName) == "" {
-				missingEnvVarNames = append(missingEnvVarNames, envVarName)
-			}
 		}
 	}
 
@@ -204,6 +173,32 @@ func GetRabbitMqUrl() string {
 		Get(RabbitMqPort),
 		Get(RabbitMqVhost),
 	)
+}
+
+func GetStage() string {
+	stage := Get(Stage)
+
+	if stage != "" {
+		return stage
+	}
+
+	return "production"
+}
+
+func GetWorkerCount() int {
+	count := Get(WorkerCount)
+
+	if count == "" {
+		return 1
+	}
+
+	workerCount, err := strconv.Atoi(count)
+	if err != nil {
+		log.Printf("An error has occurred while parsing the '%s' environment variable. Falling back to 1.", WorkerCount)
+		return 1
+	}
+
+	return workerCount
 }
 
 func GetWorkerQueues() []string {

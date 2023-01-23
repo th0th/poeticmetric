@@ -14,7 +14,7 @@ module.exports = {
   ],
   generateRobotsTxt: true,
   robotsTxtOptions: {
-    policies: process.env.STAGE !== "production" ? [{
+    policies: process.env.NEXT_PUBLIC_STAGE !== "production" ? [{
       disallow: ["/"],
       userAgent: "*",
     }] : [{

@@ -4,6 +4,7 @@ import (
 	"github.com/getsentry/sentry-go"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/env"
+	sentry2 "github.com/poeticmetric/poeticmetric/backend/pkg/sentry"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/signal"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/worker"
 	"github.com/robfig/cron/v3"
@@ -21,13 +22,7 @@ func main() {
 		panic(err)
 	}
 
-	// sentry initialization
-	err = sentry.Init(sentry.ClientOptions{
-		Dsn:              env.Get(env.SentryDsn),
-		Debug:            env.Get(env.Stage) == env.StageDevelopment,
-		AttachStacktrace: true,
-		Environment:      env.Get(env.Stage),
-	})
+	err = sentry2.InitIfEnabled()
 	if err != nil {
 		panic(err)
 	}

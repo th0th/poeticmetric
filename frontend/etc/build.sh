@@ -1,15 +1,22 @@
 #!/usr/bin/env bash
-
 set -eo pipefail
 
-if [ -z "$SENTRY_AUTH_TOKE"N ] && [ -z "$SENTRY_DSN" ] && [ -z "$SENTRY_ORG" ] && [ -z "$SENTRY_PROJECT" ] && [ -z "$SENTRY_URL" ];
+if [ "$HOSTED" != "true" ]
 then
-  SENTRY_ENABLED=true
-else
-  SENTRY_ENABLED=false
-fi
+  rm -rf pages/billing
+  rm -rf pages/blog
+  rm -rf pages/docs
+  rm -rf pages/index.ts
+  rm -rf pages/email-address-verification.ts
+  rm -rf pages/manifesto.tsx
+  rm -rf pages/pricing.tsx
+  rm -rf pages/privacy-policy.tsx
+  rm -rf pages/sign-up.tsx
+  rm -rf pages/terms-of-service.tsx
 
-export SENTRY_ENABLED
+  cp pages/sites/index.ts pages/index.ts
+  sed -i "s,\.\.\/\.\.\/,../,g" pages/index.ts
+fi
 
 yarn build
 

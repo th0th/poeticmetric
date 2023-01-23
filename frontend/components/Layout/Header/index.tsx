@@ -23,7 +23,7 @@ export function Header({ className, ...props }: HeaderProps) {
 
   const navbarCollapseNode = useMemo<React.ReactNode>(() => {
     if (kind === "app") {
-      return (
+      return user != null ? (
         <Navbar.Collapse id={navbarId}>
           <Nav>
             <Nav.Item>
@@ -34,12 +34,14 @@ export function Header({ className, ...props }: HeaderProps) {
               <Nav.Link active={router.pathname.startsWith("/team")} as={Link} href="/team">Team</Nav.Link>
             </Nav.Item>
 
-            <Nav.Item>
-              <Nav.Link active={router.pathname.startsWith("/billing")} as={Link} href="/billing">Billing</Nav.Link>
-            </Nav.Item>
+            {process.env.NEXT_PUBLIC_HOSTED === "true" && user.isOrganizationOwner ? (
+              <Nav.Item>
+                <Nav.Link active={router.pathname.startsWith("/billing")} as={Link} href="/billing">Billing</Nav.Link>
+              </Nav.Item>
+            ) : null}
           </Nav>
         </Navbar.Collapse>
-      );
+      ) : null;
     }
 
     return (
@@ -67,7 +69,7 @@ export function Header({ className, ...props }: HeaderProps) {
         </Nav>
       </Navbar.Collapse>
     );
-  }, [kind, router.pathname]);
+  }, [kind, router.pathname, user]);
 
   return (
     <header {...props} className={classNames("bg-white border-1 border-bottom position-sticky sticky-top top-0", styles.header, className)}>
