@@ -6,8 +6,8 @@ on:
 env:
   DOCKER_SCAN_SUGGEST: false
 jobs:
-  build-staging-docker-image:
-    name: Build staging docker image
+  build-backend-staging-docker-image:
+    name: Build backend staging docker image
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -17,4 +17,52 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ./backend
+          push: false
+
+  build-frontend-staging-hosted-docker-image:
+    name: Build frontend staging hosted docker image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set environment variables
+        run: |
+          echo "FRONTEND_BASE_URL=${{ secrets.STAGING_FRONTEND_BASE_URL }}" >> $GITHUB_ENV
+          echo "STAGE=staging" >> $GITHUB_ENV
+          echo "STRIPE_API_PUBLISHABLE_KEY=${{ secrets.STRIPE_TEST_API_PUBLISHABLE_KEY }}
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v3
+        with:
+          build-args: |
+            BASE_URL=${{ env.FRONTEND_BASE_URL }}
+            HOSTED=true
+            SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
+            SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+            SENTRY_ORG=${{ secrets.SENTRY_ORG }}
+            SENTRY_PROJECT=${{ secrets.SENTRY_PROJECT }}
+            SENTRY_URL=${{ secrets.SENTRY_URL }}
+            STRIPE_API_PUBLISHABLE_KEY=${{ env.STRIPE_API_PUBLISHABLE_KEY }}
+            STAGE=${{ env.STAGE }}
+          context: ./frontend
+          push: false
+
+  build-frontend-staging-docker-image:
+    name: Build frontend staging docker image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set environment variables
+        run: |
+          echo "STAGE=staging" >> $GITHUB_ENV
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v3
+        with:
+          build-args: |
+            STAGE=${{ env.STAGE }}
+          context: ./frontend
           push: false

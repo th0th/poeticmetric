@@ -2,7 +2,7 @@ name: Run PR checks
 on:
   pull_request:
     branches:
-      - "**"
+      - "development"
 env:
   DOCKER_SCAN_SUGGEST: false
 jobs:
