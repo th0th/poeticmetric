@@ -104,17 +104,6 @@ func GetDebug() bool {
 	return Get(Debug) != "" && Get(Debug) != "0"
 }
 
-func GetClickhouseDsn() string {
-	return fmt.Sprintf(
-		"clickhouse://%s:%s@%s:%s/%s",
-		Get(ClickHouseUser),
-		Get(ClickHousePassword),
-		Get(ClickHouseHost),
-		Get(ClickHouseTcpPort),
-		Get(ClickHouseDatabase),
-	)
-}
-
 func GetGormClickhouseConfig() *gorm.Config {
 	logLevel := logger.Silent
 

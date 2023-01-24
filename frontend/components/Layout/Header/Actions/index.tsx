@@ -21,7 +21,7 @@ export function Actions({ className, ...props }: ActionsProps) {
             </Link>
           ) : null}
 
-          {router.pathname !== "/sign-up" ? (
+          {process.env.NEXT_PUBLIC_HOSTED === "true" && router.pathname !== "/sign-up" ? (
             <Link className="btn btn-primary" href="/sign-up">
               Sign up
             </Link>
