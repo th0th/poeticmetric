@@ -14,8 +14,7 @@ then
   rm -rf pages/sign-up.tsx
   rm -rf pages/terms-of-service.tsx
 
-  cp pages/sites/index.ts pages/index.ts
-  sed -i "s,\.\.\/\.\.\/,../,g" pages/index.ts
+  cp pages/sign-in.ts pages/index.ts
 fi
 
 yarn build

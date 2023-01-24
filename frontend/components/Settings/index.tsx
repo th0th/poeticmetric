@@ -60,9 +60,11 @@ export function Settings() {
                       <Nav.Link eventKey="organization-details">Organizations details</Nav.Link>
                     </Nav.Item>
 
-                    <Nav.Item>
-                      <Nav.Link eventKey="account-deletion">Account deletion</Nav.Link>
-                    </Nav.Item>
+                    {process.env.NEXT_PUBLIC_HOSTED === "true" ? (
+                      <Nav.Item>
+                        <Nav.Link eventKey="account-deletion">Account deletion</Nav.Link>
+                      </Nav.Item>
+                    ) : null}
                   </div>
                 </Stack>
               </Nav>

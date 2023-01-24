@@ -24,8 +24,6 @@ export function SignIn() {
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = useCallback(async (event) => {
     event.preventDefault();
 
-    throw new Error("err");
-
     const response = await api.post("/user-access-tokens", {}, {
       headers: {
         authorization: `basic ${base64Encode(`${values.email}:${values.password}`)}`,
@@ -49,11 +47,13 @@ export function SignIn() {
         <div className="text-center">
           <h1>Sign in to continue</h1>
 
-          <div className="mt-3">
-            {"Don't have an account? "}
+          {process.env.NEXT_PUBLIC_HOSTED === "true" ? (
+            <div className="mt-3">
+              {"Don't have an account? "}
 
-            <Link href="/sign-up">Sign up</Link>
-          </div>
+              <Link href="/sign-up">Sign up</Link>
+            </div>
+          ) : null}
         </div>
 
         <Card className="mt-4 mx-auto mw-32rem">
