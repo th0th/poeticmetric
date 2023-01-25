@@ -17,6 +17,9 @@
                   <Item>
                     <option name="path" value=".github/workflows/test-for-staging.yaml" />
                   </Item>
+                  <Item>
+                    <option name="path" value=".github/workflows/deploy.yaml" />
+                  </Item>
                 </list>
               </option>
             </SchemaInfo>

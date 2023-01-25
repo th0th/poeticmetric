@@ -1,0 +1,39 @@
+env:
+  DOCKER_REGISTRY: ghcr.io
+name: Deploy
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Select the environment
+        type: environment
+jobs:
+  build-backend-docker-image:
+    name: Build backend docker image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Log in to the container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata for docker image
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ github.repository }}/backend
+          tags: |
+            type=raw,value=${{ secrets.DOCKER_IMAGE_TAG }}
+
+      - name: Build and push docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: ./backend
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
