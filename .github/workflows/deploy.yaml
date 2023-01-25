@@ -9,7 +9,6 @@ on:
         type: environment
 jobs:
   build-backend-docker-image:
-    environment: ${{ inputs.environment }}
     name: Build backend docker image
     runs-on: ubuntu-latest
     steps:
@@ -29,7 +28,7 @@ jobs:
         with:
           images: ${{ env.DOCKER_REGISTRY }}/${{ github.repository }}/backend
           tags: |
-            type=raw,value=${{ env.DOCKER_IMAGE_TAG }}
+            type=raw,value=${{ vars.DOCKER_IMAGE_TAG }}
 
       - name: Build and push docker image
         uses: docker/build-push-action@v3
