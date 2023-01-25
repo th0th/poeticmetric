@@ -9,6 +9,7 @@ on:
         type: environment
 jobs:
   build-backend-docker-image:
+    environment: ${{ inputs.environment }}
     name: Build backend docker image
     runs-on: ubuntu-latest
     steps:
