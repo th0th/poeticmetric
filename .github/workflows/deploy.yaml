@@ -18,7 +18,7 @@ jobs:
       - name: Log in to the container registry
         uses: docker/login-action@v2
         with:
-          registry: ${{ env.REGISTRY }}
+          registry: ${{ env.DOCKER_REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
@@ -26,7 +26,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ github.repository }}/backend
+          images: ${{ env.DOCKER_REGISTRY }}/${{ github.repository }}/backend
           tags: |
             type=raw,value=${{ secrets.DOCKER_IMAGE_TAG }}
 
