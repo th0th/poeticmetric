@@ -3,12 +3,14 @@ package site
 import (
 	"fmt"
 	v "github.com/RussellLuo/validating/v3"
+	"github.com/lib/pq"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
 )
 
 type UpdatePayload struct {
-	Name *string `json:"name"`
+	Name                *string        `json:"name"`
+	SafeQueryParameters pq.StringArray `json:"safeQueryParameters" gorm:"type:text[]"`
 }
 
 func Update(dp *depot.Depot, id uint64, payload *UpdatePayload) (*Site, error) {
@@ -23,6 +25,11 @@ func Update(dp *depot.Depot, id uint64, payload *UpdatePayload) (*Site, error) {
 	if payload.Name != nil {
 		update.Name = *payload.Name
 		updateFields = append(updateFields, "name")
+	}
+
+	if payload.SafeQueryParameters != nil {
+		update.SafeQueryParameters = payload.SafeQueryParameters
+		updateFields = append(updateFields, "safe_query_parameters")
 	}
 
 	err = dp.Postgres().

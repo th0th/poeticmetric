@@ -1,12 +1,9 @@
 package bootstrap
 
 import (
-	"database/sql"
 	"fmt"
 	v "github.com/RussellLuo/validating/v3"
 	"github.com/golang-migrate/migrate/v4"
-	"github.com/golang-migrate/migrate/v4/database"
-	"github.com/golang-migrate/migrate/v4/database/clickhouse"
 	"github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
@@ -15,7 +12,6 @@ import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/pointer"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/userpassword"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/userself"
-	"log"
 )
 
 type Payload struct {
@@ -92,43 +88,28 @@ func Run(dp *depot.Depot, payload *Payload) (*userself.UserSelf, error) {
 	}
 
 	err = dp.WithPostgresTransaction(func(dp2 *depot.Depot) error {
-		var err2 error
-		var driverCh, driverPg database.Driver
-		var sqlCh, sqlPg *sql.DB
-		var migrateCh, migratePg *migrate.Migrate
-
-		sqlPg, err2 = dp2.Postgres().DB()
+		dbPg, err2 := dp2.Postgres().DB()
 		if err2 != nil {
 			return err2
 		}
 
-		driverPg, err2 = postgres.WithInstance(sqlPg, &postgres.Config{})
+		driverPg, err2 := postgres.WithInstance(dbPg, &postgres.Config{})
 		if err2 != nil {
 			return err2
 		}
 
-		migratePg, err2 = migrate.NewWithDatabaseInstance("file:///poeticmetric/migrations/postgres", "postgres", driverPg)
+		migratePg, err2 := migrate.NewWithDatabaseInstance("file:///poeticmetric/migrations/postgres", env.Get(env.PostgresDatabase), driverPg)
 		if err2 != nil {
 			return err2
 		}
 
-		sqlCh, err2 = dp2.ClickHouse().DB()
+		migrateCh, err2 := migrate.New("file:///poeticmetric/migrations/clickhouse", env.GetClickhouseDsn()+"?x-multi-statement=true")
 		if err2 != nil {
 			return err2
 		}
 
-		driverCh, err = clickhouse.WithInstance(sqlCh, &clickhouse.Config{})
-		if err2 != nil {
-			return err2
-		}
-
-		migrateCh, err2 = migrate.NewWithDatabaseInstance("file:///poeticmetric/migrations/clickhouse", "clickhouse", driverCh)
-		if err2 != nil {
-			return err2
-		}
-
-		_ = migratePg.Up()
-		log.Print(migrateCh.Up())
+		migratePg.Up()
+		migrateCh.Up()
 
 		err2 = dp2.Postgres().
 			Create(modelPlans).
@@ -149,6 +130,13 @@ func Run(dp *depot.Depot, payload *Payload) (*userself.UserSelf, error) {
 			Error
 		if err2 != nil {
 			return err2
+		}
+
+		if payload.CreateDemoSite {
+			err2 = createSite(dp2)
+			if err2 != nil {
+				return err2
+			}
 		}
 
 		return nil

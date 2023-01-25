@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Alert, Button, Card, Container, Form, Spinner } from "react-bootstrap";
-import { ToastsContext } from "../../contexts";
+import { AuthAndApiContext, ToastsContext } from "../../contexts";
 import { api, setUserAccessToken } from "../../helpers";
 import { useForm } from "../../hooks";
 
@@ -21,6 +21,7 @@ type State = {
 
 export function Bootstrap() {
   const router = useRouter();
+  const { mutate } = useContext(AuthAndApiContext);
   const { addToast } = useContext(ToastsContext);
   const isChecked = useRef<boolean>(false);
   const [state, setState] = useState<State>({ isDisabled: false, isReady: false });
@@ -34,16 +35,24 @@ export function Bootstrap() {
   });
 
   const check = useCallback(async () => {
-    const response = await api.post("/bootstrap?dryRun=true");
+    const response = await api.get("/bootstrap-status");
     const responseJson = await response.json();
 
     if (!response.ok) {
       addToast({ body: responseJson.detail || "An error has occurred.", variant: "danger" });
-
       await router.replace("/");
-    } else {
-      setState((s) => ({ ...s, isReady: true }));
+
+      return;
     }
+
+    if (!responseJson.isReady) {
+      addToast({ body: "Databases seem to be already bootstrapped.", variant: "danger" });
+      await router.replace("/");
+
+      return;
+    }
+
+    setState((s) => ({ ...s, isReady: true }));
   }, [addToast, router]);
 
   const handleDemoSiteChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>((event) => {
@@ -66,8 +75,13 @@ export function Bootstrap() {
     }
 
     setUserAccessToken(responseJson.userAccessToken.token);
-    await router.replace("/");
-  }, [router, setErrors, values]);
+
+    await mutate();
+
+    addToast({ body: "Installation is complete!", variant: "success" });
+
+    await router.replace("/sites");
+  }, [addToast, mutate, router, setErrors, values]);
 
   useEffect(() => {
     if (!isChecked.current) {
@@ -95,15 +109,22 @@ export function Bootstrap() {
 
           <Form onSubmit={handleSubmit}>
             <fieldset className="gap-3 vstack" disabled={state.isDisabled}>
-              <Form.Group>
+              <Form.Group controlId="user-name">
                 <Form.Label>Name</Form.Label>
 
-                <Form.Control isInvalid={errors.userName !== undefined} name="userName" onChange={updateValue} required />
+                <Form.Control
+                  isInvalid={errors.userName !== undefined}
+                  maxLength={70}
+                  minLength={1}
+                  name="userName"
+                  onChange={updateValue}
+                  required
+                />
 
                 <Form.Control.Feedback type="invalid">{errors.userName}</Form.Control.Feedback>
               </Form.Group>
 
-              <Form.Group>
+              <Form.Group controlId="email">
                 <Form.Label>E-mail address</Form.Label>
 
                 <Form.Control isInvalid={errors.userEmail !== undefined} name="userEmail" onChange={updateValue} required type="email" />
@@ -111,7 +132,7 @@ export function Bootstrap() {
                 <Form.Control.Feedback type="invalid">{errors.userEmail}</Form.Control.Feedback>
               </Form.Group>
 
-              <Form.Group>
+              <Form.Group controlId="new-password">
                 <Form.Label>New password</Form.Label>
 
                 <Form.Control
@@ -125,11 +146,13 @@ export function Bootstrap() {
                 <Form.Control.Feedback type="invalid">{errors.userNewPassword}</Form.Control.Feedback>
               </Form.Group>
 
-              <Form.Group>
+              <Form.Group controlId="new-password2">
                 <Form.Label>New password (again)</Form.Label>
 
                 <Form.Control
                   isInvalid={errors.userNewPassword2 !== undefined}
+                  maxLength={72}
+                  minLength={8}
                   name="userNewPassword2"
                   onChange={updateValue}
                   required
@@ -139,15 +162,22 @@ export function Bootstrap() {
                 <Form.Control.Feedback type="invalid">{errors.userNewPassword2}</Form.Control.Feedback>
               </Form.Group>
 
-              <Form.Group>
+              <Form.Group controlId="organization-name">
                 <Form.Label>Organization</Form.Label>
 
-                <Form.Control isInvalid={errors.organizationName !== undefined} name="organizationName" onChange={updateValue} required />
+                <Form.Control
+                  isInvalid={errors.organizationName !== undefined}
+                  maxLength={70}
+                  minLength={2}
+                  name="organizationName"
+                  onChange={updateValue}
+                  required
+                />
 
                 <Form.Control.Feedback type="invalid">{errors.organizationName}</Form.Control.Feedback>
               </Form.Group>
 
-              <Form.Group>
+              <Form.Group controlId="create-demo-site">
                 <Form.Check
                   checked={values.createDemoSite}
                   label="Create demo site"

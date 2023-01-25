@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { Breadcrumb, Button, Card, Container, Form } from "react-bootstrap";
-import { Layout } from "..";
+import { Layout, ArrayInput } from "..";
 import { ToastsContext } from "../../contexts";
 import { api } from "../../helpers";
 import { useForm, useQueryNumber } from "../../hooks";
@@ -15,12 +15,13 @@ type State = {
 type Form = {
   domain: string;
   name: string;
+  safeQueryParameters: Array<string>;
 };
 
 export function SiteForm() {
   const router = useRouter();
   const { addToast } = useContext(ToastsContext);
-  const [values, setValues, updateValue, errors, setErrors] = useForm<Form>({ domain: "", name: "" });
+  const [values, setValues, updateValue, errors, setErrors] = useForm<Form>({ domain: "", name: "", safeQueryParameters: [] });
   const id = useQueryNumber("id");
   const [state, setState] = useState<State>({ isDisabled: false });
   const title = useMemo(() => (id === undefined ? "Add site" : "Edit site"), [id]);
@@ -53,10 +54,12 @@ export function SiteForm() {
       const responseJson = await response.json();
 
       if (response.ok) {
-        setValues({
+        setValues((values) => ({
+          ...values,
           domain: responseJson.domain,
           name: responseJson.name,
-        });
+          safeQueryParameters: responseJson.safeQueryParameters,
+        }));
 
         setState((s) => ({ ...s, isDisabled: false }));
       } else {
@@ -93,8 +96,8 @@ export function SiteForm() {
         <Card>
           <Card.Body>
             <Form onSubmit={handleSubmit}>
-              <fieldset className="vstack gap-3" disabled={state.isDisabled}>
-                <Form.Group controlId="form-domain">
+              <fieldset className="gap-3 vstack" disabled={state.isDisabled}>
+                <Form.Group controlId="domain">
                   <Form.Label>Domain</Form.Label>
 
                   <Form.Control
@@ -108,12 +111,28 @@ export function SiteForm() {
                   <Form.Control.Feedback type="invalid">{errors.domain}</Form.Control.Feedback>
                 </Form.Group>
 
-                <Form.Group controlId="form-name">
+                <Form.Group controlId="name">
                   <Form.Label>Name</Form.Label>
 
                   <Form.Control isInvalid={errors.name !== undefined} name="name" onChange={updateValue} value={values.name} />
 
                   <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
+                </Form.Group>
+
+                <Form.Group controlId="safe-query-parameters">
+                  <Form.Label>Safe query parameters</Form.Label>
+
+                  <ArrayInput onValueChange={(q) => updateValue("safeQueryParameters", q)} value={values.safeQueryParameters} />
+
+                  {process.env.NEXT_PUBLIC_HOSTED === "true" ? (
+                    <Form.Text>
+                      {"You can select privacy-safe query parameters to be saved. For details please see "}
+                      <Link href="/docs/websites/query-parameters" target="_blank">here</Link>
+                      .
+                    </Form.Text>
+                  ) : null}
+
+                  <Form.Control.Feedback type="invalid">{errors.safeQueryParameters}</Form.Control.Feedback>
                 </Form.Group>
 
                 <div className="mt-2">

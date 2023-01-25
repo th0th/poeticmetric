@@ -28,17 +28,6 @@ case "$POETICMETRIC_INSTANCE" in
       exec /usr/local/bin/poeticmetric-scheduler
     fi
   ;;
-  seeder)
-    if [[ $POETICMETRIC_STAGE == "development" ]]; then
-      if [[ $POETICMETRIC_SEEDER_DEBUG == "1" ]]; then
-        exec $DEVELOPMENT_DEBUG_CMD cmd/seeder/main.go
-      else
-        exec reflex -s -d none -- bash -c 'cd cmd/seeder && go run .'
-      fi
-    else
-      exec /usr/local/bin/poeticmetric-seeder
-    fi
-  ;;
   worker)
     if [[ $POETICMETRIC_STAGE == "development" ]]; then
       if [[ $POETICMETRIC_WORKER_DEBUG == "1" ]]; then

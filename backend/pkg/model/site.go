@@ -6,13 +6,13 @@ import (
 )
 
 type Site struct {
-	CreatedAt           time.Time `gorm:"not null"`
-	Domain              string    `gorm:"not null;uniqueIndex"`
+	CreatedAt           time.Time
+	Domain              string
 	Id                  uint64
 	Name                string
-	Organization        Organization   `gorm:"constraint:OnDelete:CASCADE"`
-	OrganizationId      uint64         `gorm:"not null"`
-	SafeQueryParameters pq.StringArray `gorm:"type:text[];not null;default:ARRAY[]::text[]"`
+	Organization        Organization `gorm:"constraint:OnDelete:CASCADE"`
+	OrganizationId      uint64
+	SafeQueryParameters pq.StringArray `gorm:"type:text[]"`
 	UpdatedAt           time.Time      `gorm:"not null"`
 }
 

@@ -30,9 +30,6 @@ postgres-wait:
 	@printf "Waiting for Postgres...\n"
 	@docker compose --env-file $(DEVELOPMENT_ENV_FILE) run --rm --entrypoint 'bash -c "wait-for-it -s -q "$${POETICMETRIC_POSTGRES_HOST}":"$${POETICMETRIC_POSTGRES_PORT}" -- echo \"Postgres is ready!\""' rest-api 2> /dev/null
 
-seed:
-	@docker compose --env-file $(DEVELOPMENT_ENV_FILE) run --rm rest-api bash -c 'cd cmd/seeder && go run . -clear' 2> /dev/null
-
 test: test-run test-postgres-drop-database test-clickhouse-drop-database test-down
 
 test-build:

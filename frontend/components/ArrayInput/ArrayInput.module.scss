@@ -1,0 +1,24 @@
+@import "styles/base";
+
+.arrayInput {
+  border: $input-border-width solid $input-border-color;
+  border-radius: $input-border-radius;
+  min-height: $input-height;
+  padding: $input-padding-y $input-padding-x;
+
+  .closeButton {
+    height: 0.25rem;
+    width: 0.25rem;
+  }
+
+  .formControl {
+    border-color: transparent;
+    box-shadow: none !important;
+    min-height: 0;
+    padding-block: 0;
+
+    &:focus {
+      border-color: $blue;
+    }
+  }
+}

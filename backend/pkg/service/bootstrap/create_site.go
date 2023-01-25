@@ -1,4 +1,4 @@
-package main
+package bootstrap
 
 import (
 	"fmt"
@@ -6,6 +6,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/country"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/env"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/locale"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/pointer"
@@ -16,39 +17,26 @@ import (
 const batches = 1000
 const eventsInBatch = 100
 
-func clearEvents(dp *depot.Depot) error {
-	err := dp.ClickHouse().
-		Exec("set mutations_sync = 1").
+func createSite(dp *depot.Depot) error {
+	modelSite := &model.Site{
+		Domain:              "demo.yoursite.tld",
+		Id:                  1,
+		Name:                "Demo Site",
+		OrganizationId:      1,
+	}
+
+	if env.GetIsHosted() {
+		modelSite.Domain = "dev.poeticmetric.com"
+		modelSite.Name = "PoeticMetric Dev"
+	}
+
+	err := dp.Postgres().
+		Create(modelSite).
 		Error
 	if err != nil {
 		return err
 	}
 
-	err = dp.ClickHouse().
-		Exec("optimize table events_buffer").
-		Error
-	if err != nil {
-		return err
-	}
-
-	err = dp.ClickHouse().
-		Exec("alter table events delete where 1 = 1").
-		Error
-	if err != nil {
-		return err
-	}
-
-	err = dp.ClickHouse().
-		Exec("set mutations_sync = 0").
-		Error
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func seedEvents(dp *depot.Depot, modelSite *model.Site) error {
 	now := time.Now()
 
 	referrerSites := generateSlice(35, func() string {
@@ -65,8 +53,6 @@ func seedEvents(dp *depot.Depot, modelSite *model.Site) error {
 	utmTerms := generateSlice(35, gofakeit.Word)
 	visitorIds := generateSlice(4000, gofakeit.UUID)
 	userAgents := generateSlice(100, gofakeit.UserAgent)
-
-	fmt.Print("📊 Adding events to ClickHouse...")
 
 	for i := 0; i < batches; i += 1 {
 		events := []*model.Event{}
@@ -116,8 +102,6 @@ func seedEvents(dp *depot.Depot, modelSite *model.Site) error {
 			return err
 		}
 	}
-
-	fmt.Println(" ✅")
 
 	return nil
 }
