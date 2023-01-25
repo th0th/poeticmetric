@@ -3,14 +3,16 @@ package site
 import (
 	"fmt"
 	v "github.com/RussellLuo/validating/v3"
+	"github.com/lib/pq"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/validator"
 )
 
 type CreatePayload struct {
-	Domain *string `json:"domain"`
-	Name   *string `json:"name"`
+	Domain              *string        `json:"domain"`
+	Name                *string        `json:"name"`
+	SafeQueryParameters pq.StringArray `json:"safeQueryParameters"`
 }
 
 func Create(dp *depot.Depot, organizationId uint64, payload *CreatePayload) (*Site, error) {
@@ -20,9 +22,10 @@ func Create(dp *depot.Depot, organizationId uint64, payload *CreatePayload) (*Si
 	}
 
 	modelSite := &model.Site{
-		Domain:         *payload.Domain,
-		Name:           *payload.Name,
-		OrganizationId: organizationId,
+		Domain:              *payload.Domain,
+		Name:                *payload.Name,
+		OrganizationId:      organizationId,
+		SafeQueryParameters: payload.SafeQueryParameters,
 	}
 
 	err = dp.Postgres().

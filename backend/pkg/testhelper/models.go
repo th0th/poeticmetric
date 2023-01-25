@@ -63,6 +63,10 @@ func Site(dp *depot.Depot, m *model.Site) *model.Site {
 		m.OrganizationId = modelOrganization.Id
 	}
 
+	if m.SafeQueryParameters == nil {
+		m.SafeQueryParameters = []string{}
+	}
+
 	err = dp.Postgres().
 		Create(m).
 		Error
