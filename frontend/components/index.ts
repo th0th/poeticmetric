@@ -18,6 +18,7 @@ export * from "./Logo";
 export * from "./Manifesto";
 export * from "./Markdown";
 export * from "./MetaOpenGraph";
+export * from "./NotFound";
 export * from "./PasswordRecovery";
 export * from "./PasswordReset";
 export * from "./Plans";
