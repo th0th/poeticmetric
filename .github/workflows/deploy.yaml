@@ -80,7 +80,7 @@ jobs:
 
   update-deployments:
     environment: ${{ inputs.environment }}
-    needs: [ build-backend-docker-image, build-frontend ]
+    needs: [ build-backend-docker-image, build-frontend-docker-image ]
     runs-on: ubuntu-latest
     steps:
       - env:
