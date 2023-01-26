@@ -6,12 +6,15 @@ import (
 )
 
 func InitIfEnabled() error {
-	if env.Get(env.SentryDsn) != "" {
+	sentryDsn := env.Get(env.SentryDsn)
+	sentryEnvironment := env.Get(env.SentryEnvironment)
+
+	if sentryDsn != "" && sentryEnvironment != "" {
 		return sentry.Init(sentry.ClientOptions{
-			Dsn:              env.Get(env.SentryDsn),
+			Dsn:              sentryDsn,
 			Debug:            env.GetDebug(),
 			AttachStacktrace: true,
-			Environment:      env.GetStage(),
+			Environment:      sentryEnvironment,
 		})
 	}
 

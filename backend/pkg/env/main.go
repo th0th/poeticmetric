@@ -12,44 +12,44 @@ import (
 )
 
 const (
-	ClickHouseDatabase         = "POETICMETRIC_CLICKHOUSE_DATABASE"
-	ClickHouseHost             = "POETICMETRIC_CLICKHOUSE_HOST"
-	ClickHousePassword         = "POETICMETRIC_CLICKHOUSE_PASSWORD"
-	ClickHouseTcpPort          = "POETICMETRIC_CLICKHOUSE_TCP_PORT"
-	ClickHouseUser             = "POETICMETRIC_CLICKHOUSE_USER"
-	Debug                      = "POETICMETRIC_DEBUG"
-	FrontendBaseUrl            = "POETICMETRIC_FRONTEND_BASE_URL"
-	Hosted                     = "POETICMETRIC_HOSTED"
-	Instance                   = "POETICMETRIC_INSTANCE"
-	PostgresDatabase           = "POETICMETRIC_POSTGRES_DATABASE"
-	PostgresHost               = "POETICMETRIC_POSTGRES_HOST"
-	PostgresPassword           = "POETICMETRIC_POSTGRES_PASSWORD"
-	PostgresPort               = "POETICMETRIC_POSTGRES_PORT"
-	PostgresUser               = "POETICMETRIC_POSTGRES_USER"
-	RabbitMqHost               = "POETICMETRIC_RABBITMQ_HOST"
-	RabbitMqPassword           = "POETICMETRIC_RABBITMQ_PASSWORD"
-	RabbitMqPort               = "POETICMETRIC_RABBITMQ_PORT"
-	RabbitMqUser               = "POETICMETRIC_RABBITMQ_USER"
-	RabbitMqVhost              = "POETICMETRIC_RABBITMQ_VHOST"
-	RedisHost                  = "POETICMETRIC_REDIS_HOST"
-	RedisPassword              = "POETICMETRIC_REDIS_PASSWORD"
-	RedisPort                  = "POETICMETRIC_REDIS_PORT"
-	RestApiBaseUrl             = "POETICMETRIC_REST_API_BASE_URL"
-	SentryDsn                  = "POETICMETRIC_SENTRY_DSN"
-	SmtpHost                   = "POETICMETRIC_SMTP_HOST"
-	SmtpPassword               = "POETICMETRIC_SMTP_PASSWORD"
-	SmtpPort                   = "POETICMETRIC_SMTP_PORT"
-	SmtpUser                   = "POETICMETRIC_SMTP_USER"
-	Stage                      = "POETICMETRIC_STAGE"
-	StripeSecretKey            = "POETICMETRIC_STRIPE_SECRET_KEY"
-	StripeWebhookSigningSecret = "POETICMETRIC_STRIPE_WEBHOOK_SIGNING_SECRET"
-	WebhookUrl                 = "POETICMETRIC_WEBHOOK_URL"
-	WorkerCount                = "POETICMETRIC_WORKER_COUNT"
-	WorkerQueues               = "POETICMETRIC_WORKER_QUEUES"
+	ClickHouseDatabase         = "CLICKHOUSE_DATABASE"
+	ClickHouseHost             = "CLICKHOUSE_HOST"
+	ClickHousePassword         = "CLICKHOUSE_PASSWORD"
+	ClickHouseTcpPort          = "CLICKHOUSE_TCP_PORT"
+	ClickHouseUser             = "CLICKHOUSE_USER"
+	Debug                      = "DEBUG"
+	FrontendBaseUrl            = "FRONTEND_BASE_URL"
+	Hosted                     = "HOSTED"
+	Instance                   = "INSTANCE"
+	PostgresDatabase           = "POSTGRES_DATABASE"
+	PostgresHost               = "POSTGRES_HOST"
+	PostgresPassword           = "POSTGRES_PASSWORD"
+	PostgresPort               = "POSTGRES_PORT"
+	PostgresUser               = "POSTGRES_USER"
+	RabbitMqHost               = "RABBITMQ_HOST"
+	RabbitMqPassword           = "RABBITMQ_PASSWORD"
+	RabbitMqPort               = "RABBITMQ_PORT"
+	RabbitMqUser               = "RABBITMQ_USER"
+	RabbitMqVhost              = "RABBITMQ_VHOST"
+	RedisHost                  = "REDIS_HOST"
+	RedisPassword              = "REDIS_PASSWORD"
+	RedisPort                  = "REDIS_PORT"
+	RestApiBaseUrl             = "REST_API_BASE_URL"
+	SentryDsn                  = "SENTRY_DSN"
+	SentryEnvironment          = "SENTRY_ENVIRONMENT"
+	SmtpHost                   = "SMTP_HOST"
+	SmtpPassword               = "SMTP_PASSWORD"
+	SmtpPort                   = "SMTP_PORT"
+	SmtpUser                   = "SMTP_USER"
+	StripeSecretKey            = "STRIPE_SECRET_KEY"
+	StripeWebhookSigningSecret = "STRIPE_WEBHOOK_SIGNING_SECRET"
+	WebhookUrl                 = "WEBHOOK_URL"
+	WorkerCount                = "WORKER_COUNT"
+	WorkerQueues               = "WORKER_QUEUES"
 )
 
 var (
-	commonEnvVarNames = []string{
+	requiredEnvVarNames = []string{
 		ClickHouseDatabase,
 		ClickHouseHost,
 		ClickHousePassword,
@@ -83,7 +83,7 @@ func Check() error {
 
 	missingEnvVarNames := []string{}
 
-	for _, envVarName := range commonEnvVarNames {
+	for _, envVarName := range requiredEnvVarNames {
 		if Get(envVarName) == "" {
 			missingEnvVarNames = append(missingEnvVarNames, envVarName)
 		}
@@ -101,7 +101,7 @@ func Get(name string) string {
 }
 
 func GetDebug() bool {
-	return Get(Debug) != "" && Get(Debug) != "0"
+	return Get(Debug) == "true"
 }
 
 func GetGormClickhouseConfig() *gorm.Config {
@@ -142,6 +142,10 @@ func GetGormPostgresConfig() *gorm.Config {
 	}
 }
 
+func GetIsHosted() bool {
+	return Get(Hosted) == "true"
+}
+
 func GetPostgresDsn() string {
 	return fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
@@ -164,16 +168,6 @@ func GetRabbitMqUrl() string {
 	)
 }
 
-func GetStage() string {
-	stage := Get(Stage)
-
-	if stage != "" {
-		return stage
-	}
-
-	return "production"
-}
-
 func GetWorkerCount() int {
 	count := Get(WorkerCount)
 
@@ -192,8 +186,4 @@ func GetWorkerCount() int {
 
 func GetWorkerQueues() []string {
 	return strings.Split(Get(WorkerQueues), ",")
-}
-
-func GetIsHosted() bool {
-	return Get(Hosted) == "true"
 }

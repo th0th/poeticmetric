@@ -12,13 +12,13 @@
               <option name="patterns">
                 <list>
                   <Item>
-                    <option name="path" value=".github/workflows/build-and-deploy.yaml" />
-                  </Item>
-                  <Item>
-                    <option name="path" value=".github/workflows/test-for-staging.yaml" />
-                  </Item>
-                  <Item>
                     <option name="path" value=".github/workflows/deploy.yaml" />
+                  </Item>
+                  <Item>
+                    <option name="path" value=".github/workflows/check.yaml" />
+                  </Item>
+                  <Item>
+                    <option name="path" value=".github/workflows/publish.yaml" />
                   </Item>
                 </list>
               </option>

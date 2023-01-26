@@ -1,9 +1,10 @@
-name: Build and publish
+name: Publish
 on:
   release:
-    types: [published]
+    types:
+      - published
 jobs:
-  build-backend:
+  build-backend-docker-image:
     name: Build backend
     runs-on: ubuntu-latest
     steps:
@@ -40,7 +41,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-  build-frontend:
+  build-frontend-docker-image:
     name: Build frontend
     runs-on: ubuntu-latest
     steps:
@@ -58,11 +59,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '19.4.0'
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta

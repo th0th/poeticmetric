@@ -1,4 +1,5 @@
 env:
+  DOCKER_SCAN_SUGGEST: false
   DOCKER_REGISTRY: ghcr.io
 name: Deploy
 on:
@@ -8,35 +9,9 @@ on:
         description: Select the environment
         type: environment
 jobs:
-  tag:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Advance the environment tag
-        uses: actions/github-script@v6
-        with:
-          script: |
-            try {
-                await github.rest.git.deleteRef({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  ref: "refs/tags/${{ inputs.environment }}",
-                });
-            } catch (e) {
-              console.log("The ${{ inputs.environment }} tag doesn't exist yet: " + e);
-            }
-            
-            await github.rest.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: "refs/tags/${{ inputs.environment }}",
-              sha: context.sha,
-            });
-
   build-backend-docker-image:
     environment: ${{ inputs.environment }}
     name: Build backend docker image
-    needs:
-      - tag
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -68,8 +43,6 @@ jobs:
   build-frontend-docker-image:
     environment: ${{ inputs.environment }}
     name: Build frontend docker image
-    needs:
-      - tag
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -98,14 +71,41 @@ jobs:
             HOSTED=true
             SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
             SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+            SENTRY_ENVIRONMENT=${{ inputs.environment }}
             SENTRY_ORG=${{ secrets.SENTRY_ORG }}
             SENTRY_PROJECT=${{ secrets.SENTRY_PROJECT }}
             STRIPE_API_PUBLISHABLE_KEY=${{ env.STRIPE_API_PUBLISHABLE_KEY }}
-            STAGE=${{ inputs.environment }}
           context: frontend
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  tag:
+    needs:
+      - update-deployments
+    runs-on: ubuntu-latest
+    steps:
+      - name: Advance the environment tag
+        uses: actions/github-script@v6
+        with:
+          script: |
+            try {
+                await github.rest.git.deleteRef({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  ref: "refs/tags/${{ inputs.environment }}",
+                });
+            } catch (e) {
+              console.log("The ${{ inputs.environment }} tag doesn't exist yet: " + e);
+            }
+            
+            await github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: "refs/tags/${{ inputs.environment }}",
+              sha: context.sha,
+            });
+
   update-deployments:
     environment: ${{ inputs.environment }}
     name: Update deployments

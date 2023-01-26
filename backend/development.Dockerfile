@@ -20,8 +20,8 @@ COPY scripts/migrate-clickhouse /usr/local/bin/
 COPY scripts/migrate-postgres /usr/local/bin/
 COPY scripts/run-tests /usr/local/bin/
 COPY scripts/wait-for-it /usr/local/bin/
-COPY docker-entrypoint.sh /usr/local/bin/
+COPY docker-entrypoint.development.sh /usr/local/bin/docker-entrypoint.sh
 
 EXPOSE 80
 
-CMD ["/usr/local/bin/docker-entrypoint.sh"]
+CMD ["docker-entrypoint.sh"]

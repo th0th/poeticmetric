@@ -1,24 +1,18 @@
-name: Run PR checks
-on:
-  pull_request:
-    branches:
-      - "development"
 env:
   DOCKER_SCAN_SUGGEST: false
+name: Check
+on:
+  pull_request:
 jobs:
   run-backend-tests:
     name: Run backend tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-go@v3
-        with:
-          go-version: '1.19.4'
-
       - name: Checkout
         uses: actions/checkout@v3
 
       - name: Pull required images
-        run: docker compose --env-file ./.env.test pull clickhouse postgres rabbitmq
+        run: docker compose --env-file ./.env.example pull clickhouse postgres rabbitmq
         working-directory: backend
 
       - name: Build development image
