@@ -8,9 +8,36 @@ on:
         description: Select the environment
         type: environment
 jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Advance tag
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            try {
+                await github.git.deleteRef({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  ref: ${{ inputs.environment }},
+                });
+            } catch (e) {
+              console.log("The ${{ inputs.environment }} tag doesn't exist yet: " + e);
+            }
+            
+            await github.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: ${{ inputs.environment }},
+              sha: context.sha,
+            });
+
   build-backend-docker-image:
     environment: ${{ inputs.environment }}
     name: Build backend docker image
+    needs:
+      - tag
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -78,10 +105,12 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-
   update-deployments:
     environment: ${{ inputs.environment }}
-    needs: [ build-backend-docker-image, build-frontend-docker-image ]
+    name: Update deployments
+    needs:
+      - build-backend-docker-image
+      - build-frontend-docker-image
     runs-on: ubuntu-latest
     steps:
       - name: Update Rancher workloads
