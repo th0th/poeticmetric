@@ -27,3 +27,6 @@ test:
 	@docker compose --env-file $(TEST_ENV_FILE) exec -- clickhouse bash -c 'clickhouse-client --query "drop database if exists $${CLICKHOUSE_DB};"'
 
 	@docker compose --env-file $(TEST_ENV_FILE) down -v 2> /dev/null
+
+test-build:
+	@docker compose --env-file $(TEST_ENV_FILE) build 2> /dev/null
