@@ -11,13 +11,12 @@ jobs:
   tag:
     runs-on: ubuntu-latest
     steps:
-      - name: Advance tag
+      - name: Advance the environment tag
         uses: actions/github-script@v6
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             try {
-                await github.git.deleteRef({
+                await github.rest.git.deleteRef({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   ref: ${{ inputs.environment }},
@@ -26,7 +25,7 @@ jobs:
               console.log("The ${{ inputs.environment }} tag doesn't exist yet: " + e);
             }
             
-            await github.git.createRef({
+            await github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: ${{ inputs.environment }},
@@ -69,6 +68,8 @@ jobs:
   build-frontend-docker-image:
     environment: ${{ inputs.environment }}
     name: Build frontend docker image
+    needs:
+      - tag
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
