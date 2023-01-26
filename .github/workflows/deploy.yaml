@@ -34,6 +34,7 @@ jobs:
       - name: Build and push docker image
         uses: docker/build-push-action@v3
         with:
+          context: backend
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -73,7 +74,7 @@ jobs:
             SENTRY_PROJECT=${{ secrets.SENTRY_PROJECT }}
             STRIPE_API_PUBLISHABLE_KEY=${{ env.STRIPE_API_PUBLISHABLE_KEY }}
             STAGE=${{ inputs.environment }}
-          context: ./frontend
+          context: frontend
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
