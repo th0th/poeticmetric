@@ -34,7 +34,62 @@ jobs:
       - name: Build and push docker image
         uses: docker/build-push-action@v3
         with:
-          context: ./backend
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  build-frontend-docker-image:
+    environment: ${{ inputs.environment }}
+    name: Build frontend docker image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Log in to the container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.DOCKER_REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata for docker image
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.DOCKER_REGISTRY }}/${{ github.repository }}/frontend
+          tags: |
+            type=raw,value=${{ vars.DOCKER_IMAGE_TAG }}
+
+      - name: Build and push docker image
+        uses: docker/build-push-action@v3
+        with:
+          build-args: |
+            BASE_URL=${{ vars.FRONTEND_BASE_URL }}
+            HOSTED=true
+            SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
+            SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+            SENTRY_ORG=${{ secrets.SENTRY_ORG }}
+            SENTRY_PROJECT=${{ secrets.SENTRY_PROJECT }}
+            STRIPE_API_PUBLISHABLE_KEY=${{ env.STRIPE_API_PUBLISHABLE_KEY }}
+            STAGE=${{ inputs.environment }}
+          context: ./frontend
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+  update-deployments:
+    environment: ${{ inputs.environment }}
+    needs: [ build-backend-docker-image, build-frontend ]
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          DISABLE_OUTPUT: "true"
+          RANCHER_BEARER_TOKEN: ${{ secrets.RANCHER_BEARER_TOKEN }}
+          RANCHER_CLUSTER_ID: ${{ secrets.RANCHER_CLUSTER_ID }}
+          RANCHER_NAMESPACE: ${{ secrets.RANCHER_NAMESPACE }}
+          RANCHER_PROJECT_ID: ${{ secrets.RANCHER_PROJECT_ID }}
+          RANCHER_URL: ${{ secrets.RANCHER_URL }}
+          RANCHER_WORKLOADS: ${{ secrets.RANCHER_WORKLOADS }}
+        name: Update Rancher workloads
+        uses: th0th/rancher-redeploy-workload@v0.9.1

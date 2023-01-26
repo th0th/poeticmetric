@@ -13,9 +13,10 @@ COPY pkg pkg
 RUN mkdir bin
 
 RUN CGO_ENABLED=0 go build -a -o bin/rest-api cmd/restapi/*
+RUN CGO_ENABLED=0 go build -a -o bin/scheduler cmd/scheduler/*
 RUN CGO_ENABLED=0 go build -a -o bin/worker cmd/worker/*
 
-FROM alpine:3.16
+FROM alpine:3.17
 
 RUN apk update && apk add bash tzdata
 
@@ -28,6 +29,7 @@ COPY scripts/migrate-postgres /usr/local/bin/migrate-postgres
 
 COPY --from=0 /go/bin/migrate /usr/local/bin/migrate
 COPY --from=0 /usr/src/poeticmetric/bin/rest-api /usr/local/bin/poeticmetric-rest-api
+COPY --from=0 /usr/src/poeticmetric/bin/scheduler /usr/local/bin/poeticmetric-scheduler
 COPY --from=0 /usr/src/poeticmetric/bin/worker /usr/local/bin/poeticmetric-worker
 
 COPY docker-entrypoint.sh /usr/local/bin/
