@@ -84,7 +84,9 @@ jobs:
     needs: [ build-backend-docker-image, build-frontend-docker-image ]
     runs-on: ubuntu-latest
     steps:
-      - env:
+      - name: Update Rancher workloads
+        uses: th0th/rancher-redeploy-workload@v0.9.2
+        with:
           DISABLE_OUTPUT: "true"
           RANCHER_BEARER_TOKEN: ${{ secrets.RANCHER_BEARER_TOKEN }}
           RANCHER_CLUSTER_ID: ${{ secrets.RANCHER_CLUSTER_ID }}
@@ -92,5 +94,3 @@ jobs:
           RANCHER_PROJECT_ID: ${{ secrets.RANCHER_PROJECT_ID }}
           RANCHER_URL: ${{ secrets.RANCHER_URL }}
           RANCHER_WORKLOADS: ${{ secrets.RANCHER_WORKLOADS }}
-        name: Update Rancher workloads
-        uses: th0th/rancher-redeploy-workload@v0.9.1
