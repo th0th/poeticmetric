@@ -19,7 +19,7 @@ jobs:
                 await github.rest.git.deleteRef({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
-                  ref: "${{ inputs.environment }}",
+                  ref: "refs/tags/${{ inputs.environment }}",
                 });
             } catch (e) {
               console.log("The ${{ inputs.environment }} tag doesn't exist yet: " + e);
@@ -28,7 +28,7 @@ jobs:
             await github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: "${{ inputs.environment }}",
+              ref: "refs/tags/${{ inputs.environment }}",
               sha: context.sha,
             });
 
