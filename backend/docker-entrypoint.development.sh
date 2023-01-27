@@ -1,27 +1,23 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
-CMD="reflex -s -d none -- go run ."
-
-if [[ "$REMOTE_DEBUG" == "true" ]]; then
-  CMD="reflex -R __debug_bin -s -d none -- /go/bin/dlv --headless=true --listen=:2345 --api-version=2 --accept-multiclient debug ."
-fi
+run() {
+  if [[ "$REMOTE_DEBUG" == "true" ]]; then
+    exec reflex -R __debug_bin -s -d none -- bash -c "cd cmd/$1 && /go/bin/dlv --headless=true --listen=:2345 --api-version=2 --accept-multiclient debug ."
+  else
+    exec reflex -s -d none -- bash -c "cd cmd/$1 && go run ."
+  fi
+}
 
 case "$INSTANCE" in
   rest-api)
-    cd cmd/restapi
-
-    exec $CMD
+    run restapi
   ;;
   scheduler)
-    cd cmd/scheduler
-
-    exec $CMD
+    run scheduler
   ;;
   worker)
-    cd cmd/worker
-
-    exec $CMD
+    run worker
   ;;
   *)
     echo >&2 "Invalid INSTANCE."
