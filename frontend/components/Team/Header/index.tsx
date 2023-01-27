@@ -14,7 +14,7 @@ type Status = {
 
 export function Header() {
   const router = useRouter();
-  const { organization } = useContext(AuthAndApiContext);
+  const { organization, user } = useContext(AuthAndApiContext);
   const { data: users } = useUsers();
 
   const handleStatusFilterChange = useCallback<React.ChangeEventHandler<HTMLSelectElement>>(async (event) => {
@@ -59,9 +59,11 @@ export function Header() {
 
         <div className="flex-grow-1" />
 
-        <div className="d-grid">
-          <Link className="btn btn-primary" href="/team/invite">Invite new team member</Link>
-        </div>
+        {user?.isOrganizationOwner ? (
+          <div className="d-grid">
+            <Link className="btn btn-primary" href="/team/invite">Invite new team member</Link>
+          </div>
+        ) : null}
       </div>
     </>
   );

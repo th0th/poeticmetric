@@ -43,6 +43,7 @@ jobs:
         with:
           eslint_flags: '--ext .js,.ts,.tsx .'
           fail_on_error: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           filter_mode: nofilter
           workdir: frontend
 
@@ -51,6 +52,7 @@ jobs:
         with:
           fail_on_error: true
           filter_mode: nofilter
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review
           stylelint_input: '**/*.scss'
           workdir: frontend

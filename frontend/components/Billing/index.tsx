@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import React, { useContext, useMemo, useState } from "react";
 import { Container } from "react-bootstrap";
-import { Layout, Plans, Title } from "..";
+import { Breadcrumb, Layout, Plans, Title } from "..";
 import { AuthAndApiContext, PlansContext, PlansContextValue, PlansContextState } from "../../contexts";
 import { BillingPortalButton } from "./BillingPortalButton";
 
@@ -74,8 +74,8 @@ export function Billing() {
       <Layout kind="app">
         <Title>Billing</Title>
 
-        <Container className="py-4">
-          <h1>Billing</h1>
+        <Container className="py-5">
+          <Breadcrumb title="Billing" />
 
           {descriptionNode}
 
