@@ -1,0 +1,5 @@
+{
+    "yaml.schemas": {
+        "https://json.schemastore.org/github-workflow.json": "file:///Users/th0th/Workspace/poeticmetric/poeticmetric/.github/workflows/deploy.yaml"
+    }
+}

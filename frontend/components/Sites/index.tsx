@@ -1,9 +1,9 @@
-import Link from "next/link";
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { Col, Container, Row, Spinner } from "react-bootstrap";
-import { Breadcrumb, Layout, Title } from "..";
+import { Layout, Title } from "..";
 import { useSites } from "../../hooks";
 import { DeleteModal } from "./DeleteModal";
+import { Header } from "./Header";
 import { Site } from "./Site";
 
 export function Sites() {
@@ -31,16 +31,10 @@ export function Sites() {
     <Layout kind="app">
       <Title>Sites</Title>
 
-      <Container className="py-4">
-        <div className="d-flex flex-row align-items-center justify-content-between">
-          <Breadcrumb title="Sites" />
+      <Container className="d-flex flex-column flex-grow-1 py-5">
+        <Header />
 
-          <Link className="btn btn-primary" href="/sites/add">Add new site</Link>
-        </div>
-
-        <div className="mt-4">
-          {contentNode}
-        </div>
+        {contentNode}
       </Container>
 
       <DeleteModal />

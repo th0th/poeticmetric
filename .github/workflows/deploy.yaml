@@ -69,12 +69,13 @@ jobs:
           build-args: |
             BASE_URL=${{ vars.FRONTEND_BASE_URL }}
             HOSTED=true
+            NODE_RED_BASE_URL=${{ secrets.NODE_RED_BASE_URL }}
             SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
             SENTRY_DSN=${{ secrets.SENTRY_DSN }}
             SENTRY_ENVIRONMENT=${{ inputs.environment }}
             SENTRY_ORG=${{ secrets.SENTRY_ORG }}
             SENTRY_PROJECT=${{ secrets.SENTRY_PROJECT }}
-            STRIPE_API_PUBLISHABLE_KEY=${{ env.STRIPE_API_PUBLISHABLE_KEY }}
+            STRIPE_API_PUBLISHABLE_KEY=${{ vars.STRIPE_API_PUBLISHABLE_KEY }}
           context: frontend
           push: true
           tags: ${{ steps.meta.outputs.tags }}
@@ -93,7 +94,7 @@ jobs:
                 await github.rest.git.deleteRef({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
-                  ref: "refs/tags/${{ inputs.environment }}",
+                  ref: "tags/${{ inputs.environment }}",
                 });
             } catch (e) {
               console.log("The ${{ inputs.environment }} tag doesn't exist yet: " + e);

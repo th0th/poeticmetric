@@ -22,7 +22,7 @@ export function MailListForm({ className, ...props }: MailListFormProps) {
   const handleSubmit = useCallback<React.FormEventHandler<HTMLFormElement>>(async (event) => {
     event.preventDefault();
 
-    const response = await fetch(`${window.poeticMetric?.nodeRedBaseUrl}/mail-list`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_NODE_RED_BASE_URL}/mail-list`, {
       body: JSON.stringify(values),
       headers: { "Content-Type": "application/json" },
       method: "POST",

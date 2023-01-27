@@ -1,10 +1,15 @@
 import Link from "next/link";
-import React from "react";
+import { useMemo, useState } from "react";
 import { Container } from "react-bootstrap";
 import { Description, Layout, Plans, Title } from "..";
+import { PlansContext, PlansContextState, PlansContextValue } from "../../contexts";
 import { Faq } from "./Faq";
 
 export function Pricing() {
+  const [plansContextState, setPlansContextState] = useState<PlansContextState>({ isDisabled: false, subscriptionPeriod: "MONTH" });
+
+  const plansContextValue = useMemo<PlansContextValue>(() => ({ ...plansContextState, set: setPlansContextState }), [plansContextState]);
+
   return (
     <Layout kind="website">
       <Title>Pricing</Title>
@@ -28,7 +33,9 @@ export function Pricing() {
           </div>
         </div>
 
-        <Plans signUp />
+        <PlansContext.Provider value={plansContextValue}>
+          <Plans signUp />
+        </PlansContext.Provider>
 
         <div className="align-items-center d-flex flex-column py-4">
           <Link className="btn btn-lg btn-primary" href="/sign-up">Start your free trial</Link>
