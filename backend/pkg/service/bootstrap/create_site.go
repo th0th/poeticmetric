@@ -23,6 +23,7 @@ func createSite(dp *depot.Depot) error {
 		Id:                  1,
 		Name:                "Demo Site",
 		OrganizationId:      1,
+		SafeQueryParameters: []string{},
 	}
 
 	if env.GetIsHosted() {

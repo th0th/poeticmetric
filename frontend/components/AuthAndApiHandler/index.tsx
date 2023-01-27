@@ -57,10 +57,11 @@ export function AuthAndApiHandler({ children }: AuthAndApiHandlerProps) {
       organization = hydrateOrganization(organizationData);
     }
 
-    const isReady = state.isReady;
+    const isReady = state.isReady && (state.userAccessToken === null && user === null && organization === null)
+      || (state.userAccessToken !== null && user !== null && organization !== null);
 
     return { isReady, mutate, organization, user };
-  }, [mutate, organizationData, organizationError, state.isReady, userData, userError]);
+  }, [mutate, organizationData, organizationError, state.isReady, state.userAccessToken, userData, userError]);
 
   useEffect(() => updateUserAccessToken(), [updateUserAccessToken]);
 
