@@ -11,7 +11,6 @@ import { devices } from "@playwright/test";
  * See https://playwright.dev/docs/test-configuration.
  */
 const config: PlaywrightTestConfig = {
-
   expect: {
     /**
      * Maximum time expect() should wait for the condition to be met.

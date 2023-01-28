@@ -1,33 +1,23 @@
-import { test, expect } from "@playwright/test";
+import { expect } from "@playwright/test";
+import { test } from "./index";
 
-test.describe.configure({ mode: "serial" });
-
-const site = {
-    domain: "staging.poeticmetric.com",
-    editedName: "Poeticmetric Staging 1",
-    name: "Poeticmetric Staging",
-};
-
-test.beforeAll(async ({ page }) => {
+test.beforeAll(async ({ page, user }) => {
     await page.goto("/sign-in");
-    await page.locator('input[name="email"]').fill("ilknurultanirsari@gmail.com");
-    await page.locator('input[name="password"]').fill("gokhanicokseviyorum");
+    await page.locator('input[name="email"]').fill(user.email);
+    await page.locator('input[name="password"]').fill(user.password);
     await page.getByRole("button", { name: "Sign in" }).press("Enter");
     await page.waitForLoadState("networkidle");
 });
 
-test("site-flow", async ({ page }) => {
-    test.slow();
-
+test("site-flow", async ({ page, site }) => {
     // Add site
-    await page.goto("/sites");
     await page.getByRole("link", { name: "Add new site" }).click();
     await page.getByLabel("Domain").fill(site.domain);
     await page.getByLabel("Name").fill(site.name);
     await page.getByRole("button", { name: "Save" }).click();
 
     // View added site
-    await page.goto("/sites", { waitUntil: "networkidle" });
+    await page.waitForURL("/sites", { waitUntil: "load" });
     await expect(page.getByTitle(site.name)).toBeVisible();
 
     // Edit site
@@ -37,7 +27,7 @@ test("site-flow", async ({ page }) => {
     await page.getByRole("button", { name: "Save" }).click();
 
     // View edited site
-    await page.goto("/sites", { waitUntil: "networkidle" });
+    await page.waitForURL("/sites", { waitUntil: "load" });
     await expect(page.getByTitle(site.editedName)).toBeVisible();
 
     // Remove site
@@ -45,6 +35,6 @@ test("site-flow", async ({ page }) => {
     await page.getByRole("button", { name: "Delete" }).click();
 
     // Removed site
-    await page.goto("/sites", { waitUntil: "networkidle" });
+    await page.waitForURL("/sites", { waitUntil: "load" });
     await expect(page.getByTitle(site.editedName)).toBeHidden();
 });
