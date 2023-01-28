@@ -9,7 +9,7 @@ export type MenuProps = Overwrite<Omit<React.PropsWithoutRef<JSX.IntrinsicElemen
   categories: Array<DocsCategory>;
 }>;
 
-export function Menu({ categories, className, article: articleFromProps, ...props }: MenuProps) {
+export function Menu({ article: articleFromProps, categories, className, ...props }: MenuProps) {
   const dropdownToggleId = useId();
 
   return (
