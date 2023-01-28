@@ -1,9 +1,5 @@
-import { useRouter } from "next/router";
-import React, { useContext, useEffect } from "react";
-import { Col, Container, Row, Spinner } from "react-bootstrap";
-import { Breadcrumb, Layout, Title } from "..";
-import { ToastsContext } from "../../contexts";
-import { useQueryNumber, useSite } from "../../hooks";
+import React from "react";
+import { Col, Row } from "react-bootstrap";
 import { Filters } from "./Filters";
 import { FiltersHandler } from "./FiltersHandler";
 import { Geo } from "./Geo";
@@ -16,81 +12,72 @@ import { TimeWindowInput } from "./TimeWindowInput";
 import { Utm } from "./Utm";
 import { VisitorPageView } from "./VisitorPageView";
 
-export function SiteReports() {
-  const router = useRouter();
-  const id = useQueryNumber("id");
-  const { data: site, error } = useSite(id);
-  const { addToast } = useContext(ToastsContext);
+export type SiteReportsProps = {
+  site: Site;
+};
 
-  useEffect(() => {
-    if (id === undefined || error !== undefined) {
-      if (error !== undefined) {
-        addToast({ body: error.message, variant: "danger" });
-      }
-
-      router.replace("/sites");
-    }
-  }, [addToast, error, id, router]);
-
+export function SiteReports({ site }: SiteReportsProps) {
   return (
-    <Layout kind="app">
-      <Title>{site === undefined ? "..." : `Reports - ${site.name}`}</Title>
+    <FiltersHandler siteId={site.id}>
+      <div className="d-flex flex-row">
+        <TimeWindowInput />
 
-      <Container className="d-flex flex-column flex-grow-1 py-4">
-        {site === undefined ? (
-          <div className="d-flex flex-grow-1 align-items-center justify-content-center">
-            <Spinner variant="primary" />
-          </div>
-        ) : (
-          <FiltersHandler>
-            <Breadcrumb items={[{ href: "/sites", title: "Sites" }]} title={`Reports for ${site.name}`} />
+        <div className="flex-grow-1 w-auto pe-3" />
 
-            <div className="d-flex flex-row">
-              <TimeWindowInput />
+        <Filters />
+      </div>
 
-              <div className="flex-grow-1 w-auto pe-3" />
+      <Overview className="mt-3" />
 
-              <Filters />
-            </div>
+      <Row className="g-3 mt-0">
+        <Col lg={8}>
+          <VisitorPageView />
+        </Col>
 
-            <Overview className="mt-3" />
+        <Col lg={4}>
+          <Path />
+        </Col>
+      </Row>
 
-            <Row className="g-3 mt-0">
-              <Col lg={8}>
-                <VisitorPageView />
-              </Col>
+      <Row className="g-3 mt-0">
+        <Col lg={4}>
+          <Referrer />
+        </Col>
 
-              <Col lg={4}>
-                <Path />
-              </Col>
-            </Row>
+        <Col lg={8}>
+          <Geo />
+        </Col>
+      </Row>
 
-            <Row className="g-3 mt-0">
-              <Col lg={4}>
-                <Referrer />
-              </Col>
+      <Row className="g-3 mt-0">
+        <Col lg={4}>
+          <Tech />
+        </Col>
 
-              <Col lg={8}>
-                <Geo />
-              </Col>
-            </Row>
+        <Col lg={4}>
+          <TimeTrends />
+        </Col>
 
-            <Row className="g-3 mt-0">
-              <Col lg={4}>
-                <Tech />
-              </Col>
-
-              <Col lg={4}>
-                <TimeTrends />
-              </Col>
-
-              <Col lg={4}>
-                <Utm />
-              </Col>
-            </Row>
-          </FiltersHandler>
-        )}
-      </Container>
-    </Layout>
+        <Col lg={4}>
+          <Utm />
+        </Col>
+      </Row>
+    </FiltersHandler>
   );
+
+  // return (
+  //   <Layout kind="app">
+  //     <Title>{site === undefined ? "..." : `Reports - ${site.name}`}</Title>
+  //
+  //     <Container className="d-flex flex-column flex-grow-1 py-4">
+  //       {site === undefined ? (
+  //         <div className="d-flex flex-grow-1 align-items-center justify-content-center">
+  //           <Spinner variant="primary" />
+  //         </div>
+  //       ) : (
+  //
+  //       )}
+  //     </Container>
+  //   </Layout>
+  // );
 }

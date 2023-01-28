@@ -78,6 +78,7 @@ CREATE TABLE "sites" (
   "created_at" timestamptz NOT NULL,
   "domain" text UNIQUE,
   "id" bigserial,
+  "is_public" boolean NOT NULL,
   "name" text,
   "organization_id" bigint,
   "safe_query_parameters" text[] NOT NULL DEFAULT ARRAY []::text[],

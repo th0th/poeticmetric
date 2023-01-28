@@ -2,6 +2,7 @@ package site
 
 import (
 	"fmt"
+
 	v "github.com/RussellLuo/validating/v3"
 	"github.com/lib/pq"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
@@ -11,6 +12,7 @@ import (
 
 type CreatePayload struct {
 	Domain              *string        `json:"domain"`
+	IsPublic            *bool          `json:"isPublic"`
 	Name                *string        `json:"name"`
 	SafeQueryParameters pq.StringArray `json:"safeQueryParameters"`
 }

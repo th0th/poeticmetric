@@ -2,6 +2,7 @@ package site
 
 import (
 	"fmt"
+
 	v "github.com/RussellLuo/validating/v3"
 	"github.com/lib/pq"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
@@ -9,6 +10,7 @@ import (
 )
 
 type UpdatePayload struct {
+	IsPublic            *bool          `json:"isPublic"`
 	Name                *string        `json:"name"`
 	SafeQueryParameters pq.StringArray `json:"safeQueryParameters" gorm:"type:text[]"`
 }
@@ -21,6 +23,11 @@ func Update(dp *depot.Depot, id uint64, payload *UpdatePayload) (*Site, error) {
 
 	update := &model.Site{}
 	updateFields := []string{}
+
+	if payload.IsPublic != nil {
+		update.IsPublic = *payload.IsPublic
+		updateFields = append(updateFields, "is_public")
+	}
 
 	if payload.Name != nil {
 		update.Name = *payload.Name

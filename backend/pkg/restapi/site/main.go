@@ -6,11 +6,16 @@ import (
 )
 
 func Add(app *fiber.App) {
-	group := app.Group("/sites", permission.UserAuthenticated)
+	group := app.Group("/sites")
+
+	group.Get("/public/:domain", readPublic)
+
+	group.Use(permission.UserAuthenticated)
 
 	group.Get("/", list)
-	group.Get("/:id", read)
 	group.Post("/", create)
-	group.Patch("/:id", update)
+
+	group.Get("/:id", read)
 	group.Delete("/:id", destroy)
+	group.Patch("/:id", update)
 }
