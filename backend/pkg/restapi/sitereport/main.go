@@ -2,7 +2,11 @@ package sitereport
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
+	dm "github.com/poeticmetric/poeticmetric/backend/pkg/restapi/middleware/depot"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/restapi/middleware/permission"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/browsername"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/browserversion"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/operatingsystemname"
@@ -12,6 +16,7 @@ import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/utmmedium"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/utmsource"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/utmterm"
+	"gorm.io/gorm"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/filter"
@@ -25,7 +30,7 @@ const localsFiltersKey = "filters"
 const localsPaginationCursorKey = "paginationCursor"
 
 func Add(app *fiber.App) {
-	group := app.Group("/site-reports", filtersMiddleware)
+	group := app.Group("/site-reports", filtersMiddleware, authenticatedOrPublicMiddleware)
 
 	group.Get("/browser-name", paginationCursorMiddleware[browsername.PaginationCursor], browserName)
 	group.Get("/browser-version", paginationCursorMiddleware[browserversion.PaginationCursor], browserVersion)
@@ -49,6 +54,32 @@ func Add(app *fiber.App) {
 	group.Get("/visitor", visitor)
 	group.Get("/visitor-page-view", visitorPageView)
 	group.Get("/visitor-trends", visitorTrends)
+}
+
+func authenticatedOrPublicMiddleware(c *fiber.Ctx) error {
+	dp := dm.Get(c)
+
+	modelSite := &model.Site{}
+
+	err := dp.Postgres().
+		Model(&model.Site{}).
+		Select("is_public").
+		Where("id = ?", getFilters(c).SiteId).
+		First(modelSite).
+		Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return fiber.ErrNotFound
+		}
+
+		return err
+	}
+
+	if modelSite.IsPublic {
+		return c.Next()
+	}
+
+	return permission.UserAuthenticated(c)
 }
 
 func getFilters(c *fiber.Ctx) *filter.Filters {
