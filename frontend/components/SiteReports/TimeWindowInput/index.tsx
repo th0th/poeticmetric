@@ -75,7 +75,7 @@ const options: Array<Array<Option>> = [
 
 export function TimeWindowInput() {
   const router = useRouter();
-  const { start, end } = useContext(SiteReportsFiltersContext);
+  const { end, start } = useContext(SiteReportsFiltersContext);
   const [state, setState] = useState<State>({ isDatePickerVisible: false });
 
   const selectedOption = useMemo<Option | null>(
