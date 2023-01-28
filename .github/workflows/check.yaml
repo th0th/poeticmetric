@@ -3,6 +3,9 @@ env:
 name: Check
 on:
   pull_request:
+    types:
+      - ready_for_review
+      - review_requested
 jobs:
   run-backend-tests:
     name: Run backend tests
