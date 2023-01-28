@@ -36,7 +36,7 @@ export function ActionButton({ plan, ...props }: ActionButtonProps) {
       if (response.ok) {
         const { loadStripe } = await import("@stripe/stripe-js");
 
-        const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_API_PUBLISHABLE_KEY || "");
+        const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || "");
 
         await stripe?.redirectToCheckout({ sessionId: responseJson.stripeCheckoutSessionId });
       } else {

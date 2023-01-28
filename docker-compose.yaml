@@ -2,13 +2,13 @@ version: "3.9"
 
 x-backend-common: &backend-common
   build:
-    context: .
-    dockerfile: ./development.Dockerfile
+    context: backend
+    dockerfile: development.Dockerfile
   depends_on:
     - clickhouse
     - postgres
     - rabbitmq
-  image: ghcr.io/poeticmetric/poeticmetric-backend:development
+  image: ghcr.io/th0th/poeticmetric-backend:development
   environment: &backend-common-environment
     CLICKHOUSE_DATABASE: ${CLICKHOUSE_DATABASE}
     CLICKHOUSE_HOST: ${CLICKHOUSE_HOST}
@@ -18,6 +18,7 @@ x-backend-common: &backend-common
     DEBUG: ${DEBUG}
     FRONTEND_BASE_URL: ${FRONTEND_BASE_URL}
     HOSTED: ${HOSTED}
+    NODE_RED_BASE_URL: ${NODE_RED_BASE_URL}
     POSTGRES_DATABASE: ${POSTGRES_DATABASE}
     POSTGRES_HOST: ${POSTGRES_HOST}
     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -40,20 +41,18 @@ x-backend-common: &backend-common
     SMTP_USER: ${SMTP_USER}
     STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
     STRIPE_WEBHOOK_SIGNING_SECRET: ${STRIPE_WEBHOOK_SIGNING_SECRET}
-    WEBHOOK_URL: ${WEBHOOK_URL}
     WORKER_COUNT: ${WORKER_COUNT}
-  tty: true
   volumes:
-    - ./assets:/poeticmetric/assets
-    - ./cmd:/poeticmetric/cmd
-    - ./migrations:/poeticmetric/migrations
-    - ./pkg:/poeticmetric/pkg
-    - ./scripts/migrate-clickhouse:/usr/local/bin/migrate-clickhouse
-    - ./scripts/migrate-postgres:/usr/local/bin/migrate-postgres
-    - ./scripts/run-tests:/usr/local/bin/run-tests
-    - ./scripts/wait-for-it:/usr/local/bin/wait-for-it
-    - ./go.mod:/poeticmetric/go.mod
-    - ./go.sum:/poeticmetric/go.sum
+    - ./backend/assets:/poeticmetric/assets
+    - ./backend/cmd:/poeticmetric/cmd
+    - ./backend/migrations:/poeticmetric/migrations
+    - ./backend/pkg:/poeticmetric/pkg
+    - ./backend/scripts/migrate-clickhouse:/usr/local/bin/migrate-clickhouse
+    - ./backend/scripts/migrate-postgres:/usr/local/bin/migrate-postgres
+    - ./backend/scripts/run-tests:/usr/local/bin/run-tests
+    - ./backend/scripts/wait-for-it:/usr/local/bin/wait-for-it
+    - ./backend/go.mod:/poeticmetric/go.mod
+    - ./backend/go.sum:/poeticmetric/go.sum
 
 networks:
   default:
@@ -75,6 +74,42 @@ services:
     volumes:
       - clickhouse:/var/lib/clickhouse
 
+  frontend:
+    build:
+      context: frontend
+      dockerfile: development.Dockerfile
+    environment:
+      FRONTEND_BASE_URL: ${FRONTEND_BASE_URL}
+      NEXT_PUBLIC_HOSTED: ${HOSTED}
+      NEXT_PUBLIC_NODE_RED_BASE_URL: ${NODE_RED_BASE_URL}
+      NEXT_PUBLIC_SENTRY_DSN: ${SENTRY_DSN}
+      NEXT_PUBLIC_SENTRY_ENVIRONMENT: ${SENTRY_ENVIRONMENT}
+      NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${STRIPE_PUBLISHABLE_KEY}
+      NEXT_TELEMETRY_DISABLED: "1"
+      REST_API_BASE_URL: ${REST_API_BASE_URL}
+      VIRTUAL_HOST: dev.poeticmetric.com
+      VIRTUAL_PORT: "3000"
+    image: ghcr.io/th0th/poeticmetric-frontend:development
+    volumes:
+      - ./frontend/@types:/poeticmetric/@types
+      - ./frontend/blog:/poeticmetric/blog
+      - ./frontend/components:/poeticmetric/components
+      - ./frontend/contexts:/poeticmetric/contexts
+      - ./frontend/docs:/poeticmetric/docs
+      - ./frontend/helpers:/poeticmetric/helpers
+      - ./frontend/hooks:/poeticmetric/hooks
+      - ./frontend/lib:/poeticmetric/lib
+      - ./frontend/pages:/poeticmetric/pages
+      - ./frontend/public:/poeticmetric/public
+      - ./frontend/styles:/poeticmetric/styles
+      - ./frontend/next.config.js:/poeticmetric/next.config.js
+      - ./frontend/next-sitemap.config.js:/poeticmetric/next-sitemap.config.js
+      - ./frontend/package.json:/poeticmetric/package.json
+      - ./frontend/sentry.client.config.js:/poeticmetric/sentry.client.config.js
+      - ./frontend/sentry.server.config.js:/poeticmetric/sentry.server.config.js
+      - ./frontend/tsconfig.json:/poeticmetric/tsconfig.json
+      - ./frontend/yarn.lock:/poeticmetric/yarn.lock
+
   ingress:
     extra_hosts:
       - "host.docker.internal:host-gateway"
@@ -85,7 +120,6 @@ services:
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - ./etc/ssl:/etc/nginx/certs
-      - ./etc/ingress/dev.poeticmetric.com.nginx:/etc/nginx/conf.d/dev.poeticmetric.com.conf
 
   postgres:
     environment:
@@ -126,8 +160,8 @@ services:
       <<: *backend-common-environment
       INSTANCE: rest-api
       VIRTUAL_HOST: api.dev.poeticmetric.com
-#    ports:
-#      - "127.0.0.1:2345:2345"
+  #    ports:
+  #      - "127.0.0.1:2345:2345"
 
   scheduler:
     <<: *backend-common
@@ -136,8 +170,8 @@ services:
     environment:
       <<: *backend-common-environment
       INSTANCE: scheduler
-#    ports:
-#      - "127.0.0.1:2345:2345"
+  #    ports:
+  #      - "127.0.0.1:2345:2345"
 
   stripe-webhook:
     environment:

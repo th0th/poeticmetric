@@ -24,7 +24,7 @@ type SendWebhookPayload struct {
 }
 
 func SendWebhook(dp *depot.Depot, payload *SendWebhookPayload) error {
-	if env.Get(env.WebhookUrl) == "" {
+	if env.Get(env.NodeRedBaseUrl) == "" {
 		return nil
 	}
 
@@ -69,7 +69,7 @@ func sendWebhook(dp *depot.Depot, b []byte) error {
 		return err
 	}
 
-	_, err = dp.HttpClient().Post(env.Get(env.WebhookUrl), "application/json", bytes.NewBuffer(bodyByteSlice))
+	_, err = dp.HttpClient().Post(env.Get(env.NodeRedBaseUrl)+"/webhook", "application/json", bytes.NewBuffer(bodyByteSlice))
 	if err != nil {
 		return err
 	}

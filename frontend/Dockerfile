@@ -11,7 +11,7 @@ ARG SENTRY_DSN
 ARG SENTRY_ENVIRONMENT
 ARG SENTRY_ORG
 ARG SENTRY_PROJECT
-ARG STRIPE_API_PUBLISHABLE_KEY
+ARG STRIPE_PUBLISHABLE_KEY
 
 WORKDIR /poeticmetric-frontend-builder
 
@@ -19,7 +19,7 @@ WORKDIR /poeticmetric-frontend-builder
 COPY package.json .
 COPY yarn.lock .
 
-# install modules
+# install dependencies
 RUN yarn install
 
 # copy the rest of the files
@@ -50,12 +50,12 @@ ENV NEXT_PUBLIC_NODE_RED_BASE_URL=${NODE_RED_BASE_URL}
 ENV NEXT_PUBLIC_ROBOTS_TXT_ALLOW=${ROBOTS_TXT_ALLOW}
 ENV NEXT_PUBLIC_SENTRY_DSN=${SENTRY_DSN}
 ENV NEXT_PUBLIC_SENTRY_ENVIRONMENT=${SENTRY_ENVIRONMENT}
-ENV NEXT_PUBLIC_STRIPE_API_PUBLISHABLE_KEY=${STRIPE_API_PUBLISHABLE_KEY}
+ENV NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY}
 ENV SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
 ENV SENTRY_ORG=${SENTRY_ORG}
 ENV SENTRY_PROJECT=${SENTRY_PROJECT}
 
-COPY etc/build.sh .
+COPY scripts/build.sh .
 
 RUN ./build.sh
 
@@ -66,5 +66,5 @@ RUN apk update && apk add bash
 WORKDIR /poeticmetric-frontend
 
 COPY --from=0 /poeticmetric-frontend-builder/out /usr/share/nginx/html
-COPY etc/generate-config.sh /docker-entrypoint.d/40-generate-config.sh
+COPY scripts/generate-config.sh /docker-entrypoint.d/40-generate-config.sh
 COPY etc/nginx.nginx /etc/nginx/conf.d/default.conf
