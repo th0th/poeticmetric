@@ -3,6 +3,7 @@ module.exports = {
   parser: "@typescript-eslint/parser",
   plugins: [
     "@typescript-eslint",
+    "sort-destructure-keys",
     "typescript-sort-keys",
   ],
   root: true,
@@ -31,6 +32,7 @@ module.exports = {
     "react/jsx-sort-props": "error",
     "react/jsx-tag-spacing": "error",
     "react/jsx-wrap-multilines": ["error"],
+    "sort-destructure-keys/sort-destructure-keys": ["error"],
     "sort-keys": "error",
     "typescript-sort-keys/interface": "error",
     "typescript-sort-keys/string-enum": "error",
