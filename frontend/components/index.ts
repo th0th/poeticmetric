@@ -26,6 +26,7 @@ export * from "./PoeticMetric";
 export * from "./Portal";
 export * from "./Pricing";
 export * from "./PrivacyPolicy";
+export * from "./PublicSiteReports";
 export * from "./Settings";
 export * from "./SignIn";
 export * from "./SignOut";

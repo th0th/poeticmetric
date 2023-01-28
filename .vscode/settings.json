@@ -1,5 +1,18 @@
 {
     "yaml.schemas": {
         "https://json.schemastore.org/github-workflow.json": "file:///Users/th0th/Workspace/poeticmetric/poeticmetric/.github/workflows/deploy.yaml"
-    }
+    },
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "development - postgres",
+            "group": "poeticmetric",
+            "database": "poeticmetric",
+            "username": "poeticmetric",
+            "password": "poeticmetric"
+        }
+    ]
 }

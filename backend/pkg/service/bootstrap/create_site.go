@@ -2,6 +2,8 @@ package bootstrap
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/brianvoe/gofakeit/v6"
 	"github.com/google/uuid"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/country"
@@ -11,7 +13,6 @@ import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/pointer"
 	h "github.com/poeticmetric/poeticmetric/backend/pkg/testhelper"
-	"time"
 )
 
 const batches = 1000
@@ -21,6 +22,7 @@ func createSite(dp *depot.Depot) error {
 	modelSite := &model.Site{
 		Domain:              "demo.yoursite.tld",
 		Id:                  1,
+		IsPublic:            false,
 		Name:                "Demo Site",
 		OrganizationId:      1,
 		SafeQueryParameters: []string{},

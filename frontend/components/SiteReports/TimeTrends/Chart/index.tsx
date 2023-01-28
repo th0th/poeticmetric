@@ -98,9 +98,7 @@ export function BaseChart({ parentHeight, parentWidth }: BaseChartProps) {
           if (coords === null) return;
 
           rawShowTooltip({
-            tooltipData: {
-              datum: datum,
-            },
+            tooltipData: { datum },
             tooltipLeft: coords.x,
             tooltipTop: coords.y,
           });

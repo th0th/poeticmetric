@@ -12,16 +12,17 @@ type State = {
   isDisabled: boolean;
 };
 
-type Form = {
-  domain: string;
-  name: string;
-  safeQueryParameters: Array<string>;
-};
+type Form = Pick<Site, "domain" | "isPublic" | "name" | "safeQueryParameters">;
 
 export function SiteForm() {
   const router = useRouter();
   const { addToast } = useContext(ToastsContext);
-  const [values, setValues, updateValue, errors, setErrors] = useForm<Form>({ domain: "", name: "", safeQueryParameters: [] });
+  const [values, setValues, updateValue, errors, setErrors] = useForm<Form>({
+    domain: "",
+    isPublic: false,
+    name: "",
+    safeQueryParameters: [],
+  });
   const id = useQueryNumber("id");
   const [state, setState] = useState<State>({ isDisabled: false });
   const title = useMemo(() => (id === undefined ? "Add site" : "Edit site"), [id]);
@@ -57,6 +58,7 @@ export function SiteForm() {
         setValues((values) => ({
           ...values,
           domain: responseJson.domain,
+          isPublic: responseJson.isPublic,
           name: responseJson.name,
           safeQueryParameters: responseJson.safeQueryParameters,
         }));
@@ -134,6 +136,24 @@ export function SiteForm() {
 
                   <Form.Control.Feedback type="invalid">{errors.safeQueryParameters}</Form.Control.Feedback>
                 </Form.Group>
+
+                {process.env.NEXT_PUBLIC_HOSTED === "true" ? (
+                  <Form.Group controlId="is-public">
+                    <Form.Check
+                      checked={values.isPublic}
+                      label="Make this site's reports publicly available"
+                      name="isPublic"
+                      onChange={(event) => updateValue("isPublic", event.target.checked)}
+                      type="checkbox"
+                    />
+
+                    <Form.Text>
+                      {"If you enable this, this site&apos;s stats will be accessible by everyone on "}
+                      {`${window.poeticMetric?.frontendBaseUrl}/s?d=${values.domain}`}
+                      .
+                    </Form.Text>
+                  </Form.Group>
+                ) : null}
 
                 <div className="mt-2">
                   <Button type="submit">Save</Button>

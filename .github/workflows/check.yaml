@@ -5,6 +5,7 @@ on:
   pull_request:
 jobs:
   run-backend-tests:
+    if: github.event.pull_request.draft == false
     name: Run backend tests
     runs-on: ubuntu-latest
     steps:
@@ -24,6 +25,7 @@ jobs:
         working-directory: backend
 
   run-frontend-tests:
+    if: github.event.pull_request.draft == false
     name: Run frontend tests
     runs-on: ubuntu-latest
     steps:

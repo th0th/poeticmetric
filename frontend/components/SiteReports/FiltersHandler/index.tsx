@@ -3,12 +3,11 @@ import { isEqual } from "lodash";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
 import React, { useEffect, useMemo } from "react";
-import { Spinner } from "react-bootstrap";
 import { SiteReportsFiltersContext, SiteReportsFiltersContextValue } from "../../../contexts";
-import { useQueryNumber } from "../../../hooks";
 
 export type FiltersHandlerProps = {
   children: React.ReactNode;
+  siteId: number;
 };
 
 function getFilter(queryString: string | Array<string> | undefined): string | null {
@@ -19,10 +18,8 @@ function getFilter(queryString: string | Array<string> | undefined): string | nu
   return queryString.toString();
 }
 
-export function FiltersHandler({ children }: FiltersHandlerProps) {
+export function FiltersHandler({ children, siteId }: FiltersHandlerProps) {
   const router = useRouter();
-  const siteId = useQueryNumber("id");
-  // const { data: sites } = useSWR<Array<Site>>(correctSiteHost ? "/sites" : null);
 
   const reportFilters = useMemo<SiteReportsFiltersContextValue>(() => {
     // end
@@ -60,7 +57,7 @@ export function FiltersHandler({ children }: FiltersHandlerProps) {
       referrer: getFilter(router.query.referrer),
       referrerSite: getFilter(router.query.referrerSite),
       scheme: getFilter(router.query.scheme),
-      siteId: siteId || 0,
+      siteId,
       start,
       utmCampaign: getFilter(router.query.utmCampaign),
       utmContent: getFilter(router.query.utmContent),
@@ -71,21 +68,15 @@ export function FiltersHandler({ children }: FiltersHandlerProps) {
   }, [router, siteId]);
 
   useEffect(() => {
-    if (!router.isReady) return;
+    if (!router.isReady) {
+      return;
+    }
 
     const correctedQuery: ParsedUrlQuery = {
       ...router.query,
       end: reportFilters.end.toISOString(),
       start: reportFilters.start.toISOString(),
     };
-
-    // if (
-    //   sites !== undefined
-    //   && sites.length > 0
-    //   && (reportFilters.siteHost === null || sites.find((s) => s.host === reportFilters.siteHost) === undefined)
-    // ) {
-    //   correctedQuery.siteHost = sites[0].host;
-    // }
 
     if (!isEqual(correctedQuery, router.query)) {
       router.replace({
@@ -95,27 +86,9 @@ export function FiltersHandler({ children }: FiltersHandlerProps) {
     }
   }, [reportFilters.end, reportFilters.start, router, router.isReady, router.query]);
 
-  const isReady = useMemo<boolean>(() => {
-    return true;
-
-    let v = reportFilters.start.isValid() && reportFilters.end.isValid();
-
-    // if (
-    //   correctSiteHost
-    //   && reportFilters.siteHost === null
-    //   && (sites === undefined || sites.length > 0)
-    // ) {
-    //   v = false;
-    // }
-
-    return v;
-  }, [reportFilters.end, reportFilters.start]);
-
   return (
     <SiteReportsFiltersContext.Provider value={reportFilters}>
-      {isReady ? children : (
-        <Spinner animation="border" />
-      )}
+      {children}
     </SiteReportsFiltersContext.Provider>
   );
 }
