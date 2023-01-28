@@ -14,15 +14,12 @@ jobs:
 
       - name: Pull required images
         run: docker compose pull clickhouse postgres rabbitmq
-        working-directory: backend
 
       - name: Build development image
         run: make test-build
-        working-directory: backend
 
       - name: Run tests
         run: make test
-        working-directory: backend
 
   run-frontend-tests:
     if: github.event.pull_request.draft == false

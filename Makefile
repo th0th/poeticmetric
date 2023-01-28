@@ -27,4 +27,4 @@ test:
 	@docker compose down -v 2> /dev/null
 
 test-build:
-	@docker compose build 2> /dev/null
+	@docker compose build rest-api 2> /dev/null
