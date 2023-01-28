@@ -19,7 +19,9 @@ jobs:
         run: make test-build
 
       - name: Run tests
-        run: make test
+        run: |
+          cp .env.example .env
+          make test
 
   run-frontend-tests:
     if: github.event.pull_request.draft == false
