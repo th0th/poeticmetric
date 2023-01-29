@@ -21,6 +21,7 @@ const (
 	FrontendBaseUrl            = "FRONTEND_BASE_URL"
 	Hosted                     = "HOSTED"
 	Instance                   = "INSTANCE"
+	NodeRedBaseUrl             = "NODE_RED_BASE_URL"
 	PostgresDatabase           = "POSTGRES_DATABASE"
 	PostgresHost               = "POSTGRES_HOST"
 	PostgresPassword           = "POSTGRES_PASSWORD"
@@ -43,7 +44,6 @@ const (
 	SmtpUser                   = "SMTP_USER"
 	StripeSecretKey            = "STRIPE_SECRET_KEY"
 	StripeWebhookSigningSecret = "STRIPE_WEBHOOK_SIGNING_SECRET"
-	WebhookUrl                 = "WEBHOOK_URL"
 	WorkerCount                = "WORKER_COUNT"
 	WorkerQueues               = "WORKER_QUEUES"
 )

@@ -75,7 +75,7 @@ jobs:
             SENTRY_ENVIRONMENT=${{ inputs.environment }}
             SENTRY_ORG=${{ secrets.SENTRY_ORG }}
             SENTRY_PROJECT=${{ secrets.SENTRY_PROJECT }}
-            STRIPE_API_PUBLISHABLE_KEY=${{ vars.STRIPE_API_PUBLISHABLE_KEY }}
+            STRIPE_PUBLISHABLE_KEY=${{ vars.STRIPE_PUBLISHABLE_KEY }}
           context: frontend
           push: true
           tags: ${{ steps.meta.outputs.tags }}

@@ -34,4 +34,4 @@ COPY --from=0 /usr/src/poeticmetric/bin/worker /usr/local/bin/poeticmetric-worke
 
 COPY docker-entrypoint.sh /usr/local/bin/
 
-CMD ["/usr/local/bin/docker-entrypoint.sh"]
+CMD ["docker-entrypoint.sh"]
