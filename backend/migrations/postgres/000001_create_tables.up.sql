@@ -53,7 +53,7 @@ CREATE TABLE "users" (
   "last_access_token_created_at" timestamptz,
   "name" text,
   "organization_id" bigint NOT NULL,
-  "password" text NOT NULL,
+  "password" text,
   "password_reset_token" text UNIQUE,
   "updated_at" timestamptz NOT NULL,
   PRIMARY KEY ("id"),
