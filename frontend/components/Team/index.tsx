@@ -11,7 +11,7 @@ export function Team() {
   const router = useRouter();
   const { data: users } = useUsers();
 
-  const filteredUsers = useMemo<Array<HydratedUser> | null>(() => {
+  const filteredUsers = useMemo<Array<User> | null>(() => {
     if (users === undefined) {
       return null;
     }

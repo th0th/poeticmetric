@@ -5,5 +5,3 @@ type User = {
   isOrganizationOwner: boolean;
   name: string;
 };
-
-type HydratedUser = User;
