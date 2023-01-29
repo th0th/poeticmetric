@@ -1,32 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useSWR, { BareFetcher, mutate, SWRConfiguration, SWRResponse } from "swr";
 
 type Data = Array<User>;
-type HydratedData = Array<HydratedUser>;
 
-type Config = SWRConfiguration<Data, Error, BareFetcher<Data>>;
+type SwrConfig = SWRConfiguration<Data, any, BareFetcher<Data>>;
+type SwrResponse = SWRResponse<Data, Error>;
 
-type Response = Overwrite<SWRResponse<Data>, {
-  data: HydratedData | undefined;
-}>;
-
-export function useUsers(disable?: boolean, config?: Config): Response {
-  const { data: rawData, ...swrResponse } = useSWR<Data>(disable ? null : "/users", config);
-  const [hydratedData, setHydratedData] = useState<HydratedData>();
+export function useUsers(disable?: boolean, config?: SwrConfig): SwrResponse {
+  const swrResponse = useSWR<Data, Error>(disable ? null : "/users", config);
 
   useEffect(() => {
-    let canceled = false;
-
-    if (rawData !== undefined) {
-      Promise
-        .all(rawData.map((datum) => mutate(`/users/${datum.id}`, datum)))
-        .then(() => !canceled && setHydratedData(rawData));
+    if (swrResponse.data !== undefined) {
+      swrResponse.data.map((datum) => mutate(`/users/${datum.id}`, datum));
     }
+  }, [swrResponse.data]);
 
-    return () => {
-      canceled = true;
-    };
-  }, [rawData]);
-
-  return { data: hydratedData, ...swrResponse };
+  return swrResponse;
 }

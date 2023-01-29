@@ -1,6 +1,6 @@
 export * from "./useForm";
 export * from "./usePublicSite";
-export * from "./useQueryNumber";
+export * from "./useQueryParameter";
 export * from "./useReportQueryParams";
 export * from "./useSite";
 export * from "./useSiteBrowserNameReport";
@@ -27,4 +27,5 @@ export * from "./useSiteVisitorReport";
 export * from "./useSiteVisitorTrendsReport";
 export * from "./useSites";
 export * from "./useSwrMatchMutate";
+export * from "./useUser";
 export * from "./useUsers";

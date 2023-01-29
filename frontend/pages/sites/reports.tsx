@@ -3,21 +3,21 @@ import React, { useContext, useEffect } from "react";
 import { Container, Spinner } from "react-bootstrap";
 import { Breadcrumb, Layout, SiteReports, withAuth } from "../../components";
 import { ToastsContext } from "../../contexts";
-import { useQueryNumber, useSite } from "../../hooks";
+import { useQueryParameter, useSite } from "../../hooks";
 
 function Reports() {
   const router = useRouter();
   const { addToast } = useContext(ToastsContext);
-  const siteId = useQueryNumber("id");
+  const { hasError: hasSiteIdError, value: siteId } = useQueryParameter("id", "number");
   const { data: site, error: siteError } = useSite(siteId);
 
   useEffect(() => {
-    if (siteError !== undefined) {
-      addToast({ body: siteError.message || "An error has occurred.", variant: "danger" });
+    if (hasSiteIdError || siteError !== undefined) {
+      addToast({ body: siteError?.message || "An error has occurred.", variant: "danger" });
 
       router.replace("/sites");
     }
-  }, [addToast, router, siteError]);
+  }, [addToast, hasSiteIdError, router, siteError]);
 
   return (
     <Layout kind="app">
