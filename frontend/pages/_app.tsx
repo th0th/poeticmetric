@@ -33,7 +33,9 @@ export default function App({ Component, pageProps }: AppProps) {
         </ToastsHandler>
       </AuthAndApiHandler>
 
-      <PoeticMetric />
+      {process.env.NEXT_PUBLIC_HOSTED === "true" ? (
+        <PoeticMetric />
+      ) : null}
     </SwrConfig>
   );
 }
