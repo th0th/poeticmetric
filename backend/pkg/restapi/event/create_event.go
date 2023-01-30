@@ -2,12 +2,13 @@ package event
 
 import (
 	"encoding/json"
+	"time"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 	dm "github.com/poeticmetric/poeticmetric/backend/pkg/restapi/middleware/depot"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/event"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/worker"
-	"time"
 )
 
 func createEvent(c *fiber.Ctx) error {

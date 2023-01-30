@@ -2,6 +2,8 @@ package organization
 
 import (
 	"fmt"
+	"strings"
+
 	v "github.com/RussellLuo/validating/v3"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/frontend"
@@ -12,7 +14,6 @@ import (
 	"github.com/stripe/stripe-go/v74/checkout/session"
 	"github.com/stripe/stripe-go/v74/price"
 	"github.com/stripe/stripe-go/v74/product"
-	"strings"
 )
 
 type CreateStripeCheckoutSessionData struct {
@@ -78,15 +79,15 @@ func CreateStripeCheckoutSession(dp *depot.Depot, id uint64, payload *CreateStri
 	})
 
 	stripeCheckoutSessionParams := &stripe.CheckoutSessionParams{
-		AutomaticTax:        &stripe.CheckoutSessionAutomaticTaxParams{Enabled: pointer.Get(true)},
-		CancelURL:           pointer.Get(frontend.GenerateUrl("/billing")),
-		Customer:            data.OrganizationStripeCustomerId,
+		AutomaticTax: &stripe.CheckoutSessionAutomaticTaxParams{Enabled: pointer.Get(true)},
+		CancelURL:    pointer.Get(frontend.GenerateUrl("/billing")),
+		Customer:     data.OrganizationStripeCustomerId,
 		LineItems: []*stripe.CheckoutSessionLineItemParams{{
 			Price:    &stripePrices.PriceList().Data[0].ID,
 			Quantity: pointer.Get(int64(1)),
 		}},
-		Mode:               pointer.Get(string(stripe.CheckoutSessionModeSubscription)),
-		SuccessURL:         pointer.Get(frontend.GenerateUrl("/billing")),
+		Mode:       pointer.Get(string(stripe.CheckoutSessionModeSubscription)),
+		SuccessURL: pointer.Get(frontend.GenerateUrl("/billing")),
 	}
 
 	if data.OrganizationStripeCustomerId == nil {

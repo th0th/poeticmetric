@@ -3,11 +3,12 @@ package worker
 import (
 	"bytes"
 	"encoding/json"
+	"log"
+	"strings"
+
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot/rabbitmq"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/env"
-	"log"
-	"strings"
 )
 
 const SendWebhookQueue rabbitmq.QueueName = "sendWebhook"

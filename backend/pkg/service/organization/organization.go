@@ -1,9 +1,10 @@
 package organization
 
 import (
+	"time"
+
 	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/plan"
-	"time"
 )
 
 type Organization struct {

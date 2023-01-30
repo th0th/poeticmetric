@@ -2,8 +2,9 @@ package email
 
 import (
 	"fmt"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/env"
 	"net/smtp"
+
+	"github.com/poeticmetric/poeticmetric/backend/pkg/env"
 )
 
 type SendInput struct {

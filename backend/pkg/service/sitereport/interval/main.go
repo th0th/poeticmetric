@@ -1,9 +1,10 @@
 package interval
 
 import (
-	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/filter"
 	"strconv"
 	"time"
+
+	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/filter"
 )
 
 type IntervalUnit string

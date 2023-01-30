@@ -8,6 +8,7 @@ x-backend-common: &backend-common
     - clickhouse
     - postgres
     - rabbitmq
+    - redis
   image: ghcr.io/th0th/poeticmetric-backend:development
   environment: &backend-common-environment
     CLICKHOUSE_DATABASE: ${CLICKHOUSE_DATABASE}
@@ -59,8 +60,9 @@ networks:
     name: ${COMPOSE_PROJECT_NAME}
 
 volumes:
-  postgres:
   clickhouse:
+  postgres:
+  redis:
 
 services:
   clickhouse:
@@ -149,13 +151,11 @@ services:
       - "--requirepass"
       - "${REDIS_PASSWORD}"
     image: redis:7-alpine
+    volumes:
+      - redis:/data
 
   rest-api:
     <<: *backend-common
-    depends_on:
-      - clickhouse
-      - postgres
-      - rabbitmq
     environment:
       <<: *backend-common-environment
       INSTANCE: rest-api
@@ -187,10 +187,6 @@ services:
 
   worker:
     <<: *backend-common
-    depends_on:
-      - clickhouse
-      - postgres
-      - rabbitmq
     environment:
       <<: *backend-common-environment
       INSTANCE: worker

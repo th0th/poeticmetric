@@ -2,13 +2,14 @@ package event
 
 import (
 	"fmt"
+	"net/url"
+	"strings"
+	"time"
+
 	v "github.com/RussellLuo/validating/v3"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/validator"
-	"net/url"
-	"strings"
-	"time"
 )
 
 type CreatePayload struct {
@@ -55,7 +56,7 @@ func Create(dp *depot.Depot, payload *CreatePayload) error {
 		SiteId:   modelSite.Id,
 	}
 
-	event.FillVisitorId(payload.IpAddress, payload.UserAgent)
+	event.FillVisitorId(dp, payload.IpAddress, payload.UserAgent)
 	event.FillFromUrl(*payload.Url, modelSite.SafeQueryParameters)
 	event.FillFromUserAgent(payload.UserAgent)
 

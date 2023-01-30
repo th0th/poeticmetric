@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+
 	"github.com/getsentry/sentry-go"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/env"
@@ -8,7 +10,6 @@ import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/signal"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/worker"
 	"github.com/robfig/cron/v3"
-	"log"
 )
 
 func handleCallError(err error) {

@@ -1,8 +1,9 @@
 package validator
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestDomain(t *testing.T) {

@@ -2,13 +2,14 @@ package env
 
 import (
 	"fmt"
-	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 	"log"
 	"os"
 	"strconv"
 	"strings"
 	"time"
+
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 const (

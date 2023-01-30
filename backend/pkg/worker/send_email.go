@@ -2,6 +2,7 @@ package worker
 
 import (
 	"encoding/json"
+
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot/rabbitmq"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/email"

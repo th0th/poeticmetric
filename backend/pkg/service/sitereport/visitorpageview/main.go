@@ -1,13 +1,14 @@
 package visitorpageview
 
 import (
+	"math"
+	"strings"
+	"time"
+
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/filter"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/interval"
 	"gorm.io/gorm"
-	"math"
-	"strings"
-	"time"
 )
 
 type Datum struct {

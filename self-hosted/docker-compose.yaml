@@ -1,6 +1,11 @@
 version: "3.9"
 
 x-backend-common: &backend-common
+  depends_on:
+    - clickhouse
+    - postgres
+    - rabbitmq
+    - redis
   image: "poeticmetric/backend:${VERSION}"
   environment: &backend-common-environment
     CLICKHOUSE_DATABASE: ${CLICKHOUSE_DATABASE}
@@ -81,11 +86,6 @@ services:
 
   rest-api:
     <<: *backend-common
-    depends_on:
-      - clickhouse
-      - postgres
-      - rabbitmq
-      - redis
     environment:
       <<: *backend-common-environment
       INSTANCE: rest-api
@@ -102,10 +102,6 @@ services:
 
   worker:
     <<: *backend-common
-    depends_on:
-      - clickhouse
-      - postgres
-      - rabbitmq
     environment:
       <<: *backend-common-environment
       INSTANCE: worker

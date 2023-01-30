@@ -2,13 +2,14 @@ package organization
 
 import (
 	"fmt"
+	"log"
+	"strings"
+	"time"
+
 	v "github.com/RussellLuo/validating/v3"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/worker"
-	"log"
-	"strings"
-	"time"
 )
 
 type DeletionPayload struct {

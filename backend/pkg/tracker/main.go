@@ -2,10 +2,11 @@ package tracker
 
 import (
 	"bytes"
+	"text/template"
+
 	"github.com/poeticmetric/poeticmetric/backend/pkg/env"
 	"github.com/tdewolff/minify/v2"
 	"github.com/tdewolff/minify/v2/js"
-	"text/template"
 )
 
 var output *string
