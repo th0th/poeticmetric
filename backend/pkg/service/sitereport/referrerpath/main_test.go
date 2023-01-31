@@ -2,6 +2,10 @@ package referrerpath
 
 import (
 	"fmt"
+	"os"
+	"testing"
+	"time"
+
 	"github.com/brianvoe/gofakeit/v6"
 	"github.com/google/uuid"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
@@ -10,9 +14,6 @@ import (
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/filter"
 	h "github.com/poeticmetric/poeticmetric/backend/pkg/testhelper"
 	"github.com/stretchr/testify/assert"
-	"os"
-	"testing"
-	"time"
 )
 
 var (

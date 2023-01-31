@@ -2,6 +2,7 @@ package depot
 
 import (
 	"fmt"
+
 	"github.com/go-redis/redis/v9"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/env"
 )

@@ -2,15 +2,16 @@ package sitepageviewtrends
 
 import (
 	"fmt"
+	"os"
+	"testing"
+	"time"
+
 	"github.com/google/uuid"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/filter"
 	h "github.com/poeticmetric/poeticmetric/backend/pkg/testhelper"
 	"github.com/stretchr/testify/assert"
-	"os"
-	"testing"
-	"time"
 )
 
 var (

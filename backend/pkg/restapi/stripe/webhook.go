@@ -3,6 +3,9 @@ package stripe
 import (
 	"encoding/json"
 	"errors"
+	"log"
+	"strings"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/email"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/env"
@@ -15,8 +18,6 @@ import (
 	"github.com/stripe/stripe-go/v74/customer"
 	webhook2 "github.com/stripe/stripe-go/v74/webhook"
 	"gorm.io/gorm"
-	"log"
-	"strings"
 )
 
 func webhook(c *fiber.Ctx) error {

@@ -3,6 +3,9 @@ package authentication
 import (
 	"encoding/base64"
 	"errors"
+	"strconv"
+	"strings"
+
 	"github.com/getsentry/sentry-go"
 	"github.com/gofiber/contrib/fibersentry"
 	"github.com/gofiber/fiber/v2"
@@ -11,8 +14,6 @@ import (
 	dm "github.com/poeticmetric/poeticmetric/backend/pkg/restapi/middleware/depot"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
-	"strconv"
-	"strings"
 )
 
 func NewUserBasicAuth() fiber.Handler {

@@ -41,7 +41,7 @@ func signUp(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusCreated).JSON(map[string]any{
-		"user": userSelf,
+		"user":            userSelf,
 		"userAccessToken": userAccessToken,
 	})
 }

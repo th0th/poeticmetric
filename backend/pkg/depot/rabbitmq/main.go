@@ -2,10 +2,11 @@ package rabbitmq
 
 import (
 	"fmt"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/env"
-	amqp "github.com/rabbitmq/amqp091-go"
 	"log"
 	"time"
+
+	"github.com/poeticmetric/poeticmetric/backend/pkg/env"
+	amqp "github.com/rabbitmq/amqp091-go"
 )
 
 type QueueName string

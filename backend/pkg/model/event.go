@@ -4,13 +4,16 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
-	"github.com/mileusna/useragent"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/country"
-	locale2 "github.com/poeticmetric/poeticmetric/backend/pkg/locale"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/pointer"
 	"log"
 	url2 "net/url"
 	"time"
+
+	"github.com/mileusna/useragent"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/country"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
+	locale2 "github.com/poeticmetric/poeticmetric/backend/pkg/locale"
+	"github.com/poeticmetric/poeticmetric/backend/pkg/pointer"
+	salt2 "github.com/poeticmetric/poeticmetric/backend/pkg/service/salt"
 )
 
 type Event struct {
@@ -140,8 +143,28 @@ func (e *Event) FillFromUserAgent(userAgent string) {
 	}
 }
 
-func (e *Event) FillVisitorId(ipAddress string, userAgent string) {
-	h := sha256.Sum256([]byte(fmt.Sprintf("%s%s", ipAddress, userAgent)))
+func (e *Event) FillVisitorId(dp *depot.Depot, ipAddress string, userAgent string) {
+	salt := salt2.Get(dp)
+	hashOrder := salt2.GetHashOrder(dp)
+
+	var hash string
+
+	switch hashOrder {
+	case salt2.HashOrder1:
+		hash = fmt.Sprintf("%s%s%s", ipAddress, userAgent, salt)
+	case salt2.HashOrder2:
+		hash = fmt.Sprintf("%s%s%s", ipAddress, salt, userAgent)
+	case salt2.HashOrder3:
+		hash = fmt.Sprintf("%s%s%s", userAgent, ipAddress, salt)
+	case salt2.HashOrder4:
+		hash = fmt.Sprintf("%s%s%s", userAgent, salt, ipAddress)
+	case salt2.HashOrder5:
+		hash = fmt.Sprintf("%s%s%s", salt, ipAddress, userAgent)
+	case salt2.HashOrder6:
+		hash = fmt.Sprintf("%s%s%s", salt, userAgent, ipAddress)
+	}
+
+	h := sha256.Sum256([]byte(hash))
 
 	e.VisitorId = hex.EncodeToString(h[:])
 }

@@ -1,10 +1,11 @@
 package sitepageviewtrends
 
 import (
+	"strings"
+
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/filter"
 	"gorm.io/gorm"
-	"strings"
 )
 
 type Datum struct {

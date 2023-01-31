@@ -2,6 +2,7 @@ package bootstrap
 
 import (
 	"fmt"
+
 	v "github.com/RussellLuo/validating/v3"
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database/postgres"

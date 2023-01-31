@@ -2,10 +2,11 @@ package depot
 
 import (
 	"context"
+	"net/http"
+
 	"github.com/go-redis/redis/v9"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot/rabbitmq"
 	"gorm.io/gorm"
-	"net/http"
 )
 
 var Ctx = context.Background()

@@ -2,11 +2,12 @@ package siteoverviewreport
 
 import (
 	"context"
+	"math"
+
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/filter"
 	"golang.org/x/sync/errgroup"
 	"gorm.io/gorm"
-	"math"
 )
 
 type Report struct {

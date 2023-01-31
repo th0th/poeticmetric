@@ -1,9 +1,10 @@
 package validator
 
 import (
+	"net/url"
+
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
-	"net/url"
 )
 
 func SiteUrl(dp *depot.Depot, v string) bool {

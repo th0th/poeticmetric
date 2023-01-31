@@ -1,10 +1,11 @@
 package filter
 
 import (
+	"time"
+
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
 	"gorm.io/gorm"
-	"time"
 )
 
 type Filters struct {

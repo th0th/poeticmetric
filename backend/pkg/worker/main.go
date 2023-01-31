@@ -2,12 +2,13 @@ package worker
 
 import (
 	"encoding/json"
+	"log"
+	"time"
+
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot/rabbitmq"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/signal"
 	amqp "github.com/rabbitmq/amqp091-go"
-	"log"
-	"time"
 )
 
 var Queues = []*rabbitmq.Queue{
