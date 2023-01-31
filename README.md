@@ -8,7 +8,7 @@
 <a href="https://discord.poeticmetric.com"><img alt="Discord" src="https://img.shields.io/discord/866008872506097715" /></a>
 </p>
 
-**PoeticMetric** is a privacy-first, open source, and blazingly fast alternative to Google Analytics.
+**PoeticMetric** is a privacy-focused, open source, and blazingly fast alternative to Google Analytics.
 
 PoeticMetric is **privacy-first**, **transparent**, **efficient** and **sustainable**. If you would like to read more about PoeticMetric's vision, you can check out my manifesto: [Building a Better Web: PoeticMetric's Vision](https://www.poeticmetric.com/manifesto)
 
@@ -16,7 +16,7 @@ PoeticMetric is **privacy-first**, **transparent**, **efficient** and **sustaina
 
 The quickest way to start using PoeticMetric is, [signing up on the managed service that I offer on www.poeticmetric.com](https://www.poeticmetric.com?utm_source=github&utm_term=using). It is fully operated by me, you can simply create your account and start tracking your website's performance right away!
 
-PoeticMetric is 100% open source. This means, you can run your own instance of PoeticMetric on your own servers. In order to simplify self-hosting process, I also built required docker images, and a sample configuration.
+PoeticMetric is 100% open source. This means, you can run your own instance of PoeticMetric on your own servers. In order to simplify self-hosting process, I also built required docker images, and prepared a sample configuration.
 
 ### Self-hosted
 
