@@ -29,7 +29,7 @@ export function Overview({ ...props }: SiteOverviewReportsProps) {
                   <i className="bi-file-text-fill fs-sm" />
                 </div>
 
-                <span className="fs-5 fw-bold">{data.pageViewCount}</span>
+                <span className="fs-5 fw-bold">{data.pageViewCountDisplay}</span>
               </div>
 
               <Card.Subtitle
@@ -52,7 +52,7 @@ export function Overview({ ...props }: SiteOverviewReportsProps) {
                   <i className="bi-person-fill fs-sm" />
                 </div>
 
-                <span className="fs-5 fw-bold">{data.visitorCount}</span>
+                <span className="fs-5 fw-bold">{data.visitorCountDisplay}</span>
               </div>
 
               <Card.Subtitle
