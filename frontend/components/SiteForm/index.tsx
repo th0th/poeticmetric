@@ -154,7 +154,7 @@ export function SiteForm() {
                         />
 
                         <Form.Text>
-                          {"If you enable this, this site&apos;s stats will be accessible by everyone on "}
+                          {"If you enable this, this site's stats will be accessible by everyone on "}
                           {`${window.poeticMetric?.frontendBaseUrl}/s?d=${values.domain}`}
                           .
                         </Form.Text>

@@ -3,8 +3,10 @@ type SiteOverviewReportChangeVariant = "muted" | "danger" | "success";
 type HydratedSiteOverviewReport = SiteOverviewReport & {
   averagePageViewDurationDisplay: string;
   averagePageViewDurationPercentageChangeVariant: SiteOverviewReportChangeVariant;
+  pageViewCountDisplay: string;
   pageViewCountPerVisitorPercentageChangeVariant: SiteOverviewReportChangeVariant;
   pageViewCountPercentageChangeVariant: SiteOverviewReportChangeVariant;
+  visitorCountDisplay: string;
   visitorCountPercentageChangeVariant: SiteOverviewReportChangeVariant;
 };
 

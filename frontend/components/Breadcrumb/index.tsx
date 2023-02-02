@@ -27,7 +27,7 @@ export function Breadcrumb({ className, items, title, ...props }: BreadcrumbProp
             <span className="fs-5 fw-bold">{item.title}</span>
           )}
 
-          <span className="px-2 text-primary">&rarr;</span>
+          <span className="fw-medium px-2">&rarr;</span>
         </React.Fragment>
       );
     });

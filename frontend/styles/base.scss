@@ -52,6 +52,15 @@ $utilities: map-merge($utilities, (
     responsive: true,
     state: hover,
   )),
+  "border-color": (
+    property: border-color,
+    class: border,
+    local-vars: (
+      "border-opacity": 1
+    ),
+    state: focus hover,
+    values: $utilities-border-colors
+  ),
   "border-end": map-merge(map-get($utilities, "border-end"), (
     responsive: true,
   )),
@@ -65,7 +74,7 @@ $utilities: map-merge($utilities, (
     values: (
       dotted: dotted,
       solid: solid,
-    )
+    ),
   ),
   "bottom": map-merge(map-get($utilities, "bottom"), (
     responsive: true,
@@ -101,6 +110,11 @@ $utilities: map-merge($utilities, (
     property: height,
     values: $fixed-sizes,
   ),
+  "max-height": map-merge(map-get($utilities, "max-height"), (
+    values: map-merge(map-get(map-get($utilities, "max-height"), "values"), (
+      50vh: 50vh,
+    )),
+  )),
   "max-width": map-merge(map-get($utilities, "max-width"), (
     values: map-merge(map-get(map-get($utilities, "max-width"), "values"), (
       20rem: 20rem,
@@ -108,7 +122,7 @@ $utilities: map-merge($utilities, (
       34rem: 34rem,
       45rem: 45rem,
       50rem: 50rem,
-    ))
+    )),
   )),
   "min-height": (
     property: min-height,
@@ -131,7 +145,7 @@ $utilities: map-merge($utilities, (
     values: (
       0: 0,
       null: var(--#{$prefix}border-radius),
-    )
+    ),
   ),
   "rounded-bottom-start": (
     class: rounded-bottom-start,
@@ -140,7 +154,7 @@ $utilities: map-merge($utilities, (
     values: (
       0: 0,
       null: var(--#{$prefix}border-radius),
-    )
+    ),
   ),
   "start": map-merge(map-get($utilities, "start"), (
     responsive: true,

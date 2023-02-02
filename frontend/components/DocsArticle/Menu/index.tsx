@@ -3,6 +3,7 @@ import Link from "next/link";
 import React, { useId } from "react";
 import { Dropdown } from "react-bootstrap";
 import styles from "./Menu.module.scss";
+import { Search } from "./Search";
 
 export type MenuProps = Overwrite<Omit<React.PropsWithoutRef<JSX.IntrinsicElements["div"]>, "children">, {
   article: DocsArticle;
@@ -41,6 +42,8 @@ export function Menu({ article: articleFromProps, categories, className, ...prop
 
         <div className={classNames("d-none d-md-block overflow-auto px-3 py-4", styles.categories)}>
           <nav className="gap-3 vstack">
+            <Search />
+
             {categories.map((category) => (
               <div key={category.slug}>
                 <h6>{category.title}</h6>
@@ -52,7 +55,7 @@ export function Menu({ article: articleFromProps, categories, className, ...prop
                         "d-block text-decoration-none",
                         articleFromProps.category.slug === category.slug && articleFromProps.slug === article.slug
                           ? "text-primary"
-                          : "text-decoration-underline-hover text-black",
+                          : "text-decoration-underline-hover text-dark",
                       )}
                       href={`/docs/${category.slug}/${article.slug}`}
                       key={article.slug}
