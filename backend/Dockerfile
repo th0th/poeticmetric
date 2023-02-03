@@ -10,7 +10,7 @@ COPY pkg pkg
 
 RUN mkdir bin
 
-RUN CGO_ENABLED=0 go build -a -o bin/rest-api cmd/migrator/*
+RUN CGO_ENABLED=0 go build -a -o bin/migrator cmd/migrator/*
 RUN CGO_ENABLED=0 go build -a -o bin/rest-api cmd/restapi/*
 RUN CGO_ENABLED=0 go build -a -o bin/scheduler cmd/scheduler/*
 RUN CGO_ENABLED=0 go build -a -o bin/worker cmd/worker/*
