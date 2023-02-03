@@ -7,8 +7,8 @@ import (
 
 	"github.com/brianvoe/gofakeit/v6"
 	"github.com/dchest/uniuri"
-	"github.com/go-redis/redis/v9"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
+	"github.com/redis/go-redis/v9"
 )
 
 type HashOrder int64

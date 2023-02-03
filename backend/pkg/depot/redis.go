@@ -3,8 +3,8 @@ package depot
 import (
 	"fmt"
 
-	"github.com/go-redis/redis/v9"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/env"
+	"github.com/redis/go-redis/v9"
 )
 
 func (dp *Depot) Redis() *redis.Client {

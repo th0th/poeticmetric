@@ -8,6 +8,11 @@ on:
       environment:
         description: Select the environment
         type: environment
+      redeploy_databases:
+        default: false
+        description: Redeploy databases? (non-production envs)
+        required: true
+        type: boolean
 jobs:
   build-backend-docker-image:
     environment: ${{ inputs.environment }}
@@ -115,6 +120,17 @@ jobs:
       - build-frontend-docker-image
     runs-on: ubuntu-latest
     steps:
+      - if: inputs.environment == 'staging' && inputs.redeploy_databases == true
+        name: Redeploy databases
+        uses: th0th/rancher-redeploy-workload@v0.9.2
+        with:
+          DISABLE_OUTPUT: "true"
+          RANCHER_BEARER_TOKEN: ${{ secrets.RANCHER_BEARER_TOKEN }}
+          RANCHER_CLUSTER_ID: ${{ secrets.RANCHER_CLUSTER_ID }}
+          RANCHER_NAMESPACE: ${{ secrets.RANCHER_NAMESPACE }}
+          RANCHER_PROJECT_ID: ${{ secrets.RANCHER_PROJECT_ID }}
+          RANCHER_URL: ${{ secrets.RANCHER_URL }}
+          RANCHER_WORKLOADS: ${{ secrets.RANCHER_DATABASE_WORKLOADS }}
       - name: Update Rancher workloads
         uses: th0th/rancher-redeploy-workload@v0.9.2
         with:

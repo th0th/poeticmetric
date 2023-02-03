@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
+cd cmd/migrator
+go run .
+cd ../..
+
 run() {
   if [[ "$REMOTE_DEBUG" == "true" ]]; then
     exec reflex -R __debug_bin -s -d none -- bash -c "cd cmd/$1 && /go/bin/dlv --headless=true --listen=:2345 --api-version=2 --accept-multiclient debug ."

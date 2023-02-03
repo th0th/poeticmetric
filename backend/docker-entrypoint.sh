@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
+/usr/local/bin/poeticmetric-migrator
+
 case "$INSTANCE" in
   rest-api)
     exec /usr/local/bin/poeticmetric-rest-api

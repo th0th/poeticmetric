@@ -149,12 +149,12 @@ func GetIsHosted() bool {
 
 func GetPostgresDsn() string {
 	return fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
-		Get(PostgresHost),
+		"postgres://%s:%s@%s:%s/%s?sslmode=disable",
 		Get(PostgresUser),
 		Get(PostgresPassword),
-		Get(PostgresDatabase),
+		Get(PostgresHost),
 		Get(PostgresPort),
+		Get(PostgresDatabase),
 	)
 }
 

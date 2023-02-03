@@ -46,7 +46,7 @@ export function Bootstrap() {
     }
 
     if (!responseJson.isReady) {
-      addToast({ body: "Databases seem to be already bootstrapped.", variant: "danger" });
+      addToast({ body: "Bootstrap seems to be done already.", variant: "danger" });
       await router.replace("/");
 
       return;
