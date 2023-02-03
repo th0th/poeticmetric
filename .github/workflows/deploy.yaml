@@ -120,7 +120,7 @@ jobs:
       - build-frontend-docker-image
     runs-on: ubuntu-latest
     steps:
-      - if: inputs.environment == "staging" && inputs.redeploy_databases == true
+      - if: inputs.environment == 'staging' && inputs.redeploy_databases == true
         name: Redeploy databases
         uses: th0th/rancher-redeploy-workload@v0.9.2
         with:
@@ -130,7 +130,7 @@ jobs:
           RANCHER_NAMESPACE: ${{ secrets.RANCHER_NAMESPACE }}
           RANCHER_PROJECT_ID: ${{ secrets.RANCHER_PROJECT_ID }}
           RANCHER_URL: ${{ secrets.RANCHER_URL }}
-          RANCHER_WORKLOADS: ${{ secrets.RANCHER_WORKLOADS }}
+          RANCHER_WORKLOADS: ${{ secrets.RANCHER_DATABASE_WORKLOADS }}
       - name: Update Rancher workloads
         uses: th0th/rancher-redeploy-workload@v0.9.2
         with:
