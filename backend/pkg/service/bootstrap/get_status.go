@@ -12,7 +12,6 @@ type Status struct {
 func GetStatus(dp *depot.Depot) (*Status, error) {
 	status := &Status{}
 
-	// plan
 	var planCount int64
 
 	err := dp.Postgres().
@@ -23,41 +22,7 @@ func GetStatus(dp *depot.Depot) (*Status, error) {
 		return nil, err
 	}
 
-	if planCount > 0 {
-		return status, nil
-	}
-
-	// organization
-	var organizationCount int64
-
-	err = dp.Postgres().
-		Model(&model.Organization{}).
-		Count(&organizationCount).
-		Error
-	if err != nil {
-		return nil, err
-	}
-
-	if organizationCount > 0 {
-		return status, nil
-	}
-
-	// user
-	var userCount int64
-
-	err = dp.Postgres().
-		Model(&model.User{}).
-		Count(&userCount).
-		Error
-	if err != nil {
-		return nil, err
-	}
-
-	if userCount > 0 {
-		return status, nil
-	}
-
-	status.IsReady = true
+	status.IsReady = planCount == 0
 
 	return status, nil
 }
