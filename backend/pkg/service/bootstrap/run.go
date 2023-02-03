@@ -4,9 +4,6 @@ import (
 	"fmt"
 
 	v "github.com/RussellLuo/validating/v3"
-	"github.com/golang-migrate/migrate/v4"
-	"github.com/golang-migrate/migrate/v4/database/postgres"
-	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/env"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
@@ -89,30 +86,7 @@ func Run(dp *depot.Depot, payload *Payload) (*userself.UserSelf, error) {
 	}
 
 	err = dp.WithPostgresTransaction(func(dp2 *depot.Depot) error {
-		dbPg, err2 := dp2.Postgres().DB()
-		if err2 != nil {
-			return err2
-		}
-
-		driverPg, err2 := postgres.WithInstance(dbPg, &postgres.Config{})
-		if err2 != nil {
-			return err2
-		}
-
-		migratePg, err2 := migrate.NewWithDatabaseInstance("file:///poeticmetric/migrations/postgres", env.Get(env.PostgresDatabase), driverPg)
-		if err2 != nil {
-			return err2
-		}
-
-		migrateCh, err2 := migrate.New("file:///poeticmetric/migrations/clickhouse", env.GetClickhouseDsn()+"?x-multi-statement=true")
-		if err2 != nil {
-			return err2
-		}
-
-		migratePg.Up()
-		migrateCh.Up()
-
-		err2 = dp2.Postgres().
+		err2 := dp2.Postgres().
 			Create(modelPlans).
 			Error
 		if err2 != nil {

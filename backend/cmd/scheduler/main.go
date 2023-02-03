@@ -30,7 +30,7 @@ func main() {
 
 	dp := depot.New()
 
-	log.Println("⏱️Starting scheduler...")
+	log.Println("⌛ Starting scheduler...")
 
 	cr := cron.New()
 

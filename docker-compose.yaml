@@ -43,13 +43,12 @@ x-backend-common: &backend-common
     STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
     STRIPE_WEBHOOK_SIGNING_SECRET: ${STRIPE_WEBHOOK_SIGNING_SECRET}
     WORKER_COUNT: ${WORKER_COUNT}
+  restart: unless-stopped
   volumes:
     - ./backend/assets:/poeticmetric/assets
     - ./backend/cmd:/poeticmetric/cmd
     - ./backend/migrations:/poeticmetric/migrations
     - ./backend/pkg:/poeticmetric/pkg
-    - ./backend/scripts/migrate-clickhouse:/usr/local/bin/migrate-clickhouse
-    - ./backend/scripts/migrate-postgres:/usr/local/bin/migrate-postgres
     - ./backend/scripts/run-tests:/usr/local/bin/run-tests
     - ./backend/scripts/wait-for-it:/usr/local/bin/wait-for-it
     - ./backend/go.mod:/poeticmetric/go.mod

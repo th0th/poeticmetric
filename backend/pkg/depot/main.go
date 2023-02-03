@@ -4,8 +4,8 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/go-redis/redis/v9"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot/rabbitmq"
+	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
