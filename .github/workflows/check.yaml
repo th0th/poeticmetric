@@ -1,4 +1,5 @@
 env:
+  DOCKER_REGISTRY: ghcr.io
   DOCKER_SCAN_SUGGEST: false
 name: Check
 on:

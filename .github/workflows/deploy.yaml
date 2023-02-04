@@ -1,6 +1,6 @@
 env:
-  DOCKER_SCAN_SUGGEST: false
   DOCKER_REGISTRY: ghcr.io
+  DOCKER_SCAN_SUGGEST: false
 name: Deploy
 on:
   workflow_dispatch:
