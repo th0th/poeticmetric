@@ -77,6 +77,7 @@ CREATE INDEX "idx_user_access_tokens_user_id" ON "user_access_tokens" ("user_id"
 CREATE TABLE "sites" (
   "created_at" timestamptz NOT NULL,
   "domain" text UNIQUE,
+  "has_events" boolean NOT NULL,
   "id" bigserial,
   "is_public" boolean NOT NULL,
   "name" text,

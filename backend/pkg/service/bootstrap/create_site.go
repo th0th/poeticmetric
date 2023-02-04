@@ -21,6 +21,7 @@ const eventsInBatch = 100
 func createSite(dp *depot.Depot) error {
 	modelSite := &model.Site{
 		Domain:              "demo.yoursite.tld",
+		HasEvents:           true,
 		Id:                  1,
 		IsPublic:            false,
 		Name:                "Demo Site",

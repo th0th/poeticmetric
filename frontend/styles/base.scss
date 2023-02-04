@@ -110,6 +110,13 @@ $utilities: map-merge($utilities, (
     property: height,
     values: $fixed-sizes,
   ),
+  "icon-size": (
+    class: bis,
+    property: font-size,
+    values: (
+      5rem: 5rem,
+    ),
+  ),
   "max-height": map-merge(map-get($utilities, "max-height"), (
     values: map-merge(map-get(map-get($utilities, "max-height"), "values"), (
       50vh: 50vh,
@@ -150,6 +157,24 @@ $utilities: map-merge($utilities, (
   "rounded-bottom-start": (
     class: rounded-bottom-start,
     property: border-bottom-left-radius,
+    responsive: true,
+    values: (
+      0: 0,
+      null: var(--#{$prefix}border-radius),
+    ),
+  ),
+  "rounded-top-end": (
+    class: rounded-top-end,
+    property: border-top-right-radius,
+    responsive: true,
+    values: (
+      0: 0,
+      null: var(--#{$prefix}border-radius),
+    ),
+  ),
+  "rounded-top-start": (
+    class: rounded-top-start,
+    property: border-top-left-radius,
     responsive: true,
     values: (
       0: 0,

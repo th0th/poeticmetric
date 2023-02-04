@@ -2,6 +2,8 @@ FROM golang:1.19.4
 
 WORKDIR /usr/src/poeticmetric
 
+RUN CGO_ENABLED=0 go install -tags 'clickhouse,postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@v4.15.2
+
 COPY go.mod go.sum ./
 RUN go mod download
 
@@ -23,7 +25,10 @@ WORKDIR /poeticmetric
 
 COPY assets assets
 COPY migrations migrations
+COPY scripts/migrate-clickhouse /usr/local/bin/migrate-clickhouse
+COPY scripts/migrate-postgres /usr/local/bin/migrate-postgres
 
+COPY --from=0 /go/bin/migrate /usr/local/bin/migrate
 COPY --from=0 /usr/src/poeticmetric/bin/migrator /usr/local/bin/poeticmetric-migrator
 COPY --from=0 /usr/src/poeticmetric/bin/rest-api /usr/local/bin/poeticmetric-rest-api
 COPY --from=0 /usr/src/poeticmetric/bin/scheduler /usr/local/bin/poeticmetric-scheduler

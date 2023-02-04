@@ -27,11 +27,9 @@ export default function App({ Component, pageProps }: AppProps) {
     registerLocale("en-GB", enGb);
   }, []);
 
-  useEffect(() => {
-    if (document.querySelectorAll("pre").length > 0) {
-      hljs.highlightAll();
-    }
-  });
+  // useEffect(() => {
+  //   hljs.highlightAll();
+  // }, []);
 
   return (
     <SwrConfig>

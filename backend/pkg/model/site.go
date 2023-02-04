@@ -9,6 +9,7 @@ import (
 type Site struct {
 	CreatedAt           time.Time
 	Domain              string
+	HasEvents           bool
 	Id                  uint64
 	IsPublic            bool
 	Name                string

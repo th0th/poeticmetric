@@ -4,7 +4,6 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
-	"log"
 	url2 "net/url"
 	"time"
 
@@ -99,7 +98,6 @@ func (e *Event) FillFromUrl(url string, safeQueryParameters []string) {
 	q := u.Query()
 
 	for k := range u.Query() {
-		log.Println(safeQueryParametersMap[k])
 		if !safeQueryParametersMap[k] {
 			q.Del(k)
 		}
