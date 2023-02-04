@@ -33,6 +33,7 @@ module.exports = {
     "react/jsx-tag-spacing": "error",
     "react/jsx-wrap-multilines": ["error"],
     "sort-destructure-keys/sort-destructure-keys": ["error"],
+    "sort-imports": ["error", { ignoreDeclarationSort: true }],
     "sort-keys": "error",
     "typescript-sort-keys/interface": "error",
     "typescript-sort-keys/string-enum": "error",
