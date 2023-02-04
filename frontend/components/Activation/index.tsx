@@ -47,7 +47,6 @@ export function Activation() {
 
     if (responseJson.activationToken !== undefined) {
       addToast({
-        variant: "danger",
         body: (
           <>
             {"This link is not valid. Please contact "}
@@ -55,6 +54,7 @@ export function Activation() {
             {" if you need help."}
           </>
         ),
+        variant: "danger",
       });
 
       await router.replace("/");
