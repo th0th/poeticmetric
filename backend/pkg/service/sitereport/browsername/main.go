@@ -1,8 +1,6 @@
 package browsername
 
 import (
-	"log"
-
 	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/filter"
 	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/pagination"
@@ -26,8 +24,6 @@ type Report struct {
 }
 
 func Get(dp *depot.Depot, filters *filter.Filters, paginationCursor *PaginationCursor) (*Report, error) {
-	log.Println(paginationCursor)
-
 	report := &Report{}
 
 	baseQuery := filter.Apply(dp, filters).

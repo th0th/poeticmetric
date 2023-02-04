@@ -9,6 +9,7 @@ import (
 type Site struct {
 	CreatedAt           time.Time      `json:"createdAt"`
 	Domain              string         `json:"domain"`
+	HasEvents           bool           `json:"hasEvents"`
 	Id                  uint64         `json:"id"`
 	IsPublic            bool           `json:"isPublic"`
 	Name                string         `json:"name"`

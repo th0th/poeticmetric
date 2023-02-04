@@ -36,6 +36,7 @@ func Create(dp *depot.Depot, payload *CreatePayload) error {
 	err = dp.Postgres().
 		Model(&model.Site{}).
 		Select(
+			"has_events",
 			"id",
 			"safe_query_parameters",
 		).
@@ -73,6 +74,17 @@ func Create(dp *depot.Depot, payload *CreatePayload) error {
 		Error
 	if err != nil {
 		return err
+	}
+
+	if !modelSite.HasEvents {
+		err = dp.Postgres().
+			Model(&model.Site{}).
+			Where("id = ?", modelSite.Id).
+			Update("has_events", true).
+			Error
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil

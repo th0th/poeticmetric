@@ -38,11 +38,11 @@ export function SiteForm() {
 
     if (response.ok) {
       addToast({
-        body: id === undefined ? "Site is created." : "Site is updated.",
+        body: id === undefined ? "Site is created. Please add the PoeticMetric tracking script to your site." : "Site is updated.",
         variant: "success",
       });
 
-      await router.push("/sites");
+      await router.push(id === undefined ? `/sites/reports?id=${responseJson.id}` : "/sites");
     } else {
       setErrors(responseJson);
     }

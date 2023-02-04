@@ -64,20 +64,4 @@ export function SiteReports({ site }: SiteReportsProps) {
       </Row>
     </FiltersHandler>
   );
-
-  // return (
-  //   <Layout kind="app">
-  //     <Title>{site === undefined ? "..." : `Reports - ${site.name}`}</Title>
-  //
-  //     <Container className="d-flex flex-column flex-grow-1 py-4">
-  //       {site === undefined ? (
-  //         <div className="d-flex flex-grow-1 align-items-center justify-content-center">
-  //           <Spinner variant="primary" />
-  //         </div>
-  //       ) : (
-  //
-  //       )}
-  //     </Container>
-  //   </Layout>
-  // );
 }

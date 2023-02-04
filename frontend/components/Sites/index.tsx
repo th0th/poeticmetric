@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { Col, Container, Row, Spinner } from "react-bootstrap";
-import { Layout, Title } from "..";
+import { Empty, Layout, Title } from "..";
 import { useSites } from "../../hooks";
 import { DeleteModal } from "./DeleteModal";
 import { Header } from "./Header";
@@ -13,6 +13,15 @@ export function Sites() {
     if (sites === undefined) {
       return (
         <Spinner className="m-auto" variant="primary" />
+      );
+    }
+
+    if (sites.length === 0) {
+      return (
+        <Empty
+          description="Please add a site to start tracking its traffic."
+          title="You don't have any sites yet."
+        />
       );
     }
 
