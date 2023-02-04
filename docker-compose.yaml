@@ -9,7 +9,7 @@ x-backend-common: &backend-common
     - postgres
     - rabbitmq
     - redis
-  image: ghcr.io/th0th/poeticmetric-backend:development
+  image: ghcr.io/th0th/poeticmetric/backend:development
   environment: &backend-common-environment
     CLICKHOUSE_DATABASE: ${CLICKHOUSE_DATABASE}
     CLICKHOUSE_HOST: ${CLICKHOUSE_HOST}
@@ -90,7 +90,7 @@ services:
       REST_API_BASE_URL: ${REST_API_BASE_URL}
       VIRTUAL_HOST: dev.poeticmetric.com
       VIRTUAL_PORT: "3000"
-    image: ghcr.io/th0th/poeticmetric-frontend:development
+    image: ghcr.io/th0th/poeticmetric/frontend:development
     volumes:
       - ./frontend/@types:/poeticmetric/@types
       - ./frontend/blog:/poeticmetric/blog

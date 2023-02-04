@@ -20,9 +20,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Pull required images
-        run: docker compose pull clickhouse postgres rabbitmq
-
       - name: Set up docker buildx
         uses: docker/setup-buildx-action@v2
 
