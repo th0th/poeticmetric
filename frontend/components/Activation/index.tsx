@@ -74,7 +74,7 @@ export function Activation() {
   }, [router.isReady, state.isReady, validateActivationToken]);
 
   return (
-    <Layout kind={1}>
+    <Layout kind="app">
       <Title>Activation</Title>
 
       {state.isReady === true ? (
