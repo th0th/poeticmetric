@@ -29,7 +29,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata for docker image
+      - name: Extract metadata for docker
         id: meta
         uses: docker/metadata-action@v4
         with:
@@ -62,7 +62,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata for docker image
+      - name: Extract metadata for docker
         id: meta
         uses: docker/metadata-action@v4
         with:
