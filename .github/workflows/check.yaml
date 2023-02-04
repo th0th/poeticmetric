@@ -48,7 +48,9 @@ jobs:
         run: cp .env.example .env
 
       - name: Run tests
-        run: make test
+        run: |
+          export DOCKER_BUILDKIT=1
+          make test
 
   run-frontend-tests:
     if: github.event.pull_request.draft == false
