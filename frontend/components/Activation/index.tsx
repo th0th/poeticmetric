@@ -47,6 +47,7 @@ export function Activation() {
 
     if (responseJson.activationToken !== undefined) {
       addToast({
+        variant: "danger",
         body: (
           <>
             {"This link is not valid. Please contact "}
@@ -54,7 +55,6 @@ export function Activation() {
             {" if you need help."}
           </>
         ),
-        variant: "danger",
       });
 
       await router.replace("/");
@@ -74,7 +74,7 @@ export function Activation() {
   }, [router.isReady, state.isReady, validateActivationToken]);
 
   return (
-    <Layout kind="app">
+    <Layout kind={1}>
       <Title>Activation</Title>
 
       {state.isReady === true ? (
