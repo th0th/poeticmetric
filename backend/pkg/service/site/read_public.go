@@ -1,8 +1,8 @@
 package site
 
 import (
-	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
+	"github.com/th0th/poeticmetric/backend/pkg/depot"
+	"github.com/th0th/poeticmetric/backend/pkg/model"
 )
 
 func ReadPublic(dp *depot.Depot, domain string) (*Site, error) {

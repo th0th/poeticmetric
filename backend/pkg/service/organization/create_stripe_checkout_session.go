@@ -5,15 +5,15 @@ import (
 	"strings"
 
 	v "github.com/RussellLuo/validating/v3"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/frontend"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/pointer"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/validator"
 	"github.com/stripe/stripe-go/v74"
 	"github.com/stripe/stripe-go/v74/checkout/session"
 	"github.com/stripe/stripe-go/v74/price"
 	"github.com/stripe/stripe-go/v74/product"
+	"github.com/th0th/poeticmetric/backend/pkg/depot"
+	"github.com/th0th/poeticmetric/backend/pkg/frontend"
+	"github.com/th0th/poeticmetric/backend/pkg/model"
+	"github.com/th0th/poeticmetric/backend/pkg/pointer"
+	"github.com/th0th/poeticmetric/backend/pkg/validator"
 )
 
 type CreateStripeCheckoutSessionData struct {

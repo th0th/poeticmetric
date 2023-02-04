@@ -5,8 +5,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/poeticmetric/poeticmetric/backend/pkg/env"
 	amqp "github.com/rabbitmq/amqp091-go"
+	"github.com/th0th/poeticmetric/backend/pkg/env"
 )
 
 type QueueName string

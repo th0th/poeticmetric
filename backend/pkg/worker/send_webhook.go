@@ -6,9 +6,9 @@ import (
 	"log"
 	"strings"
 
-	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/depot/rabbitmq"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/env"
+	"github.com/th0th/poeticmetric/backend/pkg/depot"
+	"github.com/th0th/poeticmetric/backend/pkg/depot/rabbitmq"
+	"github.com/th0th/poeticmetric/backend/pkg/env"
 )
 
 const SendWebhookQueue rabbitmq.QueueName = "sendWebhook"

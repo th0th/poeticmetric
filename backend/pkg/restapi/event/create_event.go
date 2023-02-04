@@ -6,9 +6,9 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
-	dm "github.com/poeticmetric/poeticmetric/backend/pkg/restapi/middleware/depot"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/service/event"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/worker"
+	dm "github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/depot"
+	"github.com/th0th/poeticmetric/backend/pkg/service/event"
+	"github.com/th0th/poeticmetric/backend/pkg/worker"
 )
 
 func createEvent(c *fiber.Ctx) error {

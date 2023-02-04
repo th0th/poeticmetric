@@ -2,12 +2,12 @@ package bootstrap
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/restapi/helpers"
-	dm "github.com/poeticmetric/poeticmetric/backend/pkg/restapi/middleware/depot"
-	bootstrap2 "github.com/poeticmetric/poeticmetric/backend/pkg/service/bootstrap"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/service/useraccesstoken"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/service/userself"
+	"github.com/th0th/poeticmetric/backend/pkg/depot"
+	"github.com/th0th/poeticmetric/backend/pkg/restapi/helpers"
+	dm "github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/depot"
+	bootstrap2 "github.com/th0th/poeticmetric/backend/pkg/service/bootstrap"
+	"github.com/th0th/poeticmetric/backend/pkg/service/useraccesstoken"
+	"github.com/th0th/poeticmetric/backend/pkg/service/userself"
 )
 
 func bootstrap(c *fiber.Ctx) error {

@@ -1,12 +1,12 @@
 package organization
 
 import (
-	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/frontend"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/pointer"
 	"github.com/stripe/stripe-go/v74"
 	"github.com/stripe/stripe-go/v74/billingportal/session"
+	"github.com/th0th/poeticmetric/backend/pkg/depot"
+	"github.com/th0th/poeticmetric/backend/pkg/frontend"
+	"github.com/th0th/poeticmetric/backend/pkg/model"
+	"github.com/th0th/poeticmetric/backend/pkg/pointer"
 )
 
 func CreateStripeBillingPortalSession(dp *depot.Depot, id uint64) (*stripe.BillingPortalSession, error) {

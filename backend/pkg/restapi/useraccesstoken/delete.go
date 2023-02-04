@@ -2,9 +2,9 @@ package useraccesstoken
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/restapi/middleware/authentication"
-	depotmiddleware "github.com/poeticmetric/poeticmetric/backend/pkg/restapi/middleware/depot"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/service/useraccesstoken"
+	"github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/authentication"
+	depotmiddleware "github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/depot"
+	"github.com/th0th/poeticmetric/backend/pkg/service/useraccesstoken"
 )
 
 func destroy(c *fiber.Ctx) error {

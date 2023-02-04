@@ -5,8 +5,8 @@ import (
 
 	v "github.com/RussellLuo/validating/v3"
 	"github.com/lib/pq"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
+	"github.com/th0th/poeticmetric/backend/pkg/depot"
+	"github.com/th0th/poeticmetric/backend/pkg/model"
 )
 
 type UpdatePayload struct {

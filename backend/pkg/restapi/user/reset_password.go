@@ -2,10 +2,10 @@ package user
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
-	dm "github.com/poeticmetric/poeticmetric/backend/pkg/restapi/middleware/depot"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/service/useraccesstoken"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/service/userself"
+	"github.com/th0th/poeticmetric/backend/pkg/depot"
+	dm "github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/depot"
+	"github.com/th0th/poeticmetric/backend/pkg/service/useraccesstoken"
+	"github.com/th0th/poeticmetric/backend/pkg/service/userself"
 )
 
 func resetPassword(c *fiber.Ctx) error {

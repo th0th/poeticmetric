@@ -2,8 +2,8 @@ package sitereport
 
 import (
 	"github.com/gofiber/fiber/v2"
-	dm "github.com/poeticmetric/poeticmetric/backend/pkg/restapi/middleware/depot"
-	sitepathreport "github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/path"
+	dm "github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/depot"
+	sitepathreport "github.com/th0th/poeticmetric/backend/pkg/service/sitereport/path"
 )
 
 func path(c *fiber.Ctx) error {

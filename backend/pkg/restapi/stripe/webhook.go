@@ -7,16 +7,16 @@ import (
 	"strings"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/email"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/env"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/frontend"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/pointer"
-	dm "github.com/poeticmetric/poeticmetric/backend/pkg/restapi/middleware/depot"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/worker"
 	"github.com/stripe/stripe-go/v74"
 	"github.com/stripe/stripe-go/v74/customer"
 	webhook2 "github.com/stripe/stripe-go/v74/webhook"
+	"github.com/th0th/poeticmetric/backend/pkg/email"
+	"github.com/th0th/poeticmetric/backend/pkg/env"
+	"github.com/th0th/poeticmetric/backend/pkg/frontend"
+	"github.com/th0th/poeticmetric/backend/pkg/model"
+	"github.com/th0th/poeticmetric/backend/pkg/pointer"
+	dm "github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/depot"
+	"github.com/th0th/poeticmetric/backend/pkg/worker"
 	"gorm.io/gorm"
 )
 

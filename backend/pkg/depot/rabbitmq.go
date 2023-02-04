@@ -1,6 +1,6 @@
 package depot
 
-import "github.com/poeticmetric/poeticmetric/backend/pkg/depot/rabbitmq"
+import "github.com/th0th/poeticmetric/backend/pkg/depot/rabbitmq"
 
 func (dp *Depot) RabbitMq() *rabbitmq.RabbitMq {
 	if dp.rabbitMq == nil {

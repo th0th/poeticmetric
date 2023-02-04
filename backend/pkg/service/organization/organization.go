@@ -3,8 +3,8 @@ package organization
 import (
 	"time"
 
-	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/service/plan"
+	"github.com/th0th/poeticmetric/backend/pkg/model"
+	"github.com/th0th/poeticmetric/backend/pkg/service/plan"
 )
 
 type Organization struct {

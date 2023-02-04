@@ -106,10 +106,10 @@ services:
       - ./frontend/next.config.js:/poeticmetric/next.config.js
       - ./frontend/next-sitemap.config.js:/poeticmetric/next-sitemap.config.js
       - ./frontend/package.json:/poeticmetric/package.json
+      - ./frontend/package-lock.json:/poeticmetric/package-lock.json
       - ./frontend/sentry.client.config.js:/poeticmetric/sentry.client.config.js
       - ./frontend/sentry.server.config.js:/poeticmetric/sentry.server.config.js
       - ./frontend/tsconfig.json:/poeticmetric/tsconfig.json
-      - ./frontend/yarn.lock:/poeticmetric/yarn.lock
 
   ingress:
     extra_hosts:

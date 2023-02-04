@@ -2,9 +2,9 @@ package site
 
 import (
 	"github.com/gofiber/fiber/v2"
-	am "github.com/poeticmetric/poeticmetric/backend/pkg/restapi/middleware/authentication"
-	dm "github.com/poeticmetric/poeticmetric/backend/pkg/restapi/middleware/depot"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/service/site"
+	am "github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/authentication"
+	dm "github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/depot"
+	"github.com/th0th/poeticmetric/backend/pkg/service/site"
 )
 
 func list(c *fiber.Ctx) error {

@@ -4,12 +4,12 @@ import (
 	"fmt"
 
 	v "github.com/RussellLuo/validating/v3"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/env"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/pointer"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/service/userpassword"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/service/userself"
+	"github.com/th0th/poeticmetric/backend/pkg/depot"
+	"github.com/th0th/poeticmetric/backend/pkg/env"
+	"github.com/th0th/poeticmetric/backend/pkg/model"
+	"github.com/th0th/poeticmetric/backend/pkg/pointer"
+	"github.com/th0th/poeticmetric/backend/pkg/service/userpassword"
+	"github.com/th0th/poeticmetric/backend/pkg/service/userself"
 )
 
 type Payload struct {

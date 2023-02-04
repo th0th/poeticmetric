@@ -2,8 +2,8 @@ package organization
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/env"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/restapi/middleware/permission"
+	"github.com/th0th/poeticmetric/backend/pkg/env"
+	"github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/permission"
 )
 
 func Add(app *fiber.App) {
