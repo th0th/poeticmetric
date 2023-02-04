@@ -17,10 +17,10 @@ WORKDIR /poeticmetric-frontend-builder
 
 # copy only package definition files
 COPY package.json .
-COPY yarn.lock .
+COPY package-lock.json .
 
 # install dependencies
-RUN yarn install
+RUN npm install
 
 # copy the rest of the files
 COPY @types @types

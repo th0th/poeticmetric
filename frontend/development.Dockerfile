@@ -6,10 +6,10 @@ WORKDIR /poeticmetric
 
 # copy only package definition files
 COPY package.json .
-COPY yarn.lock .
+COPY package-lock.json .
 
 # install dependencies
-RUN yarn install
+RUN npm install
 
 COPY @types @types
 COPY blog blog

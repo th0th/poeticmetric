@@ -38,12 +38,14 @@ jobs:
             type=raw,value=${{ vars.DOCKER_IMAGE_TAG }}
 
       - name: Build and push docker image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           context: backend
+          labels: ${{ steps.meta.outputs.labels }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
 
   build-frontend-docker-image:
     environment: ${{ inputs.environment }}
@@ -69,7 +71,7 @@ jobs:
             type=raw,value=${{ vars.DOCKER_IMAGE_TAG }}
 
       - name: Build and push docker image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           build-args: |
             BASE_URL=${{ vars.FRONTEND_BASE_URL }}
@@ -81,12 +83,15 @@ jobs:
             SENTRY_ORG=${{ secrets.SENTRY_ORG }}
             SENTRY_PROJECT=${{ secrets.SENTRY_PROJECT }}
             STRIPE_PUBLISHABLE_KEY=${{ vars.STRIPE_PUBLISHABLE_KEY }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           context: frontend
+          labels: ${{ steps.meta.outputs.labels }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
 
   tag:
+    name: Tag
     needs:
       - update-deployments
     runs-on: ubuntu-latest
