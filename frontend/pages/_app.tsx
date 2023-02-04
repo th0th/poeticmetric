@@ -6,7 +6,6 @@ import localeData from "dayjs/plugin/localeData";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
 import updateLocale from "dayjs/plugin/updateLocale";
-import hljs from "highlight.js";
 import "highlight.js/styles/stackoverflow-light.css";
 import { AppProps } from "next/app";
 import React, { useEffect } from "react";
@@ -26,10 +25,6 @@ export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     registerLocale("en-GB", enGb);
   }, []);
-
-  // useEffect(() => {
-  //   hljs.highlightAll();
-  // }, []);
 
   return (
     <SwrConfig>

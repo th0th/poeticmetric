@@ -15,7 +15,7 @@ export function Markdown({ className, ...props }: MarkdownProps) {
 
   useEffect(() => {
     if (div.current !== null && props.children !== previousChildren.current) {
-      div.current.querySelectorAll("pre code").forEach((e) => hljs.highlightElement(e));
+      div.current.querySelectorAll<HTMLElement>("pre code").forEach((e) => hljs.highlightElement(e));
 
       previousChildren.current = props.children;
     }
