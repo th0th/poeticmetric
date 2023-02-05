@@ -73,10 +73,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 19.6.0
-
       - uses: actions/cache@v3
         with:
           path: ~/.npm
