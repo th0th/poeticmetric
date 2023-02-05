@@ -88,7 +88,8 @@ jobs:
         with:
           node-version: 19.6.0
 
-      - name: Install custom npm
+      # TODO: Delete this step when https://github.com/reviewdog/action-eslint/issues/152 is resolved.
+      - name: Install custom npm version
         run: npm i -g npm@8.19.3
 
       - if: steps.cache.outputs.cache-hit != 'true'
