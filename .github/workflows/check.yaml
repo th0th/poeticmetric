@@ -63,7 +63,7 @@ jobs:
           docker compose exec -- clickhouse bash -c 'clickhouse-client --query "create database ${CLICKHOUSE_DB};"'
           
           # migrate databases
-          docker compose run --rm rest-api --entrypoint 'bash -c "cd cmd/migrator && go run ."' rest-api
+          docker compose run --rm --entrypoint 'bash -c "cd cmd/migrator && go run ."' rest-api
 
       - name: Run tests
         run: docker compose run --rm rest-api go test ./... 2> /dev/null
@@ -89,16 +89,12 @@ jobs:
       - env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         name: Run tsc
-        run: tsc . | reviewdog -f=tsc -fail-on-error -reporter=github-pr-review
+        run: npm exec -- tsc | reviewdog -f=tsc -fail-on-error -reporter=github-pr-review
 
-      - name: Run eslint
-        uses: reviewdog/action-eslint@v1
-        with:
-          eslint_flags: '--ext .js,.ts,.tsx .'
-          fail_on_error: true
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          filter_mode: nofilter
-          workdir: frontend
+      - env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        name: Run eslint
+        run: npm exec -- eslint --ext .js,.ts,.tsx . | reviewdog -f=eslint -fail-on-error -reporter=github-pr-review
 
       - name: Run stylelint
         uses: reviewdog/action-stylelint@v1
