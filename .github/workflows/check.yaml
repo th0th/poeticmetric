@@ -87,6 +87,7 @@ jobs:
       - if: steps.cache.outputs.cache-hit != 'true'
         name: Install dependencies
         run: npm install
+        working-directory: frontend
 
       - uses: actions/setup-node@v3
         with:
