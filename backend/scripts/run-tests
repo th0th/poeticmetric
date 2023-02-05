@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-set -eo pipefail
-
-cd /poeticmetric
-go test "$@"
-STATUS=$?
-
-exit ${STATUS}

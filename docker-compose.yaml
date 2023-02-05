@@ -4,11 +4,6 @@ x-backend-common: &backend-common
   build:
     context: backend
     dockerfile: development.Dockerfile
-  depends_on:
-    - clickhouse
-    - postgres
-    - rabbitmq
-    - redis
   image: ghcr.io/th0th/poeticmetric/backend:development
   environment: &backend-common-environment
     CLICKHOUSE_DATABASE: ${CLICKHOUSE_DATABASE}
@@ -49,8 +44,6 @@ x-backend-common: &backend-common
     - ./backend/cmd:/poeticmetric/cmd
     - ./backend/migrations:/poeticmetric/migrations
     - ./backend/pkg:/poeticmetric/pkg
-    - ./backend/scripts/run-tests:/usr/local/bin/run-tests
-    - ./backend/scripts/wait-for-it:/usr/local/bin/wait-for-it
     - ./backend/go.mod:/poeticmetric/go.mod
     - ./backend/go.sum:/poeticmetric/go.sum
 
@@ -114,7 +107,7 @@ services:
   ingress:
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    image: jwilder/nginx-proxy
+    image: jwilder/nginx-proxy:alpine
     ports:
       - "127.0.0.1:443:443"
       - "127.0.0.1:80:80"
@@ -164,8 +157,6 @@ services:
 
   scheduler:
     <<: *backend-common
-    depends_on:
-      - rabbitmq
     environment:
       <<: *backend-common-environment
       INSTANCE: scheduler
