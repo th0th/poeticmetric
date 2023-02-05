@@ -48,7 +48,7 @@ jobs:
         run: |
           cp .env.example .env
           
-          docker compose up -d clickhouse postgres
+          docker compose up -d clickhouse postgres redis
           
           # prepare Postgres database
           printf "Waiting for Postgres...\n"
