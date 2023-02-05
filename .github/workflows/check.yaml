@@ -81,12 +81,7 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Run tsc
-        uses: EPMatt/reviewdog-action-tsc@v1
-        with:
-          fail_on_error: true
-          filter_mode: nofilter
-          reporter: github-pr-review
-          workdir: frontend
+        run: tsc
 
       - name: Run eslint
         uses: reviewdog/action-eslint@v1
