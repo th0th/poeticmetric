@@ -61,6 +61,9 @@ jobs:
           docker compose run --rm --entrypoint 'bash -c "wait-for-it -s -q "${CLICKHOUSE_HOST}":"${CLICKHOUSE_TCP_PORT}" -- echo \"ClickHouse is ready!\""' rest-api
           docker compose exec -- clickhouse bash -c 'clickhouse-client --query "drop database if exists ${CLICKHOUSE_DB};"'
           docker compose exec -- clickhouse bash -c 'clickhouse-client --query "create database ${CLICKHOUSE_DB};"'
+          
+          # migrate databases
+          docker compose run --rm rest-api --entrypoint 'bash -c "cd cmd/migrator && go run ."' rest-api
 
       - name: Run tests
         run: docker compose run --rm rest-api go test ./... 2> /dev/null
@@ -73,6 +76,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Setup reviewdog
+        uses: reviewdog/action-setup@v1
+
       - uses: actions/cache@v3
         with:
           path: ~/.npm
@@ -80,8 +86,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: Run tsc
-        run: tsc
+      - env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        name: Run tsc
+        run: tsc . | reviewdog -f=tsc -fail-on-error -reporter=github-pr-review
 
       - name: Run eslint
         uses: reviewdog/action-eslint@v1
