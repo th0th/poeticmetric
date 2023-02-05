@@ -84,14 +84,17 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 19.6.0
+
+      - name: Install custom npm
+        run: npm i -g npm@8.19.3
+
       - if: steps.cache.outputs.cache-hit != 'true'
         name: Install dependencies
         run: npm install
         working-directory: frontend
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 19.6.0
 
       - name: Setup reviewdog
         uses: reviewdog/action-setup@v1
@@ -99,7 +102,7 @@ jobs:
       - env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         name: Run tsc
-        run: npm exec -- tsc | reviewdog -f=tsc -fail-on-error -filter-mode=nofilter -reporter=github-pr-review
+        run: npm exec --offline -- tsc | reviewdog -f=tsc -fail-on-error -filter-mode=nofilter -reporter=github-pr-review
         working-directory: frontend
 
       - name: Run eslint
