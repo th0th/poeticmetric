@@ -89,12 +89,17 @@ jobs:
       - env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         name: Run tsc
-        run: npm exec -- tsc | reviewdog -f=tsc -fail-on-error -reporter=github-pr-review
+        run: npm exec -- tsc | reviewdog -f=tsc -fail-on-error -filter-mode=nofilter -reporter=github-pr-review
+        working-directory: frontend
 
-      - env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        name: Run eslint
-        run: npm exec -- eslint --ext .js,.ts,.tsx . | reviewdog -f=eslint -fail-on-error -reporter=github-pr-review
+      - name: Run eslint
+        uses: reviewdog/action-eslint@v1
+        with:
+          eslint_flags: '--ext .js,.ts,.tsx .'
+          fail_on_error: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          filter_mode: nofilter
+          workdir: frontend
 
       - name: Run stylelint
         uses: reviewdog/action-stylelint@v1
