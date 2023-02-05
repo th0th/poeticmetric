@@ -145,8 +145,8 @@ jobs:
       - name: Build docker image
         uses: docker/build-push-action@v4
         with:
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=gha,scope=check
+          cache-to: type=gha,mode=max,scope=check
           context: frontend
           labels: ${{ steps.meta.outputs.labels }}
           push: true
