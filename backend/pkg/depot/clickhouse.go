@@ -1,7 +1,7 @@
 package depot
 
 import (
-	"github.com/poeticmetric/poeticmetric/backend/pkg/env"
+	"github.com/th0th/poeticmetric/backend/pkg/env"
 	"gorm.io/driver/clickhouse"
 	"gorm.io/gorm"
 )

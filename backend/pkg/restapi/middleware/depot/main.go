@@ -2,7 +2,7 @@ package depotimport
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
+	"github.com/th0th/poeticmetric/backend/pkg/depot"
 )
 
 func Get(c *fiber.Ctx) *depot.Depot {

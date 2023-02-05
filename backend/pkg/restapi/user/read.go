@@ -2,11 +2,11 @@ package user
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/restapi/helpers"
-	am "github.com/poeticmetric/poeticmetric/backend/pkg/restapi/middleware/authentication"
-	dm "github.com/poeticmetric/poeticmetric/backend/pkg/restapi/middleware/depot"
-	user2 "github.com/poeticmetric/poeticmetric/backend/pkg/service/user"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/validator"
+	"github.com/th0th/poeticmetric/backend/pkg/restapi/helpers"
+	am "github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/authentication"
+	dm "github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/depot"
+	user2 "github.com/th0th/poeticmetric/backend/pkg/service/user"
+	"github.com/th0th/poeticmetric/backend/pkg/validator"
 )
 
 func read(c *fiber.Ctx) error {

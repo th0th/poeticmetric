@@ -4,12 +4,7 @@ x-backend-common: &backend-common
   build:
     context: backend
     dockerfile: development.Dockerfile
-  depends_on:
-    - clickhouse
-    - postgres
-    - rabbitmq
-    - redis
-  image: ghcr.io/th0th/poeticmetric-backend:development
+  image: ghcr.io/th0th/poeticmetric/backend:development
   environment: &backend-common-environment
     CLICKHOUSE_DATABASE: ${CLICKHOUSE_DATABASE}
     CLICKHOUSE_HOST: ${CLICKHOUSE_HOST}
@@ -49,8 +44,6 @@ x-backend-common: &backend-common
     - ./backend/cmd:/poeticmetric/cmd
     - ./backend/migrations:/poeticmetric/migrations
     - ./backend/pkg:/poeticmetric/pkg
-    - ./backend/scripts/run-tests:/usr/local/bin/run-tests
-    - ./backend/scripts/wait-for-it:/usr/local/bin/wait-for-it
     - ./backend/go.mod:/poeticmetric/go.mod
     - ./backend/go.sum:/poeticmetric/go.sum
 
@@ -90,7 +83,7 @@ services:
       REST_API_BASE_URL: ${REST_API_BASE_URL}
       VIRTUAL_HOST: dev.poeticmetric.com
       VIRTUAL_PORT: "3000"
-    image: ghcr.io/th0th/poeticmetric-frontend:development
+    image: ghcr.io/th0th/poeticmetric/frontend:development
     volumes:
       - ./frontend/@types:/poeticmetric/@types
       - ./frontend/blog:/poeticmetric/blog
@@ -106,15 +99,15 @@ services:
       - ./frontend/next.config.js:/poeticmetric/next.config.js
       - ./frontend/next-sitemap.config.js:/poeticmetric/next-sitemap.config.js
       - ./frontend/package.json:/poeticmetric/package.json
+      - ./frontend/package-lock.json:/poeticmetric/package-lock.json
       - ./frontend/sentry.client.config.js:/poeticmetric/sentry.client.config.js
       - ./frontend/sentry.server.config.js:/poeticmetric/sentry.server.config.js
       - ./frontend/tsconfig.json:/poeticmetric/tsconfig.json
-      - ./frontend/yarn.lock:/poeticmetric/yarn.lock
 
   ingress:
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    image: jwilder/nginx-proxy
+    image: jwilder/nginx-proxy:alpine
     ports:
       - "127.0.0.1:443:443"
       - "127.0.0.1:80:80"
@@ -164,8 +157,6 @@ services:
 
   scheduler:
     <<: *backend-common
-    depends_on:
-      - rabbitmq
     environment:
       <<: *backend-common-environment
       INSTANCE: scheduler

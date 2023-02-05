@@ -7,7 +7,7 @@ import (
 	"net/http"
 
 	"github.com/getsentry/sentry-go"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
+	"github.com/th0th/poeticmetric/backend/pkg/depot"
 )
 
 func nonDisposableEmail(dp *depot.Depot, v string) bool {

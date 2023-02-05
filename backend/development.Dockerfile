@@ -1,4 +1,4 @@
-FROM golang:1.19.4
+FROM golang:1.20
 
 RUN apt update && apt install -y postgresql-client
 
@@ -19,7 +19,6 @@ COPY pkg pkg
 
 COPY scripts/migrate-clickhouse /usr/local/bin/
 COPY scripts/migrate-postgres /usr/local/bin/
-COPY scripts/run-tests /usr/local/bin/
 COPY scripts/wait-for-it /usr/local/bin/
 COPY docker-entrypoint.development.sh /usr/local/bin/docker-entrypoint.sh
 

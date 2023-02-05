@@ -2,7 +2,7 @@ package sentry
 
 import (
 	"github.com/getsentry/sentry-go"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/env"
+	"github.com/th0th/poeticmetric/backend/pkg/env"
 )
 
 func InitIfEnabled() error {

@@ -2,7 +2,7 @@ package authentication
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
+	"github.com/th0th/poeticmetric/backend/pkg/model"
 )
 
 type AuthKind string

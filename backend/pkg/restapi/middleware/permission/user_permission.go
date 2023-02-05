@@ -2,9 +2,9 @@ package permission
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/pointer"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/restapi/helpers"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/restapi/middleware/authentication"
+	"github.com/th0th/poeticmetric/backend/pkg/pointer"
+	"github.com/th0th/poeticmetric/backend/pkg/restapi/helpers"
+	"github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/authentication"
 )
 
 type userPermissionMiddlewareConfig struct {

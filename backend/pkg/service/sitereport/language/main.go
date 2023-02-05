@@ -1,9 +1,9 @@
 package language
 
 import (
-	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/filter"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/pagination"
+	"github.com/th0th/poeticmetric/backend/pkg/depot"
+	"github.com/th0th/poeticmetric/backend/pkg/service/sitereport/filter"
+	"github.com/th0th/poeticmetric/backend/pkg/service/sitereport/pagination"
 	"gorm.io/gorm"
 )
 

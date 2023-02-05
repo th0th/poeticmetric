@@ -8,11 +8,11 @@ import (
 	"time"
 
 	"github.com/mileusna/useragent"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/country"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
-	locale2 "github.com/poeticmetric/poeticmetric/backend/pkg/locale"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/pointer"
-	salt2 "github.com/poeticmetric/poeticmetric/backend/pkg/service/salt"
+	"github.com/th0th/poeticmetric/backend/pkg/country"
+	"github.com/th0th/poeticmetric/backend/pkg/depot"
+	locale2 "github.com/th0th/poeticmetric/backend/pkg/locale"
+	"github.com/th0th/poeticmetric/backend/pkg/pointer"
+	salt2 "github.com/th0th/poeticmetric/backend/pkg/service/salt"
 )
 
 type Event struct {

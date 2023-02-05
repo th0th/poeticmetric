@@ -1,6 +1,6 @@
 package testhelper
 
-import "github.com/poeticmetric/poeticmetric/backend/pkg/depot"
+import "github.com/th0th/poeticmetric/backend/pkg/depot"
 
 func NewDepot() *depot.Depot {
 	s := depot.New()

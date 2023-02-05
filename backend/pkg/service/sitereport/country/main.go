@@ -1,9 +1,9 @@
 package country
 
 import (
-	"github.com/poeticmetric/poeticmetric/backend/pkg/country"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/filter"
+	"github.com/th0th/poeticmetric/backend/pkg/country"
+	"github.com/th0th/poeticmetric/backend/pkg/depot"
+	"github.com/th0th/poeticmetric/backend/pkg/service/sitereport/filter"
 	"gorm.io/gorm"
 )
 

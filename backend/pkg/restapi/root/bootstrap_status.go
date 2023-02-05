@@ -2,8 +2,8 @@ package root
 
 import (
 	"github.com/gofiber/fiber/v2"
-	dm "github.com/poeticmetric/poeticmetric/backend/pkg/restapi/middleware/depot"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/service/bootstrap"
+	dm "github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/depot"
+	"github.com/th0th/poeticmetric/backend/pkg/service/bootstrap"
 )
 
 func bootstrapStatus(c *fiber.Ctx) error {

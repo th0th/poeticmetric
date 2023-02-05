@@ -1,7 +1,7 @@
 package userpassword
 
 import (
-	"github.com/poeticmetric/poeticmetric/backend/pkg/pointer"
+	"github.com/th0th/poeticmetric/backend/pkg/pointer"
 	"golang.org/x/crypto/bcrypt"
 )
 

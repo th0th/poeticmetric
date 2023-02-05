@@ -2,8 +2,8 @@ package sitereport
 
 import (
 	"github.com/gofiber/fiber/v2"
-	dm "github.com/poeticmetric/poeticmetric/backend/pkg/restapi/middleware/depot"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/service/sitereport/utmmedium"
+	dm "github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/depot"
+	"github.com/th0th/poeticmetric/backend/pkg/service/sitereport/utmmedium"
 )
 
 func utmMedium(c *fiber.Ctx) error {

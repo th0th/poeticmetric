@@ -5,10 +5,10 @@ import (
 	"log"
 	"time"
 
-	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/depot/rabbitmq"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/signal"
 	amqp "github.com/rabbitmq/amqp091-go"
+	"github.com/th0th/poeticmetric/backend/pkg/depot"
+	"github.com/th0th/poeticmetric/backend/pkg/depot/rabbitmq"
+	"github.com/th0th/poeticmetric/backend/pkg/signal"
 )
 
 var Queues = []*rabbitmq.Queue{

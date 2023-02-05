@@ -1,8 +1,8 @@
 package validator
 
 import (
-	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
+	"github.com/th0th/poeticmetric/backend/pkg/depot"
+	"github.com/th0th/poeticmetric/backend/pkg/model"
 )
 
 func SiteUniqueDomain(dp *depot.Depot, v string, siteId *uint64) bool {

@@ -2,7 +2,7 @@ package permission
 
 import (
 	"github.com/gofiber/fiber/v2"
-	am "github.com/poeticmetric/poeticmetric/backend/pkg/restapi/middleware/authentication"
+	am "github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/authentication"
 )
 
 func OrganizationNonStripeCustomer(c *fiber.Ctx) error {

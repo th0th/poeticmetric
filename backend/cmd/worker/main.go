@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/env"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/sentry"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/worker"
+	"github.com/th0th/poeticmetric/backend/pkg/depot"
+	"github.com/th0th/poeticmetric/backend/pkg/env"
+	"github.com/th0th/poeticmetric/backend/pkg/sentry"
+	"github.com/th0th/poeticmetric/backend/pkg/worker"
 )
 
 func main() {

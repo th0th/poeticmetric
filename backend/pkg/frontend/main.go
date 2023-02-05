@@ -3,7 +3,7 @@ package frontend
 import (
 	"fmt"
 
-	"github.com/poeticmetric/poeticmetric/backend/pkg/env"
+	"github.com/th0th/poeticmetric/backend/pkg/env"
 )
 
 func GenerateUrl(path string) string {

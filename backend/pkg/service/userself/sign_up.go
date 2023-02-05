@@ -5,15 +5,15 @@ import (
 
 	v "github.com/RussellLuo/validating/v3"
 	"github.com/dchest/uniuri"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/email"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/env"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/frontend"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/pointer"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/service/userpassword"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/validator"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/worker"
+	"github.com/th0th/poeticmetric/backend/pkg/depot"
+	"github.com/th0th/poeticmetric/backend/pkg/email"
+	"github.com/th0th/poeticmetric/backend/pkg/env"
+	"github.com/th0th/poeticmetric/backend/pkg/frontend"
+	"github.com/th0th/poeticmetric/backend/pkg/model"
+	"github.com/th0th/poeticmetric/backend/pkg/pointer"
+	"github.com/th0th/poeticmetric/backend/pkg/service/userpassword"
+	"github.com/th0th/poeticmetric/backend/pkg/validator"
+	"github.com/th0th/poeticmetric/backend/pkg/worker"
 )
 
 type SignUpPayload struct {

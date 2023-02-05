@@ -1,4 +1,4 @@
-FROM node:19.4-alpine
+FROM node:19.6-alpine
 
 RUN apk update && apk add bash
 
@@ -17,10 +17,10 @@ WORKDIR /poeticmetric-frontend-builder
 
 # copy only package definition files
 COPY package.json .
-COPY yarn.lock .
+COPY package-lock.json .
 
 # install dependencies
-RUN yarn install
+RUN npm install
 
 # copy the rest of the files
 COPY @types @types

@@ -8,8 +8,8 @@ import (
 	v "github.com/RussellLuo/validating/v3"
 	"github.com/gofiber/contrib/fibersentry"
 	"github.com/gofiber/fiber/v2"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/env"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/restapi/helpers"
+	"github.com/th0th/poeticmetric/backend/pkg/env"
+	"github.com/th0th/poeticmetric/backend/pkg/restapi/helpers"
 )
 
 func errorHandler(c *fiber.Ctx, err error) error {

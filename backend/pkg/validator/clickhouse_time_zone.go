@@ -1,6 +1,6 @@
 package validator
 
-import "github.com/poeticmetric/poeticmetric/backend/pkg/depot"
+import "github.com/th0th/poeticmetric/backend/pkg/depot"
 
 func ClickhouseTimeZone(dp *depot.Depot, v string) bool {
 	var count int64

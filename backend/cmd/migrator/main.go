@@ -11,10 +11,10 @@ import (
 	_ "github.com/golang-migrate/migrate/v4/database/clickhouse"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/env"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/sentry"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/signal"
+	"github.com/th0th/poeticmetric/backend/pkg/depot"
+	"github.com/th0th/poeticmetric/backend/pkg/env"
+	"github.com/th0th/poeticmetric/backend/pkg/sentry"
+	"github.com/th0th/poeticmetric/backend/pkg/signal"
 )
 
 func main() {

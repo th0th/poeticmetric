@@ -14,11 +14,11 @@ then
   rm -rf pages/terms-of-service.tsx
 fi
 
-yarn build
+npm run build
 
 if [ "$HOSTED" == "true" ]
 then
-  yarn build-site-map
+  npm run build-site-map
 fi
 
-yarn export
+npm run export

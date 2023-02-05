@@ -3,9 +3,9 @@ package worker
 import (
 	"encoding/json"
 
-	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/depot/rabbitmq"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/service/event"
+	"github.com/th0th/poeticmetric/backend/pkg/depot"
+	"github.com/th0th/poeticmetric/backend/pkg/depot/rabbitmq"
+	"github.com/th0th/poeticmetric/backend/pkg/service/event"
 )
 
 const CreateEventQueue rabbitmq.QueueName = "createEvent"

@@ -2,7 +2,7 @@ package stripe
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/env"
+	"github.com/th0th/poeticmetric/backend/pkg/env"
 )
 
 func Add(app *fiber.App) {

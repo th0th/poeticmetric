@@ -1,9 +1,8 @@
-module github.com/poeticmetric/poeticmetric/backend
+module github.com/th0th/poeticmetric/backend
 
-go 1.19
+go 1.20
 
 require (
-	github.com/ClickHouse/clickhouse-go/v2 v2.6.0
 	github.com/RussellLuo/validating/v3 v3.0.0-beta.1
 	github.com/brianvoe/gofakeit/v6 v6.20.1
 	github.com/bsm/redislock v0.9.0
@@ -13,7 +12,6 @@ require (
 	github.com/gofiber/fiber/v2 v2.41.0
 	github.com/golang-migrate/migrate/v4 v4.15.2
 	github.com/google/uuid v1.3.0
-	github.com/jackc/pgx/v5 v5.2.0
 	github.com/lib/pq v1.10.7
 	github.com/mileusna/useragent v1.2.1
 	github.com/rabbitmq/amqp091-go v1.6.1
@@ -31,6 +29,7 @@ require (
 
 require (
 	github.com/ClickHouse/ch-go v0.51.2 // indirect
+	github.com/ClickHouse/clickhouse-go/v2 v2.6.0 // indirect
 	github.com/andybalholm/brotli v1.0.4 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
@@ -42,6 +41,7 @@ require (
 	github.com/hashicorp/go-version v1.6.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20221227161230-091c0ba34f0a // indirect
+	github.com/jackc/pgx/v5 v5.2.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/klauspost/compress v1.15.14 // indirect

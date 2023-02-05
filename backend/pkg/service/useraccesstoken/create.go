@@ -2,8 +2,8 @@ package useraccesstoken
 
 import (
 	"github.com/google/uuid"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/model"
+	"github.com/th0th/poeticmetric/backend/pkg/depot"
+	"github.com/th0th/poeticmetric/backend/pkg/model"
 )
 
 func Create(dp *depot.Depot, userId uint64) (*UserAccessToken, error) {

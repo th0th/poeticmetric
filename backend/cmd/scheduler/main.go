@@ -4,12 +4,12 @@ import (
 	"log"
 
 	"github.com/getsentry/sentry-go"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/depot"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/env"
-	sentry2 "github.com/poeticmetric/poeticmetric/backend/pkg/sentry"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/signal"
-	"github.com/poeticmetric/poeticmetric/backend/pkg/worker"
 	"github.com/robfig/cron/v3"
+	"github.com/th0th/poeticmetric/backend/pkg/depot"
+	"github.com/th0th/poeticmetric/backend/pkg/env"
+	sentry2 "github.com/th0th/poeticmetric/backend/pkg/sentry"
+	"github.com/th0th/poeticmetric/backend/pkg/signal"
+	"github.com/th0th/poeticmetric/backend/pkg/worker"
 )
 
 func handleCallError(err error) {
