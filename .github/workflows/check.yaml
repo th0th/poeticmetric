@@ -48,6 +48,8 @@ jobs:
         run: |
           cp .env.example .env
           
+          docker compose up -d clickhouse postgres
+          
           # prepare Postgres database
           printf "Waiting for Postgres...\n"
           docker compose run --rm --entrypoint 'bash -c "wait-for-it -s -q "${POSTGRES_HOST}":"${POSTGRES_PORT}" -- echo \"Postgres is ready!\""' rest-api
@@ -59,8 +61,6 @@ jobs:
           docker compose run --rm --entrypoint 'bash -c "wait-for-it -s -q "${CLICKHOUSE_HOST}":"${CLICKHOUSE_TCP_PORT}" -- echo \"ClickHouse is ready!\""' rest-api
           docker compose exec -- clickhouse bash -c 'clickhouse-client --query "drop database if exists ${CLICKHOUSE_DB};"'
           docker compose exec -- clickhouse bash -c 'clickhouse-client --query "create database ${CLICKHOUSE_DB};"'
-          
-          exit 0
 
       - name: Run tests
         run: docker compose run --rm rest-api go test ./... 2> /dev/null
