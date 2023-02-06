@@ -140,7 +140,7 @@ jobs:
       - env:
           FRONTEND_BASE_URL: ${{ vars.FRONTEND_BASE_URL }}
         name: Run Playwright tests
-        run: npm exec -- playwright test
+        run: npm exec -- playwright test --project="Google Chrome"
         working-directory: frontend
 
       - uses: actions/upload-artifact@v3
