@@ -20,6 +20,9 @@
                   <Item>
                     <option name="path" value=".github/workflows/publish.yaml" />
                   </Item>
+                  <Item>
+                    <option name="path" value=".github/workflows/test.yaml" />
+                  </Item>
                 </list>
               </option>
             </SchemaInfo>

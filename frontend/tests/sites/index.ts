@@ -1,30 +1,17 @@
-import { test as base } from "@playwright/test";
+import { test as base } from "..";
 
-export type AuthOptions = {
-    user: {
-        email: string;
-        name: string;
-        password: string;
-    };
+export type Props = {
+  site: {
+    domain: string;
+    name: string;
+    name2: string;
+  };
 };
 
-export type SiteOptions = {
-    site: {
-        domain: string;
-        editedName: string;
-        name: string;
-    };
-};
-
-export const test = base.extend<AuthOptions & SiteOptions>({
-    site: {
-        domain: "staging.poeticmetric.com",
-        editedName: "Poeticmetric Staging 1",
-        name: "Poeticmetric Staging",
-    },
-    user: {
-        email: "ilknurultanirsari@gmail.com",
-        name: "ilknur ultanir sari 😽",
-        password: "gokhanicokseviyorum",
-    },
+export const test = base.extend<Props>({
+  site: {
+    domain: "staging.poeticmetric.com",
+    name: "Poeticmetric Staging",
+    name2: "Poeticmetric Staging 1",
+  },
 });

@@ -1,40 +1,52 @@
 import { expect } from "@playwright/test";
-import { test } from "./index";
+import { test } from ".";
 
-test.beforeAll(async ({ page, user }) => {
-    await page.goto("/sign-in");
-    await page.locator('input[name="email"]').fill(user.email);
-    await page.locator('input[name="password"]').fill(user.password);
-    await page.getByRole("button", { name: "Sign in" }).press("Enter");
-    await page.waitForLoadState("networkidle");
+test.beforeEach(async ({ page, user }) => {
+  await page.goto("/sign-in");
+  await page.locator("input[name=\"email\"]").fill(user.email);
+  await page.locator("input[name=\"password\"]").fill(user.password);
+  await page.getByRole("button", { name: "Sign in" }).press("Enter");
+  await page.waitForLoadState("networkidle");
 });
 
 test("site-flow", async ({ page, site }) => {
-    // Add site
-    await page.getByRole("link", { name: "Add new site" }).click();
-    await page.getByLabel("Domain").fill(site.domain);
-    await page.getByLabel("Name").fill(site.name);
-    await page.getByRole("button", { name: "Save" }).click();
+  // add site
+  await page.getByRole("link", { name: "Add new site" }).click();
+  await page.getByLabel("Domain").fill(site.domain);
+  await page.getByLabel("Name").fill(site.name);
+  await page.getByRole("button", { name: "Save" }).click();
+  await page.waitForURL("/sites/reports?id=*", { waitUntil: "load" });
 
-    // View added site
-    await page.waitForURL("/sites", { waitUntil: "load" });
-    await expect(page.getByTitle(site.name)).toBeVisible();
+  // make sure tracking code is shown
+  await expect(page.getByRole("heading", { name: "There are no events registered from this site, yet..." })).toBeVisible();
+  // await page.locator('div').filter({ hasText: '<script async src="https://dev.poeticmetric.com/pm.js"></script>' }).click();
 
-    // Edit site
-    await page.getByTitle(site.name).getByRole("link", { name: "Edit" }).click();
+  const copyButtonLocator = page.locator("button", { has: page.locator("span[class*='bi-clipboard-fill']") });
 
-    await page.getByLabel("Name").fill(site.editedName);
-    await page.getByRole("button", { name: "Save" }).click();
+  await expect(copyButtonLocator).toBeVisible();
+  await copyButtonLocator.click();
 
-    // View edited site
-    await page.waitForURL("/sites", { waitUntil: "load" });
-    await expect(page.getByTitle(site.editedName)).toBeVisible();
+  // let clipboardText = await page.evaluate("navigator.clipboard.readText()");
+  // expect(clipboardText).toContain("");
 
-    // Remove site
-    await page.getByTitle(site.editedName).getByRole("link", { name: "Delete" }).click();
-    await page.getByRole("button", { name: "Delete" }).click();
+  // make sure site is created
+  await page.goto("/sites", { waitUntil: "networkidle" });
+  await expect(page.getByTitle(site.name)).toBeVisible();
 
-    // Removed site
-    await page.waitForURL("/sites", { waitUntil: "load" });
-    await expect(page.getByTitle(site.editedName)).toBeHidden();
+  // edit site
+  await page.getByTitle(site.name).getByRole("link", { name: "Edit" }).click();
+  await page.getByLabel("Name").fill(site.name2);
+  await page.getByRole("button", { name: "Save" }).click();
+
+  // make sure site is updated
+  await page.waitForURL("/sites", { waitUntil: "load" });
+  await expect(page.getByTitle(site.name2)).toBeVisible();
+
+  // delete site
+  await page.getByTitle(site.name2).getByRole("link", { name: "Delete" }).click();
+  await page.getByRole("button", { name: "Delete" }).click();
+
+  // make sure site is deleted
+  await page.waitForURL("/sites", { waitUntil: "load" });
+  await expect(page.getByTitle(site.name2)).toBeHidden();
 });

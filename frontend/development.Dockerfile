@@ -22,8 +22,10 @@ COPY lib lib
 COPY pages pages
 COPY public public
 COPY styles styles
+COPY tests tests
 COPY next.config.js .
 COPY next-sitemap.config.js .
+COPY playwright.config.ts .
 COPY sentry.client.config.js .
 COPY sentry.server.config.js .
 COPY tsconfig.json .

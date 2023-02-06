@@ -90,7 +90,7 @@ export function withAuth(Page: NextPage, authenticated: boolean, ownerOnly?: tru
         if (user !== null) {
           const next = router.query.next === undefined ? null : router.query.next.toString();
 
-          router.replace(next || "/sites/reports");
+          router.replace(next || "/sites");
         } else {
           router.replace(`/sign-in?next=${router.asPath}`);
         }
