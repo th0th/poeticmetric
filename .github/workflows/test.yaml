@@ -128,6 +128,19 @@ jobs:
           stylelint_input: '**/*.scss'
           workdir: frontend
 
+      - name: Build docker image
+        uses: docker/build-push-action@v4
+        with:
+          cache-from: scope=check,type=gha
+          cache-to: mode=max,scope=check,type=gha
+          context: frontend
+          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.meta.outputs.tags }}
+
+      - name: Prepare
+        run: |
+          docker compose up -d frontend rest-api
+
       - name: Run Playwright tests
         run: npm exec -- playwright test
 
@@ -137,12 +150,3 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
-
-      - name: Build docker image
-        uses: docker/build-push-action@v4
-        with:
-          cache-from: scope=check,type=gha
-          cache-to: mode=max,scope=check,type=gha
-          context: frontend
-          labels: ${{ steps.meta.outputs.labels }}
-          tags: ${{ steps.meta.outputs.tags }}
