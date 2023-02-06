@@ -127,6 +127,9 @@ jobs:
           stylelint_input: '**/*.scss'
           workdir: frontend
 
+      - name: Install Google Chrome
+        run: npm exec -- playwright install chrome
+
       - env:
           FRONTEND_BASE_URL: ${{ vars.FRONTEND_BASE_URL }}
           REST_API_BASE_URL: ${{ vars.REST_API_BASE_URL }}
