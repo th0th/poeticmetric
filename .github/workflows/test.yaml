@@ -25,14 +25,14 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ${{ env.DOCKER_REGISTRY }}/${{ github.repository }}/backend
-          tags: type=raw,value=check
+          tags: type=raw,value=development
 
       - name: Extract frontend metadata for docker
         id: meta-frontend
         uses: docker/metadata-action@v4
         with:
           images: ${{ env.DOCKER_REGISTRY }}/${{ github.repository }}/frontend
-          tags: type=raw,value=check
+          tags: type=raw,value=development
 
       - name: Build backend docker image
         uses: docker/build-push-action@v4
@@ -133,6 +133,7 @@ jobs:
           REST_API_BASE_URL: ${{ vars.REST_API_BASE_URL }}
         name: Prepare
         run: |
+          ls
           docker compose up -d frontend rest-api
 
       - env:
