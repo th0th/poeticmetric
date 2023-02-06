@@ -84,6 +84,8 @@ services:
       VIRTUAL_HOST: dev.poeticmetric.com
       VIRTUAL_PORT: "3000"
     image: ghcr.io/th0th/poeticmetric/frontend:development
+    ports:
+      - "3000:3000"
     volumes:
       - ./frontend/@types:/poeticmetric/@types
       - ./frontend/blog:/poeticmetric/blog

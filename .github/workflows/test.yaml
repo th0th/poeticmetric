@@ -14,6 +14,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - id: cache
+        name: Cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - name: Setup reviewdog
         uses: reviewdog/action-setup@v1
 
@@ -78,15 +87,6 @@ jobs:
       - name: Run backend tests
         run: docker compose run --rm rest-api go test ./... 2> /dev/null
 
-      - id: cache
-        name: Cache
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
       - uses: actions/setup-node@v3
         with:
           node-version: 19.6.0
@@ -132,10 +132,13 @@ jobs:
       - env:
           FRONTEND_BASE_URL: ${{ vars.FRONTEND_BASE_URL }}
           REST_API_BASE_URL: ${{ vars.REST_API_BASE_URL }}
+        name: Prepare
+        run: docker compose up -d frontend rest-api
+
+      - env:
+          FRONTEND_BASE_URL: ${{ vars.FRONTEND_BASE_URL }}
         name: Run Playwright tests
-        run: |
-          docker compose up -d frontend rest-api
-          npm exec -- playwright test
+        run: npm exec -- playwright test
         working-directory: frontend
 
       - uses: actions/upload-artifact@v3
