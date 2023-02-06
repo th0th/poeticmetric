@@ -129,6 +129,7 @@ jobs:
 
       - name: Install Google Chrome
         run: npm exec -- playwright install chrome
+        working-directory: frontend
 
       - env:
           FRONTEND_BASE_URL: ${{ vars.FRONTEND_BASE_URL }}
