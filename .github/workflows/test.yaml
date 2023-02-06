@@ -50,7 +50,6 @@ jobs:
           cache-to: mode=max,type=gha
           context: backend
           file: backend/development.Dockerfile
-          labels: ${{ steps.meta-backend.outputs.labels }}
           tags: ${{ steps.meta-backend.outputs.tags }}
 
       - name: Build frontend docker image
@@ -60,7 +59,6 @@ jobs:
           cache-to: mode=max,type=gha
           context: frontend
           file: frontend/development.Dockerfile
-          labels: ${{ steps.meta-frontend.outputs.labels }}
           tags: ${{ steps.meta-frontend.outputs.tags }}
 
       - name: Prepare for tests
