@@ -37,8 +37,8 @@ jobs:
       - name: Build backend docker image
         uses: docker/build-push-action@v4
         with:
-          cache-from: scope=check,type=gha
-          cache-to: mode=max,scope=check,type=gha
+          cache-from: type=gha
+          cache-to: mode=max,type=gha
           context: backend
           file: backend/development.Dockerfile
           labels: ${{ steps.meta-backend.outputs.labels }}
@@ -47,8 +47,8 @@ jobs:
       - name: Build frontend docker image
         uses: docker/build-push-action@v4
         with:
-          cache-from: scope=check,type=gha
-          cache-to: mode=max,scope=check,type=gha
+          cache-from: type=gha
+          cache-to: mode=max,type=gha
           context: frontend
           file: frontend/development.Dockerfile
           labels: ${{ steps.meta-frontend.outputs.labels }}
@@ -132,14 +132,10 @@ jobs:
       - env:
           FRONTEND_BASE_URL: ${{ vars.FRONTEND_BASE_URL }}
           REST_API_BASE_URL: ${{ vars.REST_API_BASE_URL }}
-        name: Prepare
+        name: Run Playwright tests
         run: |
           docker compose up -d frontend rest-api
-
-      - env:
-          FRONTEND_BASE_URL: ${{ vars.FRONTEND_BASE_URL }}
-        name: Run Playwright tests
-        run: npm exec -- playwright test
+          npm exec -- playwright test
         working-directory: frontend
 
       - uses: actions/upload-artifact@v3
