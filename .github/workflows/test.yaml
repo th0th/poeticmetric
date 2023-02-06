@@ -128,11 +128,16 @@ jobs:
           stylelint_input: '**/*.scss'
           workdir: frontend
 
-      - name: Prepare
+      - env:
+          FRONTEND_BASE_URL: ${{ vars.FRONTEND_BASE_URL }}
+          REST_API_BASE_URL: ${{ vars.REST_API_BASE_URL }}
+        name: Prepare
         run: |
           docker compose up -d frontend rest-api
 
-      - name: Run Playwright tests
+      - env:
+          FRONTEND_BASE_URL: ${{ vars.FRONTEND_BASE_URL }}
+        name: Run Playwright tests
         run: npm exec -- playwright test
 
       - uses: actions/upload-artifact@v3

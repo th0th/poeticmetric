@@ -14,7 +14,7 @@ const config: PlaywrightTestConfig = {
   timeout: 30000,
   use: {
     actionTimeout: 0,
-    baseURL: "http://frontend:3000",
+    baseURL: process.env.FRONTEND_BASE_URL,
     trace: "on-first-retry",
   },
   workers: 1,
