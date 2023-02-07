@@ -84,8 +84,6 @@ services:
       VIRTUAL_HOST: dev.poeticmetric.com
       VIRTUAL_PORT: "3000"
     image: ghcr.io/th0th/poeticmetric/frontend:development
-    ports:
-      - "3000:3000"
     volumes:
       - ./frontend/@types:/poeticmetric/@types
       - ./frontend/blog:/poeticmetric/blog
@@ -108,7 +106,7 @@ services:
       - ./frontend/sentry.server.config.js:/poeticmetric/sentry.server.config.js
       - ./frontend/tsconfig.json:/poeticmetric/tsconfig.json
 
-  ingress:
+  nginx-proxy:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     image: jwilder/nginx-proxy:alpine
@@ -156,16 +154,16 @@ services:
       <<: *backend-common-environment
       INSTANCE: rest-api
       VIRTUAL_HOST: api.dev.poeticmetric.com
-  #    ports:
-  #      - "127.0.0.1:2345:2345"
+#    ports:
+#      - "127.0.0.1:2345:2345"
 
   scheduler:
     <<: *backend-common
     environment:
       <<: *backend-common-environment
       INSTANCE: scheduler
-  #    ports:
-  #      - "127.0.0.1:2345:2345"
+#    ports:
+#      - "127.0.0.1:2345:2345"
 
   stripe-webhook:
     environment:

@@ -180,7 +180,7 @@ jobs:
           FRONTEND_BASE_URL: ${{ vars.FRONTEND_BASE_URL }}
           REST_API_BASE_URL: ${{ vars.REST_API_BASE_URL }}
         name: Prepare
-        run: docker compose up -d clickhouse frontend postgres redis rest-api
+        run: docker compose up -d clickhouse frontend nginx-proxy postgres redis rest-api
 
       - env:
           FRONTEND_BASE_URL: ${{ vars.FRONTEND_BASE_URL }}
