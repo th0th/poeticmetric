@@ -87,7 +87,8 @@ jobs:
         with:
           node-version: 19.6.0
 
-      - name: Restore npm cache
+      - id: restore-npm-cache
+        name: Restore npm cache
         uses: actions/cache/restore@v3
         with:
           key: ${{ runner.os }}-node-${{ hashFiles('frontend/package-lock.json') }}
@@ -97,7 +98,8 @@ jobs:
         run: npm install
         working-directory: frontend
 
-      - name: Save npm cache
+      - if: steps.restore-npm-cache.outputs.cache-hit != 'true'
+        name: Save npm cache
         uses: actions/cache/save@v3
         with:
           key: ${{ runner.os }}-node-${{ hashFiles('frontend/package-lock.json') }}
