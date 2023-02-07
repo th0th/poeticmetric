@@ -110,6 +110,7 @@ jobs:
           cache-to: mode=max,scope=test-backend,type=gha
           context: backend
           file: backend/development.Dockerfile
+          load: true
           tags: ${{ steps.meta-backend.outputs.tags }}
 
       - name: Build frontend docker image
@@ -119,6 +120,7 @@ jobs:
           cache-to: mode=max,scope=test-frontend,type=gha
           context: frontend
           file: frontend/development.Dockerfile
+          load: true
           tags: ${{ steps.meta-frontend.outputs.tags }}
 
       - uses: actions/setup-node@v3
