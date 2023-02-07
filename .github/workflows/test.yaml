@@ -136,6 +136,9 @@ jobs:
           file: frontend/development.Dockerfile
           tags: ${{ steps.meta-frontend.outputs.tags }}
 
+      - name: Pull docker images
+        run: docker compose pull clickhouse postgres redis
+
       - name: Prepare for tests
         run: |
           cp .env.example .env
@@ -160,6 +163,11 @@ jobs:
       - name: Run backend tests
         run: docker compose run --rm rest-api go test ./... 2> /dev/null
 
+      - name: Reset volumes
+        run: |
+          docker compose down
+          docker volume prune -f
+
       - uses: actions/setup-node@v3
         with:
           node-version: 19.6.0
@@ -172,7 +180,7 @@ jobs:
           FRONTEND_BASE_URL: ${{ vars.FRONTEND_BASE_URL }}
           REST_API_BASE_URL: ${{ vars.REST_API_BASE_URL }}
         name: Prepare
-        run: docker compose up -d frontend rest-api
+        run: docker compose up -d clickhouse frontend postgres redis rest-api
 
       - env:
           FRONTEND_BASE_URL: ${{ vars.FRONTEND_BASE_URL }}
