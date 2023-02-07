@@ -83,6 +83,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Set up docker buildx
+        uses: docker/setup-buildx-action@v2
+
       - name: Extract backend metadata for docker
         id: meta-backend
         uses: docker/metadata-action@v4
@@ -136,9 +139,6 @@ jobs:
         with:
           key: ${{ runner.os }}-node-${{ hashFiles('frontend/package-lock.json') }}
           path: ~/.npm
-
-      - name: Set up docker buildx
-        uses: docker/setup-buildx-action@v2
 
       - name: Pull docker images
         run: docker compose pull clickhouse nginx-proxy postgres redis
