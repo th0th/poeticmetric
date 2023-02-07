@@ -148,9 +148,8 @@ jobs:
       - name: Pull docker images
         run: docker compose pull clickhouse nginx-proxy postgres redis
 
-      - name: Prepare for tests
+      - name: Prepare for backend tests
         run: |
-          docker image ls
           docker compose up -d clickhouse postgres redis
           
           # prepare Postgres database
@@ -171,22 +170,19 @@ jobs:
       - name: Run backend tests
         run: docker compose run --rm rest-api go test ./... 2> /dev/null
 
-      - name: Reset volumes
+      - env:
+          FRONTEND_BASE_URL: ${{ vars.FRONTEND_BASE_URL }}
+          REST_API_BASE_URL: ${{ vars.REST_API_BASE_URL }}
+        name: Prepare for frontend tests
         run: |
           docker compose down
           docker volume prune -f
+          docker compose up -d clickhouse frontend nginx-proxy postgres redis rest-api
+          docker compose run --rm --entrypoint 'bash -c "wait-for-it -q -s -t 0 rest-api:80 -- echo \"REST API is ready!\""' rest-api
 
       - name: Install Google Chrome
         run: npm exec -- playwright install chrome
         working-directory: frontend
-
-      - env:
-          FRONTEND_BASE_URL: ${{ vars.FRONTEND_BASE_URL }}
-          REST_API_BASE_URL: ${{ vars.REST_API_BASE_URL }}
-        name: Prepare
-        run: |
-          docker compose up -d clickhouse frontend nginx-proxy postgres redis rest-api
-          docker compose run --rm --entrypoint 'bash -c "wait-for-it -q -s -t 0 rest-api:80 -- echo \"REST API is ready!\""' rest-api
 
       - env:
           FRONTEND_BASE_URL: ${{ vars.FRONTEND_BASE_URL }}
