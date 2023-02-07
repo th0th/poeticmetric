@@ -129,6 +129,7 @@ jobs:
           cache-to: mode=max,type=gha
           context: backend
           file: backend/development.Dockerfile
+          outputs: type=cacheonly
           tags: ${{ steps.meta-backend.outputs.tags }}
 
       - name: Build frontend docker image
@@ -138,6 +139,7 @@ jobs:
           cache-to: mode=max,type=gha
           context: frontend
           file: frontend/development.Dockerfile
+          outputs: type=cacheonly
           tags: ${{ steps.meta-frontend.outputs.tags }}
 
       - name: Pull docker images
