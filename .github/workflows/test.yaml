@@ -148,6 +148,7 @@ jobs:
 
       - name: Prepare for tests
         run: |
+          docker image ls
           docker compose up -d clickhouse postgres redis
           
           # prepare Postgres database
