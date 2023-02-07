@@ -96,15 +96,17 @@ services:
       - ./frontend/pages:/poeticmetric/pages
       - ./frontend/public:/poeticmetric/public
       - ./frontend/styles:/poeticmetric/styles
+      - ./frontend/tests:/poeticmetric/tests
       - ./frontend/next.config.js:/poeticmetric/next.config.js
       - ./frontend/next-sitemap.config.js:/poeticmetric/next-sitemap.config.js
       - ./frontend/package.json:/poeticmetric/package.json
       - ./frontend/package-lock.json:/poeticmetric/package-lock.json
+      - ./frontend/playwright.config.ts:/poeticmetric/playwright.config.ts
       - ./frontend/sentry.client.config.js:/poeticmetric/sentry.client.config.js
       - ./frontend/sentry.server.config.js:/poeticmetric/sentry.server.config.js
       - ./frontend/tsconfig.json:/poeticmetric/tsconfig.json
 
-  ingress:
+  nginx-proxy:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     image: jwilder/nginx-proxy:alpine
@@ -152,16 +154,16 @@ services:
       <<: *backend-common-environment
       INSTANCE: rest-api
       VIRTUAL_HOST: api.dev.poeticmetric.com
-  #    ports:
-  #      - "127.0.0.1:2345:2345"
+#    ports:
+#      - "127.0.0.1:2345:2345"
 
   scheduler:
     <<: *backend-common
     environment:
       <<: *backend-common-environment
       INSTANCE: scheduler
-  #    ports:
-  #      - "127.0.0.1:2345:2345"
+#    ports:
+#      - "127.0.0.1:2345:2345"
 
   stripe-webhook:
     environment:

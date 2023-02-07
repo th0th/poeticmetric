@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { Button, Card, Container, Form, Spinner } from "react-bootstrap";
+import { mutate } from "swr";
 import { ArrayInput, Breadcrumb, Layout, Title } from "..";
 import { ToastsContext } from "../../contexts";
 import { api } from "../../helpers";
@@ -26,6 +27,7 @@ export function SiteForm() {
   });
   const { hasError: hasIdError, isReady: isIdReady, value: id } = useQueryParameter("id", "number");
   const [state, setState] = useState<State>({ isDisabled: false, isReady: false });
+
   const title = useMemo(() => (id === undefined ? "Add site" : "Edit site"), [id]);
 
   const handleSubmit = useCallback<React.FormEventHandler<HTMLFormElement>>(async (event) => {
@@ -42,6 +44,7 @@ export function SiteForm() {
         variant: "success",
       });
 
+      mutate("/sites");
       await router.push(id === undefined ? `/sites/reports?id=${responseJson.id}` : "/sites");
     } else {
       setErrors(responseJson);

@@ -40,3 +40,9 @@ next-env.d.ts
 /public/robots.txt
 /public/sitemap*.xml
 /styles/style.css
+/test-results/
+/playwright-report/
+/playwright/.cache/
+/test-results/
+/playwright-report/
+/playwright/.cache/

@@ -13,7 +13,7 @@ export function Site({ site, ...props }: SiteProps) {
   const router = useRouter();
 
   return (
-    <Card {...props}>
+    <Card {...props} title={site.name}>
       <Card.Body>
         <Card.Title className="d-flex flex-row align-items-center">
           <FavIcon alt={site.domain} domain={site.domain} size={20} />
