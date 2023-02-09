@@ -1,5 +1,5 @@
 import React from "react";
-import { CallToAction, Features, FeaturesProps, Layout, Title } from "..";
+import { CallToAction, Description, Features, FeaturesProps, Layout, Title } from "..";
 import { Jumbotron } from "./Jumbotron";
 import { Preview } from "./Preview";
 
@@ -49,6 +49,10 @@ export function Home() {
   return (
     <Layout kind="website">
       <Title>Privacy-first, regulation compliant Google Analytics alternative</Title>
+      <Description>
+        PoeticMetric is a free as in freedom, open source, privacy-first and regulation-compliant web analytics tool. You can keep track of
+        your website&apos;s traffic without invading your visitors&apos; privacy.
+      </Description>
 
       <Jumbotron />
 
