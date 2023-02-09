@@ -12,7 +12,7 @@ export function Empty({ className, description, title, ...props }: EmptyProps) {
       {...props}
       className={classNames("align-items-center d-flex flex-column flex-grow-1 justify-content-center text-center", className)}
     >
-      <span className="bi-folder2-open bis-5rem small text-primary" />
+      <i className="bi bi-folder2-open bis-5rem small text-primary" />
 
       <h3>{title}</h3>
 

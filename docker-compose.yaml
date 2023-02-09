@@ -53,6 +53,7 @@ networks:
 
 volumes:
   clickhouse:
+  frontend-next-build:
   postgres:
   redis:
 
@@ -85,6 +86,7 @@ services:
       VIRTUAL_PORT: "3000"
     image: ghcr.io/th0th/poeticmetric/frontend:development
     volumes:
+      - frontend-next-build:/poeticmetric/.next
       - ./frontend/@types:/poeticmetric/@types
       - ./frontend/blog:/poeticmetric/blog
       - ./frontend/components:/poeticmetric/components

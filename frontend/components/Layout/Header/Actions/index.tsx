@@ -16,15 +16,11 @@ export function Actions({ className, ...props }: ActionsProps) {
       return (
         <>
           {router.pathname !== "/sign-in" ? (
-            <Link className="btn btn-outline-primary" href="/sign-in">
-              Sign in
-            </Link>
+            <Link className="btn btn-outline-primary btn-sm" href="/sign-in">Sign in</Link>
           ) : null}
 
           {process.env.NEXT_PUBLIC_HOSTED === "true" && router.pathname !== "/sign-up" ? (
-            <Link className="btn btn-primary" href="/sign-up">
-              Sign up
-            </Link>
+            <Link className="btn btn-primary btn-sm" href="/sign-up">Sign up</Link>
           ) : null}
         </>
       );
@@ -33,9 +29,7 @@ export function Actions({ className, ...props }: ActionsProps) {
     return (
       <>
         {kind === "website" ? (
-          <Link className="btn btn-primary" href="/sites">
-            Go to app
-          </Link>
+          <Link className="btn btn-primary btn-sm" href="/sites">Go to app</Link>
         ) : null}
 
         <UserMenu />

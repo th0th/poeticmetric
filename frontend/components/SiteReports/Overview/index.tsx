@@ -6,9 +6,9 @@ import { useSiteOverviewReport } from "../../../hooks";
 export type SiteOverviewReportsProps = Omit<CardProps, "children">;
 
 const changeIconClassNames: Record<SiteOverviewReportChangeVariant, string> = {
-  danger: "bi-arrow-down-short",
-  muted: "bi-arrow-right-short",
-  success: "bi-arrow-up-short",
+  danger: "bi bi-arrow-down-short",
+  muted: "bi bi-arrow-right-short",
+  success: "bi bi-arrow-up-short",
 };
 
 export function Overview({ ...props }: SiteOverviewReportsProps) {
@@ -26,7 +26,7 @@ export function Overview({ ...props }: SiteOverviewReportsProps) {
 
               <div className="align-items-center d-flex flex-row">
                 <div className="align-items-center bg-white border border-4 border-primary d-flex flex-column flex-grow-0 flex-shrink-0 h-2rem justify-content-center me-2 p-1 rounded-circle text-primary w-2rem">
-                  <i className="bi-file-text-fill fs-sm" />
+                  <i className="bi bi-file-text-fill fs-sm" />
                 </div>
 
                 <span className="fs-5 fw-bold">{data.pageViewCountDisplay}</span>
@@ -49,7 +49,7 @@ export function Overview({ ...props }: SiteOverviewReportsProps) {
 
               <div className="d-flex flex-row align-items-center">
                 <div className="align-items-center bg-white border border-4 border-primary d-flex flex-column flex-grow-0 flex-shrink-0 h-2rem justify-content-center me-2 p-1 rounded-circle text-primary w-2rem">
-                  <i className="bi-person-fill fs-sm" />
+                  <i className="bi bi-person-fill fs-sm" />
                 </div>
 
                 <span className="fs-5 fw-bold">{data.visitorCountDisplay}</span>
@@ -72,7 +72,7 @@ export function Overview({ ...props }: SiteOverviewReportsProps) {
 
               <div className="d-flex flex-row align-items-center">
                 <div className="align-items-center bg-white border border-4 border-primary d-flex flex-column flex-grow-0 flex-shrink-0 h-2rem justify-content-center me-2 p-1 rounded-circle text-primary w-2rem">
-                  <i className="bi-layers-half fs-sm" />
+                  <i className="bi bi-layers-half fs-sm" />
                 </div>
 
                 <span className="fs-5 fw-bold">{data.pageViewCountPerVisitor}</span>
@@ -95,7 +95,7 @@ export function Overview({ ...props }: SiteOverviewReportsProps) {
 
               <div className="d-flex flex-row align-items-center">
                 <div className="align-items-center bg-white border border-4 border-primary d-flex flex-column flex-grow-0 flex-shrink-0 h-2rem justify-content-center me-2 p-1 rounded-circle text-primary w-2rem">
-                  <i className="bi-clock-fill fs-sm" />
+                  <i className="bi bi-clock-fill fs-sm" />
                 </div>
 
                 <span className="fs-5 fw-bold">{data.pageViewCountPerVisitor}</span>
