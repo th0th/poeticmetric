@@ -1,10 +1,13 @@
+import classNames from "classnames";
 import React from "react";
 import { Accordion } from "react-bootstrap";
 import styles from "./Faq.module.scss";
 
-export function Faq() {
+export type FaqProps = Omit<React.PropsWithoutRef<JSX.IntrinsicElements["section"]>, "children">;
+
+export function Faq({ className, ...props }: FaqProps) {
   return (
-    <>
+    <section {...props} className={classNames("py-5", className)}>
       <h2 className="mw-32rem">Frequently asked questions</h2>
 
       <div className={`pb-5 pt-3 ${styles.accordionWrapper}`}>
@@ -56,6 +59,6 @@ export function Faq() {
           </Accordion.Item>
         </Accordion>
       </div>
-    </>
+    </section>
   );
 }

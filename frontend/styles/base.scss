@@ -3,6 +3,8 @@
 $enable-negative-margins: true;
 $font-size-xs: 0.75rem;
 $font-size-xxs: 0.5rem;
+$font-weight-black: 900;
+$font-weight-bolder: 800;
 $font-weight-medium: 500;
 $header-height: 64px;
 $min-contrast-ratio: 4;
@@ -11,6 +13,7 @@ $navbar-toggler-padding-x: 0.5rem;
 
 $blue: #3182CE;
 $gray: #718096;
+$light: #EBF8FF;
 $red: #C53030;
 $yellow: #D69E2E;
 
@@ -94,6 +97,8 @@ $utilities: map-merge($utilities, (
   )),
   "font-weight": map-merge(map-get($utilities, "font-weight"), (
     values: map-merge(map-get(map-get($utilities, "font-weight"), "values"), (
+      black: $font-weight-black,
+      bolder: $font-weight-bolder,
       medium: $font-weight-medium,
     )),
   )),

@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { Container } from "react-bootstrap";
 import { Description, Layout, Plans, Title } from "..";
-import { PlansContext, PlansContextState, PlansContextValue } from "../../contexts";
+import { AuthAndApiContext, PlansContext, PlansContextState, PlansContextValue } from "../../contexts";
 import { Faq } from "./Faq";
 
 export function Pricing() {
+  const { user } = useContext(AuthAndApiContext);
   const [plansContextState, setPlansContextState] = useState<PlansContextState>({ isDisabled: false, subscriptionPeriod: "MONTH" });
 
   const plansContextValue = useMemo<PlansContextValue>(() => ({ ...plansContextState, set: setPlansContextState }), [plansContextState]);
@@ -18,7 +19,7 @@ export function Pricing() {
         the needs of businesses of all sizes. Explore our pricing page to find the perfect plan for you.
       </Description>
 
-      <Container className="my-5">
+      <Container className="py-5">
         <div className="mw-34rem">
           <h1>Simple pricing</h1>
 
@@ -37,11 +38,13 @@ export function Pricing() {
           <Plans signUp />
         </PlansContext.Provider>
 
-        <div className="align-items-center d-flex flex-column py-4">
-          <Link className="btn btn-lg btn-primary" href="/sign-up">Start your free trial</Link>
-        </div>
+        {user === null ? (
+          <div className="align-items-center d-flex flex-column mt-4">
+            <Link className="btn btn-lg btn-primary" href="/sign-up">Start your free trial</Link>
+          </div>
+        ) : null}
 
-        <Faq />
+        <Faq className="pb-0" />
       </Container>
     </Layout>
   );

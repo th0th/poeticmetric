@@ -35,7 +35,7 @@ export function User({ user, ...props }: UserProps) {
       )}
     >
       <div className="align-items-center bg-warning bottom-0 d-flex flex-column h-1_5rem justify-content-center position-absolute rounded-circle start-0 w-1_5rem text-white">
-        <i className="bi-hourglass-split d-block fs-sm" />
+        <i className="bi bi-hourglass-split d-block fs-sm" />
       </div>
     </OverlayTrigger>
   ) : null), [user.isActive]);

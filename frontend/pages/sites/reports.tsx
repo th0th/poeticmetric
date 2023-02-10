@@ -69,7 +69,7 @@ function Reports() {
                       onClick={copyScriptCodeToClipboard}
                       size="lg"
                     >
-                      <span className="bi bi-clipboard-fill" />
+                      <i className="bi bi-clipboard-fill" />
                     </Button>
                   </OverlayTrigger>
                 </div>
@@ -83,7 +83,7 @@ function Reports() {
                 ) : null}
 
                 <Button className="mt-4" disabled={isSiteValidating} onClick={async () => await mutate(`/sites/${site?.id}`)}>
-                  <span className="bi-arrow-clockwise me-1" />
+                  <i className="bi bi-arrow-clockwise me-1" />
 
                   Refresh
                 </Button>

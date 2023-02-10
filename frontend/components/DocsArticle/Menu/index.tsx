@@ -19,7 +19,7 @@ export function Menu({ article: articleFromProps, categories, className, ...prop
         <div className="px-3 pt-4">
           <Dropdown className="d-md-none">
             <Dropdown.Toggle className="d-block m-auto" id={dropdownToggleId}>
-              <span className="bi-journal-text me-2" />
+              <i className="bi bi-journal-text me-2" />
 
               Show docs menu
             </Dropdown.Toggle>

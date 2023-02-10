@@ -55,7 +55,7 @@ export function OrganizationDetails() {
 
         {process.env.NEXT_PUBLIC_HOSTED === "true" ? (
           <Alert className="align-items-center d-flex flex-row fs-sm my-3 py-2" variant="warning">
-            <span className="bi-info-circle flex-shrink-0 fs-3" />
+            <i className="bi bi-info-circle flex-shrink-0 fs-3" />
 
             <div className="flex-grow-1 ms-2">
               If you need to change company details for invoices and receipts, please go to the

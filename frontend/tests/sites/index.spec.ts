@@ -21,7 +21,7 @@ test("site-flow", async ({ page, site }) => {
   await expect(page.getByRole("heading", { name: "There are no events registered from this site, yet..." })).toBeVisible();
   // await page.locator('div').filter({ hasText: '<script async src="https://dev.poeticmetric.com/pm.js"></script>' }).click();
 
-  const copyButtonLocator = page.locator("button", { has: page.locator("span[class*='bi-clipboard-fill']") });
+  const copyButtonLocator = page.locator("button", { has: page.locator("i[class*='bi-clipboard-fill']") });
 
   await expect(copyButtonLocator).toBeVisible();
   await copyButtonLocator.click();

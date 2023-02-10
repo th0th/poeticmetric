@@ -68,7 +68,7 @@ export function Path({ className, ...props }: SitePathReportProps) {
                       target="_blank"
                       title="Go to the page"
                     >
-                      <i className="bi-box-arrow-up-right h-1rem" />
+                      <i className="bi bi-box-arrow-up-right h-1rem" />
                     </a>
                   </div>
                 </td>
