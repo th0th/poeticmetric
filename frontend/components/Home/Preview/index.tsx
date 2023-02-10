@@ -10,7 +10,7 @@ export function Preview(props: PreviewProps) {
     <section {...props}>
       <Container>
         <MockWindow className="mx-auto mw-50rem">
-          <img className="d-block w-100" src={screenshot.src} />
+          <img alt="Screenshot" className="d-block w-100" src={screenshot.src} />
         </MockWindow>
       </Container>
     </section>
