@@ -64,7 +64,7 @@ export function Home() {
         <div>
           With PoeticMetric&apos;s comprehensive and user-friendly analytics, say goodbye to confusing and
           cluttered reports, and hello to straightforward insights that are easy to understand and actionable.
-          With PoeticMetric, you're in complete control of your data and your privacy. No more worrying about behavioral marketing or
+          With PoeticMetric, you&apos;re in complete control of your data and your privacy. No more worrying about behavioral marketing or
           surveillance capitalism – your data belongs to you, and you alone.
         </div>
       </Features>
