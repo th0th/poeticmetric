@@ -33,6 +33,7 @@ x-backend-common: &backend-common
     SMTP_PORT: ${SMTP_PORT}
     SMTP_USER: ${SMTP_USER}
     WORKER_COUNT: ${WORKER_COUNT}
+  restart: unless-stopped
   tty: true
 
 networks:
