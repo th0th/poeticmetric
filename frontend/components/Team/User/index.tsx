@@ -1,8 +1,10 @@
+import classNames from "classnames";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useMemo } from "react";
-import { Card, CardProps, OverlayTrigger, Tooltip } from "react-bootstrap";
+import React, { useContext } from "react";
+import { Card, CardProps, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { Avatar } from "../..";
+import { AuthAndApiContext } from "../../../contexts";
 
 export type UserProps = Overwrite<Omit<CardProps, "children">, {
   user: User;
@@ -10,35 +12,7 @@ export type UserProps = Overwrite<Omit<CardProps, "children">, {
 
 export function User({ user, ...props }: UserProps) {
   const router = useRouter();
-
-  const deleteLinkNode = useMemo<React.ReactNode>(() => {
-    if (user.isOrganizationOwner) {
-      return null;
-    }
-
-    return (
-      <Link
-        className="mt-2 mt-sm-0 ms-sm-2 btn btn-sm btn-danger"
-        href={{ pathname: router.pathname, query: { ...router.query, deleteUserId: user.id } }}
-      >
-        Delete
-      </Link>
-    );
-  }, [router.pathname, router.query, user.id, user.isOrganizationOwner]);
-
-  const pendingNode = useMemo<React.ReactNode>(() => (!user.isActive ? (
-    <OverlayTrigger
-      overlay={(
-        <Tooltip className="fw-medium fs-xs">
-          Waiting for team member to accept the invite.
-        </Tooltip>
-      )}
-    >
-      <div className="align-items-center bg-warning bottom-0 d-flex flex-column h-1_5rem justify-content-center position-absolute rounded-circle start-0 w-1_5rem text-white">
-        <i className="bi bi-hourglass-split d-block fs-sm" />
-      </div>
-    </OverlayTrigger>
-  ) : null), [user.isActive]);
+  const { user: authUser } = useContext(AuthAndApiContext);
 
   return (
     <Card {...props}>
@@ -57,18 +31,90 @@ export function User({ user, ...props }: UserProps) {
           <div className="position-relative">
             <Avatar alt={user.name} email={user.email} size={48} />
 
-            {pendingNode}
+            {user.isOrganizationOwner ? (
+              <OverlayTrigger
+                overlay={(
+                  <Tooltip className="fs-xs fw-medium">
+                    This account is the organization owner.
+                  </Tooltip>
+                )}
+                placement="bottom"
+              >
+                <div
+                  className="align-items-center bg-secondary d-flex flex-column h-1_5rem justify-content-center mt-n3 position-absolute rounded-circle start-0 w-1_5rem text-white top-100"
+                  tabIndex={0}
+                >
+                  <i className="bi bi-lightning-fill d-block fs-sm" />
+                </div>
+              </OverlayTrigger>
+            ) : null}
+
+            {!user.isActive ? (
+              <OverlayTrigger
+                overlay={(
+                  <Tooltip className="fs-xs fw-medium">
+                    Waiting for team member to accept the invite.
+                  </Tooltip>
+                )}
+                placement="bottom"
+              >
+                <div
+                  className="align-items-center bg-warning d-flex flex-column h-1_5rem justify-content-center mt-n3 position-absolute rounded-circle start-0 w-1_5rem text-white top-100"
+                  tabIndex={0}
+                >
+                  <i className="bi bi-hourglass-split d-block fs-sm" />
+                </div>
+              </OverlayTrigger>
+            ) : null}
           </div>
         </div>
       </Card.Body>
 
-      <Card.Footer>
-        <div className="d-flex flex-column flex-sm-row">
-          <Link className="btn btn-sm btn-primary" href={`/team/edit?id=${user.id}`}>Edit</Link>
+      {authUser?.isOrganizationOwner ? (
+        <Card.Footer>
+          <Row className="g-2" sm="auto">
+            <div className="d-grid">
+              <Link className="btn btn-sm btn-primary" href={`/team/edit?id=${user.id}`}>Edit</Link>
+            </div>
 
-          {deleteLinkNode}
-        </div>
-      </Card.Footer>
+            {!user.isOrganizationOwner ? (
+              <div className="d-grid">
+                <Link
+                  className="btn btn-sm btn-danger"
+                  href={{ pathname: router.pathname, query: { ...router.query, deleteUserId: user.id } }}
+                >
+                  Delete
+                </Link>
+              </div>
+            ) : null}
+
+            {!user.isOrganizationOwner ? (
+              <>
+                <div className="d-none d-sm-block flex-grow-1" />
+
+                <OverlayTrigger
+                  overlay={!user.isActive ? (
+                    <Tooltip className="fs-xs fw-medium">
+                      Team member should activate their account to get the owner role.
+                    </Tooltip>
+                  ) : (<></>)}
+                  placement="bottom"
+                >
+                  <div className="d-grid">
+                    <Link
+                      className={classNames("btn btn-secondary btn-sm", !user.isActive && "disabled")}
+                      href={{ pathname: router.pathname, query: { ...router.query, newOrganizationOwnerId: user.id } }}
+                      tabIndex={user.isActive ? 0 : -1}
+                    >
+                      Make owner
+                    </Link>
+                  </div>
+                </OverlayTrigger>
+              </>
+            ) : null}
+          </Row>
+        </Card.Footer>
+      ) : null}
     </Card>
   );
 }

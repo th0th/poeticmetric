@@ -5,6 +5,7 @@ import path from "path";
 const docCategories: Array<Omit<DocsCategory, "articles">> = [
   { slug: "getting-started", title: "Getting started" },
   { slug: "websites", title: "Websites" },
+  { slug: "team", title: "Team" },
 ];
 
 export function getDocs(): Array<DocsCategory> {

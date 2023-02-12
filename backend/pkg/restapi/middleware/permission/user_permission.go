@@ -50,7 +50,7 @@ func User(cfg *userPermissionMiddlewareConfig) fiber.Handler {
 			if auth.User == nil || auth.User.IsOrganizationOwner != *cfg.IsOrganizationOwner {
 				return c.
 					Status(fiber.StatusForbidden).
-					JSON(helpers.Detail("You need to be an owner."))
+					JSON(helpers.Detail("You need to be the organization owner."))
 			}
 		}
 

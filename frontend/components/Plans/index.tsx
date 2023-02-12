@@ -57,13 +57,13 @@ export function Plans({ signUp = false }: PlansProps) {
   }, [set]);
 
   const dataOwnershipTooltipNode = useMemo(() => (
-    <Tooltip className="fw-medium fs-xs">
+    <Tooltip className="fs-xs fw-medium">
       It&apos;s truly your data. We don&apos;t sell or monetize your data in any way. You can export or purge all of it at any time.
     </Tooltip>
   ), []);
 
   const prioritySupportTooltipNode = useMemo(() => (
-    <Tooltip className="fw-medium fs-xs">
+    <Tooltip className="fs-xs fw-medium">
       You get e-mail support directly from an engineer when you need.
     </Tooltip>
   ), []);

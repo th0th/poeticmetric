@@ -3,8 +3,9 @@ import React, { useMemo } from "react";
 import { Col, Container, Row, Spinner } from "react-bootstrap";
 import { Layout, Title } from "..";
 import { useUsers } from "../../hooks";
-import { DeleteModal } from "./DeleteModal";
+import { DeletionModal } from "./DeletionModal";
 import { Header } from "./Header";
+import { OrganizationOwnershipTransferModal } from "./OrganizationOwnershipTransferModal";
 import { User } from "./User";
 
 export function Team() {
@@ -55,7 +56,8 @@ export function Team() {
         {usersNode}
       </Container>
 
-      <DeleteModal />
+      <DeletionModal />
+      <OrganizationOwnershipTransferModal />
     </Layout>
   );
 }

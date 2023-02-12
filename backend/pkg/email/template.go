@@ -6,6 +6,8 @@ import (
 	"html/template"
 	"path/filepath"
 	"strings"
+
+	"github.com/go-errors/errors"
 )
 
 type RawTemplate *struct {
@@ -72,7 +74,7 @@ func GetTemplate(name TemplateName, data map[string]string) (*Template, error) {
 
 		t.Html, err = template.ParseFiles(templatePath)
 		if err != nil {
-			return nil, err
+			return nil, errors.Wrap(err, 0)
 		}
 	}
 
@@ -80,7 +82,7 @@ func GetTemplate(name TemplateName, data map[string]string) (*Template, error) {
 
 	err = t.Html.Execute(buffer, data)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, 0)
 	}
 
 	return &Template{
