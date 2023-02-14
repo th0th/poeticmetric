@@ -39,7 +39,7 @@ func Get(dp *depot.Depot, filters *filter.Filters, paginationCursor *PaginationC
 		Joins("cross join (select count(1) as count from events_buffer) total_views").
 		Select(
 			"round(avg(duration)) as average_duration",
-			"round(100 * countIf(is_bounce = 1) / view_count) as bounce_percentage",
+			"round(100 * countIf(duration == 0) / view_count) as bounce_percentage",
 			"path",
 			"url",
 			"count(*) as view_count",
