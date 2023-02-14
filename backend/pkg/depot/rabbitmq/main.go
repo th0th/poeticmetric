@@ -1,6 +1,7 @@
 package rabbitmq
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"time"
@@ -128,7 +129,9 @@ func (r *RabbitMq) DeclareQueues(queues []*Queue) error {
 }
 
 func (r *RabbitMq) Publish(exchange string, key string, mandatory bool, immediate bool, msg amqp.Publishing) error {
-	return r.PublishChannel().Publish(exchange, key, mandatory, immediate, msg)
+	ctx := context.Background()
+
+	return r.PublishChannel().PublishWithContext(ctx, exchange, key, mandatory, immediate, msg)
 }
 
 func (r *RabbitMq) PublishChannel() *amqp.Channel {

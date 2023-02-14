@@ -20,11 +20,11 @@ func User(cfg *userPermissionMiddlewareConfig) fiber.Handler {
 
 		// IsAuthenticated
 		if cfg.IsAuthenticated != nil {
-			if *cfg.IsAuthenticated == true && auth.User == nil {
+			if *cfg.IsAuthenticated && auth.User == nil {
 				return fiber.ErrUnauthorized
 			}
 
-			if *cfg.IsAuthenticated == false && auth.User != nil {
+			if !*cfg.IsAuthenticated && auth.User != nil {
 				return fiber.ErrForbidden
 			}
 		}
