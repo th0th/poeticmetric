@@ -3,6 +3,7 @@ package worker
 import (
 	"encoding/json"
 
+	"github.com/go-errors/errors"
 	"github.com/th0th/poeticmetric/backend/pkg/depot"
 	"github.com/th0th/poeticmetric/backend/pkg/depot/rabbitmq"
 	"github.com/th0th/poeticmetric/backend/pkg/email"
@@ -21,12 +22,12 @@ func sendEmail(dp *depot.Depot, b []byte) error {
 
 	err := json.Unmarshal(b, payload)
 	if err != nil {
-		return err
+		return errors.Wrap(err, 0)
 	}
 
 	err = email.Send(payload)
 	if err != nil {
-		return err
+		return errors.Wrap(err, 0)
 	}
 
 	return nil

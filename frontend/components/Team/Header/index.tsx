@@ -28,10 +28,15 @@ export function Header() {
   }, [router]);
 
   const statusFilterNode = useMemo<React.ReactNode>(() => {
-    const statuses: Array<Status> = Array.from(new Set(users?.map((u) => ({
-      label: u.isActive ? "Active" : "Pending",
-      value: u.isActive ? "active" : "pending",
-    }))));
+    const statuses: Array<Status> = [];
+
+    if (users?.find((u) => u.isActive) !== undefined) {
+      statuses.push({ label: "Active", value: "active" });
+    }
+
+    if (users?.find((u) => !u.isActive) !== undefined) {
+      statuses.push({ label: "Pending", value: "Pending" });
+    }
 
     if (statuses.length < 2) {
       return null;

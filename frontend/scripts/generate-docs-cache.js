@@ -6,6 +6,7 @@ const matter = require("gray-matter");
 const categories = [
   { slug: "getting-started", title: "Getting started" },
   { slug: "websites", title: "Websites" },
+  { slug: "team", title: "Team" },
 ];
 
 function generateDocsCache() {

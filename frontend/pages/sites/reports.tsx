@@ -57,7 +57,7 @@ function Reports() {
 
                   <OverlayTrigger
                     overlay={(
-                      <Tooltip className="fw-medium fs-xs">
+                      <Tooltip className="fs-xs fw-medium">
                         Click to copy
                       </Tooltip>
                     )}

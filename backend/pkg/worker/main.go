@@ -5,6 +5,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/getsentry/sentry-go"
 	amqp "github.com/rabbitmq/amqp091-go"
 	"github.com/th0th/poeticmetric/backend/pkg/depot"
 	"github.com/th0th/poeticmetric/backend/pkg/depot/rabbitmq"
@@ -54,8 +55,16 @@ func Run(dp *depot.Depot, queues []string) error {
 		for delivery := range deliveries {
 			err2 := runners[rabbitmq.QueueName(delivery.RoutingKey)](dp, delivery.Body)
 			if err2 != nil {
-				// TODO: handle error
-				panic(err2)
+				sentry.WithScope(func(scope *sentry.Scope) {
+					scopeDeliveryBodyContext := map[string]any{}
+
+					_ = json.Unmarshal(delivery.Body, &scopeDeliveryBodyContext)
+
+					scope.SetContext("deliveryBody", scopeDeliveryBodyContext)
+
+					log.Println(err2)
+					sentry.CaptureException(err2)
+				})
 			}
 
 			err2 = delivery.Ack(false)

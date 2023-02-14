@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/smtp"
 
+	"github.com/go-errors/errors"
 	"github.com/th0th/poeticmetric/backend/pkg/env"
 )
 
@@ -17,7 +18,7 @@ type SendInput struct {
 func Send(input *SendInput) error {
 	template, err := GetTemplate(input.Template, input.TemplateData)
 	if err != nil {
-		return err
+		return errors.Wrap(err, 0)
 	}
 
 	// from

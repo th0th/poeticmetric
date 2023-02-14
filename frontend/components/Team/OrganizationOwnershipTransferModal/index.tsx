@@ -7,13 +7,13 @@ import { ToastsContext } from "../../../contexts";
 import { api } from "../../../helpers";
 import { useQueryParameter, useUser } from "../../../hooks";
 
-const routerQueryKey = "deleteUserId";
+const routerQueryKey = "newOrganizationOwnerId";
 
 type State = {
   user: User | undefined;
 };
 
-export function DeleteModal() {
+export function OrganizationOwnershipTransferModal() {
   const router = useRouter();
   const { addToast } = useContext(ToastsContext);
   const { hasError: hasIdError, value: id } = useQueryParameter(routerQueryKey, "number");
@@ -32,7 +32,7 @@ export function DeleteModal() {
       return;
     }
 
-    const response = await api.delete(`/users/${user.id}`);
+    const response = await api.post("/users/make-owner", { id: user.id });
 
     if (!response.ok) {
       const responseJson = await response.json();
@@ -41,9 +41,9 @@ export function DeleteModal() {
       return;
     }
 
-    addToast({ body: "Team member is deleted.", variant: "success" });
+    addToast({ body: "Organization ownership is transferred.", variant: "success" });
     await handleHide();
-    await mutate("/team");
+    await mutate("/users");
   }, [addToast, handleHide, user]);
 
   useEffect(() => {
@@ -62,11 +62,15 @@ export function DeleteModal() {
   return (
     <Modal onExited={handleExited} onHide={handleHide} show={user !== undefined}>
       <Modal.Header closeButton>
-        <Modal.Title>Delete team member</Modal.Title>
+        <Modal.Title>Transfer organization ownership</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
-        {"Are you sure you want to delete the team member "}
+        <p className="fw-bold">
+          Beware! There can only be one organization owner. Transferring the ownership to this team member will revoke your owner role.
+        </p>
+
+        {"Are you sure you want to transfer the organization ownership to "}
 
         <span className="fw-semibold">{state.user?.name}</span>
 
@@ -76,7 +80,7 @@ export function DeleteModal() {
       <Modal.Footer>
         <Button onClick={handleHide} variant="secondary">Cancel</Button>
 
-        <Button onClick={handleDelete} variant="danger">Delete</Button>
+        <Button onClick={handleDelete} variant="danger">Transfer the ownership</Button>
       </Modal.Footer>
     </Modal>
   );
