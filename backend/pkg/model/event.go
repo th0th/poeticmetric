@@ -24,7 +24,6 @@ type Event struct {
 	Duration               uint32
 	Id                     string
 	IsBot                  bool
-	IsBounce               bool
 	Kind                   string
 	Language               *string
 	Locale                 *string

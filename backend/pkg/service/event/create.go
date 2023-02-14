@@ -51,7 +51,6 @@ func Create(dp *depot.Depot, payload *CreatePayload) error {
 		DateTime: payload.DateTime,
 		Duration: *payload.Duration,
 		Id:       payload.Id,
-		IsBounce: *payload.Duration == 0,
 		Kind:     *payload.Kind,
 		Referrer: payload.Referrer,
 		SiteId:   modelSite.Id,
