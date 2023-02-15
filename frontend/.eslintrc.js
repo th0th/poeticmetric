@@ -15,6 +15,7 @@ module.exports = {
     "@typescript-eslint/quotes": ["error", "double", { avoidEscape: true }],
     "@typescript-eslint/semi": "error",
     "arrow-parens": "error",
+    "eol-last": ["error"],
     "import/no-extraneous-dependencies": "error",
     "import/no-unresolved": "error",
     "max-len": ["error", { code: 140, ignoreComments: true, ignoreStrings: true }],

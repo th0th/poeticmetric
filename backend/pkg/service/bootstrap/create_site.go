@@ -81,16 +81,13 @@ func createSite(dp *depot.Depot) error {
 				event.Referrer = pointer.Get(fmt.Sprintf("%s%s", gofakeit.RandomString(referrerSites), gofakeit.RandomString(referrerPaths)))
 			}
 
+			//lint:ignore SA4000 we use double Bool() here to reduce the possibility
 			if gofakeit.Bool() && gofakeit.Bool() {
 				event.UtmSource = pointer.Get(gofakeit.RandomString(utmSources))
 				event.UtmCampaign = pointer.Get(gofakeit.RandomString(utmCampaigns))
 				event.UtmMedium = pointer.Get(gofakeit.RandomString(utmMediums))
 				event.UtmContent = pointer.Get(gofakeit.RandomString(utmContents))
 				event.UtmTerm = pointer.Get(gofakeit.RandomString(utmTerms))
-			}
-
-			if gofakeit.Bool() && gofakeit.Bool() && gofakeit.Bool() {
-				event.IsBounce = true
 			}
 
 			event.FillFromUrl(gofakeit.RandomString(urls), nil)
@@ -101,7 +98,7 @@ func createSite(dp *depot.Depot) error {
 			events = append(events, event)
 		}
 
-		err := dp.ClickHouse().Table("events_buffer").Create(&events).Error
+		err = dp.ClickHouse().Table("events_buffer").Create(&events).Error
 		if err != nil {
 			return err
 		}

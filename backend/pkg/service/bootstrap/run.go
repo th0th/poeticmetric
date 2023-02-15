@@ -136,8 +136,8 @@ func Run(dp *depot.Depot, payload *Payload) (*userself.UserSelf, error) {
 		`).
 			Scan(&sequenceFixingQueries).
 			Error
-		if err != nil {
-			return err
+		if err2 != nil {
+			return err2
 		}
 
 		for _, sequenceFixingQuery := range sequenceFixingQueries {
