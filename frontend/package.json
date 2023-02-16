@@ -56,12 +56,8 @@
     "eslint-config-next": "^13.0.2",
     "eslint-plugin-sort-destructure-keys": "^1.4.0",
     "eslint-plugin-typescript-sort-keys": "^2.1.0",
-    "postcss-flexbugs-fixes": "^5.0.2",
-    "postcss-nested": "^6.0.0",
-    "postcss-preset-env": "^7.8.2",
-    "postcss-scss": "^4.0.5",
     "sass": "^1.56.0",
-    "stylelint": "^14.15.0",
+    "stylelint": "^15.1.0",
     "stylelint-order": "^6.0.0"
   },
   "license": "AGPL-3.0",
