@@ -524,8 +524,8 @@ github.com/godbus/dbus v0.0.0-20190422162347-ade71ed3457e/go.mod h1:bBOAhwG1umN6
 github.com/godbus/dbus/v5 v5.0.3/go.mod h1:xhWf0FNVPg57R7Z0UbKHbJfkEywrmjJnf7w5xrFpKfA=
 github.com/godbus/dbus/v5 v5.0.4/go.mod h1:xhWf0FNVPg57R7Z0UbKHbJfkEywrmjJnf7w5xrFpKfA=
 github.com/godbus/dbus/v5 v5.0.6/go.mod h1:xhWf0FNVPg57R7Z0UbKHbJfkEywrmjJnf7w5xrFpKfA=
-github.com/gofiber/contrib/fibersentry v0.0.0-20230209220352-3aae4df40ccc h1:DxdFUXRrD5uyJqLrk/fZvyKmLwv249u7vLw4WjctUjM=
-github.com/gofiber/contrib/fibersentry v0.0.0-20230209220352-3aae4df40ccc/go.mod h1:AdnGkItVsZMMFx6DZ2mPtTB8BDBQZcxJJLTI/j9oI5o=
+github.com/gofiber/contrib/fibersentry v0.0.0-20230214221137-36b97d3ad36f h1:lr4e4vacrOnJoucZ8PNngZZIZlj+XVvv/yy7QLAv8kk=
+github.com/gofiber/contrib/fibersentry v0.0.0-20230214221137-36b97d3ad36f/go.mod h1:AdnGkItVsZMMFx6DZ2mPtTB8BDBQZcxJJLTI/j9oI5o=
 github.com/gofiber/fiber/v2 v2.42.0 h1:Fnp7ybWvS+sjNQsFvkhf4G8OhXswvB6Vee8hM/LyS+8=
 github.com/gofiber/fiber/v2 v2.42.0/go.mod h1:3+SGNjqMh5VQH5Vz2Wdi43zTIV16ktlFd3x3R6O1Zlc=
 github.com/gofrs/uuid v3.2.0+incompatible/go.mod h1:b2aQJv3Z4Fp6yNu3cdSllBxTCLRxnplIgP/c0N/04lM=
