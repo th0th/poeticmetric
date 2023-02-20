@@ -9,6 +9,13 @@ const nextConfig = {
   },
   swcMinify: true,
   webpack(config) {
+    if (process.env.FRONTEND_USE_POLLING === "true") {
+      config.watchOptions = {
+        aggregateTimeout: 500,
+        poll: 500,
+      };
+    }
+
     config.module.rules.push({
       issuer: /\.[jt]sx?$/,
       test: /\.svg$/i,
