@@ -177,7 +177,7 @@ jobs:
         run: |
           docker compose down
           docker volume prune -f
-          docker compose up -d clickhouse frontend nginx-proxy postgres redis rest-api
+          docker compose up -d clickhouse frontend mailpit nginx-proxy postgres redis rest-api
           docker compose run --rm --entrypoint 'bash -c "wait-for-it -q -s -t 0 rest-api:80 -- echo \"REST API is ready!\""' rest-api
 
       - name: Install Google Chrome
