@@ -171,13 +171,14 @@ jobs:
         run: docker compose run --rm rest-api go test ./... 2> /dev/null
 
       - env:
+          DEBUG: ${{ vars.DEBUG }}
           FRONTEND_BASE_URL: ${{ vars.FRONTEND_BASE_URL }}
           REST_API_BASE_URL: ${{ vars.REST_API_BASE_URL }}
         name: Prepare for frontend tests
         run: |
           docker compose down
           docker volume prune -f
-          docker compose up -d clickhouse frontend nginx-proxy postgres redis rest-api
+          docker compose up -d
           docker compose run --rm --entrypoint 'bash -c "wait-for-it -q -s -t 0 rest-api:80 -- echo \"REST API is ready!\""' rest-api
 
       - name: Install Google Chrome
@@ -186,6 +187,7 @@ jobs:
 
       - env:
           FRONTEND_BASE_URL: ${{ vars.FRONTEND_BASE_URL }}
+          MAILPIT_BASE_URL: ${{ vars.MAILPIT_BASE_URL }}
         name: Run Playwright tests
         run: npm exec -- playwright test --project="Google Chrome"
         working-directory: frontend

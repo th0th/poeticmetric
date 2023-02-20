@@ -1,13 +1,13 @@
 import Link from "next/link";
 import React, { useContext } from "react";
 import { Dropdown, DropdownProps } from "react-bootstrap";
-import { AuthAndApiContext } from "../../contexts";
+import { AuthContext } from "../../contexts";
 import { Avatar } from "../Avatar";
 
 export type UserMenuProps = Omit<DropdownProps, "children">;
 
 export function UserMenu({ ...props }: UserMenuProps) {
-  const { user } = useContext(AuthAndApiContext);
+  const { user } = useContext(AuthContext);
 
   return user !== null ? (
     <Dropdown {...props}>

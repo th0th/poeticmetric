@@ -1,7 +1,7 @@
 import { omit } from "lodash";
 import React, { useCallback, useContext, useId, useState } from "react";
 import { Alert, Button, Card, Form, Stack } from "react-bootstrap";
-import { AuthAndApiContext, ToastsContext } from "../../../contexts";
+import { AuthContext, ToastsContext } from "../../../contexts";
 import { api, base64Encode, setUserAccessToken } from "../../../helpers";
 import { useForm } from "../../../hooks";
 
@@ -18,7 +18,7 @@ type State = {
 const initialForm: Form = { newPassword: "", newPassword2: "", password: "" };
 
 export function Password() {
-  const { mutate, user } = useContext(AuthAndApiContext);
+  const { mutate, user } = useContext(AuthContext);
   const { addToast } = useContext(ToastsContext);
   const [state, setState] = useState<State>({ isDisabled: false });
   const [values, setValues, updateValue, errors, setErrors] = useForm<Form>(initialForm);

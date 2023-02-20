@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Button, Card, Container, Form, Spinner } from "react-bootstrap";
 import { Layout, Title } from "..";
-import { AuthAndApiContext, ToastsContext } from "../../contexts";
+import { AuthContext, ToastsContext } from "../../contexts";
 import { api, setUserAccessToken } from "../../helpers";
 import { useForm } from "../../hooks";
 
@@ -18,7 +18,7 @@ type State = {
 
 export function Activation() {
   const router = useRouter();
-  const { mutate } = useContext(AuthAndApiContext);
+  const { mutate } = useContext(AuthContext);
   const { addToast } = useContext(ToastsContext);
   const [state, setState] = useState<State>({ isDisabled: false, isReady: null });
   const [values, , updateValue, errors, setErrors] = useForm<Form>({ newPassword: "", newPassword2: "" });

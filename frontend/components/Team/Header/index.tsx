@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import React, { useCallback, useContext, useMemo } from "react";
 import { Form } from "react-bootstrap";
 import { Breadcrumb } from "../..";
-import { AuthAndApiContext } from "../../../contexts";
+import { AuthContext } from "../../../contexts";
 import { useUsers } from "../../../hooks";
 
 type Status = {
@@ -14,7 +14,7 @@ type Status = {
 
 export function Header() {
   const router = useRouter();
-  const { organization, user } = useContext(AuthAndApiContext);
+  const { organization, user } = useContext(AuthContext);
   const { data: users } = useUsers();
 
   const handleStatusFilterChange = useCallback<React.ChangeEventHandler<HTMLSelectElement>>(async (event) => {

@@ -1,4 +1,4 @@
-export * from "./AuthAndApiContext";
+export * from "./AuthContext";
 export * from "./LayoutContext";
 export * from "./PlansContext";
 export * from "./SiteReportsFiltersContext";

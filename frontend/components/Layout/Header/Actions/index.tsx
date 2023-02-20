@@ -1,14 +1,14 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useContext, useMemo } from "react";
-import { AuthAndApiContext, LayoutContext } from "../../../../contexts";
+import { AuthContext, LayoutContext } from "../../../../contexts";
 import { UserMenu } from "../../../UserMenu";
 
 export type ActionsProps = React.PropsWithoutRef<JSX.IntrinsicElements["div"]>;
 
 export function Actions({ className, ...props }: ActionsProps) {
   const router = useRouter();
-  const { user } = useContext(AuthAndApiContext);
+  const { user } = useContext(AuthContext);
   const { kind } = useContext(LayoutContext);
 
   const contentNode = useMemo(() => {

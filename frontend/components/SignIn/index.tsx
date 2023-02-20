@@ -2,7 +2,7 @@ import Link from "next/link";
 import React, { useCallback, useContext, useMemo } from "react";
 import { Alert, Button, Card, Container, Form } from "react-bootstrap";
 import { Layout, Title } from "..";
-import { AuthAndApiContext } from "../../contexts";
+import { AuthContext } from "../../contexts";
 import { api, base64Encode, setUserAccessToken } from "../../helpers";
 import { useForm } from "../../hooks";
 
@@ -12,7 +12,7 @@ type Form = {
 };
 
 export function SignIn() {
-  const { mutate } = useContext(AuthAndApiContext);
+  const { mutate } = useContext(AuthContext);
   const [values, , updateValue, errors, setErrors] = useForm<Form>({ email: "", password: "" });
 
   const errorNode = useMemo(() => (errors.detail !== undefined ? (

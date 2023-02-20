@@ -1,10 +1,10 @@
 import Link from "next/link";
 import React, { useContext } from "react";
 import { Container, Stack } from "react-bootstrap";
-import { AuthAndApiContext } from "../../../contexts";
+import { AuthContext } from "../../../contexts";
 
 export function Jumbotron() {
-  const { user } = useContext(AuthAndApiContext);
+  const { user } = useContext(AuthContext);
 
   return (
     <section className="py-5">

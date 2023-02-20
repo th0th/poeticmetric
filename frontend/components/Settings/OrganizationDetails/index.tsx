@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Alert, Button, Card, Form, InputGroup, Stack } from "react-bootstrap";
-import { AuthAndApiContext, ToastsContext } from "../../../contexts";
+import { AuthContext, ToastsContext } from "../../../contexts";
 import { api } from "../../../helpers";
 import { useForm } from "../../../hooks";
 
@@ -14,7 +14,7 @@ type State = {
 };
 
 export function OrganizationDetails() {
-  const { organization } = useContext(AuthAndApiContext);
+  const { organization } = useContext(AuthContext);
   const { addToast } = useContext(ToastsContext);
 
   const [state, setState] = useState<State>({ isDisabled: false });

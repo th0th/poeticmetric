@@ -3,8 +3,9 @@ import { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { Spinner } from "react-bootstrap";
-import { AuthAndApiContext, ToastsContext } from "../../contexts";
+import { AuthContext, ToastsContext } from "../../contexts";
 import { api } from "../../helpers";
+import { UnverifiedEmailAddressBlock } from "../UnverifiedEmailAddressBlock";
 
 type State = {
   isBootstrapStatusChecked: boolean;
@@ -17,7 +18,7 @@ type WrappedProps = {
 export function withAuth(Page: NextPage, authenticated: boolean, ownerOnly?: true) {
   function Wrapped({ pageProps }: WrappedProps) {
     const router = useRouter();
-    const { isReady, user } = useContext(AuthAndApiContext);
+    const { isReady, user } = useContext(AuthContext);
     const { addToast } = useContext(ToastsContext);
     const isBootstrapStatusChecked = useRef<boolean>(process.env.NEXT_PUBLIC_HOSTED === "true");
     const [state, setState] = useState<State>({ isBootstrapStatusChecked: process.env.NEXT_PUBLIC_HOSTED === "true" });
@@ -37,22 +38,6 @@ export function withAuth(Page: NextPage, authenticated: boolean, ownerOnly?: tru
 
       return user !== null;
     }, [state.isBootstrapStatusChecked, user]);
-
-    const spinnerNode = useMemo(() => (
-      <div className="d-flex flex-column align-items-center justify-content-center min-vh-100">
-        <Spinner variant="primary" />
-      </div>
-    ), []);
-
-    const content = useMemo<React.ReactNode>(() => {
-      if (!isReady || !isPermitted) {
-        return spinnerNode;
-      }
-
-      return (
-        <Page {...pageProps} />
-      );
-    }, [isPermitted, isReady, pageProps, spinnerNode]);
 
     const checkBootstrapStatus = useCallback(async () => {
       const response = await api.get("/bootstrap-status");
@@ -87,21 +72,29 @@ export function withAuth(Page: NextPage, authenticated: boolean, ownerOnly?: tru
       }
 
       if (!isPermitted && isReady) {
-        if (user !== null) {
-          const next = router.query.next === undefined ? null : router.query.next.toString();
-
-          router.replace(next || "/sites");
-        } else {
+        if (authenticated) {
           router.replace(`/sign-in?next=${router.asPath}`);
+        } else {
+          router.replace(typeof router.query.next === "string" ? router.query.next : "/sites");
         }
       }
     }, [isPermitted, isReady, router, state.isBootstrapStatusChecked, user]);
 
-    if (!isPermitted) {
-      return spinnerNode;
+    if (!isReady || !isPermitted) {
+      return (
+        <Spinner className="m-auto" variant="primary" />
+      );
     }
 
-    return content;
+    if (user !== null && !user.isEmailVerified) {
+      return (
+        <UnverifiedEmailAddressBlock />
+      );
+    }
+
+    return (
+      <Page {...pageProps} />
+    );
   }
 
   return Wrapped;

@@ -2,11 +2,11 @@ import dayjs from "dayjs";
 import React, { useContext, useMemo, useState } from "react";
 import { Container } from "react-bootstrap";
 import { Breadcrumb, Layout, Plans, Title } from "..";
-import { AuthAndApiContext, PlansContext, PlansContextState, PlansContextValue } from "../../contexts";
+import { AuthContext, PlansContext, PlansContextState, PlansContextValue } from "../../contexts";
 import { BillingPortalButton } from "./BillingPortalButton";
 
 export function Billing() {
-  const { organization } = useContext(AuthAndApiContext);
+  const { organization } = useContext(AuthContext);
   const [plansContextState, setPlansContextState] = useState<PlansContextState>({ isDisabled: false, subscriptionPeriod: "MONTH" });
 
   const billingPortalNode = useMemo<React.ReactNode>(() => {

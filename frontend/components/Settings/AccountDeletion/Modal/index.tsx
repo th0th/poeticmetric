@@ -2,7 +2,7 @@ import { omit, pick } from "lodash";
 import { useRouter } from "next/router";
 import React, { useCallback, useContext, useMemo, useState } from "react";
 import { Alert, Button, Form, FormGroup, Modal as BsModal, ModalProps, Stack } from "react-bootstrap";
-import { AuthAndApiContext, ToastsContext } from "../../../../contexts";
+import { AuthContext, ToastsContext } from "../../../../contexts";
 import { api, base64Encode } from "../../../../helpers";
 import { useForm } from "../../../../hooks";
 
@@ -53,7 +53,7 @@ const reasons: Reason[] = [
 
 export function Modal() {
   const router = useRouter();
-  const { user } = useContext(AuthAndApiContext);
+  const { user } = useContext(AuthContext);
   const { addToast } = useContext(ToastsContext);
   const [state, setState] = useState<State>({ isDisabled: false });
   const [values, setValues, updateValue, errors, setErrors] = useForm<Form>(initialValues);

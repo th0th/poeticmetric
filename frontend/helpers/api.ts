@@ -1,4 +1,38 @@
-import { getUserAccessToken } from "./userAccessToken";
+import { getUserAccessToken, setUserAccessToken } from "./userAccessToken";
+
+export function getFetcher(requireUserAccessToken: boolean, throwOnErroneousResponse: boolean) {
+  async function fetcher(endpoint: string, init?: RequestInit) {
+    if (requireUserAccessToken && getUserAccessToken() === null) {
+      return undefined;
+    }
+
+    let response: Response;
+
+    try {
+      response = await apiCall(endpoint, init);
+    } catch (e) {
+      throw new Error("An error occurred while fetching the data.");
+    }
+
+    const responseJson = await response.json();
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        setUserAccessToken(null);
+      }
+
+      if (throwOnErroneousResponse) {
+        throw new Error(responseJson.detail || "An error has occurred while fetching the data.");
+      }
+
+      return undefined;
+    }
+
+    return responseJson;
+  }
+
+  return fetcher;
+}
 
 export async function apiCall(endpoint: string, init?: RequestInit): Promise<Response> {
   const userAccessToken = getUserAccessToken();

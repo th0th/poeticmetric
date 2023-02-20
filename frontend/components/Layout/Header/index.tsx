@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import React, { useContext, useMemo } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { Logo } from "../..";
-import { AuthAndApiContext, LayoutContext } from "../../../contexts";
+import { AuthContext, LayoutContext } from "../../../contexts";
 import { Actions } from "./Actions";
 import styles from "./Header.module.scss";
 
@@ -14,7 +14,7 @@ const navbarId: string = "header-navbar";
 
 export function Header({ className, ...props }: HeaderProps) {
   const router = useRouter();
-  const { user } = useContext(AuthAndApiContext);
+  const { user } = useContext(AuthContext);
   const { kind } = useContext(LayoutContext);
 
   const navbarToggleNode = useMemo<React.ReactNode>(() => (kind === "app" && user !== null) || kind === "website" ? (

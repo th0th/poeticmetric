@@ -2,11 +2,11 @@ import Link from "next/link";
 import { useContext, useMemo, useState } from "react";
 import { Container } from "react-bootstrap";
 import { Description, Layout, Plans, Title } from "..";
-import { AuthAndApiContext, PlansContext, PlansContextState, PlansContextValue } from "../../contexts";
+import { AuthContext, PlansContext, PlansContextState, PlansContextValue } from "../../contexts";
 import { Faq } from "./Faq";
 
 export function Pricing() {
-  const { user } = useContext(AuthAndApiContext);
+  const { user } = useContext(AuthContext);
   const [plansContextState, setPlansContextState] = useState<PlansContextState>({ isDisabled: false, subscriptionPeriod: "MONTH" });
 
   const plansContextValue = useMemo<PlansContextValue>(() => ({ ...plansContextState, set: setPlansContextState }), [plansContextState]);

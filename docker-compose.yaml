@@ -108,6 +108,14 @@ services:
       - ./frontend/sentry.server.config.js:/poeticmetric/sentry.server.config.js
       - ./frontend/tsconfig.json:/poeticmetric/tsconfig.json
 
+  mailpit:
+    environment:
+      VIRTUAL_HOST: mailpit.dev.poeticmetric.com
+      VIRTUAL_PORT: "8025"
+    image: axllent/mailpit:v1.3.8
+    ports:
+      - "127.0.0.1:8025:8025"
+
   nginx-proxy:
     extra_hosts:
       - "host.docker.internal:host-gateway"

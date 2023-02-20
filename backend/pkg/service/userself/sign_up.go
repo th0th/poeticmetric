@@ -39,6 +39,7 @@ func SignUp(dp *depot.Depot, payload *SignUpPayload) (*UserSelf, error) {
 	modelUser := &model.User{
 		Email:                  *payload.Email,
 		EmailVerificationToken: pointer.Get(uniuri.NewLen(24)),
+		IsActive:               true,
 		IsOrganizationOwner:    true,
 		Name:                   *payload.Name,
 		Password:               passwordHash,
