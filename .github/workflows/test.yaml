@@ -187,6 +187,7 @@ jobs:
 
       - env:
           FRONTEND_BASE_URL: ${{ vars.FRONTEND_BASE_URL }}
+          MAILPIT_BASE_URL: ${{ vars.MAILPIT_BASE_URL }}
         name: Run Playwright tests
         run: npm exec -- playwright test --project="Google Chrome"
         working-directory: frontend
