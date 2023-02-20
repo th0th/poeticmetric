@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useState } from "react";
 import { Button } from "react-bootstrap";
-import { AuthAndApiContext, ToastsContext } from "../../../contexts";
+import { AuthContext, ToastsContext } from "../../../contexts";
 import { api } from "../../../helpers";
 
 export type BillingPortalButtonProps = {
@@ -8,7 +8,7 @@ export type BillingPortalButtonProps = {
 };
 
 export function BillingPortalButton({ className }: BillingPortalButtonProps) {
-  const { organization } = useContext(AuthAndApiContext);
+  const { organization } = useContext(AuthContext);
   const { addToast } = useContext(ToastsContext);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
 

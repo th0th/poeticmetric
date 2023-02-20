@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import React, { useContext } from "react";
 import { Card, CardProps, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { Avatar } from "../..";
-import { AuthAndApiContext } from "../../../contexts";
+import { AuthContext } from "../../../contexts";
 
 export type UserProps = Overwrite<Omit<CardProps, "children">, {
   user: User;
@@ -12,7 +12,7 @@ export type UserProps = Overwrite<Omit<CardProps, "children">, {
 
 export function User({ user, ...props }: UserProps) {
   const router = useRouter();
-  const { user: authUser } = useContext(AuthAndApiContext);
+  const { user: authUser } = useContext(AuthContext);
 
   return (
     <Card {...props}>

@@ -1,6 +1,6 @@
 export * from "./Activation";
 export * from "./ArrayInput";
-export * from "./AuthAndApiHandler";
+export * from "./AuthHandler";
 export * from "./Avatar";
 export * from "./Billing";
 export * from "./BlogPage";
@@ -45,5 +45,6 @@ export * from "./TeamMemberForm";
 export * from "./TermsOfService";
 export * from "./Title";
 export * from "./ToastsHandler";
+export * from "./UnverifiedEmailAddressBlock";
 export * from "./UserMenu";
 export * from "./withAuth";

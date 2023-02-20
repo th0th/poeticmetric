@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Alert, Button, Card, Container, Form, Spinner } from "react-bootstrap";
-import { AuthAndApiContext, ToastsContext } from "../../contexts";
+import { AuthContext, ToastsContext } from "../../contexts";
 import { api, setUserAccessToken } from "../../helpers";
 import { useForm } from "../../hooks";
 
@@ -21,7 +21,7 @@ type State = {
 
 export function Bootstrap() {
   const router = useRouter();
-  const { mutate } = useContext(AuthAndApiContext);
+  const { mutate } = useContext(AuthContext);
   const { addToast } = useContext(ToastsContext);
   const isChecked = useRef<boolean>(false);
   const [state, setState] = useState<State>({ isDisabled: false, isReady: false });

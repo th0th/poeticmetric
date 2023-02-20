@@ -45,8 +45,16 @@ func Send(input *SendInput) error {
 	msg = append(msg, []byte("\n")...)
 	msg = append(msg, template.Html...)
 
+	var auth smtp.Auth
+
 	addr := fmt.Sprintf("%s:%s", env.Get(env.SmtpHost), env.Get(env.SmtpPort))
-	auth := smtp.PlainAuth("", env.Get(env.SmtpUser), env.Get(env.SmtpPassword), env.Get(env.SmtpHost))
+
+	smtpUser := env.Get(env.SmtpUser)
+	smtpPassword := env.Get(env.SmtpPassword)
+
+	if smtpPassword != "" && smtpUser != "" {
+		auth = smtp.PlainAuth("", env.Get(env.SmtpUser), env.Get(env.SmtpPassword), env.Get(env.SmtpHost))
+	}
 
 	return smtp.SendMail(addr, auth, from, []string{input.To}, msg)
 }

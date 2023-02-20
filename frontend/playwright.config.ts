@@ -11,6 +11,7 @@ const config: PlaywrightTestConfig = {
     { name: "webkit", use: { ...devices["Desktop Safari"] } },
     { name: "Google Chrome", use: { channel: "chrome" } },
   ],
+  reportSlowTests: null,
   reporter: "html",
   retries: process.env.CI ? 2 : 0,
   testDir: "./tests",
@@ -21,7 +22,6 @@ const config: PlaywrightTestConfig = {
     ignoreHTTPSErrors: true,
     trace: "on-first-retry",
   },
-  workers: 1,
 };
 
 export default config;

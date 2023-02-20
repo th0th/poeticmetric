@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useMemo } from "react";
 import { Button, ButtonProps } from "react-bootstrap";
-import { AuthAndApiContext, PlansContext, ToastsContext } from "../../../contexts";
+import { AuthContext, PlansContext, ToastsContext } from "../../../contexts";
 import { api } from "../../../helpers";
 
 export type ActionButtonProps = Overwrite<Omit<ButtonProps, "children" | "disabled" | "onClick" | "type">, {
@@ -8,7 +8,7 @@ export type ActionButtonProps = Overwrite<Omit<ButtonProps, "children" | "disabl
 }>;
 
 export function ActionButton({ plan, ...props }: ActionButtonProps) {
-  const { organization } = useContext(AuthAndApiContext);
+  const { organization } = useContext(AuthContext);
   const { addToast } = useContext(ToastsContext);
   const { isDisabled, set, subscriptionPeriod } = useContext(PlansContext);
 

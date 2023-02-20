@@ -1,13 +1,13 @@
 import { createContext } from "react";
 
-export type AuthAndApiContextValue = {
+export type AuthContextValue = {
   isReady: boolean;
   mutate: () => Promise<void>;
   organization: HydratedOrganization | null;
   user: AuthUser | null;
 };
 
-export const AuthAndApiContext = createContext<AuthAndApiContextValue>({
+export const AuthContext = createContext<AuthContextValue>({
   isReady: false,
   mutate: () => new Promise((resolve) => resolve()),
   organization: null,

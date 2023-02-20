@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Container, Spinner } from "react-bootstrap";
 import { Layout, Title } from "..";
-import { AuthAndApiContext, ToastsContext } from "../../contexts";
+import { AuthContext, ToastsContext } from "../../contexts";
 import { api, setUserAccessToken } from "../../helpers";
 
 type State = {
@@ -11,7 +11,7 @@ type State = {
 
 export function EmailAddressVerification() {
   const router = useRouter();
-  const { mutate } = useContext(AuthAndApiContext);
+  const { mutate } = useContext(AuthContext);
   const { addToast } = useContext(ToastsContext);
   const [state, setState] = useState<State>({ isDone: false });
 

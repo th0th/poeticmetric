@@ -41,7 +41,7 @@ func Activate(dp *depot.Depot, payload *ActivatePayload) (*UserSelf, error) {
 
 	err = dp.Postgres().
 		Model(&model.User{}).
-		Select("activation_token", "is_active", "is_email_verified").
+		Select("activation_token", "is_active", "is_email_verified", "password").
 		Where("activation_token = ?", *payload.ActivationToken).
 		Updates(&model.User{
 			ActivationToken: nil,

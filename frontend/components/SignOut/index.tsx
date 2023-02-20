@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
-import { AuthAndApiContext } from "../../contexts";
+import { AuthContext } from "../../contexts";
 import { setUserAccessToken } from "../../helpers";
 
 type State = {
@@ -11,7 +11,7 @@ type State = {
 
 export function SignOut() {
   const router = useRouter();
-  const { mutate } = useContext(AuthAndApiContext);
+  const { mutate } = useContext(AuthContext);
   const [state, setState] = useState<State>({ isDone: false, isReady: false });
 
   const signOut = useCallback(async () => {

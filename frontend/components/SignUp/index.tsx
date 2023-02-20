@@ -2,7 +2,7 @@ import Link from "next/link";
 import React, { useCallback, useContext } from "react";
 import { Button, Card, Container, Form } from "react-bootstrap";
 import { Layout, Title } from "..";
-import { AuthAndApiContext, ToastsContext } from "../../contexts";
+import { AuthContext, ToastsContext } from "../../contexts";
 import { api, setUserAccessToken } from "../../helpers";
 import { useForm } from "../../hooks";
 
@@ -14,7 +14,7 @@ type Form = {
 };
 
 export function SignUp() {
-  const { mutate } = useContext(AuthAndApiContext);
+  const { mutate } = useContext(AuthContext);
   const { addToast } = useContext(ToastsContext);
 
   const [values, , updateValue, errors, setErrors] = useForm<Form>({ email: "", name: "", organizationName: "", password: "" });
@@ -27,7 +27,7 @@ export function SignUp() {
 
     if (response.ok) {
       addToast({
-        body: "Welcome to PoeticMetric! Your account has been created successfully. Check your e-mail to verify and activate your account.",
+        body: "Welcome to PoeticMetric! Your account has been created successfully. Check your e-mail inbox to verify and activate your account.",
         variant: "success",
       });
 

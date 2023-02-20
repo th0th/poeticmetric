@@ -73,9 +73,7 @@ var (
 		RedisPort,
 		RestApiBaseUrl,
 		SmtpHost,
-		SmtpPassword,
 		SmtpPort,
-		SmtpUser,
 	}
 )
 

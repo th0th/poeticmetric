@@ -10,7 +10,7 @@ import "highlight.js/styles/stackoverflow-light.css";
 import { AppProps } from "next/app";
 import React, { useEffect } from "react";
 import { registerLocale } from "react-datepicker";
-import { AuthAndApiHandler, PoeticMetric, SwrConfig, ToastsHandler } from "../components";
+import { AuthHandler, PoeticMetric, SwrConfig, ToastsHandler } from "../components";
 import "../styles/style.scss";
 
 dayjs.extend(updateLocale);
@@ -28,11 +28,11 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <SwrConfig>
-      <AuthAndApiHandler>
+      <AuthHandler>
         <ToastsHandler>
           <Component {...pageProps} />
         </ToastsHandler>
-      </AuthAndApiHandler>
+      </AuthHandler>
 
       {process.env.NEXT_PUBLIC_HOSTED === "true" ? (
         <PoeticMetric />
