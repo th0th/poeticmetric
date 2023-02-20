@@ -171,6 +171,7 @@ jobs:
         run: docker compose run --rm rest-api go test ./... 2> /dev/null
 
       - env:
+          DEBUG: ${{ vars.DEBUG }}
           FRONTEND_BASE_URL: ${{ vars.FRONTEND_BASE_URL }}
           REST_API_BASE_URL: ${{ vars.REST_API_BASE_URL }}
         name: Prepare for frontend tests
