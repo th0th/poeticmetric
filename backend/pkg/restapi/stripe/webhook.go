@@ -89,16 +89,18 @@ func webhook(c *fiber.Ctx) error {
 						return err
 					}
 
-					err = worker.SendEmail(dp, &worker.SendEmailPayload{
-						From:     pointer.Get("support@poeticmetric.com"),
-						Template: email.TemplateSubscriptionStart,
-						TemplateData: map[string]string{
-							"FrontendBaseUrl": frontend.GenerateUrl(""),
-						},
-						To: stripeCustomer.Email,
-					})
-					if err != nil {
-						return err
+					if stripeEvent.Type == "customer.subscription.created" {
+						err = worker.SendEmail(dp, &worker.SendEmailPayload{
+							From:     pointer.Get("support@poeticmetric.com"),
+							Template: email.TemplateSubscriptionStart,
+							TemplateData: map[string]string{
+								"FrontendBaseUrl": frontend.GenerateUrl(""),
+							},
+							To: stripeCustomer.Email,
+						})
+						if err != nil {
+							return err
+						}
 					}
 				} else {
 					return err

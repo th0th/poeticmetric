@@ -57,7 +57,7 @@ export function SignUp() {
         <Card className="mt-4 mx-auto mw-32rem">
           <Card.Body>
             <Form onSubmit={handleSubmit}>
-              <Form.Group>
+              <Form.Group controlId="user-name">
                 <Form.Label>Full name</Form.Label>
 
                 <Form.Control
@@ -74,7 +74,7 @@ export function SignUp() {
                 <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
               </Form.Group>
 
-              <Form.Group className="mt-3">
+              <Form.Group className="mt-3" controlId="user-email">
                 <Form.Label>E-mail address</Form.Label>
 
                 <Form.Control
@@ -89,7 +89,7 @@ export function SignUp() {
                 <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
               </Form.Group>
 
-              <Form.Group className="mt-3">
+              <Form.Group className="mt-3" controlId="user-password">
                 <Form.Label>Password</Form.Label>
 
                 <Form.Control
@@ -106,7 +106,7 @@ export function SignUp() {
                 <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
               </Form.Group>
 
-              <Form.Group className="mt-3">
+              <Form.Group className="mt-3" controlId="organization-name">
                 <Form.Label>Company name</Form.Label>
 
                 <Form.Control

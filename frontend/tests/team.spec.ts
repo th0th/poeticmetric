@@ -22,8 +22,8 @@ test("team", async ({ context, page }) => {
   await test.step("invite team member", async () => {
     await page.getByRole("link", { name: "Team" }).click();
     await page.getByRole("link", { name: "Invite new team member" }).click();
-    await page.locator("input[name='name']").fill(testAccount2.userName);
-    await page.locator("input[name='email']").fill(testAccount2.userEmail);
+    await page.getByLabel("Name").fill(testAccount2.userName);
+    await page.getByLabel("E-mail address").fill(testAccount2.userEmail);
     await page.getByRole("button", { name: "Invite team member" }).click();
 
     await expect(page.getByText("Invitation e-mail is sent.")).toBeVisible();
@@ -44,8 +44,8 @@ test("team", async ({ context, page }) => {
     const activationPagePromise = emailPage.waitForEvent("popup");
     await emailPage.frameLocator("#preview-html").getByRole("link", { name: "Accept the invite" }).click();
     const activationPage = await activationPagePromise;
-    await activationPage.locator("input[name='newPassword']").fill(testAccount2.userPassword);
-    await activationPage.locator("input[name='newPassword2']").fill(testAccount2.userPassword);
+    await activationPage.getByLabel("New password", { exact: true }).fill(testAccount2.userPassword);
+    await activationPage.getByLabel("New password (again)").fill(testAccount2.userPassword);
     await activationPage.getByRole("button", { name: "Continue" }).click();
     await expect(activationPage.getByText("Your account is successfully activated. Welcome!")).toBeVisible();
     await emailPage.getByRole("button", { name: "Delete" }).click();

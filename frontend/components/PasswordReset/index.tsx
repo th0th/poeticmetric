@@ -87,7 +87,7 @@ export function PasswordReset() {
             <Card.Body>
               <Form onSubmit={handleSubmit}>
                 <fieldset disabled={state.isDisabled}>
-                  <Form.Group>
+                  <Form.Group controlId="new-password">
                     <Form.Label>New password</Form.Label>
 
                     <Form.Control
@@ -104,7 +104,7 @@ export function PasswordReset() {
                     <Form.Control.Feedback type="invalid">{errors.newPassword}</Form.Control.Feedback>
                   </Form.Group>
 
-                  <Form.Group className="mt-3">
+                  <Form.Group className="mt-3" controlId="new-password2">
                     <Form.Label>New password (again)</Form.Label>
 
                     <Form.Control

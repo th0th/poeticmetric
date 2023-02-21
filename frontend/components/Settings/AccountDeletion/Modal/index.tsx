@@ -139,7 +139,7 @@ export function Modal() {
         <Form onSubmit={handleSubmit}>
           <fieldset disabled={state.isDisabled}>
             <Stack gap={3}>
-              <Form.Group>
+              <Form.Group controlId="reason">
                 <Form.Label>Before we wave you goodbye, why are you deleting your account?</Form.Label>
 
                 <div className={errors.reason !== undefined ? "is-invalid" : ""}>

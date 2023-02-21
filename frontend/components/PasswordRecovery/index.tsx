@@ -68,7 +68,7 @@ export function PasswordRecovery() {
             ) : (
               <Form onSubmit={handleSubmit}>
                 <fieldset disabled={state.isDisabled}>
-                  <Form.Group>
+                  <Form.Group controlId="email">
                     <Form.Label>E-mail address</Form.Label>
 
                     <Form.Control

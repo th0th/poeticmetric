@@ -89,7 +89,7 @@ export function Activation() {
             <Card.Body>
               <Form onSubmit={handleSubmit}>
                 <fieldset disabled={state.isDisabled}>
-                  <Form.Group className="mt-2">
+                  <Form.Group className="mt-2" controlId="new-password">
                     <Form.Label>New password</Form.Label>
 
                     <Form.Control
@@ -106,7 +106,7 @@ export function Activation() {
                     <Form.Control.Feedback type="invalid">{errors.newPassword}</Form.Control.Feedback>
                   </Form.Group>
 
-                  <Form.Group className="mt-2">
+                  <Form.Group className="mt-2" controlId="new-password2">
                     <Form.Label>New password (again)</Form.Label>
 
                     <Form.Control

@@ -16,7 +16,6 @@ test.beforeAll(async ({ baseURL, browser }) => {
     await page.getByLabel("E-mail address").fill(testAccount.userEmail);
     await page.getByLabel("New password", { exact: true }).fill(testAccount.userPassword);
     await page.getByLabel("New password (again)").fill(testAccount.userPassword);
-    await page.getByLabel("Organization").click();
     await page.getByLabel("Organization").fill(testAccount.organizationName);
     await page.getByRole("button", { name: "Continue" }).click();
 

@@ -5,10 +5,11 @@ import { getEmailPage } from "./getEmailPage";
 export async function signUp(test: typeof baseTest, context: BrowserContext, page: Page, testAccount: TestAccount) {
   await test.step("sign up", async () => {
     await page.goto("/sign-up");
-    await page.locator("input[name='name']").fill(testAccount.userName);
-    await page.locator("input[name='email']").fill(testAccount.userEmail);
-    await page.locator("input[name='password']").fill(testAccount.userPassword);
-    await page.locator("input[name='organizationName']").fill(testAccount.organizationName);
+
+    await page.getByLabel("Full name").fill(testAccount.userName);
+    await page.getByLabel("E-mail address").fill(testAccount.userEmail);
+    await page.getByLabel("Password").fill(testAccount.userPassword);
+    await page.getByLabel("Company name").fill(testAccount.organizationName);
     await page.getByRole("button", { name: "Sign up" }).click();
 
     await expect(page.getByText("Welcome to PoeticMetric!")).toBeVisible();

@@ -17,7 +17,7 @@ test("auth", async ({ context, page }) => {
     await page.getByRole("link", { name: "Sign in" }).click();
     await page.getByRole("link", { name: "Forgot password?" }).click();
     await page.waitForURL("/password-recovery");
-    await page.locator("input[name='email']").fill(testAccount.userEmail);
+    await page.getByLabel("E-mail address").fill(testAccount.userEmail);
     await page.getByRole("button", { name: "Continue" }).click();
     await expect(page.getByText("Please check your inbox.")).toBeVisible();
   });
@@ -28,8 +28,8 @@ test("auth", async ({ context, page }) => {
     const passwordResetPagePromise = emailPage.waitForEvent("popup");
     await emailPage.frameLocator("#preview-html").getByRole("link", { name: "Reset my password" }).click();
     const page2 = await passwordResetPagePromise;
-    await page2.locator("input[name='newPassword']").fill(`${testAccount.userPassword}x`);
-    await page2.locator("input[name='newPassword2']").fill(`${testAccount.userPassword}x`);
+    await page2.getByLabel("New password", { exact: true }).fill(`${testAccount.userPassword}x`);
+    await page2.getByLabel("New password (again)").fill(`${testAccount.userPassword}x`);
     await page2.getByRole("button", { name: "Reset password" }).click();
     await expect(page2.getByText("Your password is successfully reset. Now signing you in...")).toBeVisible();
 
@@ -49,14 +49,14 @@ test("auth", async ({ context, page }) => {
     await page.getByRole("button", { name: testAccount.userName }).click();
     await page.getByRole("link", { name: "Settings" }).click();
     await page.getByRole("tab", { name: "Password" }).click();
-    await page.locator("input[name='password']").fill(`${testAccount.userPassword}x`);
-    await page.locator("input[name='newPassword']").fill(testAccount.userPassword);
-    await page.locator("input[name='newPassword2']").fill(testAccount.userPassword);
+    await page.getByLabel("Current password").fill(`${testAccount.userPassword}x`);
+    await page.getByLabel("New password", { exact: true }).fill(testAccount.userPassword);
+    await page.getByLabel("New password (again)").fill(testAccount.userPassword);
     await page.getByRole("button", { name: "Change password" }).click();
     await expect(page.getByText("Your password has been changed.")).toBeVisible();
-    await expect(page.locator("input[name='password']")).toHaveValue("");
-    await expect(page.locator("input[name='newPassword']")).toHaveValue("");
-    await expect(page.locator("input[name='newPassword2']")).toHaveValue("");
+    await expect(page.getByLabel("Current password")).toHaveValue("");
+    await expect(page.getByLabel("New password", { exact: true })).toHaveValue("");
+    await expect(page.getByLabel("New password (again)")).toHaveValue("");
   });
 
   await deleteAccount(test, page, testAccount);

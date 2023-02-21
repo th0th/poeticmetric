@@ -17,7 +17,7 @@ type OrganizationDeletion struct {
 	OrganizationCreatedAt        time.Time
 	OrganizationId               uint64
 	OrganizationName             string
-	OrganizationPlanName         string
+	OrganizationPlanName         *string
 	OrganizationStripeCustomerId *string
 	Reason                       string
 	UserEmail                    string
