@@ -190,6 +190,7 @@ jobs:
           docker volume prune --force
           docker compose up --detach
           docker compose run --rm --entrypoint 'bash -c "wait-for-it -q -s -t 0 rest-api:80 -- echo \"REST API is ready!\""' rest-api
+          curl --max-time 30 ${{ vars.FRONTEND_BASE_URL }}
 
       - name: Install Google Chrome
         run: npm exec -- playwright install chrome
