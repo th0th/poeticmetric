@@ -56,7 +56,7 @@ export function MailListForm({ className, ...props }: MailListFormProps) {
         </div>
 
         <Form className="mt-4" onSubmit={handleSubmit}>
-          <Form.Group>
+          <Form.Group controlId="email">
             <Form.Label>E-mail address</Form.Label>
 
             <div className="align-items-start d-flex flex-row gap-3">

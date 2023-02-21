@@ -61,7 +61,7 @@ export function SignIn() {
             {errorNode}
 
             <Form onSubmit={handleSubmit}>
-              <Form.Group>
+              <Form.Group controlId="email">
                 <Form.Label>E-mail address</Form.Label>
 
                 <Form.Control
@@ -74,7 +74,7 @@ export function SignIn() {
                 />
               </Form.Group>
 
-              <Form.Group className="mt-2">
+              <Form.Group className="mt-2" controlId="password">
                 <Form.Label>Password</Form.Label>
 
                 <Form.Control
