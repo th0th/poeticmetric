@@ -32,7 +32,7 @@ CREATE TABLE "organization_deletions" (
   "organization_created_at" timestamptz NOT NULL,
   "organization_id" bigint NOT NULL,
   "organization_name" text NOT NULL,
-  "organization_plan_name" text NOT NULL,
+  "organization_plan_name" text,
   "organization_stripe_customer_id" text,
   "reason" text NOT NULL,
   "user_email" text NOT NULL,

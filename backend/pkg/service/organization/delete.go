@@ -3,10 +3,10 @@ package organization
 import (
 	"fmt"
 	"log"
-	"strings"
 	"time"
 
 	v "github.com/RussellLuo/validating/v3"
+	"github.com/stripe/stripe-go/v74/customer"
 	"github.com/th0th/poeticmetric/backend/pkg/depot"
 	"github.com/th0th/poeticmetric/backend/pkg/model"
 	"github.com/th0th/poeticmetric/backend/pkg/worker"
@@ -33,7 +33,7 @@ func Delete(dp *depot.Depot, id uint64, payload *DeletionPayload) error {
 			OrganizationId               uint64
 			OrganizationName             string
 			OrganizationStripeCustomerId *string
-			PlanName                     string
+			PlanName                     *string
 			UserId                       uint64
 			UserEmail                    string
 			UserName                     string
@@ -54,7 +54,7 @@ func Delete(dp *depot.Depot, id uint64, payload *DeletionPayload) error {
 			).
 			Model(&model.User{}).
 			Joins("inner join organizations on organizations.id = ?", id).
-			Joins("inner join plans on plans.id = organizations.plan_id").
+			Joins("left join plans on plans.id = organizations.plan_id").
 			Where("users.organization_id = ?", id).
 			Where("users.is_organization_owner = ?", true).
 			First(result).
@@ -79,22 +79,6 @@ func Delete(dp *depot.Depot, id uint64, payload *DeletionPayload) error {
 
 		err = dp2.Postgres().
 			Create(organizationDeletion).
-			Error
-		if err != nil {
-			return err
-		}
-
-		err = dp2.Postgres().
-			Model(&model.Organization{}).
-			Where("organizations.id = ?", id).
-			Joins("inner join plans on plans.id = organizations.plan_id").
-			Select(strings.Join([]string{
-				"organizations.created_at as organization_created_at",
-				"organizations.name as organization_name",
-				"organizations.stripe_customer_id as organization_stripe_customer_id",
-				"plans.name as plan_name",
-			}, ", ")).
-			First(result).
 			Error
 		if err != nil {
 			return err
@@ -131,6 +115,13 @@ func Delete(dp *depot.Depot, id uint64, payload *DeletionPayload) error {
 			Error
 		if err != nil {
 			return err
+		}
+
+		if result.OrganizationStripeCustomerId != nil {
+			_, err = customer.Del(*result.OrganizationStripeCustomerId, nil)
+			if err != nil {
+				return err
+			}
 		}
 
 		return nil
