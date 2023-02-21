@@ -202,6 +202,11 @@ jobs:
         run: npm exec -- playwright test --project="Google Chrome"
         working-directory: frontend
 
+      - name: Prune
+        run: |
+          docker compose down
+          docker volume prune --force
+
       - uses: actions/upload-artifact@v3
         if: always()
         with:
