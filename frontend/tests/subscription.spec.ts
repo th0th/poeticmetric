@@ -29,7 +29,8 @@ test("subscription", async ({ context, page }) => {
     await page.locator("input[name='cardNumber']").fill(billing.cardNumber);
     await page.locator("input[name='cardExpiry']").fill(billing.cardExpiry);
     await page.locator("input[name='cardCvc']").fill(billing.cardCvc);
-    await page.locator("input[name='billingName']").fill(billing.billingName);
+    await page.getByLabel("Name on card").fill(billing.billingName);
+    await page.getByRole("combobox", { name: "Country or region" }).selectOption("TR");
     await page.getByRole("button", { name: "Subscribe" }).click();
     await page.waitForURL("/billing", { waitUntil: "networkidle" });
     await expect(page.getByText("You are currently on Basic (monthly) plan.")).toBeVisible();
