@@ -75,11 +75,6 @@ jobs:
           workdir: frontend
 
   run-tests:
-    env:
-      DEBUG: ${{ vars.DEBUG }}
-      FRONTEND_BASE_URL: ${{ vars.FRONTEND_BASE_URL }}
-      MAILPIT_BASE_URL: ${{ vars.MAILPIT_BASE_URL }}
-      REST_API_BASE_URL: ${{ vars.REST_API_BASE_URL }}
     environment: testing
     if: github.event.pull_request.draft == false
     name: Run tests
@@ -153,9 +148,16 @@ jobs:
       - name: Pull docker images
         run: docker compose pull clickhouse nginx-proxy postgres redis
 
-      - name: Prepare for backend tests
+      - env:
+          DEBUG: ${{ vars.DEBUG }}
+          FRONTEND_BASE_URL: ${{ vars.FRONTEND_BASE_URL }}
+          REST_API_BASE_URL: ${{ vars.REST_API_BASE_URL }}
+          STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_PUBLISHABLE_KEY }}
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+          STRIPE_WEBHOOK_SIGNING_SECRET: ${{ secrets.STRIPE_WEBHOOK_SIGNING_SECRET }}
+        name: Prepare for backend tests
         run: |
-          docker compose up -d clickhouse postgres redis
+          docker compose up -d
           
           # prepare Postgres database
           printf "Waiting for Postgres...\n"
@@ -175,7 +177,14 @@ jobs:
       - name: Run backend tests
         run: docker compose run --rm rest-api go test ./... 2> /dev/null
 
-      - name: Prepare for frontend tests
+      - env:
+          DEBUG: ${{ vars.DEBUG }}
+          FRONTEND_BASE_URL: ${{ vars.FRONTEND_BASE_URL }}
+          REST_API_BASE_URL: ${{ vars.REST_API_BASE_URL }}
+          STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_PUBLISHABLE_KEY }}
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+          STRIPE_WEBHOOK_SIGNING_SECRET: ${{ secrets.STRIPE_WEBHOOK_SIGNING_SECRET }}
+        name: Prepare for frontend tests
         run: |
           docker compose down
           docker volume prune -f
@@ -186,7 +195,10 @@ jobs:
         run: npm exec -- playwright install chrome
         working-directory: frontend
 
-      - name: Run Playwright tests
+      - env:
+          FRONTEND_BASE_URL: ${{ vars.FRONTEND_BASE_URL }}
+          MAILPIT_BASE_URL: ${{ vars.MAILPIT_BASE_URL }}
+        name: Run Playwright tests
         run: npm exec -- playwright test --project="Google Chrome"
         working-directory: frontend
 
