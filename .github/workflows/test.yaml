@@ -157,7 +157,7 @@ jobs:
           STRIPE_WEBHOOK_SIGNING_SECRET: ${{ secrets.STRIPE_WEBHOOK_SIGNING_SECRET }}
         name: Prepare for backend tests
         run: |
-          docker compose up -d
+          docker compose up --detach
           
           # prepare Postgres database
           printf "Waiting for Postgres...\n"
@@ -188,7 +188,8 @@ jobs:
         run: |
           docker compose down
           docker volume prune --force
-          docker compose up -d
+          docker compose up --detach
+          docker compose run --rm --entrypoint 'bash -c "wait-for-it -q -s -t 0 rest-api:80 -- echo \"REST API is ready!\""' rest-api
 
       - name: Install Google Chrome
         run: npm exec -- playwright install chrome

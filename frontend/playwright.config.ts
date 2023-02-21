@@ -13,14 +13,14 @@ const config: PlaywrightTestConfig = {
   ],
   reportSlowTests: null,
   reporter: "html",
-  retries: process.env.CI ? 2 : 0,
+  // retries: process.env.CI ? 2 : 0,
+  retries: 0,
   testDir: "./tests",
   timeout: 30000,
   use: {
-    actionTimeout: 0,
     baseURL: process.env.FRONTEND_BASE_URL,
-    ignoreHTTPSErrors: true,
-    trace: "on-first-retry",
+    trace: "on",
+    video: "on",
   },
 };
 
