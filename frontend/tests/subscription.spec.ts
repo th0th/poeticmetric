@@ -35,7 +35,10 @@ test("subscription", async ({ context, page }) => {
     await expect(page.getByText("You are currently on Basic (monthly) plan.")).toBeVisible();
 
     const emailPage = await getEmailPage(context);
-    await emailPage.locator("a").filter({ hasText: testAccount.userEmail }).filter({ hasText: "Thank you for choosing PoeticMetric" }).click();
+    await emailPage
+      .locator("a").filter({ hasText: testAccount.userEmail })
+      .filter({ hasText: "Thank you for choosing PoeticMetric" })
+      .click();
     await emailPage.getByRole("button", { name: "Delete" }).click();
     await emailPage.waitForLoadState("networkidle");
     await emailPage.close();
@@ -63,7 +66,8 @@ test("subscription", async ({ context, page }) => {
     await page.getByRole("button", { name: "Cancel plan" }).click();
     await page.getByRole("link", { name: "PoeticMetric Test mode" }).click();
 
-    const descriptionLocator = page.getByText("You don't have an active subscription. Please start your subscription to continue to use PoeticMetric.")
+    const descriptionLocator = page
+      .getByText("You don't have an active subscription. Please start your subscription to continue to use PoeticMetric.");
 
     await expect(descriptionLocator).toBeVisible().catch(async () => {
       await page.reload();
