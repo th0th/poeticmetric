@@ -6,8 +6,6 @@ export async function signUp(test: typeof baseTest, context: BrowserContext, pag
   await test.step("sign up", async () => {
     await page.goto("/sign-up");
 
-    await page.locator('input[name="name"]').click();
-    await page.locator('input[name="name"]').fill('Gokhan');
     await page.getByLabel("Full name").fill(testAccount.userName);
     await page.getByLabel("E-mail address").fill(testAccount.userEmail);
     await page.getByLabel("Password").fill(testAccount.userPassword);
