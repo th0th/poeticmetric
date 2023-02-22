@@ -48,3 +48,4 @@ export * from "./ToastsHandler";
 export * from "./UnverifiedEmailAddressBlock";
 export * from "./UserMenu";
 export * from "./withAuth";
+export * from "./withParentSize";

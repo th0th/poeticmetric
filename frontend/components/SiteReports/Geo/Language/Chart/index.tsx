@@ -63,7 +63,7 @@ function BaseChart({ data, debounceTime: _, enableDebounceLeadingCall: __, paren
     const chartData = data.slice(0, 5);
 
     const width = parentWidth;
-    const height = parentHeight;
+    const height = Math.max(parentHeight, 180);
 
     const innerWidth = width - padding.left;
     const innerHeight = height - padding.top - padding.bottom;

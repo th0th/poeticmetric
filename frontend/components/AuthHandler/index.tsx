@@ -30,7 +30,7 @@ export function AuthHandler({ children }: AuthHandlerProps) {
     };
 
     if (userData !== undefined && organizationData !== undefined) {
-      v = { ...v, organization: hydrateOrganization(organizationData), user: userData };
+      v = { ...v, isReady: true, organization: hydrateOrganization(organizationData), user: userData };
     }
 
     return v;

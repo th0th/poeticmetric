@@ -2,7 +2,6 @@ import { AxisBottom, AxisLeft, TickFormatter, TickLabelProps } from "@visx/axis"
 import { localPoint } from "@visx/event";
 import { GridRows } from "@visx/grid";
 import { Group } from "@visx/group";
-import { withParentSizeModern } from "@visx/responsive";
 import { scaleLinear, scaleTime } from "@visx/scale";
 import { Circle, Line, LinePath } from "@visx/shape";
 import { useTooltip } from "@visx/tooltip";
@@ -16,13 +15,12 @@ import { Spinner } from "react-bootstrap";
 import { ChartTooltip } from "../../..";
 import { SiteReportsFiltersContext } from "../../../../contexts";
 import { useSiteVisitorReport } from "../../../../hooks";
+import { withParentSize } from "../../../withParentSize";
 import { AxisBottomTick } from "./AxisBottomTick";
 
 export type VisitorsProps = Overwrite<Omit<React.PropsWithoutRef<JSX.IntrinsicElements["svg"]>, "children">, {
-  debounceTime?: number;
-  enableDebounceLeadingCall?: boolean;
-  parentHeight?: number;
-  parentWidth?: number;
+  parentHeight: number;
+  parentWidth: number;
 }>;
 
 type State = {
@@ -56,13 +54,13 @@ const padding = { bottom: 24, left: 40, top: 8 };
 
 const xBisect = bisector((d: StateDatum) => d.datum.dateTimeDate).center;
 
-function BaseVisitors({ className, debounceTime: _, enableDebounceLeadingCall: __, parentHeight, parentWidth, ...props }: VisitorsProps) {
+function BaseVisitors({ className, parentHeight, parentWidth, ...props }: VisitorsProps) {
   const { hideTooltip, showTooltip: rawShowTooltip, tooltipData, tooltipLeft, tooltipOpen, tooltipTop } = useTooltip<Tooltip>();
   const { end, start } = useContext(SiteReportsFiltersContext);
   const { hydratedData: report } = useSiteVisitorReport();
 
   const state = useMemo<State | null>(() => {
-    if (report === undefined || parentWidth === undefined || parentHeight === undefined) {
+    if (report === undefined) {
       return null;
     }
 
@@ -148,9 +146,7 @@ function BaseVisitors({ className, debounceTime: _, enableDebounceLeadingCall: _
   }, [hideTooltip, rawShowTooltip, state]);
 
   return state === null ? (
-    <div className="d-flex flex-column h-100 w-100">
-      <Spinner className="m-auto" variant="primary" />
-    </div>
+    <Spinner className="m-auto" variant="primary" />
   ) : (
     <>
       <svg {...props} className={classNames("d-block", className)} height={state.height} width={state.width}>
@@ -272,4 +268,4 @@ function BaseVisitors({ className, debounceTime: _, enableDebounceLeadingCall: _
   );
 }
 
-export const Visitors = withParentSizeModern(BaseVisitors);
+export const Visitors = withParentSize(BaseVisitors, { className: "flex-grow-1" });

@@ -29,7 +29,7 @@ export function Overview({ ...props }: SiteOverviewReportsProps) {
                   <i className="bi bi-file-text-fill fs-sm" />
                 </div>
 
-                <span className="fs-5 fw-bold">{data.pageViewCountDisplay}</span>
+                <span className="fs-5 fw-bold" title={data.pageViewCount.toString()}>{data.pageViewCountDisplay}</span>
               </div>
 
               <Card.Subtitle
@@ -52,7 +52,7 @@ export function Overview({ ...props }: SiteOverviewReportsProps) {
                   <i className="bi bi-person-fill fs-sm" />
                 </div>
 
-                <span className="fs-5 fw-bold">{data.visitorCountDisplay}</span>
+                <span className="fs-5 fw-bold" title={data.visitorCount.toString()}>{data.visitorCountDisplay}</span>
               </div>
 
               <Card.Subtitle
@@ -98,7 +98,7 @@ export function Overview({ ...props }: SiteOverviewReportsProps) {
                   <i className="bi bi-clock-fill fs-sm" />
                 </div>
 
-                <span className="fs-5 fw-bold">{data.pageViewCountPerVisitor}</span>
+                <span className="fs-5 fw-bold" title={`${data.averagePageViewDuration} seconds`}>{data.averagePageViewDurationDisplay}</span>
               </div>
 
               <Card.Subtitle

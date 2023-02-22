@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { omit } from "lodash";
 import { useRouter } from "next/router";
 import React, { useCallback, useMemo } from "react";
@@ -41,7 +42,7 @@ export function VisitorPageView({ className, ...props }: VisitorPageViewProps) {
 
   return (
     <>
-      <Card {...props} className={`site-report-card ${className}`}>
+      <Card {...props} className={classNames("site-report-card", className)}>
         <Card.Body className="d-flex flex-column">
           <div className="align-items-center d-flex flex-row mb-3">
             <h6 className="mb-0">Visitors and page views</h6>

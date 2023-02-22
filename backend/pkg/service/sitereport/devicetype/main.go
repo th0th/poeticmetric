@@ -1,4 +1,4 @@
-package sitedevicetypereport
+package devicetype
 
 import (
 	"strings"

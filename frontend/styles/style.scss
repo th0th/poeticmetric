@@ -90,10 +90,8 @@ svg {
   }
 }
 
-@include media-breakpoint-up(lg) {
-  .site-report-card {
-    height: 290px;
-  }
+.site-report-card {
+  min-height: 290px;
 }
 
 .striped {
