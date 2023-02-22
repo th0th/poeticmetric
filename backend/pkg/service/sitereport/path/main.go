@@ -40,7 +40,7 @@ func Get(dp *depot.Depot, filters *filter.Filters, paginationCursor *PaginationC
 		Select(
 			"round(avg(duration)) as average_duration",
 			"round(100 * countIf(duration == 0) / view_count) as bounce_percentage",
-			"path",
+			"pathFull(url) as path",
 			"url",
 			"count(*) as view_count",
 			"round(100 * view_count / total_views.count) as view_percentage",
