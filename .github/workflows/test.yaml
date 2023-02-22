@@ -146,7 +146,7 @@ jobs:
           path: ~/.npm
 
       - name: Pull docker images
-        run: docker compose pull clickhouse nginx-proxy postgres redis
+        run: docker compose pull --ignore-buildable
 
       - env:
           DEBUG: ${{ vars.DEBUG }}

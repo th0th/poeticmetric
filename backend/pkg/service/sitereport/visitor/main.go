@@ -13,7 +13,7 @@ import (
 
 type Datum struct {
 	DateTime     time.Time `json:"dateTime"`
-	VisitorCount uint64    `json:"visitorCount"`
+	VisitorCount *uint64    `json:"visitorCount"`
 }
 
 type Report struct {
@@ -23,9 +23,9 @@ type Report struct {
 }
 
 func Get(dp *depot.Depot, filters *filter.Filters) (*Report, error) {
-	interval := interval.GetVisitorPageViewInterval(filters)
+	interval2 := interval.GetVisitorPageViewInterval(filters)
 	report := &Report{
-		Interval: interval,
+		Interval: interval2,
 	}
 
 	q := filter.Apply(dp, filters)
@@ -33,12 +33,11 @@ func Get(dp *depot.Depot, filters *filter.Filters) (*Report, error) {
 	valueSubQuery := q.
 		Select(
 			strings.Join([]string{
-				"toStartOfInterval(date_time, @timeWindowInterval, @timeZone) as date_time",
+				"toStartOfInterval(date_time, @timeWindowInterval) as date_time",
 				"count(distinct visitor_id) as visitor_count",
 			}, ","),
 			map[string]interface{}{
-				"timeWindowInterval": gorm.Expr(interval.ToQuery()),
-				"timeZone":           filters.GetTimeZone(),
+				"timeWindowInterval": gorm.Expr(interval2.ToQuery()),
 			},
 		).
 		Group("date_time")
@@ -48,14 +47,15 @@ func Get(dp *depot.Depot, filters *filter.Filters) (*Report, error) {
 			strings.Join([]string{
 				"select",
 				strings.Join([]string{
-					"@start + interval arrayJoin(range(0, toUInt64(dateDiff('second', @start, @end)), @intervalSeconds)) second as date_time",
-					"0 as visitor_count",
+					"toStartOfInterval(@start, @timeWindowInterval) + interval arrayJoin(range(0, toUInt64(dateDiff('second', @start, @end)), @intervalSeconds)) second as date_time",
+					"if(date_time > now(), null, 0) as visitor_count",
 				}, ","),
 			}, " "),
 			map[string]any{
 				"end":             filters.End,
-				"intervalSeconds": interval.ToDuration().Seconds(),
+				"intervalSeconds": interval2.ToDuration().Seconds(),
 				"start":           filters.Start,
+				"timeWindowInterval": gorm.Expr(interval2.ToQuery()),
 			},
 		)
 
@@ -78,8 +78,10 @@ func Get(dp *depot.Depot, filters *filter.Filters) (*Report, error) {
 	var visitorCountsLength float64 = 0
 
 	for _, d := range report.Data {
-		visitorCountsSum += float64(d.VisitorCount)
-		visitorCountsLength += 1
+		if d.VisitorCount != nil {
+			visitorCountsSum += float64(*d.VisitorCount)
+			visitorCountsLength += 1
+		}
 	}
 
 	if visitorCountsLength != 0 {

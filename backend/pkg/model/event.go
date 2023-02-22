@@ -29,7 +29,6 @@ type Event struct {
 	Locale                 *string
 	OperatingSystemName    *string
 	OperatingSystemVersion *string
-	Path                   string
 	Referrer               *string
 	SiteId                 uint64
 	TimeZone               *string
@@ -53,11 +52,6 @@ const (
 
 const (
 	EventKindPageView EventKind = "PAGE_VIEW"
-)
-
-const (
-	EventUserAgentMaxLength = 2000
-	EventUserAgentMinLength = 2
 )
 
 func (e *Event) TableName() string {
@@ -104,8 +98,6 @@ func (e *Event) FillFromUrl(url string, safeQueryParameters []string) {
 
 	u.RawQuery = q.Encode()
 	e.Url = u.String()
-
-	e.Path = u.Path
 }
 
 func (e *Event) FillFromUserAgent(userAgent string) {

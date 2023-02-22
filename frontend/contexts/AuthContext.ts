@@ -3,9 +3,13 @@ import { createContext } from "react";
 export type AuthContextValue = {
   isReady: boolean;
   mutate: () => Promise<void>;
-  organization: HydratedOrganization | null;
-  user: AuthUser | null;
-};
+} & ({
+  organization: null;
+  user: null;
+} | {
+  organization: HydratedOrganization;
+  user: AuthUser;
+});
 
 export const AuthContext = createContext<AuthContextValue>({
   isReady: false,

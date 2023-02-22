@@ -49,12 +49,12 @@ const options: Array<Array<Option>> = [
       title: "This week",
     },
     {
-      getEnd: () => dayjs().endOf("day"),
+      getEnd: () => dayjs().endOf("month"),
       getStart: () => dayjs().startOf("month"),
       title: "This month",
     },
     {
-      getEnd: () => dayjs().endOf("day"),
+      getEnd: () => dayjs().endOf("year"),
       getStart: () => dayjs().startOf("year"),
       title: "This year",
     },

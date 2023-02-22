@@ -13,7 +13,7 @@ import (
 
 type Datum struct {
 	DateTime      time.Time `json:"dateTime"`
-	PageViewCount uint64    `json:"pageViewCount"`
+	PageViewCount *uint64   `json:"pageViewCount"`
 }
 
 type Report struct {
@@ -23,9 +23,9 @@ type Report struct {
 }
 
 func Get(dp *depot.Depot, filters *filter.Filters) (*Report, error) {
-	interval := interval.GetVisitorPageViewInterval(filters)
+	interval2 := interval.GetVisitorPageViewInterval(filters)
 	report := &Report{
-		Interval: interval,
+		Interval: interval2,
 	}
 
 	q := filter.Apply(dp, filters)
@@ -37,7 +37,7 @@ func Get(dp *depot.Depot, filters *filter.Filters) (*Report, error) {
 				"count(*) as page_view_count",
 			}, ","),
 			map[string]interface{}{
-				"timeWindowInterval": gorm.Expr(interval.ToQuery()),
+				"timeWindowInterval": gorm.Expr(interval2.ToQuery()),
 				"timeZone":           filters.GetTimeZone(),
 			},
 		).
@@ -49,12 +49,12 @@ func Get(dp *depot.Depot, filters *filter.Filters) (*Report, error) {
 				"select",
 				strings.Join([]string{
 					"@start + interval arrayJoin(range(0, toUInt64(dateDiff('second', @start, @end)), @intervalSeconds)) second as date_time",
-					"0 as page_view_count",
+					"if(date_time > now(), null, 0) as page_view_count",
 				}, ","),
 			}, " "),
 			map[string]any{
 				"end":             filters.End,
-				"intervalSeconds": interval.ToDuration().Seconds(),
+				"intervalSeconds": interval2.ToDuration().Seconds(),
 				"start":           filters.Start,
 			},
 		)
@@ -78,8 +78,10 @@ func Get(dp *depot.Depot, filters *filter.Filters) (*Report, error) {
 	var pageViewCountsLength float64 = 0
 
 	for _, d := range report.Data {
-		pageViewCountsSum += float64(d.PageViewCount)
-		pageViewCountsLength += 1
+		if d.PageViewCount != nil {
+			pageViewCountsSum += float64(*d.PageViewCount)
+			pageViewCountsLength += 1
+		}
 	}
 
 	if pageViewCountsLength != 0 {

@@ -1,4 +1,4 @@
-package sitepageviewtrends
+package pageviewtrends
 
 import (
 	"strings"

@@ -1,4 +1,4 @@
-package siteoverviewreport
+package overview
 
 import (
 	"context"

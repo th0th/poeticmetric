@@ -2,26 +2,25 @@ import { AxisBottom, AxisLeft, TickFormatter, TickLabelProps } from "@visx/axis"
 import { localPoint } from "@visx/event";
 import { GridRows } from "@visx/grid";
 import { Group } from "@visx/group";
-import { withParentSizeModern } from "@visx/responsive";
 import { scaleLinear, scaleTime } from "@visx/scale";
 import { Circle, Line, LinePath } from "@visx/shape";
 import { useTooltip } from "@visx/tooltip";
 import classNames from "classnames";
 import { bisector } from "d3-array";
 import { NumberValue, ScaleLinear, ScaleTime } from "d3-scale";
+import { curveMonotoneX } from "d3-shape";
 import dayjs from "dayjs";
 import React, { useCallback, useContext, useMemo } from "react";
 import { Spinner } from "react-bootstrap";
 import { ChartTooltip } from "../../..";
 import { SiteReportsFiltersContext } from "../../../../contexts";
 import { useSitePageViewReport } from "../../../../hooks";
+import { withParentSize } from "../../../withParentSize";
 import { AxisBottomTick } from "./AxisBottomTick";
 
 export type PageViewsProps = Overwrite<Omit<React.PropsWithoutRef<JSX.IntrinsicElements["svg"]>, "children">, {
-  debounceTime?: number;
-  enableDebounceLeadingCall?: boolean;
-  parentHeight?: number;
-  parentWidth?: number;
+  parentHeight: number;
+  parentWidth: number;
 }>;
 
 type State = {
@@ -55,13 +54,13 @@ const padding = { bottom: 24, left: 40, top: 8 };
 
 const xBisect = bisector((d: StateDatum) => d.datum.dateTimeDate).center;
 
-function BasePageViews({ className, debounceTime: _, enableDebounceLeadingCall: __, parentHeight, parentWidth, ...props }: PageViewsProps) {
+function BasePageViews({ className, parentHeight, parentWidth, ...props }: PageViewsProps) {
   const { hideTooltip, showTooltip: rawShowTooltip, tooltipData, tooltipLeft, tooltipOpen, tooltipTop } = useTooltip<Tooltip>();
   const { end, start } = useContext(SiteReportsFiltersContext);
   const { hydratedData: report } = useSitePageViewReport();
 
   const state = useMemo<State | null>(() => {
-    if (report === undefined || parentWidth === undefined || parentHeight === undefined) {
+    if (report === undefined) {
       return null;
     }
 
@@ -204,12 +203,13 @@ function BasePageViews({ className, debounceTime: _, enableDebounceLeadingCall: 
           </Group>
 
           <LinePath
+            curve={curveMonotoneX}
             data={state.data}
-            defined={(d) => d.y !== null}
+            defined={(d) => d.y !== undefined}
             stroke={window.getComputedStyle(document.documentElement).getPropertyValue("--bs-primary")}
             strokeWidth={2}
             x={(d) => d.x}
-            y={(d) => d.y || 1}
+            y={(d) => d.y}
           />
 
           {tooltipOpen && tooltipData !== undefined ? (
@@ -270,4 +270,4 @@ function BasePageViews({ className, debounceTime: _, enableDebounceLeadingCall: 
   );
 }
 
-export const PageViews = withParentSizeModern(BasePageViews);
+export const PageViews = withParentSize(BasePageViews, { className: "flex-grow-1" });

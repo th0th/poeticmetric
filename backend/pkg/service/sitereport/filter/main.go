@@ -71,7 +71,7 @@ func Apply(dp *depot.Depot, filters *Filters) *gorm.DB {
 	}
 
 	if filters.Path != nil {
-		clickHouseSession.Where("path = ?", *filters.Path)
+		clickHouseSession.Where("pathFull(url) = ?", *filters.Path)
 	}
 
 	if filters.Referrer != nil {

@@ -14,9 +14,9 @@ type SiteOverviewReport = {
   averagePageViewDuration: number;
   averagePageViewDurationPercentageChange: number;
   pageViewCount: number;
-  pageViewCountPerVisitor: 1000;
-  pageViewCountPerVisitorPercentageChange: 100;
-  pageViewCountPercentageChange: 100;
+  pageViewCountPerVisitor: number;
+  pageViewCountPerVisitorPercentageChange: number;
+  pageViewCountPercentageChange: number;
   visitorCount: number;
   visitorCountPercentageChange: number;
 };

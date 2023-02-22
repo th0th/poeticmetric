@@ -16,6 +16,7 @@ module.exports = {
     "@typescript-eslint/semi": "error",
     "arrow-parens": "error",
     "eol-last": ["error"],
+    eqeqeq: ["error"],
     "import/no-extraneous-dependencies": "error",
     "import/no-unresolved": "error",
     "max-len": ["error", { code: 140, ignoreComments: true, ignoreStrings: true }],

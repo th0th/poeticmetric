@@ -2,7 +2,6 @@ import { AxisBottom } from "@visx/axis";
 import { localPoint } from "@visx/event";
 import { GridRows } from "@visx/grid";
 import { Group } from "@visx/group";
-import { withParentSizeModern } from "@visx/responsive";
 import { scaleBand, scaleLinear } from "@visx/scale";
 import { Bar } from "@visx/shape";
 import { useTooltip } from "@visx/tooltip";
@@ -12,13 +11,12 @@ import { useRouter } from "next/router";
 import React, { useCallback, useContext, useMemo } from "react";
 import { ChartTooltip } from "../../../..";
 import { SiteReportsFiltersContext } from "../../../../../contexts";
+import { withParentSize } from "../../../../withParentSize";
 
 export type ChartProps = Overwrite<Omit<React.PropsWithoutRef<JSX.IntrinsicElements["svg"]>, "children">, {
   data: Array<HydratedSiteLanguageDatum>;
-  debounceTime?: number;
-  enableDebounceLeadingCall?: boolean;
-  parentHeight?: number;
-  parentWidth?: number;
+  parentHeight: number;
+  parentWidth: number;
 }>;
 
 type State = {
@@ -48,13 +46,13 @@ type Tooltip = {
 
 const padding = { bottom: 32, left: 8, top: 8 };
 
-function BaseChart({ data, debounceTime: _, enableDebounceLeadingCall: __, parentHeight, parentWidth }: ChartProps) {
+function BaseChart({ data, parentHeight, parentWidth }: ChartProps) {
   const router = useRouter();
   const { hideTooltip, showTooltip: rawShowTooltip, tooltipData, tooltipLeft, tooltipOpen, tooltipTop } = useTooltip<Tooltip>();
   const { end, start } = useContext(SiteReportsFiltersContext);
 
   const state = useMemo<State | null>(() => {
-    if (data === undefined || parentWidth === undefined || parentHeight == undefined) {
+    if (data === undefined) {
       return null;
     }
 
@@ -63,7 +61,7 @@ function BaseChart({ data, debounceTime: _, enableDebounceLeadingCall: __, paren
     const chartData = data.slice(0, 5);
 
     const width = parentWidth;
-    const height = parentHeight;
+    const height = Math.max(parentHeight, 180);
 
     const innerWidth = width - padding.left;
     const innerHeight = height - padding.top - padding.bottom;
@@ -200,4 +198,4 @@ function BaseChart({ data, debounceTime: _, enableDebounceLeadingCall: __, paren
   );
 }
 
-export const Chart = withParentSizeModern(BaseChart);
+export const Chart = withParentSize(BaseChart, { className: "flex-grow-1" });

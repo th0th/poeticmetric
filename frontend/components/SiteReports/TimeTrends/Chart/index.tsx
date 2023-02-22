@@ -1,7 +1,6 @@
 import { AxisLeft, AxisTop, TickFormatter } from "@visx/axis";
 import { localPoint } from "@visx/event";
 import { Group } from "@visx/group";
-import { withParentSizeModern } from "@visx/responsive";
 import { scaleBand } from "@visx/scale";
 import { Bar } from "@visx/shape";
 import { useTooltip } from "@visx/tooltip";
@@ -11,11 +10,12 @@ import { range } from "lodash";
 import React, { useCallback, useMemo } from "react";
 import { Spinner } from "react-bootstrap";
 import { ChartTooltip } from "../../..";
+import { withParentSize } from "../../../withParentSize";
 import { useSiteVisitorTrendsReport } from "../../../../hooks";
 
 type BaseChartProps = {
-  parentHeight?: number;
-  parentWidth?: number;
+  parentHeight: number;
+  parentWidth: number;
 };
 
 type State = {
@@ -54,7 +54,7 @@ export function BaseChart({ parentHeight, parentWidth }: BaseChartProps) {
   const { data: rawData } = useSiteVisitorTrendsReport();
 
   const state = useMemo<State | null>(() => {
-    if (rawData === undefined || parentHeight === undefined || parentWidth === undefined) {
+    if (rawData === undefined) {
       return null;
     }
 
@@ -202,4 +202,4 @@ export function BaseChart({ parentHeight, parentWidth }: BaseChartProps) {
   );
 }
 
-export const Chart = withParentSizeModern(BaseChart);
+export const Chart = withParentSize(BaseChart, { className: "flex-grow-1" });

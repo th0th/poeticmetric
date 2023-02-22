@@ -10,24 +10,31 @@ type AuthHandlerProps = {
 const fetcher = getFetcher(true, false);
 
 export function AuthHandler({ children }: AuthHandlerProps) {
-  const { data: userData, mutate: mutateUserData } = useSWR<AuthUser, Error>("/users/me", fetcher);
-  const { data: organizationData, mutate: mutateOrganizationData } = useSWR<Organization, Error>("/organization", fetcher);
+  const { data: userData, isValidating: isValidatingUser, mutate: mutateUserData } = useSWR<AuthUser, Error>("/users/me", fetcher);
+  const {
+    data: organizationData,
+    isValidating: isValidatingOrganization,
+    mutate: mutateOrganizationData,
+  } = useSWR<Organization, Error>("/organization", fetcher);
 
   const mutate = useCallback<AuthContextValue["mutate"]>(async () => {
     await Promise.all([mutateUserData(), mutateOrganizationData()]);
   }, [mutateOrganizationData, mutateUserData]);
 
   const value = useMemo<AuthContextValue>(() => {
-    let user: AuthUser | null = null;
-    let organization: HydratedOrganization | null = null;
+    let v: AuthContextValue = {
+      isReady: !isValidatingUser && !isValidatingOrganization,
+      mutate,
+      organization: null,
+      user: null,
+    };
 
     if (userData !== undefined && organizationData !== undefined) {
-      user = userData;
-      organization = hydrateOrganization(organizationData);
+      v = { ...v, isReady: true, organization: hydrateOrganization(organizationData), user: userData };
     }
 
-    return { isReady: true, mutate, organization, user };
-  }, [mutate, organizationData, userData]);
+    return v;
+  }, [isValidatingOrganization, isValidatingUser, mutate, organizationData, userData]);
 
   return (
     <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

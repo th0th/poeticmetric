@@ -23,7 +23,7 @@ export function Header({ className, ...props }: HeaderProps) {
 
   const navbarCollapseNode = useMemo<React.ReactNode>(() => {
     if (kind === "app") {
-      return user != null ? (
+      return user !== null ? (
         <Navbar.Collapse id={navbarId}>
           <Nav>
             <Nav.Item>

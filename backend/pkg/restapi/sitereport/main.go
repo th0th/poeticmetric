@@ -43,7 +43,6 @@ func Add(app *fiber.App) {
 	group.Get("/overview", overview)
 	group.Get("/page-view", pageView)
 	group.Get("/page-view-trends", pageViewTrends)
-	group.Get("/path-duration", pathDuration)
 	group.Get("/path", paginationCursorMiddleware[path2.PaginationCursor], path)
 	group.Get("/referrer-path", paginationCursorMiddleware[referrerpath.PaginationCursor], referrerPath)
 	group.Get("/referrer-site", paginationCursorMiddleware[referrersite.PaginationCursor], referrerSite)
@@ -53,7 +52,6 @@ func Add(app *fiber.App) {
 	group.Get("/utm-source", paginationCursorMiddleware[utmsource.PaginationCursor], utmSource)
 	group.Get("/utm-term", paginationCursorMiddleware[utmterm.PaginationCursor], utmTerm)
 	group.Get("/visitor", visitor)
-	group.Get("/visitor-page-view", visitorPageView)
 	group.Get("/visitor-trends", visitorTrends)
 }
 
