@@ -37,6 +37,7 @@ func Add(app *fiber.App) {
 	group.Get("/browser-version", paginationCursorMiddleware[browserversion.PaginationCursor], browserVersion)
 	group.Get("/country", country)
 	group.Get("/device-type", deviceType)
+	group.Get("/export", export)
 	group.Get("/language", paginationCursorMiddleware[language2.PaginationCursor], language)
 	group.Get("/operating-system-name", paginationCursorMiddleware[operatingsystemname.PaginationCursor], operatingSystemName)
 	group.Get("/operating-system-version", paginationCursorMiddleware[operatingsystemversion.PaginationCursor], operatingSystemVersion)

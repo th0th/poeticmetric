@@ -9,6 +9,7 @@ require (
 	github.com/dchest/uniuri v1.2.0
 	github.com/getsentry/sentry-go v0.18.0
 	github.com/go-errors/errors v1.4.2
+	github.com/gocarina/gocsv v0.0.0-20230223115542-dc4ee9de5fe2
 	github.com/gofiber/contrib/fibersentry v0.0.0-20230214221137-36b97d3ad36f
 	github.com/gofiber/fiber/v2 v2.42.0
 	github.com/golang-migrate/migrate/v4 v4.15.2
