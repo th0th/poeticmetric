@@ -10,7 +10,7 @@ require (
 	github.com/getsentry/sentry-go v0.18.0
 	github.com/go-errors/errors v1.4.2
 	github.com/gocarina/gocsv v0.0.0-20230223115542-dc4ee9de5fe2
-	github.com/gofiber/contrib/fibersentry v0.0.0-20230214221137-36b97d3ad36f
+	github.com/gofiber/contrib/fibersentry v1.0.2
 	github.com/gofiber/fiber/v2 v2.42.0
 	github.com/golang-migrate/migrate/v4 v4.15.2
 	github.com/google/uuid v1.3.0
@@ -20,12 +20,12 @@ require (
 	github.com/redis/go-redis/v9 v9.0.2
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/stretchr/testify v1.8.1
-	github.com/stripe/stripe-go/v74 v74.7.0
+	github.com/stripe/stripe-go/v74 v74.9.0
 	github.com/tdewolff/minify/v2 v2.12.4
 	golang.org/x/crypto v0.6.0
 	golang.org/x/sync v0.1.0
 	gorm.io/driver/clickhouse v0.5.0
-	gorm.io/driver/postgres v1.4.7
+	gorm.io/driver/postgres v1.4.8
 	gorm.io/gorm v1.24.5
 )
 
@@ -43,7 +43,7 @@ require (
 	github.com/hashicorp/go-version v1.6.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20221227161230-091c0ba34f0a // indirect
-	github.com/jackc/pgx/v5 v5.2.0 // indirect
+	github.com/jackc/pgx/v5 v5.3.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/klauspost/compress v1.15.14 // indirect
