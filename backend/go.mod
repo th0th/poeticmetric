@@ -9,7 +9,7 @@ require (
 	github.com/dchest/uniuri v1.2.0
 	github.com/getsentry/sentry-go v0.18.0
 	github.com/go-errors/errors v1.4.2
-	github.com/gocarina/gocsv v0.0.0-20230223115542-dc4ee9de5fe2
+	github.com/gocarina/gocsv v0.0.0-20230226133904-70c27cb2918a
 	github.com/gofiber/contrib/fibersentry v1.0.2
 	github.com/gofiber/fiber/v2 v2.42.0
 	github.com/golang-migrate/migrate/v4 v4.15.2
@@ -19,7 +19,7 @@ require (
 	github.com/rabbitmq/amqp091-go v1.7.0
 	github.com/redis/go-redis/v9 v9.0.2
 	github.com/robfig/cron/v3 v3.0.1
-	github.com/stretchr/testify v1.8.1
+	github.com/stretchr/testify v1.8.2
 	github.com/stripe/stripe-go/v74 v74.9.0
 	github.com/tdewolff/minify/v2 v2.12.4
 	golang.org/x/crypto v0.6.0
@@ -60,6 +60,7 @@ require (
 	github.com/savsgio/gotils v0.0.0-20220530130905-52f3993e8d6d // indirect
 	github.com/segmentio/asm v1.2.0 // indirect
 	github.com/shopspring/decimal v1.3.1 // indirect
+	github.com/stretchr/objx v0.5.0 // indirect
 	github.com/tdewolff/parse/v2 v2.6.4 // indirect
 	github.com/tinylib/msgp v1.1.6 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect

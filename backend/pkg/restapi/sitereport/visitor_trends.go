@@ -3,13 +3,13 @@ package sitereport
 import (
 	"github.com/gofiber/fiber/v2"
 	dm "github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/depot"
-	"github.com/th0th/poeticmetric/backend/pkg/service/sitevisitortrends"
+	"github.com/th0th/poeticmetric/backend/pkg/service/sitereport/timetrends"
 )
 
-func visitorTrends(c *fiber.Ctx) error {
+func timeTrends(c *fiber.Ctx) error {
 	dp := dm.Get(c)
 
-	report, err := sitevisitortrends.Get(dp, getFilters(c))
+	report, err := timetrends.Get(dp, getFilters(c))
 	if err != nil {
 		return err
 	}

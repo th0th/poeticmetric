@@ -15,8 +15,9 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 19.6.0
+          node-version: 19.7.0
 
+      # TODO: Delete this step when https://github.com/reviewdog/action-eslint/issues/152 is resolved.
       - name: Install custom npm version
         run: npm i -g npm@8.19.3
 
@@ -40,14 +41,6 @@ jobs:
 
       - name: Setup reviewdog
         uses: reviewdog/action-setup@v1
-
-      # TODO: Delete this step when https://github.com/reviewdog/action-eslint/issues/152 is resolved.
-      - name: Install custom npm version
-        run: npm i -g npm@8.19.3
-
-      - name: Install dependencies
-        run: npm install
-        working-directory: frontend
 
       - env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -125,7 +118,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 19.6.0
+          node-version: 19.7.0
 
       - id: restore-npm-cache
         name: Restore npm cache

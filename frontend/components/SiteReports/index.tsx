@@ -1,8 +1,9 @@
 import { omit } from "lodash";
 import { useRouter } from "next/router";
 import * as querystring from "querystring";
-import React, { useMemo } from "react";
-import { Col, Row, Stack } from "react-bootstrap";
+import React, { useCallback, useMemo, useRef } from "react";
+import { Col, Dropdown, Row, Stack } from "react-bootstrap";
+import { getUserAccessToken } from "../../helpers";
 import { Filters } from "./Filters";
 import { FiltersHandler } from "./FiltersHandler";
 import { Geo } from "./Geo";
@@ -21,14 +22,54 @@ export type SiteReportsProps = {
 
 export function SiteReports({ site }: SiteReportsProps) {
   const router = useRouter();
+  const exportReportsForm = useRef<HTMLFormElement>(null);
+  const exportEventsForm = useRef<HTMLFormElement>(null);
 
-  const exportQueryString = useMemo<string>(() => querystring.stringify({
+  const exportFormActionQueryString = useMemo<string>(() => querystring.stringify({
     ...omit(router.query, ["id"]),
     siteId: router.query.id,
   }), [router.query]);
 
+  const submitExportEventsForm = useCallback(() => {
+    const userAccessToken = getUserAccessToken();
+
+    if (exportEventsForm.current !== null && userAccessToken !== null) {
+      exportEventsForm.current.submit();
+    }
+  }, []);
+
+  const submitExportReportsForm = useCallback(() => {
+    const userAccessToken = getUserAccessToken();
+
+    if (exportReportsForm.current !== null && userAccessToken !== null) {
+      exportReportsForm.current.submit();
+    }
+  }, []);
+
   return (
     <FiltersHandler siteId={site.id}>
+      <form
+        action={`${window.poeticMetric?.restApiBaseUrl}/site-reports/export/reports?${exportFormActionQueryString}`}
+        className="d-none"
+        encType="multipart/form-data"
+        method="post"
+        ref={exportReportsForm}
+        target="_blank"
+      >
+        <input name="user-access-token" type="hidden" value={getUserAccessToken() || ""} />
+      </form>
+
+      <form
+        action={`${window.poeticMetric?.restApiBaseUrl}/site-reports/export/events?${exportFormActionQueryString}`}
+        className="d-none"
+        encType="multipart/form-data"
+        method="post"
+        ref={exportEventsForm}
+        target="_blank"
+      >
+        <input name="user-access-token" type="hidden" value={getUserAccessToken() || ""} />
+      </form>
+
       <div className="d-flex flex-row">
         <TimeWindowInput />
 
@@ -37,12 +78,15 @@ export function SiteReports({ site }: SiteReportsProps) {
         <Stack direction="horizontal" gap={2}>
           <Filters />
 
-          <a
-            className="btn btn-primary"
-            href={`${window.poeticMetric?.restApiBaseUrl}/site-reports/export?${exportQueryString}`}
-          >
-            Export reports
-          </a>
+          <Dropdown>
+            <Dropdown.Toggle variant="outline-primary">Export</Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item as="button" onClick={submitExportReportsForm}>Reports</Dropdown.Item>
+
+              <Dropdown.Item as="button" onClick={submitExportEventsForm}>Raw events</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </Stack>
       </div>
 

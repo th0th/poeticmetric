@@ -15,8 +15,9 @@ type Auth struct {
 }
 
 const (
-	AuthKindRestApiUserBasic       AuthKind = "REST_API_USER_BASIC"
-	AuthKindRestApiUserAccessToken AuthKind = "REST_API_USER_ACCESS_TOKEN"
+	AuthKindRestApiUserBasic           AuthKind = "REST_API_USER_BASIC"
+	AuthKindRestApiUserAccessToken     AuthKind = "REST_API_USER_ACCESS_TOKEN"
+	AuthKindRestApiUserAccessTokenForm AuthKind = "REST_API_USER_ACCESS_TOKEN_FORM"
 )
 
 func Get(c *fiber.Ctx) *Auth {

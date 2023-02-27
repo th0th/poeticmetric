@@ -22,6 +22,6 @@ export * from "./hydrateSiteUtmMediumReport";
 export * from "./hydrateSiteUtmSourceReport";
 export * from "./hydrateSiteUtmTermReport";
 export * from "./hydrateSiteVisitorPageViewReport";
-export * from "./hydrateSiteVisitorTrendsReport";
+export * from "./hydrateSiteTimeTrendsReport";
 export * from "./hydrateSiteVisitorsTimeReport";
 export * from "./userAccessToken";

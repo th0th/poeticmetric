@@ -8,12 +8,12 @@ import (
 	export2 "github.com/th0th/poeticmetric/backend/pkg/service/sitereport/export"
 )
 
-func export(c *fiber.Ctx) error {
+func exportEvents(c *fiber.Ctx) error {
 	dp := dm.Get(c)
 
 	filters := getFilters(c)
 
-	zipFileName, zipFileContent, err := export2.Get(dp, filters)
+	zipFileName, zipFileContent, err := export2.Events(dp, filters)
 	if err != nil {
 		return err
 	}

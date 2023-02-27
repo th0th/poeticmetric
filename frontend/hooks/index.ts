@@ -23,7 +23,7 @@ export * from "./useSiteUtmMediumReport";
 export * from "./useSiteUtmSourceReport";
 export * from "./useSiteUtmTermReport";
 export * from "./useSiteVisitorReport";
-export * from "./useSiteVisitorTrendsReport";
+export * from "./useSiteTimeTrendsReport";
 export * from "./useSites";
 export * from "./useSwrMatchMutate";
 export * from "./useUser";
