@@ -63,7 +63,7 @@ export function Modal() {
                     </Link>
 
                     <a
-                      className="parent-d-block flex-grow-0 flex-shrink-0 lh-1 ms-2 text-black text-primary-hover"
+                      className="d-none flex-grow-0 flex-shrink-0 lh-1 ms-2 parent-d-block text-black text-primary-hover"
                       href={d.referrer}
                       rel="noreferrer"
                       target="_blank"

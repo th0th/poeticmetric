@@ -55,7 +55,7 @@ func errorHandler(c *fiber.Ctx, err error) error {
 		}
 
 		if fiberError.Code == fiber.StatusUnauthorized {
-			c.Set("WWW-Authenticate", "Basic realm=\"Please sign in\"")
+			c.Set(fiber.HeaderWWWAuthenticate, "Basic realm=\"Please sign in\"")
 
 			return c.
 				Status(fiber.StatusUnauthorized).

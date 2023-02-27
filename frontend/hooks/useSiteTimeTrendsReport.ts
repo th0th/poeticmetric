@@ -1,26 +1,26 @@
 import { useMemo } from "react";
 import useSWR, { SWRResponse } from "swr";
-import { hydrateSiteVisitorTrendsReport } from "../helpers";
+import { hydrateSiteTimeTrendsReport } from "../helpers";
 import { useReportQueryParams } from "./useReportQueryParams";
 
-type Data = SiteVisitorTrendsReport;
-type HydratedData = HydratedSiteVisitorTrendsReport;
+type Data = SiteTimeTrendsReport;
+type HydratedData = HydratedSiteTimeTrendsReport;
 
 type SwrResponse = SWRResponse<Data, Error>;
 type HydratedSwrResponse = Overwrite<SwrResponse, {
   data?: HydratedData;
 }>;
 
-export function useSiteVisitorTrendsReport(): HydratedSwrResponse {
+export function useSiteTimeTrendsReport(): HydratedSwrResponse {
   const reportQueryParams = useReportQueryParams();
-  const { data: rawData, ...swrResponse } = useSWR<Data>(`/site-reports/visitor-trends?${reportQueryParams}`);
+  const { data: rawData, ...swrResponse } = useSWR<Data>(`/site-reports/time-trends?${reportQueryParams}`);
 
   const data = useMemo<HydratedSwrResponse["data"]>(() => {
     if (rawData === undefined) {
       return undefined;
     }
 
-    return hydrateSiteVisitorTrendsReport(rawData);
+    return hydrateSiteTimeTrendsReport(rawData);
   }, [rawData]);
 
   return { data, ...swrResponse };

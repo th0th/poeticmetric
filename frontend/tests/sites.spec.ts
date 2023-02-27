@@ -9,9 +9,9 @@ type Site = {
 };
 
 const site: Site = {
-  domain: "staging.poeticmetric.com",
-  name: "Poeticmetric Staging",
-  name2: "Poeticmetric Staging 1",
+  domain: "dev.poeticmetric.com",
+  name: "Poeticmetric Dev",
+  name2: "Poeticmetric Dev 1",
 };
 
 const testAccount: TestAccount = {
@@ -22,6 +22,10 @@ const testAccount: TestAccount = {
 };
 
 test("sites", async ({ context, page }) => {
+  let abortEvents: boolean = true;
+  
+  await page.route(`${process.env.REST_API_BASE_URL}/events`, (route) => abortEvents ? route.abort() : route.continue());
+
   await signUp(test, context, page, testAccount);
 
   await test.step("create site", async () => {
@@ -39,6 +43,8 @@ test("sites", async ({ context, page }) => {
     await expect(page.getByTitle(site.name)).toBeVisible();
   });
 
+  abortEvents = false;
+
   await test.step("edit site", async () => {
     await page.getByTitle(site.name).getByRole("link", { name: "Edit" }).click();
     await page.getByLabel("Name").fill(site.name2);
@@ -47,7 +53,26 @@ test("sites", async ({ context, page }) => {
     await expect(page.getByTitle(site.name2)).toBeVisible();
   });
 
+  await test.step("download site reports export", async () => {
+    await page.getByRole("link", { name: "View reports" }).click();
+
+    await page.getByRole("button", { name: "Export" }).click();
+    const exportReportsPagePromise = page.waitForEvent("popup");
+    const downloadReportsExportPromise = page.waitForEvent("download");
+    await page.getByRole("button", { name: "Reports" }).click();
+    await exportReportsPagePromise;
+    await downloadReportsExportPromise;
+
+    await page.getByRole("button", { name: "Export" }).click();
+    const exportEventsPagePromise = page.waitForEvent("popup");
+    const downloadEventsExportPromise = page.waitForEvent("download");
+    await page.getByRole("button", { name: "Raw events" }).click();
+    await exportEventsPagePromise;
+    await downloadEventsExportPromise;
+  });
+
   await test.step("delete site", async () => {
+    await page.locator("#header-navbar").getByRole("link", { name: "Sites" }).click();
     await page.getByTitle(site.name).getByRole("link", { name: "Delete" }).click();
     await page.getByRole("button", { name: "Delete" }).click();
     await page.waitForLoadState("networkidle");

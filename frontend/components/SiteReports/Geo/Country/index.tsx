@@ -5,8 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useMemo } from "react";
 import { Col, Row, Spinner, Table } from "react-bootstrap";
-import { useSiteCountryReport } from "../../../../hooks";
 import { ChartTooltip } from "../../..";
+import { useSiteCountryReport } from "../../../../hooks";
 import { NoData } from "../../NoData";
 import { map } from "./map";
 import { Modal } from "./Modal";
@@ -91,98 +91,90 @@ export function Country() {
     };
   }, [rawShowTooltip, report, router]);
 
-  const contentNode = useMemo<React.ReactNode>(() => {
-    if (state === null) {
-      return (
-        <Spinner className="m-auto" variant="primary" />
-      );
-    }
-
-    if (state.data.length === 0) {
-      return (
-        <NoData />
-      );
-    }
-
-    return (
-      <>
-        <div className="d-flex flex-column flex-grow-1 min-h-0">
-          <Row className="min-h-0">
-            <Col className="flex-grow-1 mh-100 pb-3" lg={7}>
-              <svg className="d-block mh-100 mx-auto" viewBox="0 0 1008.27 650.94">
-                {state.mapData.map((md) => (
-                  <path
-                    className={md.className}
-                    d={md.d}
-                    fill={md.fill}
-                    key={md.key}
-                    onClick={md.handleClick}
-                    onMouseMove={md.handleMouseEvent}
-                    onMouseOut={hideTooltip}
-                    onTouchEnd={hideTooltip}
-                    onTouchMove={md.handleMouseEvent}
-                    opacity={md.key === tooltipData?.datum.countryIsoCode ? 0.9 : 1}
-                    stroke={window.getComputedStyle(document.documentElement).getPropertyValue("--bs-gray-300")}
-                    tabIndex={md.handleClick === undefined ? undefined : 0}
-                  />
-                ))}
-              </svg>
-            </Col>
-
-            <Col className="d-flex flex-column" lg={5}>
-              <div className="border-1 border-start-lg d-flex flex-column flex-grow-1 mb-n3 ps-lg-3">
-                <Table borderless className="fs-sm table-layout-fixed" responsive size="sm">
-                  <thead>
-                    <tr>
-                      <th className="w-5rem">Country</th>
-                      <th />
-
-                      <th className="text-end w-4rem">Visitors</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {state.data.map((d) => (
-                      <tr className="parent-d" key={d.countryIsoCode}>
-                        <td colSpan={2}>
-                          <Link
-                            className="align-items-center d-flex parent-text-decoration flex-row text-body text-decoration-none"
-                            href={{ pathname: router.pathname, query: { ...router.query, countryIsoCode: d.countryIsoCode } }}
-                            scroll={false}
-                            title={d.country}
-                          >
-                            <span className={`fi fi-${d.countryIsoAlpha2Code} fis me-1 rounded-circle shadow-sm text-decoration-none`} />
-
-                            <span className="parent-hover-text-decoration-underline text-truncate">{d.country}</span>
-                          </Link>
-                        </td>
-
-                        <td className="text-end w-4rem">
-                          <span className="fw-medium" title={`${d.visitorCount.toString()} visitors`}>{d.visitorCountDisplay}</span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
-
-                <Link
-                  className="bg-light-hover border-1 border-top d-block fw-semibold mt-auto mx-n3 p-2 rounded-bottom rounded-bottom-end-lg text-center text-decoration-none"
-                  href={{ pathname: router.pathname, query: { ...router.query, detail: "country" } }}
-                  scroll={false}
-                >
-                  See more
-                </Link>
-              </div>
-            </Col>
-          </Row>
-        </div>
-      </>
-    );
-  }, [hideTooltip, router.pathname, router.query, state, tooltipData]);
-
   return (
     <>
-      {contentNode}
+      {state === null ? (
+        <Spinner className="m-auto" variant="primary" />
+      ) : (
+        <>
+          {state.data.length === 0 ? (
+            <NoData />
+          ) : (
+            <Row className="flex-grow-1">
+              <Col className="d-flex flex-grow-1" lg={7}>
+                <svg className="flex-grow-1">
+                  <svg className="d-block mx-auto" viewBox="0 0 1008.27 650.94">
+                    {state.mapData.map((md) => (
+                      <path
+                        className={md.className}
+                        d={md.d}
+                        fill={md.fill}
+                        key={md.key}
+                        onClick={md.handleClick}
+                        onMouseMove={md.handleMouseEvent}
+                        onMouseOut={hideTooltip}
+                        onTouchEnd={hideTooltip}
+                        onTouchMove={md.handleMouseEvent}
+                        opacity={md.key === tooltipData?.datum.countryIsoCode ? 0.9 : 1}
+                        stroke={window.getComputedStyle(document.documentElement).getPropertyValue("--bs-gray-300")}
+                        tabIndex={md.handleClick === undefined ? undefined : 0}
+                      />
+                    ))}
+                  </svg>
+                </svg>
+              </Col>
+
+              <Col className="d-flex flex-column" lg={5}>
+                <div className="border-1 border-start-lg d-flex flex-column flex-grow-1 mb-n3 ps-lg-3">
+                  <Table borderless className="fs-sm table-layout-fixed" responsive size="sm">
+                    <thead>
+                      <tr>
+                        <th className="w-5rem">Country</th>
+                        <th />
+
+                        <th className="text-end w-4rem">Visitors</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      {state.data.map((d) => (
+                        <tr className="parent-d" key={d.countryIsoCode}>
+                          <td colSpan={2}>
+                            <Link
+                              className="align-items-center d-flex parent-text-decoration flex-row text-body text-decoration-none"
+                              href={{ pathname: router.pathname, query: { ...router.query, countryIsoCode: d.countryIsoCode } }}
+                              scroll={false}
+                              title={d.country}
+                            >
+                                <span
+                                  className={`fi fi-${d.countryIsoAlpha2Code} fis me-1 rounded-circle shadow-sm text-decoration-none`}
+                                />
+
+                              <span className="parent-hover-text-decoration-underline text-truncate">{d.country}</span>
+                            </Link>
+                          </td>
+
+                          <td className="text-end w-4rem">
+                            <span className="fw-medium" title={`${d.visitorCount.toString()} visitors`}>{d.visitorCountDisplay}</span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+
+                  <Link
+                    className="bg-light-hover border-1 border-top d-block fw-semibold mt-auto mx-n3 p-2 rounded-bottom rounded-bottom-end-lg text-center text-decoration-none"
+                    href={{ pathname: router.pathname, query: { ...router.query, detail: "country" } }}
+                    scroll={false}
+                  >
+                    See more
+                  </Link>
+                </div>
+              </Col>
+            </Row>
+          )}
+        </>
+      )}
 
       <Modal />
 

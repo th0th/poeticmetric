@@ -6,7 +6,7 @@ import (
 )
 
 func tracker(c *fiber.Ctx) error {
-	c.Set("content-type", "application/javascript")
+	c.Set(fiber.HeaderContentType, "application/javascript")
 
 	return c.SendString(tracker2.Get())
 }

@@ -75,10 +75,10 @@ svg {
     .parent-d-block {
       display: block !important;
     }
-  }
 
-  [class^="parent-d"], [class*=" parent-d"] {
-    display: none !important;
+    .parent-d-inline-block {
+      display: inline-block !important;
+    }
   }
 }
 

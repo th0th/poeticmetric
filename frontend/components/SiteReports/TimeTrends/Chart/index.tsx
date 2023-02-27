@@ -11,7 +11,7 @@ import React, { useCallback, useMemo } from "react";
 import { Spinner } from "react-bootstrap";
 import { ChartTooltip } from "../../..";
 import { withParentSize } from "../../../withParentSize";
-import { useSiteVisitorTrendsReport } from "../../../../hooks";
+import { useSiteTimeTrendsReport } from "../../../../hooks";
 
 type BaseChartProps = {
   parentHeight: number;
@@ -34,7 +34,7 @@ type State = {
 
 type StateDatum = {
   color: string;
-  datum: HydratedSiteVisitorTrendsDatum;
+  datum: HydratedSiteTimeTrendsDatum;
   handleMouseEvent?: (event: React.MouseEvent<SVGPathElement> | React.TouchEvent<SVGPathElement>) => void;
   height: number;
   key: string;
@@ -44,14 +44,14 @@ type StateDatum = {
 };
 
 type Tooltip = {
-  datum: HydratedSiteVisitorTrendsDatum;
+  datum: HydratedSiteTimeTrendsDatum;
 };
 
 const padding = { bottom: 24, left: 24, top: 16 };
 
 export function BaseChart({ parentHeight, parentWidth }: BaseChartProps) {
   const { hideTooltip, showTooltip: rawShowTooltip, tooltipData, tooltipLeft, tooltipOpen, tooltipTop } = useTooltip<Tooltip>();
-  const { data: rawData } = useSiteVisitorTrendsReport();
+  const { data: rawData } = useSiteTimeTrendsReport();
 
   const state = useMemo<State | null>(() => {
     if (rawData === undefined) {

@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	"github.com/th0th/poeticmetric/backend/pkg/model"
+	"github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/authentication"
 	dm "github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/depot"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/permission"
 	"github.com/th0th/poeticmetric/backend/pkg/service/sitereport/browsername"
@@ -31,12 +32,18 @@ const localsFiltersKey = "filters"
 const localsPaginationCursorKey = "paginationCursor"
 
 func Add(app *fiber.App) {
-	group := app.Group("/site-reports", filtersMiddleware, authenticatedOrPublicMiddleware)
+	baseGroup := app.Group("/site-reports", filtersMiddleware)
+
+	baseGroup.Post("/export/reports", authentication.NewUserAccessTokenFormAuth(), authenticatedOrPublicMiddleware, exportReports)
+	baseGroup.Post("/export/events", authentication.NewUserAccessTokenFormAuth(), authenticatedOrPublicMiddleware, exportEvents)
+
+	group := baseGroup.Use(authenticatedOrPublicMiddleware)
 
 	group.Get("/browser-name", paginationCursorMiddleware[browsername.PaginationCursor], browserName)
 	group.Get("/browser-version", paginationCursorMiddleware[browserversion.PaginationCursor], browserVersion)
 	group.Get("/country", country)
 	group.Get("/device-type", deviceType)
+
 	group.Get("/language", paginationCursorMiddleware[language2.PaginationCursor], language)
 	group.Get("/operating-system-name", paginationCursorMiddleware[operatingsystemname.PaginationCursor], operatingSystemName)
 	group.Get("/operating-system-version", paginationCursorMiddleware[operatingsystemversion.PaginationCursor], operatingSystemVersion)
@@ -46,13 +53,13 @@ func Add(app *fiber.App) {
 	group.Get("/path", paginationCursorMiddleware[path2.PaginationCursor], path)
 	group.Get("/referrer-path", paginationCursorMiddleware[referrerpath.PaginationCursor], referrerPath)
 	group.Get("/referrer-site", paginationCursorMiddleware[referrersite.PaginationCursor], referrerSite)
+	group.Get("/time-trends", timeTrends)
 	group.Get("/utm-campaign", paginationCursorMiddleware[utmcampaign.PaginationCursor], utmCampaign)
 	group.Get("/utm-content", paginationCursorMiddleware[utmcontent.PaginationCursor], utmContent)
 	group.Get("/utm-medium", paginationCursorMiddleware[utmmedium.PaginationCursor], utmMedium)
 	group.Get("/utm-source", paginationCursorMiddleware[utmsource.PaginationCursor], utmSource)
 	group.Get("/utm-term", paginationCursorMiddleware[utmterm.PaginationCursor], utmTerm)
 	group.Get("/visitor", visitor)
-	group.Get("/visitor-trends", visitorTrends)
 }
 
 func authenticatedOrPublicMiddleware(c *fiber.Ctx) error {

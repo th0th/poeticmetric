@@ -1,4 +1,4 @@
-function hydrateSiteVisitorTrendsDatum(d: SiteVisitorTrendsDatum): HydratedSiteVisitorTrendsDatum {
+function hydrateSiteTimeTrendsDatum(d: SiteTimeTrendsDatum): HydratedSiteTimeTrendsDatum {
   return {
     ...d,
     dayDisplay: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"][d.day - 1],
@@ -7,6 +7,6 @@ function hydrateSiteVisitorTrendsDatum(d: SiteVisitorTrendsDatum): HydratedSiteV
   };
 }
 
-export function hydrateSiteVisitorTrendsReport(r: SiteVisitorTrendsReport): HydratedSiteVisitorTrendsReport {
-  return r.map(hydrateSiteVisitorTrendsDatum);
+export function hydrateSiteTimeTrendsReport(r: SiteTimeTrendsReport): HydratedSiteTimeTrendsReport {
+  return r.map(hydrateSiteTimeTrendsDatum);
 }

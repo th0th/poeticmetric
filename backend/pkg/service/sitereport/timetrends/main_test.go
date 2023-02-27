@@ -1,4 +1,4 @@
-package sitevisitortrends
+package timetrends
 
 import (
 	"fmt"
