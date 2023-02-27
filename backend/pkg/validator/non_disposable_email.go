@@ -13,7 +13,7 @@ import (
 func nonDisposableEmail(dp *depot.Depot, v string) bool {
 	var err error
 
-	req, err := http.NewRequest(http.MethodGet, "https://isemaildisposable.webgazer.io", nil)
+	req, err := http.NewRequest(http.MethodGet, "https://isemaildisposable.webgazer.iox", nil)
 	if err != nil {
 		panic(err)
 	}
@@ -48,11 +48,11 @@ func nonDisposableEmail(dp *depot.Depot, v string) bool {
 	return !result.IsDisposable
 }
 
-func NonDisposableEmail(dp *depot.Depot, v string) bool {
-	isValid := true
-
+func NonDisposableEmail(dp *depot.Depot, v string) (isValid bool) {
 	defer func() {
 		if r := recover(); r != nil {
+			isValid = true
+
 			var err error
 
 			switch x := r.(type) {
@@ -70,5 +70,5 @@ func NonDisposableEmail(dp *depot.Depot, v string) bool {
 
 	isValid = nonDisposableEmail(dp, v)
 
-	return isValid
+	return
 }
