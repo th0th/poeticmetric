@@ -64,7 +64,7 @@ jobs:
           registry: ${{ env.DOCKER_REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          
+
       - name: Set up docker buildx
         uses: docker/setup-buildx-action@v2
 
@@ -133,22 +133,21 @@ jobs:
     steps:
       - if: inputs.environment == 'staging' && inputs.redeploy_databases == true
         name: Redeploy databases
-        uses: th0th/rancher-redeploy-workload@v0.9.2
+        uses: th0th/kubernetes-redeploy-workload@v0.1.0
         with:
-          DISABLE_OUTPUT: "true"
-          RANCHER_BEARER_TOKEN: ${{ secrets.RANCHER_BEARER_TOKEN }}
-          RANCHER_CLUSTER_ID: ${{ secrets.RANCHER_CLUSTER_ID }}
-          RANCHER_NAMESPACE: ${{ secrets.RANCHER_NAMESPACE }}
-          RANCHER_PROJECT_ID: ${{ secrets.RANCHER_PROJECT_ID }}
-          RANCHER_URL: ${{ secrets.RANCHER_URL }}
-          RANCHER_WORKLOADS: ${{ secrets.RANCHER_DATABASE_WORKLOADS }}
+          base_url: "${{ secrets.KUBERNETES_BASE_URL }}"
+          bearer_token: "${{ secrets.KUBERNETES_BEARER_TOKEN}}"
+          debug: "true"
+          deployments: "${{ secrets.KUBERNETES_DATABASE_DEPLOYMENTS }}"
+          ignore_tls_errors: "true"
+          namespace: "${{ secrets.KUBERNETES_NAMESPACE }}"
+
       - name: Update Rancher workloads
         uses: th0th/rancher-redeploy-workload@v0.9.2
         with:
-          DISABLE_OUTPUT: "true"
-          RANCHER_BEARER_TOKEN: ${{ secrets.RANCHER_BEARER_TOKEN }}
-          RANCHER_CLUSTER_ID: ${{ secrets.RANCHER_CLUSTER_ID }}
-          RANCHER_NAMESPACE: ${{ secrets.RANCHER_NAMESPACE }}
-          RANCHER_PROJECT_ID: ${{ secrets.RANCHER_PROJECT_ID }}
-          RANCHER_URL: ${{ secrets.RANCHER_URL }}
-          RANCHER_WORKLOADS: ${{ secrets.RANCHER_WORKLOADS }}
+          base_url: "${{ secrets.KUBERNETES_BASE_URL }}"
+          bearer_token: "${{ secrets.KUBERNETES_BEARER_TOKEN}}"
+          debug: "true"
+          deployments: "${{ secrets.KUBERNETES_DEPLOYMENTS }}"
+          ignore_tls_errors: "true"
+          namespace: "${{ secrets.KUBERNETES_NAMESPACE }}"
