@@ -142,8 +142,8 @@ jobs:
           ignore_tls_errors: "true"
           namespace: "${{ secrets.KUBERNETES_NAMESPACE }}"
 
-      - name: Update Rancher workloads
-        uses: th0th/rancher-redeploy-workload@v0.9.2
+      - name: Update kubernetes workloads
+        uses: th0th/kubernetes-redeploy-workload@v0.1.0
         with:
           base_url: "${{ secrets.KUBERNETES_BASE_URL }}"
           bearer_token: "${{ secrets.KUBERNETES_BEARER_TOKEN}}"
