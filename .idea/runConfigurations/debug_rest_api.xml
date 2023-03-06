@@ -1,6 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="debug rest-api" type="GoRemoteDebugConfigurationType" factoryName="Go Remote">
-    <option name="disconnectOption" value="ASK" />
-    <method v="2" />
-  </configuration>
-</component>
