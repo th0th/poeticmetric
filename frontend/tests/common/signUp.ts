@@ -13,7 +13,7 @@ export async function signUp(test: typeof baseTest, context: BrowserContext, pag
     await page.getByRole("button", { name: "Sign up" }).click();
 
     await expect(page.getByText("Welcome to PoeticMetric!")).toBeVisible();
-    await page.waitForURL("/sites");
+    await page.waitForURL("/sites?block=unverified-email");
 
     await expect(page.getByRole("heading", { name: "Please verify your e-mail address" })).toBeVisible();
   });

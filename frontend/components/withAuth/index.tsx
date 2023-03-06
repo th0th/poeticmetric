@@ -1,14 +1,15 @@
 import { NextPage } from "next";
 import { AppProps } from "next/app";
 import { useRouter } from "next/router";
-import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { Spinner } from "react-bootstrap";
+import { EmailVerificationHandler, SubscriptionHandler } from "..";
 import { AuthContext, ToastsContext } from "../../contexts";
 import { api } from "../../helpers";
-import { UnverifiedEmailAddressBlock } from "../UnverifiedEmailAddressBlock";
 
 type State = {
   isBootstrapStatusChecked: boolean;
+  isReady: boolean;
 };
 
 type WrappedProps = {
@@ -18,10 +19,9 @@ type WrappedProps = {
 export function withAuth(Page: NextPage, authenticated: boolean, ownerOnly?: true) {
   function Wrapped({ pageProps }: WrappedProps) {
     const router = useRouter();
-    const { isReady, user } = useContext(AuthContext);
+    const { isReady: isAuthReady, user } = useContext(AuthContext);
     const { addToast } = useContext(ToastsContext);
-    const isBootstrapStatusChecked = useRef<boolean>(process.env.NEXT_PUBLIC_HOSTED === "true");
-    const [state, setState] = useState<State>({ isBootstrapStatusChecked: process.env.NEXT_PUBLIC_HOSTED === "true" });
+    const [state, setState] = useState<State>({ isBootstrapStatusChecked: process.env.NEXT_PUBLIC_HOSTED === "true", isReady: false });
 
     const isPermitted = useMemo<boolean>(() => {
       if (!state.isBootstrapStatusChecked) {
@@ -59,41 +59,33 @@ export function withAuth(Page: NextPage, authenticated: boolean, ownerOnly?: tru
     }, [addToast, router]);
 
     useEffect(() => {
-      if (!isBootstrapStatusChecked.current) {
-        isBootstrapStatusChecked.current = true;
-
+      if (!state.isBootstrapStatusChecked) {
         checkBootstrapStatus();
       }
-    }, [checkBootstrapStatus]);
+    }, [checkBootstrapStatus, state.isBootstrapStatusChecked]);
 
     useEffect(() => {
-      if (!state.isBootstrapStatusChecked) {
+      if (!state.isBootstrapStatusChecked || !isAuthReady) {
         return;
       }
 
-      if (!isPermitted && isReady) {
+      if (!isPermitted) {
         if (authenticated) {
           router.replace(`/sign-in?next=${router.asPath}`);
         } else {
           router.replace(typeof router.query.next === "string" ? router.query.next : "/sites");
         }
       }
-    }, [isPermitted, isReady, router, state.isBootstrapStatusChecked, user]);
+    }, [isAuthReady, isPermitted, router, state.isBootstrapStatusChecked]);
 
-    if (!isReady || !isPermitted) {
-      return (
-        <Spinner className="m-auto" variant="primary" />
-      );
-    }
-
-    if (user !== null && !user.isEmailVerified) {
-      return (
-        <UnverifiedEmailAddressBlock />
-      );
-    }
-
-    return (
-      <Page {...pageProps} />
+    return !isAuthReady || !isPermitted ? (
+      <Spinner className="m-auto" variant="primary" />
+    ) : (
+      <EmailVerificationHandler>
+        <SubscriptionHandler>
+          <Page {...pageProps} />
+        </SubscriptionHandler>
+      </EmailVerificationHandler>
     );
   }
 

@@ -10,7 +10,7 @@ func Add(app *fiber.App) {
 
 	group.Get("/public/:domain", readPublic)
 
-	group.Use(permission.UserAuthenticated)
+	group.Use(permission.UserAuthenticated, permission.OrganizationSubscription)
 
 	group.Get("/", list)
 	group.Post("/", create)
