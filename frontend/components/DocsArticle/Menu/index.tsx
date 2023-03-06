@@ -31,7 +31,13 @@ export function Menu({ article: articleFromProps, categories, className, ...prop
                     <h6 className="px-3">{category.title}</h6>
 
                     {category.articles.map((article) => (
-                      <Dropdown.Item key={article.slug}>{article.title}</Dropdown.Item>
+                      <Dropdown.Item
+                        as={Link}
+                        href={`/docs/${category.slug}/${article.slug}`}
+                        key={article.slug}
+                      >
+                        {article.title}
+                      </Dropdown.Item>
                     ))}
                   </div>
                 ))}
