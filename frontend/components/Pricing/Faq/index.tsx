@@ -52,7 +52,7 @@ export function Faq({ className, ...props }: FaqProps) {
             </Accordion.Header>
 
             <Accordion.Body>
-              Is there something else you want to know? We are always available at
+              {"Is there something else you want to know? We are always available at "}
               <a href="mailto:support@poeticmetric.com?subject=I%20have%20a%20question">support@poeticmetric.com</a>
               .
             </Accordion.Body>
