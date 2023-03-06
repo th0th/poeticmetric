@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
-import { useContext, useEffect, useMemo } from "react";
+import React, { useContext, useEffect, useMemo } from "react";
 import { Container, Spinner } from "react-bootstrap";
-import { Layout, SiteReports } from "../components";
+import { Layout, SiteReports, Title } from "../components";
 import { ToastsContext } from "../contexts";
 import { usePublicSite } from "../hooks";
 
@@ -33,7 +33,11 @@ export default function PublicSiteReports() {
         {site === undefined ? (
           <Spinner className="m-auto" variant="primary" />
         ) : (
-          <SiteReports site={site} />
+          <>
+            <Title>{`Reports for ${site.name}`}</Title>
+
+            <SiteReports site={site} />
+          </>
         )}
       </Container>
     </Layout>

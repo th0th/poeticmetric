@@ -9,7 +9,7 @@ type AuthHandlerProps = {
 
 const fetcher = getFetcher(true, false);
 
-export function AuthHandler({ children }: AuthHandlerProps) {
+export function   AuthHandler({ children }: AuthHandlerProps) {
   const { data: userData, isValidating: isValidatingUser, mutate: mutateUserData } = useSWR<AuthUser, Error>("/users/me", fetcher);
   const {
     data: organizationData,

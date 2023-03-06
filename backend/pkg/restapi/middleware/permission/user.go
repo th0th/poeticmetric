@@ -78,12 +78,6 @@ func UserBasicAuthenticated(c *fiber.Ctx) error {
 	})(c)
 }
 
-func UserEmailVerified(c *fiber.Ctx) error {
-	return User(&userPermissionMiddlewareConfig{
-		IsEmailVerified: pointer.Get(true),
-	})(c)
-}
-
 func UserOwner(c *fiber.Ctx) error {
 	return User(&userPermissionMiddlewareConfig{
 		IsOrganizationOwner: pointer.Get(true),

@@ -10,8 +10,10 @@ func ReadPublic(dp *depot.Depot, domain string) (*Site, error) {
 
 	err := dp.Postgres().
 		Model(&model.Site{}).
-		Where("is_public is true").
-		Where("domain = ?", domain).
+		Joins("inner join organizations on organizations.id = sites.organization_id").
+		Where("organizations.plan_id is not null").
+		Where("sites.is_public is true").
+		Where("sites.domain = ?", domain).
 		First(site).
 		Error
 	if err != nil {

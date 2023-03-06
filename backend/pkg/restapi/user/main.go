@@ -11,7 +11,7 @@ func Add(app *fiber.App) {
 	group.Get("/", permission.UserAuthenticated, list)
 	group.Get("/me", permission.UserAuthenticated, readSelf)
 	group.Patch("/me", permission.UserAuthenticated, updateSelf)
-	group.Post("/", permission.UserOwner, invite)
+	group.Post("/", permission.UserOwner, permission.OrganizationSubscription, invite)
 	group.Post("/activate", permission.UserUnauthenticated, activate)
 	group.Post("/change-password", permission.UserBasicAuthenticated, changePassword)
 	group.Post("/make-owner", permission.UserOwner, makeOwner)
@@ -21,6 +21,6 @@ func Add(app *fiber.App) {
 	group.Post("/verify-email-address", verifyEmailAddress)
 
 	group.Get("/:id", permission.UserAuthenticated, read)
-	group.Delete("/:id", permission.UserOwner, destroy)
-	group.Patch("/:id", permission.UserOwner, update)
+	group.Delete("/:id", permission.UserOwner, permission.OrganizationSubscription, destroy)
+	group.Patch("/:id", permission.UserOwner, permission.OrganizationSubscription, update)
 }
