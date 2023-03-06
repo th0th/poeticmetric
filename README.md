@@ -32,6 +32,10 @@ PoeticMetric is 100% open source. This means, you can run your own instance of P
 
 I am planning to write a self-hosted installation guide in the future. But for now, you can check out the [`docker-compose.yaml` file in the `self-hosted`](self-hosted/docker-compose.yaml) directory. [You can also find an example `.env` file there](self-hosted/.env.example).
 
+## Sponsoring
+
+If you would like to support the development of PoeticMetric, please consider [sponsoring](https://github.com/sponsors/th0th).
+
 ## License
 
 PoeticMetric is free software, and is released under the terms of the **APGL-3.0** (GNU Affero General Public License version 3.0). See [LICENSE](LICENSE).
