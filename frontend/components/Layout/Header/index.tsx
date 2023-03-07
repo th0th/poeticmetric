@@ -75,7 +75,11 @@ export function Header({ className, ...props }: HeaderProps) {
     <Navbar
       {...props}
       as="header"
-      className="bg-white border-1 border-bottom justify-content-start position-sticky sticky-top top-0"
+      className={classNames(
+        "bg-white border-1 border-bottom justify-content-start position-sticky sticky-top top-0",
+        styles.header,
+        className,
+      )}
       collapseOnSelect
       expand="md"
     >
