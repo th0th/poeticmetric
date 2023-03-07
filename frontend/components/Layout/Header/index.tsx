@@ -2,13 +2,13 @@ import classNames from "classnames";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useContext, useMemo } from "react";
-import { Container, Nav, Navbar } from "react-bootstrap";
+import { Container, Nav, Navbar, NavbarProps } from "react-bootstrap";
 import { Logo } from "../..";
 import { AuthContext, LayoutContext } from "../../../contexts";
 import { Actions } from "./Actions";
 import styles from "./Header.module.scss";
 
-export type HeaderProps = React.PropsWithoutRef<JSX.IntrinsicElements["header"]>;
+export type HeaderProps = NavbarProps;
 
 const navbarId: string = "header-navbar";
 
@@ -72,24 +72,32 @@ export function Header({ className, ...props }: HeaderProps) {
   }, [kind, router.pathname, user]);
 
   return (
-    <header {...props} className={classNames("bg-white border-1 border-bottom position-sticky sticky-top top-0", styles.header, className)}>
-      <Navbar className="justify-content-start" collapseOnSelect expand="md">
-        <Container>
-          {navbarToggleNode}
+    <Navbar
+      {...props}
+      as="header"
+      className={classNames(
+        "bg-white border-1 border-bottom justify-content-start position-sticky sticky-top top-0",
+        styles.header,
+        className,
+      )}
+      collapseOnSelect
+      expand="md"
+    >
+      <Container>
+        {navbarToggleNode}
 
-          <Navbar.Brand className="d-flex flex-row flex-grow-1 flex-md-grow-0">
-            <Link href="/">
-              <Logo className="d-block" style={{ height: 38 }} />
-            </Link>
+        <Navbar.Brand className="d-flex flex-row flex-grow-1 flex-md-grow-0">
+          <Link href="/">
+            <Logo className="d-block" style={{ height: 38 }} />
+          </Link>
 
-            <Actions className="d-md-none ms-auto" />
-          </Navbar.Brand>
+          <Actions className="d-md-none ms-auto" />
+        </Navbar.Brand>
 
-          {navbarCollapseNode}
+        {navbarCollapseNode}
 
-          <Actions className="d-none d-md-flex" />
-        </Container>
-      </Navbar>
-    </header>
+        <Actions className="d-none d-md-flex" />
+      </Container>
+    </Navbar>
   );
 }
