@@ -30,8 +30,8 @@ func createSite(dp *depot.Depot) error {
 	}
 
 	if env.GetIsHosted() {
-		modelSite.Domain = "dev.poeticmetric.com"
-		modelSite.Name = "PoeticMetric Dev"
+		modelSite.Domain = "dummy.poeticmetric.com"
+		modelSite.Name = "Dummy site"
 	}
 
 	err := dp.Postgres().
