@@ -15,9 +15,6 @@
                     <option name="path" value=".github/workflows/deploy.yaml" />
                   </Item>
                   <Item>
-                    <option name="path" value=".github/workflows/check.yaml" />
-                  </Item>
-                  <Item>
                     <option name="path" value=".github/workflows/publish.yaml" />
                   </Item>
                   <Item>
