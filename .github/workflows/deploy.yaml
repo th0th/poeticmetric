@@ -81,6 +81,7 @@ jobs:
         with:
           build-args: |
             BASE_URL=${{ vars.FRONTEND_BASE_URL }}
+            GOOGLE_CLIENT_ID=${{ vars.GOOGLE_CLIENT_ID }}
             HOSTED=true
             NODE_RED_BASE_URL=${{ secrets.NODE_RED_BASE_URL }}
             SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
