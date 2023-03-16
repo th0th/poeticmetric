@@ -144,6 +144,7 @@ jobs:
       - env:
           DEBUG: ${{ vars.DEBUG }}
           FRONTEND_BASE_URL: ${{ vars.FRONTEND_BASE_URL }}
+          GOOGLE_CLIENT_ID: ${{ vars.GOOGLE_CLIENT_ID }}
           REST_API_BASE_URL: ${{ vars.REST_API_BASE_URL }}
           STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_PUBLISHABLE_KEY }}
           STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
@@ -182,6 +183,7 @@ jobs:
       - env:
           DEBUG: ${{ vars.DEBUG }}
           FRONTEND_BASE_URL: ${{ vars.FRONTEND_BASE_URL }}
+          GOOGLE_CLIENT_ID: ${{ vars.GOOGLE_CLIENT_ID }}
           REST_API_BASE_URL: ${{ vars.REST_API_BASE_URL }}
           STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_PUBLISHABLE_KEY }}
           STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
