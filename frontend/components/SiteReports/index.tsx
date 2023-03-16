@@ -9,7 +9,7 @@ import { FiltersHandler } from "./FiltersHandler";
 import { Geo } from "./Geo";
 import { Overview } from "./Overview";
 import { Path } from "./Path";
-import { Referrer } from "./Referrer";
+import { Source } from "./Source";
 import { Tech } from "./Tech";
 import { TimeTrends } from "./TimeTrends";
 import { TimeWindowInput } from "./TimeWindowInput";
@@ -104,7 +104,7 @@ export function SiteReports({ site }: SiteReportsProps) {
 
       <Row className="g-3 mt-0">
         <Col lg={4}>
-          <Referrer />
+          <Source />
         </Col>
 
         <Col lg={8}>

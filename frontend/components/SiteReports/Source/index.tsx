@@ -3,13 +3,10 @@ import { omit } from "lodash";
 import { useRouter } from "next/router";
 import React, { useCallback, useMemo } from "react";
 import { Card, CardProps, Dropdown, DropdownProps } from "react-bootstrap";
-import { Campaign } from "./Campaign";
-import { Content } from "./Content";
-import { Medium } from "./Medium";
-import { Source } from "./Source";
-import { Term } from "./Term";
+import { GoogleSearchQuery } from "./GoogleSearchQuery";
+import { Referrer } from "./Referrer";
 
-export type UtmProps = Omit<CardProps, "children">;
+export type SourceProps = Omit<CardProps, "children">;
 
 type Section = {
   content: React.ReactNode;
@@ -17,17 +14,16 @@ type Section = {
   title: string;
 };
 
-const routerQuerySectionSlugKey = "utm";
+const routerQuerySectionSlugKey = "source";
 
 const sections: Array<Section> = [
-  { content: <Source />, title: "UTM source" },
-  { content: <Campaign />, slug: "utm-campaign", title: "UTM campaign" },
-  { content: <Medium />, slug: "utm-medium", title: "UTM medium" },
-  { content: <Content />, slug: "utm-content", title: "UTM content" },
-  { content: <Term />, slug: "utm-term", title: "UTM term" },
+  { content: <Referrer />, title: "Referrers" },
+  ...process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID !== undefined
+    ? [{ content: <GoogleSearchQuery />, slug: "google-search-query", title: "Google search terms" }]
+    : [],
 ];
 
-export function Utm({ className, ...props }: UtmProps) {
+export function Source({ className, ...props }: SourceProps) {
   const router = useRouter();
 
   const section = useMemo<Section>(() => {
@@ -50,7 +46,7 @@ export function Utm({ className, ...props }: UtmProps) {
     <Card {...props} className={classNames("d-flex site-report-card", className)}>
       <Card.Body className="d-flex flex-column flex-grow-1 flex-shrink-1 min-h-0">
         <div className="align-items-center d-flex flex-row mb-3">
-          <h6 className="mb-0">UTM</h6>
+          <h6 className="mb-0">Sources</h6>
 
           <div className="ms-auto">
             <Dropdown onSelect={handleDropdownSelect}>

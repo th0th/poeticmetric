@@ -7,13 +7,14 @@ import { ArrayInput, Breadcrumb, Layout, Title } from "..";
 import { ToastsContext } from "../../contexts";
 import { api } from "../../helpers";
 import { useForm, useQueryParameter } from "../../hooks";
+import { GoogleSearchConsoleSiteUrlFormGroup } from "./GoogleSearchConsoleSiteUrlFormGroup";
 
 type State = {
   isDisabled: boolean;
   isReady: boolean;
 };
 
-type Form = Pick<Site, "domain" | "isPublic" | "name" | "safeQueryParameters">;
+type Form = Pick<Site, "domain" | "googleSearchConsoleSiteUrl" | "isPublic" | "name" | "safeQueryParameters">;
 
 export function SiteForm() {
   const router = useRouter();
@@ -21,6 +22,7 @@ export function SiteForm() {
   const isIdCheckDone = useRef<boolean>(false);
   const [values, setValues, updateValue, errors, setErrors] = useForm<Form>({
     domain: "",
+    googleSearchConsoleSiteUrl: null,
     isPublic: false,
     name: "",
     safeQueryParameters: [],
@@ -65,6 +67,7 @@ export function SiteForm() {
     setValues((values) => ({
       ...values,
       domain: responseJson.domain,
+      googleSearchConsoleSiteUrl: responseJson.googleSearchConsoleSiteUrl,
       isPublic: responseJson.isPublic,
       name: responseJson.name,
       safeQueryParameters: responseJson.safeQueryParameters,
@@ -145,6 +148,11 @@ export function SiteForm() {
 
                       <Form.Control.Feedback type="invalid">{errors.safeQueryParameters}</Form.Control.Feedback>
                     </Form.Group>
+
+                    <GoogleSearchConsoleSiteUrlFormGroup
+                      onValueChange={(v) => updateValue("googleSearchConsoleSiteUrl", v)}
+                      value={values.googleSearchConsoleSiteUrl}
+                    />
 
                     {process.env.NEXT_PUBLIC_HOSTED === "true" ? (
                       <Form.Group controlId="is-public">

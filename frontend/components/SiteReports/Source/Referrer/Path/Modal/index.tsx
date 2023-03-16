@@ -3,8 +3,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useCallback, useMemo } from "react";
 import { Button, Modal as BsModal, ModalProps as BsModalProps, Spinner, Table } from "react-bootstrap";
-import { FavIcon } from "../../../..";
-import { useSiteReferrerPathReport } from "../../../../../hooks";
+import { FavIcon } from "../../../../..";
+import { useSiteReferrerPathReport } from "../../../../../../hooks";
 
 export function Modal() {
   const router = useRouter();

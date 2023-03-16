@@ -50,4 +50,5 @@ export * from "./Title";
 export * from "./ToastsHandler";
 export * from "./UserMenu";
 export * from "./withAuth";
+export * from "./withGoogleOauth";
 export * from "./withParentSize";

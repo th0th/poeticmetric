@@ -10,6 +10,7 @@ func Add(app *fiber.App) {
 	group := app.Group("/organization")
 	group.Get("/", permission.UserAuthenticated, read)
 	group.Patch("/", permission.UserOwner, update)
+	group.Post("/set-google-oauth-token", permission.UserAuthenticated, setGoogleOauthToken)
 
 	if env.GetIsHosted() {
 		group.Delete("/", permission.UserBasicAuthenticated, permission.UserOwner, destroy)

@@ -13,6 +13,7 @@ func Read(dp *depot.Depot, organizationId uint64) (*Organization, error) {
 		Joins("left join plans on plans.id = organizations.plan_id").
 		Select(
 			"organizations.created_at",
+			"organizations.google_oauth_refresh_token",
 			"organizations.id",
 			"organizations.is_on_trial",
 			"organizations.name",

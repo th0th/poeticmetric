@@ -12,14 +12,15 @@ const (
 type OrganizationSubscriptionPeriod string
 
 type Organization struct {
-	CreatedAt          time.Time
-	Id                 uint64
-	IsOnTrial          bool
-	Name               string
-	Plan               *Plan
-	PlanId             *uint64
-	StripeCustomerId   *string
-	SubscriptionPeriod *OrganizationSubscriptionPeriod
-	TrialEndsAt        *time.Time
-	UpdatedAt          time.Time
+	CreatedAt               time.Time
+	GoogleOauthRefreshToken *string
+	Id                      uint64
+	IsOnTrial               bool
+	Name                    string
+	Plan                    *Plan
+	PlanId                  *uint64
+	StripeCustomerId        *string
+	SubscriptionPeriod      *OrganizationSubscriptionPeriod
+	TrialEndsAt             *time.Time
+	UpdatedAt               time.Time
 }
