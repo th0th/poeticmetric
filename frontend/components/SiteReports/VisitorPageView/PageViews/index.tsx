@@ -13,7 +13,7 @@ import dayjs from "dayjs";
 import React, { useCallback, useContext, useMemo } from "react";
 import { Spinner } from "react-bootstrap";
 import { ChartTooltip } from "../../..";
-import { SiteReportsFiltersContext } from "../../../../contexts";
+import { SiteReportsContext } from "../../../../contexts";
 import { useSitePageViewReport } from "../../../../hooks";
 import { withParentSize } from "../../../withParentSize";
 import { AxisBottomTick } from "./AxisBottomTick";
@@ -56,7 +56,7 @@ const xBisect = bisector((d: StateDatum) => d.datum.dateTimeDate).center;
 
 function BasePageViews({ className, parentHeight, parentWidth, ...props }: PageViewsProps) {
   const { hideTooltip, showTooltip: rawShowTooltip, tooltipData, tooltipLeft, tooltipOpen, tooltipTop } = useTooltip<Tooltip>();
-  const { end, start } = useContext(SiteReportsFiltersContext);
+  const { end, start } = useContext(SiteReportsContext).filters;
   const { hydratedData: report } = useSitePageViewReport();
 
   const state = useMemo<State | null>(() => {

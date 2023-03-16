@@ -8,7 +8,7 @@ import { ScaleBand, ScaleLinear } from "d3-scale";
 import { useRouter } from "next/router";
 import React, { useCallback, useContext, useMemo } from "react";
 import { ChartTooltip } from "../../../../../";
-import { SiteReportsFiltersContext } from "../../../../../../contexts";
+import { SiteReportsContext } from "../../../../../../contexts";
 import { useSiteOperatingSystemVersionReport } from "../../../../../../hooks";
 import { withParentSize } from "../../../../../withParentSize";
 
@@ -46,7 +46,7 @@ const padding = { bottom: 10, left: 72, right: 10, top: 10 };
 export function BaseChart({ parentHeight, parentWidth }: BaseChartProps) {
   const router = useRouter();
   const { hideTooltip, showTooltip: rawShowTooltip, tooltipData, tooltipLeft, tooltipOpen, tooltipTop } = useTooltip<Tooltip>();
-  const { end, start } = useContext(SiteReportsFiltersContext);
+  const { end, start } = useContext(SiteReportsContext).filters;
   const { data: rawData } = useSiteOperatingSystemVersionReport();
 
   const handleRectClick = useCallback(async (d: HydratedSiteOperatingSystemVersionDatum) => {

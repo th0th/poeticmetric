@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
-import { SiteReportsFiltersContext } from "../../../../contexts";
+import { SiteReportsContext } from "../../../../contexts";
 import { Name } from "./Name";
 import { Version } from "./Version";
 
 export function OperatingSystem() {
-  const { operatingSystemName } = useContext(SiteReportsFiltersContext);
+  const { operatingSystemName } = useContext(SiteReportsContext).filters;
 
   return operatingSystemName === null ? (
     <Name />

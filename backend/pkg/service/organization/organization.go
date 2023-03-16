@@ -9,7 +9,7 @@ import (
 
 type Organization struct {
 	CreatedAt               time.Time                             `json:"createdAt"`
-	GoogleOauthRefreshToken *string                               `json:"googleOauthRefreshToken"`
+	HasGoogleOauth          bool                                  `json:"hasGoogleOauth"`
 	Id                      uint64                                `json:"id"`
 	IsOnTrial               bool                                  `json:"isOnTrial"`
 	Name                    string                                `json:"name"`

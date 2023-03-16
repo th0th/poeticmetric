@@ -1,6 +1,6 @@
 import { useGoogleLogin } from "@react-oauth/google";
 import React, { useCallback, useContext } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Spinner } from "react-bootstrap";
 import useSWR from "swr";
 import { AuthContext } from "../../../contexts";
 import { api } from "../../../helpers";
@@ -13,7 +13,10 @@ export type GoogleSearchConsoleSiteUrlFormGroupProps = {
 
 export function BaseGoogleSearchConsoleSiteUrlFormGroup({ onValueChange, value }: GoogleSearchConsoleSiteUrlFormGroupProps) {
   const { organization } = useContext(AuthContext);
-  const { data: googleSearchConsoleSites } = useSWR<Array<GoogleSearchConsoleSite>, Error>("/sites/google-search-console-sites");
+  const {
+    data: googleSearchConsoleSites,
+    isValidating,
+  } = useSWR<Array<GoogleSearchConsoleSite>, Error>("/sites/google-search-console-sites");
 
   const googleLogin = useGoogleLogin({
     flow: "auth-code",
@@ -48,20 +51,36 @@ export function BaseGoogleSearchConsoleSiteUrlFormGroup({ onValueChange, value }
 
       {value !== null ? (
         <Form.Group controlId="google-search-console-site-url">
-          {organization.googleOauthRefreshToken === null ? (
-            <Button onClick={() => googleLogin()}>Connect with Google</Button>
-          ) : (
+          {organization.hasGoogleOauth ? (
             <>
               <Form.Label>Google Search Console site</Form.Label>
 
-              <Form.Select className="w-auto" onChange={handleSiteUrlChange} required value={value}>
-                <option disabled value="" />
+              <div className="align-items-center d-flex flex-row gap-2 position-relative">
+                {googleSearchConsoleSites === undefined ? (
+                  <Form.Control className="bottom-0 ms-5 visually-hidden p-absolute" required value={value} />
+                ) : null}
 
-                {googleSearchConsoleSites?.map((s) => (
-                  <option key={s.siteUrl} value={s.siteUrl}>{s.siteUrl}</option>
-                ))}
-              </Form.Select>
+                <Form.Select
+                  className="w-auto"
+                  disabled={googleSearchConsoleSites === undefined}
+                  onChange={handleSiteUrlChange}
+                  required
+                  value={value}
+                >
+                  <option disabled value="" />
+
+                  {googleSearchConsoleSites?.map((s) => (
+                    <option key={s.siteUrl} value={s.siteUrl}>{s.siteUrl}</option>
+                  ))}
+                </Form.Select>
+
+                {isValidating ? (
+                  <Spinner size="sm" variant="primary" />
+                ) : null}
+              </div>
             </>
+          ) : (
+            <Button onClick={() => googleLogin()}>Connect with Google</Button>
           )}
         </Form.Group>
       ) : null}

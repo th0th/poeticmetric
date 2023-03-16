@@ -5,8 +5,8 @@ import React, { useCallback, useMemo, useRef } from "react";
 import { Col, Dropdown, Row, Stack } from "react-bootstrap";
 import { getUserAccessToken } from "../../helpers";
 import { Filters } from "./Filters";
-import { FiltersHandler } from "./FiltersHandler";
 import { Geo } from "./Geo";
+import { Handler } from "./Handler";
 import { Overview } from "./Overview";
 import { Path } from "./Path";
 import { Source } from "./Source";
@@ -47,7 +47,7 @@ export function SiteReports({ site }: SiteReportsProps) {
   }, []);
 
   return (
-    <FiltersHandler siteId={site.id}>
+    <Handler site={site}>
       <form
         action={`${window.poeticMetric?.restApiBaseUrl}/site-reports/export/reports?${exportFormActionQueryString}`}
         className="d-none"
@@ -125,6 +125,6 @@ export function SiteReports({ site }: SiteReportsProps) {
           <Utm />
         </Col>
       </Row>
-    </FiltersHandler>
+    </Handler>
   );
 }
