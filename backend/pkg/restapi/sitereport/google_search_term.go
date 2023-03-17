@@ -1,12 +1,14 @@
 package sitereport
 
 import (
+	"github.com/go-errors/errors"
 	"github.com/gofiber/fiber/v2"
 	"github.com/th0th/poeticmetric/backend/pkg/model"
 	"github.com/th0th/poeticmetric/backend/pkg/pointer"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/helpers"
 	am "github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/authentication"
 	dm "github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/depot"
+	"github.com/th0th/poeticmetric/backend/pkg/service/sitereport"
 	"github.com/th0th/poeticmetric/backend/pkg/service/sitereport/googlesearchquery"
 )
 
@@ -34,6 +36,10 @@ func googleSearchQuery(c *fiber.Ctx) error {
 
 	report, err := googlesearchquery.Get(dp, getFilters(c), pointer.Get(uint64(c.QueryInt("page"))))
 	if err != nil {
+		if errors.Is(err, sitereport.ErrInvalidGoogleOauthToken) {
+			return c.Status(fiber.StatusBadRequest).JSON(helpers.Detail("Please re-authenticate with Google."))
+		}
+
 		return err
 	}
 

@@ -3,7 +3,7 @@ type OrganizationSubscriptionPeriodDisplay = "monthly" | "yearly";
 
 type Organization = {
   createdAt: string;
-  hasGoogleOauth: string | null;
+  hasGoogleOauth: boolean;
   id: number;
   isOnTrial: boolean;
   name: string;

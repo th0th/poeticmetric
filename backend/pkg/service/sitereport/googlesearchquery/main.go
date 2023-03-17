@@ -2,13 +2,17 @@ package googlesearchquery
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"math"
+	"net/url"
 
 	"github.com/go-errors/errors"
 	"github.com/th0th/poeticmetric/backend/pkg/depot"
 	"github.com/th0th/poeticmetric/backend/pkg/env"
 	"github.com/th0th/poeticmetric/backend/pkg/model"
+	"github.com/th0th/poeticmetric/backend/pkg/service/organization"
+	"github.com/th0th/poeticmetric/backend/pkg/service/sitereport"
 	"github.com/th0th/poeticmetric/backend/pkg/service/sitereport/filter"
 	"github.com/th0th/poeticmetric/backend/pkg/service/sitereport/pagination"
 	"golang.org/x/oauth2"
@@ -29,6 +33,7 @@ func Get(dp *depot.Depot, filters *filter.Filters, page *uint64) ([]*Datum, erro
 
 	result := &struct {
 		OrganizationGoogleOauthRefreshToken string
+		OrganizationId                      uint64
 		SiteDomain                          string
 		SiteGoogleSearchConsoleSiteUrl      string
 	}{}
@@ -38,6 +43,7 @@ func Get(dp *depot.Depot, filters *filter.Filters, page *uint64) ([]*Datum, erro
 		Joins("inner join organizations on organizations.id = sites.organization_id").
 		Select(
 			"organizations.google_oauth_refresh_token as organization_google_oauth_refresh_token",
+			"organizations.id as organization_id",
 			"sites.domain as site_domain",
 			"sites.google_search_console_site_url as site_google_search_console_site_url",
 		).
@@ -99,6 +105,28 @@ func Get(dp *depot.Depot, filters *filter.Filters, page *uint64) ([]*Datum, erro
 
 	queryResponse, err := s2.Query(result.SiteGoogleSearchConsoleSiteUrl, queryRequest).Do()
 	if err != nil {
+		urlError, isOk := err.(*url.Error)
+		if isOk {
+			oauth2RetrieveError, isOk2 := urlError.Err.(*oauth2.RetrieveError)
+			if isOk2 {
+				var response map[string]any
+
+				err2 := json.Unmarshal(oauth2RetrieveError.Body, &response)
+				if err2 != nil {
+					return nil, errors.Wrap(err2, 0)
+				}
+
+				if response["error_description"] == "Token has been expired or revoked." {
+					_, err3 := organization.ClearGoogleAuth(dp, result.OrganizationId)
+					if err3 != nil {
+						return nil, err3
+					}
+
+					return nil, sitereport.ErrInvalidGoogleOauthToken
+				}
+			}
+		}
+
 		return nil, errors.Wrap(err, 0)
 	}
 
@@ -109,7 +137,7 @@ func Get(dp *depot.Depot, filters *filter.Filters, page *uint64) ([]*Datum, erro
 			Clicks:      uint64(row.Clicks),
 			Ctr:         math.Round(row.Ctr) / 100,
 			Impressions: uint64(row.Impressions),
-			Position:    math.Round(row.Position * 100) / 100,
+			Position:    math.Round(row.Position*100) / 100,
 			Query:       row.Keys[0],
 		})
 	}

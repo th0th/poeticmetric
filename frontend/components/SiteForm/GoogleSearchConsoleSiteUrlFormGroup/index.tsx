@@ -1,8 +1,8 @@
 import { useGoogleLogin } from "@react-oauth/google";
-import React, { useCallback, useContext } from "react";
+import React, { useCallback, useContext, useEffect } from "react";
 import { Button, Form, Spinner } from "react-bootstrap";
-import useSWR from "swr";
-import { AuthContext } from "../../../contexts";
+import useSWR, { useSWRConfig } from "swr";
+import { AuthContext, ToastsContext } from "../../../contexts";
 import { api } from "../../../helpers";
 import { withGoogleOauth } from "../../withGoogleOauth";
 
@@ -11,19 +11,24 @@ export type GoogleSearchConsoleSiteUrlFormGroupProps = {
   value: string | null;
 };
 
+const googleSearchConsoleSitesKey = "/sites/google-search-console-sites";
+
 export function BaseGoogleSearchConsoleSiteUrlFormGroup({ onValueChange, value }: GoogleSearchConsoleSiteUrlFormGroupProps) {
-  const { mutate, organization } = useContext(AuthContext);
+  const { cache } = useSWRConfig();
+  const { mutate: mutateAuth, organization } = useContext(AuthContext);
+  const { addToast } = useContext(ToastsContext);
   const {
     data: googleSearchConsoleSites,
+    error,
     isValidating,
-  } = useSWR<Array<GoogleSearchConsoleSite>, Error>(organization?.hasGoogleOauth ? "/sites/google-search-console-sites" : null);
+  } = useSWR<Array<GoogleSearchConsoleSite>, Error>(organization?.hasGoogleOauth ? googleSearchConsoleSitesKey : null);
 
   const googleLogin = useGoogleLogin({
     flow: "auth-code",
     onSuccess: async (cr) => {
       await api.post("/organization/set-google-oauth-token", { code: cr.code });
 
-      await mutate();
+      await mutateAuth();
     },
     overrideScope: true,
     scope: "https://www.googleapis.com/auth/webmasters.readonly",
@@ -36,6 +41,19 @@ export function BaseGoogleSearchConsoleSiteUrlFormGroup({ onValueChange, value }
   const handleCheckboxChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>((event) => {
     onValueChange(event.target.checked ? "" : null);
   }, [onValueChange]);
+
+  useEffect(() => {
+    if (error !== undefined) {
+      addToast({ body: error.message, variant: "danger" });
+      mutateAuth();
+    }
+  }, [addToast, error, mutateAuth]);
+
+  useEffect(() => {
+    if (organization?.hasGoogleOauth === false) {
+      cache.delete(googleSearchConsoleSitesKey);
+    }
+  }, [cache, organization?.hasGoogleOauth]);
 
   return process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID !== undefined && organization !== null ? (
     <>

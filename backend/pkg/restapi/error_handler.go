@@ -6,6 +6,7 @@ import (
 	"log"
 
 	v "github.com/RussellLuo/validating/v3"
+	errors2 "github.com/go-errors/errors"
 	"github.com/gofiber/contrib/fibersentry"
 	"github.com/gofiber/fiber/v2"
 	"github.com/th0th/poeticmetric/backend/pkg/env"
@@ -93,11 +94,14 @@ func errorHandler(c *fiber.Ctx, err error) error {
 
 	log.Printf("An error has occurred: %v", err)
 
-	fibersentry.
-		GetHubFromContext(c).
-		CaptureException(err)
+	fibersentry.GetHubFromContext(c).CaptureException(err)
 
 	if env.GetDebug() {
+		var wrappedError *errors2.Error
+		if errors.As(err, &wrappedError) {
+			log.Println(wrappedError.ErrorStack())
+		}
+
 		return c.
 			Status(fiber.StatusInternalServerError).
 			SendString(err.Error())
