@@ -12,16 +12,18 @@ export type GoogleSearchConsoleSiteUrlFormGroupProps = {
 };
 
 export function BaseGoogleSearchConsoleSiteUrlFormGroup({ onValueChange, value }: GoogleSearchConsoleSiteUrlFormGroupProps) {
-  const { organization } = useContext(AuthContext);
+  const { mutate, organization } = useContext(AuthContext);
   const {
     data: googleSearchConsoleSites,
     isValidating,
-  } = useSWR<Array<GoogleSearchConsoleSite>, Error>("/sites/google-search-console-sites");
+  } = useSWR<Array<GoogleSearchConsoleSite>, Error>(organization?.hasGoogleOauth ? "/sites/google-search-console-sites" : null);
 
   const googleLogin = useGoogleLogin({
     flow: "auth-code",
     onSuccess: async (cr) => {
       await api.post("/organization/set-google-oauth-token", { code: cr.code });
+
+      await mutate();
     },
     overrideScope: true,
     scope: "https://www.googleapis.com/auth/webmasters.readonly",
@@ -57,7 +59,7 @@ export function BaseGoogleSearchConsoleSiteUrlFormGroup({ onValueChange, value }
 
               <div className="align-items-center d-flex flex-row gap-2 position-relative">
                 {googleSearchConsoleSites === undefined ? (
-                  <Form.Control className="bottom-0 ms-5 visually-hidden p-absolute" required value={value} />
+                  <Form.Control className="bottom-0 ms-5 visually-hidden p-absolute" onChange={() => {}} required value={value} />
                 ) : null}
 
                 <Form.Select
