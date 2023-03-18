@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useContext, useMemo } from "react";
 import { Dropdown, DropdownProps } from "react-bootstrap";
-import { SiteReportsFiltersContext } from "../../../contexts";
+import { SiteReportsContext, SiteReportsContextValue } from "../../../contexts";
 
 export type FiltersProps = Omit<DropdownProps, "children">;
 
@@ -12,7 +12,7 @@ type State = {
 };
 
 type StateFilter = {
-  key: Exclude<keyof SiteReportsFilters, "end" | "siteId" | "start">;
+  key: Exclude<keyof SiteReportsContextValue["filters"], "end" | "siteId" | "start">;
   keyDisplay: string;
   value: string;
 };
@@ -37,34 +37,30 @@ const stateFilterKeyDisplays: Record<StateFilter["key"], string> = {
 
 export function Filters({ ...props }: FiltersProps) {
   const router = useRouter();
-  const reportFilters = useContext(SiteReportsFiltersContext);
+  const { filters } = useContext(SiteReportsContext);
 
   const state = useMemo<State>(() => {
-    const filters: State["filters"] = [];
+    const stateFilters: State["filters"] = [];
 
-    (Object.keys(reportFilters) as Array<keyof typeof reportFilters>)
+    (Object.keys(filters) as Array<keyof typeof filters>)
       .forEach((key) => {
         if (key === "end" || key === "siteId" || key === "start") {
           return;
         }
 
-        let value = reportFilters[key];
+        let value = filters[key];
 
         if (value !== null) {
           if (key === "deviceType") {
             value = upperFirst(toLower(value));
           }
 
-          filters.push({
-            key,
-            keyDisplay: stateFilterKeyDisplays[key],
-            value,
-          });
+          stateFilters.push({ key, keyDisplay: stateFilterKeyDisplays[key], value });
         }
       });
 
-    return { filters };
-  }, [reportFilters]);
+    return { filters: stateFilters };
+  }, [filters]);
 
   return state.filters.length === 0 ? null : (
     <Dropdown {...props}>

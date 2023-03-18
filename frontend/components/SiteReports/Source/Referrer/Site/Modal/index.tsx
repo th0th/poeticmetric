@@ -3,8 +3,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useCallback, useMemo } from "react";
 import { Button, Modal as BsModal, ModalProps as BsModalProps, Spinner, Table } from "react-bootstrap";
-import { useSiteReferrerSiteReport } from "../../../../../hooks";
-import { FavIcon } from "../../../..";
+import { useSiteReferrerSiteReport } from "../../../../../../hooks";
+import { FavIcon } from "../../../../..";
 
 export function Modal() {
   const router = useRouter();
@@ -31,7 +31,7 @@ export function Modal() {
   return (
     <BsModal onHide={onHide} show={show}>
       <BsModal.Header closeButton>
-        <BsModal.Title>Pages</BsModal.Title>
+        <BsModal.Title>Referrers</BsModal.Title>
       </BsModal.Header>
 
       <BsModal.Body>

@@ -20,6 +20,8 @@ const (
 	ClickHouseUser             = "CLICKHOUSE_USER"
 	Debug                      = "DEBUG"
 	FrontendBaseUrl            = "FRONTEND_BASE_URL"
+	GoogleClientId             = "GOOGLE_CLIENT_ID"
+	GoogleClientSecret         = "GOOGLE_CLIENT_SECRET"
 	Hosted                     = "HOSTED"
 	Instance                   = "INSTANCE"
 	NodeRedBaseUrl             = "NODE_RED_BASE_URL"

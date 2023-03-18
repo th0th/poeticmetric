@@ -4,10 +4,10 @@ go 1.20
 
 require (
 	github.com/RussellLuo/validating/v3 v3.0.0-beta.1
-	github.com/brianvoe/gofakeit/v6 v6.20.1
-	github.com/bsm/redislock v0.9.0
+	github.com/brianvoe/gofakeit/v6 v6.20.2
+	github.com/bsm/redislock v0.9.1
 	github.com/dchest/uniuri v1.2.0
-	github.com/getsentry/sentry-go v0.18.0
+	github.com/getsentry/sentry-go v0.19.0
 	github.com/go-errors/errors v1.4.2
 	github.com/gocarina/gocsv v0.0.0-20230226133904-70c27cb2918a
 	github.com/gofiber/contrib/fibersentry v1.0.2
@@ -20,16 +20,20 @@ require (
 	github.com/redis/go-redis/v9 v9.0.2
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/stretchr/testify v1.8.2
-	github.com/stripe/stripe-go/v74 v74.9.0
+	github.com/stripe/stripe-go/v74 v74.11.0
 	github.com/tdewolff/minify/v2 v2.12.4
-	golang.org/x/crypto v0.6.0
+	golang.org/x/crypto v0.7.0
+	golang.org/x/oauth2 v0.6.0
 	golang.org/x/sync v0.1.0
+	google.golang.org/api v0.113.0
 	gorm.io/driver/clickhouse v0.5.0
-	gorm.io/driver/postgres v1.4.8
-	gorm.io/gorm v1.24.5
+	gorm.io/driver/postgres v1.5.0
+	gorm.io/gorm v1.24.7-0.20230306060331-85eaf9eeda11
 )
 
 require (
+	cloud.google.com/go/compute v1.18.0 // indirect
+	cloud.google.com/go/compute/metadata v0.2.3 // indirect
 	github.com/ClickHouse/ch-go v0.51.2 // indirect
 	github.com/ClickHouse/clickhouse-go/v2 v2.6.0 // indirect
 	github.com/andybalholm/brotli v1.0.4 // indirect
@@ -38,6 +42,10 @@ require (
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/go-faster/city v1.0.1 // indirect
 	github.com/go-faster/errors v0.6.1 // indirect
+	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
+	github.com/golang/protobuf v1.5.2 // indirect
+	github.com/googleapis/enterprise-certificate-proxy v0.2.3 // indirect
+	github.com/googleapis/gax-go/v2 v2.7.1 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/hashicorp/go-version v1.6.0 // indirect
@@ -60,17 +68,22 @@ require (
 	github.com/savsgio/gotils v0.0.0-20220530130905-52f3993e8d6d // indirect
 	github.com/segmentio/asm v1.2.0 // indirect
 	github.com/shopspring/decimal v1.3.1 // indirect
-	github.com/stretchr/objx v0.5.0 // indirect
 	github.com/tdewolff/parse/v2 v2.6.4 // indirect
 	github.com/tinylib/msgp v1.1.6 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.44.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
+	go.opencensus.io v0.24.0 // indirect
 	go.opentelemetry.io/otel v1.11.2 // indirect
 	go.opentelemetry.io/otel/trace v1.11.2 // indirect
 	go.uber.org/atomic v1.10.0 // indirect
 	golang.org/x/exp v0.0.0-20220314205449-43aec2f8a4e7 // indirect
-	golang.org/x/sys v0.5.0 // indirect
-	golang.org/x/text v0.7.0 // indirect
+	golang.org/x/net v0.8.0 // indirect
+	golang.org/x/sys v0.6.0 // indirect
+	golang.org/x/text v0.8.0 // indirect
+	google.golang.org/appengine v1.6.7 // indirect
+	google.golang.org/genproto v0.0.0-20230306155012-7f2fa6fef1f4 // indirect
+	google.golang.org/grpc v1.53.0 // indirect
+	google.golang.org/protobuf v1.29.1 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

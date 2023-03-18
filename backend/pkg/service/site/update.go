@@ -7,22 +7,42 @@ import (
 	"github.com/lib/pq"
 	"github.com/th0th/poeticmetric/backend/pkg/depot"
 	"github.com/th0th/poeticmetric/backend/pkg/model"
+	"github.com/th0th/poeticmetric/backend/pkg/utils"
+	"github.com/th0th/poeticmetric/backend/pkg/validator"
 )
 
 type UpdatePayload struct {
-	IsPublic            *bool          `json:"isPublic"`
-	Name                *string        `json:"name"`
-	SafeQueryParameters pq.StringArray `json:"safeQueryParameters" gorm:"type:text[]"`
+	GoogleSearchConsoleSiteUrl utils.Optional[string] `json:"googleSearchConsoleSiteUrl"`
+	IsPublic                   *bool                  `json:"isPublic"`
+	Name                       *string                `json:"name"`
+	SafeQueryParameters        pq.StringArray         `gorm:"type:text[]" json:"safeQueryParameters"`
 }
 
 func Update(dp *depot.Depot, id uint64, payload *UpdatePayload) (*Site, error) {
-	err := validateUpdatePayload(payload)
+	modelSite := &model.Site{}
+
+	err := dp.Postgres().
+		Model(&model.Site{}).
+		Select("organization_id").
+		Where("id = ?", id).
+		First(modelSite).
+		Error
+	if err != nil {
+		return nil, err
+	}
+
+	err = validateUpdatePayload(dp, modelSite.OrganizationId, payload)
 	if err != nil {
 		return nil, err
 	}
 
 	update := &model.Site{}
 	updateFields := []string{}
+
+	if payload.GoogleSearchConsoleSiteUrl.Defined {
+		update.GoogleSearchConsoleSiteUrl = payload.GoogleSearchConsoleSiteUrl.Value
+		updateFields = append(updateFields, "google_search_console_site_url")
+	}
 
 	if payload.IsPublic != nil {
 		update.IsPublic = *payload.IsPublic
@@ -51,10 +71,28 @@ func Update(dp *depot.Depot, id uint64, payload *UpdatePayload) (*Site, error) {
 	return Read(dp, id)
 }
 
-func validateUpdatePayload(payload *UpdatePayload) error {
+func validateUpdatePayload(dp *depot.Depot, organizationId uint64, payload *UpdatePayload) error {
 	errs := v.Validate(v.Schema{
-		v.F("name", payload.Name): v.All(
-			v.Nonzero[*string]().Msg("This field is required."),
+		v.F("googleSearchConsoleSiteUrl", payload.GoogleSearchConsoleSiteUrl): v.Any(
+			v.Zero[utils.Optional[string]](),
+
+			v.Is(func(t utils.Optional[string]) bool {
+				return t.Defined && t.Value == nil
+			}),
+
+			v.All(
+				v.Is(func(t utils.Optional[string]) bool {
+					return len(*t.Value) > 1
+				}).Msg("This field can't be empty."),
+
+				v.Is(func(t utils.Optional[string]) bool {
+					return validator.GoogleSearchConsoleSiteUrl(dp, organizationId, *t.Value)
+				}).Msg("Site can't be found on Google Search Console."),
+			),
+		),
+
+		v.F("name", payload.Name): v.Any(
+			v.Zero[*string](),
 
 			v.Is(func(t *string) bool {
 				return len(*t) >= model.SiteNameMinLength && len(*t) <= model.SiteNameMaxLength

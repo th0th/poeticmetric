@@ -63,9 +63,7 @@ export function Utm({ className, ...props }: UtmProps) {
 
               <Dropdown.Menu>
                 {sections.map((d) => (
-                  <Dropdown.Item eventKey={d.slug} key={d.title}>
-                    {d.title}
-                  </Dropdown.Item>
+                  <Dropdown.Item eventKey={d.slug} key={d.title}>{d.title}</Dropdown.Item>
                 ))}
               </Dropdown.Menu>
             </Dropdown>

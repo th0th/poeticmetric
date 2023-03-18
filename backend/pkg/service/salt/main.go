@@ -31,14 +31,16 @@ const (
 func Get(dp *depot.Depot) string {
 	ctx := context.Background()
 
-	salt := dp.Redis().Get(ctx, saltKey).String()
-	if salt == "" {
-		salt = uniuri.NewLen(32)
+	salt, err := dp.Redis().Get(ctx, saltKey).Result()
+	if err != nil {
+		if errors.Is(err, redis.Nil) {
+			salt = uniuri.NewLen(32)
 
-		err := dp.Redis().
-			Set(ctx, saltKey, salt, time.Until(time.Now().Add(24*time.Hour).Truncate(24*time.Hour))).
-			Err()
-		if err != nil {
+			err2 := dp.Redis().Set(ctx, saltKey, salt, time.Until(time.Now().Add(24*time.Hour).Truncate(24*time.Hour))).Err()
+			if err2 != nil {
+				panic(err2)
+			}
+		} else {
 			panic(err)
 		}
 	}
@@ -59,9 +61,7 @@ func GetHashOrder(dp *depot.Depot) HashOrder {
 	if hashOrder == 0 {
 		hashOrder = int64(gofakeit.IntRange(1, 6))
 
-		err = dp.Redis().
-			Set(ctx, hashOrderKey, hashOrder, time.Until(time.Now().Add(24*time.Hour).Truncate(24*time.Hour))).
-			Err()
+		err = dp.Redis().Set(ctx, hashOrderKey, hashOrder, time.Until(time.Now().Add(24*time.Hour).Truncate(24*time.Hour))).Err()
 		if err != nil {
 			panic(err)
 		}

@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import React, { useCallback, useContext, useMemo } from "react";
 import { Spinner } from "react-bootstrap";
 import { ChartTooltip } from "../../../..";
-import { SiteReportsFiltersContext } from "../../../../../contexts";
+import { SiteReportsContext } from "../../../../../contexts";
 import { useSiteDeviceTypeReport } from "../../../../../hooks";
 import { withParentSize } from "../../../../withParentSize";
 import { NoData } from "../../../NoData";
@@ -48,7 +48,7 @@ const padding = { bottom: 10, left: 58, right: 10, top: 10 };
 export function BaseChart({ parentHeight, parentWidth }: BaseChartProps) {
   const router = useRouter();
   const { hideTooltip, showTooltip: rawShowTooltip, tooltipData, tooltipLeft, tooltipOpen, tooltipTop } = useTooltip<Tooltip>();
-  const { end, start } = useContext(SiteReportsFiltersContext);
+  const { end, start } = useContext(SiteReportsContext).filters;
   const { data: rawData } = useSiteDeviceTypeReport();
 
   const handleRectClick = useCallback(async (d: HydratedSiteDeviceTypeDatum) => {

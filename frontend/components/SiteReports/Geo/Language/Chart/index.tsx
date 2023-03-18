@@ -10,7 +10,7 @@ import { range } from "lodash";
 import { useRouter } from "next/router";
 import React, { useCallback, useContext, useMemo } from "react";
 import { ChartTooltip } from "../../../..";
-import { SiteReportsFiltersContext } from "../../../../../contexts";
+import { SiteReportsContext } from "../../../../../contexts";
 import { withParentSize } from "../../../../withParentSize";
 
 export type ChartProps = Overwrite<Omit<React.PropsWithoutRef<JSX.IntrinsicElements["svg"]>, "children">, {
@@ -49,7 +49,7 @@ const padding = { bottom: 32, left: 8, top: 8 };
 function BaseChart({ data, parentHeight, parentWidth }: ChartProps) {
   const router = useRouter();
   const { hideTooltip, showTooltip: rawShowTooltip, tooltipData, tooltipLeft, tooltipOpen, tooltipTop } = useTooltip<Tooltip>();
-  const { end, start } = useContext(SiteReportsFiltersContext);
+  const { end, start } = useContext(SiteReportsContext).filters;
 
   const state = useMemo<State | null>(() => {
     if (data === undefined) {

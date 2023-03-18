@@ -5,11 +5,11 @@ import React, { useCallback, useMemo, useRef } from "react";
 import { Col, Dropdown, Row, Stack } from "react-bootstrap";
 import { getUserAccessToken } from "../../helpers";
 import { Filters } from "./Filters";
-import { FiltersHandler } from "./FiltersHandler";
 import { Geo } from "./Geo";
+import { Handler } from "./Handler";
 import { Overview } from "./Overview";
 import { Path } from "./Path";
-import { Referrer } from "./Referrer";
+import { Source } from "./Source";
 import { Tech } from "./Tech";
 import { TimeTrends } from "./TimeTrends";
 import { TimeWindowInput } from "./TimeWindowInput";
@@ -47,7 +47,7 @@ export function SiteReports({ site }: SiteReportsProps) {
   }, []);
 
   return (
-    <FiltersHandler siteId={site.id}>
+    <Handler site={site}>
       <form
         action={`${window.poeticMetric?.restApiBaseUrl}/site-reports/export/reports?${exportFormActionQueryString}`}
         className="d-none"
@@ -104,7 +104,7 @@ export function SiteReports({ site }: SiteReportsProps) {
 
       <Row className="g-3 mt-0">
         <Col lg={4}>
-          <Referrer />
+          <Source />
         </Col>
 
         <Col lg={8}>
@@ -125,6 +125,6 @@ export function SiteReports({ site }: SiteReportsProps) {
           <Utm />
         </Col>
       </Row>
-    </FiltersHandler>
+    </Handler>
   );
 }

@@ -13,6 +13,7 @@ func Read(dp *depot.Depot, organizationId uint64) (*Organization, error) {
 		Joins("left join plans on plans.id = organizations.plan_id").
 		Select(
 			"organizations.created_at",
+			"case when organizations.google_oauth_refresh_token is not null then true else false end as has_google_oauth",
 			"organizations.id",
 			"organizations.is_on_trial",
 			"organizations.name",

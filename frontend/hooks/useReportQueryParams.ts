@@ -1,10 +1,10 @@
 import dayjs from "dayjs";
 import { stringify } from "querystring";
 import { useContext, useMemo } from "react";
-import { SiteReportsFiltersContext } from "../contexts";
+import { SiteReportsContext } from "../contexts";
 
 export function useReportQueryParams(): string {
-  const siteReportsFilters = useContext(SiteReportsFiltersContext);
+  const { filters: siteReportsFilters } = useContext(SiteReportsContext);
 
   return useMemo<string>(() => {
     const q: Record<string, string> = {

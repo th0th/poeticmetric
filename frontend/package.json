@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@react-oauth/google": "^0.8.0",
     "@sentry/nextjs": "^7.30.0",
     "@stripe/stripe-js": "^1.46.0",
     "@types/node": "^18.11.9",
@@ -32,9 +33,9 @@
     "markdown-to-jsx": "^7.1.8",
     "markdown-to-txt": "^2.0.1",
     "md5": "^2.3.0",
-    "millify": "^5.0.1",
+    "millify": "^6.1.0",
     "next": "^13.0.5",
-    "next-sitemap": "^3.1.45",
+    "next-sitemap": "^4.0.5",
     "postcss-scss": "^4.0.6",
     "react": "^18.2.0",
     "react-bootstrap": "^2.5.0",

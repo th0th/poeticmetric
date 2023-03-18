@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
-import { SiteReportsFiltersContext } from "../../../../contexts";
+import { SiteReportsContext } from "../../../../contexts";
 import { Name } from "./Name";
 import { Version } from "./Version";
 
 export function Browser() {
-  const { browserName } = useContext(SiteReportsFiltersContext);
+  const { browserName } = useContext(SiteReportsContext).filters;
 
   return browserName === null ? (
     <Name />

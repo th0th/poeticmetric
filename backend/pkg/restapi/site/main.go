@@ -9,6 +9,7 @@ func Add(app *fiber.App) {
 	group := app.Group("/sites")
 
 	group.Get("/public/:domain", readPublic)
+	group.Get("/google-search-console-sites", listGoogleSearchConsoleSites)
 
 	group.Use(permission.UserAuthenticated, permission.OrganizationSubscription)
 

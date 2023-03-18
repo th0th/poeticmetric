@@ -15,7 +15,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 19.7.0
+          node-version: 19.8.1
 
       # TODO: Delete this step when https://github.com/reviewdog/action-eslint/issues/152 is resolved.
       - name: Install custom npm version
@@ -118,7 +118,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 19.7.0
+          node-version: 19.8.1
 
       - id: restore-npm-cache
         name: Restore npm cache
@@ -144,6 +144,7 @@ jobs:
       - env:
           DEBUG: ${{ vars.DEBUG }}
           FRONTEND_BASE_URL: ${{ vars.FRONTEND_BASE_URL }}
+          GOOGLE_CLIENT_ID: ${{ vars.GOOGLE_CLIENT_ID }}
           REST_API_BASE_URL: ${{ vars.REST_API_BASE_URL }}
           STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_PUBLISHABLE_KEY }}
           STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
@@ -182,6 +183,7 @@ jobs:
       - env:
           DEBUG: ${{ vars.DEBUG }}
           FRONTEND_BASE_URL: ${{ vars.FRONTEND_BASE_URL }}
+          GOOGLE_CLIENT_ID: ${{ vars.GOOGLE_CLIENT_ID }}
           REST_API_BASE_URL: ${{ vars.REST_API_BASE_URL }}
           STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_PUBLISHABLE_KEY }}
           STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}

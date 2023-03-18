@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import React, { useCallback, useContext, useMemo, useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import DatePicker from "react-datepicker";
-import { SiteReportsFiltersContext } from "../../../contexts";
+import { SiteReportsContext } from "../../../contexts";
 
 type Option = {
   getEnd: () => dayjs.Dayjs;
@@ -75,7 +75,7 @@ const options: Array<Array<Option>> = [
 
 export function TimeWindowInput() {
   const router = useRouter();
-  const { end, start } = useContext(SiteReportsFiltersContext);
+  const { end, start } = useContext(SiteReportsContext).filters;
   const [state, setState] = useState<State>({ isDatePickerVisible: false });
 
   const selectedOption = useMemo<Option | null>(

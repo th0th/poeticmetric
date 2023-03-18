@@ -1,9 +1,9 @@
 import dayjs from "dayjs";
 import { useContext, useMemo } from "react";
-import { SiteReportsFiltersContext } from "../contexts";
+import { SiteReportsContext } from "../contexts";
 
 export function useSiteReportQueryParams(): Record<string, string> {
-  const siteReportsFilters = useContext(SiteReportsFiltersContext);
+  const { filters: siteReportsFilters } = useContext(SiteReportsContext);
 
   return useMemo<Record<string, string>>(() => {
     const q: Record<string, string> = {
