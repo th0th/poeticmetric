@@ -84,6 +84,7 @@ jobs:
             GOOGLE_CLIENT_ID=${{ vars.GOOGLE_CLIENT_ID }}
             HOSTED=true
             NODE_RED_BASE_URL=${{ secrets.NODE_RED_BASE_URL }}
+            ROBOTS_TXT_ALLOW=${{ vars.ROBOTS_TXT_ALLOW }}
             SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
             SENTRY_DSN=${{ secrets.SENTRY_DSN }}
             SENTRY_ENVIRONMENT=${{ inputs.environment }}
