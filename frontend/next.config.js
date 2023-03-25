@@ -40,6 +40,7 @@ if (!!process.env.NEXT_PUBLIC_SENTRY_DSN) {
   };
 }
 
+/** @type {Partial<import('@sentry/webpack-plugin').SentryCliPluginOptions>} */
 const sentryWebpackPluginOptions = {
   silent: true,
 };

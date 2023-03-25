@@ -1,5 +1,5 @@
-import React from "react";
-import { LayoutContext } from "../../contexts";
+import React, { useMemo, useState } from "react";
+import { LayoutContext, LayoutContextState, LayoutContextValue } from "../../contexts";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 
@@ -11,8 +11,16 @@ export type LayoutProps = {
 };
 
 export function Layout({ children, kind }: LayoutProps) {
+  const [layoutContextState, setLayoutContextState] = useState<LayoutContextState>({ headerHeight: 0 });
+
+  const value = useMemo<LayoutContextValue>(() => ({
+    ...layoutContextState,
+    kind,
+    set: setLayoutContextState,
+  }), [kind, layoutContextState]);
+
   return (
-    <LayoutContext.Provider value={{ kind }}>
+    <LayoutContext.Provider value={value}>
       <Header />
 
       <div className="d-flex flex-column flex-grow-1">{children}</div>
