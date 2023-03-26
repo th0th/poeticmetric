@@ -72,8 +72,8 @@ jobs:
         with:
           run_install: |
             - args:
-              - --frozen-lockfile
-              - --strict-peer-dependencies
+                - --frozen-lockfile
+                - --strict-peer-dependencies
               cwd: frontend
 
       - name: Copy env file
