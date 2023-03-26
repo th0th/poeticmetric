@@ -20,7 +20,11 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          run_install: true
+          run_install: |
+            - args:
+              - --frozen-lockfile
+              - --strict-peer-dependencies
+              cwd: frontend
         working-directory: frontend
 
       - name: Setup reviewdog
@@ -67,7 +71,11 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          run_install: true
+          run_install: |
+            - args:
+              - --frozen-lockfile
+              - --strict-peer-dependencies
+              cwd: frontend
         working-directory: frontend
 
       - name: Copy env file
