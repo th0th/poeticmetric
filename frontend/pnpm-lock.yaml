@@ -31,7 +31,6 @@ specifiers:
   chroma-js: ^2.4.2
   classnames: ^2.3.2
   copy-to-clipboard: ^3.3.3
-  cross-env: ^7.0.3
   d3-array: ^3.2.0
   d3-scale: ^4.0.2
   d3-shape: ^3.2.0
@@ -70,9 +69,6 @@ dependencies:
   '@react-oauth/google': 0.9.0_biqbaboplfbrettd7655fr4n2y
   '@sentry/nextjs': 7.45.0_next@13.2.4+react@18.2.0
   '@stripe/stripe-js': 1.52.0
-  '@types/node': 18.15.10
-  '@types/react': 18.0.29
-  '@types/react-dom': 18.0.11
   '@visx/axis': 2.18.0_react@18.2.0
   '@visx/event': 2.17.0
   '@visx/grid': 2.18.0_react@18.2.0
@@ -86,7 +82,6 @@ dependencies:
   chroma-js: 2.4.2
   classnames: 2.3.2
   copy-to-clipboard: 3.3.3
-  cross-env: 7.0.3
   d3-array: 3.2.3
   d3-scale: 4.0.2
   d3-shape: 3.2.0
@@ -108,7 +103,6 @@ dependencies:
   react-dom: 18.2.0_react@18.2.0
   react-use: 17.4.0_biqbaboplfbrettd7655fr4n2y
   swr: 2.1.1_react@18.2.0
-  typescript: 5.0.2
 
 devDependencies:
   '@next/env': 13.2.4
@@ -119,7 +113,10 @@ devDependencies:
   '@types/d3-scale': 4.0.3
   '@types/lodash': 4.14.191
   '@types/md5': 2.3.2
+  '@types/node': 18.15.10
+  '@types/react': 18.0.29
   '@types/react-datepicker': 4.10.0_biqbaboplfbrettd7655fr4n2y
+  '@types/react-dom': 18.0.11
   '@typescript-eslint/eslint-plugin': 5.56.0_2hcjazgfnbtq42tcc73br2vup4
   '@typescript-eslint/parser': 5.56.0_j4766f7ecgqbon3u7zlxn5zszu
   dotenv: 16.0.3
@@ -133,6 +130,7 @@ devDependencies:
   sass: 1.60.0
   stylelint: 15.3.0
   stylelint-order: 6.0.3_stylelint@15.3.0
+  typescript: 5.0.2
 
 packages:
 
@@ -2174,6 +2172,7 @@ packages:
 
   /@types/node/18.15.10:
     resolution: {integrity: sha512-9avDaQJczATcXgfmMAW3MIWArOO7A+m90vuCFLr8AotWf8igO/mRoYukrk2cqZVtv38tHs33retzHEilM7FpeQ==}
+    dev: true
 
   /@types/normalize-package-data/2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
@@ -2198,7 +2197,6 @@ packages:
     resolution: {integrity: sha512-O38bPbI2CWtgw/OoQoY+BRelw7uysmXbWvw3nLWO21H1HSh+GOlqPuXshJfjmpNlKiiSDG9cc1JZAaMmVdcTlw==}
     dependencies:
       '@types/react': 18.0.29
-    dev: false
 
   /@types/react-transition-group/4.4.5:
     resolution: {integrity: sha512-juKD/eiSM3/xZYzjuzH6ZwpP+/lejltmiS3QEzV/vmb/Q8+HfDmxu+Baga8UEMGBqV88Nbg4l2hY/K2DkyaLLA==}
@@ -2941,14 +2939,6 @@ packages:
       path-type: 4.0.0
     dev: true
 
-  /cross-env/7.0.3:
-    resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
-    engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
-    hasBin: true
-    dependencies:
-      cross-spawn: 7.0.3
-    dev: false
-
   /cross-spawn/7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
     engines: {node: '>= 8'}
@@ -2956,6 +2946,7 @@ packages:
       path-key: 3.1.1
       shebang-command: 2.0.0
       which: 2.0.2
+    dev: true
 
   /crypt/0.0.2:
     resolution: {integrity: sha512-mCxBlsHFYh9C+HVpiEacem8FEBnMXgU9gy4zmNC+SXAZNB/1idgp/aulFJ4FgCi7GPEVbfyng092GqL2k2rmow==}
@@ -5054,6 +5045,7 @@ packages:
   /path-key/3.1.1:
     resolution: {integrity: sha512-ojmeN0qd+y0jszEtoY48r0Peq5dwMEkIlCOu6Q5f41lfkswXuKtYrhgoTpLnyIcHm24Uhqx+5Tqm2InSwLhE6Q==}
     engines: {node: '>=8'}
+    dev: true
 
   /path-parse/1.0.7:
     resolution: {integrity: sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==}
@@ -5567,10 +5559,12 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       shebang-regex: 3.0.0
+    dev: true
 
   /shebang-regex/3.0.0:
     resolution: {integrity: sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==}
     engines: {node: '>=8'}
+    dev: true
 
   /side-channel/1.0.4:
     resolution: {integrity: sha512-q5XPytqFEIKHkGdiMIrY10mvLRvnQh42/+GoBlFW3b2LXLE2xxJpZFdm94we0BaoV3RwJyGqg5wS7epxTv0Zvw==}
@@ -6040,6 +6034,7 @@ packages:
     resolution: {integrity: sha512-wVORMBGO/FAs/++blGNeAVdbNKtIh1rbBL2EyQ1+J9lClJ93KiiKe8PmFIVdXhHcyv44SL9oglmfeSsndo0jRw==}
     engines: {node: '>=12.20'}
     hasBin: true
+    dev: true
 
   /unbox-primitive/1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==}
