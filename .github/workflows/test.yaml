@@ -19,9 +19,8 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
-
-      - name: Install dependencies
-        run: pnpm install --prefer-frozen-lockfile
+        with:
+          run_install: true
         working-directory: frontend
 
       - name: Setup reviewdog
@@ -67,9 +66,8 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
-
-      - name: Install dependencies
-        run: pnpm install
+        with:
+          run_install: true
         working-directory: frontend
 
       - name: Copy env file
