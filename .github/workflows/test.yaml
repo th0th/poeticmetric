@@ -19,6 +19,7 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
+        working-directory: frontend
 
       - name: Get pnpm store directory
         id: pnpm-cache
