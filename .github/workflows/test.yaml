@@ -35,7 +35,8 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
+        working-directory: frontend
 
       - name: Setup reviewdog
         uses: reviewdog/action-setup@v1
@@ -96,7 +97,8 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
+        working-directory: frontend
 
       - name: Copy env file
         run: cp .env.example .env
