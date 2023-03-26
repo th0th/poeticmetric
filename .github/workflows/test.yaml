@@ -19,12 +19,23 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
         with:
-          run_install: |
-            - args:
-              - --frozen-lockfile
-              - --strict-peer-dependencies
-              cwd: frontend
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install
 
       - name: Setup reviewdog
         uses: reviewdog/action-setup@v1
@@ -69,12 +80,23 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
         with:
-          run_install: |
-            - args:
-                - --frozen-lockfile
-                - --strict-peer-dependencies
-              cwd: frontend
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install
 
       - name: Copy env file
         run: cp .env.example .env
