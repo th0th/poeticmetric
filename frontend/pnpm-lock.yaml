@@ -10,6 +10,7 @@ specifiers:
   '@types/chroma-js': ^2.1.4
   '@types/d3-array': ^3.0.3
   '@types/d3-scale': ^4.0.3
+  '@types/d3-shape': ^3.1.1
   '@types/lodash': ^4.14.188
   '@types/md5': ^2.3.2
   '@types/node': ^18.11.9
@@ -111,6 +112,7 @@ devDependencies:
   '@types/chroma-js': 2.4.0
   '@types/d3-array': 3.0.4
   '@types/d3-scale': 4.0.3
+  '@types/d3-shape': 3.1.1
   '@types/lodash': 4.14.191
   '@types/md5': 2.3.2
   '@types/node': 18.15.10
@@ -2120,7 +2122,6 @@ packages:
 
   /@types/d3-path/1.0.9:
     resolution: {integrity: sha512-NaIeSIBiFgSC6IGUBjZWcscUJEq7vpVu7KthHN8eieTV9d9MqkSOZLH4chq1PmcKy06PNe3axLeKmRIyxJ+PZQ==}
-    dev: false
 
   /@types/d3-scale/3.3.2:
     resolution: {integrity: sha512-gGqr7x1ost9px3FvIfUMi5XA/F/yAf4UkUDtdQhpH92XCT0Oa7zkkRzY61gPVJq+DxpHn/btouw5ohWkbBsCzQ==}
@@ -2139,6 +2140,12 @@ packages:
     dependencies:
       '@types/d3-path': 1.0.9
     dev: false
+
+  /@types/d3-shape/3.1.1:
+    resolution: {integrity: sha512-6Uh86YFF7LGg4PQkuO2oG6EMBRLuW9cbavUW46zkIO5kuS2PfTqo2o9SkgtQzguBHbLgNnU90UNsITpsX1My+A==}
+    dependencies:
+      '@types/d3-path': 1.0.9
+    dev: true
 
   /@types/d3-time/2.1.1:
     resolution: {integrity: sha512-9MVYlmIgmRR31C5b4FVSWtuMmBHh2mOWQYfl7XAYOa8dsnb7iEmUmRSWSFgXFtkjxO65d7hTUHQC+RhR/9IWFg==}

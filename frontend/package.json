@@ -45,6 +45,7 @@
     "@types/chroma-js": "^2.1.4",
     "@types/d3-array": "^3.0.3",
     "@types/d3-scale": "^4.0.3",
+    "@types/d3-shape": "^3.1.1",
     "@types/lodash": "^4.14.188",
     "@types/md5": "^2.3.2",
     "@types/node": "^18.11.9",
