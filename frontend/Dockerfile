@@ -18,10 +18,10 @@ WORKDIR /poeticmetric-frontend-builder
 
 # copy only package definition files
 COPY package.json .
-COPY package-lock.json .
+COPY pnpm-lock.yaml .
 
 # install dependencies
-RUN npm install
+RUN pnpm install
 
 # copy the rest of the files
 COPY @types @types
