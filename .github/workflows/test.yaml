@@ -17,9 +17,8 @@ jobs:
         with:
           node-version: 19.8.1
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        working-directory: frontend
+      - name: Install pnpm
+        run: npm install --global pnpm
 
       - name: Get pnpm store directory
         id: pnpm-cache
@@ -79,8 +78,8 @@ jobs:
         with:
           node-version: 19.8.1
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+      - name: Install pnpm
+        run: npm install --global pnpm
 
       - name: Get pnpm store directory
         id: pnpm-cache
