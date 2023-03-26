@@ -1,12 +1,12 @@
 import classNames from "classnames";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useContext, useMemo } from "react";
+import React, { useContext, useEffect, useMemo } from "react";
 import { Container, Nav, Navbar, NavbarProps } from "react-bootstrap";
+import { useMeasure } from "react-use";
 import { Logo } from "../..";
 import { AuthContext, LayoutContext } from "../../../contexts";
 import { Actions } from "./Actions";
-import styles from "./Header.module.scss";
 
 export type HeaderProps = NavbarProps;
 
@@ -14,8 +14,9 @@ const navbarId: string = "header-navbar";
 
 export function Header({ className, ...props }: HeaderProps) {
   const router = useRouter();
+  const [ref, { bottom, top }] = useMeasure<HTMLElement>();
   const { user } = useContext(AuthContext);
-  const { kind } = useContext(LayoutContext);
+  const { kind, set } = useContext(LayoutContext);
 
   const navbarToggleNode = useMemo<React.ReactNode>(() => (kind === "app" && user !== null) || kind === "website" ? (
     <Navbar.Toggle aria-controls={navbarId} className="me-3" />
@@ -71,17 +72,18 @@ export function Header({ className, ...props }: HeaderProps) {
     );
   }, [kind, router.pathname, user]);
 
+  useEffect(() => {
+    set((s) => ({ ...s, headerHeight: top + bottom + 1 }));
+  }, [bottom, set, top]);
+
   return (
     <Navbar
       {...props}
       as="header"
-      className={classNames(
-        "bg-white border-1 border-bottom justify-content-start position-sticky sticky-top top-0",
-        styles.header,
-        className,
-      )}
+      className={classNames("bg-white border-1 border-bottom justify-content-start position-sticky sticky-top top-0", className)}
       collapseOnSelect
       expand="md"
+      ref={ref}
     >
       <Container>
         {navbarToggleNode}
