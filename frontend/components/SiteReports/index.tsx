@@ -26,9 +26,9 @@ export function SiteReports({ site }: SiteReportsProps) {
   const exportEventsForm = useRef<HTMLFormElement>(null);
 
   const exportFormActionQueryString = useMemo<string>(() => querystring.stringify({
-    ...omit(router.query, ["id"]),
-    siteId: router.query.id,
-  }), [router.query]);
+    ...omit(router.query, ["domain", "id"]),
+    siteId: site.id,
+  }), [router.query, site.id]);
 
   const submitExportEventsForm = useCallback(() => {
     const userAccessToken = getUserAccessToken();

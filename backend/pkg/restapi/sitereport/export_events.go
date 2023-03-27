@@ -5,7 +5,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	dm "github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/depot"
-	export2 "github.com/th0th/poeticmetric/backend/pkg/service/sitereport/export"
+	"github.com/th0th/poeticmetric/backend/pkg/service/sitereport/export"
 )
 
 func exportEvents(c *fiber.Ctx) error {
@@ -13,7 +13,7 @@ func exportEvents(c *fiber.Ctx) error {
 
 	filters := getFilters(c)
 
-	zipFileName, zipFileContent, err := export2.Events(dp, filters)
+	zipFileName, zipFileContent, err := export.Events(dp, filters)
 	if err != nil {
 		return err
 	}

@@ -77,13 +77,17 @@ func isPublic(c *fiber.Ctx) bool {
 	err := dp.Postgres().
 		Model(&model.Site{}).
 		Joins("inner join organizations on organizations.id = sites.organization_id").
-		Select("sites.is_public").
+		Select("sites.id").
 		Where("organizations.plan_id is not null").
 		Where("sites.id = ?", getFilters(c).SiteId).
+		Where("sites.is_public is true").
 		First(modelSite).
 		Error
+	if err != nil {
+		return false
+	}
 
-	return err == nil && modelSite.IsPublic
+	return true
 }
 
 func getFilters(c *fiber.Ctx) *filter.Filters {

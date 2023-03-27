@@ -1,4 +1,4 @@
-FROM golang:1.20
+FROM golang:1.20.2
 
 WORKDIR /usr/src/poeticmetric
 
