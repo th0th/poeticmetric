@@ -18,7 +18,7 @@ npm run build
 
 if [ "$HOSTED" == "true" ]
 then
-  npm run build-site-map
+  pnpm run build-site-map
 fi
 
 npm run export

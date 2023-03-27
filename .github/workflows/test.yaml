@@ -17,27 +17,26 @@ jobs:
         with:
           node-version: 19.8.1
 
-      # TODO: Delete this step when https://github.com/reviewdog/action-eslint/issues/152 is resolved.
-      - name: Install custom npm version
-        run: npm i -g npm@8.19.3
+      - name: Install pnpm
+        run: npm install --global pnpm
 
-      - id: restore-npm-cache
-        name: Restore npm cache
-        uses: actions/cache/restore@v3
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
         with:
-          key: ${{ runner.os }}-node-${{ hashFiles('frontend/package-lock.json') }}
-          path: ~/.npm
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        run: npm install
+        run: pnpm install --frozen-lockfile
         working-directory: frontend
-
-      - if: steps.restore-npm-cache.outputs.cache-hit != 'true'
-        name: Save npm cache
-        uses: actions/cache/save@v3
-        with:
-          key: ${{ runner.os }}-node-${{ hashFiles('frontend/package-lock.json') }}
-          path: ~/.npm
 
       - name: Setup reviewdog
         uses: reviewdog/action-setup@v1
@@ -45,13 +44,13 @@ jobs:
       - env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         name: Run tsc
-        run: npm exec --offline -- tsc | reviewdog -f=tsc -fail-on-error -filter-mode=nofilter -reporter=github-pr-review
+        run: pnpm exec -- tsc | reviewdog -f=tsc -fail-on-error -filter-mode=nofilter -reporter=github-pr-review
         working-directory: frontend
 
       - name: Run eslint
         uses: reviewdog/action-eslint@v1
         with:
-          eslint_flags: '--ext .js,.ts,.tsx .'
+          eslint_flags: "--ext .js,.ts,.tsx ."
           fail_on_error: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
           filter_mode: nofilter
@@ -64,7 +63,7 @@ jobs:
           filter_mode: nofilter
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review
-          stylelint_input: '**/*.scss'
+          stylelint_input: "**/*.scss"
           workdir: frontend
 
   run-tests:
@@ -75,6 +74,31 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 19.8.1
+
+      - name: Install pnpm
+        run: npm install --global pnpm
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        working-directory: frontend
 
       - name: Copy env file
         run: cp .env.example .env
@@ -115,28 +139,6 @@ jobs:
           file: frontend/development.Dockerfile
           load: true
           tags: ${{ steps.meta-frontend.outputs.tags }}
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 19.8.1
-
-      - id: restore-npm-cache
-        name: Restore npm cache
-        uses: actions/cache/restore@v3
-        with:
-          key: ${{ runner.os }}-node-${{ hashFiles('frontend/package-lock.json') }}
-          path: ~/.npm
-
-      - name: Install dependencies
-        run: npm install
-        working-directory: frontend
-
-      - if: steps.restore-npm-cache.outputs.cache-hit != 'true'
-        name: Save npm cache
-        uses: actions/cache/save@v3
-        with:
-          key: ${{ runner.os }}-node-${{ hashFiles('frontend/package-lock.json') }}
-          path: ~/.npm
 
       - name: Pull docker images
         run: docker compose pull --ignore-buildable
@@ -199,14 +201,14 @@ jobs:
           curl --fail --max-time 60 --output /dev/null --show-error --silent ${{ vars.FRONTEND_BASE_URL }} && echo "Frontend is ready!"
 
       - name: Install Google Chrome
-        run: npm exec -- playwright install chrome
+        run: pnpm exec -- playwright install chrome
         working-directory: frontend
 
       - env:
           FRONTEND_BASE_URL: ${{ vars.FRONTEND_BASE_URL }}
           MAILPIT_BASE_URL: ${{ vars.MAILPIT_BASE_URL }}
         name: Run Playwright tests
-        run: npm exec -- playwright test --project="Google Chrome"
+        run: pnpm exec -- playwright test --project="Google Chrome"
         working-directory: frontend
 
       - name: Prune

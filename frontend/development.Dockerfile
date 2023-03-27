@@ -1,15 +1,16 @@
 FROM node:19.7-alpine
 
 RUN apk update && apk add bash
+RUN npm install --global pnpm@7.30.3
 
 WORKDIR /poeticmetric
 
 # copy only package definition files
 COPY package.json .
-COPY package-lock.json .
+COPY pnpm-lock.yaml .
 
 # install dependencies
-RUN npm install
+RUN pnpm install
 
 COPY @types @types
 COPY blog blog
