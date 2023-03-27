@@ -106,7 +106,7 @@ services:
       - ./frontend/next.config.js:/poeticmetric/next.config.js
       - ./frontend/next-sitemap.config.js:/poeticmetric/next-sitemap.config.js
       - ./frontend/package.json:/poeticmetric/package.json
-      - ./frontend/package-lock.json:/poeticmetric/package-lock.json
+      - ./frontend/pnpm-lock.yaml:/poeticmetric/pnpm-lock.yaml
       - ./frontend/playwright.config.ts:/poeticmetric/playwright.config.ts
       - ./frontend/sentry.client.config.js:/poeticmetric/sentry.client.config.js
       - ./frontend/sentry.server.config.js:/poeticmetric/sentry.server.config.js
