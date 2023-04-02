@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/mileusna/useragent"
+
 	"github.com/th0th/poeticmetric/backend/pkg/country"
 	"github.com/th0th/poeticmetric/backend/pkg/depot"
 	locale2 "github.com/th0th/poeticmetric/backend/pkg/locale"

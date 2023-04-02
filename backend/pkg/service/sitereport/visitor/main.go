@@ -5,10 +5,11 @@ import (
 	"strings"
 	"time"
 
+	"gorm.io/gorm"
+
 	"github.com/th0th/poeticmetric/backend/pkg/depot"
 	"github.com/th0th/poeticmetric/backend/pkg/service/sitereport/filter"
 	"github.com/th0th/poeticmetric/backend/pkg/service/sitereport/interval"
-	"gorm.io/gorm"
 )
 
 type Datum struct {

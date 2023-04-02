@@ -10,11 +10,12 @@ import (
 	"github.com/getsentry/sentry-go"
 	"github.com/gofiber/contrib/fibersentry"
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
+
 	"github.com/th0th/poeticmetric/backend/pkg/depot"
 	"github.com/th0th/poeticmetric/backend/pkg/model"
 	"github.com/th0th/poeticmetric/backend/pkg/pointer"
 	dm "github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/depot"
-	"gorm.io/gorm"
 )
 
 func NewUserAccessTokenAuth() fiber.Handler {

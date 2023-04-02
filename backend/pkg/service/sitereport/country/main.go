@@ -1,10 +1,11 @@
 package country
 
 import (
+	"gorm.io/gorm"
+
 	"github.com/th0th/poeticmetric/backend/pkg/country"
 	"github.com/th0th/poeticmetric/backend/pkg/depot"
 	"github.com/th0th/poeticmetric/backend/pkg/service/sitereport/filter"
-	"gorm.io/gorm"
 )
 
 type Datum struct {

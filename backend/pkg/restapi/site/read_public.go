@@ -4,9 +4,10 @@ import (
 	"errors"
 
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
+
 	dm "github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/depot"
 	"github.com/th0th/poeticmetric/backend/pkg/service/site"
-	"gorm.io/gorm"
 )
 
 func readPublic(c *fiber.Ctx) error {

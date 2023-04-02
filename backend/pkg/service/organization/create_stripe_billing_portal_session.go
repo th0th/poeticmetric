@@ -3,6 +3,7 @@ package organization
 import (
 	"github.com/stripe/stripe-go/v74"
 	"github.com/stripe/stripe-go/v74/billingportal/session"
+
 	"github.com/th0th/poeticmetric/backend/pkg/depot"
 	"github.com/th0th/poeticmetric/backend/pkg/frontend"
 	"github.com/th0th/poeticmetric/backend/pkg/model"

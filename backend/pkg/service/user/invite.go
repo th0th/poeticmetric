@@ -5,6 +5,7 @@ import (
 
 	v "github.com/RussellLuo/validating/v3"
 	"github.com/dchest/uniuri"
+
 	"github.com/th0th/poeticmetric/backend/pkg/depot"
 	"github.com/th0th/poeticmetric/backend/pkg/email"
 	"github.com/th0th/poeticmetric/backend/pkg/frontend"
@@ -52,7 +53,6 @@ func Invite(dp *depot.Depot, organizationId uint64, payload *InvitePayload) (*Us
 		}
 
 		err2 = worker.SendEmail(dp2, &worker.SendEmailPayload{
-			From:     pointer.Get("support@poeticmetric.com"),
 			Template: email.TemplateInvite,
 			TemplateData: map[string]string{
 				"ActivationUrl":    frontend.GenerateUrl(fmt.Sprintf("/activation?t=%s", *modelUser.ActivationToken)),

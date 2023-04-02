@@ -1,10 +1,11 @@
 package utmterm
 
 import (
+	"gorm.io/gorm"
+
 	"github.com/th0th/poeticmetric/backend/pkg/depot"
 	"github.com/th0th/poeticmetric/backend/pkg/service/sitereport/filter"
 	"github.com/th0th/poeticmetric/backend/pkg/service/sitereport/pagination"
-	"gorm.io/gorm"
 )
 
 type Datum struct {

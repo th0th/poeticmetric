@@ -2,12 +2,12 @@ package worker
 
 import (
 	"github.com/getsentry/sentry-go"
+
 	"github.com/th0th/poeticmetric/backend/pkg/depot"
 	"github.com/th0th/poeticmetric/backend/pkg/depot/rabbitmq"
 	"github.com/th0th/poeticmetric/backend/pkg/email"
 	"github.com/th0th/poeticmetric/backend/pkg/frontend"
 	"github.com/th0th/poeticmetric/backend/pkg/model"
-	"github.com/th0th/poeticmetric/backend/pkg/pointer"
 )
 
 const NotifyAboutTrialMidwaysQueue rabbitmq.QueueName = "notifyAboutTrialMidways"
@@ -33,7 +33,6 @@ func notifyAboutTrialMidways(dp *depot.Depot, _ []byte) error {
 
 	for _, e := range emails {
 		err = SendEmail(dp, &SendEmailPayload{
-			From:     pointer.Get("support@poeticmetric.com"),
 			Template: email.TemplateTrialMidway,
 			TemplateData: map[string]string{
 				"FrontendBaseUrl": frontend.GenerateUrl(""),

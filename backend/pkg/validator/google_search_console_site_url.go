@@ -4,12 +4,13 @@ import (
 	"context"
 
 	"github.com/go-errors/errors"
-	"github.com/th0th/poeticmetric/backend/pkg/depot"
-	"github.com/th0th/poeticmetric/backend/pkg/env"
-	"github.com/th0th/poeticmetric/backend/pkg/model"
 	"golang.org/x/oauth2"
 	"google.golang.org/api/option"
 	"google.golang.org/api/searchconsole/v1"
+
+	"github.com/th0th/poeticmetric/backend/pkg/depot"
+	"github.com/th0th/poeticmetric/backend/pkg/env"
+	"github.com/th0th/poeticmetric/backend/pkg/model"
 )
 
 func GoogleSearchConsoleSiteUrl(dp *depot.Depot, organizationId uint64, v string) bool {

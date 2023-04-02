@@ -6,6 +6,7 @@ import (
 
 	"github.com/tdewolff/minify/v2"
 	"github.com/tdewolff/minify/v2/js"
+
 	"github.com/th0th/poeticmetric/backend/pkg/env"
 )
 

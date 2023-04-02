@@ -6,13 +6,14 @@ import (
 	"net/url"
 
 	"github.com/go-errors/errors"
+	"golang.org/x/oauth2"
+	"google.golang.org/api/option"
+	"google.golang.org/api/searchconsole/v1"
+
 	"github.com/th0th/poeticmetric/backend/pkg/depot"
 	"github.com/th0th/poeticmetric/backend/pkg/env"
 	"github.com/th0th/poeticmetric/backend/pkg/model"
 	"github.com/th0th/poeticmetric/backend/pkg/service/organization"
-	"golang.org/x/oauth2"
-	"google.golang.org/api/option"
-	"google.golang.org/api/searchconsole/v1"
 )
 
 type GoogleSearchConsoleSite struct {

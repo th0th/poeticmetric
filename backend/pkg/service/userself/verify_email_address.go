@@ -2,16 +2,16 @@ package userself
 
 import (
 	v "github.com/RussellLuo/validating/v3"
+	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
+
 	"github.com/th0th/poeticmetric/backend/pkg/depot"
 	"github.com/th0th/poeticmetric/backend/pkg/email"
 	"github.com/th0th/poeticmetric/backend/pkg/env"
 	"github.com/th0th/poeticmetric/backend/pkg/frontend"
 	"github.com/th0th/poeticmetric/backend/pkg/model"
-	"github.com/th0th/poeticmetric/backend/pkg/pointer"
 	"github.com/th0th/poeticmetric/backend/pkg/validator"
 	"github.com/th0th/poeticmetric/backend/pkg/worker"
-	"gorm.io/gorm"
-	"gorm.io/gorm/clause"
 )
 
 type VerifyEmailAddressPayload struct {
@@ -66,7 +66,6 @@ func VerifyEmailAddress(dp *depot.Depot, payload *VerifyEmailAddressPayload) (*U
 			}
 
 			err2 = worker.SendEmail(dp2, &worker.SendEmailPayload{
-				From:     pointer.Get("support@poeticmetric.com"),
 				Template: email.TemplateTrialStart,
 				TemplateData: map[string]string{
 					"FrontendBaseUrl": frontend.GenerateUrl(""),

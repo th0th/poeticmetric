@@ -2,10 +2,11 @@ package browserversion
 
 import (
 	v "github.com/RussellLuo/validating/v3"
+	"gorm.io/gorm"
+
 	"github.com/th0th/poeticmetric/backend/pkg/depot"
 	"github.com/th0th/poeticmetric/backend/pkg/service/sitereport/filter"
 	"github.com/th0th/poeticmetric/backend/pkg/service/sitereport/pagination"
-	"gorm.io/gorm"
 )
 
 type Datum struct {

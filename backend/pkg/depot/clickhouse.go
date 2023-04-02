@@ -1,9 +1,10 @@
 package depot
 
 import (
-	"github.com/th0th/poeticmetric/backend/pkg/env"
 	"gorm.io/driver/clickhouse"
 	"gorm.io/gorm"
+
+	"github.com/th0th/poeticmetric/backend/pkg/env"
 )
 
 func (dp *Depot) ClickHouse() *gorm.DB {

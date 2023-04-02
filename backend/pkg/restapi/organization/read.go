@@ -2,6 +2,7 @@ package organization
 
 import (
 	"github.com/gofiber/fiber/v2"
+
 	"github.com/th0th/poeticmetric/backend/pkg/depot"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/authentication"
 	"github.com/th0th/poeticmetric/backend/pkg/service/organization"

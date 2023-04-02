@@ -1,9 +1,10 @@
 package user
 
 import (
+	"gorm.io/gorm"
+
 	"github.com/th0th/poeticmetric/backend/pkg/depot"
 	"github.com/th0th/poeticmetric/backend/pkg/model"
-	"gorm.io/gorm"
 )
 
 func Delete(dp *depot.Depot, id uint64) error {

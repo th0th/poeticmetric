@@ -33,6 +33,7 @@ x-backend-common: &backend-common
     REST_API_BASE_URL: ${REST_API_BASE_URL}
     SENTRY_DSN: ${SENTRY_DSN}
     SENTRY_ENVIRONMENT: ${SENTRY_ENVIRONMENT}
+    SMTP_FROM: ${SMTP_FROM}
     SMTP_HOST: ${SMTP_HOST}
     SMTP_PASSWORD: ${SMTP_PASSWORD}
     SMTP_PORT: ${SMTP_PORT}
@@ -116,7 +117,7 @@ services:
     environment:
       VIRTUAL_HOST: mailpit.dev.poeticmetric.com
       VIRTUAL_PORT: "8025"
-    image: axllent/mailpit:v1.3.8
+    image: axllent/mailpit:v1.5.3
     ports:
       - "127.0.0.1:8025:8025"
 

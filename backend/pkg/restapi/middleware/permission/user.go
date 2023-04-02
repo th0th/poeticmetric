@@ -2,6 +2,7 @@ package permission
 
 import (
 	"github.com/gofiber/fiber/v2"
+
 	"github.com/th0th/poeticmetric/backend/pkg/pointer"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/helpers"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/authentication"

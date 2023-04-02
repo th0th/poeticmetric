@@ -4,6 +4,7 @@ import (
 	"errors"
 
 	"github.com/gofiber/fiber/v2"
+
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/helpers"
 	am "github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/authentication"
 	dm "github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/depot"
