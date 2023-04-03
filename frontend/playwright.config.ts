@@ -22,6 +22,7 @@ const config: PlaywrightTestConfig = {
     trace: "on",
     video: "on",
   },
+  workers: 1,
 };
 
 export default config;

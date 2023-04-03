@@ -36,7 +36,6 @@ test("sites", async ({ context, page }) => {
     await page.waitForURL("/sites/reports?id=*");
     await expect(page.getByRole("heading", { name: "There are no events registered from this site, yet..." })).toBeVisible();
 
-    abortEvents = false;
     // const copyButtonLocator = page.locator("button", { has: page.locator("i[class*='bi-clipboard-fill']") });
     // await expect(copyButtonLocator).toBeVisible();
 
@@ -44,6 +43,8 @@ test("sites", async ({ context, page }) => {
     await page.waitForLoadState("networkidle");
     await expect(page.getByTitle(site.name)).toBeVisible();
   });
+
+  abortEvents = false;
 
   await test.step("edit site", async () => {
     await page.getByTitle(site.name).getByRole("link", { name: "Edit" }).click();
