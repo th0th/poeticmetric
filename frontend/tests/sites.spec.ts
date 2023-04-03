@@ -22,10 +22,6 @@ const testAccount: TestAccount = {
 };
 
 test("sites", async ({ context, page }) => {
-  let abortEvents: boolean = true;
-
-  await page.route(`${process.env.REST_API_BASE_URL}/events`, (route) => abortEvents ? route.abort() : route.continue());
-
   await signUp(test, context, page, testAccount);
 
   await test.step("create site", async () => {
@@ -44,7 +40,7 @@ test("sites", async ({ context, page }) => {
     await expect(page.getByTitle(site.name)).toBeVisible();
   });
 
-  abortEvents = false;
+  process.env.PLAYWRIGHT_ABORT_EVENTS = "false";
 
   await test.step("edit site", async () => {
     await page.getByTitle(site.name).getByRole("link", { name: "Edit" }).click();

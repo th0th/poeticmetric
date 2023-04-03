@@ -7,7 +7,16 @@ const testAccount: TestAccount = {
   userPassword: "UxsU2kB9eaBVzt",
 };
 
-test.beforeAll(async ({ baseURL, browser }) => {
+test.beforeAll(async ({ baseURL, browser, context }) => {
+  await context.route(
+    `${process.env.REST_API_BASE_URL}/events`,
+    (route) => process.env.PLAYWRIGHT_ABORT_EVENTS === "true" ? route.abort() : route.continue(),
+  );
+
+  if (process.env.PLAYWRIGHT_IS_BOOTSTRAP_CHECK_DONE === "true") {
+    return;
+  }
+
   const page = await browser.newPage();
   await page.goto("/bootstrap", { waitUntil: "networkidle" });
 
@@ -25,6 +34,8 @@ test.beforeAll(async ({ baseURL, browser }) => {
   }
 
   await page.close();
+
+  process.env.PLAYWRIGHT_IS_BOOTSTRAP_CHECK_DONE = "true";
 });
 
 export { test };
