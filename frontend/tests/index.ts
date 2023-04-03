@@ -7,10 +7,12 @@ const testAccount: TestAccount = {
   userPassword: "UxsU2kB9eaBVzt",
 };
 
-test.beforeAll(async ({ baseURL, browser, context }) => {
+test.beforeAll(async ({ baseURL, browser }) => {
   process.env.PLAYWRIGHT_ABORT_EVENTS = "true";
 
-  await context.route(
+  const page = await browser.newPage();
+
+  await page.route(
     `${process.env.REST_API_BASE_URL}/events`,
     (route) => process.env.PLAYWRIGHT_ABORT_EVENTS === "true" ? route.abort() : route.continue(),
   );
@@ -19,7 +21,6 @@ test.beforeAll(async ({ baseURL, browser, context }) => {
     return;
   }
 
-  const page = await browser.newPage();
   await page.goto("/bootstrap", { waitUntil: "networkidle" });
 
   if (page.url() === `${baseURL}/bootstrap`) {
@@ -38,6 +39,13 @@ test.beforeAll(async ({ baseURL, browser, context }) => {
   await page.close();
 
   process.env.PLAYWRIGHT_IS_BOOTSTRAP_CHECK_DONE = "true";
+});
+
+test.beforeEach(async ({ page }) => {
+  await page.route(
+    `${process.env.REST_API_BASE_URL}/events`,
+    (route) => process.env.PLAYWRIGHT_ABORT_EVENTS === "true" ? route.abort() : route.continue(),
+  );
 });
 
 export { test };
