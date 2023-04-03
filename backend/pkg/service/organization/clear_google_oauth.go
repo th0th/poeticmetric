@@ -2,6 +2,7 @@ package organization
 
 import (
 	"github.com/go-errors/errors"
+
 	"github.com/th0th/poeticmetric/backend/pkg/depot"
 	"github.com/th0th/poeticmetric/backend/pkg/model"
 )

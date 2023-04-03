@@ -2,6 +2,7 @@ package useraccesstoken
 
 import (
 	"github.com/google/uuid"
+
 	"github.com/th0th/poeticmetric/backend/pkg/depot"
 	"github.com/th0th/poeticmetric/backend/pkg/model"
 )

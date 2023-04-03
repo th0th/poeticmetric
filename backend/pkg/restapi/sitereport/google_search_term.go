@@ -3,6 +3,7 @@ package sitereport
 import (
 	"github.com/go-errors/errors"
 	"github.com/gofiber/fiber/v2"
+
 	"github.com/th0th/poeticmetric/backend/pkg/model"
 	"github.com/th0th/poeticmetric/backend/pkg/pointer"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/helpers"

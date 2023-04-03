@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/getsentry/sentry-go"
+
 	"github.com/th0th/poeticmetric/backend/pkg/depot"
 )
 

@@ -9,7 +9,7 @@ type AuthHandlerProps = {
 
 const fetcher = getFetcher(true, false);
 
-export function   AuthHandler({ children }: AuthHandlerProps) {
+export function AuthHandler({ children }: AuthHandlerProps) {
   const { data: userData, isValidating: isValidatingUser, mutate: mutateUserData } = useSWR<AuthUser, Error>("/users/me", fetcher);
   const {
     data: organizationData,
@@ -23,7 +23,7 @@ export function   AuthHandler({ children }: AuthHandlerProps) {
 
   const value = useMemo<AuthContextValue>(() => {
     let v: AuthContextValue = {
-      isReady: !isValidatingUser && !isValidatingOrganization,
+      isReady: !(userData === undefined && isValidatingUser) || (organizationData === undefined && isValidatingOrganization),
       mutate,
       organization: null,
       user: null,

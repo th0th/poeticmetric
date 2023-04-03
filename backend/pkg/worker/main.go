@@ -7,6 +7,7 @@ import (
 
 	"github.com/getsentry/sentry-go"
 	amqp "github.com/rabbitmq/amqp091-go"
+
 	"github.com/th0th/poeticmetric/backend/pkg/depot"
 	"github.com/th0th/poeticmetric/backend/pkg/depot/rabbitmq"
 	"github.com/th0th/poeticmetric/backend/pkg/signal"

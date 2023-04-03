@@ -10,6 +10,8 @@ import (
 	"github.com/stripe/stripe-go/v74"
 	"github.com/stripe/stripe-go/v74/customer"
 	webhook2 "github.com/stripe/stripe-go/v74/webhook"
+	"gorm.io/gorm"
+
 	"github.com/th0th/poeticmetric/backend/pkg/email"
 	"github.com/th0th/poeticmetric/backend/pkg/env"
 	"github.com/th0th/poeticmetric/backend/pkg/frontend"
@@ -17,7 +19,6 @@ import (
 	"github.com/th0th/poeticmetric/backend/pkg/pointer"
 	dm "github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/depot"
 	"github.com/th0th/poeticmetric/backend/pkg/worker"
-	"gorm.io/gorm"
 )
 
 func webhook(c *fiber.Ctx) error {
@@ -91,7 +92,6 @@ func webhook(c *fiber.Ctx) error {
 
 					if stripeEvent.Type == "customer.subscription.created" {
 						err = worker.SendEmail(dp, &worker.SendEmailPayload{
-							From:     pointer.Get("support@poeticmetric.com"),
 							Template: email.TemplateSubscriptionStart,
 							TemplateData: map[string]string{
 								"FrontendBaseUrl": frontend.GenerateUrl(""),

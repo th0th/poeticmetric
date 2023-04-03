@@ -5,8 +5,9 @@ import (
 	"net/http"
 
 	"github.com/redis/go-redis/v9"
-	"github.com/th0th/poeticmetric/backend/pkg/depot/rabbitmq"
 	"gorm.io/gorm"
+
+	"github.com/th0th/poeticmetric/backend/pkg/depot/rabbitmq"
 )
 
 var Ctx = context.Background()

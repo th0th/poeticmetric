@@ -5,6 +5,7 @@ import (
 
 	v "github.com/RussellLuo/validating/v3"
 	"github.com/dchest/uniuri"
+
 	"github.com/th0th/poeticmetric/backend/pkg/depot"
 	"github.com/th0th/poeticmetric/backend/pkg/email"
 	"github.com/th0th/poeticmetric/backend/pkg/env"
@@ -67,7 +68,6 @@ func SignUp(dp *depot.Depot, payload *SignUpPayload) (*UserSelf, error) {
 		}
 
 		err2 = worker.SendEmail(dp2, &worker.SendEmailPayload{
-			From:     pointer.Get("support@poeticmetric.com"),
 			Template: email.TemplateWelcome,
 			TemplateData: map[string]string{
 				"FrontEndBaseUrl":      env.Get(env.FrontendBaseUrl),

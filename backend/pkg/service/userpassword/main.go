@@ -1,8 +1,9 @@
 package userpassword
 
 import (
-	"github.com/th0th/poeticmetric/backend/pkg/pointer"
 	"golang.org/x/crypto/bcrypt"
+
+	"github.com/th0th/poeticmetric/backend/pkg/pointer"
 )
 
 func GetHash(password string) (*string, error) {

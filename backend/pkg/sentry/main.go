@@ -2,6 +2,7 @@ package sentry
 
 import (
 	"github.com/getsentry/sentry-go"
+
 	"github.com/th0th/poeticmetric/backend/pkg/env"
 )
 

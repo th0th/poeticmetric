@@ -8,6 +8,7 @@ import (
 	"github.com/brianvoe/gofakeit/v6"
 	"github.com/dchest/uniuri"
 	"github.com/redis/go-redis/v9"
+
 	"github.com/th0th/poeticmetric/backend/pkg/depot"
 )
 

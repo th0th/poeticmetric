@@ -5,11 +5,11 @@ import (
 	"net/smtp"
 
 	"github.com/go-errors/errors"
+
 	"github.com/th0th/poeticmetric/backend/pkg/env"
 )
 
 type SendInput struct {
-	From         *string
 	Template     TemplateName
 	TemplateData map[string]string
 	To           string
@@ -21,16 +21,11 @@ func Send(input *SendInput) error {
 		return errors.Wrap(err, 0)
 	}
 
-	// from
-	from := env.Get(env.SmtpUser)
-
-	if input.From != nil {
-		from = *input.From
-	}
+	from := env.Get(env.SmtpFrom)
 
 	headers := map[string]string{
 		"Content-Type": "text/html; charset=utf-8",
-		"From":         fmt.Sprintf("PoeticMetric <%s>", from),
+		"From":         from,
 		"MIME-Version": "1.0",
 		"Subject":      template.Subject,
 		"To":           input.To,

@@ -4,10 +4,11 @@ import (
 	"context"
 	"math"
 
-	"github.com/th0th/poeticmetric/backend/pkg/depot"
-	"github.com/th0th/poeticmetric/backend/pkg/service/sitereport/filter"
 	"golang.org/x/sync/errgroup"
 	"gorm.io/gorm"
+
+	"github.com/th0th/poeticmetric/backend/pkg/depot"
+	"github.com/th0th/poeticmetric/backend/pkg/service/sitereport/filter"
 )
 
 type Report struct {

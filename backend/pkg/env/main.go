@@ -41,6 +41,7 @@ const (
 	RestApiBaseUrl             = "REST_API_BASE_URL"
 	SentryDsn                  = "SENTRY_DSN"
 	SentryEnvironment          = "SENTRY_ENVIRONMENT"
+	SmtpFrom                   = "SMTP_FROM"
 	SmtpHost                   = "SMTP_HOST"
 	SmtpPassword               = "SMTP_PASSWORD"
 	SmtpPort                   = "SMTP_PORT"
@@ -74,6 +75,7 @@ var (
 		RedisPassword,
 		RedisPort,
 		RestApiBaseUrl,
+		SmtpFrom,
 		SmtpHost,
 		SmtpPort,
 	}

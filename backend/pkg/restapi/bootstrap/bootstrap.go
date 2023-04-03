@@ -2,6 +2,7 @@ package bootstrap
 
 import (
 	"github.com/gofiber/fiber/v2"
+
 	"github.com/th0th/poeticmetric/backend/pkg/depot"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/helpers"
 	dm "github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/depot"

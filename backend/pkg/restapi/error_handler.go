@@ -9,6 +9,7 @@ import (
 	errors2 "github.com/go-errors/errors"
 	"github.com/gofiber/contrib/fibersentry"
 	"github.com/gofiber/fiber/v2"
+
 	"github.com/th0th/poeticmetric/backend/pkg/env"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/helpers"
 )

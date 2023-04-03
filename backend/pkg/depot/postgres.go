@@ -3,9 +3,10 @@ package depot
 import (
 	"database/sql"
 
-	"github.com/th0th/poeticmetric/backend/pkg/env"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+
+	"github.com/th0th/poeticmetric/backend/pkg/env"
 )
 
 func (dp *Depot) Postgres() *gorm.DB {

@@ -163,21 +163,6 @@ jobs:
           
           printf "Waiting for REST API...\n"
           docker compose run --rm --entrypoint 'bash -c "wait-for-it -q -s -t 0 rest-api:80 -- echo \"REST API is ready!\""' rest-api
-          
-          # prepare Postgres database
-          #printf "Waiting for Postgres...\n"
-          #docker compose run --rm --entrypoint 'bash -c "wait-for-it -q -s -t 0 "${POSTGRES_HOST}":"${POSTGRES_PORT}" -- echo \"Postgres is ready!\""' rest-api
-          #docker compose exec postgres bash -c 'export PGPASSWORD=${POSTGRES_PASSWORD} && dropdb --if-exists --username=${POSTGRES_USER} ${POSTGRES_DB}'
-          #docker compose exec postgres bash -c 'export PGPASSWORD=${POSTGRES_PASSWORD} && createdb --username=${POSTGRES_USER} ${POSTGRES_DB}'
-          
-          # prepare ClickHouse database
-          #printf "Waiting for ClickHouse...\n"
-          #docker compose run --rm --entrypoint 'bash -c "wait-for-it -q -s -t 0 "${CLICKHOUSE_HOST}":"${CLICKHOUSE_TCP_PORT}" -- echo \"ClickHouse is ready!\""' rest-api
-          #docker compose exec clickhouse bash -c 'clickhouse-client --query "drop database if exists ${CLICKHOUSE_DB};"'
-          #docker compose exec clickhouse bash -c 'clickhouse-client --query "create database ${CLICKHOUSE_DB};"'
-          
-          # migrate databases
-          #docker compose run --rm --entrypoint 'bash -c "cd cmd/migrator && go run ."' rest-api
 
       - name: Run backend tests
         run: docker compose run --rm rest-api go test ./... 2> /dev/null
