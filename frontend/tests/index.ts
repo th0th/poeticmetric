@@ -8,6 +8,8 @@ const testAccount: TestAccount = {
 };
 
 test.beforeAll(async ({ baseURL, browser, context }) => {
+  process.env.PLAYWRIGHT_ABORT_EVENTS = "true";
+
   await context.route(
     `${process.env.REST_API_BASE_URL}/events`,
     (route) => process.env.PLAYWRIGHT_ABORT_EVENTS === "true" ? route.abort() : route.continue(),
