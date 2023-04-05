@@ -6,7 +6,7 @@ title: "Query parameters"
 
 Query parameters consist of a key and a value, separated by an equal sign (=). And if there are multiple parameters, each is separated by an ampersand (&).
 
-![query parameters in the address bar](/docs-files/query-parameters/address-bar.jpg "Query parameters in the address bar")
+![query parameters in the address bar](/docs-files/websites/query-parameters/address-bar.jpg "Query parameters in the address bar")
 
 According to [RFC 3986](https://www.rfc-editor.org/rfc/rfc3986#section-3.4);
 
@@ -30,11 +30,11 @@ To set safe query parameters for your website on PoeticMetric:
 
 1. Go to **Sites**, and click the **Edit** button below the website you would like to set safe query parameters for.
 
-   ![edit site](/docs-files/query-parameters/edit-site.png "Edit site")
+   ![edit site](/docs-files/websites/query-parameters/edit-site.png "Edit site")
 
 2. Under the **Safe query parameters** section, type the query parameter you want to add and press enter.
 
-   ![set query parameters in PoeticMetric site settings](/docs-files/query-parameters/update-safe-query-parameters.png "Set safe query parameters in PoeticMetric site settings")
+   ![set query parameters in PoeticMetric site settings](/docs-files/websites/query-parameters/update-safe-query-parameters.png "Set safe query parameters in PoeticMetric site settings")
 
 3. Repeat the process for each query parameter you want to add.
 
