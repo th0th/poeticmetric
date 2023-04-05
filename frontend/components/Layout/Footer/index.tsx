@@ -121,7 +121,6 @@ export function Footer() {
                   <Nav.Link
                     className="d-inline-block fw-normal px-2 py-1 text-black text-decoration-underline-hover"
                     href="https://github.com/th0th/poeticmetric"
-                    rel="noreferrer"
                     target="_blank"
                   >
                     GitHub

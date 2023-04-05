@@ -31,7 +31,7 @@ export function Profile() {
         </p>
 
         <div>
-          <a className="fw-semibold" href="https://gravatar.com/connect/" rel="noreferrer" target="_blank">
+          <a className="fw-semibold" href="https://gravatar.com/connect/" target="_blank">
             Click here to update your Gravatar.
           </a>
         </div>

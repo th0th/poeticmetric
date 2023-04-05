@@ -15,10 +15,10 @@ export function DocsArticle({ article, categories }: DocsArticleProps) {
     <Layout kind="website">
       <Title kind="docs">{article.title}</Title>
 
-      <div className="bg-white d-flex flex-column flex-md-row">
+      <div className="bg-white d-flex flex-column flex-grow-1 flex-md-row">
         <Menu article={article} categories={categories} />
 
-        <div className="border-start-md min-w-0 mw-45rem p-5 pt-4 pt-md-5">
+        <div className="border-start-md min-w-0 mw-50rem p-5 pt-4 pt-md-5">
           <Breadcrumb items={[{ href: "/docs", title: "Docs" }, { title: article.category.title }]} title={article.title} />
 
           <Markdown>{article.content}</Markdown>
