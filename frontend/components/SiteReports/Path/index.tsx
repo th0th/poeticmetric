@@ -64,7 +64,6 @@ export function Path({ className, ...props }: SitePathReportProps) {
                     <a
                       className="d-none flex-grow-0 flex-shrink-0 lh-1 ms-2 parent-d-block text-black text-primary-hover"
                       href={d.url}
-                      rel="noreferrer"
                       target="_blank"
                       title="Go to the page"
                     >

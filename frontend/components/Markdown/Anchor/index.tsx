@@ -18,6 +18,6 @@ export function Anchor({ children, href, ...props }: AnchorProps) {
   }
 
   return (
-    <a {...props} href={href} rel="noreferrer" target="_blank">{children}</a>
+    <a {...props} href={href} referrerPolicy="origin-when-cross-origin" target="_blank">{children}</a>
   );
 }

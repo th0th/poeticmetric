@@ -48,8 +48,9 @@ test("subscription", async ({ context, page }) => {
   await test.step("change subscription plan", async () => {
     await page.getByRole("button", { name: "Go to Billing Portal" }).click();
     await page.getByRole("link", { name: "Update plan" }).click();
-    await page.locator("div[class='Box-root']", { has: page.locator("span", { hasText: "Pro" }) })
-      .getByRole("button", { name: "Continue" }).first().click();
+
+    await page.getByTestId("pricing-table").locator("div").filter({ hasText: "Pro$20.00 per monthSelect" }).getByRole("button", { name: "Select" }).click();
+    await page.getByRole("button", { name: "Continue" }).click();
     await page.getByRole("button", { name: "Confirm" }).click();
     await page.getByRole("link", { name: "PoeticMetric Test mode" }).click();
 

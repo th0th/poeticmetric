@@ -1,4 +1,5 @@
 import { useGoogleLogin } from "@react-oauth/google";
+import Link from "next/link";
 import React, { useCallback, useContext, useEffect } from "react";
 import { Button, Form, Spinner } from "react-bootstrap";
 import useSWR, { useSWRConfig } from "swr";
@@ -66,7 +67,11 @@ export function BaseGoogleSearchConsoleSiteUrlFormGroup({ onValueChange, value }
           type="checkbox"
         />
 
-        <Form.Text>You can enable this to see the Google Search Console statistics on your PoeticMetric reports.</Form.Text>
+        <Form.Text>
+          {"You can enable this to see the Google Search Console statistics on your PoeticMetric reports. For details please see "}
+          <Link href="/docs/websites/google-search-console-integration" target="_blank">here</Link>
+          .
+        </Form.Text>
       </Form.Group>
 
       {value !== null ? (

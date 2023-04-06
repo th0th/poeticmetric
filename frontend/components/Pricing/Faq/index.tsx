@@ -30,7 +30,7 @@ export function Faq({ className, ...props }: FaqProps) {
 
             <Accordion.Body>
               {"Absolutely! We work with "}
-              <a href="https://www.stripe.com" rel="noreferrer" target="_blank">Stripe</a>
+              <a href="https://www.stripe.com" target="_blank">Stripe</a>
               {" which guarantees your safety and security. All site communication and data transfer are secured and encrypted."}
             </Accordion.Body>
           </Accordion.Item>
