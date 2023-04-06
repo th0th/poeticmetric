@@ -2,7 +2,6 @@ package organization
 
 import (
 	"fmt"
-	"log"
 	"time"
 
 	v "github.com/RussellLuo/validating/v3"
@@ -131,13 +130,10 @@ func Delete(dp *depot.Depot, id uint64, payload *DeletionPayload) error {
 		return err
 	}
 
-	err = worker.SendWebhook(dp, &worker.SendWebhookPayload{
+	worker.SendWebhook(dp, &worker.SendWebhookPayload{
 		Event: worker.SendWebhookEventOrganizationDeleted,
 		Data:  *organizationDeletion,
 	})
-	if err != nil {
-		log.Print(err)
-	}
 
 	return nil
 }

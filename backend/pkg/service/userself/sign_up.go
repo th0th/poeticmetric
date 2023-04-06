@@ -46,11 +46,11 @@ func SignUp(dp *depot.Depot, payload *SignUpPayload) (*UserSelf, error) {
 		Password:               passwordHash,
 	}
 
-	err = dp.WithPostgresTransaction(func(dp2 *depot.Depot) error {
-		modelOrganization := &model.Organization{
-			Name: *payload.OrganizationName,
-		}
+	modelOrganization := &model.Organization{
+		Name: *payload.OrganizationName,
+	}
 
+	err = dp.WithPostgresTransaction(func(dp2 *depot.Depot) error {
 		err2 := dp2.Postgres().
 			Create(modelOrganization).
 			Error
@@ -89,6 +89,15 @@ func SignUp(dp *depot.Depot, payload *SignUpPayload) (*UserSelf, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	worker.SendWebhook(dp, &worker.SendWebhookPayload{
+		Event: worker.SendWebhookEventUserSignedUp,
+		Data: map[string]any{
+			"organizationName": modelOrganization.Name,
+			"userEmail":        modelUser.Email,
+			"userName":         modelUser.Name,
+		},
+	})
 
 	return userSelf, nil
 }
