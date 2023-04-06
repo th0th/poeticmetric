@@ -10,7 +10,7 @@ HTTP (The Hypertext Transfer Protocol) has a specific way of handling the passin
 
 With this integration, PoeticMetric enables you to see
 
-* the **search terms** that result in listing your website as a result,
+* the **search terms** that list your website as a result,
 * **your website's position** for search terms,
 * **CTR** (click-through rate),
 * number of **impressions** and
