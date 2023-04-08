@@ -136,7 +136,7 @@ We retain the personal information for 1 year from the date we collect it from y
 
 - Amazon SES (Transactional e-mails)
 
-- MailBluster (Marketing communications)
+- MailBluster (Newsletter subscriptions)
 
 - Stripe (Payment service provider)
 
@@ -198,7 +198,7 @@ We retain the personal information for 10 years from the date we collect it from
 
 - Twilio (Phone Call Alerting)
 
-- MailBluster ( Marketing Communications)
+- MailBluster (Newsletter subscriptions)
 
 - Stripe (Payment Service Provider)
 

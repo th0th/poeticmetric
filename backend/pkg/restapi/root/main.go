@@ -8,4 +8,5 @@ func Add(app *fiber.App) {
 	app.Get("/", index)
 	app.Get("/bootstrap-status", bootstrapStatus)
 	app.Get("/pm.js", tracker)
+	app.Post("/newsletter-subscription", createNewsletterSubscription)
 }

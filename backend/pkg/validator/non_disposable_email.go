@@ -14,7 +14,7 @@ import (
 func nonDisposableEmail(dp *depot.Depot, v string) bool {
 	var err error
 
-	req, err := http.NewRequest(http.MethodGet, "https://isemaildisposable.webgazer.iox", nil)
+	req, err := http.NewRequest(http.MethodGet, "https://isemaildisposable.webgazer.io", nil)
 	if err != nil {
 		panic(err)
 	}
