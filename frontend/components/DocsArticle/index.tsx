@@ -21,7 +21,7 @@ export function DocsArticle({ article, categories }: DocsArticleProps) {
         <div className="border-start-md min-w-0 mw-50rem p-5 pt-4 pt-md-5">
           <Breadcrumb items={[{ href: "/docs", title: "Docs" }, { title: article.category.title }]} title={article.title} />
 
-          <Markdown>{article.content}</Markdown>
+          <Markdown showTableOfContents>{article.content}</Markdown>
         </div>
       </div>
     </Layout>
