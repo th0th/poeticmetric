@@ -50,6 +50,16 @@ export function Footer() {
                   <Nav.Link
                     as={Link}
                     className="d-inline-block fw-normal px-2 py-1 text-black text-decoration-underline-hover"
+                    href="/open-source"
+                  >
+                    Open source
+                  </Nav.Link>
+                </Nav.Item>
+
+                <Nav.Item>
+                  <Nav.Link
+                    as={Link}
+                    className="d-inline-block fw-normal px-2 py-1 text-black text-decoration-underline-hover"
                     href="/pricing"
                   >
                     Pricing
