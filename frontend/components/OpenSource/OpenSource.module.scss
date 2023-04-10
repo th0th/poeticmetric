@@ -1,0 +1,10 @@
+.head {
+  background-image: url("./world.jpeg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  .innerHead {
+    backdrop-filter: blur(8px);
+  }
+}

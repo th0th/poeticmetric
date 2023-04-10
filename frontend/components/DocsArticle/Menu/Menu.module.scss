@@ -1,9 +1,17 @@
 @import "styles/base";
 
-.innerWrapper {
-  top: $header-height + 1px;
+.menu {
+  max-height: calc(100vh - var(--header-height));
+  top: var(--header-height);
+  z-index: 1019 !important;
+}
 
-  .categories {
-    max-height: calc(100vh - $header-height - 1px);
+.smallMenu {
+  top: var(--header-height) !important;
+
+  .links {
+    max-height: calc(100vh - var(--header-height) - 200px);
+    min-height: 100px;
+    overflow: auto;
   }
 }

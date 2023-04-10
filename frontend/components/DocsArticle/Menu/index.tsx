@@ -1,8 +1,8 @@
 import classNames from "classnames";
 import Link from "next/link";
-import React, { useContext, useId } from "react";
+import React, { useId } from "react";
 import { Dropdown } from "react-bootstrap";
-import { LayoutContext } from "../../../contexts";
+import styles from "./Menu.module.scss";
 import { Search } from "./Search";
 
 export type MenuProps = Overwrite<Omit<React.PropsWithoutRef<JSX.IntrinsicElements["div"]>, "children">, {
@@ -12,11 +12,10 @@ export type MenuProps = Overwrite<Omit<React.PropsWithoutRef<JSX.IntrinsicElemen
 
 export function Menu({ article: articleFromProps, categories, className, ...props }: MenuProps) {
   const dropdownToggleId = useId();
-  const { headerHeight } = useContext(LayoutContext);
 
   return (
     <>
-      <div className={classNames("d-md-none p-3 sticky-top", className)} style={{ top: headerHeight }} {...props}>
+      <div className={classNames("d-md-none p-3 sticky-top", styles.smallMenu, className)} {...props}>
         <Dropdown>
           <Dropdown.Toggle className="d-block m-auto" id={dropdownToggleId}>
             <i className="bi bi-journal-text me-2" />
@@ -29,7 +28,7 @@ export function Menu({ article: articleFromProps, categories, className, ...prop
               <Search />
             </div>
 
-            <div className="gap-2 pt-1 vstack">
+            <div className={classNames("gap-2 pt-1 vstack", styles.links)}>
               {categories.map((category) => (
                 <div key={category.slug}>
                   <h6 className="px-3">{category.title}</h6>
@@ -51,12 +50,11 @@ export function Menu({ article: articleFromProps, categories, className, ...prop
       </div>
 
       <div
-        className={classNames("d-none d-md-block flex-grow-0 flex-shrink-0 overflow-auto px-3 py-4 sticky-top w-16rem", className)}
-        style={{
-          maxHeight: `calc(100vh - ${headerHeight}px)`,
-          top: headerHeight,
-          zIndex: 1019,
-        }}
+        className={classNames(
+          "d-none d-md-block flex-grow-0 flex-shrink-0 overflow-auto px-3 py-4 sticky-top w-16rem",
+          styles.menu,
+          className,
+        )}
         {...props}
       >
         <nav className="gap-3 vstack">

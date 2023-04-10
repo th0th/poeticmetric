@@ -25,6 +25,7 @@ export * from "./MetaOpenGraph";
 export * from "./MockWindow";
 export * from "./NoSubscriptionBlock";
 export * from "./NotFound";
+export * from "./OpenSource";
 export * from "./PasswordRecovery";
 export * from "./PasswordReset";
 export * from "./Plans";
