@@ -1,11 +1,7 @@
 import { compiler } from "markdown-to-jsx";
 import React, { useEffect, useState } from "react";
-
-type Item = {
-  children: React.ReactNode;
-  id: string;
-  items: Array<Item>;
-};
+import { List } from "./List";
+import { TableOfContentsItem } from "./List/Item";
 
 export type TableOfContentsProps = {
   children: string;
@@ -33,12 +29,13 @@ function getHeadingId(props: JSX.IntrinsicAttributes): string | null {
 }
 
 export function TableOfContents({ children }: TableOfContentsProps) {
-  const [items, setItems] = useState<Array<Item>>([]);
+  const [items, setItems] = useState<Array<TableOfContentsItem>>([]);
 
   useEffect(() => {
-    const newItems: Array<Item> = [];
+    const newItems: Array<TableOfContentsItem> = [];
 
-    let previousLevel: number = 6;
+    let previousItem: TableOfContentsItem | null = null;
+    let previousLevel: number = 7;
 
     compiler(children, {
       createElement: (tag, props, children) => {
@@ -48,15 +45,18 @@ export function TableOfContents({ children }: TableOfContentsProps) {
           if (id !== null) {
             const level = levels[tag];
 
-            const item: Item = { children, id, items: [] };
+            const item: TableOfContentsItem = { id, parentId: null, title: children };
 
             if (level === previousLevel) {
-              newItems[newItems.length - 1].items.push(item);
-            } else {
-              newItems.push(item);
+              item.parentId = previousItem?.parentId || null;
+            } else if (level > previousLevel) {
+              item.parentId = previousItem?.id || null;
             }
 
+            newItems.push(item);
+
             previousLevel = level;
+            previousItem = item;
           }
         }
 
@@ -73,23 +73,7 @@ export function TableOfContents({ children }: TableOfContentsProps) {
     <div className="border d-inline-flex flex-column mb-3 rounded pb-2 px-3 pt-3">
       <div className="fw-bold mb-2">Table of contents</div>
 
-      <ol className="fs-sm fw-medium ps-3">
-        {items.map((item) => (
-          <li key={item.id}>
-            <a className="d-block py-1" href={`#${item.id}`}>{item.children}</a>
-
-            {item.items.length > 0 ? (
-              <ol className="ps-3" style={{ listStyle: "lower-alpha" }}>
-                {item.items.map((item2) => (
-                  <li key={`${item.id}-${item2.id}`}>
-                    <a className="d-block py-1" href={`#${item2.id}`}>{item2.children}</a>
-                  </li>
-                ))}
-              </ol>
-            ) : null}
-          </li>
-        ))}
-      </ol>
+      <List allItems={items} items={items.filter((item) => item.parentId === null)} />
     </div>
   ) : null;
 }

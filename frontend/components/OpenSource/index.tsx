@@ -1,6 +1,6 @@
 import { Container } from "react-bootstrap";
 import GitHubButton from "react-github-btn";
-import { Layout, Markdown, Title } from "..";
+import { Description, Layout, Markdown, Title } from "..";
 
 type OpenSourceProps = {
   content: string;
@@ -10,6 +10,7 @@ export function OpenSource({ content }: OpenSourceProps) {
   return (
     <Layout kind="website">
       <Title>PoeticMetric: the open source Google Analytics alternative</Title>
+      <Description>Here you can find about the philosophy of PoeticMetric open source web analytics.</Description>
 
       <div className="position-relative overflow-hidden">
         <video autoPlay className="d-block position-absolute start-50 top-50 translate-middle" loop muted style={{ zIndex: -1 }}>
@@ -26,31 +27,7 @@ export function OpenSource({ content }: OpenSourceProps) {
                 impedit in maiores nobis numquam officia perspiciatis quam reprehenderit unde vel vitae?
               </p>
 
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque consequatur, consequuntur ea eos eum facilis, fugit hic id,
-                impedit in maiores nobis numquam officia perspiciatis quam reprehenderit unde vel vitae?
-              </p>
-
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque consequatur, consequuntur ea eos eum facilis, fugit hic id,
-                impedit in maiores nobis numquam officia perspiciatis quam reprehenderit unde vel vitae?
-              </p>
-
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque consequatur, consequuntur ea eos eum facilis, fugit hic id,
-                impedit in maiores nobis numquam officia perspiciatis quam reprehenderit unde vel vitae?
-              </p>
-
-              <div className="aling-items-start gap-1 hstack justify-content-center">
-                <GitHubButton
-                  aria-label="Follow @th0th on GitHub"
-                  data-show-count="true"
-                  data-size="large"
-                  href="https://github.com/th0th"
-                >
-                  Follow @th0th
-                </GitHubButton>
-
+              <div className="aling-items-start gap-2 hstack justify-content-center">
                 <GitHubButton
                   aria-label="Star th0th/poeticmetric on GitHub"
                   data-icon="octicon-star"
@@ -69,6 +46,15 @@ export function OpenSource({ content }: OpenSourceProps) {
                   href="https://github.com/th0th/poeticmetric/fork"
                 >
                   Fork
+                </GitHubButton>
+
+                <GitHubButton
+                  aria-label="Sponsor @th0th on GitHub"
+                  data-icon="octicon-heart"
+                  data-size="large"
+                  href="https://github.com/sponsors/th0th"
+                >
+                  Sponsor
                 </GitHubButton>
               </div>
             </div>

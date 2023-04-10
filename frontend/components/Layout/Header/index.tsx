@@ -74,6 +74,8 @@ export function Header({ className, ...props }: HeaderProps) {
 
   useEffect(() => {
     set((s) => ({ ...s, headerHeight: top + bottom + 1 }));
+
+    document.documentElement.style.setProperty("--header-height", `${top + bottom + 1}px`);
   }, [bottom, set, top]);
 
   return (
