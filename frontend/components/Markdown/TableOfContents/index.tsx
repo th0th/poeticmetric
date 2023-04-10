@@ -60,9 +60,7 @@ export function TableOfContents({ children }: TableOfContentsProps) {
           }
         }
 
-        return (
-          <></>
-        );
+        return React.createElement(tag, props, children);
       },
     });
 
