@@ -8,6 +8,7 @@ then
   rm -rf pages/docs
   rm -rf pages/index.ts
   rm -rf pages/manifesto.tsx
+  rm -rf pages/open-source.tsx
   rm -rf pages/pricing.tsx
   rm -rf pages/privacy-policy.tsx
   rm -rf pages/sign-up.tsx
