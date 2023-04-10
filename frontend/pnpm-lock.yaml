@@ -67,9 +67,6 @@ dependencies:
   flag-icons:
     specifier: ^6.6.6
     version: 6.6.6
-  github-buttons:
-    specifier: ^2.27.0
-    version: 2.27.0
   gray-matter:
     specifier: ^4.0.3
     version: 4.0.3
