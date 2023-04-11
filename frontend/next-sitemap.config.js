@@ -3,6 +3,7 @@ module.exports = {
   exclude: [
     "/activation",
     "/billing",
+    "/bootstrap",
     "/email-address-verification",
     "/password-reset",
     "/sign-out",

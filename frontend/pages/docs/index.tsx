@@ -11,10 +11,7 @@ export default function Docs({ serializedCategories }: DocsProps) {
   const categories = useMemo<Array<DocsCategory>>(() => JSON.parse(serializedCategories), [serializedCategories]);
 
   return (
-    <DocsArticle
-      article={categories[0].articles[0]}
-      categories={categories}
-    />
+    <DocsArticle article={categories[0].articles[0]} categories={categories} />
   );
 }
 

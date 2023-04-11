@@ -1,3 +1,4 @@
+import { getRestApiUrl } from "./urls";
 import { getUserAccessToken, setUserAccessToken } from "./userAccessToken";
 
 export function getFetcher(requireUserAccessToken: boolean, throwOnErroneousResponse: boolean) {
@@ -44,7 +45,7 @@ export async function apiCall(endpoint: string, init?: RequestInit): Promise<Res
     ...init?.headers,
   };
 
-  return fetch(`${window.poeticMetric?.restApiBaseUrl}${endpoint}`, { ...init, headers });
+  return fetch(getRestApiUrl(endpoint) || "", { ...init, headers });
 }
 
 export const api = {

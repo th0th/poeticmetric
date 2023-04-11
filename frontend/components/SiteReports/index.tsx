@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import * as querystring from "querystring";
 import React, { useCallback, useMemo, useRef } from "react";
 import { Col, Dropdown, Row, Stack } from "react-bootstrap";
-import { getUserAccessToken } from "../../helpers";
+import { getRestApiUrl, getUserAccessToken } from "../../helpers";
 import { Filters } from "./Filters";
 import { Geo } from "./Geo";
 import { Handler } from "./Handler";
@@ -49,7 +49,7 @@ export function SiteReports({ site }: SiteReportsProps) {
   return (
     <Handler site={site}>
       <form
-        action={`${window.poeticMetric?.restApiBaseUrl}/site-reports/export/reports?${exportFormActionQueryString}`}
+        action={getRestApiUrl(`/site-reports/export/reports?${exportFormActionQueryString}`)}
         className="d-none"
         encType="multipart/form-data"
         method="post"
@@ -60,7 +60,7 @@ export function SiteReports({ site }: SiteReportsProps) {
       </form>
 
       <form
-        action={`${window.poeticMetric?.restApiBaseUrl}/site-reports/export/events?${exportFormActionQueryString}`}
+        action={getRestApiUrl(`/site-reports/export/events?${exportFormActionQueryString}`)}
         className="d-none"
         encType="multipart/form-data"
         method="post"

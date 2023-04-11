@@ -2,11 +2,12 @@ import Link from "next/link";
 import React from "react";
 import { Container } from "react-bootstrap";
 import { Description, Layout, Title } from "..";
+import { getIsHosted } from "../../helpers";
 import Visual from "./404.svg";
 
 export function NotFound() {
   return (
-    <Layout kind={process.env.NEXT_PUBLIC_HOSTED === "true" ? "website" : "app"}>
+    <Layout kind={getIsHosted() ? "website" : "app"}>
       <Title>404 - Page not found</Title>
       <Description>
         Sorry, the page you&apos;re looking for could not be found. Please check the URL and try again or visit our homepage for more

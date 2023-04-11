@@ -1,9 +1,9 @@
 import Link from "next/link";
 import React, { useCallback, useContext, useMemo } from "react";
 import { Alert, Button, Card, Container, Form } from "react-bootstrap";
-import { Layout, Title } from "..";
+import { CanonicalLink, Description, Layout, Title } from "..";
 import { AuthContext } from "../../contexts";
-import { api, base64Encode, setUserAccessToken } from "../../helpers";
+import { api, base64Encode, getIsHosted, setUserAccessToken } from "../../helpers";
 import { useForm } from "../../hooks";
 
 type Form = {
@@ -41,13 +41,17 @@ export function SignIn() {
 
   return (
     <Layout kind="app">
+      <CanonicalLink path="/sign-in" />
+
       <Title>Sign in</Title>
+
+      <Description>Sign in to your PoeticMetric account and gain access to powerful web analytics features.</Description>
 
       <Container className="py-5">
         <div className="text-center">
           <h1>Sign in to continue</h1>
 
-          {process.env.NEXT_PUBLIC_HOSTED === "true" ? (
+          {getIsHosted() ? (
             <div className="mt-3">
               {"Don't have an account? "}
 

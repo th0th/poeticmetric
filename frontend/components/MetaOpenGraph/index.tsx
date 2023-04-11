@@ -1,7 +1,7 @@
-import { omit } from "lodash";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useMemo } from "react";
+import { getUrl } from "../../helpers";
 
 type Image = {
   height: number;
@@ -20,30 +20,21 @@ export function MetaOpenGraph({ description, image: imageFromProps, siteName: si
   const router = useRouter();
 
   const image = useMemo<Image | null>(() => {
-    if (typeof window === "undefined") {
+    const url = getUrl(imageFromProps?.path || "/poeticmetric-og-image.jpg");
+
+    if (url === undefined) {
       return null;
     }
 
-    if (imageFromProps !== undefined) {
-      return {
-        ...omit(imageFromProps, ["path"]),
-        url: `${window.poeticMetric?.frontendBaseUrl}/${imageFromProps.path}`,
-      };
-    }
-
     return {
-      height: 902,
-      url: `${window.poeticMetric?.frontendBaseUrl}/poeticmetric-og-image.jpg`,
-      width: 2261,
+      height: imageFromProps?.height || 902,
+      url,
+      width: imageFromProps?.width || 2261,
     };
   }, [imageFromProps]);
 
   const url = useMemo<string | null>(() => {
-    if (typeof window === "undefined") {
-      return null;
-    }
-
-    return `${window.poeticMetric?.frontendBaseUrl}${router.asPath}`;
+    return getUrl(router.asPath) || null;
   }, [router.asPath]);
 
   const siteName = useMemo<string>(() => siteNameFromProps || "PoeticMetric", [siteNameFromProps]);

@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useMemo } from "react";
 import { Container, Spinner } from "react-bootstrap";
-import { Layout, SiteReports, Title } from "../components";
+import { CanonicalLink, Layout, SiteReports, Title } from "../components";
 import { ToastsContext } from "../contexts";
 import { usePublicSite } from "../hooks";
 
@@ -9,15 +9,21 @@ export default function PublicSiteReports() {
   const router = useRouter();
   const { addToast } = useContext(ToastsContext);
 
-  const domain = useMemo(() => {
+  const domain = useMemo<null | string | undefined>(() => {
     if (!router.isReady) {
       return undefined;
     }
 
-    return router.query.d?.toString();
+    return router.query.d?.toString() || null;
   }, [router.isReady, router.query.d]);
 
-  const { data: site, error: siteError } = usePublicSite(domain);
+  const { data: site, error: siteError } = usePublicSite(domain || undefined);
+
+  useEffect(() => {
+    if (domain === null) {
+      router.replace("/");
+    }
+  }, [domain, router]);
 
   useEffect(() => {
     if (siteError !== undefined) {
@@ -34,6 +40,10 @@ export default function PublicSiteReports() {
           <Spinner className="m-auto" variant="primary" />
         ) : (
           <>
+            {!!domain ? (
+              <CanonicalLink path={`/s?d=${domain}`} />
+            ) : null}
+
             <Title>{`Reports for ${site.name}`}</Title>
 
             <SiteReports site={site} />

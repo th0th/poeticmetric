@@ -1,6 +1,6 @@
 import React from "react";
 import { Container } from "react-bootstrap";
-import { Description, Layout, Markdown, MetaOpenGraph, Title } from "..";
+import { CanonicalLink, Description, Layout, Markdown, MetaOpenGraph, Title } from "..";
 
 export type ManifestoProps = {
   content: string;
@@ -9,6 +9,8 @@ export type ManifestoProps = {
 export function Manifesto({ content }: ManifestoProps) {
   return (
     <Layout kind="website">
+      <CanonicalLink path="/manifesto" />
+
       <Title>Manifesto</Title>
 
       <Description>

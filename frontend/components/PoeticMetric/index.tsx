@@ -1,13 +1,10 @@
 import Script from "next/script";
 import React, { useMemo } from "react";
+import { getRestApiUrl } from "../../helpers";
 
 export function PoeticMetric() {
   const src = useMemo<string | null>(() => {
-    if (typeof window === "undefined" || window.poeticMetric === undefined) {
-      return null;
-    }
-
-    return `${window.poeticMetric?.restApiBaseUrl}/pm.js`;
+    return getRestApiUrl("/pm.js") || null;
   }, []);
 
   return src === null ? null : (

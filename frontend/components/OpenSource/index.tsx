@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { Container } from "react-bootstrap";
 import GitHubButton from "react-github-btn";
-import { Description, Layout, Markdown, Title } from "..";
+import { CanonicalLink, Description, Layout, Markdown, Title } from "..";
 import styles from "./OpenSource.module.scss";
 
 type OpenSourceProps = {
@@ -11,7 +11,10 @@ type OpenSourceProps = {
 export function OpenSource({ content }: OpenSourceProps) {
   return (
     <Layout kind="website">
+      <CanonicalLink path="/open-source" />
+
       <Title>PoeticMetric: the open source Google Analytics alternative</Title>
+
       <Description>Here you can find about the philosophy of PoeticMetric open source web analytics.</Description>
 
       <div className="position-relative overflow-hidden">

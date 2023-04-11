@@ -32,8 +32,7 @@ COPY sentry.server.config.js .
 COPY tsconfig.json .
 
 COPY docker-entrypoint.development.sh /usr/local/bin/docker-entrypoint.sh
-COPY scripts/generate-config.sh /usr/local/bin/generate-config.sh
 
 EXPOSE 80
 
-CMD ["docker-entrypoint.sh"]
+CMD ["pnpm", "run", "dev"]

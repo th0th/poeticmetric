@@ -6,6 +6,7 @@ import { Container, Nav, Navbar, NavbarProps } from "react-bootstrap";
 import { useMeasure } from "react-use";
 import { Logo } from "../..";
 import { AuthContext, LayoutContext } from "../../../contexts";
+import { getIsHosted } from "../../../helpers";
 import { Actions } from "./Actions";
 
 export type HeaderProps = NavbarProps;
@@ -35,7 +36,7 @@ export function Header({ className, ...props }: HeaderProps) {
               <Nav.Link active={router.pathname.startsWith("/team")} as={Link} href="/team">Team</Nav.Link>
             </Nav.Item>
 
-            {process.env.NEXT_PUBLIC_HOSTED === "true" && user.isOrganizationOwner ? (
+            {getIsHosted() && user.isOrganizationOwner ? (
               <Nav.Item>
                 <Nav.Link active={router.pathname.startsWith("/billing")} as={Link} href="/billing">Billing</Nav.Link>
               </Nav.Item>

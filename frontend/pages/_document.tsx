@@ -1,6 +1,7 @@
 import { Head, Html, Main, NextScript } from "next/document";
 import Script from "next/script";
 import React from "react";
+import { getIsHosted } from "../helpers";
 
 export default function Document() {
   return (
@@ -12,7 +13,9 @@ export default function Document() {
 
         <NextScript />
 
-        <Script src="/config.js" strategy="beforeInteractive" />
+        {!getIsHosted() ? (
+          <Script src="/config.js" strategy="beforeInteractive" />
+        ) : null}
       </body>
     </Html>
   );

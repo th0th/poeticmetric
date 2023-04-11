@@ -4,6 +4,8 @@ title: Introduction
 
 **PoeticMetric** offers multiple team member accounts for the same organization account to ease collaboration with your colleagues.
 
+<!-- end -->
+
 ## Inviting new members
 
 You can invite your team by going to the [Team](/team) page, and clicking the **Invite new team member** button on top right. When you complete the form, an e-mail with a link will be sent to your teammate.

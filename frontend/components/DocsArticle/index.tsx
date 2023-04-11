@@ -1,8 +1,6 @@
+import { useRouter } from "next/router";
 import React from "react";
-import { Breadcrumb } from "../Breadcrumb";
-import { Layout } from "../Layout";
-import { Markdown } from "../Markdown";
-import { Title } from "../Title";
+import { Breadcrumb, CanonicalLink, Description, Layout, Markdown, Title } from "..";
 import { Menu } from "./Menu";
 
 type DocsArticleProps = {
@@ -11,9 +9,19 @@ type DocsArticleProps = {
 };
 
 export function DocsArticle({ article, categories }: DocsArticleProps) {
+  const router = useRouter();
+
   return (
     <Layout kind="website">
+      <CanonicalLink
+        path={router.asPath === "/docs"
+          ? `/docs/${categories[0].slug}/${categories[0].articles[0].slug}`
+          : `/docs/${article.category.slug}/${article.slug}`}
+      />
+
       <Title kind="docs">{article.title}</Title>
+
+      <Description>{article.excerpt}</Description>
 
       <div className="bg-white d-flex flex-column flex-grow-1 flex-md-row">
         <Menu article={article} categories={categories} />

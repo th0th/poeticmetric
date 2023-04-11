@@ -4,6 +4,7 @@ import { Alert, Button, Card, Container, Form, Spinner } from "react-bootstrap";
 import { AuthContext, ToastsContext } from "../../contexts";
 import { api, setUserAccessToken } from "../../helpers";
 import { useForm } from "../../hooks";
+import { Title } from "../Title";
 
 type Form = {
   createDemoSite: boolean;
@@ -93,11 +94,13 @@ export function Bootstrap() {
 
   return state.isReady ? (
     <Container className="py-5">
+      <Title>Complete PoeticMetric installation</Title>
+
       <div className="text-center">
         <h1>Welcome to PoeticMetric!</h1>
 
         <div className="mt-3">
-          Initialize your PoeticMetric installation to continue.
+          Complete PoeticMetric installation to continue.
         </div>
       </div>
 
