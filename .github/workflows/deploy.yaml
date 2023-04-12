@@ -83,6 +83,7 @@ jobs:
             BASE_URL=${{ vars.FRONTEND_BASE_URL }}
             GOOGLE_CLIENT_ID=${{ vars.GOOGLE_CLIENT_ID }}
             HOSTED=true
+            REST_API_BASE_URL=${{ vars.REST_API_BASE_URL }}
             ROBOTS_TXT_ALLOW=${{ vars.ROBOTS_TXT_ALLOW }}
             SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
             SENTRY_DSN=${{ secrets.SENTRY_DSN }}
