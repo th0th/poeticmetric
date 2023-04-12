@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React, { useMemo } from "react";
 import { Container } from "react-bootstrap";
+import { CanonicalLink } from "../CanonicalLink";
 import { Description } from "../Description";
 import { Layout } from "../Layout";
 import { Markdown } from "../Markdown";
@@ -43,7 +44,10 @@ export function BlogPost({ nextPost, post, previousPost }: BlogPostProps) {
 
   return (
     <Layout kind="website">
+      <CanonicalLink path={`/blog/${post.slug}`} />
+
       <Title kind="blog">{post.title}</Title>
+
       <Description>{post.excerpt}</Description>
 
       <Container className="pt-4">

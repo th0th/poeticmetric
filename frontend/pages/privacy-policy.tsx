@@ -4,7 +4,7 @@ import { GetStaticPropsResult } from "next";
 import path from "path";
 import { PrivacyPolicy as BasePrivacyPolicy, PrivacyPolicyProps as BasePrivacyPolicyProps } from "../components";
 
-export default function TermsOfService(props: BasePrivacyPolicyProps) {
+export default function PrivacyPolicy(props: BasePrivacyPolicyProps) {
   return (
     <BasePrivacyPolicy {...props} />
   );

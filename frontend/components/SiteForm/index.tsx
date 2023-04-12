@@ -5,7 +5,7 @@ import { Button, Card, Container, Form, Spinner } from "react-bootstrap";
 import { mutate } from "swr";
 import { ArrayInput, Breadcrumb, Layout, Title } from "..";
 import { ToastsContext } from "../../contexts";
-import { api } from "../../helpers";
+import { api, getIsHosted, getUrl } from "../../helpers";
 import { useForm, useQueryParameter } from "../../hooks";
 import { GoogleSearchConsoleSiteUrlFormGroup } from "./GoogleSearchConsoleSiteUrlFormGroup";
 
@@ -138,7 +138,7 @@ export function SiteForm() {
 
                       <ArrayInput onValueChange={(q) => updateValue("safeQueryParameters", q)} value={values.safeQueryParameters} />
 
-                      {process.env.NEXT_PUBLIC_HOSTED === "true" ? (
+                      {getIsHosted() ? (
                         <Form.Text>
                           {"You can select privacy-safe query parameters to be saved. For details please see "}
                           <Link href="/docs/websites/query-parameters" target="_blank">here</Link>
@@ -154,7 +154,7 @@ export function SiteForm() {
                       value={values.googleSearchConsoleSiteUrl}
                     />
 
-                    {process.env.NEXT_PUBLIC_HOSTED === "true" ? (
+                    {getIsHosted() ? (
                       <Form.Group controlId="is-public">
                         <Form.Check
                           checked={values.isPublic}
@@ -166,7 +166,7 @@ export function SiteForm() {
 
                         <Form.Text>
                           {"If you enable this, this site's stats will be accessible by everyone on "}
-                          {`${window.poeticMetric?.frontendBaseUrl}/s?d=${values.domain}`}
+                          {getUrl(`s?d=${values.domain}`)}
                           .
                         </Form.Text>
                       </Form.Group>

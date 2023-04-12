@@ -8,6 +8,7 @@ export * from "./BlogPost";
 export * from "./Bootstrap";
 export * from "./Breadcrumb";
 export * from "./CallToAction";
+export * from "./CanonicalLink";
 export * from "./ChartTooltip";
 export * from "./Description";
 export * from "./DocsArticle";

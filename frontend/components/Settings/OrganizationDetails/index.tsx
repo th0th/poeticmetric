@@ -2,7 +2,7 @@ import Link from "next/link";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Alert, Button, Card, Form, InputGroup, Stack } from "react-bootstrap";
 import { AuthContext, ToastsContext } from "../../../contexts";
-import { api } from "../../../helpers";
+import { api, getIsHosted } from "../../../helpers";
 import { useForm } from "../../../hooks";
 
 type Form = {
@@ -53,7 +53,7 @@ export function OrganizationDetails() {
           functionality.
         </p>
 
-        {process.env.NEXT_PUBLIC_HOSTED === "true" ? (
+        {getIsHosted() ? (
           <Alert className="align-items-center d-flex flex-row fs-sm my-3 py-2" variant="warning">
             <i className="bi bi-info-circle flex-shrink-0 fs-3" />
 

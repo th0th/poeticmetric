@@ -4,6 +4,8 @@ title: "Excluding yourself from analytics"
 
 By default, once you add PoeticMetric script on your website, PoeticMetric tracks every visitor. But you might want to exclude yourself and your team from affecting the statistics.
 
+<!-- end -->
+
 You might be familiar with this process and look for a way to ignore some IP addresses on the PoeticMetric interface. However, since [we don't collect, encrypt or process IP addresses as a privacy feature](/docs/what-we-collect), IP address filtering is not available on PoeticMetric. Instead, you will need to set a `localStorage` flag to let the tracker script know, and it will exclude you and stop event collection.
 
 ## tl;dr, to exclude yourself:

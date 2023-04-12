@@ -3,6 +3,7 @@ import { range } from "lodash";
 import Link from "next/link";
 import React, { useMemo } from "react";
 import { Col, Container, Pagination, Row } from "react-bootstrap";
+import { CanonicalLink } from "../CanonicalLink";
 import { Description } from "../Description";
 import { Layout } from "../Layout";
 import { Title } from "../Title";
@@ -50,7 +51,10 @@ export function BlogPage({ currentPage, pageCount, posts }: BlogPageProps) {
 
   return (
     <Layout kind="website">
+      <CanonicalLink path={currentPage === 1 ? "/blog" : `/blog/page/${currentPage}`} />
+
       <Title kind="blog">Privacy-focused web analytics tips and best practices</Title>
+
       <Description>
         Stay up to date on the latest privacy-first and regulation-compliant web analytics news, tips, and best practices with
         PoeticMetric&apos;s blog. Learn how to use data to improve your website and better understand your users, all while keeping their

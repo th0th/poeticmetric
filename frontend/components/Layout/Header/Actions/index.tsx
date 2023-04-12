@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useContext, useMemo } from "react";
 import { AuthContext, LayoutContext } from "../../../../contexts";
+import { getIsHosted } from "../../../../helpers";
 import { UserMenu } from "../../../UserMenu";
 
 export type ActionsProps = React.PropsWithoutRef<JSX.IntrinsicElements["div"]>;
@@ -19,7 +20,7 @@ export function Actions({ className, ...props }: ActionsProps) {
             <Link className="btn btn-outline-primary btn-sm" href="/sign-in">Sign in</Link>
           ) : null}
 
-          {process.env.NEXT_PUBLIC_HOSTED === "true" && router.pathname !== "/sign-up" ? (
+          {getIsHosted() && router.pathname !== "/sign-up" ? (
             <Link className="btn btn-primary btn-sm" href="/sign-up">Sign up</Link>
           ) : null}
         </>

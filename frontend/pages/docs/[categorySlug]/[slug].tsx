@@ -14,10 +14,7 @@ export default function Article({ serializedArticle, serializedCategories }: Art
   const categories = useMemo<Array<DocsCategory>>(() => JSON.parse(serializedCategories), [serializedCategories]);
 
   return (
-    <DocsArticle
-      article={article}
-      categories={categories}
-    />
+    <DocsArticle article={article} categories={categories} />
   );
 }
 

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 import { Alert, Button, Card, Container, Form } from "react-bootstrap";
-import { Layout, Title } from "..";
+import { CanonicalLink, Description, Layout, Title } from "..";
 import { api } from "../../helpers";
 import { useForm } from "../../hooks";
 
@@ -44,7 +44,14 @@ export function PasswordRecovery() {
 
   return (
     <Layout kind="app">
+      <CanonicalLink path="/password-recovery" />
+
       <Title>Recover your password</Title>
+
+      <Description>
+        Recover your PoeticMetric account password securely and easily with our password recovery page. Follow simple steps to reset your
+        password and regain access to your account.
+      </Description>
 
       <Container className="py-5">
         <div className="mx-auto mw-32rem text-center">

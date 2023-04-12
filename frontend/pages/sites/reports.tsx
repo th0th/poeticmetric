@@ -5,6 +5,7 @@ import { Button, Container, OverlayTrigger, Spinner, Tooltip } from "react-boots
 import { mutate } from "swr";
 import { Breadcrumb, Layout, SiteReports, SyntaxHighlighter, Title, withAuth } from "../../components";
 import { ToastsContext } from "../../contexts";
+import { getIsHosted, getTrackerUrl } from "../../helpers";
 import { useQueryParameter, useSite } from "../../hooks";
 
 function Reports() {
@@ -13,8 +14,8 @@ function Reports() {
   const { hasError: hasSiteIdError, value: siteId } = useQueryParameter("id", "number");
   const { data: site, error: siteError, isValidating: isSiteValidating } = useSite(siteId);
 
-  const scriptCode = useMemo(() => {
-    const src = `${process.env.NEXT_PUBLIC_HOSTED === "true" ? window.poeticMetric?.frontendBaseUrl : window.poeticMetric?.restApiBaseUrl}/pm.js`;
+  const scriptCode = useMemo<string>(() => {
+    const src = getTrackerUrl();
 
     return `<script async src="${src}"></script>`;
   }, []);
@@ -74,7 +75,7 @@ function Reports() {
                   </OverlayTrigger>
                 </div>
 
-                {process.env.NEXT_PUBLIC_HOSTED === "true" ? (
+                {getIsHosted() ? (
                   <div className="fs-sm mt-2">
                     {"Please see "}
                     <a href="/docs/websites/adding-the-script-to-your-website" target="_blank">docs</a>

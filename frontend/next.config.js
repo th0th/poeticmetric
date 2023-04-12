@@ -9,7 +9,7 @@ const nextConfig = {
   },
   swcMinify: true,
   webpack(config) {
-    if (process.env.FRONTEND_USE_POLLING === "true") {
+    if (process.env.USE_POLLING === "true") {
       config.watchOptions = {
         aggregateTimeout: 500,
         poll: 500,

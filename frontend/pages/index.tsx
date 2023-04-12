@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { Spinner } from "react-bootstrap";
 import { Home, Layout } from "../components";
+import { getIsHosted } from "../helpers";
 
 export default function Index() {
   const router = useRouter();
@@ -12,7 +13,7 @@ export default function Index() {
     }
   }, [router]);
 
-  return process.env.NEXT_PUBLIC_HOSTED === "true" ? (
+  return getIsHosted() ? (
     <Home />
   ) : (
     <Layout kind="app">

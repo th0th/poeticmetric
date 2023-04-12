@@ -5,7 +5,7 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from "re
 import { Spinner } from "react-bootstrap";
 import { EmailVerificationHandler, SubscriptionHandler } from "..";
 import { AuthContext, ToastsContext } from "../../contexts";
-import { api } from "../../helpers";
+import { api, getIsHosted } from "../../helpers";
 
 type State = {
   isBootstrapStatusChecked: boolean;
@@ -21,7 +21,7 @@ export function withAuth(Page: NextPage, authenticated: boolean, ownerOnly?: tru
     const router = useRouter();
     const { isReady: isAuthReady, user } = useContext(AuthContext);
     const { addToast } = useContext(ToastsContext);
-    const [state, setState] = useState<State>({ isBootstrapStatusChecked: process.env.NEXT_PUBLIC_HOSTED === "true", isReady: false });
+    const [state, setState] = useState<State>({ isBootstrapStatusChecked: getIsHosted(), isReady: false });
 
     const isPermitted = useMemo<boolean>(() => {
       if (!state.isBootstrapStatusChecked) {

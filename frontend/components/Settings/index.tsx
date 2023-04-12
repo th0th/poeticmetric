@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useCallback, useId, useMemo } from "react";
 import { Container, Nav, Stack, Tab, TabsProps } from "react-bootstrap";
+import { getIsHosted } from "../../helpers";
 import { Layout } from "../index";
 import { AccountDeletion } from "./AccountDeletion";
 import { OrganizationDetails } from "./OrganizationDetails";
@@ -60,7 +61,7 @@ export function Settings() {
                       <Nav.Link eventKey="organization-details">Organizations details</Nav.Link>
                     </Nav.Item>
 
-                    {process.env.NEXT_PUBLIC_HOSTED === "true" ? (
+                    {getIsHosted() ? (
                       <Nav.Item>
                         <Nav.Link eventKey="account-deletion">Account deletion</Nav.Link>
                       </Nav.Item>

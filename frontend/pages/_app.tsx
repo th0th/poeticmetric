@@ -11,6 +11,7 @@ import { AppProps } from "next/app";
 import React, { useEffect } from "react";
 import { registerLocale } from "react-datepicker";
 import { AuthHandler, PoeticMetric, SwrConfig, ToastsHandler } from "../components";
+import { getIsHosted } from "../helpers";
 import "../styles/style.scss";
 
 dayjs.extend(updateLocale);
@@ -34,7 +35,7 @@ export default function App({ Component, pageProps }: AppProps) {
         </ToastsHandler>
       </AuthHandler>
 
-      {process.env.NEXT_PUBLIC_HOSTED === "true" ? (
+      {getIsHosted() ? (
         <PoeticMetric />
       ) : null}
     </SwrConfig>

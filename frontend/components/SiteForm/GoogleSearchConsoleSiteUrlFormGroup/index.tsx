@@ -56,7 +56,7 @@ export function BaseGoogleSearchConsoleSiteUrlFormGroup({ onValueChange, value }
     }
   }, [cache, organization?.hasGoogleOauth]);
 
-  return process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID !== undefined && organization !== null ? (
+  return !!process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID && organization !== null ? (
     <>
       <Form.Group controlId="is-google-search-console-integration-enabled">
         <Form.Check

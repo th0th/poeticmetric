@@ -4,6 +4,8 @@ title: "Page view durations"
 
 How much time a visitor spends on a page is one of the critical engagement metrics of web analytics. However, it is tricky to measure in an accurate and privacy-friendly manner.
 
+<!-- end -->
+
 ## Google Analytics (and most of the other tools)
 
 **Google Analytics** measures time spent on the page like this: Visitor lands on your website at a particular time. When this visitor navigates to another page on your site, Google Analytics considers all the time between these two events as the "time on page". ** This approach requires tracking the visitor by a unique identifier, IP address, or a cookie.** In addition to that, the evaluation by this method is inaccurate and inadequate, too. Consider these cases:

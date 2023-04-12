@@ -6,6 +6,8 @@ title: Permissions
 
 The first team member, who signed up is set as the **organization owner**. Organization owner is indicated with a small lightning icon on their avatar in the team members list.
 
+<!-- end -->
+
 <img alt="owner" src="/docs-files/team/permissions/owner.png" style="max-width: 400px" />
 
 The organization owner is the only team member who can

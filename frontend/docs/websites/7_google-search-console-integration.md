@@ -4,6 +4,8 @@ title: "Google Search Console integration"
 
 Google Search Console provides some Google related statistics about your website, like what people, who see your website in the search results, use as the search term, and how many of them actually click your site on the results.
 
+<!-- end -->
+
 HTTP (The Hypertext Transfer Protocol) has a specific way of handling the passing of the referrer information on [RFC 9110 - HTTP Semantics](https://httpwg.org/specs/rfc9110.html#field.referer). According to this specification, when a link is clicked, URL of the page which has the link is passed via the [`Referer`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referer) header to the new page. However, since this behavior is [considered to cause undesirable consequences for user security and privacy](https://developer.mozilla.org/en-US/docs/Web/Security/Referer_header:_privacy_and_security_concerns), many sites including Google started handling referrers differently. That's why PoeticMetric can't see which search term your visitor used on Google, and need to use Google Search Console integration to obtain this data from Google.
 
 ![google search terms report details](/docs-files/websites/google-search-console-integration/google-search-terms-report-details.png "Google search terms report details")
