@@ -1,6 +1,8 @@
 package path
 
 import (
+	"strings"
+
 	"gorm.io/gorm"
 
 	"github.com/th0th/poeticmetric/backend/pkg/depot"
@@ -34,25 +36,44 @@ func Get(dp *depot.Depot, filters *filter.Filters, paginationCursor *PaginationC
 
 	baseQuery := filter.Apply(dp, filters)
 
+	totalViewCountSubQuery := baseQuery.
+		Session(&gorm.Session{}).
+		Select("count(*)")
+
+	totalVisitorCountSubQuery := baseQuery.
+		Session(&gorm.Session{}).
+		Select("count(distinct visitor_id)")
+
 	baseSubQuery := baseQuery.
 		Session(&gorm.Session{}).
-		Joins("cross join (select count(distinct visitor_id) as count from events_buffer) total_visitors").
-		Joins("cross join (select count(1) as count from events_buffer) total_views").
 		Select(
 			"round(avg(duration)) as average_duration",
-			"round(100 * countIf(duration == 0) / view_count) as bounce_percentage",
+			"round(100 * countIf(duration == 0) / count(*)) as bounce_percentage",
 			"pathFull(url) as path",
 			"url",
 			"count(*) as view_count",
-			"round(100 * view_count / total_views.count) as view_percentage",
 			"count(distinct visitor_id) as visitor_count",
-			"round(100 * visitor_count / total_visitors.count) as visitor_percentage",
 		).
-		Group("path, url, total_visitors.count, total_views.count").
+		Group("path, url").
 		Order("visitor_count desc, path")
 
 	query := dp.ClickHouse().
-		Table("(?)", baseSubQuery)
+		Table("(?)", baseSubQuery).
+		Select(
+			strings.Join([]string{
+				"average_duration",
+				"bounce_percentage",
+				"path",
+				"url",
+				"view_count",
+				"toFloat32(round(100 * view_count / (@totalViewCountSubQuery))) as view_percentage",
+				"visitor_count",
+				"toFloat32(round(100 * visitor_count / (@totalVisitorCountSubQuery))) as visitor_percentage",
+			}, ","),
+			map[string]any{
+				"totalViewCountSubQuery": totalViewCountSubQuery,
+				"totalVisitorCountSubQuery": totalVisitorCountSubQuery,
+			})
 
 	if paginationCursor != nil {
 		query.
