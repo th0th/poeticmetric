@@ -18,7 +18,7 @@ export function Overview({ ...props }: SiteOverviewReportsProps) {
     <Card {...props}>
       <Card.Body>
         {data === undefined ? (
-          <Spinner variant="primary" />
+          <Spinner className="d-block m-auto" variant="primary" />
         ) : (
           <Row lg={4} sm={2} xs={1}>
             <Col className="d-flex flex-column align-items-center align-items-sm-start text-center text-sm-start">
