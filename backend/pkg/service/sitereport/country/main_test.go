@@ -3,7 +3,6 @@ package country
 import (
 	"errors"
 	"math"
-	"os"
 	"sort"
 	"testing"
 	"time"
@@ -19,11 +18,9 @@ import (
 	h "github.com/th0th/poeticmetric/backend/pkg/testhelper"
 )
 
-var (
-	dp *depot.Depot
-)
-
 func TestGet(t *testing.T) {
+	dp := h.NewDepot()
+
 	type TestDatum struct {
 		Country        string
 		CountryIsoCode string
@@ -74,7 +71,7 @@ func TestGet(t *testing.T) {
 			return false
 		})
 
-		modelSite := h.Site(dp, nil)
+		modelSite := h.Site(dp2, nil)
 		events := []*model.Event{}
 
 		for _, testDatum := range testData {
@@ -89,17 +86,17 @@ func TestGet(t *testing.T) {
 			}
 		}
 
-		err2 := dp2.ClickHouse().
+		err = dp2.ClickHouse().
 			Create(&events).
 			Error
-		assert.NoError(t, err2)
+		assert.NoError(t, err)
 
-		report, err2 := Get(dp, &filter.Filters{
+		report, err := Get(dp2, &filter.Filters{
 			End:    end,
 			SiteId: modelSite.Id,
 			Start:  start,
 		})
-		assert.NoError(t, err2)
+		assert.NoError(t, err)
 
 		expectedReport := Report{}
 
@@ -130,10 +127,4 @@ func TestGet(t *testing.T) {
 
 		return errors.New("")
 	})
-}
-
-func TestMain(m *testing.M) {
-	dp = h.NewDepot()
-
-	os.Exit(m.Run())
 }
