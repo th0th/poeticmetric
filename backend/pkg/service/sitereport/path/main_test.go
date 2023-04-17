@@ -3,7 +3,6 @@ package path
 import (
 	"fmt"
 	"math"
-	"os"
 	"sort"
 	"testing"
 	"time"
@@ -19,10 +18,6 @@ import (
 	h "github.com/th0th/poeticmetric/backend/pkg/testhelper"
 )
 
-var (
-	dp *depot.Depot
-)
-
 func TestGet(t *testing.T) {
 	type TestDatum struct {
 		AverageDuration     uint32
@@ -31,6 +26,8 @@ func TestGet(t *testing.T) {
 		Path                string
 		VisitorCount        uint64
 	}
+
+	dp := h.NewDepot()
 
 	_ = dp.WithPostgresTransaction(func(dp2 *depot.Depot) error {
 		start, err := time.Parse("2006-01-02", "2022-01-01")
@@ -147,10 +144,4 @@ func TestGet(t *testing.T) {
 
 		return errors.New("")
 	})
-}
-
-func TestMain(m *testing.M) {
-	dp = h.NewDepot()
-
-	os.Exit(m.Run())
 }
