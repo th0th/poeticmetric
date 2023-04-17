@@ -9,6 +9,7 @@ import (
 
 	"github.com/th0th/poeticmetric/backend/pkg/depot"
 	"github.com/th0th/poeticmetric/backend/pkg/service/sitereport/filter"
+	"github.com/th0th/poeticmetric/backend/pkg/utils"
 )
 
 type Report struct {
@@ -30,16 +31,17 @@ func Get(dp *depot.Depot, filters *filter.Filters) (*Report, error) {
 		BrowserName:            filters.BrowserName,
 		BrowserVersion:         filters.BrowserVersion,
 		CountryIsoCode:         filters.CountryIsoCode,
-		DeviceType:             filters.CountryIsoCode,
+		DeviceType:             filters.DeviceType,
 		End:                    filters.Start,
 		Language:               filters.Language,
 		Locale:                 filters.Locale,
 		OperatingSystemName:    filters.OperatingSystemName,
 		OperatingSystemVersion: filters.OperatingSystemVersion,
 		Path:                   filters.Path,
+		Referrer:               filters.Referrer,
 		ReferrerSite:           filters.ReferrerSite,
 		SiteId:                 filters.SiteId,
-		Start:                  filters.Start.Add(filters.End.Sub(filters.Start)),
+		Start:                  filters.Start.Add(filters.Start.Sub(filters.End)),
 		TimeZone:               filters.TimeZone,
 		UtmCampaign:            filters.UtmCampaign,
 		UtmContent:             filters.UtmContent,
@@ -55,9 +57,11 @@ func Get(dp *depot.Depot, filters *filter.Filters) (*Report, error) {
 	errs.Go(func() error {
 		return previousQ.
 			Session(&gorm.Session{}).
-			Select("if(isFinite(round(avg(duration))), round(avg(duration)), 0)").
-			Where("duration != 0").
-			Scan(&previousReport.AveragePageViewDuration).
+			Select(
+				"count(distinct id) as page_view_count",
+				"count(distinct visitor_id) as visitor_count",
+			).
+			Scan(previousReport).
 			Error
 	})
 
@@ -67,22 +71,6 @@ func Get(dp *depot.Depot, filters *filter.Filters) (*Report, error) {
 			Select("if(isFinite(round(avg(duration))), round(avg(duration)), 0)").
 			Where("duration != 0").
 			Scan(&previousReport.AveragePageViewDuration).
-			Error
-	})
-
-	errs.Go(func() error {
-		return previousQ.
-			Session(&gorm.Session{}).
-			Select("count(distinct id)").
-			Scan(&previousReport.PageViewCount).
-			Error
-	})
-
-	errs.Go(func() error {
-		return previousQ.
-			Session(&gorm.Session{}).
-			Select("count(distinct visitor_id)").
-			Scan(&previousReport.VisitorCount).
 			Error
 	})
 
@@ -90,9 +78,11 @@ func Get(dp *depot.Depot, filters *filter.Filters) (*Report, error) {
 	errs.Go(func() error {
 		return q.
 			Session(&gorm.Session{}).
-			Select("if(isFinite(round(avg(duration))), round(avg(duration)), 0)").
-			Where("duration != 0").
-			Scan(&report.AveragePageViewDuration).
+			Select(
+				"count(distinct id) as page_view_count",
+				"count(distinct visitor_id) as visitor_count",
+			).
+			Scan(report).
 			Error
 	})
 
@@ -102,22 +92,6 @@ func Get(dp *depot.Depot, filters *filter.Filters) (*Report, error) {
 			Select("if(isFinite(round(avg(duration))), round(avg(duration)), 0)").
 			Where("duration != 0").
 			Scan(&report.AveragePageViewDuration).
-			Error
-	})
-
-	errs.Go(func() error {
-		return q.
-			Session(&gorm.Session{}).
-			Select("count(distinct id)").
-			Scan(&report.PageViewCount).
-			Error
-	})
-
-	errs.Go(func() error {
-		return q.
-			Session(&gorm.Session{}).
-			Select("count(distinct visitor_id)").
-			Scan(&report.VisitorCount).
 			Error
 	})
 
@@ -127,30 +101,19 @@ func Get(dp *depot.Depot, filters *filter.Filters) (*Report, error) {
 	}
 
 	// calculations
-	report.AveragePageViewDurationPercentageChange = calculateUint64PercentageChange(previousReport.AveragePageViewDuration, report.AveragePageViewDuration)
-	report.PageViewCountPercentageChange = calculateUint64PercentageChange(previousReport.PageViewCount, report.PageViewCount)
-	report.PageViewCountPerVisitorPercentageChange = calculateFloat64PercentageChange(previousReport.PageViewCountPerVisitor, report.PageViewCountPerVisitor)
-	report.VisitorCountPercentageChange = calculateUint64PercentageChange(previousReport.VisitorCount, report.VisitorCount)
+	if previousReport.VisitorCount != 0 {
+		previousReport.PageViewCountPerVisitor = math.Round(10*float64(previousReport.PageViewCount)/float64(previousReport.VisitorCount)) / 10
+	}
 
 	if report.VisitorCount != 0 {
 		report.PageViewCountPerVisitor = math.Round(10*float64(report.PageViewCount)/float64(report.VisitorCount)) / 10
 	}
 
+	// TODO: replace the old ones with delta
+	report.AveragePageViewDurationPercentageChange = utils.CalculatePercentageChange(previousReport.AveragePageViewDuration, report.AveragePageViewDuration)
+	report.PageViewCountPercentageChange = utils.CalculatePercentageChange(previousReport.PageViewCount, report.PageViewCount)
+	report.PageViewCountPerVisitorPercentageChange = utils.CalculatePercentageChange(previousReport.PageViewCountPerVisitor, report.PageViewCountPerVisitor)
+	report.VisitorCountPercentageChange = utils.CalculatePercentageChange(previousReport.VisitorCount, report.VisitorCount)
+
 	return report, nil
-}
-
-func calculateFloat64PercentageChange(oldValue float64, newValue float64) int16 {
-	if oldValue == 0 {
-		if newValue == 0 {
-			return 0
-		}
-
-		return 100
-	}
-
-	return int16(math.Round(100 * ((newValue - oldValue) / oldValue)))
-}
-
-func calculateUint64PercentageChange(oldValue uint64, newValue uint64) int16 {
-	return calculateFloat64PercentageChange(float64(oldValue), float64(newValue))
 }
