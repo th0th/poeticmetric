@@ -1,6 +1,8 @@
 package browsername
 
 import (
+	"strings"
+
 	"gorm.io/gorm"
 
 	"github.com/th0th/poeticmetric/backend/pkg/depot"
@@ -32,17 +34,21 @@ func Get(dp *depot.Depot, filters *filter.Filters, paginationCursor *PaginationC
 
 	totalVisitorCountSubQuery := baseQuery.
 		Session(&gorm.Session{}).
-		Select("count(distinct visitor_id) as count")
+		Select("count(distinct visitor_id)")
 
 	baseSubQuery := baseQuery.
 		Session(&gorm.Session{}).
-		Joins("cross join (?) total_visitors", totalVisitorCountSubQuery).
 		Select(
-			"browser_name",
-			"count(distinct visitor_id) as visitor_count",
-			"toUInt16(round(100 * visitor_count / total_visitors.count)) as visitor_percentage",
+			strings.Join([]string{
+				"browser_name",
+				"count(distinct visitor_id) as visitor_count",
+				"toUInt16(round(100 * visitor_count / (@totalVisitorCountSubQuery))) as visitor_percentage",
+			}, ", "),
+			map[string]any{
+				"totalVisitorCountSubQuery": totalVisitorCountSubQuery,
+			},
 		).
-		Group("browser_name, total_visitors.count").
+		Group("browser_name").
 		Order("visitor_count desc, browser_name")
 
 	query := dp.ClickHouse().
