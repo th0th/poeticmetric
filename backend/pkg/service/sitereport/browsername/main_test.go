@@ -43,13 +43,13 @@ func TestGet(t *testing.T) {
 		for datumIndex := 0; datumIndex <= 12; datumIndex += 1 {
 			testDatum := &TestDatum{
 				BrowserName:  pointer.Get(fmt.Sprintf("browser-%d", datumIndex+1)),
-				VisitorCount: uint64(gofakeit.IntRange(0, 1000)),
+				VisitorCount: uint64(gofakeit.IntRange(1, 1000)),
 			}
 
 			testData = append(testData, testDatum)
 		}
 
-		events := []*model.Event{}
+		modelEvents := []*model.Event{}
 
 		for _, testDatum := range testData {
 			var visitorIndex uint64
@@ -59,7 +59,7 @@ func TestGet(t *testing.T) {
 				viewCount := gofakeit.IntRange(1, 10)
 
 				for viewIndex := 0; viewIndex < viewCount; viewIndex += 1 {
-					events = append(events, &model.Event{
+					modelEvents = append(modelEvents, &model.Event{
 						BrowserName: testDatum.BrowserName,
 						DateTime:    gofakeit.DateRange(start, end),
 						Id:          uuid.NewString(),
@@ -109,7 +109,7 @@ func TestGet(t *testing.T) {
 		}
 
 		err = dp2.ClickHouse().
-			Create(&events).
+			Create(&modelEvents).
 			Error
 		assert.NoError(t, err)
 
