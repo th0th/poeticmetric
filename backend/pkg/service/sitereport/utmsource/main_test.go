@@ -1,7 +1,10 @@
 package utmsource
 
 import (
-	"os"
+	"errors"
+	"fmt"
+	"math"
+	"sort"
 	"testing"
 	"time"
 
@@ -16,84 +19,131 @@ import (
 	h "github.com/th0th/poeticmetric/backend/pkg/testhelper"
 )
 
-var (
-	dp *depot.Depot
-)
-
 func TestGet(t *testing.T) {
-	modelSite := h.Site(dp, nil)
-
-	start, err := time.Parse("2006-01-02", "2022-01-01")
-	assert.NoError(t, err)
-
-	end, err := time.Parse("2006-01-02", "2022-12-31")
-	assert.NoError(t, err)
-
-	events := []*model.Event{}
-
-	testData := []struct {
+	type TestDatum struct {
 		UtmSource    *string
-		VisitorCount int
-	}{
-		{UtmSource: nil, VisitorCount: 237},
-		{UtmSource: pointer.Get("utmsource1"), VisitorCount: 297},
-		{UtmSource: pointer.Get("utmsource2"), VisitorCount: 275},
-		{UtmSource: pointer.Get("utmsource3"), VisitorCount: 236},
-		{UtmSource: pointer.Get("utmsource4"), VisitorCount: 200},
-		{UtmSource: pointer.Get("utmsource5"), VisitorCount: 200},
-		{UtmSource: pointer.Get("utmsource6"), VisitorCount: 199},
-		{UtmSource: pointer.Get("utmsource7"), VisitorCount: 193},
-		{UtmSource: pointer.Get("utmsource8"), VisitorCount: 145},
-		{UtmSource: pointer.Get("utmsource9"), VisitorCount: 115},
-		{UtmSource: pointer.Get("utmsource10"), VisitorCount: 75},
-		{UtmSource: pointer.Get("utmsource11"), VisitorCount: 65},
+		VisitorCount uint64
 	}
 
-	for _, d := range testData {
-		for i := 0; i < d.VisitorCount; i += 1 {
-			events = append(events, &model.Event{
-				DateTime:  gofakeit.DateRange(start, end),
-				Id:        uuid.NewString(),
-				SiteId:    modelSite.Id,
-				UtmSource: d.UtmSource,
-				VisitorId: uuid.NewString(),
+	dp := h.NewDepot()
+
+	_ = dp.WithPostgresTransaction(func(dp2 *depot.Depot) error {
+		start, err := time.Parse("2006-01-02", "2022-01-01")
+		assert.NoError(t, err)
+
+		end, err := time.Parse("2006-01-02", "2022-12-31")
+		assert.NoError(t, err)
+
+		testData := []*TestDatum{
+			{UtmSource: nil, VisitorCount: uint64(gofakeit.IntRange(1, 100))},
+		}
+
+		var totalVisitorCount uint64
+
+		for testDatumIndex := 0; testDatumIndex < 12; testDatumIndex += 1 {
+			visitorCount := uint64(gofakeit.IntRange(1, 1000))
+			totalVisitorCount += visitorCount
+
+			testData = append(testData, &TestDatum{
+				UtmSource:    pointer.Get(fmt.Sprintf("utm-source-%d", testDatumIndex+1)),
+				VisitorCount: visitorCount,
 			})
 		}
-	}
 
-	err = dp.ClickHouse().
-		Create(&events).
-		Error
-	assert.NoError(t, err)
+		modelSite := h.Site(dp2, nil)
+		modelEvents := []*model.Event{}
 
-	report, err := Get(dp, &filter.Filters{
-		End:    end,
-		SiteId: modelSite.Id,
-		Start:  start,
-	}, nil)
-	assert.NoError(t, err)
+		for _, testDatum := range testData {
+			var visitorIndex uint64
 
-	expectedReport := &Report{
-		Data: []*Datum{
-			{UtmSource: "utmsource1", VisitorCount: 297, VisitorPercentage: 15},
-			{UtmSource: "utmsource2", VisitorCount: 275, VisitorPercentage: 14},
-			{UtmSource: "utmsource3", VisitorCount: 236, VisitorPercentage: 12},
-			{UtmSource: "utmsource4", VisitorCount: 200, VisitorPercentage: 10},
-			{UtmSource: "utmsource5", VisitorCount: 200, VisitorPercentage: 10},
-			{UtmSource: "utmsource6", VisitorCount: 199, VisitorPercentage: 10},
-			{UtmSource: "utmsource7", VisitorCount: 193, VisitorPercentage: 10},
-			{UtmSource: "utmsource8", VisitorCount: 145, VisitorPercentage: 7},
-			{UtmSource: "utmsource9", VisitorCount: 115, VisitorPercentage: 6},
-			{UtmSource: "utmsource10", VisitorCount: 75, VisitorPercentage: 4},
-		},
-		PaginationCursor: &PaginationCursor{UtmSource: "utmsource10", VisitorCount: 75},
-	}
+			for visitorIndex = 0; visitorIndex < testDatum.VisitorCount; visitorIndex += 1 {
+				visitorId := uuid.NewString()
+				viewCount := gofakeit.IntRange(1, 10)
 
-	assert.Equal(t, expectedReport, report)
-}
+				for viewIndex := 0; viewIndex < viewCount; viewIndex += 1 {
+					var utmSource *string
 
-func TestMain(m *testing.M) {
-	dp = h.NewDepot()
+					if testDatum.UtmSource != nil {
+						utmSource = testDatum.UtmSource
+					}
 
-	os.Exit(m.Run())
+					modelEvents = append(modelEvents, &model.Event{
+						DateTime:  gofakeit.DateRange(start, end),
+						Id:        uuid.NewString(),
+						Kind:      model.EventKindPageView,
+						SiteId:    modelSite.Id,
+						UtmSource: utmSource,
+						VisitorId: visitorId,
+					})
+				}
+			}
+		}
+
+		filteredTestData := []*TestDatum{}
+
+		for _, testDatum := range testData {
+			if testDatum.UtmSource != nil {
+				filteredTestData = append(filteredTestData, testDatum)
+			}
+		}
+
+		sort.Slice(filteredTestData, func(i, j int) bool {
+			if filteredTestData[i].VisitorCount > filteredTestData[j].VisitorCount {
+				return true
+			}
+
+			if filteredTestData[i].VisitorCount == filteredTestData[j].VisitorCount {
+				return *filteredTestData[i].UtmSource > *filteredTestData[j].UtmSource
+			}
+
+			return false
+		})
+
+		expectedReport := &Report{
+			PaginationCursor: &PaginationCursor{
+				UtmSource:    *filteredTestData[9].UtmSource,
+				VisitorCount: filteredTestData[9].VisitorCount,
+			},
+		}
+
+		for _, testDatum := range filteredTestData[0:10] {
+			expectedReport.Data = append(expectedReport.Data, &Datum{
+				UtmSource:         *testDatum.UtmSource,
+				VisitorCount:      testDatum.VisitorCount,
+				VisitorPercentage: uint16(math.Round(100 * float64(testDatum.VisitorCount) / float64(totalVisitorCount))),
+			})
+		}
+
+		fmt.Println(len(modelEvents))
+
+		err = dp2.ClickHouse().
+			Create(&modelEvents).
+			Error
+		assert.NoError(t, err)
+
+		report, err := Get(dp2, &filter.Filters{
+			End:    end,
+			SiteId: modelSite.Id,
+			Start:  start,
+		}, nil)
+		assert.NoError(t, err)
+
+		assert.Equal(t, expectedReport, report)
+
+		err = dp2.ClickHouse().
+			Exec("optimize table events_buffer").
+			Error
+		assert.NoError(t, err)
+
+		err = dp2.ClickHouse().
+			Table("events").
+			Where("site_id = ?", modelSite.Id).
+			Delete(nil).
+			Error
+		if err != nil {
+			return err
+		}
+
+		return errors.New("")
+	})
 }
