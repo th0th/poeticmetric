@@ -39,7 +39,6 @@ func Get(dp *depot.Depot, filters *filter.Filters, paginationCursor *PaginationC
 
 	baseSubQuery := baseQuery.
 		Session(&gorm.Session{}).
-		Joins("cross join (?) as total_visitors", totalVisitorCountSubQuery).
 		Select(
 			strings.Join([]string{
 				"utm_source",
