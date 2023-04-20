@@ -63,7 +63,7 @@ func TestGet(t *testing.T) {
 			return false
 		})
 
-		modelSite := h.Site(dp, nil)
+		modelSite := h.Site(dp2, nil)
 
 		events := []*model.Event{}
 
@@ -98,7 +98,7 @@ func TestGet(t *testing.T) {
 			Error
 		assert.NoError(t, err2)
 
-		report, err2 := Get(dp, &filter.Filters{
+		report, err2 := Get(dp2, &filter.Filters{
 			End:    end,
 			SiteId: modelSite.Id,
 			Start:  start,

@@ -28,7 +28,7 @@ func TestGet(t *testing.T) {
 	dp := h.NewDepot()
 
 	_ = dp.WithPostgresTransaction(func(dp2 *depot.Depot) error {
-		modelSite := h.Site(dp, nil)
+		modelSite := h.Site(dp2, nil)
 
 		start, err := time.Parse("2006-01-02", "2022-01-01")
 		assert.NoError(t, err)

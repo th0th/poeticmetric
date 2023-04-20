@@ -19,13 +19,13 @@ import (
 )
 
 func TestGet(t *testing.T) {
-	dp := h.NewDepot()
-
 	type TestDatum struct {
 		Country        string
 		CountryIsoCode string
 		VisitorCount   uint64
 	}
+
+	dp := h.NewDepot()
 
 	_ = dp.WithPostgresTransaction(func(dp2 *depot.Depot) error {
 		start, err := time.Parse("2006-01-02", "2022-01-01")

@@ -50,7 +50,7 @@ func TestGet(t *testing.T) {
 			})
 		}
 
-		modelSite := h.Site(dp, nil)
+		modelSite := h.Site(dp2, nil)
 		modelEvents := []*model.Event{}
 
 		for _, testDatum := range testData {
