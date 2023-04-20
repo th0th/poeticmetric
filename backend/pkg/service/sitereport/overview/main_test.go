@@ -41,7 +41,7 @@ func TestGet(t *testing.T) {
 
 		modelSite := h.Site(dp2, nil)
 
-		events := []*model.Event{}
+		modelEvents := []*model.Event{}
 
 		previousTestData := &TestData{}
 		visitorId := ""
@@ -61,7 +61,7 @@ func TestGet(t *testing.T) {
 
 			previousTestData.TotalDuration += uint64(duration)
 
-			events = append(events, &model.Event{
+			modelEvents = append(modelEvents, &model.Event{
 				DateTime:  gofakeit.DateRange(previousStart, previousEnd),
 				Duration:  duration,
 				Id:        uuid.NewString(),
@@ -90,10 +90,11 @@ func TestGet(t *testing.T) {
 
 			testData.TotalDuration += uint64(duration)
 
-			events = append(events, &model.Event{
+			modelEvents = append(modelEvents, &model.Event{
 				DateTime:  gofakeit.DateRange(start, end),
 				Duration:  duration,
 				Id:        uuid.NewString(),
+				Kind:      model.EventKindPageView,
 				SiteId:    modelSite.Id,
 				VisitorId: visitorId,
 			})
@@ -102,7 +103,7 @@ func TestGet(t *testing.T) {
 		}
 
 		err = dp2.ClickHouse().
-			Create(&events).
+			Create(&modelEvents).
 			Error
 		assert.NoError(t, err)
 

@@ -63,6 +63,7 @@ func TestGet(t *testing.T) {
 						BrowserName: testDatum.BrowserName,
 						DateTime:    gofakeit.DateRange(start, end),
 						Id:          uuid.NewString(),
+						Kind:        model.EventKindPageView,
 						SiteId:      modelSite.Id,
 						VisitorId:   visitorId,
 					})

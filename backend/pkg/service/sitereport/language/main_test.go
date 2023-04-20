@@ -19,7 +19,6 @@ import (
 	h "github.com/th0th/poeticmetric/backend/pkg/testhelper"
 )
 
-
 func TestGet(t *testing.T) {
 	type TestDatum struct {
 		Language     *string
@@ -65,6 +64,7 @@ func TestGet(t *testing.T) {
 					modelEvents = append(modelEvents, &model.Event{
 						DateTime:  gofakeit.DateRange(start, end),
 						Id:        uuid.NewString(),
+						Kind:      model.EventKindPageView,
 						Language:  testDatum.Language,
 						SiteId:    modelSite.Id,
 						VisitorId: visitorId,
