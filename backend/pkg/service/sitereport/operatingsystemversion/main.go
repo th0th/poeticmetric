@@ -1,6 +1,8 @@
 package operatingsystemversion
 
 import (
+	"strings"
+
 	v "github.com/RussellLuo/validating/v3"
 	"gorm.io/gorm"
 
@@ -43,14 +45,18 @@ func Get(dp *depot.Depot, filters *filter.Filters, paginationCursor *PaginationC
 
 	baseSubQuery := baseQuery.
 		Session(&gorm.Session{}).
-		Joins("cross join (?) total_visitors", totalVisitorCountSubQuery).
 		Select(
-			"operating_system_name",
-			"operating_system_version",
-			"count(distinct visitor_id) as visitor_count",
-			"toUInt16(round(100 * visitor_count / total_visitors.count)) as visitor_percentage",
+			strings.Join([]string{
+				"operating_system_name",
+				"operating_system_version",
+				"count(distinct visitor_id) as visitor_count",
+				"toUInt16(round(100 * visitor_count / (@totalVisitorCountSubQuery))) as visitor_percentage",
+			}, ", "),
+			map[string]any{
+				"totalVisitorCountSubQuery": totalVisitorCountSubQuery,
+			},
 		).
-		Group("operating_system_name, operating_system_version, total_visitors.count").
+		Group("operating_system_name, operating_system_version").
 		Order("visitor_count desc, operating_system_version")
 
 	query := dp.ClickHouse().
