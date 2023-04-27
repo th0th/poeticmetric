@@ -1,7 +1,10 @@
 package browserversion
 
 import (
-	"os"
+	"errors"
+	"fmt"
+	"math"
+	"sort"
 	"testing"
 	"time"
 
@@ -16,88 +19,127 @@ import (
 	h "github.com/th0th/poeticmetric/backend/pkg/testhelper"
 )
 
-var (
-	dp *depot.Depot
-)
-
 func TestGet(t *testing.T) {
-	modelSite := h.Site(dp, nil)
-
-	start, err := time.Parse("2006-01-02", "2022-01-01")
-	assert.NoError(t, err)
-
-	end, err := time.Parse("2006-01-02", "2022-12-31")
-	assert.NoError(t, err)
-
-	events := []*model.Event{}
-
-	browserName := "Chrome"
-
-	testData := []struct {
+	type TestDatum struct {
 		BrowserVersion *string
-		VisitorCount   int
-	}{
-		{BrowserVersion: nil, VisitorCount: 237},
-		{BrowserVersion: pointer.Get("11"), VisitorCount: 287},
-		{BrowserVersion: pointer.Get("10"), VisitorCount: 280},
-		{BrowserVersion: pointer.Get("9"), VisitorCount: 274},
-		{BrowserVersion: pointer.Get("8"), VisitorCount: 271},
-		{BrowserVersion: pointer.Get("7"), VisitorCount: 263},
-		{BrowserVersion: pointer.Get("6"), VisitorCount: 250},
-		{BrowserVersion: pointer.Get("5"), VisitorCount: 150},
-		{BrowserVersion: pointer.Get("4"), VisitorCount: 141},
-		{BrowserVersion: pointer.Get("3"), VisitorCount: 45},
-		{BrowserVersion: pointer.Get("2"), VisitorCount: 21},
-		{BrowserVersion: pointer.Get("1"), VisitorCount: 18},
+		VisitorCount   uint64
 	}
 
-	for _, d := range testData {
-		for i := 0; i < d.VisitorCount; i += 1 {
-			events = append(events, &model.Event{
-				BrowserName:    &browserName,
-				BrowserVersion: d.BrowserVersion,
-				DateTime:       gofakeit.DateRange(start, end),
-				Id:             uuid.NewString(),
-				SiteId:         modelSite.Id,
-				VisitorId:      uuid.NewString(),
+	dp := h.NewDepot()
+	browserName := "browser"
+
+	_ = dp.WithPostgresTransaction(func(dp2 *depot.Depot) error {
+		start, err := time.Parse("2006-01-02", "2022-01-01")
+		assert.NoError(t, err)
+
+		end, err := time.Parse("2006-01-02", "2022-12-31")
+		assert.NoError(t, err)
+
+		testData := []*TestDatum{
+			{BrowserVersion: nil, VisitorCount: uint64(gofakeit.IntRange(1, 100))},
+		}
+
+		var totalVisitorCount uint64
+
+		for testDatumIndex := 0; testDatumIndex < 12; testDatumIndex += 1 {
+			visitorCount := uint64(gofakeit.IntRange(1, 1000))
+			totalVisitorCount += visitorCount
+
+			testData = append(testData, &TestDatum{
+				BrowserVersion: pointer.Get(fmt.Sprintf("%s-%d", browserName, testDatumIndex+1)),
+				VisitorCount:   visitorCount,
 			})
 		}
-	}
 
-	err = dp.ClickHouse().
-		Create(&events).
-		Error
-	assert.NoError(t, err)
+		modelSite := h.Site(dp2, nil)
+		modelEvents := []*model.Event{}
 
-	report, err := Get(dp, &filter.Filters{
-		BrowserName: &browserName,
-		End:         end,
-		SiteId:      modelSite.Id,
-		Start:       start,
-	}, nil)
-	assert.NoError(t, err)
+		for _, testDatum := range testData {
+			var visitorIndex uint64
 
-	expectedReport := &Report{
-		Data: []*Datum{
-			{BrowserName: "Chrome", BrowserVersion: "11", VisitorCount: 287, VisitorPercentage: 14},
-			{BrowserName: "Chrome", BrowserVersion: "10", VisitorCount: 280, VisitorPercentage: 14},
-			{BrowserName: "Chrome", BrowserVersion: "9", VisitorCount: 274, VisitorPercentage: 14},
-			{BrowserName: "Chrome", BrowserVersion: "8", VisitorCount: 271, VisitorPercentage: 14},
-			{BrowserName: "Chrome", BrowserVersion: "7", VisitorCount: 263, VisitorPercentage: 13},
-			{BrowserName: "Chrome", BrowserVersion: "6", VisitorCount: 250, VisitorPercentage: 12},
-			{BrowserName: "Chrome", BrowserVersion: "5", VisitorCount: 150, VisitorPercentage: 8},
-			{BrowserName: "Chrome", BrowserVersion: "4", VisitorCount: 141, VisitorPercentage: 7},
-			{BrowserName: "Chrome", BrowserVersion: "3", VisitorCount: 45, VisitorPercentage: 2},
-			{BrowserName: "Chrome", BrowserVersion: "2", VisitorCount: 21, VisitorPercentage: 1},
-		},
-		PaginationCursor: &PaginationCursor{BrowserVersion: "2", VisitorCount: 21},
-	}
+			for visitorIndex = 0; visitorIndex < testDatum.VisitorCount; visitorIndex += 1 {
+				visitorId := uuid.NewString()
+				viewCount := gofakeit.IntRange(1, 10)
 
-	assert.Equal(t, expectedReport, report)
-}
+				for viewIndex := 0; viewIndex < viewCount; viewIndex += 1 {
+					modelEvents = append(modelEvents, &model.Event{
+						DateTime:       gofakeit.DateRange(start, end),
+						Id:             uuid.NewString(),
+						Kind:           model.EventKindPageView,
+						BrowserName:    &browserName,
+						BrowserVersion: testDatum.BrowserVersion,
+						SiteId:         modelSite.Id,
+						VisitorId:      visitorId,
+					})
+				}
+			}
+		}
 
-func TestMain(m *testing.M) {
-	dp = h.NewDepot()
+		filteredTestData := []*TestDatum{}
 
-	os.Exit(m.Run())
+		for _, testDatum := range testData {
+			if testDatum.BrowserVersion != nil {
+				filteredTestData = append(filteredTestData, testDatum)
+			}
+		}
+
+		sort.Slice(filteredTestData, func(i, j int) bool {
+			if filteredTestData[i].VisitorCount > filteredTestData[j].VisitorCount {
+				return true
+			}
+
+			if filteredTestData[i].VisitorCount == filteredTestData[j].VisitorCount {
+				return *filteredTestData[i].BrowserVersion > *filteredTestData[j].BrowserVersion
+			}
+
+			return false
+		})
+
+		expectedReport := &Report{
+			PaginationCursor: &PaginationCursor{
+				BrowserVersion: *filteredTestData[9].BrowserVersion,
+				VisitorCount:   filteredTestData[9].VisitorCount,
+			},
+		}
+
+		for _, testDatum := range filteredTestData[0:10] {
+			expectedReport.Data = append(expectedReport.Data, &Datum{
+				BrowserName:       browserName,
+				BrowserVersion:    *testDatum.BrowserVersion,
+				VisitorCount:      testDatum.VisitorCount,
+				VisitorPercentage: uint16(math.Round(100 * float64(testDatum.VisitorCount) / float64(totalVisitorCount))),
+			})
+		}
+
+		err = dp2.ClickHouse().
+			Create(&modelEvents).
+			Error
+		assert.NoError(t, err)
+
+		report, err := Get(dp2, &filter.Filters{
+			End:         end,
+			BrowserName: &browserName,
+			SiteId:      modelSite.Id,
+			Start:       start,
+		}, nil)
+		assert.NoError(t, err)
+
+		assert.Equal(t, expectedReport, report)
+
+		err = dp2.ClickHouse().
+			Exec("optimize table events_buffer").
+			Error
+		assert.NoError(t, err)
+
+		err = dp2.ClickHouse().
+			Table("events").
+			Where("site_id = ?", modelSite.Id).
+			Delete(nil).
+			Error
+		if err != nil {
+			return err
+		}
+
+		return errors.New("")
+	})
 }
