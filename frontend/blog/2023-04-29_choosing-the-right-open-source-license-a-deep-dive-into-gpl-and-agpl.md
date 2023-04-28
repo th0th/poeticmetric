@@ -47,13 +47,13 @@ The GNU Affero General Public License (AGPL) is a derivative of the GPL license,
 
 Like the GPL, the AGPL is a copy left license that ensures the continued openness and freedom of the software. However, the AGPL places additional requirements on those who use the software in a networked environment, making it a popular choice for software that is accessed over the internet.
 
-Here are some key features and benefits of the AGPL license:
+#### Key features and benefits of the AGPL:
 
 * **Stronger Copyleft:** The AGPL ensures that any changes or modifications made to the software are also licensed under the same terms, even when the software is used over a network.
 * **Compatibility with the GPL:** Because the AGPL is based on the GPL, code licensed under the AGPL can be used in projects that are licensed under the GPL.
 * **Protection of the Community:** The AGPL ensures that any changes made to the software are available to the community, promoting collaboration and innovation.
 
-#### Key features and benefits of the AGPL:
+#### Here are some of the popular AGPL licensed software:
 
 * [Twitter's recommendation algorithm (https://github.com/twitter/the-algorithm)](https://github.com/twitter/the-algorithm)
 * [Grafana (https://github.com/grafana/grafana)](https://github.com/grafana/grafana)
