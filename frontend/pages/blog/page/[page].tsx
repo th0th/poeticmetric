@@ -4,7 +4,7 @@ import { GetStaticPathsResult, GetStaticPropsContext } from "next/types";
 import React, { useMemo } from "react";
 import { BlogPage } from "../../../components";
 import { parseBlogPosts } from "../../../helpers";
-import { blog } from "../../../lib";
+import { getBlog } from "../../../lib";
 
 type PageProps = {
   currentPage: number;
@@ -21,6 +21,8 @@ export default function Page({ currentPage, pageCount, serializedBlogPosts }: Pa
 }
 
 export function getStaticPaths(): GetStaticPathsResult<{ page: string }> {
+  const blog = getBlog();
+
   return {
     fallback: false,
     paths: range(1, blog.pageCount + 1).map((page) => ({ params: { page: page.toString() } })),
@@ -28,6 +30,8 @@ export function getStaticPaths(): GetStaticPathsResult<{ page: string }> {
 }
 
 export function getStaticProps(context: GetStaticPropsContext): GetStaticPropsResult<PageProps> {
+  const blog = getBlog();
+
   if (context.params === undefined) {
     throw new Error("An error has occurred on getStaticProps.");
   }
