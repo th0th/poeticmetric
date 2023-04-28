@@ -3,7 +3,7 @@ import { GetStaticPathsResult, GetStaticPropsContext } from "next/types";
 import { useMemo } from "react";
 import { BlogPost } from "../../components";
 import { parseBlogPost } from "../../helpers";
-import { blog } from "../../lib";
+import { getBlog } from "../../lib";
 
 export type PostProps = {
   serializedBlogPost: string;
@@ -34,6 +34,8 @@ export type BlogPostStaticParams = {
 };
 
 export function getStaticPaths(): GetStaticPathsResult<BlogPostStaticParams> {
+  const blog = getBlog();
+
   return {
     fallback: false,
     paths: blog.posts.map((p) => ({
@@ -48,6 +50,7 @@ export function getStaticPaths(): GetStaticPathsResult<BlogPostStaticParams> {
 
 export function getStaticProps(context: GetStaticPropsContext<BlogPostStaticParams>): GetStaticPropsResult<PostProps> {
   const { params } = context;
+  const blog = getBlog();
 
   if (params === undefined) {
     throw new Error("An error has occurred on getStaticProps.");
