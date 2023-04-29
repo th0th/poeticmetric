@@ -1,6 +1,8 @@
 package referrersite
 
 import (
+	"strings"
+
 	"gorm.io/gorm"
 
 	"github.com/th0th/poeticmetric/backend/pkg/depot"
@@ -39,14 +41,18 @@ func Get(dp *depot.Depot, filters *filter.Filters, paginationCursor *PaginationC
 
 	baseSubQuery := baseQuery.
 		Session(&gorm.Session{}).
-		Joins("cross join (?) total_visitors", totalVisitorCountSubQuery).
 		Select(
-			"domain(referrer) as domain",
-			"concat(protocol(referrer), '://', domain(referrer)) as referrer_site",
-			"count(distinct visitor_id) as visitor_count",
-			"toUInt16(round(100 * visitor_count / total_visitors.count)) as visitor_percentage",
+			strings.Join([]string{
+				"domain(referrer) as domain",
+				"concat(protocol(referrer), '://', domain(referrer)) as referrer_site",
+				"count(distinct visitor_id) as visitor_count",
+				"toUInt16(round(100 * visitor_count / (@totalVisitorCountSubQuery))) as visitor_percentage",
+			}, ", "),
+			map[string]any{
+				"totalVisitorCountSubQuery": totalVisitorCountSubQuery,
+			},
 		).
-		Group("domain, referrer_site, total_visitors.count").
+		Group("domain, referrer_site").
 		Order("visitor_count desc, referrer_site")
 
 	query := dp.ClickHouse().

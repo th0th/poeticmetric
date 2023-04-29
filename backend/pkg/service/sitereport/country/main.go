@@ -1,6 +1,8 @@
 package country
 
 import (
+	"strings"
+
 	"gorm.io/gorm"
 
 	"github.com/th0th/poeticmetric/backend/pkg/country"
@@ -25,17 +27,21 @@ func Get(dp *depot.Depot, filters *filter.Filters) (Report, error) {
 
 	totalVisitorCountSubQuery := baseQuery.
 		Session(&gorm.Session{}).
-		Select("count(distinct visitor_id) as count")
+		Select("count(distinct visitor_id)")
 
 	err := baseQuery.
 		Session(&gorm.Session{}).
-		Joins("cross join (?) total_visitors", totalVisitorCountSubQuery).
 		Select(
-			"country_iso_code",
-			"count(distinct visitor_id) as visitor_count",
-			"toUInt16(round(100 * visitor_count / total_visitors.count)) as visitor_percentage",
+			strings.Join([]string{
+				"country_iso_code",
+				"count(distinct visitor_id) as visitor_count",
+				"toUInt16(round(100 * visitor_count / (@totalVisitorCountSubQuery))) as visitor_percentage",
+			}, ","),
+			map[string]any{
+				"totalVisitorCountSubQuery": totalVisitorCountSubQuery,
+			},
 		).
-		Group("country_iso_code, total_visitors.count").
+		Group("country_iso_code").
 		Order("visitor_count desc, country_iso_code").
 		Find(&report).
 		Error

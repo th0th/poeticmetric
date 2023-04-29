@@ -1,8 +1,10 @@
 package referrerpath
 
 import (
+	"errors"
 	"fmt"
-	"os"
+	"math"
+	"sort"
 	"testing"
 	"time"
 
@@ -17,87 +19,138 @@ import (
 	h "github.com/th0th/poeticmetric/backend/pkg/testhelper"
 )
 
-var (
-	dp *depot.Depot
-)
-
 func TestGet(t *testing.T) {
-	start, err := time.Parse("2006-01-02", "2022-01-01")
-	assert.NoError(t, err)
-
-	end, err := time.Parse("2006-01-02", "2022-12-31")
-	assert.NoError(t, err)
-
-	modelSite := h.Site(dp, nil)
-
-	referrerSite := "https://www.webgazer.io"
-
-	testData := []*struct {
-		ReferrerPath string
-		VisitorCount int
-	}{
-		{ReferrerPath: "/analytics", VisitorCount: 997},
-		{ReferrerPath: "/privacy-first", VisitorCount: 615},
-		{ReferrerPath: "/awesome", VisitorCount: 169},
-		{ReferrerPath: "/authority", VisitorCount: 155},
-		{ReferrerPath: "/art.html", VisitorCount: 21},
-		{ReferrerPath: "/birth", VisitorCount: 15},
-		{ReferrerPath: "/branch", VisitorCount: 13},
-		{ReferrerPath: "/badge", VisitorCount: 7},
-		{ReferrerPath: "/acoustics", VisitorCount: 5},
-		{ReferrerPath: "/blow.php", VisitorCount: 2},
-		{ReferrerPath: "/brake.aspx", VisitorCount: 1},
+	type TestDatum struct {
+		Referrer     *string
+		ReferrerPath *string
+		VisitorCount uint64
 	}
 
-	events := []*model.Event{}
+	dp := h.NewDepot()
 
-	for _, d := range testData {
-		for i := 0; i < d.VisitorCount; i += 1 {
-			events = append(events, &model.Event{
-				DateTime:  gofakeit.DateRange(start, end),
-				Id:        uuid.NewString(),
-				Kind:      model.EventKindPageView,
-				Referrer:  pointer.Get(fmt.Sprintf("%s%s", referrerSite, d.ReferrerPath)),
-				SiteId:    modelSite.Id,
-				VisitorId: uuid.NewString(),
+	_ = dp.WithPostgresTransaction(func(dp2 *depot.Depot) error {
+		referrerSite := "https://www.referrersite.com"
+
+		start, err := time.Parse("2006-01-02", "2022-01-01")
+		assert.NoError(t, err)
+
+		end, err := time.Parse("2006-01-02", "2022-12-31")
+		assert.NoError(t, err)
+
+		testData := []*TestDatum{
+			{VisitorCount: uint64(gofakeit.IntRange(1, 100))},
+		}
+
+		var totalVisitorCount uint64
+
+		for testDatumIndex := 0; testDatumIndex < 12; testDatumIndex += 1 {
+			visitorCount := uint64(gofakeit.IntRange(1, 1000))
+			totalVisitorCount += visitorCount
+			referrerPath := fmt.Sprintf("/referrer-path-%d", testDatumIndex+1)
+
+			testData = append(testData, &TestDatum{
+				Referrer:     pointer.Get(fmt.Sprintf("%s%s", referrerSite, referrerPath)),
+				ReferrerPath: &referrerPath,
+				VisitorCount: visitorCount,
 			})
 		}
-	}
 
-	err = dp.ClickHouse().
-		Create(events).
-		Error
-	assert.NoError(t, err)
+		modelSite := h.Site(dp2, nil)
+		modelEvents := []*model.Event{}
 
-	report, err := Get(dp, &filter.Filters{
-		End:          end,
-		ReferrerSite: &referrerSite,
-		SiteId:       modelSite.Id,
-		Start:        start,
-	}, nil)
-	assert.NoError(t, err)
+		for _, testDatum := range testData {
+			var visitorIndex uint64
 
-	expectedReport := &Report{
-		Data: []*Datum{
-			{Referrer: fmt.Sprintf("%s/analytics", referrerSite), ReferrerPath: "/analytics", VisitorCount: 997, VisitorPercentage: 50},
-			{Referrer: fmt.Sprintf("%s/privacy-first", referrerSite), ReferrerPath: "/privacy-first", VisitorCount: 615, VisitorPercentage: 31},
-			{Referrer: fmt.Sprintf("%s/awesome", referrerSite), ReferrerPath: "/awesome", VisitorCount: 169, VisitorPercentage: 8},
-			{Referrer: fmt.Sprintf("%s/authority", referrerSite), ReferrerPath: "/authority", VisitorCount: 155, VisitorPercentage: 8},
-			{Referrer: fmt.Sprintf("%s/art.html", referrerSite), ReferrerPath: "/art.html", VisitorCount: 21, VisitorPercentage: 1},
-			{Referrer: fmt.Sprintf("%s/birth", referrerSite), ReferrerPath: "/birth", VisitorCount: 15, VisitorPercentage: 1},
-			{Referrer: fmt.Sprintf("%s/branch", referrerSite), ReferrerPath: "/branch", VisitorCount: 13, VisitorPercentage: 1},
-			{Referrer: fmt.Sprintf("%s/badge", referrerSite), ReferrerPath: "/badge", VisitorCount: 7, VisitorPercentage: 0},
-			{Referrer: fmt.Sprintf("%s/acoustics", referrerSite), ReferrerPath: "/acoustics", VisitorCount: 5, VisitorPercentage: 0},
-			{Referrer: fmt.Sprintf("%s/blow.php", referrerSite), ReferrerPath: "/blow.php", VisitorCount: 2, VisitorPercentage: 0},
-		},
-		PaginationCursor: &PaginationCursor{ReferrerPath: "/blow.php", VisitorCount: 2},
-	}
+			for visitorIndex = 0; visitorIndex < testDatum.VisitorCount; visitorIndex += 1 {
+				visitorId := uuid.NewString()
+				viewCount := gofakeit.IntRange(1, 10)
 
-	assert.Equal(t, expectedReport, report)
-}
+				for viewIndex := 0; viewIndex < viewCount; viewIndex += 1 {
+					var referrer *string
 
-func TestMain(m *testing.M) {
-	dp = h.NewDepot()
+					if testDatum.ReferrerPath != nil {
+						referrer = pointer.Get(fmt.Sprintf("%s%s", referrerSite, *testDatum.ReferrerPath))
+					}
 
-	os.Exit(m.Run())
+					modelEvents = append(modelEvents, &model.Event{
+						DateTime:  gofakeit.DateRange(start, end),
+						Id:        uuid.NewString(),
+						Kind:      model.EventKindPageView,
+						SiteId:    modelSite.Id,
+						Referrer:  referrer,
+						VisitorId: visitorId,
+					})
+				}
+			}
+		}
+
+		filteredTestData := []*TestDatum{}
+
+		for _, testDatum := range testData {
+			if testDatum.ReferrerPath != nil {
+				filteredTestData = append(filteredTestData, testDatum)
+			}
+		}
+
+		sort.Slice(filteredTestData, func(i, j int) bool {
+			if filteredTestData[i].VisitorCount > filteredTestData[j].VisitorCount {
+				return true
+			}
+
+			if filteredTestData[i].VisitorCount == filteredTestData[j].VisitorCount {
+				return *filteredTestData[i].ReferrerPath > *filteredTestData[j].ReferrerPath
+			}
+
+			return false
+		})
+
+		expectedReport := &Report{
+			PaginationCursor: &PaginationCursor{
+				ReferrerPath: *filteredTestData[9].ReferrerPath,
+				VisitorCount: filteredTestData[9].VisitorCount,
+			},
+		}
+
+		for _, testDatum := range filteredTestData[0:10] {
+			expectedReport.Data = append(expectedReport.Data, &Datum{
+				Referrer:          *testDatum.Referrer,
+				ReferrerPath:      *testDatum.ReferrerPath,
+				VisitorCount:      testDatum.VisitorCount,
+				VisitorPercentage: uint16(math.Round(100 * float64(testDatum.VisitorCount) / float64(totalVisitorCount))),
+			})
+		}
+
+		fmt.Println(len(modelEvents))
+
+		err = dp2.ClickHouse().
+			Create(&modelEvents).
+			Error
+		assert.NoError(t, err)
+
+		report, err := Get(dp2, &filter.Filters{
+			End:          end,
+			ReferrerSite: &referrerSite,
+			SiteId:       modelSite.Id,
+			Start:        start,
+		}, nil)
+		assert.NoError(t, err)
+
+		assert.Equal(t, expectedReport, report)
+
+		err = dp2.ClickHouse().
+			Exec("optimize table events_buffer").
+			Error
+		assert.NoError(t, err)
+
+		err = dp2.ClickHouse().
+			Table("events").
+			Where("site_id = ?", modelSite.Id).
+			Delete(nil).
+			Error
+		if err != nil {
+			return err
+		}
+
+		return errors.New("")
+	})
 }

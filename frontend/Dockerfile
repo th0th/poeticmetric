@@ -1,4 +1,4 @@
-FROM node:19.8.1-alpine
+FROM node:19.9.0-alpine
 
 RUN apk update && apk add bash
 RUN npm install --global pnpm@7.30.3

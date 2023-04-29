@@ -4,13 +4,13 @@ import (
 	"github.com/gofiber/fiber/v2"
 
 	dm "github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/depot"
-	sitepathreport "github.com/th0th/poeticmetric/backend/pkg/service/sitereport/path"
+	path2 "github.com/th0th/poeticmetric/backend/pkg/service/sitereport/path"
 )
 
 func path(c *fiber.Ctx) error {
 	dp := dm.Get(c)
 
-	report, err := sitepathreport.Get(dp, getFilters(c), getPaginationCursor[sitepathreport.PaginationCursor](c))
+	report, err := path2.Get(dp, getFilters(c), getPaginationCursor[path2.PaginationCursor](c))
 	if err != nil {
 		return err
 	}

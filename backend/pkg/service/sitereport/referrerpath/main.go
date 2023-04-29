@@ -1,6 +1,8 @@
 package referrerpath
 
 import (
+	"strings"
+
 	v "github.com/RussellLuo/validating/v3"
 	"gorm.io/gorm"
 
@@ -10,8 +12,8 @@ import (
 )
 
 type Datum struct {
-	ReferrerPath      string `json:"referrerPath"`
 	Referrer          string `json:"referrer"`
+	ReferrerPath      string `json:"referrerPath"`
 	VisitorCount      uint64 `json:"visitorCount"`
 	VisitorPercentage uint16 `json:"visitorPercentage"`
 }
@@ -39,20 +41,24 @@ func Get(dp *depot.Depot, filters *filter.Filters, paginationCursor *PaginationC
 		Where("protocol(referrer) in ('http', 'https')").
 		Where("domain(referrer) != domain(events_buffer.url)")
 
-	totalVisitorsSubQuery := baseQuery.
+	totalVisitorCountSubQuery := baseQuery.
 		Session(&gorm.Session{}).
-		Select("count(distinct visitor_id) as count")
+		Select("count(distinct visitor_id)")
 
 	baseSubQuery := baseQuery.
 		Session(&gorm.Session{}).
-		Joins("cross join (?) total_visitors", totalVisitorsSubQuery).
 		Select(
-			"referrer",
-			"pathFull(referrer) as referrer_path",
-			"count(distinct visitor_id) as visitor_count",
-			"toUInt16(round(100 * visitor_count / total_visitors.count)) as visitor_percentage",
+			strings.Join([]string{
+				"referrer",
+				"pathFull(referrer) as referrer_path",
+				"count(distinct visitor_id) as visitor_count",
+				"toUInt16(round(100 * visitor_count / (@totalVisitorCountSubQuery))) as visitor_percentage",
+			}, ", "),
+			map[string]any{
+				"totalVisitorCountSubQuery": totalVisitorCountSubQuery,
+			},
 		).
-		Group("referrer, total_visitors.count").
+		Group("referrer").
 		Order("visitor_count desc, referrer_path")
 
 	query := dp.ClickHouse().

@@ -1,6 +1,8 @@
 package utmsource
 
 import (
+	"strings"
+
 	"gorm.io/gorm"
 
 	"github.com/th0th/poeticmetric/backend/pkg/depot"
@@ -33,17 +35,21 @@ func Get(dp *depot.Depot, filters *filter.Filters, paginationCursor *PaginationC
 
 	totalVisitorCountSubQuery := baseQuery.
 		Session(&gorm.Session{}).
-		Select("count(distinct visitor_id) as count")
+		Select("count(distinct visitor_id)")
 
 	baseSubQuery := baseQuery.
 		Session(&gorm.Session{}).
-		Joins("cross join (?) as total_visitors", totalVisitorCountSubQuery).
 		Select(
-			"utm_source",
-			"count(distinct visitor_id) as visitor_count",
-			"toUInt16(round(100 * visitor_count / total_visitors.count)) as visitor_percentage",
+			strings.Join([]string{
+				"utm_source",
+				"count(distinct visitor_id) as visitor_count",
+				"toUInt16(round(100 * visitor_count / (@totalVisitorCountSubQuery))) as visitor_percentage",
+			}, ", "),
+			map[string]any{
+				"totalVisitorCountSubQuery": totalVisitorCountSubQuery,
+			},
 		).
-		Group("utm_source, total_visitors.count").
+		Group("utm_source").
 		Order("visitor_count desc, utm_source")
 
 	query := dp.ClickHouse().

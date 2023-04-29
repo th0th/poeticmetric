@@ -1,7 +1,10 @@
 package browsername
 
 import (
-	"os"
+	"errors"
+	"fmt"
+	"math"
+	"sort"
 	"testing"
 	"time"
 
@@ -16,87 +19,124 @@ import (
 	h "github.com/th0th/poeticmetric/backend/pkg/testhelper"
 )
 
-var (
-	dp *depot.Depot
-)
-
 func TestGet(t *testing.T) {
-	modelSite := h.Site(dp, nil)
-
-	start, err := time.Parse("2006-01-02", "2022-01-01")
-	assert.NoError(t, err)
-
-	end, err := time.Parse("2006-01-02", "2022-12-31")
-	assert.NoError(t, err)
-
-	events := []*model.Event{}
-
-	testData := []struct {
+	type TestDatum struct {
 		BrowserName  *string
-		VisitorCount int
-	}{
-		{BrowserName: nil, VisitorCount: 237},
-		{BrowserName: pointer.Get("Chrome"), VisitorCount: 306},
-		{BrowserName: pointer.Get("Firefox"), VisitorCount: 294},
-		{BrowserName: pointer.Get("Safari"), VisitorCount: 261},
-		{BrowserName: pointer.Get("Edge"), VisitorCount: 252},
-		{BrowserName: pointer.Get("Chromium"), VisitorCount: 245},
-		{BrowserName: pointer.Get("Brave"), VisitorCount: 214},
-		{BrowserName: pointer.Get("Icecat"), VisitorCount: 161},
-		{BrowserName: pointer.Get("Iceweasel"), VisitorCount: 126},
-		{BrowserName: pointer.Get("Opera"), VisitorCount: 92},
-		{BrowserName: pointer.Get("Konqueror"), VisitorCount: 43},
-		{BrowserName: pointer.Get("Elinks"), VisitorCount: 6},
+		VisitorCount uint64
 	}
 
-	for _, d := range testData {
-		for i := 0; i < d.VisitorCount; i += 1 {
-			events = append(events, &model.Event{
-				BrowserName: d.BrowserName,
-				DateTime:    gofakeit.DateRange(start, end),
-				Id:          uuid.NewString(),
-				SiteId:      modelSite.Id,
-				VisitorId:   uuid.NewString(),
+	dp := h.NewDepot()
+
+	_ = dp.WithPostgresTransaction(func(dp2 *depot.Depot) error {
+		modelSite := h.Site(dp2, nil)
+
+		start, err := time.Parse("2006-01-02", "2022-01-01")
+		assert.NoError(t, err)
+
+		end, err := time.Parse("2006-01-02", "2022-12-31")
+		assert.NoError(t, err)
+
+		testData := []*TestDatum{
+			{BrowserName: nil, VisitorCount: uint64(gofakeit.IntRange(1, 10))},
+		}
+
+		for datumIndex := 0; datumIndex <= 12; datumIndex += 1 {
+			testDatum := &TestDatum{
+				BrowserName:  pointer.Get(fmt.Sprintf("browser-%d", datumIndex+1)),
+				VisitorCount: uint64(gofakeit.IntRange(1, 1000)),
+			}
+
+			testData = append(testData, testDatum)
+		}
+
+		modelEvents := []*model.Event{}
+
+		for _, testDatum := range testData {
+			var visitorIndex uint64
+
+			for visitorIndex = 0; visitorIndex < testDatum.VisitorCount; visitorIndex += 1 {
+				visitorId := uuid.NewString()
+				viewCount := gofakeit.IntRange(1, 10)
+
+				for viewIndex := 0; viewIndex < viewCount; viewIndex += 1 {
+					modelEvents = append(modelEvents, &model.Event{
+						BrowserName: testDatum.BrowserName,
+						DateTime:    gofakeit.DateRange(start, end),
+						Id:          uuid.NewString(),
+						Kind:        model.EventKindPageView,
+						SiteId:      modelSite.Id,
+						VisitorId:   visitorId,
+					})
+				}
+			}
+		}
+
+		filteredTestData := []*TestDatum{}
+		var totalVisitorCount uint64
+
+		for _, testDatum := range testData {
+			if testDatum.BrowserName != nil {
+				totalVisitorCount += testDatum.VisitorCount
+
+				filteredTestData = append(filteredTestData, testDatum)
+			}
+		}
+
+		sort.Slice(filteredTestData, func(i, j int) bool {
+			if filteredTestData[i].VisitorCount > filteredTestData[j].VisitorCount {
+				return true
+			}
+
+			if filteredTestData[i].VisitorCount == filteredTestData[j].VisitorCount {
+				return *filteredTestData[i].BrowserName > *filteredTestData[j].BrowserName
+			}
+
+			return false
+		})
+
+		expectedReport := &Report{
+			PaginationCursor: &PaginationCursor{
+				BrowserName:  *filteredTestData[9].BrowserName,
+				VisitorCount: filteredTestData[9].VisitorCount,
+			},
+		}
+
+		for _, testDatum := range filteredTestData[0:10] {
+			expectedReport.Data = append(expectedReport.Data, &Datum{
+				BrowserName:       *testDatum.BrowserName,
+				VisitorCount:      testDatum.VisitorCount,
+				VisitorPercentage: uint16(math.Round(100 * float64(testDatum.VisitorCount) / float64(totalVisitorCount))),
 			})
 		}
-	}
 
-	err = dp.ClickHouse().
-		Create(&events).
-		Error
-	assert.NoError(t, err)
+		err = dp2.ClickHouse().
+			Create(&modelEvents).
+			Error
+		assert.NoError(t, err)
 
-	report, err := Get(dp, &filter.Filters{
-		End:    end,
-		SiteId: modelSite.Id,
-		Start:  start,
-	}, nil)
-	assert.NoError(t, err)
+		report, err := Get(dp2, &filter.Filters{
+			End:    end,
+			SiteId: modelSite.Id,
+			Start:  start,
+		}, nil)
+		assert.NoError(t, err)
 
-	expectedReport := &Report{
-		Data: []*Datum{
-			{BrowserName: "Chrome", VisitorCount: 306, VisitorPercentage: 15},
-			{BrowserName: "Firefox", VisitorCount: 294, VisitorPercentage: 15},
-			{BrowserName: "Safari", VisitorCount: 261, VisitorPercentage: 13},
-			{BrowserName: "Edge", VisitorCount: 252, VisitorPercentage: 13},
-			{BrowserName: "Chromium", VisitorCount: 245, VisitorPercentage: 12},
-			{BrowserName: "Brave", VisitorCount: 214, VisitorPercentage: 11},
-			{BrowserName: "Icecat", VisitorCount: 161, VisitorPercentage: 8},
-			{BrowserName: "Iceweasel", VisitorCount: 126, VisitorPercentage: 6},
-			{BrowserName: "Opera", VisitorCount: 92, VisitorPercentage: 5},
-			{BrowserName: "Konqueror", VisitorCount: 43, VisitorPercentage: 2},
-		},
-		PaginationCursor: &PaginationCursor{
-			BrowserName:  "Konqueror",
-			VisitorCount: 43,
-		},
-	}
+		assert.Equal(t, expectedReport, report)
 
-	assert.Equal(t, expectedReport, report)
-}
+		err = dp2.ClickHouse().
+			Exec("optimize table events_buffer").
+			Error
+		assert.NoError(t, err)
 
-func TestMain(m *testing.M) {
-	dp = h.NewDepot()
+		err = dp2.ClickHouse().
+			Table("events").
+			Where("site_id = ?", modelSite.Id).
+			Delete(nil).
+			Error
+		if err != nil {
+			return err
+		}
 
-	os.Exit(m.Run())
+		return errors.New("")
+	})
 }
