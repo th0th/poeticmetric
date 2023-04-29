@@ -13,7 +13,7 @@ export function OpenSource({ content }: OpenSourceProps) {
     <Layout kind="website">
       <CanonicalLink path="/open-source" />
 
-      <Title>PoeticMetric: the open source Google Analytics alternative</Title>
+      <Title>The open source Google Analytics alternative</Title>
 
       <Description>Here you can find about the philosophy of PoeticMetric open source web analytics.</Description>
 
