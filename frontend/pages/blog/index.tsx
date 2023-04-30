@@ -2,7 +2,7 @@ import { GetStaticPropsResult } from "next";
 import React, { useMemo } from "react";
 import { BlogPage } from "../../components";
 import { parseBlogPosts } from "../../helpers";
-import { blog } from "../../lib";
+import { getBlog } from "../../lib";
 
 type PageProps = {
   currentPage: number;
@@ -19,6 +19,8 @@ export default function Page({ currentPage, pageCount, serializedBlogPosts }: Pa
 }
 
 export function getStaticProps(): GetStaticPropsResult<PageProps> {
+  const blog = getBlog();
+
   return {
     props: {
       currentPage: 1,
