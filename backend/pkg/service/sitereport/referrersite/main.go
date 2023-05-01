@@ -33,11 +33,11 @@ func Get(dp *depot.Depot, filters *filter.Filters, paginationCursor *PaginationC
 	baseQuery := filter.Apply(dp, filters).
 		Where("referrer is not null").
 		Where("protocol(referrer) in ('http', 'https')").
-		Where("domain(referrer) != domain(events_buffer.url)")
+		Where("domain(referrer) != domain(url)")
 
 	totalVisitorCountSubQuery := baseQuery.
 		Session(&gorm.Session{}).
-		Select("count(distinct visitor_id) as count")
+		Select("count(distinct visitor_id)")
 
 	baseSubQuery := baseQuery.
 		Session(&gorm.Session{}).

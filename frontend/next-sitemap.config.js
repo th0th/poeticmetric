@@ -23,5 +23,5 @@ module.exports = {
       userAgent: "*",
     }],
   },
-  siteUrl: process.env.BASE_URL,
+  siteUrl: process.env.NEXT_PUBLIC_BASE_URL,
 };

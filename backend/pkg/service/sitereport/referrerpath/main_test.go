@@ -98,7 +98,7 @@ func TestGet(t *testing.T) {
 			}
 
 			if filteredTestData[i].VisitorCount == filteredTestData[j].VisitorCount {
-				return *filteredTestData[i].ReferrerPath > *filteredTestData[j].ReferrerPath
+				return *filteredTestData[i].ReferrerPath < *filteredTestData[j].ReferrerPath
 			}
 
 			return false

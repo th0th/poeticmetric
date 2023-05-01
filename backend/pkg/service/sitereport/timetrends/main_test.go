@@ -2,10 +2,10 @@ package timetrends
 
 import (
 	"fmt"
-	"os"
 	"testing"
 	"time"
 
+	"github.com/go-errors/errors"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 
@@ -15,11 +15,9 @@ import (
 	h "github.com/th0th/poeticmetric/backend/pkg/testhelper"
 )
 
-var (
-	dp *depot.Depot
-)
-
 func TestGet(t *testing.T) {
+	dp := h.NewDepot()
+
 	start, err := time.Parse("2006-01-02", "2022-01-01")
 	assert.NoError(t, err)
 
@@ -52,161 +50,159 @@ func TestGet(t *testing.T) {
 		{DateTimeString: "2022-11-22 13:59", VisitorId: "5"},
 	}
 
-	for _, timeZone := range timeZones {
-		modelSite := h.Site(dp, nil)
+	_ = dp.WithPostgresTransaction(func(dp2 *depot.Depot) error {
+		for _, timeZone := range timeZones {
+			modelSite := h.Site(dp2, nil)
 
-		var loc *time.Location
+			var loc *time.Location
 
-		loc, err = time.LoadLocation(timeZone)
-		if err != nil {
-			panic(err)
-		}
-
-		events := []*model.Event{}
-
-		for _, d := range data {
-			var dateTime time.Time
-
-			dateTime, err = time.Parse("2006-01-02 15:04", d.DateTimeString)
+			loc, err = time.LoadLocation(timeZone)
 			if err != nil {
 				panic(err)
 			}
 
-			dateTime = time.Date(
-				dateTime.Year(),
-				dateTime.Month(),
-				dateTime.Day(),
-				dateTime.Hour(),
-				dateTime.Minute(),
-				dateTime.Second(),
-				dateTime.Nanosecond(),
-				loc,
-			)
+			events := []*model.Event{}
 
-			events = append(events, &model.Event{
-				DateTime:  dateTime,
-				Id:        uuid.NewString(),
-				Kind:      model.EventKindPageView,
-				SiteId:    modelSite.Id,
-				VisitorId: d.VisitorId,
+			for _, d := range data {
+				var dateTime time.Time
+
+				dateTime, err = time.Parse("2006-01-02 15:04", d.DateTimeString)
+				if err != nil {
+					panic(err)
+				}
+
+				dateTime = time.Date(
+					dateTime.Year(),
+					dateTime.Month(),
+					dateTime.Day(),
+					dateTime.Hour(),
+					dateTime.Minute(),
+					dateTime.Second(),
+					dateTime.Nanosecond(),
+					loc,
+				)
+
+				events = append(events, &model.Event{
+					DateTime:  dateTime,
+					Id:        uuid.NewString(),
+					Kind:      model.EventKindPageView,
+					SiteId:    modelSite.Id,
+					VisitorId: d.VisitorId,
+				})
+			}
+
+			err = dp2.ClickHouse().
+				Create(&events).
+				Error
+			assert.NoError(t, err)
+
+			var report Report
+
+			report, err = Get(dp2, &filter.Filters{
+				End:      end,
+				SiteId:   modelSite.Id,
+				Start:    start,
+				TimeZone: &timeZone,
 			})
+			assert.NoError(t, err)
+
+			expectedReport := Report{
+				{Day: 1, Hour: 0, VisitorCount: 3},
+				{Day: 1, Hour: 2, VisitorCount: 0},
+				{Day: 1, Hour: 4, VisitorCount: 0},
+				{Day: 1, Hour: 6, VisitorCount: 0},
+				{Day: 1, Hour: 8, VisitorCount: 0},
+				{Day: 1, Hour: 10, VisitorCount: 0},
+				{Day: 1, Hour: 12, VisitorCount: 0},
+				{Day: 1, Hour: 14, VisitorCount: 0},
+				{Day: 1, Hour: 16, VisitorCount: 0},
+				{Day: 1, Hour: 18, VisitorCount: 0},
+				{Day: 1, Hour: 20, VisitorCount: 0},
+				{Day: 1, Hour: 22, VisitorCount: 0},
+				{Day: 2, Hour: 0, VisitorCount: 0},
+				{Day: 2, Hour: 2, VisitorCount: 0},
+				{Day: 2, Hour: 4, VisitorCount: 0},
+				{Day: 2, Hour: 6, VisitorCount: 0},
+				{Day: 2, Hour: 8, VisitorCount: 0},
+				{Day: 2, Hour: 10, VisitorCount: 0},
+				{Day: 2, Hour: 12, VisitorCount: 5},
+				{Day: 2, Hour: 14, VisitorCount: 0},
+				{Day: 2, Hour: 16, VisitorCount: 0},
+				{Day: 2, Hour: 18, VisitorCount: 0},
+				{Day: 2, Hour: 20, VisitorCount: 0},
+				{Day: 2, Hour: 22, VisitorCount: 0},
+				{Day: 3, Hour: 0, VisitorCount: 0},
+				{Day: 3, Hour: 2, VisitorCount: 0},
+				{Day: 3, Hour: 4, VisitorCount: 0},
+				{Day: 3, Hour: 6, VisitorCount: 0},
+				{Day: 3, Hour: 8, VisitorCount: 0},
+				{Day: 3, Hour: 10, VisitorCount: 0},
+				{Day: 3, Hour: 12, VisitorCount: 0},
+				{Day: 3, Hour: 14, VisitorCount: 0},
+				{Day: 3, Hour: 16, VisitorCount: 0},
+				{Day: 3, Hour: 18, VisitorCount: 0},
+				{Day: 3, Hour: 20, VisitorCount: 0},
+				{Day: 3, Hour: 22, VisitorCount: 0},
+				{Day: 4, Hour: 0, VisitorCount: 0},
+				{Day: 4, Hour: 2, VisitorCount: 0},
+				{Day: 4, Hour: 4, VisitorCount: 0},
+				{Day: 4, Hour: 6, VisitorCount: 0},
+				{Day: 4, Hour: 8, VisitorCount: 0},
+				{Day: 4, Hour: 10, VisitorCount: 0},
+				{Day: 4, Hour: 12, VisitorCount: 0},
+				{Day: 4, Hour: 14, VisitorCount: 0},
+				{Day: 4, Hour: 16, VisitorCount: 0},
+				{Day: 4, Hour: 18, VisitorCount: 0},
+				{Day: 4, Hour: 20, VisitorCount: 0},
+				{Day: 4, Hour: 22, VisitorCount: 0},
+				{Day: 5, Hour: 0, VisitorCount: 0},
+				{Day: 5, Hour: 2, VisitorCount: 0},
+				{Day: 5, Hour: 4, VisitorCount: 0},
+				{Day: 5, Hour: 6, VisitorCount: 0},
+				{Day: 5, Hour: 8, VisitorCount: 0},
+				{Day: 5, Hour: 10, VisitorCount: 0},
+				{Day: 5, Hour: 12, VisitorCount: 0},
+				{Day: 5, Hour: 14, VisitorCount: 0},
+				{Day: 5, Hour: 16, VisitorCount: 0},
+				{Day: 5, Hour: 18, VisitorCount: 0},
+				{Day: 5, Hour: 20, VisitorCount: 0},
+				{Day: 5, Hour: 22, VisitorCount: 0},
+				{Day: 6, Hour: 0, VisitorCount: 0},
+				{Day: 6, Hour: 2, VisitorCount: 0},
+				{Day: 6, Hour: 4, VisitorCount: 0},
+				{Day: 6, Hour: 6, VisitorCount: 0},
+				{Day: 6, Hour: 8, VisitorCount: 0},
+				{Day: 6, Hour: 10, VisitorCount: 0},
+				{Day: 6, Hour: 12, VisitorCount: 0},
+				{Day: 6, Hour: 14, VisitorCount: 0},
+				{Day: 6, Hour: 16, VisitorCount: 0},
+				{Day: 6, Hour: 18, VisitorCount: 0},
+				{Day: 6, Hour: 20, VisitorCount: 0},
+				{Day: 6, Hour: 22, VisitorCount: 0},
+				{Day: 7, Hour: 0, VisitorCount: 0},
+				{Day: 7, Hour: 2, VisitorCount: 0},
+				{Day: 7, Hour: 4, VisitorCount: 0},
+				{Day: 7, Hour: 6, VisitorCount: 0},
+				{Day: 7, Hour: 8, VisitorCount: 0},
+				{Day: 7, Hour: 10, VisitorCount: 0},
+				{Day: 7, Hour: 12, VisitorCount: 0},
+				{Day: 7, Hour: 14, VisitorCount: 0},
+				{Day: 7, Hour: 16, VisitorCount: 0},
+				{Day: 7, Hour: 18, VisitorCount: 0},
+				{Day: 7, Hour: 20, VisitorCount: 0},
+				{Day: 7, Hour: 22, VisitorCount: 0},
+			}
+
+			for i := range expectedReport {
+				assert.Equal(
+					t,
+					expectedReport[i],
+					report[i],
+					fmt.Sprintf("Time zone: %s, Day: %d, Hour: %d", timeZone, expectedReport[i].Day, expectedReport[i].Hour),
+				)
+			}
 		}
 
-		err = dp.ClickHouse().
-			Create(&events).
-			Error
-		assert.NoError(t, err)
-
-		var report Report
-
-		report, err = Get(dp, &filter.Filters{
-			End:      end,
-			SiteId:   modelSite.Id,
-			Start:    start,
-			TimeZone: &timeZone,
-		})
-		assert.NoError(t, err)
-
-		expectedReport := Report{
-			{Day: 1, Hour: 0, VisitorCount: 3},
-			{Day: 1, Hour: 2, VisitorCount: 0},
-			{Day: 1, Hour: 4, VisitorCount: 0},
-			{Day: 1, Hour: 6, VisitorCount: 0},
-			{Day: 1, Hour: 8, VisitorCount: 0},
-			{Day: 1, Hour: 10, VisitorCount: 0},
-			{Day: 1, Hour: 12, VisitorCount: 0},
-			{Day: 1, Hour: 14, VisitorCount: 0},
-			{Day: 1, Hour: 16, VisitorCount: 0},
-			{Day: 1, Hour: 18, VisitorCount: 0},
-			{Day: 1, Hour: 20, VisitorCount: 0},
-			{Day: 1, Hour: 22, VisitorCount: 0},
-			{Day: 2, Hour: 0, VisitorCount: 0},
-			{Day: 2, Hour: 2, VisitorCount: 0},
-			{Day: 2, Hour: 4, VisitorCount: 0},
-			{Day: 2, Hour: 6, VisitorCount: 0},
-			{Day: 2, Hour: 8, VisitorCount: 0},
-			{Day: 2, Hour: 10, VisitorCount: 0},
-			{Day: 2, Hour: 12, VisitorCount: 5},
-			{Day: 2, Hour: 14, VisitorCount: 0},
-			{Day: 2, Hour: 16, VisitorCount: 0},
-			{Day: 2, Hour: 18, VisitorCount: 0},
-			{Day: 2, Hour: 20, VisitorCount: 0},
-			{Day: 2, Hour: 22, VisitorCount: 0},
-			{Day: 3, Hour: 0, VisitorCount: 0},
-			{Day: 3, Hour: 2, VisitorCount: 0},
-			{Day: 3, Hour: 4, VisitorCount: 0},
-			{Day: 3, Hour: 6, VisitorCount: 0},
-			{Day: 3, Hour: 8, VisitorCount: 0},
-			{Day: 3, Hour: 10, VisitorCount: 0},
-			{Day: 3, Hour: 12, VisitorCount: 0},
-			{Day: 3, Hour: 14, VisitorCount: 0},
-			{Day: 3, Hour: 16, VisitorCount: 0},
-			{Day: 3, Hour: 18, VisitorCount: 0},
-			{Day: 3, Hour: 20, VisitorCount: 0},
-			{Day: 3, Hour: 22, VisitorCount: 0},
-			{Day: 4, Hour: 0, VisitorCount: 0},
-			{Day: 4, Hour: 2, VisitorCount: 0},
-			{Day: 4, Hour: 4, VisitorCount: 0},
-			{Day: 4, Hour: 6, VisitorCount: 0},
-			{Day: 4, Hour: 8, VisitorCount: 0},
-			{Day: 4, Hour: 10, VisitorCount: 0},
-			{Day: 4, Hour: 12, VisitorCount: 0},
-			{Day: 4, Hour: 14, VisitorCount: 0},
-			{Day: 4, Hour: 16, VisitorCount: 0},
-			{Day: 4, Hour: 18, VisitorCount: 0},
-			{Day: 4, Hour: 20, VisitorCount: 0},
-			{Day: 4, Hour: 22, VisitorCount: 0},
-			{Day: 5, Hour: 0, VisitorCount: 0},
-			{Day: 5, Hour: 2, VisitorCount: 0},
-			{Day: 5, Hour: 4, VisitorCount: 0},
-			{Day: 5, Hour: 6, VisitorCount: 0},
-			{Day: 5, Hour: 8, VisitorCount: 0},
-			{Day: 5, Hour: 10, VisitorCount: 0},
-			{Day: 5, Hour: 12, VisitorCount: 0},
-			{Day: 5, Hour: 14, VisitorCount: 0},
-			{Day: 5, Hour: 16, VisitorCount: 0},
-			{Day: 5, Hour: 18, VisitorCount: 0},
-			{Day: 5, Hour: 20, VisitorCount: 0},
-			{Day: 5, Hour: 22, VisitorCount: 0},
-			{Day: 6, Hour: 0, VisitorCount: 0},
-			{Day: 6, Hour: 2, VisitorCount: 0},
-			{Day: 6, Hour: 4, VisitorCount: 0},
-			{Day: 6, Hour: 6, VisitorCount: 0},
-			{Day: 6, Hour: 8, VisitorCount: 0},
-			{Day: 6, Hour: 10, VisitorCount: 0},
-			{Day: 6, Hour: 12, VisitorCount: 0},
-			{Day: 6, Hour: 14, VisitorCount: 0},
-			{Day: 6, Hour: 16, VisitorCount: 0},
-			{Day: 6, Hour: 18, VisitorCount: 0},
-			{Day: 6, Hour: 20, VisitorCount: 0},
-			{Day: 6, Hour: 22, VisitorCount: 0},
-			{Day: 7, Hour: 0, VisitorCount: 0},
-			{Day: 7, Hour: 2, VisitorCount: 0},
-			{Day: 7, Hour: 4, VisitorCount: 0},
-			{Day: 7, Hour: 6, VisitorCount: 0},
-			{Day: 7, Hour: 8, VisitorCount: 0},
-			{Day: 7, Hour: 10, VisitorCount: 0},
-			{Day: 7, Hour: 12, VisitorCount: 0},
-			{Day: 7, Hour: 14, VisitorCount: 0},
-			{Day: 7, Hour: 16, VisitorCount: 0},
-			{Day: 7, Hour: 18, VisitorCount: 0},
-			{Day: 7, Hour: 20, VisitorCount: 0},
-			{Day: 7, Hour: 22, VisitorCount: 0},
-		}
-
-		for i := range expectedReport {
-			assert.Equal(
-				t,
-				expectedReport[i],
-				report[i],
-				fmt.Sprintf("Time zone: %s, Day: %d, Hour: %d", timeZone, expectedReport[i].Day, expectedReport[i].Hour),
-			)
-		}
-	}
-}
-
-func TestMain(m *testing.M) {
-	dp = h.NewDepot()
-
-	os.Exit(m.Run())
+		return errors.New("")
+	})
 }

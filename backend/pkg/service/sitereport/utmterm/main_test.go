@@ -1,7 +1,6 @@
 package utmterm
 
 import (
-	"errors"
 	"fmt"
 	"math"
 	"sort"
@@ -93,7 +92,7 @@ func TestGet(t *testing.T) {
 			}
 
 			if filteredTestData[i].VisitorCount == filteredTestData[j].VisitorCount {
-				return *filteredTestData[i].UtmTerm > *filteredTestData[j].UtmTerm
+				return *filteredTestData[i].UtmTerm < *filteredTestData[j].UtmTerm
 			}
 
 			return false
@@ -130,20 +129,20 @@ func TestGet(t *testing.T) {
 
 		assert.Equal(t, expectedReport, report)
 
-		err = dp2.ClickHouse().
-			Exec("optimize table events_buffer").
-			Error
-		assert.NoError(t, err)
+		//err = dp2.ClickHouse().
+		//	Exec("optimize table events_buffer").
+		//	Error
+		//assert.NoError(t, err)
+		//
+		//err = dp2.ClickHouse().
+		//	Table("events").
+		//	Where("site_id = ?", modelSite.Id).
+		//	Delete(nil).
+		//	Error
+		//if err != nil {
+		//	return err
+		//}
 
-		err = dp2.ClickHouse().
-			Table("events").
-			Where("site_id = ?", modelSite.Id).
-			Delete(nil).
-			Error
-		if err != nil {
-			return err
-		}
-
-		return errors.New("")
+		return nil
 	})
 }
