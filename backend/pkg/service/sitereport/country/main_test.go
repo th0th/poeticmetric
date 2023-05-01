@@ -65,7 +65,7 @@ func TestGet(t *testing.T) {
 			}
 
 			if testData[i].VisitorCount == testData[j].VisitorCount {
-				return testData[i].CountryIsoCode > testData[j].CountryIsoCode
+				return testData[i].CountryIsoCode < testData[j].CountryIsoCode
 			}
 
 			return false

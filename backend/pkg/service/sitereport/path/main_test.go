@@ -57,7 +57,7 @@ func TestGet(t *testing.T) {
 			}
 
 			if testData[i].VisitorCount == testData[j].VisitorCount {
-				return testData[i].Path > testData[j].Path
+				return testData[i].Path < testData[j].Path
 			}
 
 			return false

@@ -88,7 +88,7 @@ func TestGet(t *testing.T) {
 			}
 
 			if filteredTestData[i].VisitorCount == filteredTestData[j].VisitorCount {
-				return *filteredTestData[i].BrowserName > *filteredTestData[j].BrowserName
+				return *filteredTestData[i].BrowserName < *filteredTestData[j].BrowserName
 			}
 
 			return false

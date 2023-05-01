@@ -87,7 +87,7 @@ func TestGet(t *testing.T) {
 			}
 
 			if filteredTestData[i].VisitorCount == filteredTestData[j].VisitorCount {
-				return *filteredTestData[i].Language > *filteredTestData[j].Language
+				return *filteredTestData[i].Language < *filteredTestData[j].Language
 			}
 
 			return false

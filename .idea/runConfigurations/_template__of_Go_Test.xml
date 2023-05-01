@@ -3,6 +3,7 @@
     <module name="poeticmetric" />
     <target name="rest-api" />
     <working_directory value="$PROJECT_DIR$" />
+    <go_parameters value="-count 1" />
     <kind value="DIRECTORY" />
     <directory value="$PROJECT_DIR$" />
     <filePath value="$PROJECT_DIR$" />

@@ -93,7 +93,7 @@ func TestGet(t *testing.T) {
 			}
 
 			if filteredTestData[i].VisitorCount == filteredTestData[j].VisitorCount {
-				return *filteredTestData[i].UtmMedium > *filteredTestData[j].UtmMedium
+				return *filteredTestData[i].UtmMedium < *filteredTestData[j].UtmMedium
 			}
 
 			return false

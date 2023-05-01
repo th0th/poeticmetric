@@ -89,7 +89,7 @@ func TestGet(t *testing.T) {
 			}
 
 			if filteredTestData[i].VisitorCount == filteredTestData[j].VisitorCount {
-				return *filteredTestData[i].OperatingSystemVersion > *filteredTestData[j].OperatingSystemVersion
+				return *filteredTestData[i].OperatingSystemVersion < *filteredTestData[j].OperatingSystemVersion
 			}
 
 			return false
