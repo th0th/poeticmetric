@@ -4,6 +4,7 @@ module.exports = {
     "/activation",
     "/billing",
     "/bootstrap",
+    "/docs",
     "/email-address-verification",
     "/password-reset",
     "/sign-out",

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React, { useCallback, useContext } from "react";
 import { Button, Card, Container, Form } from "react-bootstrap";
-import { Layout, Title } from "..";
+import { CanonicalLink, Layout, Title } from "..";
 import { AuthContext, ToastsContext } from "../../contexts";
 import { api, setUserAccessToken } from "../../helpers";
 import { useForm } from "../../hooks";
@@ -41,6 +41,8 @@ export function SignUp() {
 
   return (
     <Layout kind="app">
+      <CanonicalLink path="/sign-up" />
+
       <Title>Sign up</Title>
 
       <Container className="py-5">
