@@ -15,7 +15,7 @@ export function PrivacyPolicy({ content }: PrivacyPolicyProps) {
 
       <Description>
         At PoeticMetric, we take your privacy seriously. Our privacy policy page outlines how we collect, use, and protect your data when
-        you use our web analytics tool. We respect your privacy and are committed to ensuring the confidentiality and security of your
+        you use our website analytics tool. We respect your privacy and are committed to ensuring the confidentiality and security of your
         information. Learn more about our privacy-first approach at PoeticMetric.
       </Description>
 

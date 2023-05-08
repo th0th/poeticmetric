@@ -18,7 +18,7 @@ export function Jumbotron() {
         <div className="fs-5 fw-medium">
           PoeticMetric is a free as in freedom, open source, privacy-first and
           <br />
-          regulation-compliant web analytics tool.
+          regulation-compliant website analytics tool.
         </div>
 
         <Stack className="justify-content-center mt-3" direction="horizontal" gap={3}>

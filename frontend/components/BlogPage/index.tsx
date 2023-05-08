@@ -53,10 +53,10 @@ export function BlogPage({ currentPage, pageCount, posts }: BlogPageProps) {
     <Layout kind="website">
       <CanonicalLink path={currentPage === 1 ? "/blog" : `/blog/page/${currentPage}`} />
 
-      <Title kind="blog">Privacy-focused web analytics tips and best practices</Title>
+      <Title kind="blog">Privacy-focused website analytics tips and best practices</Title>
 
       <Description>
-        Stay up to date on the latest privacy-first and regulation-compliant web analytics news, tips, and best practices with
+        Stay up to date on the latest privacy-first and regulation-compliant website analytics news, tips, and best practices with
         PoeticMetric&apos;s blog. Learn how to use data to improve your website and better understand your users, all while keeping their
         privacy and compliance top of mind.
       </Description>
