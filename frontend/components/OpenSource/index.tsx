@@ -25,8 +25,8 @@ export function OpenSource({ content }: OpenSourceProps) {
 
               <div className="mt-3">
                 <p>
-                  Unlock the power of data with PoeticMetric - the free and open source website analytics platform designed for transparency,
-                  security, and community-driven innovation.
+                  Unlock the power of data with PoeticMetric - the free and open source website analytics platform designed for
+                  transparency, security, and community-driven innovation.
                 </p>
 
                 <div className="aling-items-start gap-2 hstack justify-content-center mt-5">
