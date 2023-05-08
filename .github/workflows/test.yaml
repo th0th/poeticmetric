@@ -196,7 +196,8 @@ jobs:
         run: pnpm exec -- playwright test --project="Google Chrome"
         working-directory: frontend
 
-      - name: Prune
+      - if: always()
+        name: Prune
         run: |
           docker compose down
           docker volume prune --force
