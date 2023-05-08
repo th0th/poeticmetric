@@ -53,8 +53,8 @@ export function Home() {
       <Title>Free and open source, privacy-friendly Google Analytics alternative</Title>
 
       <Description>
-        PoeticMetric is a free as in freedom, open source, privacy-first and regulation-compliant web analytics tool. You can keep track of
-        your website&apos;s traffic without invading your visitors&apos; privacy.
+        PoeticMetric is a free as in freedom, open source, privacy-first and regulation-compliant website analytics tool. You can keep track
+        of your website&apos;s traffic without invading your visitors&apos; privacy.
       </Description>
 
       <Jumbotron />

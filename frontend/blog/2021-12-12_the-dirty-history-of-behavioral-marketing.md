@@ -46,7 +46,7 @@ This is why we need to re-assess how we protect data privacy globally and re-ima
 
 **Where To From Here?**
 
-Luckily, there are innovations in the space that are looking to tackle this problem -- and it's for this reason that we started [PoeticMetric](https://www.poeticmetric.com). We've built a privacy-concerned web analytics tool that doesn't compromise the personal data of your consumers.
+Luckily, there are innovations in the space that are looking to tackle this problem -- and it's for this reason that we started [PoeticMetric](https://www.poeticmetric.com). We've built a privacy-concerned website analytics tool that doesn't compromise the personal data of your consumers.
 
 We've worked hard to create a service that can still give you valuable insights into your audience so that you can make good business decisions, but not at the expense of the privacy of your users. We believe that this is the future of ethical marketing analytics -- something that is becoming more and more important every day.
 

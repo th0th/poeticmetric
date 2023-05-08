@@ -45,7 +45,7 @@ export function SignIn() {
 
       <Title>Sign in</Title>
 
-      <Description>Sign in to your PoeticMetric account and gain access to powerful web analytics features.</Description>
+      <Description>Sign in to your PoeticMetric account and gain access to powerful website analytics features.</Description>
 
       <Container className="py-5">
         <div className="text-center">

@@ -19,7 +19,7 @@ export function DocsArticle({ article, categories }: DocsArticleProps) {
           : `/docs/${article.category.slug}/${article.slug}`}
       />
 
-      <Title kind="docs">{article.title}</Title>
+      <Title kind="docs">{`${article.category.title} - ${article.title}`}</Title>
 
       <Description>{article.excerpt}</Description>
 

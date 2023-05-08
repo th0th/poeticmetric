@@ -2,7 +2,7 @@
 title: "Page view durations"
 ---
 
-How much time a visitor spends on a page is one of the critical engagement metrics of web analytics. However, it is tricky to measure in an accurate and privacy-friendly manner.
+How much time a visitor spends on a page is one of the critical engagement metrics of website analytics. However, it is tricky to measure in an accurate and privacy-friendly manner.
 
 <!-- end -->
 

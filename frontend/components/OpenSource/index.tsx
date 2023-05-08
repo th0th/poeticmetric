@@ -15,7 +15,7 @@ export function OpenSource({ content }: OpenSourceProps) {
 
       <Title>The open source Google Analytics alternative</Title>
 
-      <Description>Here you can find about the philosophy of PoeticMetric open source web analytics.</Description>
+      <Description>Here you can find about the philosophy of PoeticMetric open source website analytics.</Description>
 
       <div className="position-relative overflow-hidden">
         <div className={styles.head}>
@@ -25,8 +25,8 @@ export function OpenSource({ content }: OpenSourceProps) {
 
               <div className="mt-3">
                 <p>
-                  Unlock the power of data with PoeticMetric - the free and open source web analytics platform designed for transparency,
-                  security, and community-driven innovation.
+                  Unlock the power of data with PoeticMetric - the free and open source website analytics platform designed for
+                  transparency, security, and community-driven innovation.
                 </p>
 
                 <div className="aling-items-start gap-2 hstack justify-content-center mt-5">

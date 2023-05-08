@@ -6,7 +6,7 @@ By default, once you add PoeticMetric script on your website, PoeticMetric track
 
 <!-- end -->
 
-You might be familiar with this process and look for a way to ignore some IP addresses on the PoeticMetric interface. However, since [we don't collect, encrypt or process IP addresses as a privacy feature](/docs/what-we-collect), IP address filtering is not available on PoeticMetric. Instead, you will need to set a `localStorage` flag to let the tracker script know, and it will exclude you and stop event collection.
+You might be familiar with this process and look for a way to ignore some IP addresses on the PoeticMetric interface. However, since we don't collect, encrypt or process IP addresses as a privacy feature, IP address filtering is not available on PoeticMetric. Instead, you will need to set a `localStorage` flag to let the tracker script know, and it will exclude you and stop event collection.
 
 ## tl;dr, to exclude yourself:
 
