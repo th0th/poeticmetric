@@ -199,8 +199,7 @@ jobs:
       - if: always()
         name: Prune
         run: |
-          docker compose down
-          docker volume prune --force
+          docker compose down --volumes
 
       - uses: actions/upload-artifact@v3
         if: always()
