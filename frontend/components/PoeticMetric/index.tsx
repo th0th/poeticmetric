@@ -7,18 +7,7 @@ export function PoeticMetric() {
     return getRestApiUrl("/pm.js") || null;
   }, []);
 
-  return (
-    <>
-      {src === null ? null : (
-        <Script async src={src} />
-      )}
-
-      <Script
-        async
-        data-ackee-domain-id="83316f20-b779-4b7c-9a08-5e4dac261f1d"
-        data-ackee-server="https://radiant-cendol-bb6179.netlify.app"
-        src="https://radiant-cendol-bb6179.netlify.app/companion.js"
-      ></Script>
-    </>
+  return src === null ? null : (
+    <Script async src={src} />
   );
 }
