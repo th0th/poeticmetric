@@ -7,6 +7,7 @@ const docCategories: Array<Omit<DocsCategory, "articles">> = [
   { slug: "getting-started", title: "Getting started" },
   { slug: "websites", title: "Websites" },
   { slug: "team", title: "Team" },
+  { slug: "open-source", title: "Open source" },
 ];
 
 export function getDocs(): Array<DocsCategory> {
