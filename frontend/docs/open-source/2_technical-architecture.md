@@ -36,3 +36,31 @@ While PoeticMetric is primarily developed as a monolithic application, it incorp
 #### Redis
 
 PoeticMetric leverages the power of [Redis](https://redis.io), a high-performance key-value storage system, to store transient data such as the daily changing visitor encryption salt. While this ephemeral information could be stored in any database, Redis offers the advantage of simplified expiry management. By utilizing Redis, PoeticMetric can effortlessly handle the expiration of this data as required. Redis has garnered acclaim within the open source community for its exceptional performance in key-value storage scenarios, further solidifying its suitability for PoeticMetric's needs.` 
+
+#### Backend
+
+PoeticMetric's backend is a robust Golang application comprising three distinct components:
+
+##### REST API
+
+The REST API serves as the vital bridge between the frontend and the business logic in PoeticMetric, ensuring smooth connectivity by consuming data from PostgreSQL and ClickHouse databases.
+
+It primarily:
+
+* Connects the frontend to the business logic, facilitating smooth connectivity.
+* Consumes data from PostgreSQL and ClickHouse databases.
+* Enables frontend interactions with the PostgreSQL database for account-related tasks like sign-up, sign-in, and password recovery.
+* Processes data collected by the tracker on customer websites and inserts it into the ClickHouse database for analysis.
+* Retrieves relevant data from both PostgreSQL and ClickHouse databases to generate comprehensive site reports.
+* Provides API access for third-party external applications, promoting integration and extensibility with external systems.
+
+##### Worker
+
+The worker component in PoeticMetric operates as a background task executor, ensuring asynchronous processing. It consumes messages from RabbitMQ queues and efficiently writes the resulting outcomes to both PostgreSQL and ClickHouse databases.
+
+By separating long-running operations from the REST API and delegating them to the worker as a distinct process, PoeticMetric enables uninterrupted request-response cycles within the API. This approach prevents blocking and allows the REST API to promptly handle incoming requests. Moreover, it facilitates the efficient handling of a large volume of tasks, as the worker can be scaled accordingly to meet the demands of the workload.
+
+##### Scheduler
+
+The scheduler, a compact component within PoeticMetric's backend, serves the purpose of adding scheduled task messages to the RabbitMQ queues for consumption by the worker. It focuses solely on efficiently queuing time-based tasks, ensuring they are appropriately dispatched for processing by the worker component.
+
