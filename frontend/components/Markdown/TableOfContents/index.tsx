@@ -45,12 +45,14 @@ export function TableOfContents({ children }: TableOfContentsProps) {
           if (id !== null) {
             const level = levels[tag];
 
-            const item: TableOfContentsItem = { id, parentId: null, title: children };
+            const item: TableOfContentsItem = { id, level, parentId: null, title: children };
 
             if (level === previousLevel) {
               item.parentId = previousItem?.parentId || null;
             } else if (level > previousLevel) {
               item.parentId = previousItem?.id || null;
+            } else {
+              item.parentId = newItems.findLast((i) => i.level === level)?.parentId || null;
             }
 
             newItems.push(item);
