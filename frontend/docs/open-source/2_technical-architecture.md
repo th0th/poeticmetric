@@ -37,11 +37,11 @@ While PoeticMetric is primarily developed as a monolithic application, it incorp
 
 PoeticMetric leverages the power of [Redis](https://redis.io), a high-performance key-value storage system, to store transient data such as the daily changing visitor encryption salt. While this ephemeral information could be stored in any database, Redis offers the advantage of simplified expiry management. By utilizing Redis, PoeticMetric can effortlessly handle the expiration of this data as required. Redis has garnered acclaim within the open source community for its exceptional performance in key-value storage scenarios, further solidifying its suitability for PoeticMetric's needs.` 
 
-#### Backend
+### Backend
 
 PoeticMetric's backend is a robust Golang application comprising three distinct components:
 
-##### REST API
+#### REST API
 
 The REST API serves as the vital bridge between the frontend and the business logic in PoeticMetric, ensuring smooth connectivity by consuming data from PostgreSQL and ClickHouse databases.
 
@@ -54,13 +54,21 @@ It primarily:
 * Retrieves relevant data from both PostgreSQL and ClickHouse databases to generate comprehensive site reports.
 * Provides API access for third-party external applications, promoting integration and extensibility with external systems.
 
-##### Worker
+#### Worker
 
 The worker component in PoeticMetric operates as a background task executor, ensuring asynchronous processing. It consumes messages from RabbitMQ queues and efficiently writes the resulting outcomes to both PostgreSQL and ClickHouse databases.
 
 By separating long-running operations from the REST API and delegating them to the worker as a distinct process, PoeticMetric enables uninterrupted request-response cycles within the API. This approach prevents blocking and allows the REST API to promptly handle incoming requests. Moreover, it facilitates the efficient handling of a large volume of tasks, as the worker can be scaled accordingly to meet the demands of the workload.
 
-##### Scheduler
+#### Scheduler
 
 The scheduler, a compact component within PoeticMetric's backend, serves the purpose of adding scheduled task messages to the RabbitMQ queues for consumption by the worker. It focuses solely on efficiently queuing time-based tasks, ensuring they are appropriately dispatched for processing by the worker component.
 
+### Frontend
+
+PoeticMetric's frontend is an impressive Next.js React application developed in TypeScript. To optimize its performance, the application is not executed as a Node.js application; instead, it is exported as static HTML, CSS, and JS files during the build process. This approach enables the frontend to be lightweight and easily served by web servers such as NGINX or Apache. The official Docker image of PoeticMetric employs NGINX for this purpose. The frontend application incorporates several exceptional open source libraries, including, but not limited to:
+
+* [Bootstrap](https://getbootstrap.com) and [React Bootstrap](https://react-bootstrap.github.io) for streamlined and responsive UI components.
+* [Lodash](https://lodash.com) for efficient data manipulation and utility functions.
+* [SWR](https://swr.vercel.app) for data fetching and caching, enhancing the performance of API requests.
+* [visx](https://airbnb.io/visx/) for powerful and customizable data visualization components, enabling captivating and informative graphical representations.

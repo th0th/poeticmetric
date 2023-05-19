@@ -4,6 +4,7 @@ import { List } from "..";
 
 export type TableOfContentsItem = {
   id: string;
+  level: number;
   parentId: ItemProps["id"] | null;
   title: React.ReactNode;
 };
