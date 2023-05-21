@@ -166,7 +166,7 @@ export function SiteForm() {
 
                         <Form.Text>
                           {"If you enable this, this site's stats will be accessible by everyone on "}
-                          {getUrl(`s?d=${values.domain}`)}
+                          {getUrl(`/s?d=${values.domain}`)}
                           .
                         </Form.Text>
                       </Form.Group>
