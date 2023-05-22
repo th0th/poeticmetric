@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 
 	"github.com/th0th/poeticmetric/backend/pkg/mailbluster"
+	"github.com/th0th/poeticmetric/backend/pkg/restapi/helpers"
 	dm "github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/depot"
 )
 
@@ -22,5 +23,5 @@ func createNewsletterSubscription(c *fiber.Ctx) error {
 		return err
 	}
 
-	return c.SendStatus(fiber.StatusCreated)
+	return c.Status(fiber.StatusCreated).JSON(helpers.Detail("OK."))
 }

@@ -57,7 +57,7 @@ func Get(dp *depot.Depot, filters *filter.Filters, paginationCursor *PaginationC
 			},
 		).
 		Group("browser_name, browser_version").
-		Order("visitor_count desc")
+		Order("visitor_count desc, browser_version")
 
 	query := dp.ClickHouse().
 		Table("(?)", baseSubQuery).

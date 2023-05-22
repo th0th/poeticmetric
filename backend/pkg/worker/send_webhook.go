@@ -23,7 +23,7 @@ const (
 type Event string
 
 type SendWebhookPayload struct {
-	Data  any
+	Data  map[string]any
 	Event Event
 }
 
