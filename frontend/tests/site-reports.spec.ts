@@ -40,7 +40,7 @@ test("site-reports", async ({ context, page }) => {
     await page.getByRole("button", { name: "Export" }).click();
     const exportReportsPagePromise = page.waitForEvent("popup");
     const downloadReportsExportPromise = page.waitForEvent("download");
-    await page.getByRole("button", { name: "Reports" }).click();
+    await page.getByRole("button", { exact: true, name: "Reports" }).click();
     await exportReportsPagePromise;
     await downloadReportsExportPromise;
 
