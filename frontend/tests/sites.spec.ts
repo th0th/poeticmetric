@@ -9,7 +9,7 @@ type Site = {
 };
 
 const site: Site = {
-  domain: "dev.poeticmetric.com",
+  domain: "dev2.poeticmetric.com",
   name: "Poeticmetric Dev",
   name2: "Poeticmetric Dev 1",
 };
@@ -39,8 +39,6 @@ test("sites", async ({ context, page }) => {
     await page.waitForLoadState("networkidle");
     await expect(page.getByTitle(site.name)).toBeVisible();
   });
-
-  process.env.PLAYWRIGHT_ABORT_EVENTS = "false";
 
   await test.step("edit site", async () => {
     await page.getByTitle(site.name).getByRole("link", { name: "Edit" }).click();
