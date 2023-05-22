@@ -41,8 +41,8 @@ test.beforeAll(async ({ baseURL, browser }) => {
   process.env.PLAYWRIGHT_IS_BOOTSTRAP_CHECK_DONE = "true";
 });
 
-test.beforeEach(async ({ page }) => {
-  await page.route(
+test.beforeEach(async ({ context }) => {
+  await context.route(
     `${process.env.REST_API_BASE_URL}/events`,
     (route) => process.env.PLAYWRIGHT_ABORT_EVENTS === "true" ? route.abort() : route.continue(),
   );
