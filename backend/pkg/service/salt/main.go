@@ -35,7 +35,7 @@ func Get(dp *depot.Depot) string {
 	salt, err := dp.Redis().Get(ctx, saltKey).Result()
 	if err != nil {
 		if errors.Is(err, redis.Nil) {
-			salt = uniuri.NewLen(32)
+			salt = uniuri.NewLen(36)
 
 			err2 := dp.Redis().Set(ctx, saltKey, salt, time.Until(time.Now().Add(24*time.Hour).Truncate(24*time.Hour))).Err()
 			if err2 != nil {
