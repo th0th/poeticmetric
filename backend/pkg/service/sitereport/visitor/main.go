@@ -14,7 +14,7 @@ import (
 
 type Datum struct {
 	DateTime     time.Time `json:"dateTime"`
-	VisitorCount *uint64    `json:"visitorCount"`
+	VisitorCount *uint64   `json:"visitorCount"`
 }
 
 type Report struct {
@@ -34,11 +34,12 @@ func Get(dp *depot.Depot, filters *filter.Filters) (*Report, error) {
 	valueSubQuery := q.
 		Select(
 			strings.Join([]string{
-				"toStartOfInterval(date_time, @timeWindowInterval) as date_time",
+				"toStartOfInterval(date_time, @timeWindowInterval, @timeZone) as date_time",
 				"count(distinct visitor_id) as visitor_count",
 			}, ","),
 			map[string]interface{}{
 				"timeWindowInterval": gorm.Expr(interval2.ToQuery()),
+				"timeZone":           filters.GetTimeZone(),
 			},
 		).
 		Group("date_time")
@@ -48,7 +49,7 @@ func Get(dp *depot.Depot, filters *filter.Filters) (*Report, error) {
 			strings.Join([]string{
 				"select",
 				strings.Join([]string{
-					"toStartOfInterval(@start, @timeWindowInterval) + interval arrayJoin(range(0, toUInt64(dateDiff('second', @start, @end)), @intervalSeconds)) second as date_time",
+					"@start + interval arrayJoin(range(0, toUInt64(dateDiff('second', @start, @end)), @intervalSeconds)) second as date_time",
 					"if(date_time > now(), null, 0) as visitor_count",
 				}, ","),
 			}, " "),
@@ -56,7 +57,6 @@ func Get(dp *depot.Depot, filters *filter.Filters) (*Report, error) {
 				"end":             filters.End,
 				"intervalSeconds": interval2.ToDuration().Seconds(),
 				"start":           filters.Start,
-				"timeWindowInterval": gorm.Expr(interval2.ToQuery()),
 			},
 		)
 
