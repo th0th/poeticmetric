@@ -132,7 +132,14 @@ func Delete(dp *depot.Depot, id uint64, payload *DeletionPayload) error {
 
 	worker.SendWebhook(dp, &worker.SendWebhookPayload{
 		Event: worker.SendWebhookEventOrganizationDeleted,
-		Data:  *organizationDeletion,
+		Data: map[string]any{
+			"details":              organizationDeletion.Details,
+			"organizationName":     organizationDeletion.OrganizationName,
+			"organizationPlanName": organizationDeletion.OrganizationPlanName,
+			"reason":               organizationDeletion.Reason,
+			"userEmail":            organizationDeletion.UserEmail,
+			"userName":             organizationDeletion.UserName,
+		},
 	})
 
 	return nil

@@ -1,15 +1,27 @@
 package useraccesstoken
 
 import (
-	"github.com/google/uuid"
+	"github.com/dchest/uniuri"
 
 	"github.com/th0th/poeticmetric/backend/pkg/depot"
 	"github.com/th0th/poeticmetric/backend/pkg/model"
+	"github.com/th0th/poeticmetric/backend/pkg/validator"
 )
 
 func Create(dp *depot.Depot, userId uint64) (*UserAccessToken, error) {
+	token := ""
+
+	// check for uniqueness
+	for true {
+		token = uniuri.NewLen(36)
+
+		if !validator.UserAccessToken(dp, token) {
+			break
+		}
+	}
+
 	modelUserAccessToken := &model.UserAccessToken{
-		Token:  uuid.NewString(),
+		Token:  token,
 		UserId: userId,
 	}
 
@@ -24,7 +36,7 @@ func Create(dp *depot.Depot, userId uint64) (*UserAccessToken, error) {
 		err2 = dp2.Postgres().
 			Model(&model.User{}).
 			Where("id = ?", modelUserAccessToken.UserId).
-			Update("LastAccessTokenCreatedAt", modelUserAccessToken.CreatedAt).
+			Update("last_access_token_created_at", modelUserAccessToken.CreatedAt).
 			Error
 		if err2 != nil {
 			return err2

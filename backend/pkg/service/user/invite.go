@@ -28,7 +28,7 @@ func Invite(dp *depot.Depot, organizationId uint64, payload *InvitePayload) (*Us
 
 	modelOrganization := &model.Organization{}
 	modelUser := &model.User{
-		ActivationToken: pointer.Get(uniuri.NewLen(24)),
+		ActivationToken: pointer.Get(uniuri.NewLen(36)),
 		Email:           *payload.Email,
 		Name:            *payload.Name,
 		OrganizationId:  organizationId,

@@ -8,14 +8,7 @@ const testAccount: TestAccount = {
 };
 
 test.beforeAll(async ({ baseURL, browser }) => {
-  process.env.PLAYWRIGHT_ABORT_EVENTS = "true";
-
   const page = await browser.newPage();
-
-  await page.route(
-    `${process.env.REST_API_BASE_URL}/events`,
-    (route) => process.env.PLAYWRIGHT_ABORT_EVENTS === "true" ? route.abort() : route.continue(),
-  );
 
   if (process.env.PLAYWRIGHT_IS_BOOTSTRAP_CHECK_DONE === "true") {
     return;
@@ -39,13 +32,6 @@ test.beforeAll(async ({ baseURL, browser }) => {
   await page.close();
 
   process.env.PLAYWRIGHT_IS_BOOTSTRAP_CHECK_DONE = "true";
-});
-
-test.beforeEach(async ({ page }) => {
-  await page.route(
-    `${process.env.REST_API_BASE_URL}/events`,
-    (route) => process.env.PLAYWRIGHT_ABORT_EVENTS === "true" ? route.abort() : route.continue(),
-  );
 });
 
 export { test };

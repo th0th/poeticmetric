@@ -25,7 +25,7 @@ func RecoverPassword(dp *depot.Depot, payload *RecoverPasswordPayload) error {
 	}
 
 	modelUser := &model.User{}
-	passwordResetToken := uniuri.NewLen(24)
+	passwordResetToken := uniuri.NewLen(36)
 
 	err = dp.WithPostgresTransaction(func(dp2 *depot.Depot) error {
 		err2 := dp2.Postgres().

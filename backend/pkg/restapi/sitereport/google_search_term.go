@@ -7,7 +7,6 @@ import (
 	"github.com/th0th/poeticmetric/backend/pkg/model"
 	"github.com/th0th/poeticmetric/backend/pkg/pointer"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/helpers"
-	am "github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/authentication"
 	dm "github.com/th0th/poeticmetric/backend/pkg/restapi/middleware/depot"
 	"github.com/th0th/poeticmetric/backend/pkg/service/sitereport"
 	"github.com/th0th/poeticmetric/backend/pkg/service/sitereport/googlesearchquery"
@@ -15,24 +14,30 @@ import (
 
 func googleSearchQuery(c *fiber.Ctx) error {
 	dp := dm.Get(c)
-	auth := am.Get(c)
 
 	filters := getFilters(c)
 
-	modelSite := &model.Site{}
+	data := &struct {
+		OrganizationGoogleOauthRefreshToken *string
+		SiteGoogleSearchConsoleSiteUrl      *string
+	}{}
 
 	err := dp.Postgres().
 		Model(&model.Site{}).
-		Select("google_search_console_site_url").
-		Where("id = ?", filters.SiteId).
-		First(modelSite).
+		Joins("inner join organizations on organizations.id = sites.organization_id").
+		Select(
+			"organizations.google_oauth_refresh_token as organization_google_oauth_refresh_token",
+			"sites.google_search_console_site_url as site_google_search_console_site_url",
+		).
+		Where("sites.id = ?", filters.SiteId).
+		First(data).
 		Error
 	if err != nil {
 		return fiber.ErrNotFound
 	}
 
-	if auth.Organization.GoogleOauthRefreshToken == nil || modelSite.GoogleSearchConsoleSiteUrl == nil {
-		return c.Status(fiber.StatusBadRequest).JSON(helpers.Detail("You need to enable Google Search Console integration first."))
+	if data.OrganizationGoogleOauthRefreshToken == nil || data.SiteGoogleSearchConsoleSiteUrl == nil {
+		return c.Status(fiber.StatusBadRequest).JSON(helpers.Detail("Google Search Console integration should be enabled to use this endpoint."))
 	}
 
 	report, err := googlesearchquery.Get(dp, getFilters(c), pointer.Get(uint64(c.QueryInt("page"))))
