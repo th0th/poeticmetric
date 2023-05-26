@@ -28,9 +28,9 @@ The quickest way to start using PoeticMetric is, [signing up on the managed serv
 
 ### Self-hosted
 
-PoeticMetric is 100% open source. This means, you can run your own instance of PoeticMetric on your own servers. In order to simplify self-hosting process, I also built required docker images, and prepared a sample configuration.
+PoeticMetric is a 100% open source website analytics tool. This means, you can run your own instance of PoeticMetric on your own servers. In order to simplify self-hosting process, I also built required docker images, and prepared a sample configuration.
 
-I am planning to write a self-hosted installation guide in the future. But for now, you can check out the [`docker-compose.yaml` file in the `self-hosted`](self-hosted/docker-compose.yaml) directory. [You can also find an example `.env` file there](self-hosted/.env.example).
+You can read the guide on how to self-host your PoeticMetric instance on [PoeticMetric docs](https://www.poeticmetric.com/docs/open-source/self-hosting).
 
 ## Sponsoring
 
