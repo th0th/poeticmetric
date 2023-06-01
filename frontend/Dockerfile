@@ -1,7 +1,7 @@
-FROM node:19.9.0-alpine
+FROM node:20.2.0-alpine
 
 RUN apk update && apk add bash
-RUN npm install --global pnpm@7.30.3
+RUN npm install --global pnpm
 
 ARG BASE_URL
 ARG GOOGLE_CLIENT_ID
