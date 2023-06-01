@@ -18,6 +18,7 @@ $red: #C53030;
 $yellow: #D69E2E;
 
 @import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
 
 $border-color-translucent: rgba($black, .125);
 $btn-font-weight: $font-weight-semibold;
@@ -55,15 +56,9 @@ $utilities: map-merge($utilities, (
     responsive: true,
     state: hover,
   )),
-  "border-color": (
-    property: border-color,
-    class: border,
-    local-vars: (
-      "border-opacity": 1
-    ),
+  "border-color": map-merge(map-get($utilities, "border-color"), (
     state: focus hover,
-    values: $utilities-border-colors
-  ),
+  )),
   "border-end": map-merge(map-get($utilities, "border-end"), (
     responsive: true,
   )),
