@@ -1,0 +1,4 @@
+.docsMenuWrapper {
+  top: var(--header-height);
+  z-index: 1019 !important;
+}

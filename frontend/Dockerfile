@@ -1,4 +1,4 @@
-FROM node:20.2.0-alpine
+FROM node:20.3.0-alpine
 
 RUN apk update && apk add bash
 RUN npm install --global pnpm
@@ -26,6 +26,7 @@ RUN pnpm install
 
 # copy the rest of the files
 COPY @types @types
+COPY app app
 COPY blog blog
 COPY components components
 COPY contexts contexts
@@ -33,12 +34,11 @@ COPY docs docs
 COPY helpers helpers
 COPY hooks hooks
 COPY lib lib
-COPY pages pages
 COPY public public
 COPY styles styles
 COPY .eslintrc.js .
 COPY .stylelintrc.js .
-COPY next-sitemap.config.js .
+COPY mdx-components.tsx .
 COPY next.config.js .
 COPY sentry.client.config.js .
 COPY sentry.server.config.js .

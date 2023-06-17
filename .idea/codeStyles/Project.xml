@@ -133,6 +133,7 @@
     </codeStyleSettings>
     <codeStyleSettings language="TypeScript">
       <option name="RIGHT_MARGIN" value="140" />
+      <option name="ALIGN_MULTILINE_PARAMETERS" value="false" />
       <option name="SPACE_BEFORE_SWITCH_PARENTHESES" value="false" />
       <option name="KEEP_SIMPLE_METHODS_IN_ONE_LINE" value="true" />
       <indentOptions>

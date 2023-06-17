@@ -18,6 +18,15 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "paths": {
+      "~components/*": ["./components2/*"],
+      "~contexts/*": ["./contexts2/*"],
+      "~docs/*": ["./docs/*"],
+      "~helpers/*": ["./helpers2/*"],
+      "~hooks/*": ["./hooks2/*"],
+      "~lib/*": ["./lib/*"],
+      "~styles/*": ["./styles/*"],
+    },
     "plugins": [
       {
         "name": "next"

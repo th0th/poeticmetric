@@ -1,7 +1,4 @@
 type DocsArticle = {
-  category: Omit<DocsCategory, "articles">;
-  content: string;
-  excerpt: string;
   slug: string;
   title: string;
 };
@@ -18,3 +15,5 @@ type DocsCategory = {
   slug: string;
   title: string;
 };
+
+type DocsItems = Array<DocsCategory>;

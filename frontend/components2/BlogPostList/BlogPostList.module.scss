@@ -1,0 +1,13 @@
+.link {
+  &, .linkWrapper {
+    transition: all 0.2s ease-in-out;
+  }
+
+  &:focus-visible, &:hover {
+    transform: scale(1.1);
+
+    .linkWrapper {
+      backdrop-filter: blur(10px);
+    }
+  }
+}

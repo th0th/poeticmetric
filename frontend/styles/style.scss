@@ -15,10 +15,10 @@
 @import "bootstrap/scss/dropdown";
 @import "bootstrap/scss/forms";
 @import "bootstrap/scss/grid";
-@import "bootstrap/scss/helpers";
 @import "bootstrap/scss/modal";
 @import "bootstrap/scss/nav";
 @import "bootstrap/scss/navbar";
+@import "bootstrap/scss/offcanvas";
 @import "bootstrap/scss/pagination";
 @import "bootstrap/scss/popover";
 @import "bootstrap/scss/spinners";
@@ -27,6 +27,7 @@
 @import "bootstrap/scss/tooltip";
 @import "bootstrap/scss/transitions";
 
+@import "bootstrap/scss/helpers";
 @import "bootstrap/scss/utilities/api";
 
 // 8. Add additional custom code here
@@ -51,10 +52,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-div#__next {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+*[id] {
+  scroll-margin-block-start: var(--header-height);
 }
 
 svg {
@@ -66,9 +65,9 @@ svg {
   background-size: cover;
 }
 
-.dropdown-item {
-  font-weight: $font-weight-medium;
-}
+//.dropdown-item {
+//  font-weight: $font-weight-medium;
+//}
 
 .parent-d {
   &:focus-within, &:hover {

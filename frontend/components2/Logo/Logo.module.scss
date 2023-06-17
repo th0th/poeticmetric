@@ -1,0 +1,15 @@
+@import "styles/base";
+
+.logo {
+  .logotype {
+    fill: #2D3748;
+  }
+}
+
+body[data-bs-theme="dark"] {
+  .logo {
+    .logotype {
+      fill: $body-color-dark;
+    }
+  }
+}

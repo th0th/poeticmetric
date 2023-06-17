@@ -96,19 +96,22 @@ services:
     volumes:
       - frontend-next-build:/poeticmetric/.next
       - ./frontend/@types:/poeticmetric/@types
+      - ./frontend/app:/poeticmetric/app
       - ./frontend/blog:/poeticmetric/blog
       - ./frontend/components:/poeticmetric/components
+      - ./frontend/components2:/poeticmetric/components2
       - ./frontend/contexts:/poeticmetric/contexts
+      - ./frontend/contexts2:/poeticmetric/contexts2
       - ./frontend/docs:/poeticmetric/docs
       - ./frontend/helpers:/poeticmetric/helpers
-      - ./frontend/hooks:/poeticmetric/hooks
+      - ./frontend/helpers2:/poeticmetric/helpers2
+      - ./frontend/hooks2:/poeticmetric/hooks2
       - ./frontend/lib:/poeticmetric/lib
-      - ./frontend/pages:/poeticmetric/pages
       - ./frontend/public:/poeticmetric/public
       - ./frontend/styles:/poeticmetric/styles
       - ./frontend/tests:/poeticmetric/tests
+      - ./frontend/mdx-components.tsx:/poeticmetric/mdx-components.tsx
       - ./frontend/next.config.js:/poeticmetric/next.config.js
-      - ./frontend/next-sitemap.config.js:/poeticmetric/next-sitemap.config.js
       - ./frontend/package.json:/poeticmetric/package.json
       - ./frontend/pnpm-lock.yaml:/poeticmetric/pnpm-lock.yaml
       - ./frontend/playwright.config.ts:/poeticmetric/playwright.config.ts

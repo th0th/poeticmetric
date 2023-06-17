@@ -20,6 +20,7 @@ $yellow: #D69E2E;
 @import "bootstrap/scss/variables";
 @import "bootstrap/scss/variables-dark";
 
+$body-secondary-bg: tint-color($blue, 90%);
 $border-color-translucent: rgba($black, .125);
 $btn-font-weight: $font-weight-semibold;
 $dropdown-font-size: $font-size-sm;
@@ -193,6 +194,7 @@ $utilities: map-merge($utilities, (
   "width-fixed": (
     class: w,
     property: width,
+    responsive: true,
     values: $fixed-sizes,
   ),
 ));

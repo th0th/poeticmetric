@@ -1,4 +1,4 @@
-FROM node:20.2.0-alpine
+FROM node:20.3.0-alpine
 
 RUN apk update && apk add bash
 RUN npm install --global pnpm
@@ -13,19 +13,23 @@ COPY pnpm-lock.yaml .
 RUN pnpm install
 
 COPY @types @types
+COPY app app
 COPY blog blog
 COPY components components
+COPY components2 components2
 COPY contexts contexts
+COPY contexts2 contexts2
 COPY docs docs
 COPY helpers helpers
+COPY helpers2 helpers2
 COPY hooks hooks
+COPY hooks2 hooks2
 COPY lib lib
-COPY pages pages
 COPY public public
 COPY styles styles
 COPY tests tests
+COPY mdx-components.tsx .
 COPY next.config.js .
-COPY next-sitemap.config.js .
 COPY playwright.config.ts .
 COPY sentry.client.config.js .
 COPY sentry.server.config.js .
