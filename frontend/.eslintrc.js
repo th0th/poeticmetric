@@ -27,6 +27,7 @@ module.exports = {
     "object-shorthand": ["error"],
     "quote-props": ["error", "as-needed"],
     "react/jsx-closing-bracket-location": ["error"],
+    "react/jsx-curly-brace-presence": ["error"],
     "react/jsx-first-prop-new-line": ["error", "multiline"],
     "react/jsx-key": ["error", { checkFragmentShorthand: true }],
     "react/jsx-max-props-per-line": ["error", { when: "multiline" }],
