@@ -123,7 +123,7 @@ services:
     environment:
       VIRTUAL_HOST: mailpit.dev.poeticmetric.com
       VIRTUAL_PORT: "8025"
-    image: axllent/mailpit:v1.5.3
+    image: axllent/mailpit
     ports:
       - "127.0.0.1:8025:8025"
 
@@ -143,7 +143,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DATABASE}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_USER: ${POSTGRES_USER}
-    image: postgres:14-alpine
+    image: postgres:15-alpine
     volumes:
       - postgres:/var/lib/postgresql/data
     ports:

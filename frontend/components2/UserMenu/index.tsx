@@ -14,7 +14,7 @@ export function UserMenu({ className, ...props }: UserMenuProps) {
   return user !== undefined ? (
     <div {...props} className={classNames("dropdown", className)}>
       <button
-        className="bg-transparent bg-light-hover d-flex flex-row align-items-center px-2 py-1 border-0 rounded-1"
+        className="bg-transparent bg-body-secondary-hover d-flex flex-row align-items-center px-2 py-1 border-0 rounded-1"
         data-bs-toggle="dropdown"
         type="button"
       >

@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import React from "react";
+import Footer from "~components/Footer";
+import Header from "~components/Header";
 import NotFoundVisual from "./not-found-visual.svg";
 
 export const metadata: Metadata = {
@@ -11,6 +13,8 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <>
+      <Header />
+
       <div className="container d-flex flex-column flex-grow-1 justify-content-center py-5">
         <div className="align-items-center d-flex flex-column flex-lg-row mw-50rem mx-auto text-center text-lg-start">
           <NotFoundVisual className="d-block w-16rem" />
@@ -28,6 +32,8 @@ export default function NotFound() {
           </div>
         </div>
       </div>
+
+      <Footer />
     </>
   );
 }

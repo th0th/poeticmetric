@@ -4,7 +4,7 @@ import setUserAccessToken from "./setUserAccessToken";
 
 export default function getFetcher(requireUserAccessToken: boolean, throwOnErroneousResponse: boolean) {
   async function fetcher(endpoint: string, init?: RequestInit) {
-    if (requireUserAccessToken && getUserAccessToken() === null) {
+    if (requireUserAccessToken && getUserAccessToken() === undefined) {
       return undefined;
     }
 

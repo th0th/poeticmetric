@@ -2,6 +2,7 @@
 
 import classNames from "classnames";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useCallback } from "react";
 import api from "~helpers/api";
 import base64Encode from "~helpers/base64Encode";
@@ -17,6 +18,7 @@ type Form = {
 };
 
 export default function SignInForm({ className, ...props }: SignInFormProps) {
+  const router = useRouter();
   const { mutate } = useAuthUser();
   const [values, , updateValue, errors, setErrors] = useForm<Form>({ email: "", password: "" });
 
@@ -30,11 +32,14 @@ export default function SignInForm({ className, ...props }: SignInFormProps) {
 
     if (response.ok) {
       setUserAccessToken(responseJson.token);
+
       await mutate();
+
+      router.replace("/sites");
     } else {
       setErrors(responseJson);
     }
-  }, [mutate, setErrors, values.email, values.password]);
+  }, [mutate, router, setErrors, values.email, values.password]);
 
   return (
     <div {...props} className={classNames("card mw-32rem", className)}>
