@@ -149,10 +149,12 @@ export function SiteForm() {
                       <Form.Control.Feedback type="invalid">{errors.safeQueryParameters}</Form.Control.Feedback>
                     </Form.Group>
 
-                    <GoogleSearchConsoleSiteUrlFormGroup
-                      onValueChange={(v) => updateValue("googleSearchConsoleSiteUrl", v)}
-                      value={values.googleSearchConsoleSiteUrl}
-                    />
+                    {!!process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ? (
+                      <GoogleSearchConsoleSiteUrlFormGroup
+                        onValueChange={(v) => updateValue("googleSearchConsoleSiteUrl", v)}
+                        value={values.googleSearchConsoleSiteUrl}
+                      />
+                    ) : null}
 
                     {getIsHosted() ? (
                       <Form.Group controlId="is-public">
