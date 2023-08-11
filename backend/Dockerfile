@@ -1,8 +1,8 @@
-FROM golang:1.20.3
+FROM golang:1.21.0
 
 WORKDIR /usr/src/poeticmetric
 
-RUN CGO_ENABLED=0 go install -tags 'clickhouse,postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@v4.15.2
+RUN CGO_ENABLED=0 go install -tags 'clickhouse,postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@v4.16.2
 
 COPY go.mod go.sum ./
 RUN go mod download

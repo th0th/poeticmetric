@@ -1,10 +1,10 @@
-FROM golang:1.20.3
+FROM golang:1.21.0
 
 RUN apt update && apt install -y postgresql-client
 
 WORKDIR /poeticmetric
 
-RUN CGO_ENABLED=0 go install -tags 'clickhouse,postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@v4.15.2
+RUN CGO_ENABLED=0 go install -tags 'clickhouse,postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@v4.16.2
 
 RUN go install github.com/cespare/reflex@latest
 RUN go install github.com/go-delve/delve/cmd/dlv@latest
