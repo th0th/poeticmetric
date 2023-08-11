@@ -193,7 +193,7 @@ jobs:
           FRONTEND_BASE_URL: ${{ vars.FRONTEND_BASE_URL }}
           MAILPIT_BASE_URL: ${{ vars.MAILPIT_BASE_URL }}
         name: Run Playwright tests
-        run: pnpm exec -- playwright test --project="Google Chrome"
+        run: pnpm exec -- playwright test --project="Google Chrome" --workers 1
         working-directory: frontend
 
       - if: always()
