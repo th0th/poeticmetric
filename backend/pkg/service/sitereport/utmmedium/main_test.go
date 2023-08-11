@@ -114,8 +114,6 @@ func TestGet(t *testing.T) {
 			})
 		}
 
-		fmt.Println(len(modelEvents))
-
 		err = dp2.ClickHouse().
 			Create(&modelEvents).
 			Error
