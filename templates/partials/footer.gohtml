@@ -1,0 +1,131 @@
+<footer class="bg-white border-top">
+  <div class="container py-4">
+    <div class="d-flex flex-column-reverse flex-lg-row gap-4 gap-lg-5">
+      <div class="align-items-center align-items-lg-start d-flex flex-column text-center text-lg-start">
+        {{ template "partials/logo" (map "Height" "2rem" "Logotype" "true") }}
+
+
+        <div class="fs-sm mt-3">
+          <div>Copyright &copy; WebGazer, Inc.</div>
+
+          <div>All rights reserved.</div>
+        </div>
+      </div>
+
+      <div class="justify-content-between d-flex flex-wrap gap-3 gap-lg-5">
+        <div>
+          <nav class="flex-column">
+            <div class="fw-semibold nav-item px-2 py-1">PoeticMetric</div>
+
+            <div class="nav-item">
+              <a
+                class="d-inline-block fw-normal nav-link px-2 py-1 text-black text-decoration-underline-hover"
+                href="{{ .C.GetRouteURL "marketing.home" nil }}"
+              >
+                Home
+              </a>
+            </div>
+
+            <div class="nav-item">
+              <a
+                class="d-inline-block fw-normal nav-link px-2 py-1 text-black text-decoration-underline-hover"
+                href="{{ .C.GetRouteURL "marketing.manifesto" nil }}"
+              >
+                Manifesto
+              </a>
+            </div>
+
+            <div class="nav-item">
+              <a
+                class="d-inline-block fw-normal nav-link px-2 py-1 text-black text-decoration-underline-hover"
+                href="{{ .C.GetRouteURL "marketing.openSource" nil }}"
+              >
+                Open source
+              </a>
+            </div>
+
+            <div class="nav-item">
+              <a
+                class="d-inline-block fw-normal nav-link px-2 py-1 text-black text-decoration-underline-hover"
+                href="{{ .C.GetRouteURL "marketing.pricing" nil }}"
+              >
+                Pricing
+              </a>
+            </div>
+
+            <div class="nav-item">
+              <a
+                class="d-inline-block fw-normal nav-link px-2 py-1 text-black text-decoration-underline-hover"
+                href="https://status.poeticmetric.com"
+              >
+                Service status
+              </a>
+            </div>
+          </nav>
+        </div>
+
+        <div>
+          <nav class="flex-column">
+            <div class="fw-semibold nav-item px-2 py-1">Resources</div>
+
+            <div class="nav-item">
+              <a
+                class="d-inline-block fw-normal nav-link px-2 py-1 text-black text-decoration-underline-hover"
+                href="{{ .C.GetRouteURL "blog" nil }}"
+              >
+                Blog
+              </a>
+            </div>
+
+            <div class="nav-item">
+              <a
+                class="d-inline-block fw-normal nav-link px-2 py-1 text-black text-decoration-underline-hover"
+                href="{{ .C.GetRouteURL "docs" nil }}"
+              >
+                Docs
+              </a>
+            </div>
+
+            <div class="nav-item">
+              <a class="d-inline-block fw-normal nav-link px-2 py-1 text-black text-decoration-underline-hover" href="/terms-of-service">
+                Terms of service
+              </a>
+            </div>
+
+            <div class="nav-item">
+              <a class="d-inline-block fw-normal nav-link px-2 py-1 text-black text-decoration-underline-hover" href="/privacy-policy">
+                Privacy policy
+              </a>
+            </div>
+          </nav>
+        </div>
+
+        <div>
+          <nav class="flex-column">
+            <div class="fw-semibold nav-item px-2 py-1">Community</div>
+
+            <div class="nav-item">
+              <a
+                class="d-inline-block fw-normal nav-link px-2 py-1 text-black text-decoration-underline-hover"
+                href="https://github.com/th0th/poeticmetric"
+                target="_blank"
+              >
+                GitHub
+              </a>
+            </div>
+
+            <div class="nav-item">
+              <a
+                class="d-inline-block fw-normal nav-link px-2 py-1 text-black text-decoration-underline-hover"
+                href="https://discord.poeticmetric.com"
+                target="_blank"
+              >
+                Discord
+              </a>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

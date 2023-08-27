@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+pnpm exec sass --load-path=node_modules --style=compressed styles/style.scss public-generated/style.css
+pnpm exec postcss public-generated/style.css --replace --use=autoprefixer --map public-generated/style.css.map

@@ -1,0 +1,87 @@
+<div class="container py-5">
+  <div class="row">
+    <div class="col col-12 col-lg-6 col-md-8 col-sm-10 offset-lg-3 offset-md-2 offset-sm-1">
+      <div class="text-center">
+        <h1>Welcome to PoeticMetric!</h1>
+
+        <div class="mt-3">Complete PoeticMetric installation to continue.</div>
+      </div>
+
+      <div class="card mt-4">
+        <div class="card-body">
+          <form method="post">
+            <fieldset class="gap-3 vstack">
+              <div>
+                <label class="form-label" for="input-UserName">Full name</label>
+
+                <input class="form-control" id="input-UserName" name="UserName" required type="text" value="{{ .Data.UserName }}" />
+              </div>
+
+              <div>
+                <label class="form-label" for="input-UserEmail">E-mail address</label>
+
+                <input class="form-control" id="input-UserEmail" name="UserEmail" required type="email" value="{{ .Data.UserEmail }}" />
+              </div>
+
+              <div>
+                <label class="form-label" for="input-UserNewPassword">New Password</label>
+
+                <input
+                  class="form-control"
+                  id="input-UserNewPassword"
+                  name="UserNewPassword"
+                  required
+                  type="password"
+                  value="{{ .Data.UserNewPassword }}"
+                />
+              </div>
+
+              <div>
+                <label class="form-label" for="input-UserNewPassword2">New Password (again)</label>
+
+                <input
+                  class="form-control"
+                  id="input-UserNewPassword2"
+                  name="UserNewPassword2"
+                  required
+                  type="password"
+                  value="{{ .Data.UserNewPassword2 }}"
+                />
+              </div>
+
+              <div>
+                <label class="form-label" for="input-OrganizationName">Company</label>
+
+                <input
+                  class="form-control"
+                  id="input-OrganizationName"
+                  name="OrganizationName"
+                  required
+                  type="text"
+                  value="{{ .Data.OrganizationName }}"
+                />
+              </div>
+
+              <div class="form-check">
+                <input
+                  {{ if .Data.ShouldCreateDemoSite }}checked{{ end }}
+                  class="form-check-input"
+                  id="input-ShouldCreateDemoSite"
+                  name="ShouldCreateDemoSite"
+                  type="checkbox"
+                  value="true"
+                />
+
+                <label class="form-check-label" for="input-ShouldCreateDemoSite">Create demo site</label>
+              </div>
+
+              <div class="d-grid mt-1">
+                <button class="btn btn-primary" type="submit">Complete installation</button>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

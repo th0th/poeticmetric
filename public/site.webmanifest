@@ -1,0 +1,27 @@
+{
+	"background_color": "#ffffff",
+	"description": "PoeticMetric is a privacy-first, regulation-compliant, blazingly fast analytics tool.",
+	"display": "fullscreen",
+	"icons": [
+		{
+			"src": "/android-chrome-192x192.png",
+			"sizes": "192x192",
+			"type": "image/png"
+		},
+		{
+			"src": "/android-chrome-512x512.png",
+			"sizes": "512x512",
+			"type": "image/png"
+		},
+		{
+		    "purpose": "maskable",
+		    "sizes": "512x512",
+		    "src": "/maskable_icon_x512.png",
+		    "type": "image/png"
+		}
+	],
+	"name": "PoeticMetric",
+	"short_name": "PoeticMetric",
+	"start_url": "/reports",
+	"theme_color": "#4299E1"
+}

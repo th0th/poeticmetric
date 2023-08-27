@@ -1,0 +1,83 @@
+<header class="bg-body border-bottom navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" href="/">{{ template "partials/logo" (map "Height" "2rem") }}</a>
+
+    <button class="navbar-toggler" data-bs-target="#main-navbar" data-bs-toggle="collapse" type="button">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <div class="navbar-nav">
+        {{ if and (eq .Section "app") (.Auth.User) }}
+          <li class="nav-item">
+            <a class="{{ if stringHasPrefix .C.OriginalURL "/projects" }}active{{ end }} nav-link" href="/projects">Projects</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="{{ if stringHasPrefix .C.OriginalURL "/billing" }}active{{ end }} nav-link" href="/billing">Billing</a>
+          </li>
+        {{ end }}
+
+        {{ if eq .Section "marketing" }}
+          <li class="nav-item">
+            <a class="{{ if eq .C.OriginalURL "/" }}active{{ end }} nav-link" href="{{ .C.GetRouteURL "marketing.home" nil }}">Home</a>
+          </li>
+
+          <li class="nav-item">
+            <a
+              class="{{ if eq .C.OriginalURL (.C.GetRouteURL "marketing.manifesto" nil ) }}active{{ end }} nav-link"
+              href="{{ .C.GetRouteURL "marketing.manifesto" nil }}"
+            >
+              Manifesto
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="{{ if stringHasPrefix .C.OriginalURL "/pricing" }}active{{ end }} nav-link" href="/pricing">Pricing</a>
+          </li>
+
+          <li class="nav-item"><a class="nav-link" href="/docs">Docs</a></li>
+        {{ end }}
+      </div>
+
+      <div class="align-items-center ms-auto navbar-nav">
+        {{ template "partials/color_mode_dropdown" . }}
+
+        {{ if .Auth.User }}
+          {{ if eq .Section "marketing" }}
+            <a class="btn btn-primary btn-sm me-3" href="/projects">Go to app</a>
+          {{ end }}
+
+
+          <div class="dropdown">
+            <button
+              class="align-items-center bg-body-secondary-hover bg-transparent border-0 d-flex dropdown-toggle flex-row px-2 py-1 rounded"
+              data-bs-toggle="dropdown"
+              type="button"
+            >
+              <img alt="{{ .Auth.User.Name }}" class="d-block h-2rem rounded-circle" src="{{ gravatarUrl .Auth.User.Email 80 }}" />
+            </button>
+
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="/settings">Settings</a></li>
+
+              <hr class="dropdown-divider" role="separator" />
+
+              <li><a class="dropdown-item" href="{{ .C.GetRouteURL "auth.signOut" nil }}">Sign out</a></li>
+            </ul>
+          </div>
+        {{ else }}
+          <div class="hstack gap-2">
+            {{ if not (stringHasPrefix .C.OriginalURL (.C.GetRouteURL "auth.signIn" nil)) }}
+              <a class="btn btn-outline-primary btn-sm" href="{{ .C.GetRouteURL "auth.signIn" nil }}">Sign in</a>
+            {{ end }}
+
+            {{ if not (stringHasPrefix .C.OriginalURL (.C.GetRouteURL "auth.signUp" nil)) }}
+              <a class="btn btn-primary btn-sm" href="{{ .C.GetRouteURL "auth.signUp" nil }}">Sign up</a>
+            {{ end }}
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </div>
+</header>

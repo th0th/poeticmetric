@@ -1,0 +1,41 @@
+<div class="dropdown">
+  <button
+    class="align-items-center bg-body-secondary-hover bg-transparent border-0 d-flex dropdown-toggle flex-row px-2 py-1 rounded"
+    data-bs-toggle="dropdown"
+    type="button"
+  >
+    <i
+      class="{{ if eq .ColorMode "auto" }}
+        bi-circle-half
+      {{ else if eq .ColorMode "dark" }}
+        bi-moon-stars-fill
+      {{ else if eq .ColorMode "light" }}
+        bi-sun-fill
+      {{ end }}"
+      data-color-mode-icon
+    ></i>
+  </button>
+
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li>
+      <button class="d-flex dropdown-item flex-row" data-color-mode="auto" hx-on="click: htmx.trigger(this, 'setColorMode')" type="button">
+        <i class="bi-circle-half me-2"></i>
+        Auto
+      </button>
+    </li>
+
+    <li>
+      <button class="d-flex dropdown-item flex-row" data-color-mode="light" hx-on="click: htmx.trigger(this, 'setColorMode')" type="button">
+        <i class="bi-sun-fill me-2"></i>
+        Light
+      </button>
+    </li>
+
+    <li>
+      <button class="d-flex dropdown-item flex-row" data-color-mode="dark" hx-on="click: htmx.trigger(this, 'setColorMode')" type="button">
+        <i class="bi-moon-stars-fill me-2"></i>
+        Dark
+      </button>
+    </li>
+  </ul>
+</div>

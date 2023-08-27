@@ -1,0 +1,166 @@
+<section class="py-5">
+  <div class="container text-center">
+    <h1 class="fw-bold lh-base">Privacy-first, regulation compliant<br />Google Analytics alternative</h1>
+
+    <div class="fs-5 fw-medium">
+      PoeticMetric is a free as in freedom, open source, privacy-first and<br />regulation-compliant website analytics tool.
+    </div>
+
+    <div class="gap-3 hstack justify-content-center mt-3">
+      {{ if .Auth.User }}
+        <a class="btn btn-lg btn-primary" href="/sites"> Go to app</a>
+      {{ else }}
+        <a class="btn btn-lg btn-primary" href="{{ .C.GetRouteURL "auth.signUp" nil }}"> Sign up</a>
+      {{ end }}
+
+
+      <a class="btn btn-lg btn-outline-primary" href="/s?d=www.poeticmetric.com"> See demo</a>
+    </div>
+  </div>
+</section>
+
+<section class="pb-5 pt-0">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-lg-8 offset-lg-2">
+        <div class="bg-body mx-auto mw-50rem shadow">
+          <div class="align-items-center bg-black bg-opacity-10 border-end border-top border-start d-flex flex-row h-1rem px-2 rounded-top">
+            <div class="gap-1 hstack">
+              <i class="bi bi-circle-fill fs-xxs text-danger"></i>
+
+              <i class="bi bi-circle-fill fs-xxs text-warning"></i>
+
+              <i class="bi bi-circle-fill fs-xxs text-success"></i>
+            </div>
+          </div>
+
+          <img alt="Screenshot" class="d-block w-100" src="/screenshot.png" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-body-secondary py-5">
+  <div class="container">
+    <h2>Get insights that matter</h2>
+
+    <div class="fs-5" style="max-width: 34rem;">
+      With PoeticMetric&apos;s comprehensive and user-friendly analytics, say goodbye to confusing and cluttered reports, and hello to
+      straightforward insights that are easy to understand and actionable. With PoeticMetric, you&apos;re in complete control of your data
+      and your privacy. No more worrying about behavioral marketing or surveillance capitalism – your data belongs to you, and you alone.
+    </div>
+
+    <div class="mt-5">
+      <div class="gx-4 gy-5 row row-cols-lg-3 row-cols-md-2 row-cols-1">
+        <div class="col">
+          <h5 class="d-inline-block lh-base">
+            <i class="align-middle bi bi-magic fs-4 me-2 text-primary"></i>
+
+            Easy integration
+          </h5>
+
+          <div>
+            Integrating with your website or application is a breeze. Get up and running in no time. Single page applications built tools
+            like React.js, Vue.js and Angular are supported without any additional effort.
+          </div>
+
+          <a
+            class="d-block fs-sm fw-bold mt-3 text-decoration-none text-decoration-underline-hover"
+            href="/docs/websites/adding-the-script-to-your-website"
+          >
+            Read more on docs &rarr;
+          </a>
+        </div>
+
+        <div class="col">
+          <h5 class="d-inline-block lh-base">
+            <i class="align-middle bi bi-bar-chart-line-fill fs-4 me-2 text-primary"></i>
+
+            Simple analytics, user-friendly reports
+          </h5>
+
+          <div>
+            Simple, clear and easy to understand reports, without overwhelming you with unnecessary details. Whether you're a beginner or an
+            experienced data analyst, you'll appreciate the clarity of our reports.
+          </div>
+        </div>
+
+        <div class="col">
+          <h5 class="d-inline-block lh-base">
+            <i class="align-middle bi bi-shield-fill-check fs-4 me-2 text-primary"></i>
+
+            100% data ownership
+          </h5>
+
+          <div>
+            You have complete ownership of your data. There's no behavioral marketing or surveillance capitalism, giving you peace of mind
+            that your privacy is being protected.
+          </div>
+        </div>
+
+        <div class="col">
+          <h5 class="d-inline-block lh-base">
+            <i class="align-middle bi bi-clipboard-data-fill fs-4 me-2 text-primary"></i>
+
+            Data exporting
+          </h5>
+
+          <div>
+            Data exporting capabilities for you to access your data and use it however you need, whether it's for further analysis or
+            integration with other tools.
+          </div>
+        </div>
+
+        <div class="col">
+          <h5 class="d-inline-block lh-base">
+            <i class="align-middle bi bi-people-fill fs-4 me-2 text-primary"></i>
+
+            Collaboration made easy
+          </h5>
+
+          <div>
+            PoeticMetric is team-ready, making it easy for multiple people to work together and collaborate on website performance analysis
+            and optimization.
+          </div>
+        </div>
+
+        <div class="col">
+          <h5 class="d-inline-block lh-base">
+            <i class="align-middle bi bi-share-fill fs-4 me-2 text-primary"></i>
+
+            Publicly sharable reports
+          </h5>
+
+          <div>
+            You can choose to make your site's analytics reports publicly accessible. Sharing with partners? OK. Showcasing? Also OK.
+          </div>
+
+          <a
+            class="d-block fs-sm fw-bold mt-3 text-decoration-none text-decoration-underline-hover"
+            href="/docs/websites/site-settings#public-reports"
+          >
+            Read more on docs &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-5">
+  <div class="container text-center">
+    <h2>Get accurate insights and take control of your data</h2>
+
+    <a class="btn btn-lg btn-primary mt-3" href="{{ .C.GetRouteURL "auth.signUp" nil }}">Get started</a>
+
+    <div class="mt-2">
+      <a
+        class="fw-bold text-decoration-none text-decoration-underline-hover text-primary"
+        href="{{ .C.GetRouteURL "marketing.pricing" nil }}"
+      >
+        See plans and pricing
+      </a>
+    </div>
+  </div>
+</section>

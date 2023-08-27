@@ -1,0 +1,67 @@
+<div class="container py-5">
+  <div class="row">
+    <div class="col col-12 col-lg-6 col-md-8 col-sm-10 offset-lg-3 offset-md-2 offset-sm-1">
+      <div class="text-center">
+        <h1>Sign in to continue</h1>
+
+        <div class="mt-3">Don't have an account? <a href="/sign-up">Sign up</a></div>
+      </div>
+
+      <div class="card mt-4">
+        <div class="card-body">
+          {{ if .Errors.Detail }}
+            <div class="alert alert-danger">{{ .Errors.Detail }}</div>
+          {{ end }}
+
+
+          <form method="post">
+            <fieldset class="gap-3 vstack" data-loading-disable>
+              <div>
+                <label class="form-label" for="input-Email">E-mail address</label>
+
+                <input
+                  class="form-control {{ if .Errors.Email }}is-invalid{{ end }}"
+                  id="input-Email"
+                  name="Email"
+                  required
+                  type="email"
+                  value="{{ .Data.Email }}"
+                />
+
+                {{ if .Errors.Email }}
+                  <div class="invalid-feedback">{{ .Errors.Email }}</div>
+                {{ end }}
+              </div>
+
+              <div>
+                <label class="form-label" for="input-Password">Password</label>
+
+                <input
+                  class="form-control {{ if .Errors.Password }}is-invalid{{ end }}"
+                  id="input-Password"
+                  name="Password"
+                  required
+                  type="password"
+                />
+
+                {{ if .Errors.Password }}
+                  <div class="invalid-feedback">{{ .Errors.Password }}</div>
+                {{ end }}
+              </div>
+
+              <div class="d-grid mt-1">
+                <button class="btn btn-primary text-center" type="submit">Sign in</button>
+              </div>
+            </fieldset>
+          </form>
+
+          <div class="mt-1 text-center">
+            <a class="fs-sm fw-medium link-primary" href="{{ .C.GetRouteURL "auth.passwordRecovery" nil }}" hx-include="[name='Email']">
+              Forgot password?
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

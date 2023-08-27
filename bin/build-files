@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+# bootstrap-icons
+mkdir -p public-generated/fonts/
+cp node_modules/bootstrap-icons/font/fonts/* public-generated/fonts/

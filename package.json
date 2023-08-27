@@ -1,0 +1,22 @@
+{
+  "author": "Gokhan Sari <gokhan@poeticmetric.com>",
+  "license": "AGPL-3.0",
+  "name": "poeticmetric",
+  "version": "1.0.0",
+  "dependencies": {
+    "@rollup/plugin-node-resolve": "^15.2.1",
+    "@rollup/plugin-terser": "^0.4.3",
+    "@rollup/plugin-typescript": "^11.1.2",
+    "autoprefixer": "^10.4.15",
+    "bootstrap": "^5.3.1",
+    "bootstrap-icons": "^1.10.5",
+    "htmx.org": "^1.9.4",
+    "js-cookie": "^3.0.5",
+    "postcss-cli": "^10.1.0",
+    "prettier": "^3.0.2",
+    "prettier-plugin-go-template": "^0.0.15",
+    "prettier-plugin-organize-attributes": "^1.0.0",
+    "rollup": "^3.28.1",
+    "sass": "^1.66.1"
+  }
+}
