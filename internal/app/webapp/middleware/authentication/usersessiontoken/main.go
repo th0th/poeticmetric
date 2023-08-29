@@ -8,7 +8,7 @@ import (
 	am "github.com/th0th/poeticmetric/internal/app/webapp/middleware/authentication"
 	cm "github.com/th0th/poeticmetric/internal/app/webapp/middleware/context"
 	"github.com/th0th/poeticmetric/internal/app/webapp/usersessiontoken"
-	"github.com/th0th/poeticmetric/internal/context"
+	ic "github.com/th0th/poeticmetric/internal/context"
 	"github.com/th0th/poeticmetric/internal/model"
 	"github.com/th0th/poeticmetric/internal/pointer"
 )
@@ -25,7 +25,7 @@ func New(c *fiber.Ctx) error {
 		Token: token,
 	}
 
-	err := context.Pg(ctx).Where(userSessionToken, "Token").First(&userSessionToken).Error
+	err := ic.Postgres(ctx).Where(userSessionToken, "Token").First(&userSessionToken).Error
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			usersessiontoken.Clear(c)
@@ -40,7 +40,7 @@ func New(c *fiber.Ctx) error {
 		Id: userSessionToken.UserId,
 	}
 
-	err = context.Pg(ctx).Where(user, "Id").First(&user).Error
+	err = ic.Postgres(ctx).Joins("Organization").Where(user, "Id").First(&user).Error
 	if err != nil {
 		return errors.Wrap(err, 0)
 	}

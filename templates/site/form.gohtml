@@ -1,0 +1,110 @@
+<div class="container py-5">
+  <div class="breadcrumb">
+    <div class="breadcrumb-item">
+      <a class="breadcrumb-link" href="{{ .C.GetRouteURL "site.list" nil }}">Sites</a>
+    </div>
+
+    <h1>{{ .Title }}</h1>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <form method="post">
+        <fieldset class="gap-3 vstack" data-loading-disable>
+          <div>
+            <label class="form-label" for="input-Domain">Domain</label>
+
+            <input
+              {{ if not .Domain }}value="{{ .Data.Domain }}"{{ end }}
+              {{ if .Domain }}disabled{{ end }}
+              {{ if .Domain }}value="{{ .Domain }}"{{ end }}
+              class="form-control {{ if .Errors.Domain }}is-invalid{{ end }}"
+              id="input-Domain"
+              name="Domain"
+              required
+              type="text"
+            />
+
+            {{ if .Errors.Domain }}
+              <div class="invalid-feedback">{{ .Errors.Domain }}</div>
+            {{ end }}
+          </div>
+
+          <div>
+            <label class="form-label" for="input-Name">Name</label>
+
+            <input
+              class="form-control {{ if .Errors.Name }}is-invalid{{ end }}"
+              id="input-Name"
+              name="Name"
+              required
+              type="text"
+              value="{{ .Data.Name }}"
+            />
+
+            {{ if .Errors.Name }}
+              <div class="invalid-feedback">{{ .Errors.Name }}</div>
+            {{ end }}
+          </div>
+
+          <div>
+            <label class="form-label" for="input-SafeQueryParametersEntry">Safe query parameters</label>
+
+            <div class="array-input" data-name="SafeQueryParameters">
+              <input data-entry id="input-SafeQueryParametersEntry" placeholder="Type and press enter" />
+            </div>
+
+            <div class="form-text">
+              You can select privacy-safe query parameters to be saved. For details please see
+              <a href="/docs/websites/query-parameters" target="_blank">here</a>.
+            </div>
+          </div>
+
+          <div class="form-check">
+            <input
+              {{ if .Data.GoogleSearchConsoleSiteUrl }}checked{{ end }}
+              class="form-check-input"
+              id="input-EnableGoogleSearchConsoleIntegration"
+              name="EnableGoogleSearchConsoleIntegration"
+              type="checkbox"
+              value="true"
+            />
+
+            <label class="form-check-label" for="input-EnableGoogleSearchConsoleIntegration">Show Google Search Console reports</label>
+
+            <div class="form-text">
+              You can enable this to see the Google Search Console statistics on your PoeticMetric reports. For details please see
+              <a href="/docs/websites/google-search-console-integration" target="_blank">here</a>.
+            </div>
+          </div>
+
+          <div class="{{ if not .Data.GoogleSearchConsoleSiteUrl }}d-none{{ end }}" id="google-search-console-site">
+            {{ template "site/partial/google_search_console_site_select" . }}
+          </div>
+
+          <div class="form-check">
+            <input
+              {{ if .Data.IsPublic }}checked{{ end }}
+              class="form-check-input"
+              id="input-IsPublic"
+              name="IsPublic"
+              type="checkbox"
+              value="true"
+            />
+
+            <label class="form-check-label" for="input-IsPublic">Make this site's reports publicly available</label>
+
+            <div class="form-text">If you enable this, this site's stats will be accessible by everyone.</div>
+          </div>
+
+          <div>
+            <button class="btn btn-primary" type="submit">{{ if eq .Title "Add site" }}Add site{{ else }}Save site{{ end }}</button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://accounts.google.com/gsi/client" type="text/javascript"></script>
+<script defer src="/routes/site.form.js" type="text/javascript"></script>

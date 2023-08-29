@@ -9,18 +9,24 @@ import (
 
 	"github.com/caarlos0/env/v9"
 	"github.com/go-errors/errors"
+	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/google"
+	"google.golang.org/api/searchconsole/v1"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 )
 
 type Vars struct {
 	BasePath           string `env:"BASE_PATH" envDefault:"/poeticmetric"`
+	BaseUrl            string `env:"BASE_URL,notEmpty,required"`
 	ClickhouseDatabase string `env:"CLICKHOUSE_DATABASE,notEmpty,required"`
 	ClickhouseHost     string `env:"CLICKHOUSE_HOST,notEmpty,required"`
 	ClickhousePassword string `env:"CLICKHOUSE_PASSWORD,notEmpty,required"`
 	ClickhousePort     int    `env:"CLICKHOUSE_PORT" envDefault:"9000"`
 	ClickhouseUser     string `env:"CLICKHOUSE_USER,notEmpty,required"`
 	Debug              bool   `env:"DEBUG" envDefault:"false"`
+	GoogleClientId     string `env:"GOOGLE_CLIENT_ID"`
+	GoogleClientSecret string `env:"GOOGLE_CLIENT_SECRET"`
 	PostgresDatabase   string `env:"POSTGRES_DATABASE,notEmpty,required"`
 	PostgresHost       string `env:"POSTGRES_HOST,notEmpty,required"`
 	PostgresPassword   string `env:"POSTGRES_PASSWORD,required"`
@@ -67,6 +73,16 @@ func GetClickhouseDsn() string {
 		vars.ClickhousePort,
 		vars.ClickhouseDatabase,
 	)
+}
+
+func GetGoogleOauthConfig() *oauth2.Config {
+	return &oauth2.Config{
+		ClientID:     vars.GoogleClientId,
+		ClientSecret: vars.GoogleClientSecret,
+		Endpoint:     google.Endpoint,
+		RedirectURL:  vars.BaseUrl,
+		Scopes:       []string{searchconsole.WebmastersReadonlyScope},
+	}
 }
 
 func GetGormPostgresConfig() *gorm.Config {

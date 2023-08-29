@@ -1,0 +1,27 @@
+{{ if .Auth.User.Organization.GoogleOauthRefreshToken }}
+  <label class="form-label" for="input-GoogleSearchConsoleSiteUrl">Google Search Console site</label>
+
+  <select class="form-select w-auto" id="input-GoogleSearchConsoleSiteUrl" name="GoogleSearchConsoleSiteUrl">
+    {{ range .GoogleSearchConsoleSites }}
+      <option value="{{ .Url }}">{{ .Url }}</option>
+    {{ end }}
+  </select>
+{{ else }}
+  <button
+    class="btn btn-primary btn-sm"
+    data-google-client-id="{{ .GoogleClientId }}"
+    hx-get="{{ .C.GetRouteURL "site.googleSearchConsoleSiteSelect" nil }}"
+    hx-trigger="googleOauthComplete"
+    hx-vals="js:{code: event.detail.code}"
+    id="connect-with-google-button"
+    type="button"
+  >
+    Connect with Google
+  </button>
+{{ end }}
+
+{{ if .Errors.GoogleSearchConsoleSiteUrl }}
+  <div>
+    {{ .Errors.GoogleSearchConsoleSiteUrl }}
+  </div>
+{{ end }}

@@ -1,0 +1,52 @@
+<div class="container py-5">
+  <div class="breadcrumb">
+    <h1>Sites</h1>
+  </div>
+
+  <div class="d-flex flex-column flex-md-row gap-2 mb-3">
+    <div class="flex-grow-1"></div>
+
+    <div class="d-grid">
+      <a class="btn btn-primary" href="{{ .C.GetRouteURL "site.add" nil }}">Add new site</a>
+    </div>
+  </div>
+
+  {{ if .Sites }}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3">
+      {{ $C := .C }}
+      {{ range .Sites }}
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <div class="card-title d-flex flex-row align-items-center">
+                <img alt="{{ .Name }}" class="s-1rem" loading="lazy" src="https://icons.duckduckgo.com/ip3/{{ .Domain }}.ico" />
+
+                <div class="fs-5 fw-semibold ms-2 text-truncate" title="{{ .Name }}">{{ .Name }}</div>
+              </div>
+
+              <div class="card-subtitle text-muted text-truncate" title="{{ .Domain }}">{{ .Domain }}</div>
+            </div>
+
+            <div class="card-footer">
+              <div class="d-flex flex-column flex-sm-row gap-2">
+                <a class="btn btn-sm btn-primary" href="">View reports</a>
+
+                <a class="btn btn-sm btn-secondary" href="{{ $C.GetRouteURL "site.edit" (map "site_id" .Id) }}">Edit</a>
+
+                <a class="btn btn-sm btn-danger">Delete</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{ end }}
+    </div>
+  {{ else }}
+    <div class="align-items-center d-flex flex-column flex-grow-1 justify-content-center text-center">
+      <i class="bi bi-folder2-open bis-5rem small text-primary"></i>
+
+      <h3>You don't have any sites yet.</h3>
+
+      <div class="fs-5 fw-medium text-muted">Please add a site to start tracking its traffic.</div>
+    </div>
+  {{ end }}
+</div>

@@ -7,7 +7,7 @@ import (
 	cm "github.com/th0th/poeticmetric/internal/app/webapp/middleware/context"
 	"github.com/th0th/poeticmetric/internal/app/webapp/toast"
 	"github.com/th0th/poeticmetric/internal/app/webapp/usersessiontoken"
-	context2 "github.com/th0th/poeticmetric/internal/context"
+	ic "github.com/th0th/poeticmetric/internal/context"
 	"github.com/th0th/poeticmetric/internal/model"
 	"github.com/th0th/poeticmetric/internal/service/auth"
 )
@@ -19,7 +19,7 @@ func bootstrap(c *fiber.Ctx) error {
 
 	var planCount int64
 
-	err := context2.Pg(ctx).Model(&model.Plan{}).Limit(1).Count(&planCount).Error
+	err := ic.Postgres(ctx).Model(&model.Plan{}).Limit(1).Count(&planCount).Error
 	if err != nil {
 		return errors.Wrap(err, 0)
 	}

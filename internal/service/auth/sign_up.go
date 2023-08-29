@@ -4,9 +4,8 @@ import (
 	"context"
 
 	"github.com/go-errors/errors"
-	"gorm.io/gorm"
 
-	context2 "github.com/th0th/poeticmetric/internal/context"
+	ic "github.com/th0th/poeticmetric/internal/context"
 	"github.com/th0th/poeticmetric/internal/model"
 )
 
@@ -41,22 +40,22 @@ func SignUp(ctx context.Context, data *SignUpData) (*model.Organization, *model.
 
 	userSessionToken.SetToken()
 
-	err = context2.PgTransaction(ctx, func(pg *gorm.DB) error {
-		err = pg.Create(&organization).Error
+	err = ic.PostgresTransaction(ctx, func(ctx2 context.Context) error {
+		err = ic.Postgres(ctx2).Create(&organization).Error
 		if err != nil {
 			return errors.Wrap(err, 0)
 		}
 
 		user.OrganizationId = organization.Id
 
-		err = pg.Create(&user).Error
+		err = ic.Postgres(ctx2).Create(&user).Error
 		if err != nil {
 			return errors.Wrap(err, 0)
 		}
 
 		userSessionToken.UserId = user.Id
 
-		err = pg.Create(userSessionToken).Error
+		err = ic.Postgres(ctx2).Create(userSessionToken).Error
 		if err != nil {
 			return errors.Wrap(err, 0)
 		}

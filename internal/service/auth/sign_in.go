@@ -26,7 +26,7 @@ func SignIn(ctx context.Context, data *SignInData) (*model.UserSessionToken, err
 		Email: data.Email,
 	}
 
-	err = ic.Pg(ctx).Where(user, "Email").First(&user).Error
+	err = ic.Postgres(ctx).Where(user, "Email").First(&user).Error
 	if err != nil {
 		return nil, errors.Wrap(err, 0)
 	}
@@ -37,7 +37,7 @@ func SignIn(ctx context.Context, data *SignInData) (*model.UserSessionToken, err
 
 	userSessionToken.SetToken()
 
-	err = ic.Pg(ctx).Create(&userSessionToken).Error
+	err = ic.Postgres(ctx).Create(&userSessionToken).Error
 	if err != nil {
 		return nil, errors.Wrap(err, 0)
 	}

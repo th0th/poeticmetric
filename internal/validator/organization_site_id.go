@@ -9,13 +9,14 @@ import (
 	"github.com/th0th/poeticmetric/internal/model"
 )
 
-func UserEmail(ctx context.Context, v string) bool {
+func OrganizationSiteId(ctx context.Context, organizationId uint, siteId uint) bool {
 	var count int64
 
+	siteFilter := model.Site{Id: siteId, OrganizationId: organizationId}
+
 	err := ic.Postgres(ctx).
-		Model(&model.User{}).
-		Where("email = ?", v).
-		Limit(1).
+		Model(&model.Site{}).
+		Where(siteFilter, "Id", "OrganizationId").
 		Count(&count).
 		Error
 	if err != nil {

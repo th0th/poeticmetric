@@ -6,12 +6,15 @@ x-backend-common: &go-common
     dockerfile: development.Dockerfile
   image: ghcr.io/th0th/poeticmetric
   environment: &go-common-environment
+    BASE_URL: ${BASE_URL}
     CLICKHOUSE_DATABASE: ${CLICKHOUSE_DATABASE}
     CLICKHOUSE_HOST: ${CLICKHOUSE_HOST}
     CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD}
     CLICKHOUSE_PORT: ${CLICKHOUSE_PORT}
     CLICKHOUSE_USER: ${CLICKHOUSE_USER}
     DEBUG: ${DEBUG}
+    GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+    GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
     POSTGRES_DATABASE: ${POSTGRES_DATABASE}
     POSTGRES_HOST: ${POSTGRES_HOST}
     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -79,16 +82,16 @@ services:
     ports:
       - "127.0.0.1:5432:5432"
 
-#  rabbitmq:
-#    environment:
-#      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
-#      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
-#      RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_VHOST}
-#      VIRTUAL_HOST: rabbitmq.dev.poeticmetric.com
-#      VIRTUAL_PORT: "15672"
-#    image: rabbitmq:3-management-alpine
-#    ports:
-#      - "127.0.0.1:15672:15672"
+  #  rabbitmq:
+  #    environment:
+  #      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+  #      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+  #      RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_VHOST}
+  #      VIRTUAL_HOST: rabbitmq.dev.poeticmetric.com
+  #      VIRTUAL_PORT: "15672"
+  #    image: rabbitmq:3-management-alpine
+  #    ports:
+  #      - "127.0.0.1:15672:15672"
 
   redis:
     command:
@@ -99,11 +102,11 @@ services:
     volumes:
       - redis:/data
 
-#  scheduler:
-#    <<: *go-common
-#    environment:
-#      <<: *go-common-environment
-#      INSTANCE: scheduler
+  #  scheduler:
+  #    <<: *go-common
+  #    environment:
+  #      <<: *go-common-environment
+  #      INSTANCE: scheduler
 
   webapp:
     <<: *go-common

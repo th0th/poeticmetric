@@ -7,7 +7,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 
-	context2 "github.com/th0th/poeticmetric/internal/context"
+	ic "github.com/th0th/poeticmetric/internal/context"
 	"github.com/th0th/poeticmetric/internal/model"
 )
 
@@ -16,7 +16,7 @@ func UserEmailPassword(ctx context.Context, email string, password string) bool 
 		Email: email,
 	}
 
-	err := context2.Pg(ctx).
+	err := ic.Postgres(ctx).
 		Select("Password").
 		Where(user, "Email").
 		First(&user).

@@ -5,6 +5,7 @@ import "github.com/gofiber/fiber/v2"
 type Section = string
 
 const (
+	App       Section = "app"
 	Marketing Section = "marketing"
 )
 

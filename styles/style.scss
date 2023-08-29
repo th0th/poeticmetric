@@ -19,7 +19,6 @@ $blue-50: tint-color($blue, 90%);
 
 $alert-padding-y: 0.5rem;
 $body-secondary-bg: $blue-50;
-$border-color-translucent: rgba($black, .125);
 $btn-font-weight: $font-weight-semibold;
 $dropdown-font-size: $font-size-sm;
 $form-label-font-weight: $font-weight-medium;
@@ -34,41 +33,48 @@ $nav-link-font-weight: $font-weight-medium;
 $fixed-sizes: (1rem, 2rem, 3rem, 4rem, 5rem, 6rem, 7rem, 8rem, 9rem, 10rem, 11rem, 12rem, 14rem, 16rem, 18rem);
 
 $utilities: map-merge($utilities, (
-        "background-color": map-merge(map-get($utilities, "background-color"), (
-                responsive: true,
-                state: hover,
-        )),
-        "font-size": map-merge(map-get($utilities, "font-size"), (
-                responsive: true,
-                values: map-merge(map-get(map-get($utilities, "font-size"), "values"), (
-                        sm: $font-size-sm,
-                        xs: $font-size-xs,
-                        xxs: $font-size-xxs,
-                )),
-        )),
-        "height-fixed": (
-                class: h,
-                property: height,
-                values: $fixed-sizes,
-        ),
-        "size-fixed": (
-                class: s,
-                property: height width,
-                values: $fixed-sizes,
-        ),
-        "table-layout": (
-                class: table-layout,
-                property: table-layout,
-                values: (
-                        fixed,
-                ),
-        ),
-        "width-fixed": (
-                class: w,
-                property: width,
-                responsive: true,
-                values: $fixed-sizes,
-        ),
+  "background-color": map-merge(map-get($utilities, "background-color"), (
+    responsive: true,
+    state: hover,
+  )),
+  "font-size": map-merge(map-get($utilities, "font-size"), (
+    responsive: true,
+    values: map-merge(map-get(map-get($utilities, "font-size"), "values"), (
+      sm: $font-size-sm,
+      xs: $font-size-xs,
+      xxs: $font-size-xxs,
+    )),
+  )),
+  "height-fixed": (
+    class: h,
+    property: height,
+    values: $fixed-sizes,
+  ),
+  "icon-size": (
+    class: bis,
+    property: font-size,
+    values: (
+      5rem: 5rem,
+    ),
+  ),
+  "size-fixed": (
+    class: s,
+    property: height width,
+    values: $fixed-sizes,
+  ),
+  "table-layout": (
+    class: table-layout,
+    property: table-layout,
+    values: (
+      fixed,
+    ),
+  ),
+  "width-fixed": (
+    class: w,
+    property: width,
+    responsive: true,
+    values: $fixed-sizes,
+  ),
 ));
 
 @import "bootstrap/scss/root";
@@ -112,7 +118,39 @@ svg {
   fill: currentColor;
 }
 
+.array-input {
+  @extend .align-items-center;
+  @extend .d-flex;
+  @extend .flex-row;
+  @extend .flex-wrap;
+  @extend .gap-2;
+
+  border: $input-border-width solid $input-border-color;
+  border-radius: $input-border-radius;
+  min-height: $input-height;
+  padding: $input-padding-y $input-padding-x;
+
+  input[data-entry] {
+    @extend .form-control;
+    @extend .form-control-sm;
+    @extend .w-auto;
+  }
+
+  .form-control {
+    @extend .flex-grow-1;
+
+    border-color: transparent;
+    box-shadow: none;
+
+    &:focus {
+      border-color: $primary;
+    }
+  }
+}
+
 .breadcrumb {
+  @extend .mb-3;
+
   .breadcrumb-item {
     display: inline-block;
     font-size: $h5-font-size;
@@ -127,6 +165,10 @@ svg {
     .breadcrumb-link {
       text-decoration: none;
     }
+  }
+
+  h1 {
+    margin-block-end: 0;
   }
 }
 

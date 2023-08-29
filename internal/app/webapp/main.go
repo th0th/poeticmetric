@@ -5,6 +5,7 @@ import (
 	"path"
 
 	"github.com/go-errors/errors"
+	"github.com/gofiber/contrib/fibersentry"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/session"
 
@@ -18,6 +19,8 @@ import (
 	tm "github.com/th0th/poeticmetric/internal/app/webapp/middleware/toast"
 	"github.com/th0th/poeticmetric/internal/app/webapp/route/auth"
 	"github.com/th0th/poeticmetric/internal/app/webapp/route/marketing"
+	"github.com/th0th/poeticmetric/internal/app/webapp/route/site"
+	context2 "github.com/th0th/poeticmetric/internal/context"
 	"github.com/th0th/poeticmetric/internal/env"
 )
 
@@ -27,16 +30,22 @@ type WebApp struct {
 
 func New() *WebApp {
 	app := fiber.New(fiber.Config{
-		//ErrorHandler:      handleError,
+		ErrorHandler:      handleError,
 		PassLocalsToViews: true,
 		Views:             htmlengine.New(),
 		ViewsLayout:       "layouts/main",
 	})
 
 	ctx := context.Background()
+	ctx = context2.WithPostgres(ctx)
+
 	ss := session.New()
 
 	app.Use(
+		fibersentry.New(fibersentry.Config{
+			Repanic:         true,
+			WaitForDelivery: true,
+		}),
 		cm.New(ctx),
 		fibercontext.New,
 		sm.New(ss),
@@ -46,8 +55,9 @@ func New() *WebApp {
 		tm.New,
 	)
 
-	marketing.Add(app)
 	auth.Add(app)
+	marketing.Add(app)
+	site.Add(app)
 
 	app.Static("", path.Join(env.Get().BasePath, "public"))
 	app.Static("", path.Join(env.Get().BasePath, "public-generated"))
