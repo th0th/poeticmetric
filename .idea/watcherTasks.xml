@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectTasksOptions" suppressed-tasks="SCSS">
+    <TaskOptions isEnabled="true">
+      <option name="arguments" value="build-styles" />
+      <option name="checkSyntaxErrors" value="true" />
+      <option name="description" />
+      <option name="exitCodeBehavior" value="ERROR" />
+      <option name="fileExtension" value="scss" />
+      <option name="immediateSync" value="true" />
+      <option name="name" value="Compile style.scss" />
+      <option name="output" value="$ProjectFileDir$/pkg/web/fileserver/files/style.css:$ProjectFileDir$/pkg/web/fileserver/files/style.css.map" />
+      <option name="outputFilters">
+        <array />
+      </option>
+      <option name="outputFromStdout" value="false" />
+      <option name="program" value="pnpm" />
+      <option name="runOnExternalChanges" value="true" />
+      <option name="scopeName" value="Recently Changed Files" />
+      <option name="trackOnlyRoot" value="true" />
+      <option name="workingDir" value="$FileDir$" />
+      <envs />
+    </TaskOptions>
+  </component>
+</project>

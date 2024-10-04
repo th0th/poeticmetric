@@ -1,0 +1,15 @@
+{{ define "layout" }}
+  <!doctype html>
+  <html lang="en">
+    <head>
+      <link href="/style.css" rel="stylesheet" />
+      <title>{{ block "title" . }}PoeticMetric Analytics{{ end }}</title>
+    </head>
+
+    <body>
+      {{ template "header" . }}
+
+      {{ block "body" . }}{{ end }}
+    </body>
+  </html>
+{{ end }}

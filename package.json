@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "frontend": "github:th0th/frontend",
+    "sass": "^1.79.4"
+  },
+  "name": "poeticmetric",
+  "scripts": {
+    "build-styles": "sass --load-path node_modules --quiet styles/style.scss pkg/web/fileserver/files/style.css"
+  },
+  "version": "1.0.0",
+  "devDependencies": {
+    "prettier": "^3.3.3",
+    "prettier-plugin-go-template": "^0.0.15",
+    "prettier-plugin-organize-attributes": "^1.0.0"
+  }
+}

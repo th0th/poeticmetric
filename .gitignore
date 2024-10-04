@@ -1,0 +1,4 @@
+/.idea/dataSources/
+/.idea/dataSources.local.xml
+/etc/*/secrets.yaml
+/node_modules

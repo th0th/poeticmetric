@@ -1,0 +1,1 @@
+!function(){"use strict";console.log("sites.ts"),document.addEventListener("click",(function(t){if(t.target instanceof HTMLElement){var e=t.target.closest("[data-link]"),n=t.target.closest(".dropdown");e&&!n&&(window.location.href=e.dataset.link)}}))}();

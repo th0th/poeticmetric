@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "poeticmetric.fullname" . }}-pgbouncer
+  labels:
+    {{- include "poeticmetric.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.pgBouncer.replicas }}
+  selector:
+    matchLabels:
+      deployment: pgbouncer
+      {{- include "poeticmetric.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        deployment: pgbouncer
+        {{- include "poeticmetric.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - env:
+        - name: PGBOUNCER_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              key: DATABASE
+              name: {{ include "poeticmetric.fullname" . }}-postgres
+        - name: POSTGRESQL_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: RAW_HOST
+              name: {{ include "poeticmetric.fullname" . }}-postgres
+        - name: POSTGRESQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: PASSWORD
+              name: {{ include "poeticmetric.fullname" . }}-postgres
+        - name: POSTGRESQL_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: RAW_PORT
+              name: {{ include "poeticmetric.fullname" . }}-postgres
+        - name: POSTGRESQL_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: USER
+              name: {{ include "poeticmetric.fullname" . }}-postgres
+        envFrom:
+        - configMapRef:
+            name: {{ include "poeticmetric.fullname" . }}-pgbouncer
+            optional: false
+          prefix: PGBOUNCER_
+        image: {{ printf "%s:%s" .Values.pgBouncer.image.repository .Values.pgBouncer.image.tag }}
+        imagePullPolicy: {{ .Values.pgBouncer.image.pullPolicy }}
+        name: pgbouncer
+        {{- if .Values.pgBouncer.resources }}
+        resources:
+          {{- toYaml .Values.pgBouncer.resources | nindent 10 }}
+        {{- end }}

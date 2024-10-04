@@ -1,0 +1,43 @@
+clickhouse:
+  image:
+    repository: clickhouse/clickhouse-server
+    tag: 24-alpine
+  persistence:
+    enabled: true
+  resources: {}
+pgBouncer:
+  config: {}
+  image:
+    pullPolicy: IfNotPresent
+    repository: bitnami/pgbouncer
+    tag: "1"
+  replicas: 1
+  resources: {}
+poeticmetric:
+  commonBaseUrl: ""
+  development:
+    debug: false
+    enabled: false
+    hostBasePath: ""
+  image: ghcr.io/th0th/poeticmetric
+  imagePullPolicy: Always
+  imageTag: latest
+  ingress:
+    certManagerAnnotations: {}
+    host: poeticmetric.com
+  replicas: 1
+  resources: {}
+postgres:
+  image:
+    repository: postgres
+    tag: 16-alpine
+  persistence:
+    enabled: true
+  resources: {}
+redis:
+  image:
+    repository: redis
+    tag: 7-alpine
+  persistence:
+    enabled: true
+  resources: {}

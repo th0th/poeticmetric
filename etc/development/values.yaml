@@ -1,0 +1,11 @@
+poeticmetric:
+  commonBaseUrl: https://common.unius.sh
+  development:
+    debug: true
+    enabled: true
+  imagePullPolicy: Never
+  imageTag: development
+  ingress:
+    certManagerAnnotations:
+      cert-manager.io/cluster-issuer: self-signed
+    host: dev.poeticmetric.com

@@ -1,0 +1,88 @@
+{{ define "header" }}
+  <header class="bg-body border-bottom navbar navbar-expand-md">
+    <div class="container">
+      <button
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+        class="navbar-toggler"
+        data-bs-target="#header-nav-offcanvas"
+        data-bs-toggle="offcanvas"
+        type="button"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <a class="navbar-brand" href="{{ href "/" }}">
+        {{ template "partials/logo" (dict "Class" "d-block h-2rem") }}
+      </a>
+
+      <div class="offcanvas offcanvas-top" id="header-nav-offcanvas">
+        <div class="offcanvas-body">
+          <ul class="navbar-nav">
+            {{ if eq .HeaderVariant "app" }}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ .C.GetRouteURL "sites" nil }}">Sites</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="{{ .C.GetRouteURL "users" nil }}">Team</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="{{ .C.GetRouteURL "billing" nil }}">Billing</a>
+              </li>
+            {{ else }}
+              <li class="nav-item">
+                <a class="nav-link {{ if isCurrentPath "/" true }}active{{ end }}" href="{{ href "/" }}">Home</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link {{ if isCurrentPath "/manifesto" }}active{{ end }}" href="{{ href "/manifesto" }}">Manifesto</a>
+              </li>
+            {{ end }}
+          </ul>
+        </div>
+      </div>
+
+      <div class="gap-4 hstack">
+        {{ if .User }}
+          {{ if eq .HeaderVariant "site" }}
+            <a class="btn btn-primary btn-sm d-none d-md-block" href="{{ .C.GetRouteURL "sites" nil }}">Go to application</a>
+          {{ end }}
+
+
+          <div class="dropdown">
+            <button
+              class="bg-body-secondary-focus-visible bg-body-secondary-hover bg-transparent border-0 px-2 py-1 rounded transition-all"
+              data-bs-toggle="dropdown"
+            >
+              {{ template "partials/gravatar" (dict "Email" .User.Email "Size" 32) }}
+            </button>
+
+            <ul class="dropdown-menu dropdown-menu-end">
+              {{ if .User }}
+                <li class="d-md-none">
+                  <a class="dropdown-item" href="{{ .C.GetRouteURL "sites" . }}">Go to application</a>
+                </li>
+
+                <li class="d-md-none">
+                  <hr class="dropdown-divider" />
+                </li>
+              {{ end }}
+
+
+              <li><a class="dropdown-item" href="{{ href "/sign-out" }}">Sign out</a></li>
+            </ul>
+          </div>
+        {{ else }}
+          <div class="align-items-center gap-4 hstack">
+            <a class="btn btn-outline-primary btn-sm" href="{{ href "/sign-in" }}">Sign in</a>
+
+            <a class="btn btn-primary btn-sm" href="{{ href "/sign-up" }}">Sign up</a>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </header>
+{{ end }}

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    {{- include "poeticmetric.labels" . | nindent 4 }}
+  name: {{ include "poeticmetric.fullname" . }}-web
+spec:
+  type: ClusterIP
+  selector:
+    {{- include "poeticmetric.selectorLabels" . | nindent 4 }}
+    deployment: web
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 80

@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+. $(dirname "$(readlink -f "$0")")/base
+BASE_DIR=$(get-base-dir)
+
+USER=$(whoami)
+HOSTNAME=$(hostname)
+
+HOST_BASE_PATH="${BASE_DIR}"
+
+helm upgrade poeticmetric chart \
+  --create-namespace \
+  --install \
+  --kube-context docker-desktop \
+  --namespace poeticmetric-development \
+  --set "poeticmetric.development.hostBasePath=${HOST_BASE_PATH}" \
+  --set "poeticmetric.stripe.metaEnvironment=${USER}@${HOSTNAME}" \
+  --values "${BASE_DIR}/etc/development/values.yaml"

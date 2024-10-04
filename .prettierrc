@@ -1,0 +1,6 @@
+{
+  "attributeGroups": ["$DEFAULT"],
+  "attributeSort": "ASC",
+  "plugins": ["prettier-plugin-go-template", "prettier-plugin-organize-attributes"],
+  "printWidth": 140
+}

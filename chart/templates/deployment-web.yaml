@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    {{- include "poeticmetric.labels" . | nindent 4 }}
+    restart-on-deploy: "true"
+  name: {{ include "poeticmetric.fullname" . }}-web
+spec:
+  replicas: {{ .Values.poeticmetric.replicas }}
+  selector:
+    matchLabels:
+      {{- include "poeticmetric.selectorLabels" . | nindent 6 }}
+      deployment: web
+  template:
+    metadata:
+      labels:
+        {{- include "poeticmetric.selectorLabels" . | nindent 8 }}
+        deployment: web
+    spec:
+      containers:
+      - env:
+        - name: INSTANCE
+          value: web
+        envFrom:
+        - secretRef:
+            name: {{ include "poeticmetric.fullname" . }}
+            optional: false
+        - configMapRef:
+            name: {{ include "poeticmetric.fullname" . }}-clickhouse
+            optional: false
+          prefix: CLICKHOUSE_
+        - prefix: CLICKHOUSE_
+          secretRef:
+            name: {{ include "poeticmetric.fullname" . }}-clickhouse
+            optional: false
+        - configMapRef:
+            name: {{ include "poeticmetric.fullname" . }}-postgres
+            optional: false
+          prefix: POSTGRES_
+        - prefix: POSTGRES_
+          secretRef:
+            name: {{ include "poeticmetric.fullname" . }}-postgres
+            optional: false
+        - configMapRef:
+            name: {{ include "poeticmetric.fullname" . }}-redis
+            optional: false
+          prefix: REDIS_
+        - prefix: REDIS_
+          secretRef:
+            name: {{ include "poeticmetric.fullname" . }}-redis
+            optional: false
+        - configMapRef:
+            name: {{ include "poeticmetric.fullname" . }}-poeticmetric
+            optional: false
+        image: {{ printf "%s:%s" .Values.poeticmetric.image .Values.poeticmetric.imageTag }}
+        imagePullPolicy: {{ .Values.poeticmetric.imagePullPolicy }}
+        name: web
+        resources:
+          {{- toYaml .Values.poeticmetric.resources | nindent 10 }}
+        volumeMounts:
+        {{ if .Values.poeticmetric.development.hostBasePath }}
+        - mountPath: /poeticmetric/cmd
+          name: cmd
+        - mountPath: /poeticmetric/pkg
+          name: pkg
+        - mountPath: /poeticmetric/go.mod
+          name: go-mod
+        - mountPath: /poeticmetric/go.sum
+          name: go-sum
+        {{ end }}
+      volumes:
+      {{ if .Values.poeticmetric.development.hostBasePath }}
+      - hostPath:
+          path: {{ .Values.poeticmetric.development.hostBasePath }}/cmd
+        name: cmd
+      - hostPath:
+          path: {{ .Values.poeticmetric.development.hostBasePath }}/pkg
+        name: pkg
+      - hostPath:
+          path: {{ .Values.poeticmetric.development.hostBasePath }}/go.mod
+        name: go-mod
+      - hostPath:
+          path: {{ .Values.poeticmetric.development.hostBasePath }}/go.sum
+        name: go-sum
+      {{ end }}

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+. $(dirname "$(readlink -f "$0")")/base
+BASE_DIR=$(get-base-dir)
+
+docker build \
+  --file "${BASE_DIR}/development.Dockerfile" \
+  --tag ghcr.io/th0th/poeticmetric:development \
+  "${BASE_DIR}" &
+
+wait

@@ -1,0 +1,86 @@
+{{/*apiVersion: batch/v1*/}}
+{{/*kind: Job*/}}
+{{/*metadata:*/}}
+{{/*  annotations:*/}}
+{{/*    helm.sh/hook: post-install,post-upgrade*/}}
+{{/*    helm.sh/hook-weight: "1"*/}}
+{{/*  labels:*/}}
+{{/*    {{ include "poeticmetric.labels" . | nindent 4 }}*/}}
+{{/*  name: {{ include "poeticmetric.fullname" . }}-migrator*/}}
+{{/*spec:*/}}
+{{/*  template:*/}}
+{{/*    metadata:*/}}
+{{/*      labels:*/}}
+{{/*        {{- include "poeticmetric.selectorLabels" . | nindent 8 }}*/}}
+{{/*      name: migrator*/}}
+{{/*    spec:*/}}
+{{/*      containers:*/}}
+{{/*        - env:*/}}
+{{/*          - name: INSTANCE*/}}
+{{/*            value: migrator*/}}
+{{/*          envFrom:*/}}
+{{/*          - prefix: OPEN_AI_*/}}
+{{/*            secretRef:*/}}
+{{/*              name: {{ include "poeticmetric.fullname" . }}-open-ai*/}}
+{{/*              optional: false*/}}
+{{/*          - configMapRef:*/}}
+{{/*              name: {{ include "poeticmetric.fullname" . }}-postgres*/}}
+{{/*              optional: false*/}}
+{{/*            prefix: POSTGRES_*/}}
+{{/*          - prefix: POSTGRES_*/}}
+{{/*            secretRef:*/}}
+{{/*              name: {{ include "poeticmetric.fullname" . }}-postgres*/}}
+{{/*              optional: false*/}}
+{{/*          - configMapRef:*/}}
+{{/*              name: {{ include "poeticmetric.fullname" . }}-rabbitmq*/}}
+{{/*              optional: false*/}}
+{{/*            prefix: RABBITMQ_*/}}
+{{/*          - prefix: RABBITMQ_*/}}
+{{/*            secretRef:*/}}
+{{/*              name: {{ include "poeticmetric.fullname" . }}-rabbitmq*/}}
+{{/*              optional: false*/}}
+{{/*          - configMapRef:*/}}
+{{/*              name: {{ include "poeticmetric.fullname" . }}-redis*/}}
+{{/*              optional: false*/}}
+{{/*            prefix: REDIS_*/}}
+{{/*          - prefix: REDIS_*/}}
+{{/*            secretRef:*/}}
+{{/*              name: {{ include "poeticmetric.fullname" . }}-redis*/}}
+{{/*              optional: false*/}}
+{{/*          - configMapRef:*/}}
+{{/*              name: {{ include "poeticmetric.fullname" . }}-poeticmetric*/}}
+{{/*              optional: false*/}}
+{{/*          image: {{ printf "%s:%s" .Values.poeticmetric.image .Values.poeticmetric.imageTag }}*/}}
+{{/*          imagePullPolicy: {{ .Values.poeticmetric.imagePullPolicy }}*/}}
+{{/*          name: migrator*/}}
+{{/*          volumeMounts:*/}}
+{{/*          {{ if .Values.poeticmetric.development.hostBasePath }}*/}}
+{{/*          - mountPath: /poeticmetric/cmd*/}}
+{{/*            name: cmd*/}}
+{{/*          - mountPath: /poeticmetric/pkg*/}}
+{{/*            name: pkg*/}}
+{{/*          - mountPath: /poeticmetric/go.mod*/}}
+{{/*            name: go-mod*/}}
+{{/*          - mountPath: /poeticmetric/go.sum*/}}
+{{/*            name: go-sum*/}}
+{{/*          {{ end }}*/}}
+{{/*      restartPolicy: Never*/}}
+{{/*      {{ if not .Values.poeticmetric.development.enabled }}*/}}
+{{/*      imagePullSecrets:*/}}
+{{/*      - name: {{ include "poeticmetric.fullname" . }}-ghcr-io*/}}
+{{/*      {{ end }}*/}}
+{{/*      volumes:*/}}
+{{/*      {{ if .Values.poeticmetric.development.hostBasePath }}*/}}
+{{/*      - hostPath:*/}}
+{{/*          path: {{ .Values.poeticmetric.development.hostBasePath }}/cmd*/}}
+{{/*        name: cmd*/}}
+{{/*      - hostPath:*/}}
+{{/*          path: {{ .Values.poeticmetric.development.hostBasePath }}/pkg*/}}
+{{/*        name: pkg*/}}
+{{/*      - hostPath:*/}}
+{{/*          path: {{ .Values.poeticmetric.development.hostBasePath }}/go.mod*/}}
+{{/*        name: go-mod*/}}
+{{/*      - hostPath:*/}}
+{{/*          path: {{ .Values.poeticmetric.development.hostBasePath }}/go.sum*/}}
+{{/*        name: go-sum*/}}
+{{/*      {{ end }}*/}}

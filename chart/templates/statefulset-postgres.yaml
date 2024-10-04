@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "poeticmetric.fullname" . }}-postgres
+  labels:
+    {{- include "poeticmetric.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      statefulSet: postgres
+      {{- include "poeticmetric.selectorLabels" . | nindent 6 }}
+  serviceName: postgres-hl
+  template:
+    metadata:
+      labels:
+        statefulSet: postgres
+        {{- include "poeticmetric.selectorLabels" . | nindent 8 }}
+      name: postgres
+    spec:
+      containers:
+      - env:
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              key: DATABASE
+              name: {{ include "poeticmetric.fullname" . }}-postgres
+              optional: false
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: PASSWORD
+              name: {{ include "poeticmetric.fullname" . }}-postgres
+              optional: false
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              key: USER
+              name: {{ include "poeticmetric.fullname" . }}-postgres
+              optional: false
+        image: {{ .Values.postgres.image.repository }}:{{ .Values.postgres.image.tag }}
+        name: postgres
+        resources: {{- toYaml .Values.postgres.resources | nindent 10 }}
+  {{- if .Values.postgres.persistence.enabled }}
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: data
+          subPath: postgres
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Retain
+    whenScaled: Retain
+  volumeClaimTemplates:
+  - kind: PersistentVolumeClaim
+    apiVersion: v1
+    metadata:
+      name: data
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
+      volumeMode: Filesystem
+  {{- end }}

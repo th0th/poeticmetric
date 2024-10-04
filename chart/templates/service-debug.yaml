@@ -1,0 +1,19 @@
+{{ if .Values.poeticmetric.development.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    {{ include "poeticmetric.labels" . | nindent 4 }}
+  name: {{ include "poeticmetric.fullname" . }}-web-debug
+spec:
+  ports:
+  - name: delve
+    nodePort: 32345
+    port: 2345
+    protocol: TCP
+    targetPort: 2345
+  selector:
+    deployment: web
+    {{ include "poeticmetric.selectorLabels" . | nindent 4 }}
+  type: NodePort
+{{ end }}

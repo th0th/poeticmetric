@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "poeticmetric.fullname" . }}-redis
+  labels:
+    {{- include "poeticmetric.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      statefulSet: redis
+      {{- include "poeticmetric.selectorLabels" . | nindent 6 }}
+  serviceName: redis-hl
+  template:
+    metadata:
+      labels:
+        statefulSet: redis
+        {{- include "poeticmetric.selectorLabels" . | nindent 8 }}
+      name: redis
+    spec:
+      containers:
+      - env:
+        - name: PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: PASSWORD
+              name: {{ include "poeticmetric.fullname" . }}-redis
+              optional: false
+        image: {{ .Values.redis.image.repository }}:{{ .Values.redis.image.tag }}
+        name: redis
+        resources: {{- toYaml .Values.redis.resources | nindent 10 }}
+        {{- if .Values.redis.persistence.enabled }}
+        volumeMounts:
+        - mountPath: /data
+          name: data
+          subPath: rabbitmq
+        {{- end }}
+  {{- if .Values.redis.persistence.enabled }}
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Retain
+    whenScaled: Retain
+  volumeClaimTemplates:
+  - kind: PersistentVolumeClaim
+    apiVersion: v1
+    metadata:
+      name: data
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
+      volumeMode: Filesystem
+  {{- end }}

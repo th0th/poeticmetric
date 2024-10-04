@@ -1,0 +1,9 @@
+{{ define "partials/gravatar" }}
+  <img
+    alt="{{ or .Alt "Avatar" }}"
+    class="rounded-circle"
+    loading="lazy"
+    src="https://www.gravatar.com/avatar/{{ md5 .Email }}?d=mysteryman&s={{ mul .Size 2 }}"
+    style="height: {{ .Size }}px; width: {{ .Size }}px"
+  />
+{{ end }}

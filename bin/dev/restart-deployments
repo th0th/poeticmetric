@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+kubectl \
+  --context docker-desktop \
+  --namespace poeticmetric-development \
+  rollout restart deployments \
+  --selector='restart-on-deploy=true'

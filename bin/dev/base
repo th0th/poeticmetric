@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+get-base-dir() {
+  echo "$(dirname $(dirname $(dirname "$(readlink -f "$0")")))"
+}

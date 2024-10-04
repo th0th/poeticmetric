@@ -1,0 +1,45 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/configuration-snippet: |-
+      add_header Permissions-Policy "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()";
+      add_header X-Content-Type-Options "nosniff";
+      add_header X-Frame-Options "sameorigin";
+
+      if ($request_uri ~* \.(ttf)) {
+          expires 1y;
+          add_header Cache-Control "public";
+      }
+
+      if ($request_uri ~* \.(gif|jpe?g|png)) {
+          expires 1M;
+          add_header Cache-Control "public";
+      }
+
+      if ($request_uri ~* \.(css|js)) {
+          expires 600;
+          add_header Cache-Control "public";
+      }
+    {{ if .Values.poeticmetric.ingress.certManagerAnnotations }}
+    {{ toYaml .Values.poeticmetric.ingress.certManagerAnnotations | nindent 4 }}
+    {{ end }}
+  name: {{ include "poeticmetric.fullname" . }}-web
+  labels:
+    {{ include "poeticmetric.labels" . | nindent 4 }}
+spec:
+  rules:
+  - host: {{ .Values.poeticmetric.ingress.host }}
+    http:
+      paths:
+      - backend:
+          service:
+            name: '{{ include "poeticmetric.fullname" . }}-web'
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - {{ .Values.poeticmetric.ingress.host }}
+    secretName: {{ include "poeticmetric.fullname" . }}-web-tls

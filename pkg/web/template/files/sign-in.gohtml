@@ -1,0 +1,55 @@
+{{ block "body" . }}
+  <div class="container py-16">
+    <div class="row">
+      <div class="col-12 col-md-6 offset-md-3 col-lg-6 offset-lg-3">
+        <div class="text-center">
+          <h1>Sign in to continue</h1>
+
+          <div class="mt-6">Enter your details to access your PoeticMetric account and view your analytics dashboard.</div>
+
+          <div class="fw-medium mt-6">
+            Don't have account?
+
+            <a class="text-decoration-none text-decoration-underline-hover" href="{{ href "/sign-up" }}">Sign up</a>
+          </div>
+        </div>
+
+        <div class="card mt-12">
+          <div class="card-body">
+            <form method="post">
+              {{ csrf }}
+              <fieldset class="gap-12 vstack">
+                {{ if .Errors.detail }}
+                  <div class="alert alert-danger mb-0" role="alert">
+                    {{ .Errors.detail }}
+                  </div>
+                {{ end }}
+
+
+                <div>
+                  <label class="form-label" for="input-email">E-mail address</label>
+
+                  <input class="form-control" id="input-email" name="email" required type="email" value="{{ .Params.Email }}" />
+                </div>
+
+                <div>
+                  <label class="form-label" for="input-password">Password</label>
+
+                  <input class="form-control" id="input-password" name="password" required type="password" />
+                </div>
+
+                <div class="gap-3 vstack">
+                  <button class="btn btn-primary" type="submit">Sign in</button>
+
+                  <a class="d-block fs-7 fw-semi-bold mx-auto text-decoration-none" href="{{ href "/password-recovery" }}">
+                    Forgot password?
+                  </a>
+                </div>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{{ end }}
