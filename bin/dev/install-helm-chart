@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+. $(dirname "$(readlink -f "$0")")/base
+BASE_DIR=$(get-base-dir)
+
+USER=$(whoami)
+HOSTNAME=$(hostname)
+
+HOST_BASE_PATH="${BASE_DIR}"
+
+helm upgrade unius-analytics chart \
+  --create-namespace \
+  --install \
+  --kube-context docker-desktop \
+  --namespace unius-analytics-development \
+  --set "uniusAnalytics.development.hostBasePath=${HOST_BASE_PATH}" \
+  --set "uniusAnalytics.stripe.metaEnvironment=${USER}@${HOSTNAME}" \
+  --values "${BASE_DIR}/etc/development/values.yaml"

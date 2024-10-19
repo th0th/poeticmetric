@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    {{- include "uniusAnalytics.labels" . | nindent 4 }}
+  name: {{ include "uniusAnalytics.fullname" . }}-pgbouncer
+spec:
+  replicas: {{ .Values.pgbouncer.replicas }}
+  selector:
+    matchLabels:
+      deployment: pgbouncer
+      {{- include "uniusAnalytics.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        deployment: pgbouncer
+        {{- include "uniusAnalytics.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - env:
+        - name: PGBOUNCER_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              key: DATABASE
+              name: {{ include "uniusAnalytics.fullname" . }}-postgres
+        - name: POSTGRESQL_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: RAW_HOST
+              name: {{ include "uniusAnalytics.fullname" . }}-postgres
+        - name: POSTGRESQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: PASSWORD
+              name: {{ include "uniusAnalytics.fullname" . }}-postgres
+        - name: POSTGRESQL_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: RAW_PORT
+              name: {{ include "uniusAnalytics.fullname" . }}-postgres
+        - name: POSTGRESQL_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: USER
+              name: {{ include "uniusAnalytics.fullname" . }}-postgres
+        envFrom:
+        - configMapRef:
+            name: {{ include "uniusAnalytics.fullname" . }}-pgbouncer
+            optional: false
+          prefix: PGBOUNCER_
+        image: {{ printf "%s:%s" .Values.pgbouncer.image.repository .Values.pgbouncer.image.tag }}
+        imagePullPolicy: {{ .Values.pgbouncer.image.pullPolicy }}
+        name: pgbouncer
+        {{- if .Values.pgbouncer.resources }}
+        resources:
+          {{- toYaml .Values.pgbouncer.resources | nindent 10 }}
+        {{- end }}

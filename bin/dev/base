@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+get-base-dir() {
+  echo "$(dirname $(dirname $(dirname "$(readlink -f "$0")")))"
+}

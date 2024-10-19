@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+. $(dirname "$(readlink -f "$0")")/base
+BASE_DIR=$(get-base-dir)
+
+#docker build \
+#  --file "${BASE_DIR}/backend/development.Dockerfile" \
+#  --tag ghcr.io/th0th/unius-analytics/backend:development \
+#  "${BASE_DIR}/backend" &
+
+docker build \
+  --file "${BASE_DIR}/frontend/development.Dockerfile" \
+  --tag ghcr.io/th0th/unius-analytics/frontend:development \
+  "${BASE_DIR}/frontend" &
+
+wait
