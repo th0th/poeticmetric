@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+helm uninstall \
+  --kube-context docker-desktop \
+  --namespace unius-analytics-development \
+  unius-analytics

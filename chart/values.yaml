@@ -1,0 +1,32 @@
+pgbouncer:
+  config: {}
+  image:
+    pullPolicy: IfNotPresent
+    repository: bitnami/pgbouncer
+    tag: "1"
+  replicas: 1
+  resources: {}
+postgres:
+  image:
+    pullPolicy: IfNotPresent
+    repository: postgres
+    tag: 17-alpine
+  persistence:
+    enabled: true
+    size: 10Gi
+  resources: {}
+uniusAnalytics:
+  development:
+    enabled: false
+    hostBasePath: ""
+  frontend:
+    image:
+      pullPolicy: IfNotPresent
+      repository: ghcr.io/th0th/unius-analytics/frontend
+      tag: latest
+    ingress:
+      annotations: {}
+    replicas: 1
+    resources: {}
+  host: unius.sh
+  path: /analytics

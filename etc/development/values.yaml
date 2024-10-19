@@ -1,0 +1,13 @@
+uniusAnalytics:
+  development:
+    enabled: true
+  frontend:
+    image:
+      pullPolicy: Never
+      repository: ghcr.io/th0th/unius-analytics/frontend
+      tag: development
+    ingress:
+      annotations:
+        cert-manager.io/cluster-issuer: self-signed
+  host: dev.unius.sh
+  path: /analytics

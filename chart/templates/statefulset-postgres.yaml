@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    {{- include "uniusAnalytics.labels" . | nindent 4 }}
+  name: {{ include "uniusAnalytics.fullname" . }}-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      statefulSet: postgres
+      {{- include "uniusAnalytics.selectorLabels" . | nindent 6 }}
+  serviceName: postgres-hl
+  template:
+    metadata:
+      labels:
+        statefulSet: postgres
+        {{- include "uniusAnalytics.selectorLabels" . | nindent 8 }}
+      name: postgres
+    spec:
+      containers:
+      - env:
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              key: DATABASE
+              name: {{ include "uniusAnalytics.fullname" . }}-postgres
+              optional: false
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: PASSWORD
+              name: {{ include "uniusAnalytics.fullname" . }}-postgres
+              optional: false
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              key: USER
+              name: {{ include "uniusAnalytics.fullname" . }}-postgres
+              optional: false
+        image: {{ .Values.postgres.image.repository }}:{{ .Values.postgres.image.tag }}
+        imagePullPolicy: {{ .Values.postgres.image.pullPolicy }}
+        name: postgres
+        resources: {{- toYaml .Values.postgres.resources | nindent 10 }}
+  {{- if .Values.postgres.persistence.enabled }}
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: data
+          subPath: postgres
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Retain
+    whenScaled: Retain
+  volumeClaimTemplates:
+  - kind: PersistentVolumeClaim
+    apiVersion: v1
+    metadata:
+      name: data
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
+      volumeMode: Filesystem
+  {{- end }}

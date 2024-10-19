@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    {{- include "uniusAnalytics.labels" . | nindent 4 }}
+  name: {{ include "uniusAnalytics.fullname" . }}-pgbouncer
+spec:
+  type: ClusterIP
+  selector:
+    deployment: pgbouncer
+    {{- include "uniusAnalytics.selectorLabels" . | nindent 4 }}
+  ports:
+  - name: pgbouncer
+    port: 6432
+    protocol: TCP
+    targetPort: 6432

@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    {{- include "uniusAnalytics.labels" . | nindent 4 }}
+    restart-on-deploy: "true"
+  name: {{ include "uniusAnalytics.fullname" . }}-frontend
+spec:
+  replicas: {{ .Values.uniusAnalytics.frontend.replicas }}
+  selector:
+    matchLabels:
+      {{- include "uniusAnalytics.selectorLabels" . | nindent 6 }}
+      deployment: frontend
+  template:
+    metadata:
+      labels:
+        {{- include "uniusAnalytics.selectorLabels" . | nindent 8 }}
+        deployment: frontend
+    spec:
+      containers:
+      - image: {{ printf "%s:%s" .Values.uniusAnalytics.frontend.image.repository .Values.uniusAnalytics.frontend.image.tag }}
+        imagePullPolicy: {{ .Values.uniusAnalytics.frontend.image.pullPolicy }}
+        name: frontend
+        resources:
+          {{- toYaml .Values.uniusAnalytics.frontend.resources | nindent 10 }}
+        volumeMounts:
+        {{ if .Values.uniusAnalytics.development.hostBasePath }}
+        - mountPath: /unius-analytics/public
+          name: public
+        - mountPath: /unius-analytics/src
+          name: src
+        - mountPath: /unius-analytics/index.html
+          name: index-html
+        - mountPath: /unius-analytics/package.json
+          name: package-json
+        - mountPath: /unius-analytics/pnpm-lock.yaml
+          name: pnpm-lock-yaml
+        - mountPath: /unius-analytics/server.js
+          name: server-js
+        - mountPath: /unius-analytics/tailwind.config.ts
+          name: tailwind-config-ts
+        - mountPath: /unius-analytics/tsconfig.json
+          name: tsconfig-json
+        - mountPath: /unius-analytics/tsconfig.node.json
+          name: tsconfig-node-json
+        - mountPath: /unius-analytics/vite.config.ts
+          name: vite-config-ts
+        {{ end }}
+      {{ if not .Values.uniusAnalytics.development.enabled }}
+      imagePullSecrets:
+      - name: {{ include "uniusAnalytics.fullname" . }}-ghcr-io
+      {{ end }}
+      terminationGracePeriodSeconds: 5
+      volumes:
+      {{ if .Values.uniusAnalytics.development.hostBasePath }}
+      - hostPath:
+          path: {{ .Values.uniusAnalytics.development.hostBasePath }}/frontend/public
+        name: public
+      - hostPath:
+          path: {{ .Values.uniusAnalytics.development.hostBasePath }}/frontend/src
+        name: src
+      - hostPath:
+          path: {{ .Values.uniusAnalytics.development.hostBasePath }}/frontend/index.html
+        name: index-html
+      - hostPath:
+          path: {{ .Values.uniusAnalytics.development.hostBasePath }}/frontend/package.json
+        name: package-json
+      - hostPath:
+          path: {{ .Values.uniusAnalytics.development.hostBasePath }}/frontend/pnpm-lock.yaml
+        name: pnpm-lock-yaml
+      - hostPath:
+          path: {{ .Values.uniusAnalytics.development.hostBasePath }}/frontend/server.js
+        name: server-js
+      - hostPath:
+          path: {{ .Values.uniusAnalytics.development.hostBasePath }}/frontend/tailwind.config.ts
+        name: tailwind-config-ts
+      - hostPath:
+          path: {{ .Values.uniusAnalytics.development.hostBasePath }}/frontend/tsconfig.json
+        name: tsconfig-json
+      - hostPath:
+          path: {{ .Values.uniusAnalytics.development.hostBasePath }}/frontend/tsconfig.node.json
+        name: tsconfig-node-json
+      - hostPath:
+          path: {{ .Values.uniusAnalytics.development.hostBasePath }}/frontend/vite.config.ts
+        name: vite-config-ts
+      {{ end }}
