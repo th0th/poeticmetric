@@ -1,3 +1,4 @@
+/* eslint-disable */
 import fs from 'node:fs/promises'
 import express from 'express'
 

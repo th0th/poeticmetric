@@ -2,15 +2,21 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    {{- include "uniusAnalytics.labels" . | nindent 4 }}
+    {{ include "uniusAnalytics.labels" . | nindent 4 }}
   name: {{ include "uniusAnalytics.fullname" . }}-frontend
 spec:
-  type: ClusterIP
-  selector:
-    {{- include "uniusAnalytics.selectorLabels" . | nindent 4 }}
-    deployment: frontend
   ports:
   - name: http
     port: 80
     protocol: TCP
     targetPort: 80
+  {{ if .Values.uniusAnalytics.development.enabled }}
+  - name: hmr
+    port: 24678
+    protocol: TCP
+    targetPort: 24678
+  {{ end }}
+  selector:
+    {{ include "uniusAnalytics.selectorLabels" . | nindent 4 }}
+    deployment: frontend
+  type: ClusterIP

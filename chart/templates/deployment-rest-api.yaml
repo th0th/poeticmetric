@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    {{- include "uniusAnalytics.labels" . | nindent 4 }}
+    restart-on-deploy: "true"
+  name: {{ include "uniusAnalytics.fullname" . }}-rest-api
+spec:
+  replicas: {{ .Values.uniusAnalytics.restApi.replicas }}
+  selector:
+    matchLabels:
+      {{- include "uniusAnalytics.selectorLabels" . | nindent 6 }}
+      deployment: rest-api
+  template:
+    metadata:
+      labels:
+        {{- include "uniusAnalytics.selectorLabels" . | nindent 8 }}
+        deployment: rest-api
+    spec:
+      containers:
+      - env:
+        - name: INSTANCE
+          value: rest-api
+        envFrom:
+        - configMapRef:
+            name: {{ include "uniusAnalytics.fullname" . }}-postgres
+            optional: false
+          prefix: POSTGRES_
+        - prefix: POSTGRES_
+          secretRef:
+            name: {{ include "uniusAnalytics.fullname" . }}-postgres
+            optional: false
+        - configMapRef:
+            name: {{ include "uniusAnalytics.fullname" . }}-rabbitmq
+            optional: false
+          prefix: RABBITMQ_
+        - prefix: RABBITMQ_
+          secretRef:
+            name: {{ include "uniusAnalytics.fullname" . }}-rabbitmq
+            optional: false
+        - configMapRef:
+            name: {{ include "uniusAnalytics.fullname" . }}-unius-analytics
+            optional: false
+        image: {{ printf "%s:%s" .Values.uniusAnalytics.backend.image.repository .Values.uniusAnalytics.backend.image.tag }}
+        imagePullPolicy: {{ .Values.uniusAnalytics.backend.image.pullPolicy }}
+        name: rest-api
+        resources:
+          {{- toYaml .Values.uniusAnalytics.restApi.resources | nindent 10 }}
+        volumeMounts:
+        {{ if .Values.uniusAnalytics.development.hostBasePath }}
+        - mountPath: /unius-analytics/cmd
+          name: cmd
+        - mountPath: /unius-analytics/pkg
+          name: pkg
+        - mountPath: /unius-analytics/go.mod
+          name: go-mod
+        - mountPath: /unius-analytics/go.sum
+          name: go-sum
+        {{ end }}
+      {{ if not .Values.uniusAnalytics.development.enabled }}
+      imagePullSecrets:
+      - name: {{ include "uniusAnalytics.fullname" . }}-ghcr-io
+      {{ end }}
+      volumes:
+      {{ if .Values.uniusAnalytics.development.hostBasePath }}
+      - hostPath:
+          path: {{ .Values.uniusAnalytics.development.hostBasePath }}/backend/cmd
+        name: cmd
+      - hostPath:
+          path: {{ .Values.uniusAnalytics.development.hostBasePath }}/backend/pkg
+        name: pkg
+      - hostPath:
+          path: {{ .Values.uniusAnalytics.development.hostBasePath }}/backend/go.mod
+        name: go-mod
+      - hostPath:
+          path: {{ .Values.uniusAnalytics.development.hostBasePath }}/backend/go.sum
+        name: go-sum
+      {{ end }}

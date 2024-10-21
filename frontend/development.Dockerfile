@@ -26,4 +26,4 @@ COPY docker-entrypoint.development.sh /usr/local/bin/docker-entrypoint.sh
 
 EXPOSE 80
 
-CMD ["docker-entrypoint.sh"]
+ENTRYPOINT ["docker-entrypoint.sh"]

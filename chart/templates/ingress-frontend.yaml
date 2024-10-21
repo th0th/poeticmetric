@@ -37,8 +37,17 @@ spec:
             name: {{ include "uniusAnalytics.fullname" . }}-frontend
             port:
               number: 80
-        path: {{ .Values.uniusAnalytics.path }}
+        path: {{ .Values.uniusAnalytics.basePath }}
         pathType: Prefix
+      {{ if .Values.uniusAnalytics.development.enabled }}
+      - backend:
+          service:
+            name: {{ include "uniusAnalytics.fullname" . }}-frontend
+            port:
+              number: 24678
+        path: {{ .Values.uniusAnalytics.basePath }}/hmr
+        pathType: Prefix
+      {{ end }}
   tls:
   - hosts:
     - {{ .Values.uniusAnalytics.host }}

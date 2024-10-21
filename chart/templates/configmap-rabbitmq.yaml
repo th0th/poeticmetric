@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "uniusAnalytics.fullname" . }}-rabbitmq
+  labels:
+    {{- include "uniusAnalytics.labels" . | nindent 4 }}
+data:
+  HOST: "{{ include "uniusAnalytics.fullname" . }}-rabbitmq"
+  PORT: "5672"
+  VHOST: "/"

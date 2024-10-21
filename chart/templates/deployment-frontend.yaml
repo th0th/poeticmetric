@@ -2,27 +2,37 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    {{- include "uniusAnalytics.labels" . | nindent 4 }}
+    {{ include "uniusAnalytics.labels" . | nindent 4 }}
     restart-on-deploy: "true"
   name: {{ include "uniusAnalytics.fullname" . }}-frontend
 spec:
   replicas: {{ .Values.uniusAnalytics.frontend.replicas }}
   selector:
     matchLabels:
-      {{- include "uniusAnalytics.selectorLabels" . | nindent 6 }}
+      {{ include "uniusAnalytics.selectorLabels" . | nindent 6 }}
       deployment: frontend
   template:
     metadata:
       labels:
-        {{- include "uniusAnalytics.selectorLabels" . | nindent 8 }}
+        {{ include "uniusAnalytics.selectorLabels" . | nindent 8 }}
         deployment: frontend
     spec:
       containers:
-      - image: {{ printf "%s:%s" .Values.uniusAnalytics.frontend.image.repository .Values.uniusAnalytics.frontend.image.tag }}
+      - env:
+        - name: BASE_PATH_BASE
+          valueFrom:
+            configMapKeyRef:
+              key: BASE_PATH
+              name: {{ include "uniusAnalytics.fullname" . }}-unius-analytics
+        - name: BASE
+          value: "$(BASE_PATH_BASE)/"
+        - name: PORT
+          value: "80"
+        image: {{ printf "%s:%s" .Values.uniusAnalytics.frontend.image.repository .Values.uniusAnalytics.frontend.image.tag }}
         imagePullPolicy: {{ .Values.uniusAnalytics.frontend.image.pullPolicy }}
         name: frontend
         resources:
-          {{- toYaml .Values.uniusAnalytics.frontend.resources | nindent 10 }}
+          {{ toYaml .Values.uniusAnalytics.frontend.resources | nindent 10 }}
         volumeMounts:
         {{ if .Values.uniusAnalytics.development.hostBasePath }}
         - mountPath: /unius-analytics/public

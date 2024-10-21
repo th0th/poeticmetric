@@ -16,7 +16,15 @@ postgres:
     size: 10Gi
   resources: {}
 uniusAnalytics:
+  backend:
+    image:
+      pullPolicy: IfNotPresent
+      repository: ghcr.io/th0th/unius-analytics/backend
+      tag: latest
+  basePath: /analytics
   development:
+    databaseDebug: false
+    debug: false
     enabled: false
     hostBasePath: ""
   frontend:
@@ -29,4 +37,8 @@ uniusAnalytics:
     replicas: 1
     resources: {}
   host: unius.sh
-  path: /analytics
+  restApi:
+    ingress:
+      annotations: {}
+    replicas: 1
+    resources: {}
