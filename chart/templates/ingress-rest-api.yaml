@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    {{ if .Values.uniusAnalytics.restApi.ingress.annotations }}
+    {{ toYaml .Values.uniusAnalytics.restApi.ingress.annotations | nindent 4 }}
+    {{ end }}
+  name: {{ include "uniusAnalytics.fullname" . }}-rest-api
+  labels:
+    {{ include "uniusAnalytics.labels" . | nindent 4 }}
+spec:
+  rules:
+  - host: {{ .Values.uniusAnalytics.host }}
+    http:
+      paths:
+      - backend:
+          service:
+            name: {{ include "uniusAnalytics.fullname" . }}-rest-api
+            port:
+              number: 80
+        path: {{ .Values.uniusAnalytics.basePath }}/api/
+        pathType: Prefix
+  tls:
+  - hosts:
+    - {{ .Values.uniusAnalytics.host }}
+    secretName: {{ include "uniusAnalytics.fullname" . }}-rest-api-tls

@@ -5,24 +5,43 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b0947ab8-b306-4125-9e8b-34c23b2ba241" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MANIFESTO.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/development.Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/pnpm-lock.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/tsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/analytics.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/analytics.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/dev/build-docker-images" beforeDir="false" afterPath="$PROJECT_DIR$/bin/dev/build-docker-images" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart/templates/deployment-frontend.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/deployment-frontend.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart/templates/ingress-frontend.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/ingress-frontend.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart/templates/service-frontend.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/service-frontend.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart/values.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/values.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/etc/development/values.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/etc/development/values.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/development.Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/development.Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/pnpm-lock.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/entry-client.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/entry-client.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/entry-server.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/entry-server.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/index.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/tailwind.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/tailwind.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/vite.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/vite.config.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go File" />
+      </list>
+    </option>
+  </component>
+  <component name="GOROOT" url="file://$USER_HOME$/go/pkg/mod/golang.org/toolchain@v0.0.1-go1.23.2.darwin-arm64" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -49,14 +68,12 @@
     },
     {
       "name": "docker-desktop",
-      "kubeConfigUrl": "file:///Users/th0th/.kube/config"
+      "kubeConfigUrl": "file:///Users/th0th/.kube/config",
+      "currentNamespace": "default"
     }
   ],
   "isMigrated": true
 }]]></component>
-  <component name="KubernetesSettings">
-    <option name="contextName" value="docker-desktop" />
-  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -66,19 +83,26 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "DefaultGoTemplateProperty": "Go File",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.go.formatter.settings.were.checked": "true",
     "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "deno.use.library": "true",
     "git-widget-placeholder": "reloaded",
     "go.import.settings.migrated": "true",
+    "go.sdk.automatically.set": "true",
+    "javascript.nodejs.core.library.configured.version": "22.9.0",
+    "javascript.nodejs.core.library.typings.version": "22.7.7",
     "last_opened_file_path": "/Users/th0th/Workspace/unius/analytics/bin/dev",
     "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.standard": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.standard": "",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "settings.editor.selected.configurable": "go.custom.fmt.functions",
     "ts.external.directory.path": "/Users/th0th/Workspace/unius/analytics/frontend/node_modules/typescript/lib"
   }
 }]]></component>
@@ -86,6 +110,27 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/bin/dev" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="analytics" />
+      <working_directory value="$PROJECT_DIR$" />
+      <go_parameters value="-i" />
+      <kind />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
+      <module name="analytics" />
+      <working_directory value="$PROJECT_DIR$" />
+      <go_parameters value="-i" />
+      <kind />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <method v="2" />
+    </configuration>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -106,7 +151,8 @@
       <workItem from="1729259262032" duration="416000" />
       <workItem from="1729263700436" duration="5442000" />
       <workItem from="1729360374616" duration="55000" />
-      <workItem from="1729360901767" duration="1343000" />
+      <workItem from="1729360901767" duration="7777000" />
+      <workItem from="1729508962094" duration="11630000" />
     </task>
     <servers />
   </component>
@@ -115,5 +161,9 @@
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

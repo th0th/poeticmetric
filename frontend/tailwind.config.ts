@@ -2,8 +2,8 @@ import type { Config } from "tailwindcss";
 
 export default {
   content: [],
+  plugins: [],
   theme: {
     extend: {},
   },
-  plugins: [],
 } satisfies Config;

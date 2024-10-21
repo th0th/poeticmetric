@@ -1,1 +1,8 @@
+# idea
+/.idea/dataSources
+/.idea/dataSources.local.xml
+/.idea/sqldialects.xml
+/.idea/workspace.xml
+
 /etc/*/secrets.yaml
+.DS_Store
