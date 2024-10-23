@@ -1,9 +1,26 @@
-import type { Config } from "tailwindcss";
+import { Config } from "tailwindcss";
 
 export default {
-  content: [],
+  content: [
+    "./index.html",
+    "./src/**/*.{js,jsx,ts,tsx}",
+  ],
   plugins: [],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        background: "rgb(var(--background))",
+        primary: {
+          DEFAULT: "rgb(var(--primary))",
+          foreground: "rgb(var(--primary-foreground))",
+        },
+        ring: "rgb(var(--ring))",
+      },
+    },
+    fontFamily: {
+      mono: ["Roboto Mono", "monospace"],
+      sans: ["Inter", "sans-serif"],
+      serif: ["Noto Serif", "serif"],
+    },
   },
 } satisfies Config;

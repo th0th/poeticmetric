@@ -19,13 +19,11 @@ spec:
     spec:
       containers:
       - env:
-        - name: BASE_PATH_BASE
+        - name: VITE_BASE_PATH
           valueFrom:
             configMapKeyRef:
               key: BASE_PATH
               name: {{ include "uniusAnalytics.fullname" . }}-unius-analytics
-        - name: BASE
-          value: "$(BASE_PATH_BASE)/"
         - name: PORT
           value: "80"
         image: {{ printf "%s:%s" .Values.uniusAnalytics.frontend.image.repository .Values.uniusAnalytics.frontend.image.tag }}
@@ -45,6 +43,8 @@ spec:
           name: package-json
         - mountPath: /unius-analytics/pnpm-lock.yaml
           name: pnpm-lock-yaml
+        - mountPath: /unius-analytics/postcss.config.js
+          name: postcss-config-js
         - mountPath: /unius-analytics/server.js
           name: server-js
         - mountPath: /unius-analytics/tailwind.config.ts
@@ -78,6 +78,9 @@ spec:
       - hostPath:
           path: {{ .Values.uniusAnalytics.development.hostBasePath }}/frontend/pnpm-lock.yaml
         name: pnpm-lock-yaml
+      - hostPath:
+          path: {{ .Values.uniusAnalytics.development.hostBasePath }}/frontend/postcss.config.js
+        name: postcss-config-js
       - hostPath:
           path: {{ .Values.uniusAnalytics.development.hostBasePath }}/frontend/server.js
         name: server-js

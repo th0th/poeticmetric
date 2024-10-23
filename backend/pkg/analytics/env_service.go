@@ -2,6 +2,7 @@ package analytics
 
 type EnvService interface {
 	BasePath() string
+	IsHosted() bool
 }
 
 type EnvServiceVars struct {

@@ -1,5 +1,13 @@
+import { Route, Switch } from "wouter";
+import "./index.css";
+import Home from "~/components/Home";
+
 export default function App() {
   return (
-    <h1>Hello world</h1>
+    <Switch>
+      <Route component={Home} path="/" />
+
+      <Route>404: No such page!</Route>
+    </Switch>
   );
 }

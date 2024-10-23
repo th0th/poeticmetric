@@ -16,6 +16,7 @@ RUN pnpm install
 COPY public public
 COPY src src
 COPY index.html .
+COPY postcss.config.js .
 COPY server.js .
 COPY tailwind.config.ts .
 COPY tsconfig.json .
