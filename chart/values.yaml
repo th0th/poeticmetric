@@ -21,7 +21,7 @@ uniusAnalytics:
       pullPolicy: IfNotPresent
       repository: ghcr.io/th0th/unius-analytics/backend
       tag: latest
-  basePath: /analytics
+  basePath: /analytics/
   development:
     databaseDebug: false
     debug: false

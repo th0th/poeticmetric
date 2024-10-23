@@ -18,7 +18,7 @@ spec:
             name: {{ include "uniusAnalytics.fullname" . }}-rest-api
             port:
               number: 80
-        path: {{ .Values.uniusAnalytics.basePath }}/api/
+        path: {{ .Values.uniusAnalytics.basePath }}api/
         pathType: Prefix
   tls:
   - hosts:

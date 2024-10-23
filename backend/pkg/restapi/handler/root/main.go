@@ -1,7 +1,6 @@
 package root
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/th0th/unius-analytics/backend/pkg/analytics"
@@ -23,8 +22,6 @@ func New(params NewParams) Handler {
 
 func (h *Handler) Index() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println(h.envService.BasePath())
-
 		http.Redirect(w, r, h.envService.BasePath(), http.StatusFound)
 	}
 }

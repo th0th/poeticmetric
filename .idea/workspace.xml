@@ -5,29 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b0947ab8-b306-4125-9e8b-34c23b2ba241" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/analytics.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/analytics.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/tailwindcss.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/dev/build-docker-images" beforeDir="false" afterPath="$PROJECT_DIR$/bin/dev/build-docker-images" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/backend/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/backend/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pkg/analytics/env_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/analytics/env_service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/handler/root/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/handler/root/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chart/templates/deployment-frontend.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/deployment-frontend.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chart/templates/ingress-frontend.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/ingress-frontend.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/templates/service-frontend.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/service-frontend.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart/templates/ingress-rest-api.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/ingress-rest-api.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chart/values.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/values.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/etc/development/values.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/etc/development/values.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/development.Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/development.Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/eslint.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/eslint.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/pnpm-lock.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/vite.svg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.css" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/entry-client.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/entry-client.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/entry-server.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/entry-server.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/index.css" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/tailwind.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/tailwind.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/tsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/vite.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/vite.config.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,22 +57,22 @@
   }
 }</component>
   <component name="KubernetesApiPersistence">{}</component>
-  <component name="KubernetesApiProvider"><![CDATA[{
-  "configuredContexts": [
+  <component name="KubernetesApiProvider">{
+  &quot;configuredContexts&quot;: [
     {
-      "name": "webgazer",
-      "kubeConfigUrl": "file:///Users/th0th/.kube/config",
-      "originalNamespace": "n8n",
-      "currentNamespace": "n8n"
+      &quot;name&quot;: &quot;webgazer&quot;,
+      &quot;kubeConfigUrl&quot;: &quot;file:///Users/th0th/.kube/config&quot;,
+      &quot;originalNamespace&quot;: &quot;n8n&quot;,
+      &quot;currentNamespace&quot;: &quot;n8n&quot;
     },
     {
-      "name": "docker-desktop",
-      "kubeConfigUrl": "file:///Users/th0th/.kube/config",
-      "currentNamespace": "default"
+      &quot;name&quot;: &quot;docker-desktop&quot;,
+      &quot;kubeConfigUrl&quot;: &quot;file:///Users/th0th/.kube/config&quot;,
+      &quot;currentNamespace&quot;: &quot;default&quot;
     }
   ],
-  "isMigrated": true
-}]]></component>
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -94,7 +93,7 @@
     "go.sdk.automatically.set": "true",
     "javascript.nodejs.core.library.configured.version": "22.9.0",
     "javascript.nodejs.core.library.typings.version": "22.7.7",
-    "last_opened_file_path": "/Users/th0th/Workspace/unius/analytics/bin/dev",
+    "last_opened_file_path": "/Users/th0th/Workspace/unius/analytics/frontend/scripts",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.standard": "true",
     "node.js.detected.package.tslint": "true",
@@ -102,13 +101,21 @@
     "node.js.selected.package.standard": "",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "go.custom.fmt.functions",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "configurable.tailwindcss",
     "ts.external.directory.path": "/Users/th0th/Workspace/unius/analytics/frontend/node_modules/typescript/lib"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/frontend/scripts" />
+      <recent name="$PROJECT_DIR$/frontend/src/assets/fonts" />
       <recent name="$PROJECT_DIR$/bin/dev" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/frontend/src/assets/fonts" />
     </key>
   </component>
   <component name="RunManager">
@@ -116,7 +123,7 @@
       <module name="analytics" />
       <working_directory value="$PROJECT_DIR$" />
       <go_parameters value="-i" />
-      <kind />
+      <kind value="FILE" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <method v="2" />
@@ -125,7 +132,7 @@
       <module name="analytics" />
       <working_directory value="$PROJECT_DIR$" />
       <go_parameters value="-i" />
-      <kind />
+      <kind value="DIRECTORY" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
@@ -152,7 +159,10 @@
       <workItem from="1729263700436" duration="5442000" />
       <workItem from="1729360374616" duration="55000" />
       <workItem from="1729360901767" duration="7777000" />
-      <workItem from="1729508962094" duration="11630000" />
+      <workItem from="1729508962094" duration="22094000" />
+      <workItem from="1729550693193" duration="1232000" />
+      <workItem from="1729612246165" duration="7051000" />
+      <workItem from="1729631993386" duration="6470000" />
     </task>
     <servers />
   </component>
