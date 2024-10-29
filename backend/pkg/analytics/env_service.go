@@ -1,14 +1,32 @@
 package analytics
 
+import (
+	"gorm.io/gorm"
+)
+
 type EnvService interface {
-	BasePath() string
+	ClickhouseDatabase() string
+	ClickhouseDsn() string
+	Debug() bool
+	GormConfig() *gorm.Config
 	IsHosted() bool
+	PostgresDatabase() string
+	PostgresDsn() string
+	RestApiBasePath() string
 }
 
 type EnvServiceVars struct {
 	BasePath      string `env:"BASE_PATH" envDefault:"/"`
 	DatabaseDebug bool   `env:"DATABASE_DEBUG" envDefault:"false"`
 	Debug         bool   `env:"DEBUG" envDefault:"false"`
+	IsHosted      bool   `env:"IS_HOSTED" envDefault:"false"`
+
+	// Clickhouse
+	ClickhouseDatabase string `env:"CLICKHOUSE_DATABASE,notEmpty,required"`
+	ClickhouseHost     string `env:"CLICKHOUSE_HOST,notEmpty,required"`
+	ClickhousePassword string `env:"CLICKHOUSE_PASSWORD,notEmpty,required"`
+	ClickhousePort     int    `env:"CLICKHOUSE_PORT,notEmpty,required"`
+	ClickhouseUser     string `env:"CLICKHOUSE_USER,notEmpty,required"`
 
 	// Postgres
 	PostgresDatabase string `env:"POSTGRES_DATABASE,notEmpty,required"`

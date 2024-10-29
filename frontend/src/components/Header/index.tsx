@@ -1,8 +1,16 @@
+import { Link } from "wouter";
+import Nav from "~/components/Header/Nav";
+import Logo from "~/components/Logo";
+
 export default function Header() {
   return (
-    <header>
-      <div className="container-default">
-        <h1>Header</h1>
+    <header className="border-b">
+      <div className="container-default flex items-center gap-6 py-4">
+        <Link to="/">
+          <Logo className="block h-8" />
+        </Link>
+
+        <Nav />
       </div>
     </header>
   );

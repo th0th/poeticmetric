@@ -1,0 +1,58 @@
+definitions:
+  analytics.BootstrapServiceRunParams:
+    properties:
+      createDemoSite:
+        type: boolean
+      organizationName:
+        type: string
+      userEmail:
+        type: string
+      userName:
+        type: string
+      userPassword:
+        type: string
+      userPassword2:
+        type: string
+    type: object
+  responder.DetailResponse:
+    properties:
+      detail:
+        description: Human-readable detail of the response.
+        type: string
+    type: object
+info:
+  contact: {}
+  description: This is a REST API for Unius Analytics.
+  termsOfService: https://unius.sh/analytics/terms-of-service
+  title: Unius Analytics REST API
+  version: "1.0"
+paths:
+  /bootstrap:
+    get:
+      description: check if the bootstrap process is already done
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responder.DetailResponse'
+      summary: Check bootstrap status
+      tags:
+      - boostrap
+    post:
+      description: check if the bootstrap process is already done
+      parameters:
+      - description: Params
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/analytics.BootstrapServiceRunParams'
+      responses:
+        "201":
+          description: Created
+      summary: Run bootstrap
+      tags:
+      - boostrap
+swagger: "2.0"

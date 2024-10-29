@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+. $(dirname "$(readlink -f "$0")")/base
+BASE_DIR=$(get-base-dir)
+BACKEND_DIR="${BASE_DIR}/backend"
+
+swag init \
+  --dir "${BACKEND_DIR}/cmd/rest-api,${BACKEND_DIR}/pkg" \
+  --output "${BACKEND_DIR}/pkg/restapi/docs"

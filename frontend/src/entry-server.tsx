@@ -1,10 +1,8 @@
 import { StrictMode } from "react";
 import { renderToString } from "react-dom/server";
-import ReactHelmetAsync, { HelmetServerState } from "react-helmet-async";
+import { HelmetProvider, HelmetServerState } from "react-helmet-async";
 import { Router } from "wouter";
-import App from "./App";
-
-const { HelmetProvider } = ReactHelmetAsync;
+import App from "~/components/App";
 
 export function render(url: string) {
   const helmetContext: { helmet?: HelmetServerState } = {};
@@ -28,6 +26,8 @@ export function render(url: string) {
     helmet?.link.toString(),
     helmet?.script.toString(),
   ].join("");
+
+  console.log(head);
 
   return { body, head };
 }

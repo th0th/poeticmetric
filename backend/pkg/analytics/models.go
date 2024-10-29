@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/dchest/uniuri"
-	"github.com/go-errors/errors"
 	"github.com/mileusna/useragent"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -22,6 +21,13 @@ const (
 	OrganizationNameMinLength           = 2
 	OrganizationSubscriptionPeriodMonth = "MONTH"
 	OrganizationSubscriptionPeriodYear  = "YEAR"
+)
+
+const (
+	UserNameMaxLength     = 70
+	UserNameMinLength     = 1
+	UserPasswordMaxLength = 72
+	UserPasswordMinLength = 8
 )
 
 type Event struct {
@@ -119,7 +125,7 @@ type UserSessionToken struct {
 func (e *Event) FillFromUrl(url string, safeQueryParameters []string) error {
 	u, err := url2.Parse(url)
 	if err != nil {
-		return errors.Wrap(err, 0)
+		return err
 	}
 
 	e.UtmCampaign = PointerOrNil(u.Query().Get("utm_campaign"))
@@ -187,7 +193,7 @@ func (e *Event) TableName() string {
 func (u *User) SetPassword(password string) error {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 10)
 	if err != nil {
-		return errors.Wrap(err, 0)
+		return err
 	}
 
 	u.Password = string(bytes)

@@ -1,0 +1,129 @@
+@import "fonts.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 255 255 255;
+    --foreground: 0 0 0;
+    --primary: 17 123 191;
+    --primary-foreground: 255 255 255;
+    --ring: 17 123 191;
+  }
+
+  .dark {
+    --background: 0 0 0;
+    --foreground: 255 255 255;
+    --primary-foreground: 255 255 255;
+    --ring: 0 0 0;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  h1 {
+    @apply text-4xl font-extrabold tracking-tight lg:text-5xl;
+  }
+
+  h2 {
+    @apply border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0;
+  }
+
+  h3 {
+    @apply text-2xl font-semibold tracking-tight;
+  }
+
+  h4 {
+    @apply text-xl font-semibold tracking-tight;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      @apply dark;
+    }
+  }
+}
+
+@layer components {
+  /* button */
+  .button {
+    @apply outline-none;
+    @apply [&_svg]:pointer-events-none;
+    @apply [&_svg]:shrink-0;
+    @apply [&_svg]:size-4;
+    @apply disabled:opacity-50;
+    @apply disabled:pointer-events-none;
+    @apply focus-visible:outline-none;
+    @apply focus-visible:ring-2;
+    @apply focus-visible:ring-offset-2;
+    @apply focus-visible:ring-ring;
+    @apply font-medium;
+    @apply gap-2;
+    @apply inline-flex;
+    @apply items-center;
+    @apply justify-center;
+    @apply ring-offset-background;
+    @apply rounded-md;
+    @apply transition-colors;
+    @apply whitespace-nowrap;
+
+    @apply h-9 px-4 py-2;
+  }
+
+  .button-lg {
+    @apply h-10 rounded-md px-8;
+  }
+
+  .button-sm {
+    @apply h-8 rounded-md px-3 text-xs;
+  }
+
+  .button-primary {
+    @apply active:bg-blue-800 bg-blue-600 hover:bg-blue-700;
+    @apply text-white;
+    /*@apply active:bg-primary/80 bg-primary text-primary-foreground shadow hover:bg-primary/90 focus:bg-primary/90;*/
+  }
+
+  /* card */
+  .card {
+    @apply rounded-xl border;
+  }
+
+  .card-body {
+    @apply p-6;
+  }
+
+  /* container */
+  .container-default {
+    @apply container mx-auto px-2 sm:px-4 lg:px-6 xl:px-8;
+  }
+
+  /* forms */
+  .form-check {
+    @apply appearance-none border rounded size-[1em];
+
+    &:checked {
+      @apply bg-center bg-contain bg-no-repeat bg-primary border-primary text-primary-foreground;
+
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+    }
+  }
+
+  .form-group {
+    @apply space-y-1;
+  }
+
+  .form-input {
+    @apply disabled:cursor-not-allowed disabled:opacity-50;
+    @apply flex h-9 w-full rounded-md border bg-transparent px-3 py-1 focus:shadow ;
+    @apply outline-none focus:border-primary/50 focus:shadow-focus;
+    @apply file:border-0 file:bg-transparent file:font-medium file:text-foreground;
+  }
+
+  .form-label {
+    @apply font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70;
+  }
+}
