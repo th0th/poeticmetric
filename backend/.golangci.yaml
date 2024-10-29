@@ -1,0 +1,21 @@
+linters:
+  enable:
+  - gosimple
+  - govet
+  - ineffassign
+  - staticcheck
+  - bodyclose
+  - errorlint
+  - exportloopref
+  - gocritic
+  - goprintffuncname
+  - gosec
+  - prealloc
+  - whitespace
+linters-settings:
+  gocritic:
+    disabled-checks:
+    - ifElseChain
+  gosec:
+    excludes:
+    - G601

@@ -14,12 +14,12 @@ type BootstrapService interface {
 }
 
 type BootstrapServiceRunParams struct {
-	CreateDemoSite   bool
-	OrganizationName string
-	UserEmail        string
-	UserName         string
-	UserPassword     string
-	UserPassword2    string
+	CreateDemoSite   *bool
+	OrganizationName *string
+	UserEmail        *string
+	UserName         *string
+	UserPassword     *string
+	UserPassword2    *string
 }
 
 var (

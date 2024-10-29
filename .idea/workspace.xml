@@ -5,28 +5,36 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b0947ab8-b306-4125-9e8b-34c23b2ba241" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/tailwindcss.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jsLinters/eslint.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/stylesheetLinters/stylelint.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/watcherTasks.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/tailwindcss.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/cmd/rest-api/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/cmd/rest-api/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/backend/go.mod" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/backend/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pkg/analytics/bootstrap_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/analytics/bootstrap_service.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/pkg/analytics/env_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/analytics/env_service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pkg/analytics/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/analytics/models.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/handler/root/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/handler/root/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/templates/deployment-frontend.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/deployment-frontend.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pkg/service/bootstrap/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/service/bootstrap/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pkg/service/env/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/service/env/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart/templates/deployment-rest-api.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/deployment-rest-api.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chart/templates/ingress-frontend.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/ingress-frontend.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chart/templates/ingress-rest-api.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/ingress-rest-api.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chart/values.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/values.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/development.Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/development.Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/eslint.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/eslint.config.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/pnpm-lock.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/vite.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/App/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Header/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Header/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/entry-client.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/entry-client.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/entry-server.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/entry-server.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/index.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/tailwind.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/tailwind.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/vite.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/vite.config.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +48,7 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" url="file://$USER_HOME$/go/pkg/mod/golang.org/toolchain@v0.0.1-go1.23.2.darwin-arm64" />
+  <component name="GOROOT" url="file://$USER_HOME$/go/go1.23.2" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -57,22 +65,22 @@
   }
 }</component>
   <component name="KubernetesApiPersistence">{}</component>
-  <component name="KubernetesApiProvider">{
-  &quot;configuredContexts&quot;: [
+  <component name="KubernetesApiProvider"><![CDATA[{
+  "configuredContexts": [
     {
-      &quot;name&quot;: &quot;webgazer&quot;,
-      &quot;kubeConfigUrl&quot;: &quot;file:///Users/th0th/.kube/config&quot;,
-      &quot;originalNamespace&quot;: &quot;n8n&quot;,
-      &quot;currentNamespace&quot;: &quot;n8n&quot;
+      "name": "webgazer",
+      "kubeConfigUrl": "file:///Users/th0th/.kube/config",
+      "originalNamespace": "n8n",
+      "currentNamespace": "n8n"
     },
     {
-      &quot;name&quot;: &quot;docker-desktop&quot;,
-      &quot;kubeConfigUrl&quot;: &quot;file:///Users/th0th/.kube/config&quot;,
-      &quot;currentNamespace&quot;: &quot;default&quot;
+      "name": "docker-desktop",
+      "kubeConfigUrl": "file:///Users/th0th/.kube/config",
+      "currentNamespace": "default"
     }
   ],
-  &quot;isMigrated&quot;: true
-}</component>
+  "isMigrated": true
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -83,6 +91,8 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "DefaultGoTemplateProperty": "Go File",
+    "Go Build.go build main.go.executor": "Debug",
+    "Go Remote.rest-api.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.go.formatter.settings.were.checked": "true",
     "RunOnceActivity.go.migrated.go.modules.settings": "true",
@@ -93,28 +103,39 @@
     "go.sdk.automatically.set": "true",
     "javascript.nodejs.core.library.configured.version": "22.9.0",
     "javascript.nodejs.core.library.typings.version": "22.7.7",
-    "last_opened_file_path": "/Users/th0th/Workspace/unius/analytics/frontend/scripts",
+    "last_opened_file_path": "/Users/th0th/Workspace/unius/analytics/backend/pkg/restapi",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.standard": "true",
+    "node.js.detected.package.stylelint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.standard": "",
+    "node.js.selected.package.stylelint": "/Users/th0th/Workspace/unius/analytics/frontend/node_modules/stylelint",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "configurable.tailwindcss",
+    "settings.editor.selected.configurable": "watcher.settings",
     "ts.external.directory.path": "/Users/th0th/Workspace/unius/analytics/frontend/node_modules/typescript/lib"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql",
+      "clickhouse"
+    ]
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/backend/pkg/restapi" />
       <recent name="$PROJECT_DIR$/frontend/scripts" />
       <recent name="$PROJECT_DIR$/frontend/src/assets/fonts" />
       <recent name="$PROJECT_DIR$/bin/dev" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/frontend/src/styles" />
+      <recent name="$PROJECT_DIR$/frontend/src/components/App" />
       <recent name="$PROJECT_DIR$/frontend/src/assets/fonts" />
     </key>
   </component>
@@ -126,6 +147,10 @@
       <kind value="FILE" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="rest-api" type="GoRemoteDebugConfigurationType" factoryName="Go Remote" port="32345">
+      <option name="disconnectOption" value="ASK" />
       <method v="2" />
     </configuration>
     <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
@@ -142,8 +167,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23339.11" />
-        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23339.11" />
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23726.103" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23726.103" />
       </set>
     </attachedChunks>
   </component>
@@ -162,7 +187,15 @@
       <workItem from="1729508962094" duration="22094000" />
       <workItem from="1729550693193" duration="1232000" />
       <workItem from="1729612246165" duration="7051000" />
-      <workItem from="1729631993386" duration="6470000" />
+      <workItem from="1729631993386" duration="23188000" />
+      <workItem from="1729803125566" duration="12533000" />
+      <workItem from="1729944541250" duration="1019000" />
+      <workItem from="1729945645908" duration="4179000" />
+      <workItem from="1730143326734" duration="3218000" />
+      <workItem from="1730209352096" duration="43000" />
+      <workItem from="1730209862800" duration="465000" />
+      <workItem from="1730212490464" duration="4106000" />
+      <workItem from="1730217363660" duration="4310000" />
     </task>
     <servers />
   </component>

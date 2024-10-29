@@ -7,8 +7,10 @@ import (
 	"strings"
 	"time"
 
+	v "github.com/RussellLuo/validating/v3"
 	"github.com/brianvoe/gofakeit/v7"
 	"github.com/google/uuid"
+	"github.com/th0th/validatingextra"
 	"gorm.io/gorm"
 
 	"github.com/th0th/unius-analytics/backend/pkg/analytics"
@@ -32,7 +34,11 @@ type service struct {
 }
 
 func New(params NewParams) analytics.BootstrapService {
-	return &service{}
+	return &service{
+		clickhouse: params.Clickhouse,
+		envService: params.EnvService,
+		postgres:   params.Postgres,
+	}
 }
 
 func generateSlice[T any](count int, f func() T) []T {
@@ -70,9 +76,14 @@ func (s *service) Check(ctx context.Context) error {
 }
 
 func (s *service) Run(ctx context.Context, params *analytics.BootstrapServiceRunParams) (*analytics.User, error) {
+	err := s.validateRunParams(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
 	postgres := analytics.ServicePostgres(ctx, s)
 
-	err := s.validateRunParams(ctx, params)
+	err = s.validateRunParams(ctx, params)
 	if err != nil {
 		return nil, err
 	}
@@ -114,20 +125,20 @@ func (s *service) Run(ctx context.Context, params *analytics.BootstrapServiceRun
 
 	organization := analytics.Organization{
 		Id:     1,
-		Name:   params.OrganizationName,
+		Name:   *params.OrganizationName,
 		PlanId: &plans[len(plans)-1].Id,
 	}
 
 	user := analytics.User{
-		Email:               params.UserEmail,
+		Email:               *params.UserEmail,
 		Id:                  1,
 		IsActive:            true,
 		IsEmailVerified:     true,
 		IsOrganizationOwner: true,
-		Name:                params.UserName,
+		Name:                *params.UserName,
 		OrganizationId:      organization.Id,
 	}
-	err = user.SetPassword(params.UserPassword)
+	err = user.SetPassword(*params.UserPassword)
 	if err != nil {
 		return nil, err
 	}
@@ -166,7 +177,7 @@ func (s *service) Run(ctx context.Context, params *analytics.BootstrapServiceRun
 			return err2
 		}
 
-		if params.CreateDemoSite {
+		if *params.CreateDemoSite {
 			err2 = postgres2.Create(&site).Error
 			if err2 != nil {
 				return err2
@@ -180,7 +191,7 @@ func (s *service) Run(ctx context.Context, params *analytics.BootstrapServiceRun
 			}
 		}
 
-		if params.CreateDemoSite {
+		if *params.CreateDemoSite {
 			now := time.Now()
 
 			referrerSites := generateSlice(35, func() string {
@@ -258,6 +269,70 @@ func (s *service) Run(ctx context.Context, params *analytics.BootstrapServiceRun
 }
 
 func (s *service) validateRunParams(ctx context.Context, params *analytics.BootstrapServiceRunParams) error {
+	validationErrs := v.Validate(v.Schema{
+		v.F("createDemoSite", params.CreateDemoSite): v.All(
+			v.Nonzero[*bool]().Msg("This field is required."),
+		),
+
+		v.F("organizationName", params.OrganizationName): v.All(
+			v.Nonzero[*string]().Msg("This field is required."),
+
+			validatingextra.PointerValue[string](
+				v.LenString(analytics.OrganizationNameMinLength, analytics.OrganizationNameMaxLength).Msg(fmt.Sprintf(
+					"The organization name must be between %d and %d characters long.",
+					analytics.OrganizationNameMinLength,
+					analytics.OrganizationNameMaxLength,
+				)),
+			),
+		),
+
+		v.F("userEmail", params.UserEmail): v.All(
+			v.Nonzero[*string]().Msg("This field is required."),
+
+			validatingextra.PointerValue[string](validatingextra.Email().Msg("Please provide a valid e-mail address.")),
+
+			validatingextra.PointerValue[string](validatingextra.EmailNonDisposable().Msg("Please provide a non-disposable e-mail address.")),
+		),
+
+		v.F("userName", params.UserName): v.All(
+			v.Nonzero[*string]().Msg("This field is required."),
+
+			validatingextra.PointerValue[string](
+				v.LenString(analytics.UserNameMinLength, analytics.UserNameMaxLength).Msg(fmt.Sprintf(
+					"The user name must be between %d and %d characters long.",
+					analytics.UserNameMinLength,
+					analytics.UserNameMaxLength,
+				)),
+			),
+		),
+
+		v.F("userPassword", params.UserPassword): v.All(
+			v.Nonzero[*string]().Msg("This field is required."),
+
+			validatingextra.PointerValue[string](
+				v.LenString(analytics.UserPasswordMinLength, analytics.UserPasswordMaxLength).Msg(fmt.Sprintf(
+					"The password must be between %d and %d characters long.",
+					analytics.UserPasswordMinLength,
+					analytics.UserPasswordMaxLength,
+				)),
+			),
+		),
+
+		v.F("userPassword2", params.UserPassword2): v.All(
+			v.Nonzero[*string]().Msg("This field is required."),
+
+			v.Is(func(x *string) bool {
+
+
+				return true
+			}).Msg("The passwords do not match."),
+		),
+	})
+
+	if len(validationErrs) > 0 {
+		return validationErrs
+	}
+
 	return nil
 }
 

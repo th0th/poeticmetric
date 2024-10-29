@@ -1,3 +1,12 @@
+clickhouse:
+  image:
+    pullPolicy: IfNotPresent
+    repository: clickhouse/clickhouse-server
+    tag: 24-alpine
+  persistence:
+    enabled: true
+    size: 10Gi
+  resources: {}
 pgbouncer:
   config: {}
   image:
@@ -21,7 +30,7 @@ uniusAnalytics:
       pullPolicy: IfNotPresent
       repository: ghcr.io/th0th/unius-analytics/backend
       tag: latest
-  basePath: /analytics/
+  basePath: /analytics
   development:
     databaseDebug: false
     debug: false

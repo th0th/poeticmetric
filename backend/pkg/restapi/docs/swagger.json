@@ -1,0 +1,89 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a REST API for Unius Analytics.",
+        "title": "Unius Analytics REST API",
+        "termsOfService": "https://unius.sh/analytics/terms-of-service",
+        "contact": {},
+        "version": "1.0"
+    },
+    "paths": {
+        "/bootstrap": {
+            "get": {
+                "description": "check if the bootstrap process is already done",
+                "tags": [
+                    "boostrap"
+                ],
+                "summary": "Check bootstrap status",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responder.DetailResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "check if the bootstrap process is already done",
+                "tags": [
+                    "boostrap"
+                ],
+                "summary": "Run bootstrap",
+                "parameters": [
+                    {
+                        "description": "Params",
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/analytics.BootstrapServiceRunParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "analytics.BootstrapServiceRunParams": {
+            "type": "object",
+            "properties": {
+                "createDemoSite": {
+                    "type": "boolean"
+                },
+                "organizationName": {
+                    "type": "string"
+                },
+                "userEmail": {
+                    "type": "string"
+                },
+                "userName": {
+                    "type": "string"
+                },
+                "userPassword": {
+                    "type": "string"
+                },
+                "userPassword2": {
+                    "type": "string"
+                }
+            }
+        },
+        "responder.DetailResponse": {
+            "type": "object",
+            "properties": {
+                "detail": {
+                    "description": "Human-readable detail of the response.",
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

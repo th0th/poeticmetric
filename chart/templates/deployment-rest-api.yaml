@@ -23,6 +23,14 @@ spec:
           value: rest-api
         envFrom:
         - configMapRef:
+            name: {{ include "uniusAnalytics.fullname" . }}-clickhouse
+            optional: false
+          prefix: CLICKHOUSE_
+        - prefix: CLICKHOUSE_
+          secretRef:
+            name: {{ include "uniusAnalytics.fullname" . }}-clickhouse
+            optional: false
+        - configMapRef:
             name: {{ include "uniusAnalytics.fullname" . }}-postgres
             optional: false
           prefix: POSTGRES_

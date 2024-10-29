@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectTasksOptions">
+    <TaskOptions isEnabled="true">
+      <option name="arguments" value="" />
+      <option name="checkSyntaxErrors" value="true" />
+      <option name="description" />
+      <option name="exitCodeBehavior" value="ERROR" />
+      <option name="fileExtension" value="go" />
+      <option name="immediateSync" value="true" />
+      <option name="name" value="Generate OpenAPI spec" />
+      <option name="output" value="$ProjectFileDir$/backend/pkg/restapi/docs" />
+      <option name="outputFilters">
+        <array />
+      </option>
+      <option name="outputFromStdout" value="false" />
+      <option name="program" value="$ProjectFileDir$/bin/dev/generate-open-api-spec" />
+      <option name="runOnExternalChanges" value="true" />
+      <option name="scopeName" value="Recently Changed Files" />
+      <option name="trackOnlyRoot" value="false" />
+      <option name="workingDir" value="" />
+      <envs />
+    </TaskOptions>
+  </component>
+</project>

@@ -1,0 +1,37 @@
+{{ if .Values.uniusAnalytics.development.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    {{ include "uniusAnalytics.labels" . | nindent 4 }}
+  name: {{ include "uniusAnalytics.fullname" . }}-rest-api-debug
+spec:
+  ports:
+  - name: delve
+    nodePort: 32345
+    port: 2345
+    protocol: TCP
+    targetPort: 2345
+  selector:
+    deployment: rest-api
+    {{ include "uniusAnalytics.selectorLabels" . | nindent 4 }}
+  type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    {{ include "uniusAnalytics.labels" . | nindent 4 }}
+  name: {{ include "uniusAnalytics.fullname" . }}-worker-debug
+spec:
+  ports:
+  - name: delve
+    nodePort: 32346
+    port: 2345
+    protocol: TCP
+    targetPort: 2345
+  selector:
+    deployment: worker
+    {{ include "uniusAnalytics.selectorLabels" . | nindent 4 }}
+  type: NodePort
+{{ end }}

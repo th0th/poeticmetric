@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "uniusAnalytics.fullname" . }}-clickhouse
+  labels:
+    {{ include "uniusAnalytics.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      statefulSet: clickhouse
+      {{ include "uniusAnalytics.selectorLabels" . | nindent 6 }}
+  serviceName: clickhouse-hl
+  template:
+    metadata:
+      labels:
+        statefulSet: clickhouse
+        {{ include "uniusAnalytics.selectorLabels" . | nindent 8 }}
+      name: clickhouse
+    spec:
+      containers:
+      - env:
+        - name: CLICKHOUSE_DB
+          valueFrom:
+            configMapKeyRef:
+              key: DATABASE
+              name: {{ include "uniusAnalytics.fullname" . }}-clickhouse
+              optional: false
+        - name: CLICKHOUSE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: PASSWORD
+              name: {{ include "uniusAnalytics.fullname" . }}-clickhouse
+              optional: false
+        - name: CLICKHOUSE_USER
+          valueFrom:
+            secretKeyRef:
+              key: USER
+              name: {{ include "uniusAnalytics.fullname" . }}-clickhouse
+              optional: false
+        image: {{ .Values.clickhouse.image.repository }}:{{ .Values.clickhouse.image.tag }}
+        imagePullPolicy: {{ .Values.clickhouse.image.pullPolicy }}
+        name: clickhouse
+        resources: {{ toYaml .Values.clickhouse.resources | nindent 10 }}
+        volumeMounts:
+        - name: configmap-clickhouse
+          mountPath: /etc/clickhouse-server/config.d/custom_config.xml
+          subPath: CONFIG
+        {{ if .Values.clickhouse.persistence.enabled }}
+        - mountPath: /var/lib/clickhouse/
+          name: data
+          subPath: clickhouse
+        {{ end }}
+      volumes:
+      - configMap:
+          name: {{ include "uniusAnalytics.fullname" . }}-clickhouse
+        name: configmap-clickhouse
+  {{ if .Values.clickhouse.persistence.enabled }}
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Retain
+    whenScaled: Retain
+  volumeClaimTemplates:
+  - kind: PersistentVolumeClaim
+    apiVersion: v1
+    metadata:
+      name: data
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
+      volumeMode: Filesystem
+  {{ end }}
