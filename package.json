@@ -1,15 +1,23 @@
 {
   "dependencies": {
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^12.1.0",
     "bootstrap": "^5.3.3",
     "frontend": "github:th0th/frontend",
-    "sass": "^1.79.4"
+    "rollup": "^4.24.0",
+    "sass": "^1.79.4",
+    "tailwindcss": "^3.4.13",
+    "tslib": "^2.7.0"
   },
   "name": "poeticmetric",
   "scripts": {
+    "build-scripts": "rollup -c --bundleConfigAsCjs",
     "build-styles": "sass --load-path node_modules --quiet styles/style.scss pkg/web/fileserver/files/style.css"
   },
   "version": "1.0.0",
   "devDependencies": {
+    "@types/bootstrap": "^5.2.10",
     "prettier": "^3.3.3",
     "prettier-plugin-go-template": "^0.0.15",
     "prettier-plugin-organize-attributes": "^1.0.0"

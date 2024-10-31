@@ -17,11 +17,14 @@ run() {
 }
 
 case "$INSTANCE" in
-  web)
-    run web
+  migrator)
+    run migrator
   ;;
   scheduler)
     run scheduler
+  ;;
+  web)
+    run web
   ;;
   worker)
     run worker

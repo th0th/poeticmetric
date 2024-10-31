@@ -1,9 +1,13 @@
 package error
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 
+	"github.com/RussellLuo/validating/v3"
+
+	"github.com/th0th/poeticmetric/pkg/poeticmetric"
 	"github.com/th0th/poeticmetric/pkg/web/template"
 )
 
@@ -15,13 +19,13 @@ type NewParams struct {
 	Template *template.Template
 }
 
-func New(params NewParams) *Handler {
+func New(params NewParams) poeticmetric.WebErrorHandler {
 	return &Handler{
 		template: params.Template,
 	}
 }
 
-func (h *Handler) Error(err error, w http.ResponseWriter, r *http.Request) {
+func (h *Handler) Error(w http.ResponseWriter, r *http.Request, err error) {
 	if err != nil {
 		fmt.Println(err)
 		http.Error(w, "Something went wrong", http.StatusInternalServerError)
@@ -30,4 +34,20 @@ func (h *Handler) Error(err error, w http.ResponseWriter, r *http.Request) {
 		//	TODO: do something
 		//}
 	}
+}
+
+func (h *Handler) Process(w http.ResponseWriter, r *http.Request, data poeticmetric.WebTemplateData, err error) bool {
+	var validationErrs validating.Errors
+	if errors.As(err, &validationErrs) {
+		dataErrors := map[string]string{}
+		for _, validationErr := range validationErrs {
+			dataErrors[validationErr.Field()] = validationErr.Message()
+		}
+		data["Errors"] = dataErrors
+
+		return false
+	}
+
+	http.Error(w, "Something went wrong", http.StatusInternalServerError)
+	return true
 }

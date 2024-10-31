@@ -3,11 +3,11 @@ package template
 import (
 	"context"
 	"net/http"
+
+	"github.com/th0th/poeticmetric/pkg/poeticmetric"
 )
 
 const payloadContextKey = "payload"
-
-type Data map[string]any
 
 func AddDatum(r *http.Request, key string, value any) *http.Request {
 	data := GetData(r)
@@ -16,11 +16,11 @@ func AddDatum(r *http.Request, key string, value any) *http.Request {
 	return r.WithContext(context.WithValue(r.Context(), payloadContextKey, data))
 }
 
-func GetData(r *http.Request) Data {
+func GetData(r *http.Request) poeticmetric.WebTemplateData {
 	rawData := r.Context().Value(payloadContextKey)
 	if rawData == nil {
-		return Data{}
+		return poeticmetric.WebTemplateData{}
 	}
 
-	return rawData.(Data)
+	return rawData.(poeticmetric.WebTemplateData)
 }

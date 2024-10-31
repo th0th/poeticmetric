@@ -1,9 +1,8 @@
-package migrator
+package main
 
 import (
-	"github.com/go-errors/errors"
-	postgres2 "gorm.io/driver/postgres"
-	"gorm.io/gorm"
+	clickhouse2 "github.com/ClickHouse/clickhouse-go/v2"
+	"github.com/jmoiron/sqlx"
 
 	"github.com/th0th/poeticmetric/pkg/service/env"
 	"github.com/th0th/poeticmetric/pkg/service/migration"
@@ -14,23 +13,32 @@ import (
 func main() {
 	envService, err := env.New()
 	if err != nil {
-		cmd.LogPanic(errors.Wrap(err, 0), "failed to init env service")
+		cmd.LogPanic(err, "failed to init env service")
 	}
 
-	postgres, err := gorm.Open(postgres2.Open(envService.PostgresDsn()), envService.GormConfig())
+	postgres, err := sqlx.Connect("postgres", envService.PostgresDsn())
 	if err != nil {
-		cmd.LogPanic(errors.Wrap(err, 0), "failed to init postgres")
+		cmd.Logger.Panic().Stack().Err(err).Msg("failed to connect to postgres")
+	}
+
+	clickhouse := clickhouse2.OpenDB(&clickhouse2.Options{
+		Addr: []string{envService.ClickhouseAddress()},
+		Auth: envService.ClickhouseAuth(),
+	})
+	if err != nil {
+		cmd.Logger.Panic().Stack().Err(err).Msg("failed to connect to clickhouse")
 	}
 
 	migrator := migration.New(&migration.NewParams{
+		Clickhouse: clickhouse,
 		EnvService: envService,
-		Postgres:   postgres,
+		Postgres:   postgres.DB,
 	})
 
 	err = migrator.Run()
 	if err != nil {
-		cmd.LogPanic(errors.Wrap(err, 0), "failed to run migrator")
+		cmd.LogPanic(err, "failed to run migrator")
 	}
 
-	cmd.Logger.Info().Msg("migration are run successfully")
+	cmd.Logger.Info().Msg("migrations are run successfully")
 }

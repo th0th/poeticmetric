@@ -1,28 +1,34 @@
 package middleware
 
 import (
+	"context"
 	"net/http"
 
 	"github.com/gorilla/sessions"
+	"github.com/wader/gormstore/v2"
+
+	"github.com/th0th/poeticmetric/pkg/poeticmetric"
 )
 
-func Session(store sessions.Store) func(http.Handler) http.Handler {
+const sessionKey sessionRequestContextKey = "session"
+
+type sessionRequestContextKey string
+
+func GetSession(r *http.Request) *sessions.Session {
+	return r.Context().Value(sessionKey).(*sessions.Session)
+}
+
+func Session(store *gormstore.Store, errorHandler poeticmetric.WebErrorHandler) func(http.Handler) http.Handler {
 	return func(handler http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			// Get a session. We're ignoring the error resulted from decoding an
-			// existing session: Get() always returns a session, even if empty.
-			session, _ := store.Get(r, "s")
-			// Set some session values.
-			session.Values["foo2"] = "bar2"
-			session.Values[42] = 43
-			// Save it before we write to the response/return from the handler.
-			err := session.Save(r, w)
+			session, err := store.Get(r, "s")
 			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
+				errorHandler.Error(w, r, err)
 				return
 			}
 
-			r = r.WithContext(r.Context())
+			r = r.WithContext(context.WithValue(r.Context(), sessionKey, session))
+
 			handler.ServeHTTP(w, r)
 		})
 	}

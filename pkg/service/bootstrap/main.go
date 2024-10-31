@@ -7,9 +7,11 @@ import (
 	"strings"
 	"time"
 
+	"github.com/RussellLuo/validating/v3"
 	"github.com/brianvoe/gofakeit/v7"
 	"github.com/go-errors/errors"
 	"github.com/google/uuid"
+	"github.com/th0th/validatingextra"
 	"gorm.io/gorm"
 
 	"github.com/th0th/poeticmetric/pkg/poeticmetric"
@@ -30,7 +32,7 @@ type service struct {
 	postgres   *gorm.DB
 }
 
-func New(params *NewParams) poeticmetric.BootstrapService {
+func New(params NewParams) poeticmetric.BootstrapService {
 	return &service{
 		clickhouse: params.Clickhouse,
 		envService: params.EnvService,
@@ -72,10 +74,29 @@ func (s *service) Check(ctx context.Context) error {
 	return nil
 }
 
+func (s *service) Done(ctx context.Context) (bool, error) {
+	postgres := poeticmetric.ServicePostgres(ctx, s)
+	err := postgres.Model(poeticmetric.Plan{}).First(&poeticmetric.Plan{}).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return false, nil
+		}
+
+		return false, err
+	}
+
+	return true, nil
+}
+
 func (s *service) Run(ctx context.Context, params *poeticmetric.BootstrapServiceRunParams) (*poeticmetric.User, error) {
+	err := s.validateRunParams(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
 	postgres := poeticmetric.ServicePostgres(ctx, s)
 
-	err := s.validateRunParams(ctx, params)
+	err = s.validateRunParams(ctx, params)
 	if err != nil {
 		return nil, errors.Wrap(err, 0)
 	}
@@ -233,7 +254,7 @@ func (s *service) Run(ctx context.Context, params *poeticmetric.BootstrapService
 
 					event.VisitorId = gofakeit.RandomString(visitorIds)
 
-					if gofakeit.Bool() && gofakeit.Bool() {
+					if gofakeit.Bool() && gofakeit.Bool() { //nolint:gosec
 						event.UtmSource = poeticmetric.Pointer(gofakeit.RandomString(utmSources))
 						event.UtmCampaign = poeticmetric.Pointer(gofakeit.RandomString(utmCampaigns))
 						event.UtmMedium = poeticmetric.Pointer(gofakeit.RandomString(utmMediums))
@@ -261,6 +282,55 @@ func (s *service) Run(ctx context.Context, params *poeticmetric.BootstrapService
 }
 
 func (s *service) validateRunParams(ctx context.Context, params *poeticmetric.BootstrapServiceRunParams) error {
+	validationErrs := validating.Validate(validating.Schema{
+		validating.F("OrganizationName", params.OrganizationName): validating.All(
+			validating.Nonzero[string]().Msg("This field is required."),
+
+			validating.LenString(poeticmetric.OrganizationNameMinLength, poeticmetric.OrganizationNameMaxLength).Msg(fmt.Sprintf(
+				"This field must be between %d and %d characters in length.",
+				poeticmetric.OrganizationNameMinLength,
+				poeticmetric.OrganizationNameMaxLength,
+			)),
+		),
+
+		validating.F("UserEmail", params.UserEmail): validating.All(
+			validating.Nonzero[string]().Msg("This field is required."),
+
+			validatingextra.Email().Msg("Please provide a valid e-mail address."),
+
+			validatingextra.EmailNonDisposable().Msg("Please provide a non-disposable e-mail address."),
+		),
+
+		validating.F("UserName", params.UserName): validating.All(
+			validating.Nonzero[string]().Msg("This field is required."),
+
+			validating.LenString(poeticmetric.UserNameMinLength, poeticmetric.UserNameMaxLength).Msg(fmt.Sprintf(
+				"This field must be between %d and %d characters in length.",
+				poeticmetric.UserNameMinLength,
+				poeticmetric.UserNameMaxLength,
+			)),
+		),
+
+		validating.F("UserPassword", params.UserPassword): validating.All(
+			validating.Nonzero[string]().Msg("This field is required."),
+
+			validating.LenString(poeticmetric.UserPasswordMinLength, poeticmetric.UserPasswordMaxLength).Msg(fmt.Sprintf(
+				"This field must be between %d and %d characters in length.",
+				poeticmetric.UserPasswordMinLength,
+				poeticmetric.UserPasswordMaxLength,
+			)),
+		),
+
+		validating.F("UserPassword2", params.UserPassword2): validating.All(
+			validating.Nonzero[string]().Msg("This field is required."),
+
+			validating.Eq(params.UserPassword).Msg("Passwords do not match."),
+		),
+	})
+	if len(validationErrs) > 0 {
+		return validationErrs
+	}
+
 	return nil
 }
 

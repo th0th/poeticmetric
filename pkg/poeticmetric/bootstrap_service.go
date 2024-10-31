@@ -7,6 +7,7 @@ import (
 
 type BootstrapService interface {
 	Check(ctx context.Context) error
+	Done(ctx context.Context) (bool, error)
 	Run(ctx context.Context, params *BootstrapServiceRunParams) (*User, error)
 }
 

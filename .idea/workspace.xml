@@ -5,19 +5,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f15518-1b71-4eb1-b3eb-1546feaf9451" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/golinter.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jsonSchemas.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/poeticmetric.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/prettier.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/watcherTasks.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/poeticmetric/validation_service.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/watcherTasks.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/watcherTasks.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/migrator/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/migrator/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/web/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/web/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-entrypoint.development.sh" beforeDir="false" afterPath="$PROJECT_DIR$/docker-entrypoint.development.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/migration/files/clickhouse/000001_create_tables.down.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/migration/files/clickhouse/000001_create_tables.up.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/migration/files/postgres/000001_create_tables.down.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/migration/files/postgres/000001_create_tables.up.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/migration/main.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/poeticmetric/bootstrap_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/poeticmetric/bootstrap_service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/poeticmetric/env_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/poeticmetric/env_service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/poeticmetric/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/poeticmetric/models.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/service/bootstrap/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/service/bootstrap/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/service/env/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/service/env/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/service/migration/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/service/migration/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/service/validation/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/service/validation/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/web/fileserver/files/scripts/common.js" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/web/fileserver/files/scripts/common.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/web/fileserver/files/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/web/fileserver/files/style.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/web/handler/authentication/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/web/handler/authentication/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/web/handler/error/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/web/handler/error/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/web/handler/root/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/web/handler/root/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/web/middleware/session.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/web/middleware/session.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/web/template/files/layouts/base.gohtml" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/web/template/files/layouts/base.gohtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/web/template/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/web/template/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/web/template/payload.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/web/template/payload.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/style.scss" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,6 +69,9 @@
     &quot;accountId&quot;: &quot;77cd7f3b-aaac-4fb6-8ef5-02eb6ac9108f&quot;
   }
 }</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$USER_HOME$/go/go1.23.2/src/encoding/json/stream.go" root0="SKIP_INSPECTION" />
+  </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
   &quot;configuredContexts&quot;: [
@@ -59,14 +83,12 @@
     },
     {
       &quot;name&quot;: &quot;docker-desktop&quot;,
-      &quot;kubeConfigUrl&quot;: &quot;file:///Users/th0th/.kube/config&quot;
+      &quot;kubeConfigUrl&quot;: &quot;file:///Users/th0th/.kube/config&quot;,
+      &quot;currentNamespace&quot;: &quot;default&quot;
     }
   ],
   &quot;isMigrated&quot;: true
 }</component>
-  <component name="KubernetesSettings">
-    <option name="contextName" value="docker-desktop" />
-  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 1
@@ -79,23 +101,36 @@
   &quot;keyToString&quot;: {
     &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
     &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Go Remote.web.executor&quot;: &quot;Debug&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;vanilla&quot;,
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/th0th/Workspace/poeticmetric/pkg/web/fileserver/files&quot;,
+    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;22.9.0&quot;,
+    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;22.7.4&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/th0th/Workspace/poeticmetric&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/th0th/Workspace/poeticmetric/node_modules/prettier&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;watcher.settings&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.tailwindcss&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;,
+      &quot;clickhouse&quot;
+    ]
   }
 }</component>
   <component name="RecentsManager">
+    <key name="GoMoveDeclarationDialog.RECENT_KEY">
+      <recent name="$PROJECT_DIR$/pkg/poeticmetric" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/pkg/web/fileserver/files" />
       <recent name="$PROJECT_DIR$/pkg/web/fileserver/files/fonts" />
@@ -136,6 +171,11 @@
       <filePath value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
+    <configuration name="web" type="GoRemoteDebugConfigurationType" factoryName="Go Remote" port="32345">
+      <option name="disconnectOption" value="LEAVE" />
+      <disconnect value="LEAVE" />
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
       <module name="poeticmetric" />
       <working_directory value="$PROJECT_DIR$" />
@@ -171,7 +211,14 @@
       <workItem from="1727887134086" duration="9284000" />
       <workItem from="1727939310300" duration="7124000" />
       <workItem from="1727969024836" duration="9456000" />
-      <workItem from="1728038714651" duration="46000" />
+      <workItem from="1728038714651" duration="3115000" />
+      <workItem from="1728149659264" duration="16712000" />
+      <workItem from="1728302106790" duration="14737000" />
+      <workItem from="1728365374546" duration="1203000" />
+      <workItem from="1728392302639" duration="1224000" />
+      <workItem from="1728419811722" duration="7990000" />
+      <workItem from="1728663822916" duration="86000" />
+      <workItem from="1729184856950" duration="120000" />
     </task>
     <servers />
   </component>

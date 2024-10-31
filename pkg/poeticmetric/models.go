@@ -24,6 +24,13 @@ const (
 	OrganizationSubscriptionPeriodYear  = "YEAR"
 )
 
+const (
+	UserNameMaxLength     = 70
+	UserNameMinLength     = 1
+	UserPasswordMaxLength = 72
+	UserPasswordMinLength = 8
+)
+
 type Event struct {
 	BrowserName            *string
 	BrowserVersion         *string

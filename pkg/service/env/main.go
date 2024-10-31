@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/ClickHouse/clickhouse-go/v2"
 	env2 "github.com/caarlos0/env/v9"
 	"github.com/go-errors/errors"
 	"github.com/rs/zerolog"
@@ -13,12 +14,12 @@ import (
 	"github.com/th0th/poeticmetric/pkg/poeticmetric"
 )
 
-type env struct {
+type service struct {
 	vars poeticmetric.EnvServiceVars
 }
 
 func New() (poeticmetric.EnvService, error) {
-	e := env{}
+	e := service{}
 
 	err := env2.Parse(&e.vars)
 	if err != nil {
@@ -28,25 +29,41 @@ func New() (poeticmetric.EnvService, error) {
 	return &e, nil
 }
 
-func (e *env) ClickhouseDsn() string {
+func (s *service) ClickhouseAddress() string {
+	return fmt.Sprintf("%s:%d", s.vars.ClickHouseHost, s.vars.ClickHousePort)
+}
+
+func (s *service) ClickhouseAuth() clickhouse.Auth {
+	return clickhouse.Auth{
+		Database: s.vars.ClickHouseDatabase,
+		Username: s.vars.ClickHouseUser,
+		Password: s.vars.ClickHousePassword,
+	}
+}
+
+func (s *service) ClickhouseDatabase() string {
+	return s.vars.ClickHouseDatabase
+}
+
+func (s *service) ClickhouseDsn() string {
 	return fmt.Sprintf(
 		"clickhouse://%s:%s@%s:%d/%s",
-		e.vars.ClickHouseUser,
-		e.vars.ClickHousePassword,
-		e.vars.ClickHouseHost,
-		e.vars.ClickHousePort,
-		e.vars.ClickHouseDatabase,
+		s.vars.ClickHouseUser,
+		s.vars.ClickHousePassword,
+		s.vars.ClickHouseHost,
+		s.vars.ClickHousePort,
+		s.vars.ClickHouseDatabase,
 	)
 }
 
-func (e *env) Debug() bool {
-	return e.vars.Debug
+func (s *service) Debug() bool {
+	return s.vars.Debug
 }
 
-func (e *env) GormConfig() *gorm.Config {
+func (s *service) GormConfig() *gorm.Config {
 	logLevel := logger.Error
 
-	if e.Vars().DatabaseDebug {
+	if s.Vars().DatabaseDebug {
 		logLevel = logger.Info
 	}
 
@@ -62,31 +79,31 @@ func (e *env) GormConfig() *gorm.Config {
 	}
 }
 
-func (e *env) IsHosted() bool {
-	return e.vars.IsHosted
+func (s *service) IsHosted() bool {
+	return s.vars.IsHosted
 }
 
-func (e *env) PostgresDsn() string {
+func (s *service) PostgresDsn() string {
 	return fmt.Sprintf(
 		"postgres://%s:%s@%s:%d/%s?sslmode=disable",
-		e.vars.PostgresUser,
-		e.vars.PostgresPassword,
-		e.vars.PostgresHost,
-		e.vars.PostgresPort,
-		e.vars.PostgresDatabase,
+		s.vars.PostgresUser,
+		s.vars.PostgresPassword,
+		s.vars.PostgresHost,
+		s.vars.PostgresPort,
+		s.vars.PostgresDatabase,
 	)
 }
 
-func (e *env) RedisAddr() string {
-	return fmt.Sprintf("%s:%d", e.vars.RedisHost, e.vars.RedisPort)
+func (s *service) RedisAddr() string {
+	return fmt.Sprintf("%s:%d", s.vars.RedisHost, s.vars.RedisPort)
 }
 
-func (e *env) SecretKey() string {
-	return e.vars.SecretKey
+func (s *service) SecretKey() string {
+	return s.vars.SecretKey
 }
 
-func (e *env) Vars() poeticmetric.EnvServiceVars {
-	return e.vars
+func (s *service) Vars() poeticmetric.EnvServiceVars {
+	return s.vars
 }
 
 var Logger = zerolog.New(os.Stdout).With().Timestamp().Logger()

@@ -1,0 +1,84 @@
+{{ block "body" . }}
+  <div class="container py-16">
+    <div class="row">
+      <div class="col-12 col-md-6 offset-md-3 col-lg-6 offset-lg-3">
+        <div class="text-center">
+          <h1>Welcome to PoeticMetric!</h1>
+
+          <div class="mt-6">Complete PoeticMetric installation to continue.</div>
+        </div>
+
+        <div class="card mt-12">
+          <div class="card-body">
+            <form method="post">
+              <fieldset class="gap-12 vstack">
+                {{ csrf }}
+
+                {{ if .Errors.Detail }}
+                  <div class="alert alert-danger mb-0" role="alert">
+                    {{ .Errors.Detail }}
+                  </div>
+                {{ end }}
+
+
+                <div>
+                  <label class="form-label" for="input-user-name">Name</label>
+
+                  <input class="form-control" id="input-user-name" name="UserName" required type="text" value="{{ .PostData.UserName }}" />
+                </div>
+
+                <div>
+                  <label class="form-label" for="input-user-email">E-mail address</label>
+
+                  <input
+                    class="form-control"
+                    id="input-user-email"
+                    name="UserEmail"
+                    required
+                    type="email"
+                    value="{{ .PostData.UserEmail }}"
+                  />
+                </div>
+
+                <div>
+                  <label class="form-label" for="input-user-password">New password</label>
+
+                  <input class="form-control" id="input-user-password" name="UserPassword" required type="password" />
+                </div>
+
+                <div>
+                  <label class="form-label" for="input-user-password2">New password (again)</label>
+
+                  <input class="form-control" id="input-user-password2" name="UserPassword2" required type="password" />
+                </div>
+
+                <div>
+                  <label class="form-label" for="input-organization-name">Organization</label>
+
+                  <input
+                    class="form-control {{ if .Errors.OrganizationName }}is-invalid{{ end }}"
+                    id="input-organization-name"
+                    name="OrganizationName"
+                    required
+                    type="text"
+                  />
+
+                  <div class="invalid-feedback">{{ .Errors.OrganizationName }}</div>
+                </div>
+
+                <div class="form-check">
+                  <input class="form-check-input" id="input-create-demo-site" name="CreateDemoSite" type="checkbox" />
+                  <label class="form-check-label" for="input-create-demo-site">Create demo site</label>
+                </div>
+
+                <div class="gap-3 vstack">
+                  <button class="btn btn-primary" type="submit">Continue</button>
+                </div>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{{ end }}

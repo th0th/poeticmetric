@@ -17,6 +17,7 @@ import (
 	"github.com/ztrue/tracerr"
 
 	"github.com/th0th/poeticmetric/pkg/poeticmetric"
+	"github.com/th0th/poeticmetric/pkg/web/middleware"
 )
 
 const (
@@ -28,7 +29,7 @@ type NewParams struct {
 }
 
 type RenderParams struct {
-	Data     Data
+	Data     poeticmetric.WebTemplateData
 	Patterns []string
 	Template string
 }
@@ -53,14 +54,14 @@ func New(params NewParams) (*Template, error) {
 func (t *Template) Render(w http.ResponseWriter, r *http.Request, params RenderParams) error {
 	template := template2.New(params.Template).
 		Funcs(sprig.FuncMap()).
-		Funcs(t.funcMap(r))
+		Funcs(t.funcMap(w, r))
 
 	template, err := template.ParseFS(t.fs, params.Patterns...)
 	if err != nil {
 		return tracerr.Wrap(err)
 	}
 
-	data := Data{}
+	data := poeticmetric.WebTemplateData{}
 
 	for k, v := range GetData(r) {
 		data[k] = v
@@ -78,8 +79,8 @@ func (t *Template) Render(w http.ResponseWriter, r *http.Request, params RenderP
 	return nil
 }
 
-func (t *Template) RenderHtml(w http.ResponseWriter, r *http.Request, template string, data ...Data) error {
-	var data2 Data
+func (t *Template) RenderHtml(w http.ResponseWriter, r *http.Request, template string, data ...poeticmetric.WebTemplateData) error {
+	var data2 poeticmetric.WebTemplateData
 	if len(data) > 0 {
 		data2 = data[0]
 	}
@@ -96,7 +97,7 @@ func (t *Template) RenderHtml(w http.ResponseWriter, r *http.Request, template s
 	return nil
 }
 
-func (t *Template) funcMap(r *http.Request) template2.FuncMap {
+func (t *Template) funcMap(w http.ResponseWriter, r *http.Request) template2.FuncMap {
 	return template2.FuncMap{
 		"csrf": func() template2.HTML {
 			return csrf.TemplateField(r)
@@ -132,6 +133,9 @@ func (t *Template) funcMap(r *http.Request) template2.FuncMap {
 			hash.Write([]byte(text))
 
 			return fmt.Sprintf("%x", hash.Sum(nil))
+		},
+		"toasts": func() ([]poeticmetric.WebSessionToast, error) {
+			return middleware.GetSessionToasts(w, r)
 		},
 	}
 }

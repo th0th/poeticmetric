@@ -21,5 +21,25 @@
       <option name="workingDir" value="$FileDir$" />
       <envs />
     </TaskOptions>
+    <TaskOptions isEnabled="true">
+      <option name="arguments" value="build-scripts" />
+      <option name="checkSyntaxErrors" value="true" />
+      <option name="description" />
+      <option name="exitCodeBehavior" value="ERROR" />
+      <option name="fileExtension" value="ts" />
+      <option name="immediateSync" value="true" />
+      <option name="name" value="Transpile scripts" />
+      <option name="output" value="$ProjectFileDir$/pkg/web/fileserver/files/scripts" />
+      <option name="outputFilters">
+        <array />
+      </option>
+      <option name="outputFromStdout" value="false" />
+      <option name="program" value="pnpm" />
+      <option name="runOnExternalChanges" value="true" />
+      <option name="scopeName" value="Recently Changed Files" />
+      <option name="trackOnlyRoot" value="false" />
+      <option name="workingDir" value="$ProjectFileDir$" />
+      <envs />
+    </TaskOptions>
   </component>
 </project>

@@ -4,12 +4,27 @@
     <head>
       <link href="/style.css" rel="stylesheet" />
       <title>{{ block "title" . }}PoeticMetric Analytics{{ end }}</title>
+
+      <script async defer src="{{ href "scripts/common.js" }}"></script>
     </head>
 
     <body>
       {{ template "header" . }}
 
       {{ block "body" . }}{{ end }}
+
+
+      <div class="p-4 position-fixed pt-13 toast-container top-0 translate-middle-x start-50">
+        {{ range toasts }}
+          <div class="toast {{ if eq .Variant "danger" }}bg-danger{{ else if eq .Variant "success" }}bg-success{{ end }}" role="alert">
+            <div class="d-flex flex-row gap-3 toast-body text-white">
+              <div class="flex-grow-1 me-auto fw-medium">{{ .Message }}</div>
+
+              <button aria-label="Close" class="btn-close btn-close-white flex-shrink-0" data-bs-dismiss="toast" type="button"></button>
+            </div>
+          </div>
+        {{ end }}
+      </div>
     </body>
   </html>
 {{ end }}

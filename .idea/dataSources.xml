@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="development - postgres" uuid="782fc0eb-8097-4b92-9206-13a37b6599e1">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/poeticmetric</jdbc-url>
+      <jdbc-additional-properties>
+        <property name="com.intellij.clouds.kubernetes.db.host.port" value="5432" />
+        <property name="com.intellij.clouds.kubernetes.db.enabled" value="true" />
+        <property name="com.intellij.clouds.kubernetes.db.resource" value="poeticmetric-postgres" />
+        <property name="com.intellij.clouds.kubernetes.db.context" value="docker-desktop" />
+        <property name="com.intellij.clouds.kubernetes.db.resource.type" value="Service" />
+        <property name="com.intellij.clouds.kubernetes.db.namespace" value="poeticmetric-development" />
+        <property name="com.intellij.clouds.kubernetes.db.container.port" value="5432" />
+      </jdbc-additional-properties>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="development - clickhouse" uuid="05db38b7-dbe3-44f4-b3b4-feb99ac58355">
+      <driver-ref>clickhouse</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.clickhouse.jdbc.ClickHouseDriver</jdbc-driver>
+      <jdbc-url>jdbc:clickhouse://localhost:8123/poeticmetric</jdbc-url>
+      <jdbc-additional-properties>
+        <property name="com.intellij.clouds.kubernetes.db.host.port" value="8123" />
+        <property name="com.intellij.clouds.kubernetes.db.enabled" value="true" />
+        <property name="com.intellij.clouds.kubernetes.db.resource" value="poeticmetric-clickhouse" />
+        <property name="com.intellij.clouds.kubernetes.db.context" value="docker-desktop" />
+        <property name="com.intellij.clouds.kubernetes.db.resource.type" value="Service" />
+        <property name="com.intellij.clouds.kubernetes.db.namespace" value="poeticmetric-development" />
+        <property name="com.intellij.clouds.kubernetes.db.container.port" value="8123" />
+      </jdbc-additional-properties>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+  </component>
+</project>

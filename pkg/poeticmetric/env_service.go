@@ -1,10 +1,14 @@
 package poeticmetric
 
 import (
+	"github.com/ClickHouse/clickhouse-go/v2"
 	"gorm.io/gorm"
 )
 
 type EnvService interface {
+	ClickhouseAddress() string
+	ClickhouseAuth() clickhouse.Auth
+	ClickhouseDatabase() string
 	ClickhouseDsn() string
 	Debug() bool
 	GormConfig() *gorm.Config

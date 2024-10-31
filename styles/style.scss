@@ -11,6 +11,7 @@ $font-base-url: "/fonts/";
 // _components
 @import "bootstrap/scss/buttons";
 @import "bootstrap/scss/card";
+@import "bootstrap/scss/close";
 @import "bootstrap/scss/containers";
 @import "bootstrap/scss/forms";
 @import "bootstrap/scss/grid";
@@ -18,12 +19,13 @@ $font-base-url: "/fonts/";
 @import "bootstrap/scss/nav";
 @import "bootstrap/scss/navbar";
 @import "bootstrap/scss/offcanvas";
+@import "bootstrap/scss/toasts";
+@import "bootstrap/scss/transitions";
 
 //@import "bootstrap/scss/accordion";
 //@import "bootstrap/scss/alert";
 //@import "bootstrap/scss/badge";
 //@import "bootstrap/scss/breadcrumb";
-//@import "bootstrap/scss/close";
 //@import "bootstrap/scss/dropdown";
 //@import "bootstrap/scss/list-group";
 //@import "bootstrap/scss/modal";
@@ -33,9 +35,8 @@ $font-base-url: "/fonts/";
 //@import "bootstrap/scss/progress";
 //@import "bootstrap/scss/spinners";
 //@import "bootstrap/scss/tables";
-//@import "bootstrap/scss/toasts";
 //@import "bootstrap/scss/tooltip";
-//@import "bootstrap/scss/transitions";
+
 
 // utilities
 @import "bootstrap/scss/utilities/api";
