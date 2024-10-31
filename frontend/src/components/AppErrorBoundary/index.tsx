@@ -13,7 +13,8 @@ export default function AppErrorBoundary({ children }: AppErrorBoundaryProps) {
         <Error />
       )}
       onError={(e) => {
-        console.error(e);
+         
+        // console.error(e);
       }}
     >
       {children}

@@ -6,3 +6,4 @@ data:
   DATABASE_DEBUG: {{ .Values.uniusAnalytics.development.databaseDebug | quote }}
   DEBUG: {{ .Values.uniusAnalytics.development.debug | quote }}
   BASE_PATH: {{ .Values.uniusAnalytics.basePath | quote }}
+  REST_API_BASE_URL: "{{ .Values.uniusAnalytics.basePath }}/api"

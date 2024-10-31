@@ -3,6 +3,7 @@ import { renderToString } from "react-dom/server";
 import { HelmetProvider, HelmetServerState } from "react-helmet-async";
 import { Router } from "wouter";
 import App from "~/components/App";
+import AppErrorBoundary from "~/components/AppErrorBoundary";
 
 export function render(url: string) {
   const helmetContext: { helmet?: HelmetServerState } = {};
@@ -10,9 +11,11 @@ export function render(url: string) {
   const body = renderToString(
     <StrictMode>
       <HelmetProvider context={helmetContext}>
-        <Router base={import.meta.env.VITE_BASE_PATH} ssrPath={url}>
-          <App />
-        </Router>
+        <AppErrorBoundary>
+          <Router base={import.meta.env.VITE_BASE_PATH} ssrPath={url}>
+            <App />
+          </Router>
+        </AppErrorBoundary>
       </HelmetProvider>
     </StrictMode>,
   );
@@ -26,8 +29,6 @@ export function render(url: string) {
     helmet?.link.toString(),
     helmet?.script.toString(),
   ].join("");
-
-  console.log(head);
 
   return { body, head };
 }

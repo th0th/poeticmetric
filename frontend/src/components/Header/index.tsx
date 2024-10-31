@@ -1,13 +1,15 @@
+import clsx from "clsx";
 import { Link } from "wouter";
 import Nav from "~/components/Header/Nav";
 import Logo from "~/components/Logo";
+import styles from "./Header.module.css";
 
 export default function Header() {
   return (
-    <header className="border-b">
-      <div className="container-default flex items-center gap-6 py-4">
+    <header className={styles.header}>
+      <div className={clsx("container", styles.container)}>
         <Link to="/">
-          <Logo className="block h-8" />
+          <Logo className={styles.logo} />
         </Link>
 
         <Nav />

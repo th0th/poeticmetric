@@ -4,14 +4,6 @@
     "stylelint-order"
   ],
   "rules": {
-    "at-rule-no-unknown": [
-      true,
-      {
-        "ignoreAtRules": [
-          "tailwind"
-        ]
-      }
-    ],
     "color-function-notation": null,
     "order/properties-alphabetical-order": true
   }

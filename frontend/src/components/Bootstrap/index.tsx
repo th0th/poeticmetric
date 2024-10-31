@@ -1,73 +1,156 @@
+import clsx from "clsx";
+import { useEffect, useState } from "react";
+import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
+import { useLocation } from "wouter";
 import Title from "~/components/Title";
+import { api } from "~/lib/api";
+import { setErrors } from "~/lib/form";
+import styles from "./Bootstrap.module.css";
 
 type Form = {
   createDemoSite: boolean;
   organizationName: string;
   userEmail: string;
   userName: string;
-  userNewPassword: string;
-  userNewPassword2: string;
+  userPassword: string;
+  userPassword2: string;
+};
+
+type State = {
+  isInProgress: boolean;
 };
 
 export default function Bootstrap() {
-  const { handleSubmit, register } = useForm<Form>({});
+  const { showBoundary } = useErrorBoundary();
+  const [_, setLocation] = useLocation();
+  const [state, setState] = useState<State>({ isInProgress: true });
+  const { formState: { errors }, handleSubmit, register, setError } = useForm<Form>({});
 
-  function submit(data: Form) {
-    console.log(data);
+  async function submit(data: Form) {
+    try {
+      console.log(data);
+      const response = await api.post("/bootstrap", data);
+      const responseJson = await response.json();
+
+      console.log(responseJson);
+      if (response.ok) {
+
+      } else {
+        setErrors(setError, responseJson);
+      }
+    } catch (error) {
+      showBoundary(error);
+    }
   }
+
+  useEffect(() => {
+    async function run() {
+      try {
+        const response = await api.get("/bootstrap");
+
+        if (response.ok) {
+          setState((s) => ({ ...s, isInProgress: false }));
+        } else {
+          setLocation("/");
+        }
+      } catch (error) {
+        showBoundary(error);
+      }
+    }
+
+    run();
+  }, []);
+
+  console.log({ errors });
+  console.log(!!errors.userPassword);
 
   return (
     <>
       <Title>Complete Unius Analytics installation</Title>
 
-      <div className="container-default py-8">
-        <div className="text-center">
-          <h1>Welcome to Unius Analytics!</h1>
-
-          <div className="mt-3">Complete Unius Analytics installation to continue.</div>
+      {state.isInProgress ? (
+        <div className="spinner-full">
+          <div className="spinner spinner-lg" />
         </div>
+      ) : (
+        <div className="container">
+          <div>
+            <h1>Welcome to Unius Analytics!</h1>
 
-        <div className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"></div>
+            <div>Complete Unius Analytics installation to continue.</div>
+          </div>
 
-        <div className="card mx-auto mt-8 max-w-lg">
-          <form className="card-body" onSubmit={handleSubmit(submit)}>
-            <fieldset className="space-y-4">
-              <div className="form-group">
-                <label className="form-label" htmlFor="input-user-name">Full name</label>
+          <div className={clsx("card", styles.card)}>
+            <form className="card-body" onSubmit={handleSubmit(submit)}>
+              <fieldset className="fieldset">
+                <div className="form-group">
+                  <label className="form-label" htmlFor="input-user-name">Full name</label>
 
-                <input className="form-input" id="input-user-name" {...register("userName")} />
-              </div>
+                  <input className="input" id="input-user-name" required {...register("userName")} />
 
-              <div className="form-group">
-                <label className="form-label" htmlFor="input-user-email">E-mail address</label>
+                  {!!errors.userName ? (<div>{errors.userName.message}</div>) : null}
+                </div>
 
-                <input className="form-input" id="input-user-email" type="email" {...register("userEmail")} />
-              </div>
+                <div className="form-group">
+                  <label className="form-label" htmlFor="input-user-email">E-mail address</label>
 
-              <div className="form-group">
-                <label className="form-label">New password</label>
+                  <input
+                    className={clsx("input", errors.userEmail && "input-invalid")}
+                    id="input-user-email"
+                    required
+                    type="email"
+                    {...register("userEmail")}
+                  />
 
-                <input className="form-input" type="password" {...register("userNewPassword")} />
-              </div>
+                  {!!errors.userEmail ? (<div className="form-error">{errors.userEmail.message}</div>) : null}
+                </div>
 
-              <div className="form-group">
-                <label className="form-label">New password (again)</label>
+                <div className="form-group">
+                  <label className="form-label">New password</label>
 
-                <input className="form-input" type="password" {...register("userNewPassword2")} />
-              </div>
+                  <input className="input" required type="password" {...register("userPassword")} />
 
-              <div className="flex items-center gap-2">
-                <input className="form-check" id="input-create-demo-site" type="checkbox" />
+                  {!!errors.userPassword ? (<div className="form-error">{errors.userPassword.message}</div>) : null}
+                </div>
 
-                <label className="form-label" htmlFor="input-create-demo-site">Create demo site</label>
-              </div>
+                <div className="form-group">
+                  <label className="form-label">New password (again)</label>
 
-              <button className="button button-primary w-full" type="submit">Complete installation</button>
-            </fieldset>
-          </form>
+                  <input
+                    className={clsx("input", errors.userPassword2 && "input-invalid")}
+                    required
+                    type="password"
+                    {...register("userPassword2")}
+                  />
+
+                  {!!errors.userPassword2 ? (<div className="form-error">{errors.userPassword2.message}</div>) : null}
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label">Organization</label>
+
+                  <input className="input" required {...register("organizationName")} />
+
+                  {!!errors.organizationName ? (<div className="form-error">{errors.organizationName.message}</div>) : null}
+                </div>
+
+                <div className="form-group">
+                  <div className="form-group-inline">
+                    <input id="input-create-demo-site" type="checkbox" {...register("createDemoSite")} />
+
+                    <label htmlFor="input-create-demo-site">Create demo site</label>
+                  </div>
+
+                  {!!errors.createDemoSite ? (<div className="form-error">{errors.createDemoSite.message}</div>) : null}
+                </div>
+
+                <button className="button button-blue" type="submit">Complete installation</button>
+              </fieldset>
+            </form>
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }

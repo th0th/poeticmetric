@@ -1,0 +1,44 @@
+:root {
+  --border-radius: 0.375em;
+
+  --color-blue-50-rgb: 241 248 254;
+  --color-blue-100-rgb: 226 241 252;
+  --color-blue-200-rgb: 191 225 248;
+  --color-blue-300-rgb: 134 202 243;
+  --color-blue-400-rgb: 70 176 234;
+  --color-blue-500-rgb: 30 150 217;
+  --color-blue-600-rgb: 17 123 191;
+  --color-blue-700-rgb: 15 95 149;
+  --color-blue-800-rgb: 16, 81, 124;
+  --color-blue-900-rgb: 19, 68, 103;
+  --color-blue-950-rgb: 13, 43, 68;
+
+  --color-red-50-rgb: 253 243 243;
+  --color-red-100-rgb: 252 228 228;
+  --color-red-200-rgb: 250 206 206;
+  --color-red-300-rgb: 245 172 172;
+  --color-red-400-rgb: 237 124 124;
+  --color-red-500-rgb: 225 82 82;
+  --color-red-600-rgb: 197 48 48;
+  --color-red-700-rgb: 173 40 40;
+  --color-red-800-rgb: 143 37 37;
+  --color-red-900-rgb: 119 37 37;
+  --color-red-950-rgb: 64 15 15;
+
+  --color-white: #FFFFFF;
+  --color-white-rgb: 255 255 255;
+  --color-black: #000000;
+  --color-black-rgb: 0 0 0;
+
+  --transition-duration: 0.1s;
+
+  --color-background: rgb(var(--color-white-rgb));
+  --color-border: rgba(var(--color-black-rgb) / 0.1);
+  --color-foreground: rgb(var(--color-black-rgb));
+
+  @media (prefers-color-scheme: dark) {
+    --color-background: rgb(var(--color-black-rgb));
+    --color-border: rgba(var(--color-white-rgb) / 0.2);
+    --color-foreground: rgb(var(--color-white-rgb));
+  }
+}

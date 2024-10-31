@@ -24,6 +24,11 @@ spec:
             configMapKeyRef:
               key: BASE_PATH
               name: {{ include "uniusAnalytics.fullname" . }}-unius-analytics
+        - name: VITE_REST_API_BASE_URL
+          valueFrom:
+            configMapKeyRef:
+              key: REST_API_BASE_URL
+              name: {{ include "uniusAnalytics.fullname" . }}-unius-analytics
         - name: PORT
           value: "80"
         image: {{ printf "%s:%s" .Values.uniusAnalytics.frontend.image.repository .Values.uniusAnalytics.frontend.image.tag }}
@@ -47,8 +52,6 @@ spec:
           name: postcss-config-js
         - mountPath: /unius-analytics/server.js
           name: server-js
-        - mountPath: /unius-analytics/tailwind.config.ts
-          name: tailwind-config-ts
         - mountPath: /unius-analytics/tsconfig.json
           name: tsconfig-json
         - mountPath: /unius-analytics/tsconfig.node.json
@@ -84,9 +87,6 @@ spec:
       - hostPath:
           path: {{ .Values.uniusAnalytics.development.hostBasePath }}/frontend/server.js
         name: server-js
-      - hostPath:
-          path: {{ .Values.uniusAnalytics.development.hostBasePath }}/frontend/tailwind.config.ts
-        name: tailwind-config-ts
       - hostPath:
           path: {{ .Values.uniusAnalytics.development.hostBasePath }}/frontend/tsconfig.json
         name: tsconfig-json
