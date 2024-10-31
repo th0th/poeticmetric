@@ -1,4 +1,4 @@
-module github.com/th0th/unius-analytics/backend
+module github.com/th0th/poeticmetric/backend
 
 go 1.23.2
 

@@ -10,7 +10,7 @@ hydrateRoot(
   <StrictMode>
     <HelmetProvider>
       <AppErrorBoundary>
-        <Router base={import.meta.env.VITE_BASE_PATH}>
+        <Router>
           <App />
         </Router>
       </AppErrorBoundary>

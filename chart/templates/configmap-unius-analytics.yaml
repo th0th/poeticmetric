@@ -1,9 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "uniusAnalytics.fullname" . }}-unius-analytics
+  name: {{ include "poeticmetric.fullname" . }}-poeticmetric
 data:
-  DATABASE_DEBUG: {{ .Values.uniusAnalytics.development.databaseDebug | quote }}
-  DEBUG: {{ .Values.uniusAnalytics.development.debug | quote }}
-  BASE_PATH: {{ .Values.uniusAnalytics.basePath | quote }}
-  REST_API_BASE_URL: "{{ .Values.uniusAnalytics.basePath }}/api"
+  DATABASE_DEBUG: {{ .Values.poeticmetric.development.databaseDebug | quote }}
+  DEBUG: {{ .Values.poeticmetric.development.debug | quote }}

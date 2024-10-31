@@ -23,32 +23,32 @@ metadata:
 
       # Apply the cache control header with the appropriate value
       add_header Cache-Control $cache_control;
-    {{ toYaml .Values.uniusAnalytics.frontend.ingress.annotations | nindent 4 }}
-  name: {{ include "uniusAnalytics.fullname" . }}-frontend
+    {{ toYaml .Values.poeticmetric.frontend.ingress.annotations | nindent 4 }}
+  name: {{ include "poeticmetric.fullname" . }}-frontend
   labels:
-    {{ include "uniusAnalytics.labels" . | nindent 4 }}
+    {{ include "poeticmetric.labels" . | nindent 4 }}
 spec:
   rules:
-  - host: {{ .Values.uniusAnalytics.host }}
+  - host: {{ .Values.poeticmetric.host }}
     http:
       paths:
       - backend:
           service:
-            name: {{ include "uniusAnalytics.fullname" . }}-frontend
+            name: {{ include "poeticmetric.fullname" . }}-frontend
             port:
               number: 80
-        path: {{ .Values.uniusAnalytics.basePath }}/
+        path: /
         pathType: Prefix
-      {{ if .Values.uniusAnalytics.development.enabled }}
+      {{ if .Values.poeticmetric.development.enabled }}
       - backend:
           service:
-            name: {{ include "uniusAnalytics.fullname" . }}-frontend
+            name: {{ include "poeticmetric.fullname" . }}-frontend
             port:
               number: 24678
-        path: {{ .Values.uniusAnalytics.basePath }}/hmr
+        path: /hmr
         pathType: Prefix
       {{ end }}
   tls:
   - hosts:
-    - {{ .Values.uniusAnalytics.host }}
-    secretName: {{ include "uniusAnalytics.fullname" . }}-frontend-tls
+    - {{ .Values.poeticmetric.host }}
+    secretName: {{ include "poeticmetric.fullname" . }}-frontend-tls

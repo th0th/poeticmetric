@@ -6,7 +6,7 @@ import (
 
 	"github.com/go-errors/errors"
 
-	"github.com/th0th/unius-analytics/backend/pkg/analytics"
+	"github.com/th0th/poeticmetric/backend/pkg/analytics"
 )
 
 type Handler struct {

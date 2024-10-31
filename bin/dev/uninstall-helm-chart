@@ -3,5 +3,5 @@ set -eo pipefail
 
 helm uninstall \
   --kube-context docker-desktop \
-  --namespace unius-analytics-development \
-  unius-analytics
+  --namespace poeticmetric-development \
+  poeticmetric

@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ include "uniusAnalytics.fullname" . }}-clickhouse
+  name: {{ include "poeticmetric.fullname" . }}-clickhouse
   labels:
-    {{ include "uniusAnalytics.labels" . | nindent 4 }}
+    {{ include "poeticmetric.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
       statefulSet: clickhouse
-      {{ include "uniusAnalytics.selectorLabels" . | nindent 6 }}
+      {{ include "poeticmetric.selectorLabels" . | nindent 6 }}
   serviceName: clickhouse-hl
   template:
     metadata:
       labels:
         statefulSet: clickhouse
-        {{ include "uniusAnalytics.selectorLabels" . | nindent 8 }}
+        {{ include "poeticmetric.selectorLabels" . | nindent 8 }}
       name: clickhouse
     spec:
       containers:
@@ -24,19 +24,19 @@ spec:
           valueFrom:
             configMapKeyRef:
               key: DATABASE
-              name: {{ include "uniusAnalytics.fullname" . }}-clickhouse
+              name: {{ include "poeticmetric.fullname" . }}-clickhouse
               optional: false
         - name: CLICKHOUSE_PASSWORD
           valueFrom:
             secretKeyRef:
               key: PASSWORD
-              name: {{ include "uniusAnalytics.fullname" . }}-clickhouse
+              name: {{ include "poeticmetric.fullname" . }}-clickhouse
               optional: false
         - name: CLICKHOUSE_USER
           valueFrom:
             secretKeyRef:
               key: USER
-              name: {{ include "uniusAnalytics.fullname" . }}-clickhouse
+              name: {{ include "poeticmetric.fullname" . }}-clickhouse
               optional: false
         image: {{ .Values.clickhouse.image.repository }}:{{ .Values.clickhouse.image.tag }}
         imagePullPolicy: {{ .Values.clickhouse.image.pullPolicy }}
@@ -53,7 +53,7 @@ spec:
         {{ end }}
       volumes:
       - configMap:
-          name: {{ include "uniusAnalytics.fullname" . }}-clickhouse
+          name: {{ include "poeticmetric.fullname" . }}-clickhouse
         name: configmap-clickhouse
   {{ if .Values.clickhouse.persistence.enabled }}
   persistentVolumeClaimRetentionPolicy:

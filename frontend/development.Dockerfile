@@ -3,7 +3,7 @@ FROM node:23-alpine
 RUN apk update && apk add bash
 RUN npm install --global pnpm
 
-WORKDIR /unius-analytics
+WORKDIR /poeticmetric
 
 # copy only package definition files
 COPY package.json .

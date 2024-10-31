@@ -7,25 +7,25 @@ import (
 
 	"github.com/justinas/alice"
 	"github.com/rs/zerolog/hlog"
-	"github.com/swaggo/http-swagger/v2"
+	httpSwagger "github.com/swaggo/http-swagger/v2"
 	clickhouse2 "gorm.io/driver/clickhouse"
 	postgres2 "gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
-	"github.com/th0th/unius-analytics/backend/cmd"
-	"github.com/th0th/unius-analytics/backend/pkg/restapi/docs"
-	bootstrap2 "github.com/th0th/unius-analytics/backend/pkg/restapi/handler/bootstrap"
-	"github.com/th0th/unius-analytics/backend/pkg/restapi/handler/root"
-	"github.com/th0th/unius-analytics/backend/pkg/restapi/middleware"
-	responder2 "github.com/th0th/unius-analytics/backend/pkg/restapi/responder"
-	"github.com/th0th/unius-analytics/backend/pkg/service/bootstrap"
-	"github.com/th0th/unius-analytics/backend/pkg/service/env"
+	"github.com/th0th/poeticmetric/backend/cmd"
+	"github.com/th0th/poeticmetric/backend/pkg/restapi/docs"
+	bootstrap2 "github.com/th0th/poeticmetric/backend/pkg/restapi/handler/bootstrap"
+	"github.com/th0th/poeticmetric/backend/pkg/restapi/handler/root"
+	"github.com/th0th/poeticmetric/backend/pkg/restapi/middleware"
+	responder2 "github.com/th0th/poeticmetric/backend/pkg/restapi/responder"
+	"github.com/th0th/poeticmetric/backend/pkg/service/bootstrap"
+	"github.com/th0th/poeticmetric/backend/pkg/service/env"
 )
 
-// @title Unius Analytics REST API
+// @title PoeticMetric REST API
 // @version 1.0
-// @description This is a REST API for Unius Analytics.
-// @termsOfService https://unius.sh/analytics/terms-of-service
+// @description This is a REST API for PoeticMetric.
+// @termsOfService https://poeticmetric.com/terms-of-service
 func main() {
 	// services
 	envService, err := env.New()
