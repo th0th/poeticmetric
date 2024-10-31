@@ -1,6 +1,7 @@
 import { Route, Switch } from "wouter";
 import "../../styles/style.css";
 import Bootstrap from "~/components/Bootstrap";
+import Error from "~/components/Error";
 import Header from "~/components/Header";
 import Home from "~/components/Home";
 
@@ -13,7 +14,9 @@ export default function App() {
         <Route component={Bootstrap} path="/bootstrap" />
         <Route component={Home} path="/" />
 
-        <Route>404: No such page!</Route>
+        <Route>
+          <Error />
+        </Route>
       </Switch>
     </>
   );

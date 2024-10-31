@@ -9,9 +9,9 @@
   --color-blue-500-rgb: 30 150 217;
   --color-blue-600-rgb: 17 123 191;
   --color-blue-700-rgb: 15 95 149;
-  --color-blue-800-rgb: 16, 81, 124;
-  --color-blue-900-rgb: 19, 68, 103;
-  --color-blue-950-rgb: 13, 43, 68;
+  --color-blue-800-rgb: 16 81 124;
+  --color-blue-900-rgb: 19 68 103;
+  --color-blue-950-rgb: 13 43 68;
 
   --color-red-50-rgb: 253 243 243;
   --color-red-100-rgb: 252 228 228;
@@ -37,7 +37,7 @@
   --color-foreground: rgb(var(--color-black-rgb));
 
   @media (prefers-color-scheme: dark) {
-    --color-background: rgb(var(--color-black-rgb));
+    --color-background: rgb(var(--color-blue-950-rgb));
     --color-border: rgba(var(--color-white-rgb) / 0.2);
     --color-foreground: rgb(var(--color-white-rgb));
   }

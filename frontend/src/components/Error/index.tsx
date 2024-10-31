@@ -5,7 +5,7 @@ export default function Error() {
     <>
       <Title>An error has occurred</Title>
 
-      <div>An error had occurred.</div>
+      <div className="container">An error had occurred.</div>
     </>
   );
 }
