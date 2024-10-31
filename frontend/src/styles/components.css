@@ -215,12 +215,37 @@
     .nav-link {
         display: block;
         padding: .5rem 1rem;
-        color: #0d6efd;
+        color: rgba(var(--color-black-rgb) / 0.55);
         text-decoration: none;
-        transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
+        transition: color .15s ease-in-out;
+
+        &:disabled {
+            color: rgba(var(--color-black-rgb) / 0.3);
+            cursor: not-allowed;
+        }
+
+        &:hover, &:focus {
+            color: rgba(var(--color-black-rgb) / 0.7);
+        }
 
         &.active {
-            color: var(--color-background);
+            color: rgba(var(--color-black-rgb) / 0.9);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            color: rgba(var(--color-white-rgb) / 0.55);
+
+            &:disabled {
+                color: rgba(var(--color-white-rgb) / 0.25);
+            }
+
+            &:hover, &:focus {
+                color: rgba(var(--color-white-rgb) / 0.75);
+            }
+
+            &.active {
+                color: rgb(var(--color-white-rgb));
+            }
         }
     }
 }
