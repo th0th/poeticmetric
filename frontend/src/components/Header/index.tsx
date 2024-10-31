@@ -1,19 +1,37 @@
-import clsx from "clsx";
 import { Link } from "wouter";
-import Nav from "~/components/Header/Nav";
 import Logo from "~/components/Logo";
-import styles from "./Header.module.css";
+import clsx from "clsx";
+
+const links: Array<{ link: string, name: string }> = [
+  { link: "/", name: "Home" },
+  { link: "/manifesto", name: "Manifesto" },
+  { link: "/pricing", name: "Pricing" },
+  { link: "/docs", name: "Docs" },
+];
 
 export default function Header() {
   return (
-    <header className={styles.header}>
-      <div className={clsx("container", styles.container)}>
-        <Link to="/">
-          <Logo className={styles.logo} />
-        </Link>
+    <header>
+      <nav className="navbar">
+        <div className="container">
+          <Link className="navbar-brand" to="/">
+            <Logo height="36" />
+          </Link>
 
-        <Nav />
-      </div>
+          <ul className="navbar-nav">
+            {links.map(({ link, name }) => (
+              <li className="nav-item" key={name}>
+                <Link
+                  className={(active) => clsx("nav-link", { active })}
+                  to={link}
+                >
+                  {name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </nav>
     </header>
   );
 }
