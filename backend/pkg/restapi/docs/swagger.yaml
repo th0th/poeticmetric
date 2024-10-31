@@ -1,5 +1,14 @@
 definitions:
-  analytics.BootstrapServiceRunParams:
+  poeticmetric.AuthenticationServiceUserAccessToken:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: integer
+      token:
+        type: string
+    type: object
+  poeticmetric.BootstrapServiceRunParams:
     properties:
       createDemoSite:
         type: boolean
@@ -27,6 +36,24 @@ info:
   title: PoeticMetric REST API
   version: "1.0"
 paths:
+  /authentication/user-access-tokens:
+    post:
+      description: create a user access token by authenticating with the e-mail address
+        and password
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/poeticmetric.AuthenticationServiceUserAccessToken'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responder.DetailResponse'
+      security:
+      - BasicAuthentication: []
+      summary: Create user access token
+      tags:
+      - authentication
   /bootstrap:
     get:
       description: check if the bootstrap process is already done
@@ -48,11 +75,14 @@ paths:
         name: params
         required: true
         schema:
-          $ref: '#/definitions/analytics.BootstrapServiceRunParams'
+          $ref: '#/definitions/poeticmetric.BootstrapServiceRunParams'
       responses:
         "201":
           description: Created
       summary: Run bootstrap
       tags:
       - boostrap
+securityDefinitions:
+  BasicAuthentication:
+    type: basic
 swagger: "2.0"

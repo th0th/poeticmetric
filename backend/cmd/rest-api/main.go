@@ -14,10 +14,12 @@ import (
 
 	"github.com/th0th/poeticmetric/backend/cmd"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/docs"
+	authentication2 "github.com/th0th/poeticmetric/backend/pkg/restapi/handler/authentication"
 	bootstrap2 "github.com/th0th/poeticmetric/backend/pkg/restapi/handler/bootstrap"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/handler/root"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/middleware"
 	responder2 "github.com/th0th/poeticmetric/backend/pkg/restapi/responder"
+	"github.com/th0th/poeticmetric/backend/pkg/service/authentication"
 	"github.com/th0th/poeticmetric/backend/pkg/service/bootstrap"
 	"github.com/th0th/poeticmetric/backend/pkg/service/env"
 )
@@ -25,6 +27,7 @@ import (
 // @title PoeticMetric REST API
 // @version 1.0
 // @description This is a REST API for PoeticMetric.
+// @securityDefinitions.basic BasicAuthentication
 // @termsOfService https://poeticmetric.com/terms-of-service
 func main() {
 	// services
@@ -43,6 +46,10 @@ func main() {
 		cmd.LogPanic(err, "failed to init postgres")
 	}
 
+	authenticationService := authentication.New(authentication.NewParams{
+		Postgres: postgres,
+	})
+
 	bootstrapService := bootstrap.New(bootstrap.NewParams{
 		Clickhouse: clickhouse,
 		EnvService: envService,
@@ -56,6 +63,11 @@ func main() {
 	})
 
 	// handlers
+	authenticationHandler := authentication2.New(authentication2.NewParams{
+		AuthenticationService: authenticationService,
+		Responder:             responder,
+	})
+
 	bootstrapHandler := bootstrap2.New(bootstrap2.NewParams{
 		BootstrapService: bootstrapService,
 		Responder:        responder,
@@ -66,6 +78,15 @@ func main() {
 	})
 
 	mux := http.NewServeMux()
+
+	// middleware
+	permissionBasicAuthentication := middleware.PermissionBasicAuthenticated(responder)
+
+	// handlers: authentication
+	mux.Handle(
+		"POST /authentication/user-access-tokens",
+		alice.New(permissionBasicAuthentication).ThenFunc(authenticationHandler.CreateUserAccessToken),
+	)
 
 	// handlers: bootstrap
 	mux.HandleFunc("GET /bootstrap", bootstrapHandler.Check)
@@ -83,7 +104,8 @@ func main() {
 
 	httpServer := http.Server{
 		Handler: alice.New(
-			middleware.BasePath(envService),
+			middleware.BasePathHandler(envService),
+			middleware.AuthenticationHandler(authenticationService, responder),
 			hlog.NewHandler(cmd.Logger),
 			hlog.AccessHandler(func(r *http.Request, status, size int, duration time.Duration) {
 				hlog.FromRequest(r).Info().

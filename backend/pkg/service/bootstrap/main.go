@@ -93,50 +93,50 @@ func (s *service) Run(ctx context.Context, params *poeticmetric.BootstrapService
 	if s.envService.IsHosted() {
 		plans = []*poeticmetric.Plan{
 			{
-				Id:                1,
+				ID:                1,
 				MaxEventsPerMonth: 100000,
 				MaxUsers:          1,
 				Name:              "Basic",
-				StripeProductId:   poeticmetric.Pointer("prod_KXK6a9Zmy3qcLz"),
+				StripeProductID:   poeticmetric.Pointer("prod_KXK6a9Zmy3qcLz"),
 			},
 			{
-				Id:                2,
+				ID:                2,
 				MaxEventsPerMonth: 1000000,
 				MaxUsers:          3,
 				Name:              "Pro",
-				StripeProductId:   poeticmetric.Pointer("prod_KXK7HFnQGBmP6D"),
+				StripeProductID:   poeticmetric.Pointer("prod_KXK7HFnQGBmP6D"),
 			},
 			{
-				Id:                3,
+				ID:                3,
 				MaxEventsPerMonth: 5000000,
 				MaxUsers:          50,
 				Name:              "Business",
-				StripeProductId:   poeticmetric.Pointer("prod_KXK83fu8EQrKfM"),
+				StripeProductID:   poeticmetric.Pointer("prod_KXK83fu8EQrKfM"),
 			},
 		}
 	} else {
 		plans = []*poeticmetric.Plan{
 			{
-				Id:   1,
+				ID:   1,
 				Name: "Default",
 			},
 		}
 	}
 
 	organization := poeticmetric.Organization{
-		Id:     1,
+		ID:     1,
 		Name:   *params.OrganizationName,
-		PlanId: &plans[len(plans)-1].Id,
+		PlanID: &plans[len(plans)-1].ID,
 	}
 
 	user := poeticmetric.User{
 		Email:               *params.UserEmail,
-		Id:                  1,
+		ID:                  1,
 		IsActive:            true,
 		IsEmailVerified:     true,
 		IsOrganizationOwner: true,
 		Name:                *params.UserName,
-		OrganizationId:      organization.Id,
+		OrganizationID:      organization.ID,
 	}
 	err = user.SetPassword(*params.UserPassword)
 	if err != nil {
@@ -146,10 +146,10 @@ func (s *service) Run(ctx context.Context, params *poeticmetric.BootstrapService
 	site := &poeticmetric.Site{
 		Domain:         "demo.yoursite.tld",
 		HasEvents:      true,
-		Id:             1,
+		ID:             1,
 		IsPublic:       false,
 		Name:           "Demo site",
-		OrganizationId: organization.Id,
+		OrganizationID: organization.ID,
 	}
 
 	var sequenceResetQueries []string
@@ -220,11 +220,11 @@ func (s *service) Run(ctx context.Context, params *poeticmetric.BootstrapService
 						//CountryIsoCode: country.GetIsoCodeFromTimeZoneName(timeZone),
 						DateTime: gofakeit.DateRange(now.Add(-31*24*time.Hour), now),
 						Duration: time.Duration(gofakeit.IntRange(1, 1200)) * time.Second,
-						Id:       uuid.NewString(),
+						ID:       uuid.NewString(),
 						Kind:     poeticmetric.EventKindPageView,
 						//Language:       locale.GetLanguage(languageBcp),
 						Locale:   &languageBcp,
-						SiteId:   site.Id,
+						SiteID:   site.ID,
 						TimeZone: &timeZone,
 					}
 
@@ -239,7 +239,7 @@ func (s *service) Run(ctx context.Context, params *poeticmetric.BootstrapService
 
 					event.FillFromUserAgent(gofakeit.RandomString(userAgents))
 
-					event.VisitorId = gofakeit.RandomString(visitorIds)
+					event.VisitorID = gofakeit.RandomString(visitorIds)
 
 					if gofakeit.Bool() && gofakeit.Bool() {
 						event.UtmSource = poeticmetric.Pointer(gofakeit.RandomString(utmSources))

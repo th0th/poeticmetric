@@ -56,7 +56,12 @@ func (r *Responder) Error(w http.ResponseWriter, err error) {
 	}
 
 	Logger.Err(err).Msg("an error has occurred")
-	r.Json(w, map[string]string{"detail": detail})
+	r.Detail(w, detail)
+}
+
+func (r *Responder) Forbidden(w http.ResponseWriter) {
+	w.WriteHeader(http.StatusForbidden)
+	r.Detail(w, "Permission denied.")
 }
 
 func (r *Responder) Json(w http.ResponseWriter, data any) {
@@ -74,7 +79,13 @@ func (r *Responder) Json(w http.ResponseWriter, data any) {
 
 func (r *Responder) NotFound(w http.ResponseWriter) {
 	w.WriteHeader(http.StatusNotFound)
-	r.Json(w, map[string]string{"detail": "Not found."})
+	r.Detail(w, "Not found.")
+}
+
+func (r *Responder) Unauthorized(w http.ResponseWriter) {
+	w.WriteHeader(http.StatusUnauthorized)
+	w.Header().Set("WWW-Authenticate", `Basic realm="Restricted"`)
+	r.Detail(w, "Unauthorized.")
 }
 
 var Logger = zerolog.New(os.Stdout).With().Str("service", "responder").Timestamp().Logger()

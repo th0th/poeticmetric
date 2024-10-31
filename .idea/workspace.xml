@@ -5,9 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b0947ab8-b306-4125-9e8b-34c23b2ba241" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/watcherTasks.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/watcherTasks.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/analytics/authentication_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/analytics/authentication_service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/cmd/rest-api/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/cmd/rest-api/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pkg/poeticmetric/authentication_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/poeticmetric/authentication_service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pkg/poeticmetric/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/poeticmetric/models.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pkg/poeticmetric/rest_api_responder.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/poeticmetric/rest_api_responder.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/docs/docs.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/docs/docs.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/docs/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/docs/swagger.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/docs/swagger.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/docs/swagger.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/middleware/base_path.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/middleware/base_path.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/responder/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/responder/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/pkg/service/authentication/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/service/authentication/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pkg/service/bootstrap/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/service/bootstrap/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/lib/api/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/lib/api/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,21 +49,21 @@
   }
 }</component>
   <component name="KubernetesApiPersistence">{}</component>
-  <component name="KubernetesApiProvider"><![CDATA[{
-  "configuredContexts": [
+  <component name="KubernetesApiProvider">{
+  &quot;configuredContexts&quot;: [
     {
-      "name": "webgazer",
-      "kubeConfigUrl": "file:///Users/th0th/.kube/config",
-      "originalNamespace": "n8n",
-      "currentNamespace": "n8n"
+      &quot;name&quot;: &quot;webgazer&quot;,
+      &quot;kubeConfigUrl&quot;: &quot;file:///Users/th0th/.kube/config&quot;,
+      &quot;originalNamespace&quot;: &quot;n8n&quot;,
+      &quot;currentNamespace&quot;: &quot;n8n&quot;
     },
     {
-      "name": "docker-desktop",
-      "kubeConfigUrl": "file:///Users/th0th/.kube/config"
+      &quot;name&quot;: &quot;docker-desktop&quot;,
+      &quot;kubeConfigUrl&quot;: &quot;file:///Users/th0th/.kube/config&quot;
     }
   ],
-  "isMigrated": true
-}]]></component>
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="KubernetesSettings">
     <option name="contextName" value="docker-desktop" />
   </component>
@@ -73,7 +84,7 @@
     "RunOnceActivity.go.migrated.go.modules.settings": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "deno.use.library": "true",
-    "git-widget-placeholder": "reloaded",
+    "git-widget-placeholder": "authentication",
     "go.import.settings.migrated": "true",
     "go.sdk.automatically.set": "true",
     "javascript.nodejs.core.library.configured.version": "22.9.0",
@@ -91,7 +102,7 @@
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.sourceCode",
+    "settings.editor.selected.configurable": "watcher.settings",
     "ts.external.directory.path": "/Users/th0th/Workspace/poeticmetric/frontend/node_modules/typescript/lib"
   },
   "keyToStringList": {

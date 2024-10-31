@@ -16,6 +16,34 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/authentication/user-access-tokens": {
+            "post": {
+                "security": [
+                    {
+                        "BasicAuthentication": []
+                    }
+                ],
+                "description": "create a user access token by authenticating with the e-mail address and password",
+                "tags": [
+                    "authentication"
+                ],
+                "summary": "Create user access token",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/poeticmetric.AuthenticationServiceUserAccessToken"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responder.DetailResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/bootstrap": {
             "get": {
                 "description": "check if the bootstrap process is already done",
@@ -48,7 +76,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/analytics.BootstrapServiceRunParams"
+                            "$ref": "#/definitions/poeticmetric.BootstrapServiceRunParams"
                         }
                     }
                 ],
@@ -61,7 +89,21 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "analytics.BootstrapServiceRunParams": {
+        "poeticmetric.AuthenticationServiceUserAccessToken": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "token": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.BootstrapServiceRunParams": {
             "type": "object",
             "properties": {
                 "createDemoSite": {
@@ -92,6 +134,11 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "BasicAuthentication": {
+            "type": "basic"
         }
     }
 }`
