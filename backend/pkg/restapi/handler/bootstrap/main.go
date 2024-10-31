@@ -45,6 +45,8 @@ func (h *Handler) Check(w http.ResponseWriter, r *http.Request) {
 		h.responder.Error(w, err)
 		return
 	}
+
+	h.responder.Detail(w, "Ready to go.")
 }
 
 // Run godoc

@@ -1,0 +1,31 @@
+*, *::before, *::after {
+  border: none;
+  box-sizing: border-box;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 400;
+  line-height: inherit;
+  margin: 0;
+  padding: 0;
+
+  &:focus-visible {
+    outline: 2px solid rgb(var(--color-blue-600-rgb));
+  }
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  display: flex;
+  flex-direction: column;
+  font-family: Inter, sans-serif;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+div#root {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+}

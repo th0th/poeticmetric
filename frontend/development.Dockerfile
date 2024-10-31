@@ -18,7 +18,6 @@ COPY src src
 COPY index.html .
 COPY postcss.config.js .
 COPY server.js .
-COPY tailwind.config.ts .
 COPY tsconfig.json .
 COPY tsconfig.node.json .
 COPY vite.config.ts .

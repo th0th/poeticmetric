@@ -1,10 +1,10 @@
 import { Route, Switch } from "wouter";
-import "../../styles/index.css";
+import "../../styles/style.css";
 import Bootstrap from "~/components/Bootstrap";
 import Header from "~/components/Header";
 import Home from "~/components/Home";
 
-export default function Index() {
+export default function App() {
   return (
     <>
       <Header />

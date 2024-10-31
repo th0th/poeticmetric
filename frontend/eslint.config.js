@@ -1,7 +1,6 @@
 import pluginImport from "eslint-plugin-import";
 import jsxA11y from "eslint-plugin-jsx-a11y";
 import pluginReact from "eslint-plugin-react";
-import pluginTailwindcss from "eslint-plugin-tailwindcss";
 import pluginSortDestructureKeys from "eslint-plugin-sort-destructure-keys";
 import pluginTypescriptSortKeys from "eslint-plugin-typescript-sort-keys";
 import globals from "globals";
@@ -22,7 +21,6 @@ export default [
       eqeqeq: ["error"],
       "max-len": ["error", { code: 140, ignoreStrings: true }],
       "no-console": "error",
-      "no-undef": "error",
       "no-useless-return": ["error"],
       "object-curly-newline": ["error", { consistent: true }],
       "object-curly-spacing": ["error", "always"],
@@ -89,19 +87,6 @@ export default [
       "react/no-array-index-key": ["error"],
       "react/react-in-jsx-scope": "off",
     },
-  },
-
-  {
-    plugins: {
-      tailwindcss: pluginTailwindcss,
-    },
-    rules: {
-      "tailwindcss/classnames-order": "error",
-      "tailwindcss/enforces-shorthand": "error",
-      "tailwindcss/no-contradicting-classname": "error",
-      "tailwindcss/no-custom-classname": "error",
-      "tailwindcss/no-unnecessary-arbitrary-value": "error",
-    }
   },
 
   // typescript
