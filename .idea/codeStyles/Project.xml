@@ -1,0 +1,204 @@
+<component name="ProjectCodeStyleConfiguration">
+  <code_scheme name="Project" version="173">
+    <option name="OTHER_INDENT_OPTIONS">
+      <value>
+        <option name="INDENT_SIZE" value="2" />
+        <option name="TAB_SIZE" value="2" />
+      </value>
+    </option>
+    <option name="LINE_SEPARATOR" value="&#10;" />
+    <option name="RIGHT_MARGIN" value="140" />
+    <CssCodeStyleSettings>
+      <option name="ENFORCE_QUOTES_ON_FORMAT" value="true" />
+    </CssCodeStyleSettings>
+    <GoCodeStyleSettings>
+      <option name="ADD_PARENTHESES_FOR_SINGLE_IMPORT" value="true" />
+      <option name="REMOVE_REDUNDANT_IMPORT_ALIASES" value="true" />
+      <option name="MOVE_ALL_IMPORTS_IN_ONE_DECLARATION" value="true" />
+      <option name="MOVE_ALL_STDLIB_IMPORTS_IN_ONE_GROUP" value="true" />
+      <option name="GROUP_STDLIB_IMPORTS" value="true" />
+      <option name="CREATE_LOCAL_GROUP" value="true" />
+      <option name="LOCAL_PACKAGE_PREFIXES" />
+    </GoCodeStyleSettings>
+    <HTMLCodeStyleSettings>
+      <option name="HTML_ATTRIBUTE_WRAP" value="4" />
+      <option name="HTML_SPACE_INSIDE_EMPTY_TAG" value="true" />
+      <option name="HTML_ELEMENTS_TO_INSERT_NEW_LINE_BEFORE" value="" />
+      <option name="HTML_ELEMENTS_TO_REMOVE_NEW_LINE_BEFORE" value="" />
+      <option name="HTML_DO_NOT_INDENT_CHILDREN_OF" value="" />
+      <option name="HTML_ENFORCE_QUOTES" value="true" />
+      <option name="HTML_NEWLINE_BEFORE_FIRST_ATTRIBUTE" value="When multiline" />
+      <option name="HTML_NEWLINE_AFTER_LAST_ATTRIBUTE" value="When multiline" />
+    </HTMLCodeStyleSettings>
+    <JSCodeStyleSettings version="0">
+      <option name="FORCE_SEMICOLON_STYLE" value="true" />
+      <option name="FORCE_QUOTE_STYlE" value="true" />
+      <option name="ENFORCE_TRAILING_COMMA" value="WhenMultiline" />
+      <option name="JSX_ATTRIBUTE_VALUE" value="Based on type" />
+      <option name="SPACES_WITHIN_OBJECT_LITERAL_BRACES" value="true" />
+      <option name="SPACES_WITHIN_IMPORTS" value="true" />
+      <option name="IMPORT_SORT_MODULE_NAME" value="true" />
+    </JSCodeStyleSettings>
+    <JSON>
+      <option name="OBJECT_WRAPPING" value="5" />
+      <option name="ARRAY_WRAPPING" value="5" />
+    </JSON>
+    <Markdown>
+      <option name="WRAP_TEXT_IF_LONG" value="false" />
+      <option name="WRAP_TEXT_INSIDE_BLOCKQUOTES" value="false" />
+      <option name="INSERT_QUOTE_ARROWS_ON_WRAP" value="false" />
+      <option name="FORMAT_TABLES" value="false" />
+    </Markdown>
+    <ScssCodeStyleSettings>
+      <option name="ENFORCE_QUOTES_ON_FORMAT" value="true" />
+    </ScssCodeStyleSettings>
+    <SqlCodeStyleSettings version="7">
+      <option name="KEYWORD_CASE" value="2" />
+      <option name="TYPE_CASE" value="1" />
+      <option name="CUSTOM_TYPE_CASE" value="1" />
+      <option name="ALIAS_CASE" value="1" />
+      <option name="BUILT_IN_CASE" value="1" />
+      <option name="ORIGINAL_CASE" value="true" />
+      <option name="QUOTE_TYPE" value="11" />
+      <option name="QUERY_EL_LINE" value="101" />
+      <option name="QUERY_EL_COMMA" value="2" />
+      <option name="QUERY_IN_ONE_STRING" value="1" />
+      <option name="QUERY_TRUE_INDENT" value="false" />
+      <option name="QUERY_ALIGN_ELEMENTS" value="false" />
+      <option name="QUERY_ALIGN_LINE_COMMENTS" value="false" />
+      <option name="SUBQUERY_OPENING" value="1" />
+      <option name="SUBQUERY_CONTENT" value="2" />
+      <option name="SUBQUERY_CLOSING" value="2" />
+      <option name="INSERT_INTO_NL" value="2" />
+      <option name="INSERT_CONTENT" value="2" />
+      <option name="INSERT_CLOSING" value="3" />
+      <option name="INSERT_TABLE_EL_LINE" value="1" />
+      <option name="INSERT_VALUES_EL_LINE" value="1" />
+      <option name="INSERT_EL_WRAP" value="1" />
+      <option name="INSERT_EL_COMMA" value="2" />
+      <option name="SET_ALIGN_EQUAL_SIGN" value="false" />
+      <option name="WITH_EL_LINE" value="0" />
+      <option name="WITH_EL_WRAP" value="0" />
+      <option name="WITH_ALIGN_AS" value="true" />
+      <option name="SELECT_EL_LINE" value="101" />
+      <option name="SELECT_EL_COMMA" value="2" />
+      <option name="SELECT_KEEP_N_ITEMS_IN_LINE" value="0" />
+      <option name="SELECT_ALIGN_AS" value="false" />
+      <option name="SELECT_ASTERISK_REGULAR" value="true" />
+      <option name="FROM_EL_LINE" value="1" />
+      <option name="FROM_EL_COMMA" value="2" />
+      <option name="FROM_INDENT_JOIN" value="false" />
+      <option name="FROM_ONLY_JOIN_INDENT" value="2" />
+      <option name="WHERE_EL_LINE" value="101" />
+      <option name="ORDER_EL_LINE" value="1" />
+      <option name="ORDER_EL_WRAP" value="0" />
+      <option name="TABLE_OPENING" value="1" />
+      <option name="TABLE_CONTENT" value="2" />
+      <option name="TABLE_CLOSING" value="2" />
+      <option name="TABLE_TYPES_ALIGN" value="false" />
+      <option name="TABLE_DEFAULTS_ALIGN" value="false" />
+      <option name="TABLE_NULLABILITIES_ALIGN" value="false" />
+      <option name="ROUTINE_ARG_WRAP" value="1" />
+      <option name="ROUTINE_ARG_COMMA" value="2" />
+      <option name="ROUTINE_ARG_ALIGN_TYPES" value="true" />
+      <option name="IMP_DECLARE_EL_WRAP" value="1" />
+      <option name="IMP_DECLARE_ALIGN_DEFAULT" value="true" />
+      <option name="IMP_IF_THEN_COLLAPSE" value="false" />
+      <option name="EXPR_CASE_END" value="1" />
+      <option name="EXPR_CASE_COLLAPSE" value="false" />
+    </SqlCodeStyleSettings>
+    <TypeScriptCodeStyleSettings version="0">
+      <option name="FORCE_SEMICOLON_STYLE" value="true" />
+      <option name="SPACE_BEFORE_FUNCTION_LEFT_PARENTH" value="false" />
+      <option name="REFORMAT_C_STYLE_COMMENTS" value="true" />
+      <option name="FORCE_QUOTE_STYlE" value="true" />
+      <option name="ENFORCE_TRAILING_COMMA" value="WhenMultiline" />
+      <option name="SPACES_WITHIN_OBJECT_LITERAL_BRACES" value="true" />
+      <option name="SPACES_WITHIN_IMPORTS" value="true" />
+      <option name="IMPORT_SORT_MODULE_NAME" value="true" />
+      <option name="BLACKLIST_IMPORTS" value="rxjs/Rx,node_modules/**,**/node_modules/**,@angular/material,@angular/material/typings/**,**/@types/**" />
+    </TypeScriptCodeStyleSettings>
+    <XML>
+      <option name="XML_ATTRIBUTE_WRAP" value="4" />
+      <option name="XML_KEEP_LINE_BREAKS_IN_TEXT" value="false" />
+      <option name="XML_SPACE_INSIDE_EMPTY_TAG" value="true" />
+    </XML>
+    <editorconfig>
+      <option name="ENABLED" value="false" />
+    </editorconfig>
+    <yaml>
+      <option name="INDENT_SEQUENCE_VALUE" value="false" />
+    </yaml>
+    <codeStyleSettings language="CSS">
+      <indentOptions>
+        <option name="INDENT_SIZE" value="2" />
+        <option name="CONTINUATION_INDENT_SIZE" value="4" />
+        <option name="TAB_SIZE" value="2" />
+      </indentOptions>
+    </codeStyleSettings>
+    <codeStyleSettings language="HTML">
+      <indentOptions>
+        <option name="INDENT_SIZE" value="2" />
+        <option name="CONTINUATION_INDENT_SIZE" value="4" />
+        <option name="TAB_SIZE" value="2" />
+      </indentOptions>
+    </codeStyleSettings>
+    <codeStyleSettings language="JavaScript">
+      <indentOptions>
+        <option name="INDENT_SIZE" value="2" />
+        <option name="CONTINUATION_INDENT_SIZE" value="2" />
+        <option name="TAB_SIZE" value="2" />
+      </indentOptions>
+    </codeStyleSettings>
+    <codeStyleSettings language="Markdown">
+      <option name="RIGHT_MARGIN" value="999" />
+      <indentOptions>
+        <option name="INDENT_SIZE" value="2" />
+        <option name="CONTINUATION_INDENT_SIZE" value="4" />
+        <option name="TAB_SIZE" value="2" />
+      </indentOptions>
+    </codeStyleSettings>
+    <codeStyleSettings language="SCSS">
+      <indentOptions>
+        <option name="CONTINUATION_INDENT_SIZE" value="2" />
+        <option name="TAB_SIZE" value="2" />
+      </indentOptions>
+      <arrangement>
+        <rules>
+          <section>
+            <rule>
+              <match>
+                <NAME>.*</NAME>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+        </rules>
+      </arrangement>
+    </codeStyleSettings>
+    <codeStyleSettings language="SQL">
+      <indentOptions>
+        <option name="INDENT_SIZE" value="2" />
+        <option name="CONTINUATION_INDENT_SIZE" value="4" />
+        <option name="TAB_SIZE" value="2" />
+      </indentOptions>
+    </codeStyleSettings>
+    <codeStyleSettings language="TypeScript">
+      <option name="RIGHT_MARGIN" value="140" />
+      <option name="SPACE_BEFORE_SWITCH_PARENTHESES" value="false" />
+      <option name="KEEP_SIMPLE_METHODS_IN_ONE_LINE" value="true" />
+      <indentOptions>
+        <option name="INDENT_SIZE" value="2" />
+        <option name="CONTINUATION_INDENT_SIZE" value="2" />
+        <option name="TAB_SIZE" value="2" />
+      </indentOptions>
+    </codeStyleSettings>
+    <codeStyleSettings language="XML">
+      <indentOptions>
+        <option name="INDENT_SIZE" value="2" />
+        <option name="CONTINUATION_INDENT_SIZE" value="4" />
+        <option name="TAB_SIZE" value="2" />
+      </indentOptions>
+    </codeStyleSettings>
+  </code_scheme>
+</component>
