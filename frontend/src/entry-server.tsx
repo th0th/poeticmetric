@@ -12,7 +12,7 @@ export function render(url: string) {
     <StrictMode>
       <HelmetProvider context={helmetContext}>
         <AppErrorBoundary>
-          <Router base={import.meta.env.VITE_BASE_PATH} ssrPath={url}>
+          <Router ssrPath={url}>
             <App />
           </Router>
         </AppErrorBoundary>

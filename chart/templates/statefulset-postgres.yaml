@@ -2,20 +2,20 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   labels:
-    {{- include "uniusAnalytics.labels" . | nindent 4 }}
-  name: {{ include "uniusAnalytics.fullname" . }}-postgres
+    {{- include "poeticmetric.labels" . | nindent 4 }}
+  name: {{ include "poeticmetric.fullname" . }}-postgres
 spec:
   replicas: 1
   selector:
     matchLabels:
       statefulSet: postgres
-      {{- include "uniusAnalytics.selectorLabels" . | nindent 6 }}
+      {{- include "poeticmetric.selectorLabels" . | nindent 6 }}
   serviceName: postgres-hl
   template:
     metadata:
       labels:
         statefulSet: postgres
-        {{- include "uniusAnalytics.selectorLabels" . | nindent 8 }}
+        {{- include "poeticmetric.selectorLabels" . | nindent 8 }}
       name: postgres
     spec:
       containers:
@@ -24,19 +24,19 @@ spec:
           valueFrom:
             configMapKeyRef:
               key: DATABASE
-              name: {{ include "uniusAnalytics.fullname" . }}-postgres
+              name: {{ include "poeticmetric.fullname" . }}-postgres
               optional: false
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
               key: PASSWORD
-              name: {{ include "uniusAnalytics.fullname" . }}-postgres
+              name: {{ include "poeticmetric.fullname" . }}-postgres
               optional: false
         - name: POSTGRES_USER
           valueFrom:
             secretKeyRef:
               key: USER
-              name: {{ include "uniusAnalytics.fullname" . }}-postgres
+              name: {{ include "poeticmetric.fullname" . }}-postgres
               optional: false
         image: {{ .Values.postgres.image.repository }}:{{ .Values.postgres.image.tag }}
         imagePullPolicy: {{ .Values.postgres.image.pullPolicy }}

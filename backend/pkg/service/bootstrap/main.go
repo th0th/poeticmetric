@@ -13,7 +13,7 @@ import (
 	"github.com/th0th/validatingextra"
 	"gorm.io/gorm"
 
-	"github.com/th0th/unius-analytics/backend/pkg/analytics"
+	"github.com/th0th/poeticmetric/backend/pkg/analytics"
 )
 
 const (

@@ -67,7 +67,7 @@ export default function Bootstrap() {
 
   return (
     <>
-      <Title>Complete Unius Analytics installation</Title>
+      <Title>Complete PoeticMetric installation</Title>
 
       {state.isInProgress ? (
         <div className="spinner-full">
@@ -76,9 +76,9 @@ export default function Bootstrap() {
       ) : (
         <div className="container">
           <div>
-            <h1>Welcome to Unius Analytics!</h1>
+            <h1>Welcome to PoeticMetric!</h1>
 
-            <div>Complete Unius Analytics installation to continue.</div>
+            <div>Complete PoeticMetric installation to continue.</div>
           </div>
 
           <div className={clsx("card", styles.card)}>

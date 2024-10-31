@@ -24,13 +24,12 @@ postgres:
     enabled: true
     size: 10Gi
   resources: {}
-uniusAnalytics:
+poeticmetric:
   backend:
     image:
       pullPolicy: IfNotPresent
-      repository: ghcr.io/th0th/unius-analytics/backend
+      repository: ghcr.io/th0th/poeticmetric/backend
       tag: latest
-  basePath: /analytics
   development:
     databaseDebug: false
     debug: false
@@ -39,13 +38,13 @@ uniusAnalytics:
   frontend:
     image:
       pullPolicy: IfNotPresent
-      repository: ghcr.io/th0th/unius-analytics/frontend
+      repository: ghcr.io/th0th/poeticmetric/frontend
       tag: latest
     ingress:
       annotations: {}
     replicas: 1
     resources: {}
-  host: unius.sh
+  host: poeticmetric.com
   restApi:
     ingress:
       annotations: {}

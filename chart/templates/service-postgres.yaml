@@ -2,13 +2,13 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    {{- include "uniusAnalytics.labels" . | nindent 4 }}
-  name: {{ include "uniusAnalytics.fullname" . }}-postgres
+    {{- include "poeticmetric.labels" . | nindent 4 }}
+  name: {{ include "poeticmetric.fullname" . }}-postgres
 spec:
   type: ClusterIP
   selector:
     statefulSet: postgres
-    {{- include "uniusAnalytics.selectorLabels" . | nindent 4 }}
+    {{- include "poeticmetric.selectorLabels" . | nindent 4 }}
   ports:
   - name: postgres
     port: 5432

@@ -9,8 +9,8 @@ export type TitleProps = {
 export default function Title({ children, template = "default" }: TitleProps) {
   const title = useMemo(() => {
     return ({
-      default: `${children} | Unius Analytics`,
-      docs: `${children} | Unius Analytics docs`,
+      default: `${children} | PoeticMetric`,
+      docs: `${children} | PoeticMetric docs`,
       statusPage: `${children}`,
     })[template];
   }, [children, template]);

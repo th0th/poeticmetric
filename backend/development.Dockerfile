@@ -2,7 +2,7 @@ FROM golang:1.23.2
 
 RUN apt update && apt install -y postgresql-client
 
-WORKDIR /unius-analytics
+WORKDIR /poeticmetric
 
 RUN go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@v4.17.1
 RUN go install github.com/cespare/reflex@latest

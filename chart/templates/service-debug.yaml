@@ -1,10 +1,10 @@
-{{ if .Values.uniusAnalytics.development.enabled }}
+{{ if .Values.poeticmetric.development.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
   labels:
-    {{ include "uniusAnalytics.labels" . | nindent 4 }}
-  name: {{ include "uniusAnalytics.fullname" . }}-rest-api-debug
+    {{ include "poeticmetric.labels" . | nindent 4 }}
+  name: {{ include "poeticmetric.fullname" . }}-rest-api-debug
 spec:
   ports:
   - name: delve
@@ -14,15 +14,15 @@ spec:
     targetPort: 2345
   selector:
     deployment: rest-api
-    {{ include "uniusAnalytics.selectorLabels" . | nindent 4 }}
+    {{ include "poeticmetric.selectorLabels" . | nindent 4 }}
   type: NodePort
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
-    {{ include "uniusAnalytics.labels" . | nindent 4 }}
-  name: {{ include "uniusAnalytics.fullname" . }}-worker-debug
+    {{ include "poeticmetric.labels" . | nindent 4 }}
+  name: {{ include "poeticmetric.fullname" . }}-worker-debug
 spec:
   ports:
   - name: delve
@@ -32,6 +32,6 @@ spec:
     targetPort: 2345
   selector:
     deployment: worker
-    {{ include "uniusAnalytics.selectorLabels" . | nindent 4 }}
+    {{ include "poeticmetric.selectorLabels" . | nindent 4 }}
   type: NodePort
 {{ end }}

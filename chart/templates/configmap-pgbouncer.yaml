@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   labels:
-    {{- include "uniusAnalytics.labels" . | nindent 4 }}
-  name: {{ include "uniusAnalytics.fullname" . }}-pgbouncer
+    {{- include "poeticmetric.labels" . | nindent 4 }}
+  name: {{ include "poeticmetric.fullname" . }}-pgbouncer
 data:
   {{- toYaml .Values.pgbouncer.config | nindent 2 }}

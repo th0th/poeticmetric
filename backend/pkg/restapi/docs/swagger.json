@@ -1,9 +1,9 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is a REST API for Unius Analytics.",
-        "title": "Unius Analytics REST API",
-        "termsOfService": "https://unius.sh/analytics/terms-of-service",
+        "description": "This is a REST API for PoeticMetric.",
+        "title": "PoeticMetric REST API",
+        "termsOfService": "https://poeticmetric.com/terms-of-service",
         "contact": {},
         "version": "1.0"
     },

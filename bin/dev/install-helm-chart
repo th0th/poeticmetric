@@ -9,11 +9,11 @@ HOSTNAME=$(hostname)
 
 HOST_BASE_PATH="${BASE_DIR}"
 
-helm upgrade unius-analytics chart \
+helm upgrade poeticmetric chart \
   --create-namespace \
   --install \
   --kube-context docker-desktop \
-  --namespace unius-analytics-development \
-  --set "uniusAnalytics.development.hostBasePath=${HOST_BASE_PATH}" \
-  --set "uniusAnalytics.stripe.metaEnvironment=${USER}@${HOSTNAME}" \
+  --namespace poeticmetric-development \
+  --set "poeticmetric.development.hostBasePath=${HOST_BASE_PATH}" \
+  --set "poeticmetric.stripe.metaEnvironment=${USER}@${HOSTNAME}" \
   --values "${BASE_DIR}/etc/development/values.yaml"

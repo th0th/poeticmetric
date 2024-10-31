@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "uniusAnalytics.fullname" . }}-clickhouse
+  name: {{ include "poeticmetric.fullname" . }}-clickhouse
   labels:
-    {{- include "uniusAnalytics.labels" . | nindent 4 }}
+    {{- include "poeticmetric.labels" . | nindent 4 }}
 spec:
   type: ClusterIP
   selector:
     statefulSet: clickhouse
-    {{- include "uniusAnalytics.selectorLabels" . | nindent 4 }}
+    {{- include "poeticmetric.selectorLabels" . | nindent 4 }}
   ports:
   - name: clickhouse-tcp
     port: 9000

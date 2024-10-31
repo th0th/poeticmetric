@@ -3,7 +3,7 @@ package middleware
 import (
 	"net/http"
 
-	"github.com/th0th/unius-analytics/backend/pkg/analytics"
+	"github.com/th0th/poeticmetric/backend/pkg/analytics"
 )
 
 func BasePath(envService analytics.EnvService) func(handler http.Handler) http.Handler {

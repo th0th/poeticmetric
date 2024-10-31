@@ -5,13 +5,13 @@ metadata:
     helm.sh/hook: post-install,post-upgrade
     helm.sh/hook-weight: "1"
   labels:
-    {{ include "uniusAnalytics.labels" . | nindent 4 }}
-  name: {{ include "uniusAnalytics.fullname" . }}-migrator
+    {{ include "poeticmetric.labels" . | nindent 4 }}
+  name: {{ include "poeticmetric.fullname" . }}-migrator
 spec:
   template:
     metadata:
       labels:
-        {{- include "uniusAnalytics.selectorLabels" . | nindent 8 }}
+        {{- include "poeticmetric.selectorLabels" . | nindent 8 }}
       name: migrator
     spec:
       containers:
@@ -20,63 +20,63 @@ spec:
           value: migrator
         envFrom:
         - configMapRef:
-            name: {{ include "uniusAnalytics.fullname" . }}-clickhouse
+            name: {{ include "poeticmetric.fullname" . }}-clickhouse
             optional: false
           prefix: CLICKHOUSE_
         - prefix: CLICKHOUSE_
           secretRef:
-            name: {{ include "uniusAnalytics.fullname" . }}-clickhouse
+            name: {{ include "poeticmetric.fullname" . }}-clickhouse
             optional: false
         - configMapRef:
-            name: {{ include "uniusAnalytics.fullname" . }}-postgres
+            name: {{ include "poeticmetric.fullname" . }}-postgres
             optional: false
           prefix: POSTGRES_
         - prefix: POSTGRES_
           secretRef:
-            name: {{ include "uniusAnalytics.fullname" . }}-postgres
+            name: {{ include "poeticmetric.fullname" . }}-postgres
             optional: false
         - configMapRef:
-            name: {{ include "uniusAnalytics.fullname" . }}-rabbitmq
+            name: {{ include "poeticmetric.fullname" . }}-rabbitmq
             optional: false
           prefix: RABBITMQ_
         - prefix: RABBITMQ_
           secretRef:
-            name: {{ include "uniusAnalytics.fullname" . }}-rabbitmq
+            name: {{ include "poeticmetric.fullname" . }}-rabbitmq
             optional: false
         - configMapRef:
-            name: {{ include "uniusAnalytics.fullname" . }}-unius-analytics
+            name: {{ include "poeticmetric.fullname" . }}-poeticmetric
             optional: false
-        image: {{ printf "%s:%s" .Values.uniusAnalytics.backend.image.repository .Values.uniusAnalytics.backend.image.tag }}
-        imagePullPolicy: {{ .Values.uniusAnalytics.backend.image.pullPolicy }}
+        image: {{ printf "%s:%s" .Values.poeticmetric.backend.image.repository .Values.poeticmetric.backend.image.tag }}
+        imagePullPolicy: {{ .Values.poeticmetric.backend.image.pullPolicy }}
         name: migrator
         volumeMounts:
-          {{ if .Values.uniusAnalytics.development.hostBasePath }}
-        - mountPath: /unius-analytics/cmd
+          {{ if .Values.poeticmetric.development.hostBasePath }}
+        - mountPath: /poeticmetric/cmd
           name: cmd
-        - mountPath: /unius-analytics/pkg
+        - mountPath: /poeticmetric/pkg
           name: pkg
-        - mountPath: /unius-analytics/go.mod
+        - mountPath: /poeticmetric/go.mod
           name: go-mod
-        - mountPath: /unius-analytics/go.sum
+        - mountPath: /poeticmetric/go.sum
           name: go-sum
           {{ end }}
       restartPolicy: Never
-      {{ if not .Values.uniusAnalytics.development.enabled }}
+      {{ if not .Values.poeticmetric.development.enabled }}
       imagePullSecrets:
-      - name: {{ include "uniusAnalytics.fullname" . }}-ghcr-io
+      - name: {{ include "poeticmetric.fullname" . }}-ghcr-io
       {{ end }}
       volumes:
-      {{ if .Values.uniusAnalytics.development.hostBasePath }}
+      {{ if .Values.poeticmetric.development.hostBasePath }}
       - hostPath:
-          path: {{ .Values.uniusAnalytics.development.hostBasePath }}/backend/cmd
+          path: {{ .Values.poeticmetric.development.hostBasePath }}/backend/cmd
         name: cmd
       - hostPath:
-          path: {{ .Values.uniusAnalytics.development.hostBasePath }}/backend/pkg
+          path: {{ .Values.poeticmetric.development.hostBasePath }}/backend/pkg
         name: pkg
       - hostPath:
-          path: {{ .Values.uniusAnalytics.development.hostBasePath }}/backend/go.mod
+          path: {{ .Values.poeticmetric.development.hostBasePath }}/backend/go.mod
         name: go-mod
       - hostPath:
-          path: {{ .Values.uniusAnalytics.development.hostBasePath }}/backend/go.sum
+          path: {{ .Values.poeticmetric.development.hostBasePath }}/backend/go.sum
         name: go-sum
       {{ end }}

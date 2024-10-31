@@ -12,7 +12,7 @@ import (
 	"github.com/golang-migrate/migrate/v4/source/iofs"
 	"gorm.io/gorm"
 
-	"github.com/th0th/unius-analytics/backend/pkg/analytics"
+	"github.com/th0th/poeticmetric/backend/pkg/analytics"
 )
 
 type NewParams struct {

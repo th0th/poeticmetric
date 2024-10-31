@@ -9,7 +9,7 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "termsOfService": "https://unius.sh/analytics/terms-of-service",
+        "termsOfService": "https://poeticmetric.com/terms-of-service",
         "contact": {},
         "version": "{{.Version}}"
     },
@@ -102,8 +102,8 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "",
 	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "Unius Analytics REST API",
-	Description:      "This is a REST API for Unius Analytics.",
+	Title:            "PoeticMetric REST API",
+	Description:      "This is a REST API for PoeticMetric.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

@@ -3,6 +3,6 @@ set -eo pipefail
 
 kubectl \
   --context docker-desktop \
-  --namespace unius-analytics-development \
+  --namespace poeticmetric-development \
   rollout restart deployments \
   --selector='restart-on-deploy=true'

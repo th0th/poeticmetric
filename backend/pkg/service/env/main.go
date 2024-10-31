@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 
-	"github.com/th0th/unius-analytics/backend/pkg/analytics"
+	"github.com/th0th/poeticmetric/backend/pkg/analytics"
 )
 
 type service struct {
@@ -81,7 +81,7 @@ func (s *service) PostgresDsn() string {
 }
 
 func (s *service) RestApiBasePath() string {
-	return fmt.Sprintf("%s/api", s.vars.BasePath)
+	return "/api"
 }
 
 func (s *service) Debug() bool {

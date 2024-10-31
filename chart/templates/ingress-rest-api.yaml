@@ -2,25 +2,25 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    {{ if .Values.uniusAnalytics.restApi.ingress.annotations }}
-    {{ toYaml .Values.uniusAnalytics.restApi.ingress.annotations | nindent 4 }}
+    {{ if .Values.poeticmetric.restApi.ingress.annotations }}
+    {{ toYaml .Values.poeticmetric.restApi.ingress.annotations | nindent 4 }}
     {{ end }}
-  name: {{ include "uniusAnalytics.fullname" . }}-rest-api
+  name: {{ include "poeticmetric.fullname" . }}-rest-api
   labels:
-    {{ include "uniusAnalytics.labels" . | nindent 4 }}
+    {{ include "poeticmetric.labels" . | nindent 4 }}
 spec:
   rules:
-  - host: {{ .Values.uniusAnalytics.host }}
+  - host: {{ .Values.poeticmetric.host }}
     http:
       paths:
       - backend:
           service:
-            name: {{ include "uniusAnalytics.fullname" . }}-rest-api
+            name: {{ include "poeticmetric.fullname" . }}-rest-api
             port:
               number: 80
-        path: {{ .Values.uniusAnalytics.basePath }}/api/
+        path: /api/
         pathType: Prefix
   tls:
   - hosts:
-    - {{ .Values.uniusAnalytics.host }}
-    secretName: {{ include "uniusAnalytics.fullname" . }}-rest-api-tls
+    - {{ .Values.poeticmetric.host }}
+    secretName: {{ include "poeticmetric.fullname" . }}-rest-api-tls

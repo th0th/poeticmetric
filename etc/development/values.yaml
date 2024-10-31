@@ -1,4 +1,4 @@
-uniusAnalytics:
+poeticmetric:
   backend:
     image:
       pullPolicy: Never
@@ -13,7 +13,7 @@ uniusAnalytics:
     ingress:
       annotations:
         cert-manager.io/cluster-issuer: self-signed
-  host: dev.unius.sh
+  host: dev.poeticmetric.com
   restApi:
     ingress:
       annotations:

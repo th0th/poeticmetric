@@ -5,9 +5,9 @@ import (
 	postgres2 "gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
-	"github.com/th0th/unius-analytics/backend/cmd"
-	"github.com/th0th/unius-analytics/backend/pkg/service/env"
-	"github.com/th0th/unius-analytics/backend/pkg/service/migration"
+	"github.com/th0th/poeticmetric/backend/cmd"
+	"github.com/th0th/poeticmetric/backend/pkg/service/env"
+	"github.com/th0th/poeticmetric/backend/pkg/service/migration"
 )
 
 func main() {

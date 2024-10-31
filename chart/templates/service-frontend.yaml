@@ -2,21 +2,21 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    {{ include "uniusAnalytics.labels" . | nindent 4 }}
-  name: {{ include "uniusAnalytics.fullname" . }}-frontend
+    {{ include "poeticmetric.labels" . | nindent 4 }}
+  name: {{ include "poeticmetric.fullname" . }}-frontend
 spec:
   ports:
   - name: http
     port: 80
     protocol: TCP
     targetPort: 80
-  {{ if .Values.uniusAnalytics.development.enabled }}
+  {{ if .Values.poeticmetric.development.enabled }}
   - name: hmr
     port: 24678
     protocol: TCP
     targetPort: 24678
   {{ end }}
   selector:
-    {{ include "uniusAnalytics.selectorLabels" . | nindent 4 }}
+    {{ include "poeticmetric.selectorLabels" . | nindent 4 }}
     deployment: frontend
   type: ClusterIP

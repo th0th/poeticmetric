@@ -3,8 +3,8 @@ import fs from "node:fs/promises";
 
 // Constants
 const isProduction = process.env.NODE_ENV === "production";
-const port = process.env.PORT || 5173;
-const base = process.env.VITE_BASE_PATH || "/";
+const port = process.env.PORT || 80;
+const base = process.env.BASE || "/";
 
 // Cached production assets
 const templateHtml = isProduction

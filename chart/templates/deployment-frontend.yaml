@@ -2,98 +2,85 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    {{ include "uniusAnalytics.labels" . | nindent 4 }}
+    {{ include "poeticmetric.labels" . | nindent 4 }}
     restart-on-deploy: "true"
-  name: {{ include "uniusAnalytics.fullname" . }}-frontend
+  name: {{ include "poeticmetric.fullname" . }}-frontend
 spec:
-  replicas: {{ .Values.uniusAnalytics.frontend.replicas }}
+  replicas: {{ .Values.poeticmetric.frontend.replicas }}
   selector:
     matchLabels:
-      {{ include "uniusAnalytics.selectorLabels" . | nindent 6 }}
+      {{ include "poeticmetric.selectorLabels" . | nindent 6 }}
       deployment: frontend
   template:
     metadata:
       labels:
-        {{ include "uniusAnalytics.selectorLabels" . | nindent 8 }}
+        {{ include "poeticmetric.selectorLabels" . | nindent 8 }}
         deployment: frontend
     spec:
       containers:
-      - env:
-        - name: VITE_BASE_PATH
-          valueFrom:
-            configMapKeyRef:
-              key: BASE_PATH
-              name: {{ include "uniusAnalytics.fullname" . }}-unius-analytics
-        - name: VITE_REST_API_BASE_URL
-          valueFrom:
-            configMapKeyRef:
-              key: REST_API_BASE_URL
-              name: {{ include "uniusAnalytics.fullname" . }}-unius-analytics
-        - name: PORT
-          value: "80"
-        image: {{ printf "%s:%s" .Values.uniusAnalytics.frontend.image.repository .Values.uniusAnalytics.frontend.image.tag }}
-        imagePullPolicy: {{ .Values.uniusAnalytics.frontend.image.pullPolicy }}
+      - image: {{ printf "%s:%s" .Values.poeticmetric.frontend.image.repository .Values.poeticmetric.frontend.image.tag }}
+        imagePullPolicy: {{ .Values.poeticmetric.frontend.image.pullPolicy }}
         name: frontend
         resources:
-          {{ toYaml .Values.uniusAnalytics.frontend.resources | nindent 10 }}
+          {{ toYaml .Values.poeticmetric.frontend.resources | nindent 10 }}
         volumeMounts:
-        {{ if .Values.uniusAnalytics.development.hostBasePath }}
-        - mountPath: /unius-analytics/public
+        {{ if .Values.poeticmetric.development.hostBasePath }}
+        - mountPath: /poeticmetric/public
           name: public
-        - mountPath: /unius-analytics/src
+        - mountPath: /poeticmetric/src
           name: src
-        - mountPath: /unius-analytics/index.html
+        - mountPath: /poeticmetric/index.html
           name: index-html
-        - mountPath: /unius-analytics/package.json
+        - mountPath: /poeticmetric/package.json
           name: package-json
-        - mountPath: /unius-analytics/pnpm-lock.yaml
+        - mountPath: /poeticmetric/pnpm-lock.yaml
           name: pnpm-lock-yaml
-        - mountPath: /unius-analytics/postcss.config.js
+        - mountPath: /poeticmetric/postcss.config.js
           name: postcss-config-js
-        - mountPath: /unius-analytics/server.js
+        - mountPath: /poeticmetric/server.js
           name: server-js
-        - mountPath: /unius-analytics/tsconfig.json
+        - mountPath: /poeticmetric/tsconfig.json
           name: tsconfig-json
-        - mountPath: /unius-analytics/tsconfig.node.json
+        - mountPath: /poeticmetric/tsconfig.node.json
           name: tsconfig-node-json
-        - mountPath: /unius-analytics/vite.config.ts
+        - mountPath: /poeticmetric/vite.config.ts
           name: vite-config-ts
         {{ end }}
-      {{ if not .Values.uniusAnalytics.development.enabled }}
+      {{ if not .Values.poeticmetric.development.enabled }}
       imagePullSecrets:
-      - name: {{ include "uniusAnalytics.fullname" . }}-ghcr-io
+      - name: {{ include "poeticmetric.fullname" . }}-ghcr-io
       {{ end }}
       terminationGracePeriodSeconds: 5
       volumes:
-      {{ if .Values.uniusAnalytics.development.hostBasePath }}
+      {{ if .Values.poeticmetric.development.hostBasePath }}
       - hostPath:
-          path: {{ .Values.uniusAnalytics.development.hostBasePath }}/frontend/public
+          path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/public
         name: public
       - hostPath:
-          path: {{ .Values.uniusAnalytics.development.hostBasePath }}/frontend/src
+          path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/src
         name: src
       - hostPath:
-          path: {{ .Values.uniusAnalytics.development.hostBasePath }}/frontend/index.html
+          path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/index.html
         name: index-html
       - hostPath:
-          path: {{ .Values.uniusAnalytics.development.hostBasePath }}/frontend/package.json
+          path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/package.json
         name: package-json
       - hostPath:
-          path: {{ .Values.uniusAnalytics.development.hostBasePath }}/frontend/pnpm-lock.yaml
+          path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/pnpm-lock.yaml
         name: pnpm-lock-yaml
       - hostPath:
-          path: {{ .Values.uniusAnalytics.development.hostBasePath }}/frontend/postcss.config.js
+          path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/postcss.config.js
         name: postcss-config-js
       - hostPath:
-          path: {{ .Values.uniusAnalytics.development.hostBasePath }}/frontend/server.js
+          path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/server.js
         name: server-js
       - hostPath:
-          path: {{ .Values.uniusAnalytics.development.hostBasePath }}/frontend/tsconfig.json
+          path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/tsconfig.json
         name: tsconfig-json
       - hostPath:
-          path: {{ .Values.uniusAnalytics.development.hostBasePath }}/frontend/tsconfig.node.json
+          path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/tsconfig.node.json
         name: tsconfig-node-json
       - hostPath:
-          path: {{ .Values.uniusAnalytics.development.hostBasePath }}/frontend/vite.config.ts
+          path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/vite.config.ts
         name: vite-config-ts
       {{ end }}
