@@ -5,56 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b0947ab8-b306-4125-9e8b-34c23b2ba241" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/watcherTasks.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/watcherTasks.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/cmd/migrator/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/cmd/migrator/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/cmd/rest-api/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/cmd/rest-api/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/development.Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/backend/development.Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/backend/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/docs/docs.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/docs/docs.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/docs/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/docs/swagger.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/docs/swagger.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/docs/swagger.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/handler/bootstrap/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/handler/bootstrap/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/handler/root/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/handler/root/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/middleware/base_path.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/middleware/base_path.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/responder/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/responder/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/service/bootstrap/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/service/bootstrap/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/service/env/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/service/env/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/service/migration/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/service/migration/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/dev/build-docker-images" beforeDir="false" afterPath="$PROJECT_DIR$/bin/dev/build-docker-images" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/dev/install-helm-chart" beforeDir="false" afterPath="$PROJECT_DIR$/bin/dev/install-helm-chart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/dev/restart-deployments" beforeDir="false" afterPath="$PROJECT_DIR$/bin/dev/restart-deployments" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/dev/uninstall-helm-chart" beforeDir="false" afterPath="$PROJECT_DIR$/bin/dev/uninstall-helm-chart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/Chart.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/Chart.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/templates/_helpers.tpl" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/_helpers.tpl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/templates/configmap-clickhouse.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/configmap-clickhouse.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/templates/configmap-pgbouncer.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/configmap-pgbouncer.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/templates/configmap-postgres.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/configmap-postgres.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/templates/configmap-rabbitmq.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/configmap-rabbitmq.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/templates/configmap-unius-analytics.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/configmap-unius-analytics.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/templates/deployment-frontend.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/deployment-frontend.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/templates/deployment-pgbouncer.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/deployment-pgbouncer.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/templates/deployment-rest-api.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/deployment-rest-api.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/templates/ingress-frontend.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/ingress-frontend.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/templates/ingress-rest-api.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/ingress-rest-api.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/templates/job-migrator.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/job-migrator.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/templates/service-clickhouse.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/service-clickhouse.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/templates/service-debug.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/service-debug.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/templates/service-frontend.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/service-frontend.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/templates/service-pgbouncer.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/service-pgbouncer.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/templates/service-postgres.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/service-postgres.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/templates/service-rest-api.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/service-rest-api.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/templates/statefulset-clickhouse.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/statefulset-clickhouse.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/templates/statefulset-postgres.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/templates/statefulset-postgres.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chart/values.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/chart/values.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/etc/development/values.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/etc/development/values.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/development.Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/development.Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Bootstrap/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Bootstrap/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Title/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Title/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/entry-client.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/entry-client.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/entry-server.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/entry-server.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,7 +89,7 @@
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "watcher.settings",
+    "settings.editor.selected.configurable": "preferences.sourceCode",
     "ts.external.directory.path": "/Users/th0th/Workspace/poeticmetric/frontend/node_modules/typescript/lib"
   },
   "keyToStringList": {
@@ -221,7 +172,7 @@
       <workItem from="1730217363660" duration="16113000" />
       <workItem from="1730321108919" duration="9744000" />
       <workItem from="1730381447844" duration="1628000" />
-      <workItem from="1730385075638" duration="1009000" />
+      <workItem from="1730385075638" duration="2154000" />
     </task>
     <servers />
   </component>
