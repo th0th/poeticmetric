@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="b0947ab8-b306-4125-9e8b-34c23b2ba241" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pkg/analytics/authentication_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/analytics/authentication_service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pkg/service/authentication/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/service/authentication/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -172,7 +174,7 @@
       <workItem from="1730217363660" duration="16113000" />
       <workItem from="1730321108919" duration="9744000" />
       <workItem from="1730381447844" duration="1628000" />
-      <workItem from="1730385075638" duration="2154000" />
+      <workItem from="1730385075638" duration="2949000" />
     </task>
     <servers />
   </component>

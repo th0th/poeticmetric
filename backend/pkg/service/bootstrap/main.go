@@ -13,7 +13,7 @@ import (
 	"github.com/th0th/validatingextra"
 	"gorm.io/gorm"
 
-	"github.com/th0th/poeticmetric/backend/pkg/analytics"
+	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
 )
 
 const (
@@ -23,17 +23,17 @@ const (
 
 type NewParams struct {
 	Clickhouse *gorm.DB
-	EnvService analytics.EnvService
+	EnvService poeticmetric.EnvService
 	Postgres   *gorm.DB
 }
 
 type service struct {
 	clickhouse *gorm.DB
-	envService analytics.EnvService
+	envService poeticmetric.EnvService
 	postgres   *gorm.DB
 }
 
-func New(params NewParams) analytics.BootstrapService {
+func New(params NewParams) poeticmetric.BootstrapService {
 	return &service{
 		clickhouse: params.Clickhouse,
 		envService: params.EnvService,
@@ -60,62 +60,62 @@ func (s *service) Postgres() *gorm.DB {
 }
 
 func (s *service) Check(ctx context.Context) error {
-	postgres := analytics.ServicePostgres(ctx, s)
+	postgres := poeticmetric.ServicePostgres(ctx, s)
 
 	var planCount int64
-	err := postgres.Model(&analytics.Plan{}).Count(&planCount).Error
+	err := postgres.Model(&poeticmetric.Plan{}).Count(&planCount).Error
 	if err != nil {
 		return err
 	}
 
 	if planCount != 0 {
-		return analytics.BootstrapServiceErrAlreadyDone
+		return poeticmetric.BootstrapServiceErrAlreadyDone
 	}
 
 	return nil
 }
 
-func (s *service) Run(ctx context.Context, params *analytics.BootstrapServiceRunParams) (*analytics.User, error) {
+func (s *service) Run(ctx context.Context, params *poeticmetric.BootstrapServiceRunParams) (*poeticmetric.User, error) {
 	err := s.validateRunParams(ctx, params)
 	if err != nil {
 		return nil, err
 	}
 
-	postgres := analytics.ServicePostgres(ctx, s)
+	postgres := poeticmetric.ServicePostgres(ctx, s)
 
 	err = s.validateRunParams(ctx, params)
 	if err != nil {
 		return nil, err
 	}
 
-	var plans []*analytics.Plan
+	var plans []*poeticmetric.Plan
 
 	if s.envService.IsHosted() {
-		plans = []*analytics.Plan{
+		plans = []*poeticmetric.Plan{
 			{
 				Id:                1,
 				MaxEventsPerMonth: 100000,
 				MaxUsers:          1,
 				Name:              "Basic",
-				StripeProductId:   analytics.Pointer("prod_KXK6a9Zmy3qcLz"),
+				StripeProductId:   poeticmetric.Pointer("prod_KXK6a9Zmy3qcLz"),
 			},
 			{
 				Id:                2,
 				MaxEventsPerMonth: 1000000,
 				MaxUsers:          3,
 				Name:              "Pro",
-				StripeProductId:   analytics.Pointer("prod_KXK7HFnQGBmP6D"),
+				StripeProductId:   poeticmetric.Pointer("prod_KXK7HFnQGBmP6D"),
 			},
 			{
 				Id:                3,
 				MaxEventsPerMonth: 5000000,
 				MaxUsers:          50,
 				Name:              "Business",
-				StripeProductId:   analytics.Pointer("prod_KXK83fu8EQrKfM"),
+				StripeProductId:   poeticmetric.Pointer("prod_KXK83fu8EQrKfM"),
 			},
 		}
 	} else {
-		plans = []*analytics.Plan{
+		plans = []*poeticmetric.Plan{
 			{
 				Id:   1,
 				Name: "Default",
@@ -123,13 +123,13 @@ func (s *service) Run(ctx context.Context, params *analytics.BootstrapServiceRun
 		}
 	}
 
-	organization := analytics.Organization{
+	organization := poeticmetric.Organization{
 		Id:     1,
 		Name:   *params.OrganizationName,
 		PlanId: &plans[len(plans)-1].Id,
 	}
 
-	user := analytics.User{
+	user := poeticmetric.User{
 		Email:               *params.UserEmail,
 		Id:                  1,
 		IsActive:            true,
@@ -143,7 +143,7 @@ func (s *service) Run(ctx context.Context, params *analytics.BootstrapServiceRun
 		return nil, err
 	}
 
-	site := &analytics.Site{
+	site := &poeticmetric.Site{
 		Domain:         "demo.yoursite.tld",
 		HasEvents:      true,
 		Id:             1,
@@ -159,8 +159,8 @@ func (s *service) Run(ctx context.Context, params *analytics.BootstrapServiceRun
 		return nil, err
 	}
 
-	err = analytics.ServicePostgresTransaction(ctx, s, func(ctx2 context.Context) error {
-		postgres2 := analytics.ServicePostgres(ctx2, s)
+	err = poeticmetric.ServicePostgresTransaction(ctx, s, func(ctx2 context.Context) error {
+		postgres2 := poeticmetric.ServicePostgres(ctx2, s)
 
 		err2 := postgres2.Create(&plans).Error
 		if err2 != nil {
@@ -210,18 +210,18 @@ func (s *service) Run(ctx context.Context, params *analytics.BootstrapServiceRun
 			userAgents := generateSlice(100, gofakeit.UserAgent)
 
 			for i := 0; i < batches; i += 1 {
-				events := []*analytics.Event{}
+				events := []*poeticmetric.Event{}
 
 				for j := 0; j < eventsInBatch; j += 1 {
 					languageBcp := gofakeit.LanguageBCP()
 					timeZone := gofakeit.TimeZoneRegion()
 
-					event := analytics.Event{
+					event := poeticmetric.Event{
 						//CountryIsoCode: country.GetIsoCodeFromTimeZoneName(timeZone),
 						DateTime: gofakeit.DateRange(now.Add(-31*24*time.Hour), now),
 						Duration: time.Duration(gofakeit.IntRange(1, 1200)) * time.Second,
 						Id:       uuid.NewString(),
-						Kind:     analytics.EventKindPageView,
+						Kind:     poeticmetric.EventKindPageView,
 						//Language:       locale.GetLanguage(languageBcp),
 						Locale:   &languageBcp,
 						SiteId:   site.Id,
@@ -229,7 +229,7 @@ func (s *service) Run(ctx context.Context, params *analytics.BootstrapServiceRun
 					}
 
 					if gofakeit.Bool() {
-						event.Referrer = analytics.Pointer(fmt.Sprintf("%s%s", gofakeit.RandomString(referrerSites), gofakeit.RandomString(referrerPaths)))
+						event.Referrer = poeticmetric.Pointer(fmt.Sprintf("%s%s", gofakeit.RandomString(referrerSites), gofakeit.RandomString(referrerPaths)))
 					}
 
 					err = event.FillFromUrl(gofakeit.RandomString(urls), nil)
@@ -242,11 +242,11 @@ func (s *service) Run(ctx context.Context, params *analytics.BootstrapServiceRun
 					event.VisitorId = gofakeit.RandomString(visitorIds)
 
 					if gofakeit.Bool() && gofakeit.Bool() {
-						event.UtmSource = analytics.Pointer(gofakeit.RandomString(utmSources))
-						event.UtmCampaign = analytics.Pointer(gofakeit.RandomString(utmCampaigns))
-						event.UtmMedium = analytics.Pointer(gofakeit.RandomString(utmMediums))
-						event.UtmContent = analytics.Pointer(gofakeit.RandomString(utmContents))
-						event.UtmTerm = analytics.Pointer(gofakeit.RandomString(utmTerms))
+						event.UtmSource = poeticmetric.Pointer(gofakeit.RandomString(utmSources))
+						event.UtmCampaign = poeticmetric.Pointer(gofakeit.RandomString(utmCampaigns))
+						event.UtmMedium = poeticmetric.Pointer(gofakeit.RandomString(utmMediums))
+						event.UtmContent = poeticmetric.Pointer(gofakeit.RandomString(utmContents))
+						event.UtmTerm = poeticmetric.Pointer(gofakeit.RandomString(utmTerms))
 					}
 
 					events = append(events, &event)
@@ -268,7 +268,7 @@ func (s *service) Run(ctx context.Context, params *analytics.BootstrapServiceRun
 	return &user, nil
 }
 
-func (s *service) validateRunParams(ctx context.Context, params *analytics.BootstrapServiceRunParams) error {
+func (s *service) validateRunParams(ctx context.Context, params *poeticmetric.BootstrapServiceRunParams) error {
 	validationErrs := v.Validate(v.Schema{
 		v.F("createDemoSite", params.CreateDemoSite): v.All(
 			v.Nonzero[*bool]().Msg("This field is required."),
@@ -278,10 +278,10 @@ func (s *service) validateRunParams(ctx context.Context, params *analytics.Boots
 			v.Nonzero[*string]().Msg("This field is required."),
 
 			validatingextra.PointerValue[string](
-				v.LenString(analytics.OrganizationNameMinLength, analytics.OrganizationNameMaxLength).Msg(fmt.Sprintf(
+				v.LenString(poeticmetric.OrganizationNameMinLength, poeticmetric.OrganizationNameMaxLength).Msg(fmt.Sprintf(
 					"The organization name must be between %d and %d characters long.",
-					analytics.OrganizationNameMinLength,
-					analytics.OrganizationNameMaxLength,
+					poeticmetric.OrganizationNameMinLength,
+					poeticmetric.OrganizationNameMaxLength,
 				)),
 			),
 		),
@@ -298,10 +298,10 @@ func (s *service) validateRunParams(ctx context.Context, params *analytics.Boots
 			v.Nonzero[*string]().Msg("This field is required."),
 
 			validatingextra.PointerValue[string](
-				v.LenString(analytics.UserNameMinLength, analytics.UserNameMaxLength).Msg(fmt.Sprintf(
+				v.LenString(poeticmetric.UserNameMinLength, poeticmetric.UserNameMaxLength).Msg(fmt.Sprintf(
 					"The user name must be between %d and %d characters long.",
-					analytics.UserNameMinLength,
-					analytics.UserNameMaxLength,
+					poeticmetric.UserNameMinLength,
+					poeticmetric.UserNameMaxLength,
 				)),
 			),
 		),
@@ -310,10 +310,10 @@ func (s *service) validateRunParams(ctx context.Context, params *analytics.Boots
 			v.Nonzero[*string]().Msg("This field is required."),
 
 			validatingextra.PointerValue[string](
-				v.LenString(analytics.UserPasswordMinLength, analytics.UserPasswordMaxLength).Msg(fmt.Sprintf(
+				v.LenString(poeticmetric.UserPasswordMinLength, poeticmetric.UserPasswordMaxLength).Msg(fmt.Sprintf(
 					"The password must be between %d and %d characters long.",
-					analytics.UserPasswordMinLength,
-					analytics.UserPasswordMaxLength,
+					poeticmetric.UserPasswordMinLength,
+					poeticmetric.UserPasswordMaxLength,
 				)),
 			),
 		),

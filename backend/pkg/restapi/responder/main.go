@@ -9,7 +9,7 @@ import (
 	"github.com/go-errors/errors"
 	"github.com/rs/zerolog"
 
-	"github.com/th0th/poeticmetric/backend/pkg/analytics"
+	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
 )
 
 type DetailResponse struct {
@@ -18,14 +18,14 @@ type DetailResponse struct {
 }
 
 type NewParams struct {
-	EnvService analytics.EnvService
+	EnvService poeticmetric.EnvService
 }
 
 type Responder struct {
-	envService analytics.EnvService
+	envService poeticmetric.EnvService
 }
 
-func New(params NewParams) analytics.RestApiResponder {
+func New(params NewParams) poeticmetric.RestApiResponder {
 	return &Responder{
 		envService: params.EnvService,
 	}

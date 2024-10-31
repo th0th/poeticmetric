@@ -6,17 +6,17 @@ import (
 
 	"github.com/go-errors/errors"
 
-	"github.com/th0th/poeticmetric/backend/pkg/analytics"
+	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
 )
 
 type Handler struct {
-	bootstrapService analytics.BootstrapService
-	responder        analytics.RestApiResponder
+	bootstrapService poeticmetric.BootstrapService
+	responder        poeticmetric.RestApiResponder
 }
 
 type NewParams struct {
-	BootstrapService analytics.BootstrapService
-	Responder        analytics.RestApiResponder
+	BootstrapService poeticmetric.BootstrapService
+	Responder        poeticmetric.RestApiResponder
 }
 
 func New(params NewParams) *Handler {
@@ -36,7 +36,7 @@ func New(params NewParams) *Handler {
 func (h *Handler) Check(w http.ResponseWriter, r *http.Request) {
 	err := h.bootstrapService.Check(r.Context())
 	if err != nil {
-		if errors.Is(err, analytics.BootstrapServiceErrAlreadyDone) {
+		if errors.Is(err, poeticmetric.BootstrapServiceErrAlreadyDone) {
 			w.WriteHeader(http.StatusBadRequest)
 			h.responder.Detail(w, "Bootstrap is already done.")
 			return
@@ -51,13 +51,13 @@ func (h *Handler) Check(w http.ResponseWriter, r *http.Request) {
 
 // Run godoc
 // @Description check if the bootstrap process is already done
-// @Param params body analytics.BootstrapServiceRunParams true "Params"
+// @Param params body poeticmetric.BootstrapServiceRunParams true "Params"
 // @Router /bootstrap [post]
 // @Success 201
 // @Summary Run bootstrap
 // @Tags boostrap
 func (h *Handler) Run(w http.ResponseWriter, r *http.Request) {
-	params := analytics.BootstrapServiceRunParams{}
+	params := poeticmetric.BootstrapServiceRunParams{}
 	err := json.NewDecoder(r.Body).Decode(&params)
 	if err != nil {
 		h.responder.Error(w, err)

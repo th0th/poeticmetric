@@ -12,22 +12,22 @@ import (
 	"github.com/golang-migrate/migrate/v4/source/iofs"
 	"gorm.io/gorm"
 
-	"github.com/th0th/poeticmetric/backend/pkg/analytics"
+	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
 )
 
 type NewParams struct {
 	Clickhouse *gorm.DB
-	EnvService analytics.EnvService
+	EnvService poeticmetric.EnvService
 	Postgres   *gorm.DB
 }
 
 type service struct {
 	clickhouse *gorm.DB
-	envService analytics.EnvService
+	envService poeticmetric.EnvService
 	postgres   *gorm.DB
 }
 
-func New(params *NewParams) analytics.MigrationService {
+func New(params *NewParams) poeticmetric.MigrationService {
 	return &service{
 		clickhouse: params.Clickhouse,
 		envService: params.EnvService,
@@ -40,7 +40,7 @@ func (s *service) Postgres() *gorm.DB {
 }
 
 func (s *service) Run() error {
-	err := analytics.ServicePostgresTransaction(context.Background(), s, func(ctx2 context.Context) error {
+	err := poeticmetric.ServicePostgresTransaction(context.Background(), s, func(ctx2 context.Context) error {
 		err2 := s.runPostgres(ctx2)
 		if err2 != nil {
 			return err2
@@ -95,7 +95,7 @@ func (s *service) runClickhouse() error {
 }
 
 func (s *service) runPostgres(ctx context.Context) error {
-	postgres := analytics.ServicePostgres(ctx, s)
+	postgres := poeticmetric.ServicePostgres(ctx, s)
 
 	databaseName := s.envService.PostgresDatabase()
 

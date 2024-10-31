@@ -9,14 +9,14 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 
-	"github.com/th0th/poeticmetric/backend/pkg/analytics"
+	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
 )
 
 type service struct {
-	vars analytics.EnvServiceVars
+	vars poeticmetric.EnvServiceVars
 }
 
-func New() (analytics.EnvService, error) {
+func New() (poeticmetric.EnvService, error) {
 	e := service{}
 
 	err := env2.Parse(&e.vars)
