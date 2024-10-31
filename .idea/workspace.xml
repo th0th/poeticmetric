@@ -5,20 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b0947ab8-b306-4125-9e8b-34c23b2ba241" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/watcherTasks.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/watcherTasks.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/cmd/rest-api/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/cmd/rest-api/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/poeticmetric/authentication_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/poeticmetric/authentication_service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/poeticmetric/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/poeticmetric/models.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/poeticmetric/rest_api_responder.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/poeticmetric/rest_api_responder.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/docs/docs.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/docs/docs.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/docs/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/docs/swagger.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/docs/swagger.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/docs/swagger.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/middleware/base_path.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/middleware/base_path.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/middleware/authentication.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/middleware/authentication.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/middleware/permission.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/middleware/permission.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/responder/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/responder/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/service/authentication/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/service/authentication/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/service/bootstrap/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/service/bootstrap/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/lib/api/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/lib/api/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

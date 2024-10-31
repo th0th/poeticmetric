@@ -22,7 +22,7 @@ type AuthenticationKind string
 type authenticationContextKeyType string
 
 type Authentication struct {
-	Kind            *AuthenticationKind
+	Kind            AuthenticationKind
 	User            *poeticmetric.User
 	UserAccessToken *poeticmetric.UserAccessToken
 }
@@ -90,7 +90,7 @@ func basicAuthentication(
 	}
 
 	authentication := Authentication{
-		Kind: poeticmetric.Pointer(AuthenticationKindBasic),
+		Kind: AuthenticationKindBasic,
 		User: user,
 	}
 
@@ -119,7 +119,7 @@ func userAccessTokenAuthentication(
 	}
 
 	authentication := Authentication{
-		Kind:            poeticmetric.Pointer(AuthenticationKindAccessToken),
+		Kind:            AuthenticationKindAccessToken,
 		User:            user,
 		UserAccessToken: userAccessToken,
 	}

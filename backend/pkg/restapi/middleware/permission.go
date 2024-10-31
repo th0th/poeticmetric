@@ -20,12 +20,12 @@ func PermissionHandler(responder poeticmetric.RestApiResponder, params Permissio
 
 			// IsAuthenticated
 			if params.IsAuthenticated != nil {
-				if *params.IsAuthenticated && authentication.User == nil {
+				if *params.IsAuthenticated && (authentication == nil || authentication.User == nil) {
 					responder.Unauthorized(w)
 					return
 				}
 
-				if !*params.IsAuthenticated && authentication.User != nil {
+				if !*params.IsAuthenticated && authentication != nil {
 					responder.Forbidden(w)
 					return
 				}
@@ -33,7 +33,7 @@ func PermissionHandler(responder poeticmetric.RestApiResponder, params Permissio
 
 			// AuthKind
 			if params.AuthenticationKind != nil {
-				if *authentication.Kind != *params.AuthenticationKind {
+				if authentication == nil || authentication.Kind != *params.AuthenticationKind {
 					responder.Forbidden(w)
 					return
 				}
@@ -41,7 +41,7 @@ func PermissionHandler(responder poeticmetric.RestApiResponder, params Permissio
 
 			// IsEmailVerified
 			if params.IsEmailVerified != nil {
-				if authentication.User == nil || authentication.User.IsEmailVerified != *params.IsEmailVerified {
+				if authentication == nil || authentication.User == nil || authentication.User.IsEmailVerified != *params.IsEmailVerified {
 					w.WriteHeader(http.StatusForbidden)
 					responder.Detail(w, "Please verify your e-mail address.")
 					return
@@ -50,7 +50,7 @@ func PermissionHandler(responder poeticmetric.RestApiResponder, params Permissio
 
 			// IsOrganizationOwner
 			if params.IsOrganizationOwner != nil {
-				if authentication.User == nil || !authentication.User.IsOrganizationOwner {
+				if authentication == nil || authentication.User == nil || !authentication.User.IsOrganizationOwner {
 					responder.Forbidden(w)
 					return
 				}

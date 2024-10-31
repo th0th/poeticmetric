@@ -61,7 +61,7 @@ func (r *Responder) Error(w http.ResponseWriter, err error) {
 
 func (r *Responder) Forbidden(w http.ResponseWriter) {
 	w.WriteHeader(http.StatusForbidden)
-	r.Detail(w, "Permission denied.")
+	r.Detail(w, "You don't have enough permission.")
 }
 
 func (r *Responder) Json(w http.ResponseWriter, data any) {
@@ -85,7 +85,7 @@ func (r *Responder) NotFound(w http.ResponseWriter) {
 func (r *Responder) Unauthorized(w http.ResponseWriter) {
 	w.WriteHeader(http.StatusUnauthorized)
 	w.Header().Set("WWW-Authenticate", `Basic realm="Restricted"`)
-	r.Detail(w, "Unauthorized.")
+	r.Detail(w, "You are not authorized.")
 }
 
 var Logger = zerolog.New(os.Stdout).With().Str("service", "responder").Timestamp().Logger()
