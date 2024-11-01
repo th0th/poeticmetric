@@ -44,6 +44,18 @@
       }
     }
   }
+
+  &.button-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    border-radius: var(--border-radius-sm);
+  }
+
+  &.button-lg {
+    padding: 0.5rem 1rem;
+    font-size: 1.125rem;
+    border-radius: var(--border-radius-lg);
+  }
 }
 
 /* container */
