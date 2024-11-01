@@ -19,8 +19,8 @@ export default function Logo({ className, ...props }: LogoProps) {
       />
       <defs>
         <linearGradient gradientUnits="userSpaceOnUse" id="paint0_linear" x1="0" x2="100" y1="0" y2="100">
-          <stop stop-color="#3C91E6"></stop>
-          <stop offset="1" stop-color="#26639F"></stop>
+          <stop stopColor="#3C91E6"></stop>
+          <stop offset="1" stopColor="#26639F"></stop>
         </linearGradient>
       </defs>
     </svg>

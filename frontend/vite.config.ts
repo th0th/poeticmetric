@@ -1,8 +1,21 @@
 import react from "@vitejs/plugin-react-swc";
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
+import autoprefixer from "autoprefixer";
+import postcssCustomMedia from "postcss-custom-media";
 
 export default defineConfig({
+  css:{
+    modules: {
+      localsConvention: "dashes",
+    },
+    postcss:{
+      plugins:[
+        autoprefixer(),
+        postcssCustomMedia(),
+      ],
+    },
+  },
   plugins: [react()],
   resolve: {
     alias: [
