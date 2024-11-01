@@ -5,20 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b0947ab8-b306-4125-9e8b-34c23b2ba241" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/run_tests.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/run_tests.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/cmd/migrator/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/cmd/migrator/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/cmd/rest-api/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/cmd/rest-api/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/backend/go.mod" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/backend/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/poeticmetric/authentication_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/poeticmetric/authentication_service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/docs/docs.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/docs/docs.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/docs/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/docs/swagger.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/docs/swagger.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/docs/swagger.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/handler/authentication/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/handler/authentication/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/middleware/authentication.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/middleware/authentication.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/service/authentication/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/service/authentication/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/service/migration/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/service/migration/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pkg/service/bootstrap/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/service/bootstrap/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pkg/test/containers/postgres/main.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Bootstrap/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Bootstrap/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,6 +58,9 @@
   ],
   &quot;isMigrated&quot;: true
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -112,6 +108,7 @@
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
+    "run.code.analysis.last.selected.profile": "pProject Default",
     "settings.editor.selected.configurable": "configurable.stylesheets.stylelint",
     "ts.external.directory.path": "/Users/th0th/Workspace/poeticmetric/frontend/node_modules/typescript/lib"
   },

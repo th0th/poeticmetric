@@ -241,7 +241,7 @@ func (s *service) Run(ctx context.Context, params *poeticmetric.BootstrapService
 
 					event.VisitorID = gofakeit.RandomString(visitorIds)
 
-					if gofakeit.Bool() && gofakeit.Bool() {
+					if gofakeit.Bool() && gofakeit.Bool() { //nolint:staticcheck
 						event.UtmSource = poeticmetric.Pointer(gofakeit.RandomString(utmSources))
 						event.UtmCampaign = poeticmetric.Pointer(gofakeit.RandomString(utmCampaigns))
 						event.UtmMedium = poeticmetric.Pointer(gofakeit.RandomString(utmMediums))

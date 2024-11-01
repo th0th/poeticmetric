@@ -3,7 +3,7 @@ on:
   pull_request:
 jobs:
   frontend:
-    if: "${{ github.event.label.name != 'status: in progress' }}"
+    if: "contains(github.event.pull_request.labels.*.name, 'status: in progress')"
     name: Run frontend tests
     runs-on: ubuntu-latest
     steps:
@@ -69,7 +69,7 @@ jobs:
         workdir: frontend
 
   backend:
-    if: "${{ github.event.label.name != 'status: in progress' }}"
+    if: "contains(github.event.pull_request.labels.*.name, 'status: in progress')"
     name: Run backend tests
     runs-on: ubuntu-latest
     steps:
