@@ -5,12 +5,12 @@ import autoprefixer from "autoprefixer";
 import postcssCustomMedia from "postcss-custom-media";
 
 export default defineConfig({
-  css: {
+  css:{
     modules: {
       localsConvention: "dashes",
     },
-    postcss: {
-      plugins: [
+    postcss:{
+      plugins:[
         autoprefixer(),
         postcssCustomMedia(),
       ],

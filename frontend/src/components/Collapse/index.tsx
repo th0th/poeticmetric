@@ -20,7 +20,7 @@ export default function Collapse({ children, className, open, ...props }: Collap
 
   return (
     <div {...props} className={clsx(styles.collapse, className)} style={{ height: contentHeight }}>
-      <div className={styles.content} ref={contentRef}>
+      <div ref={contentRef}>
         {children}
       </div>
     </div>
