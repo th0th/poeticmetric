@@ -1,23 +1,31 @@
 name: reviewdog
 
-on: [ pull_request ]
+on: [pull_request]
 
 jobs:
   eslint:
     name: runner / eslint
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
     steps:
     - uses: actions/checkout@v4
+
     - uses: actions/setup-node@v4
       with:
-        node-version: "16"
-    - run: npm install --force
+        node-version: 16
+
+    - name: Install dependencies
       working-directory: ./frontend
-    - uses: reviewdog/action-eslint@v1
+      run: npm install --force
+
+    - name: Run ESLint
+      working-directory: ./frontend
+      run: |
+        npx eslint . -f github-actions-report > eslint-report.github
+
+    - name: Reviewdog ESLint
+      uses: reviewdog/action-eslint@v1
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         reporter: github-pr-review
-        workdir: "./frontend"
+        eslint_flags: '-f github-actions-report'
+        eslint_report_file: eslint-report.github
