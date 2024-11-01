@@ -29,11 +29,9 @@ export default function Bootstrap() {
 
   async function submit(data: Form) {
     try {
-      console.log(data);
       const response = await api.post("/bootstrap", data);
       const responseJson = await response.json();
 
-      console.log(responseJson);
       if (response.ok) {
 
       } else {
@@ -61,9 +59,6 @@ export default function Bootstrap() {
 
     run();
   }, []);
-
-  console.log({ errors });
-  console.log(!!errors.userPassword);
 
   return (
     <>

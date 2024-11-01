@@ -26,7 +26,7 @@ export async function apiCall(path: string, init?: RequestInit): Promise<Respons
     ...init?.headers,
   };
 
-  return fetch(`${import.meta.env.VITE_REST_API_BASE_URL}${path}`, { ...init, headers });
+  return fetch(`/api${path}`, { ...init, headers });
 }
 
 export function getFetcher(requireUserAccessToken: boolean) {

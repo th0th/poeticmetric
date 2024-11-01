@@ -1,4 +1,4 @@
-package analytics
+package poeticmetric
 
 import (
 	url2 "net/url"
@@ -37,7 +37,7 @@ type Event struct {
 	DateTime               time.Time
 	DeviceType             *string
 	Duration               time.Duration
-	Id                     string
+	ID                     string
 	IsBot                  bool
 	Kind                   string
 	Language               *string
@@ -45,7 +45,7 @@ type Event struct {
 	OperatingSystemName    *string
 	OperatingSystemVersion *string
 	Referrer               *string
-	SiteId                 uint
+	SiteID                 uint
 	TimeZone               *string
 	Url                    string
 	UserAgent              string
@@ -54,18 +54,18 @@ type Event struct {
 	UtmMedium              *string
 	UtmSource              *string
 	UtmTerm                *string
-	VisitorId              string
+	VisitorID              string
 }
 
 type Organization struct {
 	CreatedAt               time.Time
 	GoogleOauthRefreshToken *string
-	Id                      uint
+	ID                      uint
 	IsOnTrial               bool
 	Name                    string
 	Plan                    *Plan
-	PlanId                  *uint
-	StripeCustomerId        *string
+	PlanID                  *uint
+	StripeCustomerID        *string
 	SubscriptionPeriod      *string
 	TrialEndsAt             *time.Time
 	UpdatedAt               time.Time
@@ -73,11 +73,11 @@ type Organization struct {
 
 type Plan struct {
 	CreatedAt         time.Time `gorm:"not null"`
-	Id                uint      `gorm:"primaryKey"`
+	ID                uint      `gorm:"primaryKey"`
 	MaxEventsPerMonth int
 	MaxUsers          int
 	Name              string
-	StripeProductId   *string
+	StripeProductID   *string
 	UpdatedAt         time.Time `gorm:"not null"`
 }
 
@@ -86,11 +86,11 @@ type Site struct {
 	Domain                     string
 	GoogleSearchConsoleSiteUrl *string
 	HasEvents                  bool
-	Id                         uint
+	ID                         uint
 	IsPublic                   bool
 	Name                       string
 	Organization               Organization `gorm:"constraint:OnDelete:CASCADE"`
-	OrganizationId             uint
+	OrganizationID             uint
 	SafeQueryParameters        []string `gorm:"serializer:json"`
 	UpdatedAt                  time.Time
 }
@@ -100,26 +100,26 @@ type User struct {
 	CreatedAt                time.Time
 	Email                    string
 	EmailVerificationToken   *string
-	Id                       uint
+	ID                       uint
 	IsActive                 bool
 	IsEmailVerified          bool
 	IsOrganizationOwner      bool
 	LastAccessTokenCreatedAt *time.Time
 	Name                     string
 	Organization             Organization
-	OrganizationId           uint
+	OrganizationID           uint
 	Password                 string
 	PasswordResetToken       *string
 	UpdatedAt                time.Time
 }
 
-type UserSessionToken struct {
+type UserAccessToken struct {
 	CreatedAt  time.Time
-	Id         uint
+	ID         uint
 	LastUsedAt *time.Time
 	Token      string
 	User       User
-	UserId     uint
+	UserID     uint
 }
 
 func (e *Event) FillFromUrl(url string, safeQueryParameters []string) error {
@@ -201,6 +201,6 @@ func (u *User) SetPassword(password string) error {
 	return nil
 }
 
-func (u *UserSessionToken) SetToken() {
+func (u *UserAccessToken) SetToken() {
 	u.Token = uniuri.New()
 }

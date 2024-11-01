@@ -26,7 +26,7 @@ func main() {
 		cmd.LogPanic(err, "failed to init clickhouse")
 	}
 
-	migrationService := migration.New(&migration.NewParams{
+	migrationService := migration.New(migration.NewParams{
 		Clickhouse: clickhouse,
 		EnvService: envService,
 		Postgres:   postgres,
