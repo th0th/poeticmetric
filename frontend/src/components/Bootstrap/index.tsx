@@ -109,18 +109,19 @@ export default function Bootstrap() {
                   </div>
 
                   <div className="form-group">
-                    <label className="form-label">New password</label>
+                    <label className="form-label" htmlFor="input-user-password">New password</label>
 
-                    <input className="input" required type="password" {...register("userPassword")} />
+                    <input className="input" id="input-user-password" required type="password" {...register("userPassword")} />
 
                     {!!errors.userPassword ? (<div className="form-error">{errors.userPassword.message}</div>) : null}
                   </div>
 
                   <div className="form-group">
-                    <label className="form-label">New password (again)</label>
+                    <label className="form-label" htmlFor="input-user-password2">New password (again)</label>
 
                     <input
                       className={clsx("input", errors.userPassword2 && "input-invalid")}
+                      id="input-user-password2"
                       required
                       type="password"
                       {...register("userPassword2")}
@@ -130,9 +131,9 @@ export default function Bootstrap() {
                   </div>
 
                   <div className="form-group">
-                    <label className="form-label">Organization</label>
+                    <label className="form-label" htmlFor="input-organization-name">Organization</label>
 
-                    <input className="input" required {...register("organizationName")} />
+                    <input className="input" id="input-organization-name" required {...register("organizationName")} />
 
                     {!!errors.organizationName ? (<div className="form-error">{errors.organizationName.message}</div>) : null}
                   </div>
