@@ -71,7 +71,7 @@ jobs:
         workdir: frontend
 
   backend:
-    if: "contains(github.event.pull_request.labels.*.name, 'status: in progress')"
+    if: "contains(github.event.pull_request.labels.*.name, 'status: ready for review')"
     name: Run backend tests
     runs-on: ubuntu-latest
     steps:
