@@ -9,6 +9,7 @@ type AuthenticationService interface {
 	ServiceWithPostgres
 
 	CreateUserAccessToken(ctx context.Context, userID uint) (*AuthenticationServiceUserAccessToken, error)
+	DeleteUserAccessToken(ctx context.Context, userAccessTokenID uint) error
 	ReadUserAccessToken(ctx context.Context, userAccessTokenID uint) (*AuthenticationServiceUserAccessToken, error)
 	ReadUserByEmailPassword(ctx context.Context, email string, password string) (*User, error)
 	ReadUserByUserAccessToken(ctx context.Context, token string) (*User, *UserAccessToken, error)

@@ -27,7 +27,7 @@ type service struct {
 	postgres   *gorm.DB
 }
 
-func New(params *NewParams) poeticmetric.MigrationService {
+func New(params NewParams) poeticmetric.MigrationService {
 	return &service{
 		clickhouse: params.Clickhouse,
 		envService: params.EnvService,

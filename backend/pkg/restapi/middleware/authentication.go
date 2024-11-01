@@ -35,11 +35,36 @@ func AuthenticationHandler(
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			authorizationHeader := r.Header.Get("Authorization")
 
+			var authentication *Authentication
+			var err error
+
 			// basic authentication
 			if strings.HasPrefix(strings.ToLower(authorizationHeader), "basic ") {
-				basicAuthentication(authenticationService, responder, w, r)
+				authentication, err = basicAuthentication(authenticationService, r)
+				if err != nil {
+					if errors.Is(err, errAuthenticationFailed) {
+						responder.Unauthorized(w)
+						return
+					}
+
+					responder.Error(w, err)
+					return
+				}
 			} else if strings.HasPrefix(strings.ToLower(authorizationHeader), "bearer ") {
-				userAccessTokenAuthentication(authenticationService, responder, w, r)
+				authentication, err = userAccessTokenAuthentication(authenticationService, r)
+				if err != nil {
+					if errors.Is(err, errAuthenticationFailed) {
+						responder.Unauthorized(w)
+						return
+					}
+
+					responder.Error(w, err)
+					return
+				}
+			}
+
+			if authentication == nil {
+				r = r.WithContext(SetAuthentication(r.Context(), authentication))
 			}
 
 			handler.ServeHTTP(w, r)
@@ -60,33 +85,25 @@ func SetAuthentication(ctx context.Context, authentication *Authentication) cont
 	return context.WithValue(ctx, authenticationContextKey, authentication)
 }
 
-func basicAuthentication(
-	authenticationService poeticmetric.AuthenticationService,
-	responder poeticmetric.RestApiResponder,
-	w http.ResponseWriter,
-	r *http.Request,
-) {
+func basicAuthentication(authenticationService poeticmetric.AuthenticationService, r *http.Request) (*Authentication, error) {
 	authorizationHeader := r.Header.Get("Authorization")
 	credentialsByte, err := base64.StdEncoding.DecodeString(authorizationHeader[6:])
 	if err != nil {
-		responder.Unauthorized(w)
-		return
+		return nil, errAuthenticationFailed
 	}
 
 	credentials := strings.SplitN(string(credentialsByte), ":", 2)
 	if len(credentials) != 2 {
-		responder.Unauthorized(w)
-		return
+		return nil, errAuthenticationFailed
 	}
 
 	user, err := authenticationService.ReadUserByEmailPassword(r.Context(), credentials[0], credentials[1])
 	if err != nil {
 		if errors.Is(err, poeticmetric.ErrNotFound) {
-			responder.Unauthorized(w)
-			return
+			return nil, errAuthenticationFailed
 		}
 
-		responder.Error(w, err)
+		return nil, err
 	}
 
 	authentication := Authentication{
@@ -94,28 +111,20 @@ func basicAuthentication(
 		User: user,
 	}
 
-	r2 := r.WithContext(SetAuthentication(r.Context(), &authentication))
-	*r = *r2
+	return &authentication, nil
 }
 
-func userAccessTokenAuthentication(
-	authenticationService poeticmetric.AuthenticationService,
-	responder poeticmetric.RestApiResponder,
-	w http.ResponseWriter,
-	r *http.Request,
-) {
+func userAccessTokenAuthentication(authenticationService poeticmetric.AuthenticationService, r *http.Request) (*Authentication, error) {
 	authorizationHeader := r.Header.Get("Authorization")
 	token := authorizationHeader[7:]
 
 	user, userAccessToken, err := authenticationService.ReadUserByUserAccessToken(r.Context(), token)
 	if err != nil {
 		if errors.Is(err, poeticmetric.ErrNotFound) {
-			responder.Unauthorized(w)
-			return
+			return nil, errAuthenticationFailed
 		}
 
-		responder.Error(w, err)
-		return
+		return nil, err
 	}
 
 	authentication := Authentication{
@@ -124,5 +133,9 @@ func userAccessTokenAuthentication(
 		UserAccessToken: userAccessToken,
 	}
 
-	*r = *(r.WithContext(SetAuthentication(r.Context(), &authentication)))
+	return &authentication, nil
 }
+
+var (
+	errAuthenticationFailed = errors.New("authentication failed")
+)

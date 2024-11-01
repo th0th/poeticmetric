@@ -5,10 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b0947ab8-b306-4125-9e8b-34c23b2ba241" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/cmd/migrator/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/cmd/migrator/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/cmd/rest-api/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/cmd/rest-api/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/backend/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/backend/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pkg/poeticmetric/authentication_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/poeticmetric/authentication_service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/docs/docs.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/docs/docs.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/docs/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/docs/swagger.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/docs/swagger.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/docs/swagger.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/handler/authentication/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/handler/authentication/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/middleware/authentication.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/middleware/authentication.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/middleware/permission.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/middleware/permission.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/restapi/responder/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/restapi/responder/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pkg/service/authentication/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/service/authentication/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pkg/service/migration/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/service/migration/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,14 +59,12 @@
     },
     {
       &quot;name&quot;: &quot;docker-desktop&quot;,
-      &quot;kubeConfigUrl&quot;: &quot;file:///Users/th0th/.kube/config&quot;
+      &quot;kubeConfigUrl&quot;: &quot;file:///Users/th0th/.kube/config&quot;,
+      &quot;currentNamespace&quot;: &quot;default&quot;
     }
   ],
   &quot;isMigrated&quot;: true
 }</component>
-  <component name="KubernetesSettings">
-    <option name="contextName" value="docker-desktop" />
-  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -69,6 +77,18 @@
     "DefaultGoTemplateProperty": "Go File",
     "Go Build.go build main.go.executor": "Debug",
     "Go Remote.rest-api.executor": "Debug",
+    "Go Test.Test_service_CreateUserAccessToken in github.com/th0th/poeticmetric/backend/pkg/service/authentication.executor": "Run",
+    "Go Test.Test_service_CreateUserAccessToken/any_error_on_insert in github.com/th0th/poeticmetric/backend/pkg/service/authentication.executor": "Run",
+    "Go Test.Test_service_CreateUserAccessToken/any_error_on_select in github.com/th0th/poeticmetric/backend/pkg/service/authentication.executor": "Run",
+    "Go Test.Test_service_CreateUserAccessToken/insert_error in github.com/th0th/poeticmetric/backend/pkg/service/authentication.executor": "Run",
+    "Go Test.Test_service_CreateUserAccessToken/successful in github.com/th0th/poeticmetric/backend/pkg/service/authentication.executor": "Run",
+    "Go Test.Test_service_DeleteUserAccessToken in github.com/th0th/poeticmetric/backend/pkg/service/authentication.executor": "Run",
+    "Go Test.Test_service_DeleteUserAccessToken/Invalid_id in github.com/th0th/poeticmetric/backend/pkg/service/authentication.executor": "Run",
+    "Go Test.Test_service_DeleteUserAccessToken/Successful_deletion in github.com/th0th/poeticmetric/backend/pkg/service/authentication.executor": "Run",
+    "Go Test.Test_service_DeleteUserAccessToken/any_error_while_deleting in github.com/th0th/poeticmetric/backend/pkg/service/authentication.executor": "Run",
+    "Go Test.Test_service_DeleteUserAccessToken/non-existent in github.com/th0th/poeticmetric/backend/pkg/service/authentication.executor": "Run",
+    "Go Test.Test_service_DeleteUserAccessToken/not_found in github.com/th0th/poeticmetric/backend/pkg/service/authentication.executor": "Run",
+    "Go Test.Test_service_DeleteUserAccessToken/successful in github.com/th0th/poeticmetric/backend/pkg/service/authentication.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.go.formatter.settings.were.checked": "true",
     "RunOnceActivity.go.migrated.go.modules.settings": "true",
@@ -86,13 +106,13 @@
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.standard": "",
-    "node.js.selected.package.stylelint": "/Users/th0th/Workspace/unius/analytics/frontend/node_modules/stylelint",
+    "node.js.selected.package.stylelint": "/Users/th0th/Workspace/poeticmetric/frontend/node_modules/stylelint",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "watcher.settings",
+    "settings.editor.selected.configurable": "configurable.stylesheets.stylelint",
     "ts.external.directory.path": "/Users/th0th/Workspace/poeticmetric/frontend/node_modules/typescript/lib"
   },
   "keyToStringList": {
@@ -176,6 +196,8 @@
       <workItem from="1730321108919" duration="9744000" />
       <workItem from="1730381447844" duration="1628000" />
       <workItem from="1730385075638" duration="2949000" />
+      <workItem from="1730423167595" duration="7759000" />
+      <workItem from="1730474835284" duration="9503000" />
     </task>
     <servers />
   </component>

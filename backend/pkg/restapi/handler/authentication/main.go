@@ -25,7 +25,7 @@ func New(params NewParams) *Handler {
 }
 
 // CreateUserAccessToken godoc
-// @Description create a user access token by authenticating with the e-mail address and password
+// @Description Create a user access token by authenticating with the e-mail address and password.
 // @Failure 400 {object} responder.DetailResponse
 // @Router /authentication/user-access-tokens [post]
 // @Security BasicAuthentication
@@ -43,4 +43,24 @@ func (h *Handler) CreateUserAccessToken(w http.ResponseWriter, r *http.Request) 
 
 	w.WriteHeader(http.StatusCreated)
 	h.responder.Json(w, userAccessToken)
+}
+
+// DeleteUserAccessToken godoc
+// @Description Delete user access token currently in use.
+// @Failure 400 {object} responder.DetailResponse
+// @Router /authentication/user-access-tokens [delete]
+// @Security UserAccessTokenAuthentication
+// @Success 204
+// @Summary Create user access token
+// @Tags authentication
+func (h *Handler) DeleteUserAccessToken(w http.ResponseWriter, r *http.Request) {
+	authentication := middleware.GetAuthentication(r.Context())
+
+	err := h.authenticationService.DeleteUserAccessToken(r.Context(), authentication.UserAccessToken.ID)
+	if err != nil {
+		h.responder.Error(w, err)
+		return
+	}
+
+	w.WriteHeader(http.StatusNoContent)
 }

@@ -23,7 +23,7 @@ const docTemplate = `{
                         "BasicAuthentication": []
                     }
                 ],
-                "description": "create a user access token by authenticating with the e-mail address and password",
+                "description": "Create a user access token by authenticating with the e-mail address and password.",
                 "tags": [
                     "authentication"
                 ],
@@ -34,6 +34,29 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/poeticmetric.AuthenticationServiceUserAccessToken"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responder.DetailResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Delete user access token currently in use.",
+                "tags": [
+                    "authentication"
+                ],
+                "summary": "Create user access token",
+                "responses": {
+                    "204": {
+                        "description": "No Content"
                     },
                     "400": {
                         "description": "Bad Request",
@@ -139,6 +162,12 @@ const docTemplate = `{
     "securityDefinitions": {
         "BasicAuthentication": {
             "type": "basic"
+        },
+        "UserAccessTokenAuthentication": {
+            "description": "User access token authentication",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }`

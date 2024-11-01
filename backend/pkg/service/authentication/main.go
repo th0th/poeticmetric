@@ -52,6 +52,27 @@ func (s *service) CreateUserAccessToken(ctx context.Context, userID uint) (*poet
 	return userAccessToken, nil
 }
 
+func (s *service) DeleteUserAccessToken(ctx context.Context, userAccessTokenID uint) error {
+	postgres := poeticmetric.ServicePostgres(ctx, s)
+
+	userAccessToken := poeticmetric.UserAccessToken{}
+	err := postgres.First(&userAccessToken, poeticmetric.UserAccessToken{ID: userAccessTokenID}, "ID").Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return poeticmetric.ErrNotFound
+		}
+
+		return err
+	}
+
+	err = postgres.Delete(poeticmetric.UserAccessToken{ID: userAccessTokenID}).Error
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (s *service) Postgres() *gorm.DB {
 	return s.postgres
 }
@@ -59,10 +80,10 @@ func (s *service) Postgres() *gorm.DB {
 func (s *service) ReadUserAccessToken(ctx context.Context, userAccessTokenID uint) (*poeticmetric.AuthenticationServiceUserAccessToken, error) {
 	postgres := poeticmetric.ServicePostgres(ctx, s)
 
-	userAccessToken := poeticmetric.AuthenticationServiceUserAccessToken{
-		ID: userAccessTokenID,
-	}
-	err := postgres.First(&userAccessToken, userAccessToken, "ID").Error
+	userAccessToken := poeticmetric.AuthenticationServiceUserAccessToken{}
+	err := postgres.
+		First(&userAccessToken, poeticmetric.AuthenticationServiceUserAccessToken{ID: userAccessTokenID}, "ID").
+		Error
 	if err != nil {
 		return nil, err
 	}
@@ -76,6 +97,10 @@ func (s *service) ReadUserByEmailPassword(ctx context.Context, email string, pas
 	user := poeticmetric.User{Email: email}
 	err := postgres.Joins("Organization").Joins("Organization.Plan").First(&user, user, "Email").Error
 	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, poeticmetric.ErrNotFound
+		}
+
 		return nil, err
 	}
 
@@ -104,8 +129,8 @@ func (s *service) ReadUserByUserAccessToken(ctx context.Context, token string) (
 		return nil, nil, err
 	}
 
-	user := poeticmetric.User{ID: userAccessToken.UserID}
-	err = postgres.Joins("Organization").Joins("Organization.Plan").First(&user, user, "Id").Error
+	user := poeticmetric.User{}
+	err = postgres.Joins("Organization").Joins("Organization.Plan").First(&user, poeticmetric.User{ID: userAccessToken.UserID}, "ID").Error
 	if err != nil {
 		return nil, nil, err
 	}

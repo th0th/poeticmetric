@@ -37,9 +37,23 @@ info:
   version: "1.0"
 paths:
   /authentication/user-access-tokens:
+    delete:
+      description: Delete user access token currently in use.
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responder.DetailResponse'
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Create user access token
+      tags:
+      - authentication
     post:
-      description: create a user access token by authenticating with the e-mail address
-        and password
+      description: Create a user access token by authenticating with the e-mail address
+        and password.
       responses:
         "201":
           description: Created
@@ -85,4 +99,9 @@ paths:
 securityDefinitions:
   BasicAuthentication:
     type: basic
+  UserAccessTokenAuthentication:
+    description: User access token authentication
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

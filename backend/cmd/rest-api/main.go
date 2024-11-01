@@ -24,11 +24,17 @@ import (
 	"github.com/th0th/poeticmetric/backend/pkg/service/env"
 )
 
+// @description This is a REST API for PoeticMetric.
+// @termsOfService https://poeticmetric.com/terms-of-service
 // @title PoeticMetric REST API
 // @version 1.0
-// @description This is a REST API for PoeticMetric.
+
 // @securityDefinitions.basic BasicAuthentication
-// @termsOfService https://poeticmetric.com/terms-of-service
+
+// @securityDefinitions.apiKey UserAccessTokenAuthentication
+// @description User access token authentication
+// @in header
+// @name Authorization
 func main() {
 	// services
 	envService, err := env.New()
@@ -80,12 +86,17 @@ func main() {
 	mux := http.NewServeMux()
 
 	// middleware
-	permissionBasicAuthentication := middleware.PermissionBasicAuthenticated(responder)
+	permissionBasicAuthenticated := middleware.PermissionBasicAuthenticated(responder)
+	permissionUserAccessTokenAuthenticated := middleware.PermissionUserAccessTokenAuthenticated(responder)
 
 	// handlers: authentication
 	mux.Handle(
 		"POST /authentication/user-access-tokens",
-		alice.New(permissionBasicAuthentication).ThenFunc(authenticationHandler.CreateUserAccessToken),
+		alice.New(permissionBasicAuthenticated).ThenFunc(authenticationHandler.CreateUserAccessToken),
+	)
+	mux.Handle(
+		"DELETE /authentication/user-access-tokens",
+		alice.New(permissionUserAccessTokenAuthenticated).ThenFunc(authenticationHandler.DeleteUserAccessToken),
 	)
 
 	// handlers: bootstrap
