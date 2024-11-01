@@ -19,7 +19,7 @@ export default function Collapse({ children, className, open, ...props }: Collap
   }, [open]);
 
   return (
-    <div {...props} className={clsx(styles.collapse, className)} style={{ height: contentHeight }}>
+    <div {...props} className={clsx(styles.collapse, className)} style={{ height: contentHeight, overflow: open ? "visible" : "hidden" }}>
       <div ref={contentRef}>
         {children}
       </div>

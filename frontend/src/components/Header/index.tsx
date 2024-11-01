@@ -6,6 +6,7 @@ import Collapse from "~/components/Collapse";
 import styles from "./Header.module.css";
 import Logo from "~/components/Logo";
 import { useIsLg } from "~/hooks/useMediaQuery";
+import { useLocation } from "wouter";
 
 const links: Array<{ link: string, name: string }> = [
   { link: "/", name: "Home" },
@@ -16,6 +17,7 @@ const links: Array<{ link: string, name: string }> = [
 
 export default function Header() {
   const { minLg } = useIsLg();
+  const [location] = useLocation();
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -23,6 +25,10 @@ export default function Header() {
       setIsDrawerOpen(false);
     }
   }, [minLg]);
+
+  useEffect(() => {
+    setIsDrawerOpen(false);
+  }, [location]);
 
   const navLinks = useMemo<ReactNode>(() => (
     <ul className={clsx(styles.navbarNav)}>

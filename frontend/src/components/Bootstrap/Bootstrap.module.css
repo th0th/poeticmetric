@@ -1,4 +1,30 @@
-.card {
-  margin-inline: auto;
-  max-width: 45rem;
+.main {
+  padding-block: 2rem;
+
+  .title {
+    text-align: center;
+    margin-bottom: 2rem;
+
+    .description {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: rgba(var(--color-blue-700-rgb));
+
+      @media (prefers-color-scheme: dark) {
+        color: rgba(var(--color-blue-400-rgb));
+      }
+    }
+
+    .heading {
+      font-size: 3rem;
+      line-height: 3.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+  }
+
+  .card {
+    margin-inline: auto;
+    max-width: 32rem;
+  }
 }

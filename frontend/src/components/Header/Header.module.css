@@ -31,16 +31,6 @@
     flex-grow: 1;
   }
 
-  .collapse:not(.show) {
-    display: none;
-  }
-
-  .collapsing {
-    overflow: hidden;
-    transition: height .35s ease;
-    height: calc(100vh - var(--header-height));
-  }
-
   .navbar-nav {
     display: flex;
     flex-direction: column;
@@ -77,12 +67,6 @@
     .navbar-collapse {
       display: flex;
       flex-basis: auto;
-    }
-
-    .collapse {
-      display: flex !important;
-      flex-grow: 1;
-      height: auto;
     }
 
     .navbar-toggler {
