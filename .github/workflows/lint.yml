@@ -1,6 +1,6 @@
 name: reviewdog
 
-on: [pull_request]
+on: [ pull_request ]
 
 jobs:
   eslint:
@@ -11,6 +11,11 @@ jobs:
       pull-requests: write
     steps:
     - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: "16"
+    - run: npm install
+      working-directory: ./frontend
     - uses: reviewdog/action-eslint@v1
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
