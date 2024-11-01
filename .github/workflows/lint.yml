@@ -20,12 +20,11 @@ jobs:
     - name: Run ESLint
       working-directory: ./frontend
       run: |
-        npx eslint . -f github-actions-report > eslint-report.github
+        npx eslint . -f json > eslint-report.json
 
     - name: Reviewdog ESLint
       uses: reviewdog/action-eslint@v1
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         reporter: github-pr-review
-        eslint_flags: '-f github-actions-report'
-        eslint_report_file: eslint-report.github
+        eslint_flags: '-f json eslint-report.json'
