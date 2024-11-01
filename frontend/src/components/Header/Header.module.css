@@ -1,27 +1,26 @@
 @import "../../styles/media.css";
 
 .navbar {
-  --header-height: 62px;
-
-  position: relative;
+  align-items: center;
+  border-bottom: 1px solid var(--color-border);
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
   justify-content: space-between;
   padding: 0.5rem 0rem;
-  border-bottom: 1px solid var(--color-border);
+
+  position: relative;
 
   > :global(.container) {
+    align-items: center;
     display: flex;
     flex-wrap: inherit;
-    align-items: center;
     justify-content: space-between;
   }
 
   .navbar-brand {
-    padding-block: .3125rem;
-    margin-right: 1rem;
     font-size: 1.25rem;
+    margin-right: 1rem;
+    padding-block: .3125rem;
     text-decoration: none;
     white-space: nowrap;
   }
@@ -34,15 +33,15 @@
   .navbar-nav {
     display: flex;
     flex-direction: column;
-    padding-left: 0;
-    margin-bottom: 0;
     list-style: none;
+    margin-bottom: 0;
+    padding-left: 0;
   }
 
   .nav-link {
+    color: rgba(var(--color-black-rgb) / 0.55);
     display: block;
     padding: .5rem 0;
-    color: rgba(var(--color-black-rgb) / 0.55);
     text-decoration: none;
     transition: color .15s ease-in-out;
 

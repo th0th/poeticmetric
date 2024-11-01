@@ -24,7 +24,7 @@ type State = {
 export default function Bootstrap() {
   const { showBoundary } = useErrorBoundary();
   const [_, setLocation] = useLocation();
-  const [state, setState] = useState<State>({ isInProgress: false });
+  const [state, setState] = useState<State>({ isInProgress: true });
   const { formState: { errors }, handleSubmit, register, setError } = useForm<Form>({});
 
   async function submit(data: Form) {
