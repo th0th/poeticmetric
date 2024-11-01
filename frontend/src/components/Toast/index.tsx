@@ -5,7 +5,6 @@ import Portal from "~/components/Portal";
 import styles from "./Toast.module.css";
 import { AnimatePresence, motion } from "framer-motion";
 
-
 type Toast = {
   id: string;
   message: string;
@@ -36,9 +35,9 @@ export function ToastContextProvider({ children }: { children: ReactNode }) {
       id,
     }]);
 
-    // setTimeout(() => {
-    //   removeToast(id);
-    // }, 5000);
+    setTimeout(() => {
+      removeToast(id);
+    }, 5000);
   }
 
   function removeToast(id: Toast["id"]) {
