@@ -3,6 +3,7 @@ module github.com/th0th/poeticmetric/backend
 go 1.23.2
 
 require (
+	github.com/DATA-DOG/go-sqlmock v1.5.2
 	github.com/RussellLuo/validating/v3 v3.0.0
 	github.com/brianvoe/gofakeit/v7 v7.1.1
 	github.com/caarlos0/env/v11 v11.2.2
@@ -14,6 +15,7 @@ require (
 	github.com/mileusna/useragent v1.3.5
 	github.com/pkg/errors v0.9.1
 	github.com/rs/zerolog v1.33.0
+	github.com/stretchr/testify v1.9.0
 	github.com/swaggo/http-swagger/v2 v2.0.2
 	github.com/swaggo/swag v1.16.4
 	github.com/th0th/validatingextra v0.1.2
@@ -28,6 +30,7 @@ require (
 	github.com/ClickHouse/clickhouse-go/v2 v2.23.2 // indirect
 	github.com/KyleBanks/depth v1.2.1 // indirect
 	github.com/andybalholm/brotli v1.1.0 // indirect
+	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/go-faster/city v1.0.1 // indirect
 	github.com/go-faster/errors v0.7.1 // indirect
 	github.com/go-openapi/jsonpointer v0.19.5 // indirect
@@ -51,6 +54,7 @@ require (
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/paulmach/orb v0.11.1 // indirect
 	github.com/pierrec/lz4/v4 v4.1.21 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rogpeppe/go-internal v1.13.1 // indirect
 	github.com/rs/xid v1.5.0 // indirect
 	github.com/segmentio/asm v1.2.0 // indirect

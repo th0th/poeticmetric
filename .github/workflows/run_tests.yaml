@@ -1,0 +1,95 @@
+name: Run tests
+on:
+  pull_request:
+    types:
+      - labeled
+jobs:
+  frontend:
+    if: "contains(github.event.pull_request.labels.*.name, 'status: ready for review')"
+    name: Run frontend tests
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - uses: pnpm/action-setup@v4
+      name: Install pnpm
+      with:
+        version: 9
+
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        cache: pnpm
+        cache-dependency-path: frontend/pnpm-lock.yaml
+        node-version: 22.3.0
+
+    - name: Get pnpm store directory
+      shell: bash
+      run: |
+        echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+      working-directory: frontend
+
+    - uses: actions/cache@v4
+      name: Setup pnpm cache
+      with:
+        path: ${{ env.STORE_PATH }}
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-store-
+
+    - name: Install dependencies
+      run: pnpm install
+      working-directory: frontend
+
+    - name: Setup reviewdog
+      uses: reviewdog/action-setup@v1
+
+    - env:
+        REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      name: Run tsc
+      run: pnpm exec -- tsc | reviewdog -f=tsc -fail-on-error -filter-mode=nofilter -reporter=github-pr-review
+      working-directory: frontend
+
+    - name: Run eslint
+      uses: reviewdog/action-eslint@v1
+      with:
+        eslint_flags: "."
+        fail_on_error: true
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        filter_mode: nofilter
+        workdir: frontend
+
+    - name: Run stylelint
+      uses: reviewdog/action-stylelint@v1
+      with:
+        fail_on_error: true
+        filter_mode: nofilter
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        reporter: github-pr-review
+        stylelint_input: "**/*.css"
+        workdir: frontend
+
+  backend:
+    if: "contains(github.event.pull_request.labels.*.name, 'status: ready for review')"
+    name: Run backend tests
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Go
+      uses: actions/setup-go@v4
+      with:
+        cache-dependency-path: backend/go.sum
+        go-version: 1.23.2
+
+    - name: Run Go test
+      run: go test -p 1 ./...
+      working-directory: backend
+
+    - name: golangci-lint
+      uses: reviewdog/action-golangci-lint@v2
+      with:
+        golangci_lint_flags: "--config .golangci.yaml --timeout 5m"
+        workdir: backend

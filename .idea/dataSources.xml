@@ -5,14 +5,14 @@
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/unius_analytics</jdbc-url>
+      <jdbc-url>jdbc:postgresql://localhost:5432/poeticmetric</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.host.port" value="5432" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="true" />
-        <property name="com.intellij.clouds.kubernetes.db.resource" value="unius-analytics-postgres" />
+        <property name="com.intellij.clouds.kubernetes.db.resource" value="poeticmetric-postgres" />
         <property name="com.intellij.clouds.kubernetes.db.context" value="docker-desktop" />
         <property name="com.intellij.clouds.kubernetes.db.resource.type" value="Service" />
-        <property name="com.intellij.clouds.kubernetes.db.namespace" value="unius-analytics-development" />
+        <property name="com.intellij.clouds.kubernetes.db.namespace" value="poeticmetric-development" />
         <property name="com.intellij.clouds.kubernetes.db.container.port" value="5432" />
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
@@ -21,14 +21,14 @@
       <driver-ref>clickhouse</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.clickhouse.jdbc.ClickHouseDriver</jdbc-driver>
-      <jdbc-url>jdbc:clickhouse://localhost:8123/unius_analytics</jdbc-url>
+      <jdbc-url>jdbc:clickhouse://localhost:8123/poeticmetric</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.host.port" value="8123" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="true" />
-        <property name="com.intellij.clouds.kubernetes.db.resource" value="unius-analytics-clickhouse" />
+        <property name="com.intellij.clouds.kubernetes.db.resource" value="poeticmetric-clickhouse" />
         <property name="com.intellij.clouds.kubernetes.db.context" value="docker-desktop" />
         <property name="com.intellij.clouds.kubernetes.db.resource.type" value="Service" />
-        <property name="com.intellij.clouds.kubernetes.db.namespace" value="unius-analytics-development" />
+        <property name="com.intellij.clouds.kubernetes.db.namespace" value="poeticmetric-development" />
         <property name="com.intellij.clouds.kubernetes.db.container.port" value="8123" />
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>

@@ -3,15 +3,15 @@ package root
 import (
 	"net/http"
 
-	"github.com/th0th/poeticmetric/backend/pkg/analytics"
+	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
 )
 
 type Handler struct {
-	envService analytics.EnvService
+	envService poeticmetric.EnvService
 }
 
 type NewParams struct {
-	EnvService analytics.EnvService
+	EnvService poeticmetric.EnvService
 }
 
 func New(params NewParams) Handler {
