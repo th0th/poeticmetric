@@ -7,11 +7,7 @@
     <list default="true" id="b0947ab8-b306-4125-9e8b-34c23b2ba241" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.github/workflows/run_tests.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/run_tests.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/backend/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/backend/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/service/bootstrap/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pkg/service/bootstrap/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pkg/test/containers/postgres/main.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Bootstrap/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Bootstrap/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/AppErrorBoundary/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/AppErrorBoundary/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
