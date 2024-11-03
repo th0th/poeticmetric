@@ -5,7 +5,6 @@ import { Link } from "wouter";
 import Collapse from "~/components/Collapse";
 import styles from "./Header.module.css";
 import Logo from "~/components/Logo";
-import { useIsLg } from "~/hooks/useMediaQuery";
 import { useLocation } from "wouter";
 
 const links: Array<{ link: string, name: string }> = [
@@ -16,15 +15,8 @@ const links: Array<{ link: string, name: string }> = [
 ];
 
 export default function Header() {
-  const { minLg } = useIsLg();
   const [location] = useLocation();
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (minLg) {
-      setIsDrawerOpen(false);
-    }
-  }, [minLg]);
 
   useEffect(() => {
     setIsDrawerOpen(false);
@@ -60,11 +52,9 @@ export default function Header() {
             <IconMenu2 size={24} style={{ verticalAlign: "middle" }} />
           </button>
 
-          {minLg ? navLinks : (
-            <Collapse className={styles.navbarCollapse} open={isDrawerOpen}>
-              {navLinks}
-            </Collapse>
-          )}
+          <Collapse className={styles.navbarCollapse} open={isDrawerOpen}>
+            {navLinks}
+          </Collapse>
         </div>
       </nav>
     </header>

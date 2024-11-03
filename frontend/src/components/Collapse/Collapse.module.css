@@ -1,4 +1,9 @@
 .collapse {
+  margin: -4px;
   overflow: hidden;
   transition: height 0.35s ease;
+
+  .content {
+    padding: 4px;
+  }
 }

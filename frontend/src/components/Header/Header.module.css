@@ -66,6 +66,7 @@
     .navbar-collapse {
       display: flex;
       flex-basis: auto;
+      height: auto !important;
     }
 
     .navbar-toggler {
