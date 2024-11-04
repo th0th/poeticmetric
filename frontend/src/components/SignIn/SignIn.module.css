@@ -1,0 +1,33 @@
+.main {
+  padding-block: 2rem;
+  transform: translate(0, calc(50% - 4rem)) rotate(0deg);
+
+  > :global(.container) {
+    .title {
+      margin-bottom: 2rem;
+      text-align: center;
+
+      .description {
+        color: rgba(var(--color-blue-700-rgb));
+        font-size: 0.875rem;
+        font-weight: 700;
+
+        @media (prefers-color-scheme: dark) {
+          color: rgba(var(--color-blue-400-rgb));
+        }
+      }
+
+      .heading {
+        font-size: 3rem;
+        font-weight: 700;
+        line-height: 3.5rem;
+        margin-bottom: 1rem;
+      }
+    }
+
+    .card {
+      margin-inline: auto;
+      max-width: 32rem;
+    }
+  }
+}
