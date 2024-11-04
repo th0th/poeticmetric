@@ -4,14 +4,16 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "node server.js",
     "build": "npm run build:client && npm run build:server",
     "build:client": "vite build --ssrManifest --outDir dist/client",
     "build:server": "vite build --ssr src/entry-server.tsx --outDir dist/server",
+    "dev": "node server.js",
+    "lint": "eslint -c eslint.config.js",
     "preview": "cross-env NODE_ENV=production node server",
     "stylelint": "stylelint \"src/**/*.css\""
   },
   "dependencies": {
+    "@tabler/icons-react": "^3.21.0",
     "clsx": "^2.1.1",
     "compression": "^1.7.4",
     "express": "^5.0.1",
