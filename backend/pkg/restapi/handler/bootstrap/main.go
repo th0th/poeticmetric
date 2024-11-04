@@ -71,4 +71,5 @@ func (h *Handler) Run(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusCreated)
+	h.responder.Detail(w, "Bootstrap is successfully completed.")
 }

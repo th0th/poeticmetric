@@ -1,9 +1,10 @@
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
 import { useLocation } from "wouter";
 import Title from "~/components/Title";
+import { useToast } from "~/components/Toast";
 import { api } from "~/lib/api";
 import { setErrors } from "~/lib/form";
 import styles from "./Bootstrap.module.css";
@@ -23,9 +24,11 @@ type State = {
 
 export default function Bootstrap() {
   const { showBoundary } = useErrorBoundary();
+  const initialized = useRef(false);
   const [_, setLocation] = useLocation();
   const [state, setState] = useState<State>({ isInProgress: true });
   const { formState: { errors }, handleSubmit, register, setError } = useForm<Form>({});
+  const { showToast } = useToast();
 
   async function submit(data: Form) {
     try {
@@ -33,7 +36,9 @@ export default function Bootstrap() {
       const responseJson = await response.json();
 
       if (response.ok) {
+        showToast({ message: "PoeticMetric has been successfully bootstrapped.", variant: "success" });
 
+        setLocation("/");
       } else {
         setErrors(setError, responseJson);
       }
@@ -50,6 +55,8 @@ export default function Bootstrap() {
         if (response.ok) {
           setState((s) => ({ ...s, isInProgress: false }));
         } else {
+          showToast({ message: "PoeticMetric is already bootstrapped.", variant: "error" });
+
           setLocation("/");
         }
       } catch (error) {
@@ -57,7 +64,11 @@ export default function Bootstrap() {
       }
     }
 
-    run();
+    if (!initialized.current) {
+      initialized.current = true;
+
+      run();
+    }
   }, []);
 
   return (

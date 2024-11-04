@@ -5,9 +5,13 @@ import Portal from "~/components/Portal";
 import styles from "./Toast.module.css";
 import { AnimatePresence, motion } from "framer-motion";
 
+type ToastVariant = "error" | "info" | "success";
+
 type Toast = {
   id: string;
   message: string;
+  removeIn?: number;
+  variant?: ToastVariant;
 }
 
 type ToastContextType = {
@@ -37,7 +41,7 @@ export function ToastContextProvider({ children }: { children: ReactNode }) {
 
     setTimeout(() => {
       removeToast(id);
-    }, 5000);
+    }, toast?.removeIn || 5000);
   }
 
   function removeToast(id: Toast["id"]) {
@@ -72,7 +76,7 @@ function ToastContainer({ className, onRemove, toasts = [], ...props }: ToastCon
   return (
     <Portal>
       <div {...props} className={clsx(styles.toastContainer, className)}>
-        <AnimatePresence mode="sync">
+        <AnimatePresence>
           {toasts.map((toast) => (
             <div key={toast.message}>
               <Toast onRemove={() => onRemove(toast.id)} toast={toast} />
@@ -89,15 +93,16 @@ type ToastProps = Overwrite<Omit<PropsWithoutRef<JSX.IntrinsicElements["div"]>, 
   toast: Toast;
 }>
 
-function Toast({ className, onRemove, toast: { message }, ...props }: ToastProps) {
+function Toast({ className, onRemove, toast: { message, variant = "info" }, ...props }: ToastProps) {
   return (
     <motion.div
-      animate={{ opacity: 1, scale: 1 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.8 }}
+      initial={{ opacity: 0, y: 50 }}
       layout
       transition={{ duration: 0.5, type: "spring" }}
     >
-      <div {...props} className={clsx(styles.toast, className)}>
+      <div {...props} className={clsx(styles.toast, styles[`toast-${variant}`], className)}>
         <div className={styles.body}>
           {message}
 
