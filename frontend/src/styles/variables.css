@@ -27,6 +27,18 @@
   --color-red-900-rgb: 119 37 37;
   --color-red-950-rgb: 64 15 15;
 
+  --color-green-50-rgb: 240 255 244;
+  --color-green-100-rgb: 220 251 228;
+  --color-green-200-rgb: 180 242 196;
+  --color-green-300-rgb: 120 224 140;
+  --color-green-400-rgb: 72 203 93;
+  --color-green-500-rgb: 34 180 67;
+  --color-green-600-rgb: 28 150 55;
+  --color-green-700-rgb: 24 120 45;
+  --color-green-800-rgb: 20 90 38;
+  --color-green-900-rgb: 18 70 32;
+  --color-green-950-rgb: 12 45 24;
+
   --color-white: #FFFFFF;
   --color-white-rgb: 255 255 255;
   --color-black: #000000;

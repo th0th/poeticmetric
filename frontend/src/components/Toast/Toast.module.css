@@ -14,20 +14,31 @@
 
   .toast {
     background-clip: padding-box;
-    background-color: rgba(var(--color-background-rgb), 0.85);
-    border: 1px solid rgba(var(--color-black-rgb) / 0.175);
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     color: rgb(var(--color-foreground-rgb));
     font-size: 0.875rem;
     max-width: 100%;
     pointer-events: auto;
+    user-select: none;
     width: 320px;
 
-    @media (prefers-color-scheme: dark) {
+    &.toast-info {
+      background-color: rgba(var(--color-blue-600-rgb) / 0.85);
+      border: 1px solid rgba(var(--color-blue-600-rgb) / 0.15);
+      color: rgb(var(--color-white-rgb));
+    }
 
-      background-color: rgba(var(--color-background-rgb), 0.85);
-      border: 1px solid rgba(var(--color-white-rgb) / 0.15);
+    &.toast-error {
+      background-color: rgba(var(--color-red-600-rgb) / 0.85);
+      border: 1px solid rgba(var(--color-red-600-rgb) / 0.15);
+      color: rgb(var(--color-white-rgb));
+    }
+
+    &.toast-success {
+      background-color: rgba(var(--color-green-600-rgb) / 0.85);
+      border: 1px solid rgba(var(--color-green-600-rgb) / 0.15);
+      color: rgb(var(--color-white-rgb));
     }
 
     .close-button {
@@ -45,13 +56,15 @@
       }
 
       &:hover {
-        opacity: 0.75;
+        opacity: 0.8;
       }
     }
 
     .body {
+      align-items: center;
       display: flex;
       flex-direction: row;
+      font-weight: 500;
       justify-content: space-between;
       padding: 0.75rem;
     }
