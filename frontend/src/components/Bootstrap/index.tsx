@@ -69,82 +69,91 @@ export default function Bootstrap() {
           <div className="spinner spinner-lg" />
         </div>
       ) : (
-        <div className="container">
-          <div>
-            <h1>Welcome to PoeticMetric!</h1>
+        <main className={styles.main}>
+          <div className="container">
+            <div className={styles.title}>
+              <small className={styles.description}>Bootstrap</small>
 
-            <div>Complete PoeticMetric installation to continue.</div>
-          </div>
+              <h1 className={styles.heading}>
+                Welcome to
+                <br />
+                PoeticMetric!
+              </h1>
 
-          <div className={clsx("card", styles.card)}>
-            <form className="card-body" onSubmit={handleSubmit(submit)}>
-              <fieldset className="fieldset">
-                <div className="form-group">
-                  <label className="form-label" htmlFor="input-user-name">Full name</label>
+              <p>Complete PoeticMetric installation to continue.</p>
+            </div>
 
-                  <input className="input" id="input-user-name" required {...register("userName")} />
+            <div className={clsx("card", styles.card)}>
+              <form className="card-body" onSubmit={handleSubmit(submit)}>
+                <fieldset className="fieldset">
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="input-user-name">Full name</label>
 
-                  {!!errors.userName ? (<div>{errors.userName.message}</div>) : null}
-                </div>
+                    <input className="input" id="input-user-name" required {...register("userName")} />
 
-                <div className="form-group">
-                  <label className="form-label" htmlFor="input-user-email">E-mail address</label>
-
-                  <input
-                    className={clsx("input", errors.userEmail && "input-invalid")}
-                    id="input-user-email"
-                    required
-                    type="email"
-                    {...register("userEmail")}
-                  />
-
-                  {!!errors.userEmail ? (<div className="form-error">{errors.userEmail.message}</div>) : null}
-                </div>
-
-                <div className="form-group">
-                  <label className="form-label">New password</label>
-
-                  <input className="input" required type="password" {...register("userPassword")} />
-
-                  {!!errors.userPassword ? (<div className="form-error">{errors.userPassword.message}</div>) : null}
-                </div>
-
-                <div className="form-group">
-                  <label className="form-label">New password (again)</label>
-
-                  <input
-                    className={clsx("input", errors.userPassword2 && "input-invalid")}
-                    required
-                    type="password"
-                    {...register("userPassword2")}
-                  />
-
-                  {!!errors.userPassword2 ? (<div className="form-error">{errors.userPassword2.message}</div>) : null}
-                </div>
-
-                <div className="form-group">
-                  <label className="form-label">Organization</label>
-
-                  <input className="input" required {...register("organizationName")} />
-
-                  {!!errors.organizationName ? (<div className="form-error">{errors.organizationName.message}</div>) : null}
-                </div>
-
-                <div className="form-group">
-                  <div className="form-group-inline">
-                    <input id="input-create-demo-site" type="checkbox" {...register("createDemoSite")} />
-
-                    <label htmlFor="input-create-demo-site">Create demo site</label>
+                    {!!errors.userName ? (<div>{errors.userName.message}</div>) : null}
                   </div>
 
-                  {!!errors.createDemoSite ? (<div className="form-error">{errors.createDemoSite.message}</div>) : null}
-                </div>
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="input-user-email">E-mail address</label>
 
-                <button className="button button-blue" type="submit">Complete installation</button>
-              </fieldset>
-            </form>
+                    <input
+                      className={clsx("input", errors.userEmail && "input-invalid")}
+                      id="input-user-email"
+                      required
+                      type="email"
+                      {...register("userEmail")}
+                    />
+
+                    {!!errors.userEmail ? (<div className="form-error">{errors.userEmail.message}</div>) : null}
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="input-user-password">New password</label>
+
+                    <input className="input" id="input-user-password" required type="password" {...register("userPassword")} />
+
+                    {!!errors.userPassword ? (<div className="form-error">{errors.userPassword.message}</div>) : null}
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="input-user-password2">New password (again)</label>
+
+                    <input
+                      className={clsx("input", errors.userPassword2 && "input-invalid")}
+                      id="input-user-password2"
+                      required
+                      type="password"
+                      {...register("userPassword2")}
+                    />
+
+                    {!!errors.userPassword2 ? (<div className="form-error">{errors.userPassword2.message}</div>) : null}
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="input-organization-name">Organization</label>
+
+                    <input className="input" id="input-organization-name" required {...register("organizationName")} />
+
+                    {!!errors.organizationName ? (<div className="form-error">{errors.organizationName.message}</div>) : null}
+                  </div>
+
+                  <div className="form-group">
+                    <div className="form-group-inline">
+                      <input id="input-create-demo-site" type="checkbox" {...register("createDemoSite")} />
+
+                      <label htmlFor="input-create-demo-site">Create demo site</label>
+                    </div>
+
+                    {!!errors.createDemoSite ? (<div className="form-error">{errors.createDemoSite.message}</div>) : null}
+                  </div>
+
+                  <button className="button button-blue" type="submit">Complete installation</button>
+                </fieldset>
+              </form>
+            </div>
           </div>
-        </div>
+        </main>
       )}
     </>
   );

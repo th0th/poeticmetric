@@ -35,8 +35,6 @@ spec:
           name: package-json
         - mountPath: /poeticmetric/pnpm-lock.yaml
           name: pnpm-lock-yaml
-        - mountPath: /poeticmetric/postcss.config.js
-          name: postcss-config-js
         - mountPath: /poeticmetric/server.js
           name: server-js
         - mountPath: /poeticmetric/tsconfig.json
@@ -68,9 +66,6 @@ spec:
       - hostPath:
           path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/pnpm-lock.yaml
         name: pnpm-lock-yaml
-      - hostPath:
-          path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/postcss.config.js
-        name: postcss-config-js
       - hostPath:
           path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/server.js
         name: server-js
