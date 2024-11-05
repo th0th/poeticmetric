@@ -4,23 +4,20 @@ import Bootstrap from "~/components/Bootstrap";
 import Error from "~/components/Error";
 import Header from "~/components/Header";
 import Home from "~/components/Home";
-import { ToastContextProvider } from "~/components/Toast";
 
 export default function App() {
   return (
     <>
-      <ToastContextProvider>
-        <Header />
+      <Header />
 
-        <Switch>
-          <Route component={Bootstrap} path="/bootstrap" />
-          <Route component={Home} path="/" />
+      <Switch>
+        <Route component={Bootstrap} path="/bootstrap" />
+        <Route component={Home} path="/" />
 
-          <Route>
-            <Error />
-          </Route>
-        </Switch>
-      </ToastContextProvider>
+        <Route>
+          <Error />
+        </Route>
+      </Switch>
     </>
   );
 }
