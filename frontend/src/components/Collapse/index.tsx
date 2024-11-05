@@ -4,9 +4,10 @@ import styles from "./Collapse.module.css";
 
 type CollapseProps = Overwrite<PropsWithoutRef<JSX.IntrinsicElements["div"]>, {
   open: boolean;
+  resolution?: "lg";
 }>;
 
-export default function Collapse({ children, className, open, ...props }: CollapseProps) {
+export default function Collapse({ children, className, open, resolution = "lg", ...props }: CollapseProps) {
   const contentRef = useRef(null);
   const [contentHeight, setContentHeight] = useState<number>(0);
 
@@ -19,8 +20,12 @@ export default function Collapse({ children, className, open, ...props }: Collap
   }, [open]);
 
   return (
-    <div {...props} className={clsx(styles.collapse, className)} style={{ height: contentHeight, overflow: open ? "visible" : "hidden" }}>
-      <div ref={contentRef}>
+    <div
+      {...props}
+      className={clsx(styles.collapse, styles[`collapse-${resolution}`], className)}
+      style={{ height: contentHeight }}
+    >
+      <div className={styles.content} ref={contentRef}>
         {children}
       </div>
     </div>

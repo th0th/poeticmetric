@@ -64,10 +64,8 @@
     justify-content: flex-start;
 
     .navbar-collapse {
-      display: flex;
       flex-basis: auto;
-      height: auto !important;
-      overflow: visible !important;
+      flex-grow: inherit;
     }
 
     .navbar-toggler {
