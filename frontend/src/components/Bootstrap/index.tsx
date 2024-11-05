@@ -26,7 +26,7 @@ type State = {
 
 export default function Bootstrap() {
   const [isAlreadyBootstrapped, setIsAlreadyBootstrapped] = useState<boolean>(false);
-  const [isBootstrapped, setIsBootstrapped] = useState<boolean>(false);
+  const [isBootstrapped, setIsBootstrapped] = useState<boolean>(true);
   const { showBoundary } = useErrorBoundary();
   const initialized = useRef(false);
   const [state, setState] = useState<State>({ isInProgress: true, isSubmitInProgress: false });
@@ -124,8 +124,8 @@ export default function Bootstrap() {
               </p>
 
               <div className={styles.buttonGroup}>
-                <Link className="button button-lg button-blue" to="/sign-up">
-                  Sign up to create dashboard
+                <Link className="button button-lg button-blue" to="/sites">
+                  Go to dashboard
                 </Link>
               </div>
             </div>
