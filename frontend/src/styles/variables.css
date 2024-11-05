@@ -3,10 +3,6 @@
   --border-radius: 0.375rem;
   --border-radius-lg: 0.5rem;
 
-  --box-shadow-sm: 0 0.125rem 0.25rem rgba(var(--color-black-rgb) / 0.075);
-  --box-shadow: 0 0.5rem 1rem rgba(var(--color-black-rgb) / 0.15);
-  --box-shadow-lg: 0 1rem 3rem rgba(var(--color-black-rgb) / 0.175);
-
   --color-blue-50-rgb: 241 248 254;
   --color-blue-100-rgb: 226 241 252;
   --color-blue-200-rgb: 191 225 248;
