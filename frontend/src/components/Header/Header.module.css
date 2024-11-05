@@ -67,6 +67,7 @@
       display: flex;
       flex-basis: auto;
       height: auto !important;
+      overflow: visible !important;
     }
 
     .navbar-toggler {
