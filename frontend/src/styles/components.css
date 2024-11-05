@@ -11,6 +11,11 @@
   text-decoration: none;
   transition: all var(--transition-duration) ease-in-out;
 
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
   &.button-blue {
     background-color: rgb(var(--color-blue-600-rgb));
     color: var(--color-white);
@@ -154,9 +159,10 @@
   }
 
   &:before {
+    --box-shadow-color-rgb: 0 0 0;
     animation: spinner 2000ms infinite linear;
     border-radius: 50%;
-    box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) -1.5em 0 0 0, rgba(0, 0, 0, 0.75) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+    box-shadow: rgba(var(--box-shadow-color-rgb) / 0.75) 1.5em 0 0 0, rgba(var(--box-shadow-color-rgb) / 0.75) 1.1em 1.1em 0 0, rgba(var(--box-shadow-color-rgb) / 0.75) 0 1.5em 0 0, rgba(var(--box-shadow-color-rgb) / 0.75) -1.1em 1.1em 0 0, rgba(var(--box-shadow-color-rgb) / 0.75) -1.5em 0 0 0, rgba(var(--box-shadow-color-rgb) / 0.75) -1.1em -1.1em 0 0, rgba(var(--box-shadow-color-rgb) / 0.75) 0 -1.5em 0 0, rgba(var(--box-shadow-color-rgb) / 0.75) 1.1em -1.1em 0 0;
     content: "";
     display: block;
     font-size: 0.5em;
@@ -166,6 +172,12 @@
     top: 50%;
     transform-origin: center;
     width: 1em;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    &:before {
+      --box-shadow-color-rgb: 255 255 255;
+    }
   }
 }
 

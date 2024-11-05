@@ -1,0 +1,24 @@
+.activity-overlay {
+  position: relative;
+
+  &.active {
+    .overlay {
+      align-items: center;
+      backdrop-filter: blur(0.2rem);
+      background: rgba(var(--color-background-rgb), 0.75);
+      border-radius: var(--border-radius);
+      display: flex;
+      inset: 0;
+      justify-content: center;
+      overflow: hidden;
+      position: absolute;
+    }
+
+    .spinner {
+      left: 50%;
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}

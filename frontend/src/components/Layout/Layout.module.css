@@ -7,6 +7,7 @@
     align-items: center;
     display: flex;
     flex-grow: 1;
+    margin-block: 0;
     margin-top: calc(var(--header-height) * -1);
   }
 }
