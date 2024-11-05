@@ -1,6 +1,10 @@
 .activity-overlay {
   position: relative;
 
+  .overlay, .spinner {
+    display: none;
+  }
+
   &.active {
     .overlay {
       align-items: center;
@@ -15,6 +19,7 @@
     }
 
     .spinner {
+      display: block;
       left: 50%;
       position: absolute;
       top: 50%;

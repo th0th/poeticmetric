@@ -20,33 +20,39 @@
     background-color: rgb(var(--color-blue-600-rgb));
     color: var(--color-white);
 
-    &:focus-visible, &:hover {
-      background-color: rgb(var(--color-blue-700-rgb));
-    }
+    &:not(:disabled) {
+      &:focus-visible, &:hover {
+        background-color: rgb(var(--color-blue-700-rgb));
+      }
 
-    &:active {
-      background-color: rgb(var(--color-blue-800-rgb));
+      &:active {
+        background-color: rgb(var(--color-blue-800-rgb));
+      }
     }
   }
 
   &.button-blue-ghost {
     color: rgb(var(--color-blue-600-rgb));
 
-    &:focus-visible, &:hover {
-      background-color: rgba(var(--color-blue-600-rgb) / 0.05);
-    }
-
-    &:active {
-      background-color: rgba(var(--color-blue-600-rgb) / 0.1);
-    }
-
-    @media (prefers-color-scheme: dark) {
+    &:not(:disabled) {
       &:focus-visible, &:hover {
-        background-color: rgba(var(--color-blue-600-rgb) / 0.1);
+        background-color: rgba(var(--color-blue-600-rgb) / 0.05);
       }
 
       &:active {
-        background-color: rgba(var(--color-blue-600-rgb) / 0.2);
+        background-color: rgba(var(--color-blue-600-rgb) / 0.1);
+      }
+    }
+
+    @media (prefers-color-scheme: dark) {
+      &:not(:disabled) {
+        &:focus-visible, &:hover {
+          background-color: rgba(var(--color-blue-600-rgb) / 0.1);
+        }
+
+        &:active {
+          background-color: rgba(var(--color-blue-600-rgb) / 0.2);
+        }
       }
     }
   }

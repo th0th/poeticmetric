@@ -9,13 +9,9 @@ type ActivityOverlayProps = Overwrite<PropsWithoutRef<JSX.IntrinsicElements["div
 export default function ActivityOverlay({ children, className, isActive, ...props }: ActivityOverlayProps) {
   return (
     <div {...props} className={clsx(styles.activityOverlay, isActive && styles.active, className)}>
-      {isActive && (
-        <>
-          <div className={styles.overlay}></div>
+      <div className={styles.overlay}></div>
 
-          <div className={clsx("spinner", styles.spinner)}></div>
-        </>
-      )}
+      <div className={clsx("spinner", styles.spinner)}></div>
 
       {children}
     </div>
