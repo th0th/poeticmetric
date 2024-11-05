@@ -1,0 +1,12 @@
+.layout {
+  margin-block: 2rem;
+
+  &.vertically-center {
+    --header-height: 63px;
+
+    align-items: center;
+    display: flex;
+    flex-grow: 1;
+    margin-top: calc(var(--header-height) * -1);
+  }
+}

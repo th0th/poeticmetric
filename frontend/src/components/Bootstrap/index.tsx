@@ -2,9 +2,9 @@ import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
-import { useLocation } from "wouter";
+import { Link } from "wouter";
+import Layout from "~/components/Layout";
 import Title from "~/components/Title";
-import { useToast } from "~/components/Toast";
 import { api } from "~/lib/api";
 import { setErrors } from "~/lib/form";
 import styles from "./Bootstrap.module.css";
@@ -23,12 +23,11 @@ type State = {
 };
 
 export default function Bootstrap() {
+  const [isAlreadyBootstrapped, setIsAlreadyBootstrapped] = useState<boolean>(false);
   const { showBoundary } = useErrorBoundary();
   const initialized = useRef(false);
-  const [_, setLocation] = useLocation();
   const [state, setState] = useState<State>({ isInProgress: true });
   const { formState: { errors }, handleSubmit, register, setError } = useForm<Form>({});
-  const { showToast } = useToast();
 
   async function submit(data: Form) {
     try {
@@ -36,9 +35,9 @@ export default function Bootstrap() {
       const responseJson = await response.json();
 
       if (response.ok) {
-        showToast({ message: "PoeticMetric has been successfully bootstrapped.", variant: "success" });
+        // showToast({ message: "PoeticMetric has been successfully bootstrapped.", variant: "success" });
 
-        setLocation("/");
+        // setLocation("/");
       } else {
         setErrors(setError, responseJson);
       }
@@ -52,15 +51,13 @@ export default function Bootstrap() {
       try {
         const response = await api.get("/bootstrap");
 
-        if (response.ok) {
-          setState((s) => ({ ...s, isInProgress: false }));
-        } else {
-          showToast({ message: "PoeticMetric is already bootstrapped.", variant: "error" });
-
-          setLocation("/");
+        if (!response.ok) {
+          setIsAlreadyBootstrapped(true);
         }
       } catch (error) {
         showBoundary(error);
+      } finally {
+        setState((s) => ({ ...s, isInProgress: false }));
       }
     }
 
@@ -76,11 +73,39 @@ export default function Bootstrap() {
       <Title>Complete PoeticMetric installation</Title>
 
       {state.isInProgress ? (
-        <div className="spinner-full">
-          <div className="spinner spinner-lg" />
-        </div>
+        <Layout verticallyCenter>
+          <div className="spinner-full">
+            <div className="spinner spinner-lg" />
+          </div>
+        </Layout>
+      ) : isAlreadyBootstrapped ? (
+        <Layout verticallyCenter>
+          <div className="container">
+            <div className={styles.title}>
+              <small className={styles.summary}>Bootstrap</small>
+
+              <h2 className={styles.heading}>
+                Already bootstrapped!
+              </h2>
+
+              <p>
+                It looks like PoeticMetric has already been initialized.
+              </p>
+
+              <div className={styles.buttonGroup}>
+                <Link className="button button-lg button-blue" to="/">
+                  Return home
+                </Link>
+
+                <a className="button button-lg button-blue-ghost" href="mailto:info@poeticmetric.com">
+                  Contact support
+                </a>
+              </div>
+            </div>
+          </div>
+        </Layout>
       ) : (
-        <main className={styles.main}>
+        <Layout>
           <div className="container">
             <div className={styles.title}>
               <small className={styles.description}>Bootstrap</small>
@@ -163,7 +188,7 @@ export default function Bootstrap() {
               </form>
             </div>
           </div>
-        </main>
+        </Layout>
       )}
     </>
   );
