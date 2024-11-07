@@ -60,7 +60,7 @@ export default function Bootstrap() {
         setState((prev) => ({ ...prev, isInProgress: false }));
       }
     }
-
+    
     run();
   }, []);
 
