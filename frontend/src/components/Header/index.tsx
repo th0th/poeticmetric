@@ -23,18 +23,30 @@ export default function Header() {
   }, [location]);
 
   const navLinks = useMemo<ReactNode>(() => (
-    <ul className={clsx(styles.navbarNav)}>
-      {links.map(({ link, name }) => (
-        <li key={name}>
-          <Link
-            className={(active) => clsx(styles.navLink, { active })}
-            to={link}
-          >
-            {name}
-          </Link>
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul className={clsx(styles.navbarNav)}>
+        {links.map(({ link, name }) => (
+          <li key={name}>
+            <Link
+              className={(active) => clsx(styles.navLink, { active })}
+              to={link}
+            >
+              {name}
+            </Link>
+          </li>
+        ))}
+      </ul>
+
+      <div className={styles.authContainer}>
+        <Link className={clsx("button", "button-blue")} to="/sign-in">
+          Sign in
+        </Link>
+
+        <Link className={clsx("button", "button-blue")} to="/sign-up">
+          Sign up
+        </Link>
+      </div>
+    </>
   ), []);
 
   return (
@@ -49,7 +61,7 @@ export default function Header() {
             className={clsx("button", styles.navbarToggler)}
             onClick={() => setIsDrawerOpen((prev) => !prev)}
           >
-            <IconMenu2 size={24} style={{ verticalAlign: "middle" }} />
+            <IconMenu2 size={24} />
           </button>
 
           <Collapse className={styles.navbarCollapse} open={isDrawerOpen}>

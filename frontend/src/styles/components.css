@@ -11,6 +11,10 @@
   text-decoration: none;
   transition: all var(--transition-duration) ease-in-out;
 
+  svg {
+    vertical-align: middle;
+  }
+
   &:disabled {
     cursor: not-allowed;
     opacity: 0.5;

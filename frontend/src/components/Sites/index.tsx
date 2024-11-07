@@ -1,7 +1,7 @@
 import Layout from "~/components/Layout";
 import Title from "~/components/Title";
 
-export default function Home() {
+export default function Sites() {
   return (
     <>
       <Title>Homepage</Title>
@@ -9,7 +9,7 @@ export default function Home() {
       <Layout verticallyCenter>
         <div className="container">
           <div>
-            Something beautiful is about to happen here &lt;3
+            Some great sites will be here &lt;3
           </div>
         </div>
       </Layout>

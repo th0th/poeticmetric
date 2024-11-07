@@ -34,6 +34,8 @@
 
   --transition-duration: 0.1s;
 
+  --header-height: 63px;
+
   --color-background-rgb: var(--color-white-rgb);
   --color-background: rgb(var(--color-background-rgb));
   --color-foreground-rgb: var(--color-black-rgb);

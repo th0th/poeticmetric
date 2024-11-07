@@ -5,15 +5,17 @@ import Error from "~/components/Error";
 import Header from "~/components/Header";
 import Home from "~/components/Home";
 import SignIn from "~/components/SignIn";
+import Sites from "~/components/Sites";
 
 export default function App() {
   return (
     <>
       <Header />
-        <Switch>
-          <Route component={SignIn} path="/sign-in" />
-          <Route component={Bootstrap} path="/bootstrap" />
-          <Route component={Home} path="/" />
+      <Switch>
+        <Route component={Sites} path="/sites" />
+        <Route component={SignIn} path="/sign-in" />
+        <Route component={Bootstrap} path="/bootstrap" />
+        <Route component={Home} path="/" />
 
         <Route>
           <Error />
