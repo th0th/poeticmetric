@@ -32,8 +32,6 @@ export default function Bootstrap() {
 
   async function submit(data: Form) {
     try {
-      setState((s) => ({ ...s, isSubmitInProgress: true }));
-
       const response = await api.post("/bootstrap", data);
       const responseJson = await response.json();
 
@@ -44,8 +42,6 @@ export default function Bootstrap() {
       }
     } catch (error) {
       showBoundary(error);
-    } finally {
-      setState((s) => ({ ...s, isSubmitInProgress: false }));
     }
   }
 
