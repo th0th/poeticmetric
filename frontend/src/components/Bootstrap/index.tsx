@@ -2,7 +2,9 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
-import { useLocation } from "wouter";
+import { Link } from "wouter";
+import ActivityOverlay from "~/components/ActivityOverlay";
+import Layout from "~/components/Layout";
 import Title from "~/components/Title";
 import { api } from "~/lib/api";
 import { setErrors } from "~/lib/form";
@@ -18,14 +20,15 @@ type Form = {
 };
 
 type State = {
+  isAlreadyBootstrapped: boolean;
+  isBootstrapComplete: boolean;
   isInProgress: boolean;
 };
 
 export default function Bootstrap() {
   const { showBoundary } = useErrorBoundary();
-  const [_, setLocation] = useLocation();
-  const [state, setState] = useState<State>({ isInProgress: true });
-  const { formState: { errors }, handleSubmit, register, setError } = useForm<Form>({});
+  const [state, setState] = useState<State>({ isAlreadyBootstrapped: false, isBootstrapComplete: false, isInProgress: true });
+  const { formState: { errors, isSubmitting }, handleSubmit, register, setError } = useForm<Form>({});
 
   async function submit(data: Form) {
     try {
@@ -33,7 +36,7 @@ export default function Bootstrap() {
       const responseJson = await response.json();
 
       if (response.ok) {
-
+        setState((prev) => ({ ...prev, isBootstrapComplete: true }));
       } else {
         setErrors(setError, responseJson);
       }
@@ -47,13 +50,13 @@ export default function Bootstrap() {
       try {
         const response = await api.get("/bootstrap");
 
-        if (response.ok) {
-          setState((s) => ({ ...s, isInProgress: false }));
-        } else {
-          setLocation("/");
+        if (!response.ok) {
+          setState((prev) => ({ ...prev, isAlreadyBootstrapped: true }));
         }
       } catch (error) {
         showBoundary(error);
+      } finally {
+        setState((prev) => ({ ...prev, isInProgress: false }));
       }
     }
 
@@ -65,14 +68,64 @@ export default function Bootstrap() {
       <Title>Complete PoeticMetric installation</Title>
 
       {state.isInProgress ? (
-        <div className="spinner-full">
-          <div className="spinner spinner-lg" />
-        </div>
-      ) : (
-        <main className={styles.main}>
+        <Layout>
+          <div className="spinner-full">
+            <div className="spinner spinner-lg" />
+          </div>
+        </Layout>
+      ) : state.isAlreadyBootstrapped ? (
+        <Layout>
           <div className="container">
             <div className={styles.title}>
-              <small className={styles.description}>Bootstrap</small>
+              <small className={styles.summary}>Bootstrap</small>
+
+              <h2 className={styles.heading}>
+                Already bootstrapped!
+              </h2>
+
+              <p>
+                It looks like PoeticMetric has already been installed.
+              </p>
+
+              <div className={styles.buttonGroup}>
+                <Link className="button button-lg button-blue" to="/">
+                  Return home
+                </Link>
+
+                <a className="button button-lg button-blue-ghost" href="mailto:support@poeticmetric.com">
+                  Contact support
+                </a>
+              </div>
+            </div>
+          </div>
+        </Layout>
+      ) : state.isBootstrapComplete ? (
+        <Layout>
+          <div className="container">
+            <div className={styles.title}>
+              <small className={styles.summary}>Bootstrap</small>
+
+              <h2 className={styles.heading}>
+                You are all set!
+              </h2>
+
+              <p>
+                PoeticMetric has been successfully installed.
+              </p>
+
+              <div className={styles.buttonGroup}>
+                <Link className="button button-lg button-blue" to="/sites">
+                  Go to dashboard
+                </Link>
+              </div>
+            </div>
+          </div>
+        </Layout>
+      ) : (
+        <Layout>
+          <div className="container">
+            <div className={styles.title}>
+              <small className={styles.summary}>Bootstrap</small>
 
               <h1 className={styles.heading}>
                 Welcome to
@@ -84,76 +137,96 @@ export default function Bootstrap() {
             </div>
 
             <div className={clsx("card", styles.card)}>
-              <form className="card-body" onSubmit={handleSubmit(submit)}>
-                <fieldset className="fieldset">
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="input-user-name">Full name</label>
+              <ActivityOverlay isActive={isSubmitting}>
+                <form className="card-body" onSubmit={handleSubmit(submit)}>
+                  <fieldset className="fieldset" disabled={isSubmitting}>
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="input-user-name">Full name</label>
 
-                    <input className="input" id="input-user-name" required {...register("userName")} />
+                      <input
+                        className={clsx("input", errors.userName && "input-invalid")}
+                        id="input-user-name"
+                        required
+                        {...register("userName")}
+                      />
 
-                    {!!errors.userName ? (<div>{errors.userName.message}</div>) : null}
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="input-user-email">E-mail address</label>
-
-                    <input
-                      className={clsx("input", errors.userEmail && "input-invalid")}
-                      id="input-user-email"
-                      required
-                      type="email"
-                      {...register("userEmail")}
-                    />
-
-                    {!!errors.userEmail ? (<div className="form-error">{errors.userEmail.message}</div>) : null}
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="input-user-password">New password</label>
-
-                    <input className="input" id="input-user-password" required type="password" {...register("userPassword")} />
-
-                    {!!errors.userPassword ? (<div className="form-error">{errors.userPassword.message}</div>) : null}
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="input-user-password2">New password (again)</label>
-
-                    <input
-                      className={clsx("input", errors.userPassword2 && "input-invalid")}
-                      id="input-user-password2"
-                      required
-                      type="password"
-                      {...register("userPassword2")}
-                    />
-
-                    {!!errors.userPassword2 ? (<div className="form-error">{errors.userPassword2.message}</div>) : null}
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="input-organization-name">Organization</label>
-
-                    <input className="input" id="input-organization-name" required {...register("organizationName")} />
-
-                    {!!errors.organizationName ? (<div className="form-error">{errors.organizationName.message}</div>) : null}
-                  </div>
-
-                  <div className="form-group">
-                    <div className="form-group-inline">
-                      <input id="input-create-demo-site" type="checkbox" {...register("createDemoSite")} />
-
-                      <label htmlFor="input-create-demo-site">Create demo site</label>
+                      {!!errors.userName ? (<div>{errors.userName.message}</div>) : null}
                     </div>
 
-                    {!!errors.createDemoSite ? (<div className="form-error">{errors.createDemoSite.message}</div>) : null}
-                  </div>
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="input-user-email">E-mail address</label>
 
-                  <button className="button button-blue" type="submit">Complete installation</button>
-                </fieldset>
-              </form>
+                      <input
+                        className={clsx("input", errors.userEmail && "input-invalid")}
+                        id="input-user-email"
+                        required
+                        type="email"
+                        {...register("userEmail")}
+                      />
+
+                      {!!errors.userEmail ? (<div className="form-error">{errors.userEmail.message}</div>) : null}
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">New password</label>
+
+                      <input
+                        className={clsx("input", errors.userPassword && "input-invalid")}
+                        required
+                        type="password"
+                        {...register("userPassword")}
+                      />
+
+                      {!!errors.userPassword ? (<div className="form-error">{errors.userPassword.message}</div>) : null}
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">New password (again)</label>
+
+                      <input
+                        className={clsx("input", errors.userPassword2 && "input-invalid")}
+                        required
+                        type="password"
+                        {...register("userPassword2")}
+                      />
+
+                      {!!errors.userPassword2 ? (<div className="form-error">{errors.userPassword2.message}</div>) : null}
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">Organization</label>
+
+                      <input
+                        className={clsx("input", errors.organizationName && "input-invalid")}
+                        required
+                        {...register("organizationName")}
+                      />
+
+                      {!!errors.organizationName ? (<div className="form-error">{errors.organizationName.message}</div>) : null}
+                    </div>
+
+                    <div className="form-group">
+                      <div className="form-group-inline">
+                        <input
+                          className={clsx(errors.createDemoSite && "input-invalid")}
+                          id="input-create-demo-site"
+                          type="checkbox"
+                          {...register("createDemoSite")}
+                        />
+
+                        <label htmlFor="input-create-demo-site">Create demo site</label>
+                      </div>
+
+                      {!!errors.createDemoSite ? (<div className="form-error">{errors.createDemoSite.message}</div>) : null}
+                    </div>
+
+                    <button className="button button-blue" type="submit">Complete installation</button>
+                  </fieldset>
+                </form>
+              </ActivityOverlay>
             </div>
           </div>
-        </main>
+        </Layout>
       )}
     </>
   );
