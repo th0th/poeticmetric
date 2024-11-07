@@ -21,6 +21,7 @@ import (
 	responder2 "github.com/th0th/poeticmetric/backend/pkg/restapi/responder"
 	"github.com/th0th/poeticmetric/backend/pkg/service/authentication"
 	"github.com/th0th/poeticmetric/backend/pkg/service/bootstrap"
+	"github.com/th0th/poeticmetric/backend/pkg/service/email"
 	"github.com/th0th/poeticmetric/backend/pkg/service/env"
 )
 
@@ -52,8 +53,16 @@ func main() {
 		cmd.LogPanic(err, "failed to init postgres")
 	}
 
+	emailService, err := email.New(email.NewParams{
+		EnvService: envService,
+	})
+	if err != nil {
+		cmd.LogPanic(err, "failed to init email service")
+	}
+
 	authenticationService := authentication.New(authentication.NewParams{
-		Postgres: postgres,
+		EmailService: emailService,
+		Postgres:     postgres,
 	})
 
 	bootstrapService := bootstrap.New(bootstrap.NewParams{
@@ -98,6 +107,7 @@ func main() {
 		"DELETE /authentication/user-access-tokens",
 		alice.New(permissionUserAccessTokenAuthenticated).ThenFunc(authenticationHandler.DeleteUserAccessToken),
 	)
+	mux.HandleFunc("POST /authentication/send-user-password-recovery-email", authenticationHandler.SendUserPasswordRecoveryEmail)
 
 	// handlers: bootstrap
 	mux.HandleFunc("GET /bootstrap", bootstrapHandler.Check)

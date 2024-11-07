@@ -3,7 +3,10 @@ package authentication
 import (
 	"context"
 	"errors"
+	"net/mail"
 
+	v "github.com/RussellLuo/validating/v3"
+	"github.com/RussellLuo/vext"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 
@@ -11,16 +14,19 @@ import (
 )
 
 type NewParams struct {
-	Postgres *gorm.DB
+	EmailService poeticmetric.EmailService
+	Postgres     *gorm.DB
 }
 
 type service struct {
-	postgres *gorm.DB
+	emailService poeticmetric.EmailService
+	postgres     *gorm.DB
 }
 
 func New(params NewParams) poeticmetric.AuthenticationService {
 	return &service{
-		postgres: params.Postgres,
+		emailService: params.EmailService,
+		postgres:     params.Postgres,
 	}
 }
 
@@ -136,4 +142,63 @@ func (s *service) ReadUserByUserAccessToken(ctx context.Context, token string) (
 	}
 
 	return &user, &userAccessToken, nil
+}
+
+func (s *service) SendUserPasswordRecoveryEmail(
+	ctx context.Context,
+	params *poeticmetric.AuthenticationServiceSendUserPasswordRecoveryEmailParams,
+) error {
+	err := s.validateSendUserPasswordRecoveryEmail(ctx, params)
+	if err != nil {
+		return err
+	}
+
+	postgres := poeticmetric.ServicePostgres(ctx, s)
+
+	user := poeticmetric.User{Email: *params.Email}
+	err = postgres.First(&user, user, "Email").Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return poeticmetric.ErrNotFound
+		}
+
+		return err
+	}
+
+	user.SetPasswordResetToken()
+
+	err = s.emailService.Send(poeticmetric.EmailServiceSendParams{
+		Subject:  "PoeticMetric password recovery",
+		Template: poeticmetric.EmailServiceTemplatePasswordRecovery,
+		TemplateData: poeticmetric.EmailServiceTemplatePasswordRecoveryParams{
+			User: user,
+		},
+		To: &mail.Address{Address: user.Email, Name: user.Name},
+	})
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s *service) validateSendUserPasswordRecoveryEmail(
+	_ context.Context,
+	params *poeticmetric.AuthenticationServiceSendUserPasswordRecoveryEmailParams,
+) error {
+	validationErrs := v.Validate(v.Schema{
+		v.F("email", params.Email): v.All(
+			v.Nonzero[*string]().Msg("This field is required."),
+
+			v.Nested(func(x *string) v.Validator {
+				return v.Value(*x, vext.Email().Msg("Please provide a valid e-mail address."))
+			}),
+		),
+	})
+
+	if len(validationErrs) > 0 {
+		return validationErrs
+	}
+
+	return nil
 }

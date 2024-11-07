@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: {{ include "poeticmetric.fullname" . }}-clickhouse
   labels:
-    {{- include "poeticmetric.labels" . | nindent 4 }}
+    {{ include "poeticmetric.labels" . | nindent 4 }}
 data:
   CONFIG: |
     <?xml version="1.0"?>

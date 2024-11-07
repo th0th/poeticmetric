@@ -201,6 +201,10 @@ func (u *User) SetPassword(password string) error {
 	return nil
 }
 
+func (u *User) SetPasswordResetToken() {
+	u.PasswordResetToken = Pointer(uniuri.New())
+}
+
 func (u *UserAccessToken) SetToken() {
 	u.Token = uniuri.New()
 }

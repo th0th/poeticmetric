@@ -2,19 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    {{- include "poeticmetric.labels" . | nindent 4 }}
+    {{ include "poeticmetric.labels" . | nindent 4 }}
     restart-on-deploy: "true"
   name: {{ include "poeticmetric.fullname" . }}-rest-api
 spec:
   replicas: {{ .Values.poeticmetric.restApi.replicas }}
   selector:
     matchLabels:
-      {{- include "poeticmetric.selectorLabels" . | nindent 6 }}
+      {{ include "poeticmetric.selectorLabels" . | nindent 6 }}
       deployment: rest-api
   template:
     metadata:
       labels:
-        {{- include "poeticmetric.selectorLabels" . | nindent 8 }}
+        {{ include "poeticmetric.selectorLabels" . | nindent 8 }}
         deployment: rest-api
     spec:
       containers:
@@ -46,6 +46,14 @@ spec:
           secretRef:
             name: {{ include "poeticmetric.fullname" . }}-rabbitmq
             optional: false
+        - prefix: SMTP_
+          configMapRef:
+            name: {{ include "poeticmetric.fullname" . }}-smtp
+            optional: false
+        - prefix: SMTP_
+          secretRef:
+            name: {{ include "poeticmetric.fullname" . }}-smtp
+            optional: false
         - configMapRef:
             name: {{ include "poeticmetric.fullname" . }}-poeticmetric
             optional: false
@@ -53,7 +61,7 @@ spec:
         imagePullPolicy: {{ .Values.poeticmetric.backend.image.pullPolicy }}
         name: rest-api
         resources:
-          {{- toYaml .Values.poeticmetric.restApi.resources | nindent 10 }}
+          {{ toYaml .Values.poeticmetric.restApi.resources | nindent 10 }}
         volumeMounts:
         {{ if .Values.poeticmetric.development.hostBasePath }}
         - mountPath: /poeticmetric/cmd

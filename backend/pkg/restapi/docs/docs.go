@@ -16,6 +16,34 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/authentication/send-user-password-recovery-email": {
+            "post": {
+                "description": "Send a password recovery e-mail to the user.",
+                "tags": [
+                    "authentication"
+                ],
+                "summary": "Send user password recovery e-mail",
+                "parameters": [
+                    {
+                        "description": "Params",
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/poeticmetric.AuthenticationServiceSendUserPasswordRecoveryEmailParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/responder.DetailResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/authentication/user-access-tokens": {
             "post": {
                 "security": [
@@ -112,6 +140,14 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "poeticmetric.AuthenticationServiceSendUserPasswordRecoveryEmailParams": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                }
+            }
+        },
         "poeticmetric.AuthenticationServiceUserAccessToken": {
             "type": "object",
             "properties": {
