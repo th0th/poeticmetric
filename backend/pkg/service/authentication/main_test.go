@@ -261,17 +261,12 @@ func Test_service_SendUserPasswordRecoveryEmail(t *testing.T) {
 }
 
 func Test_service_validateSendUserPasswordRecoveryEmail(t *testing.T) {
-	type fields struct {
-		emailService poeticmetric.EmailService
-		postgres     *gorm.DB
-	}
 	type args struct {
 		ctx    context.Context
 		params *poeticmetric.AuthenticationServiceSendUserPasswordRecoveryEmailParams
 	}
 	tests := []struct {
 		name    string
-		fields  fields
 		args    args
 		wantErr assert.ErrorAssertionFunc
 	}{
