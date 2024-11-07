@@ -54,7 +54,7 @@ export default function SignUp() {
       <Title>Sign up</Title>
 
       {isAlreadySignedIn ? (
-        <Layout verticallyCenter>
+        <Layout>
           <div className="container">
             <AuthenticationHeader
               actions={(
@@ -71,7 +71,7 @@ export default function SignUp() {
           </div>
         </Layout>
       ) : signedUp ? (
-        <Layout verticallyCenter>
+        <Layout>
           <div className="container">
             <AuthenticationHeader
               actions={(
@@ -88,7 +88,7 @@ export default function SignUp() {
           </div>
         </Layout>
       ) : (
-        <Layout verticallyCenter>
+        <Layout>
           <div className="container">
             <AuthenticationHeader
               description="Sign up to create your analytics dashboard."
