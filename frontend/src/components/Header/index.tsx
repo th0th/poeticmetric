@@ -38,11 +38,11 @@ export default function Header() {
       </ul>
 
       <div className={styles.authContainer}>
-        <Link className={clsx("button", "button-blue")} to="/sign-in">
+        <Link className={clsx("button", "button-blue-ghost", "button-sm")} to="/sign-in">
           Sign in
         </Link>
 
-        <Link className={clsx("button", "button-blue")} to="/sign-up">
+        <Link className={clsx("button", "button-blue", "button-sm")} to="/sign-up">
           Sign up
         </Link>
       </div>

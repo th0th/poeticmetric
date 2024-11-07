@@ -1,34 +1,23 @@
-.title {
-  margin-bottom: 2rem;
-  text-align: center;
-
-  .summary {
-    color: rgba(var(--color-blue-700-rgb));
-    font-weight: 700;
-
-    @media (prefers-color-scheme: dark) {
-      color: rgba(var(--color-blue-400-rgb));
-    }
-  }
-
-  .heading {
-    font-size: 3rem;
-    font-weight: 700;
-    line-height: 3.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .button-group {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
-    margin-block: 2rem;
-  }
-}
-
 .card {
   margin-inline: auto;
-  max-width: 32rem;
+  margin-top: 2rem;
+  max-width: 28rem;
 }
+
+.forgot-password-link {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: space-between;
+
+  > a {
+    font-size: 0.875rem;
+  }
+}
+
+.sign-up-link {
+  font-size: 0.875rem;
+  text-align: center;
+}
+

@@ -1,0 +1,40 @@
+@import "~/styles/media.css";
+
+.authentication-header {
+  text-align: center;
+
+  .action-group {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2.5rem;
+  }
+
+  .heading {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 3.5rem;
+    margin-bottom: 0.5rem;
+    transition: font-size 0.2s ease;
+  }
+
+  .summary {
+    color: rgba(var(--color-blue-700-rgb));
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .summary {
+      color: rgba(var(--color-blue-400-rgb));
+    }
+  }
+
+  @media (--min-sm) {
+    .heading {
+      font-size: 3rem;
+    }
+  }
+}

@@ -6,7 +6,7 @@ export default function Home() {
     <>
       <Title>Homepage</Title>
 
-      <Layout verticallyCenter>
+      <Layout>
         <div className="container">
           <div>
             Something beautiful is about to happen here &lt;3

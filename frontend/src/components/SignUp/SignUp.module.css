@@ -1,0 +1,11 @@
+.card {
+  margin-inline: auto;
+  margin-top: 2rem;
+  max-width: 28rem;
+}
+
+.sign-in-link {
+  font-size: 0.875rem;
+  text-align: center;
+}
+

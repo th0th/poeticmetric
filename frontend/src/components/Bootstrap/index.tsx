@@ -4,6 +4,7 @@ import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
 import { Link } from "wouter";
 import ActivityOverlay from "~/components/ActivityOverlay";
+import AuthenticationHeader from "~/components/AuthenticationHeader";
 import Layout from "~/components/Layout";
 import Title from "~/components/Title";
 import { api } from "~/lib/api";
@@ -76,65 +77,53 @@ export default function Bootstrap() {
       ) : state.isAlreadyBootstrapped ? (
         <Layout>
           <div className="container">
-            <div className={styles.title}>
-              <small className={styles.summary}>Bootstrap</small>
+            <AuthenticationHeader
+              actions={(
+                <>
+                  <Link className="button button-lg button-blue" to="/">
+                    Return home
+                  </Link>
 
-              <h2 className={styles.heading}>
-                Already bootstrapped!
-              </h2>
-
-              <p>
-                It looks like PoeticMetric has already been installed.
-              </p>
-
-              <div className={styles.buttonGroup}>
-                <Link className="button button-lg button-blue" to="/">
-                  Return home
-                </Link>
-
-                <a className="button button-lg button-blue-ghost" href="mailto:support@poeticmetric.com">
-                  Contact support
-                </a>
-              </div>
-            </div>
+                  <a className="button button-lg button-blue-ghost" href="mailto:info@poeticmetric.com">
+                    Contact support
+                  </a>
+                </>
+              )}
+              description="It looks like PoeticMetric has already been initialized."
+              summary="Bootstrap"
+              title="Already bootstrapped!"
+            />
           </div>
         </Layout>
       ) : state.isBootstrapComplete ? (
         <Layout>
           <div className="container">
-            <div className={styles.title}>
-              <small className={styles.summary}>Bootstrap</small>
-
-              <h2 className={styles.heading}>
-                You are all set!
-              </h2>
-
-              <p>
-                PoeticMetric has been successfully installed.
-              </p>
-
-              <div className={styles.buttonGroup}>
-                <Link className="button button-lg button-blue" to="/sites">
-                  Go to dashboard
+            <AuthenticationHeader
+              actions={(
+                <Link className="button button-lg button-blue" to="/sign-up">
+                  Sign up to create dashboard
                 </Link>
-              </div>
-            </div>
+              )}
+              description="PoeticMetric has been successfully initialized."
+              summary="Bootstrap"
+              title="You are all set!"
+            />
           </div>
         </Layout>
       ) : (
         <Layout>
           <div className="container">
-            <div className={styles.title}>
-              <small className={styles.summary}>Bootstrap</small>
-
-              <h1 className={styles.heading}>
-                Welcome to
-                <br />
-                PoeticMetric!
-              </h1>
-
-              <p>Complete PoeticMetric installation to continue.</p>
-            </div>
+            <AuthenticationHeader
+              description="Complete PoeticMetric installation to continue."
+              summary="Bootstrap"
+              title={(
+                <>
+                  Welcome to
+                  <br />
+                  PoeticMetric!
+                </>
+              )}
+            />
 
             <div className={clsx("card", styles.card)}>
               <ActivityOverlay isActive={isSubmitting}>
