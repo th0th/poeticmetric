@@ -27,7 +27,7 @@ type State = {
 
 export default function Bootstrap() {
   const { showBoundary } = useErrorBoundary();
-  const [state, setState] = useState<State>({ isAlreadyBootstrapped: false,isBootstrapComplete:false, isInProgress: true });
+  const [state, setState] = useState<State>({ isAlreadyBootstrapped: false, isBootstrapComplete: false, isInProgress: true });
   const { formState: { errors, isSubmitting }, handleSubmit, register, setError } = useForm<Form>({});
 
   async function submit(data: Form) {
@@ -72,13 +72,13 @@ export default function Bootstrap() {
       <Title>Complete PoeticMetric installation</Title>
 
       {state.isInProgress ? (
-        <Layout verticallyCenter>
+        <Layout>
           <div className="spinner-full">
             <div className="spinner spinner-lg" />
           </div>
         </Layout>
       ) : state.isAlreadyBootstrapped ? (
-        <Layout verticallyCenter>
+        <Layout>
           <div className="container">
             <div className={styles.title}>
               <small className={styles.summary}>Bootstrap</small>
@@ -104,7 +104,7 @@ export default function Bootstrap() {
           </div>
         </Layout>
       ) : state.isBootstrapComplete ? (
-        <Layout verticallyCenter>
+        <Layout>
           <div className="container">
             <div className={styles.title}>
               <small className={styles.summary}>Bootstrap</small>
@@ -126,7 +126,7 @@ export default function Bootstrap() {
           </div>
         </Layout>
       ) : (
-        <Layout verticallyCenter>
+        <Layout>
           <div className="container">
             <div className={styles.title}>
               <small className={styles.summary}>Bootstrap</small>
