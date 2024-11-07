@@ -9,12 +9,12 @@ type LayoutProps = Overwrite<PropsWithoutRef<JSX.IntrinsicElements["main"]>, {
 export default function Layout({ children, className, verticallyCenter = false, ...props }: LayoutProps) {
   return (
     <main
+      {...props}
       className={clsx(
         styles.layout,
         verticallyCenter && styles.verticallyCenter,
         className,
       )}
-      {...props}
     >
       {children}
     </main>

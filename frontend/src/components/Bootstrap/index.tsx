@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
 import { Link } from "wouter";
@@ -21,16 +21,14 @@ type Form = {
 
 type State = {
   isInProgress: boolean;
-  isSubmitInProgress: boolean;
 };
 
 export default function Bootstrap() {
   const [isAlreadyBootstrapped, setIsAlreadyBootstrapped] = useState<boolean>(false);
-  const [isBootstrapped, setIsBootstrapped] = useState<boolean>(true);
+  const [isBootstrapComplete, setIsBootstrapComplete] = useState<boolean>(false);
   const { showBoundary } = useErrorBoundary();
-  const initialized = useRef(false);
-  const [state, setState] = useState<State>({ isInProgress: true, isSubmitInProgress: false });
-  const { formState: { errors }, handleSubmit, register, setError } = useForm<Form>({});
+  const [state, setState] = useState<State>({ isInProgress: true });
+  const { formState: { errors, isSubmitting }, handleSubmit, register, setError } = useForm<Form>({});
 
   async function submit(data: Form) {
     try {
@@ -40,7 +38,7 @@ export default function Bootstrap() {
       const responseJson = await response.json();
 
       if (response.ok) {
-        setIsBootstrapped(true);
+        setIsBootstrapComplete(true);
       } else {
         setErrors(setError, responseJson);
       }
@@ -66,11 +64,7 @@ export default function Bootstrap() {
       }
     }
 
-    if (!initialized.current) {
-      initialized.current = true;
-
-      run();
-    }
+    run();
   }, []);
 
   return (
@@ -94,7 +88,7 @@ export default function Bootstrap() {
               </h2>
 
               <p>
-                It looks like PoeticMetric has already been initialized.
+                It looks like PoeticMetric has already been installed.
               </p>
 
               <div className={styles.buttonGroup}>
@@ -102,14 +96,14 @@ export default function Bootstrap() {
                   Return home
                 </Link>
 
-                <a className="button button-lg button-blue-ghost" href="mailto:info@poeticmetric.com">
+                <a className="button button-lg button-blue-ghost" href="mailto:support@poeticmetric.com">
                   Contact support
                 </a>
               </div>
             </div>
           </div>
         </Layout>
-      ) : isBootstrapped ? (
+      ) : isBootstrapComplete ? (
         <Layout verticallyCenter>
           <div className="container">
             <div className={styles.title}>
@@ -120,7 +114,7 @@ export default function Bootstrap() {
               </h2>
 
               <p>
-                PoeticMetric has been successfully initialized.
+                PoeticMetric has been successfully installed.
               </p>
 
               <div className={styles.buttonGroup}>
@@ -147,13 +141,18 @@ export default function Bootstrap() {
             </div>
 
             <div className={clsx("card", styles.card)}>
-              <ActivityOverlay isActive={state.isSubmitInProgress}>
+              <ActivityOverlay isActive={isSubmitting}>
                 <form className="card-body" onSubmit={handleSubmit(submit)}>
-                  <fieldset className="fieldset" disabled={state.isSubmitInProgress}>
+                  <fieldset className="fieldset" disabled={isSubmitting}>
                     <div className="form-group">
                       <label className="form-label" htmlFor="input-user-name">Full name</label>
 
-                      <input className={clsx("input", errors.userName && "input-invalid")} id="input-user-name" required {...register("userName")} />
+                      <input
+                        className={clsx("input", errors.userName && "input-invalid")}
+                        id="input-user-name"
+                        required
+                        {...register("userName")}
+                      />
 
                       {!!errors.userName ? (<div>{errors.userName.message}</div>) : null}
                     </div>
@@ -175,7 +174,12 @@ export default function Bootstrap() {
                     <div className="form-group">
                       <label className="form-label">New password</label>
 
-                      <input className={clsx("input", errors.userPassword && "input-invalid")} required type="password" {...register("userPassword")} />
+                      <input
+                        className={clsx("input", errors.userPassword && "input-invalid")}
+                        required
+                        type="password"
+                        {...register("userPassword")}
+                      />
 
                       {!!errors.userPassword ? (<div className="form-error">{errors.userPassword.message}</div>) : null}
                     </div>
@@ -196,14 +200,23 @@ export default function Bootstrap() {
                     <div className="form-group">
                       <label className="form-label">Organization</label>
 
-                      <input className={clsx("input", errors.organizationName && "input-invalid")} required {...register("organizationName")} />
+                      <input
+                        className={clsx("input", errors.organizationName && "input-invalid")}
+                        required
+                        {...register("organizationName")}
+                      />
 
                       {!!errors.organizationName ? (<div className="form-error">{errors.organizationName.message}</div>) : null}
                     </div>
 
                     <div className="form-group">
                       <div className="form-group-inline">
-                        <input className={clsx(errors.createDemoSite && "input-invalid")} id="input-create-demo-site" type="checkbox" {...register("createDemoSite")} />
+                        <input
+                          className={clsx(errors.createDemoSite && "input-invalid")}
+                          id="input-create-demo-site"
+                          type="checkbox"
+                          {...register("createDemoSite")}
+                        />
 
                         <label htmlFor="input-create-demo-site">Create demo site</label>
                       </div>

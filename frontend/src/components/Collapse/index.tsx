@@ -8,6 +8,7 @@ type CollapseProps = Overwrite<PropsWithoutRef<JSX.IntrinsicElements["div"]>, {
 }>;
 
 export default function Collapse({ children, className, open, resolution = "lg", ...props }: CollapseProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef(null);
   const [contentHeight, setContentHeight] = useState<number>(0);
 
@@ -19,11 +20,17 @@ export default function Collapse({ children, className, open, resolution = "lg",
     }
   }, [open]);
 
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.style.setProperty("--collapse-height", `${contentHeight}px`);
+    }
+  }, [contentHeight]);
+
   return (
     <div
       {...props}
       className={clsx(styles.collapse, styles[`collapse-${resolution}`], className)}
-      style={{ height: contentHeight }}
+      ref={containerRef}
     >
       <div className={styles.content} ref={contentRef}>
         {children}
