@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
-import { Link, useLocation } from "wouter";
+import { Link } from "wouter";
 import ActivityOverlay from "~/components/ActivityOverlay";
 import Layout from "~/components/Layout";
 import styles from "~/components/SignIn/SignIn.module.css";
@@ -22,20 +22,21 @@ type State = {
 export default function SignIn() {
   const { showBoundary } = useErrorBoundary();
   const [isAlreadySignedIn] = useState<boolean>(false);
+  const [signedIn, setSignedIn] = useState<boolean>(true);
   const [state, setState] = useState<State>({ isInProgress: false });
-  const [_, setLocation] = useLocation();
   const { formState: { errors }, handleSubmit, register, setError } = useForm<Form>({});
 
   async function submit(data: Form) {
     try {
       setState((s) => ({ ...s, isInProgress: true }));
 
-      /* TODO: Change endpoint */
-      const response = await api.post("/sign-in", data);
+      const response = await api.post("/authentication/user-access-tokens", data);
       const responseJson = await response.json();
 
       if (response.ok) {
-        setLocation("/");
+        localStorage.setItem("accessToken", responseJson.accessToken);
+
+        setSignedIn(true);
       } else {
         setErrors(setError, responseJson);
       }
@@ -62,6 +63,28 @@ export default function SignIn() {
 
               <p>
                 It looks like you're already signed in.
+              </p>
+
+              <div className={styles.buttonGroup}>
+                <Link className="button button-lg button-blue" to="/sites">
+                  Go to dashboard
+                </Link>
+              </div>
+            </div>
+          </div>
+        </Layout>
+      ) : signedIn ? (
+        <Layout verticallyCenter>
+          <div className="container">
+            <div className={styles.title}>
+              <small className={styles.summary}>Sign in</small>
+
+              <h2 className={styles.heading}>
+                Signed in!
+              </h2>
+
+              <p>
+                You're successfully signed in.
               </p>
 
               <div className={styles.buttonGroup}>
@@ -110,7 +133,12 @@ export default function SignIn() {
                     <div className="form-group">
                       <label className="form-label">Password</label>
 
-                      <input className={clsx("input", errors.userPassword && "input-invalid")} required type="password" {...register("userPassword")} />
+                      <input
+                        className={clsx("input", errors.userPassword && "input-invalid")}
+                        required
+                        type="password"
+                        {...register("userPassword")}
+                      />
 
                       {!!errors.userPassword ? (
                         <div className="form-error">{errors.userPassword.message}</div>
