@@ -20,14 +20,14 @@ type Form = {
 };
 
 type State = {
+  isAlreadyBootstrapped: boolean;
+  isBootstrapComplete: boolean;
   isInProgress: boolean;
 };
 
 export default function Bootstrap() {
-  const [isAlreadyBootstrapped, setIsAlreadyBootstrapped] = useState<boolean>(false);
-  const [isBootstrapComplete, setIsBootstrapComplete] = useState<boolean>(false);
   const { showBoundary } = useErrorBoundary();
-  const [state, setState] = useState<State>({ isInProgress: true });
+  const [state, setState] = useState<State>({ isAlreadyBootstrapped: false,isBootstrapComplete:false, isInProgress: true });
   const { formState: { errors, isSubmitting }, handleSubmit, register, setError } = useForm<Form>({});
 
   async function submit(data: Form) {
@@ -38,7 +38,7 @@ export default function Bootstrap() {
       const responseJson = await response.json();
 
       if (response.ok) {
-        setIsBootstrapComplete(true);
+        setState((prev) => ({ ...prev, isBootstrapComplete: true }));
       } else {
         setErrors(setError, responseJson);
       }
@@ -55,7 +55,7 @@ export default function Bootstrap() {
         const response = await api.get("/bootstrap");
 
         if (!response.ok) {
-          setIsAlreadyBootstrapped(true);
+          setState((prev) => ({ ...prev, isAlreadyBootstrapped: true }));
         }
       } catch (error) {
         showBoundary(error);
@@ -77,7 +77,7 @@ export default function Bootstrap() {
             <div className="spinner spinner-lg" />
           </div>
         </Layout>
-      ) : isAlreadyBootstrapped ? (
+      ) : state.isAlreadyBootstrapped ? (
         <Layout verticallyCenter>
           <div className="container">
             <div className={styles.title}>
@@ -103,7 +103,7 @@ export default function Bootstrap() {
             </div>
           </div>
         </Layout>
-      ) : isBootstrapComplete ? (
+      ) : state.isBootstrapComplete ? (
         <Layout verticallyCenter>
           <div className="container">
             <div className={styles.title}>
