@@ -9,7 +9,7 @@ type CollapseProps = Overwrite<PropsWithoutRef<JSX.IntrinsicElements["div"]>, {
 
 export default function Collapse({ children, className, open, resolution = "lg", ...props }: CollapseProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef(null);
+  const contentRef = useRef<HTMLDivElement>(null);
   const [contentHeight, setContentHeight] = useState<number>(0);
 
   useEffect(() => {
