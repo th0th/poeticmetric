@@ -43,6 +43,8 @@ func main() {
 		cmd.LogPanic(err, "failed to init env service")
 	}
 
+	docs.SwaggerInfo.BasePath = envService.RestApiBasePath()
+
 	postgres, err := gorm.Open(postgres2.Open(envService.PostgresDsn()), envService.GormConfig())
 	if err != nil {
 		cmd.LogPanic(err, "failed to init postgres")
@@ -70,8 +72,6 @@ func main() {
 		EnvService: envService,
 		Postgres:   postgres,
 	})
-
-	docs.SwaggerInfo.BasePath = envService.RestApiBasePath()
 
 	responder := responder2.New(responder2.NewParams{
 		EnvService: envService,

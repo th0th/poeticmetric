@@ -60,6 +60,7 @@ require (
 	github.com/rs/xid v1.5.0 // indirect
 	github.com/segmentio/asm v1.2.0 // indirect
 	github.com/shopspring/decimal v1.4.0 // indirect
+	github.com/stretchr/objx v0.5.2 // indirect
 	github.com/swaggo/files/v2 v2.0.0 // indirect
 	github.com/th0th/disposableemail v0.0.2-0.20241107110532-1e027547679f // indirect
 	go.opentelemetry.io/otel v1.29.0 // indirect
