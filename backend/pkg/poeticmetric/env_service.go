@@ -18,6 +18,7 @@ type EnvService interface {
 	RestApiBasePath() string
 	SmtpAddr() string
 	SmtpAuth() smtp.Auth
+	SmtpFrom() string
 }
 
 type EnvServiceVars struct {

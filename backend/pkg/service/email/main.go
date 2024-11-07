@@ -6,9 +6,9 @@ import (
 	"errors"
 	"fmt"
 	"html/template"
-	"mime"
 	"net/smtp"
 	"slices"
+	texttemplate "text/template"
 
 	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
 )
@@ -17,39 +17,36 @@ type NewParams struct {
 	EnvService poeticmetric.EnvService
 }
 
+type smtpMessageParams struct {
+	Body    string
+	From    string
+	Subject string
+	To      string
+}
+
 type service struct {
 	envService poeticmetric.EnvService
-	smtpAddr   string
-	smtpAuth   smtp.Auth
 	templates  *template.Template
 }
 
 func New(params NewParams) (poeticmetric.EmailService, error) {
-	s := service{
-		envService: params.EnvService,
-		smtpAddr:   params.EnvService.SmtpAddr(),
-		smtpAuth:   params.EnvService.SmtpAuth(),
-	}
-
-	// templates
-	ts, err := template.New("all").Funcs(s.funcMap()).ParseFS(templates, "files/templates/*.gohtml")
+	// parse all template files first
+	templates, err := template.New("").Funcs(funcMap(params.EnvService)).ParseFS(templatesFs, "files/templates/*.gohtml")
 	if err != nil {
 		return nil, err
 	}
 
-	s.templates = ts
-
-	// templates - check
+	// check if all templates are present
 	var errs []error
-
 	for _, t := range poeticmetric.EmailTemplates() {
-		if ts.Lookup(string(t)) == nil {
+		if templates.Lookup(string(t)) == nil {
 			errs = append(errs, fmt.Errorf("template %s not found", t))
 		}
 	}
 
-	for _, t := range ts.Templates() {
-		if t.Name() != "all" && slices.Index(poeticmetric.StringSlice(poeticmetric.EmailTemplates()), t.Name()) == -1 {
+	// check if there are any excess templates
+	for _, t := range templates.Templates() {
+		if t.Name() != "" && slices.Index(poeticmetric.StringSlice(poeticmetric.EmailTemplates()), t.Name()) == -1 {
 			errs = append(errs, fmt.Errorf("template %s is not in the list", t.Name()))
 		}
 	}
@@ -58,28 +55,42 @@ func New(params NewParams) (poeticmetric.EmailService, error) {
 		return nil, errors.Join(errs...)
 	}
 
-	return &s, nil
+	return &service{
+		envService: params.EnvService,
+		templates:  templates,
+	}, nil
 }
 
 func (s *service) Send(params poeticmetric.EmailServiceSendParams) error {
-	buffer := bytes.Buffer{}
-
-	err := s.templates.ExecuteTemplate(&buffer, string(params.Template), params.TemplateData)
+	templateBuffer := bytes.Buffer{}
+	err := s.templates.ExecuteTemplate(&templateBuffer, string(params.Template), params.TemplateData)
 	if err != nil {
 		return err
 	}
 
-	// headers
-	msg := ""
-	msg += "Content-Type: text/html; charset=utf-8\n"
-	msg += fmt.Sprintf("From: poeticmetric@dev.poeticmetric.com\n")
-	msg += "MIME-Version: 1.0\n"
-	msg += fmt.Sprintf("Subject: %s\n", mime.QEncoding.Encode("UTF-8", params.Subject))
-	msg += fmt.Sprintf("To: %s\n", params.To.String())
-	msg += "\n"
-	msg += buffer.String()
+	smtpMessageTemplate, err := texttemplate.New("").Parse(smtpMessageTemplateString)
+	if err != nil {
+		return err
+	}
 
-	err = smtp.SendMail(s.smtpAddr, s.smtpAuth, "poeticmetric@dev.poeticmetric.com", []string{params.To.Address}, []byte(msg))
+	smtpMessageTemplateBuffer := bytes.Buffer{}
+	err = smtpMessageTemplate.Execute(&smtpMessageTemplateBuffer, smtpMessageParams{
+		Body:    templateBuffer.String(),
+		From:    s.envService.SmtpFrom(),
+		Subject: params.Subject,
+		To:      params.To.String(),
+	})
+	if err != nil {
+		return err
+	}
+
+	err = smtp.SendMail(
+		s.envService.SmtpAddr(),
+		s.envService.SmtpAuth(),
+		s.envService.SmtpFrom(),
+		[]string{params.To.Address},
+		smtpMessageTemplateBuffer.Bytes(),
+	)
 	if err != nil {
 		return err
 	}
@@ -87,16 +98,16 @@ func (s *service) Send(params poeticmetric.EmailServiceSendParams) error {
 	return nil
 }
 
-func (s *service) funcMap() template.FuncMap {
+func funcMap(envService poeticmetric.EnvService) template.FuncMap {
 	return template.FuncMap{
 		"frontendUrl": func(path string) string {
-			return s.envService.FrontendUrl(path)
+			return envService.FrontendUrl(path)
 		},
 	}
 }
 
 //go:embed files/smtp_message.gotxt
-var smtpMessageTemplate string
+var smtpMessageTemplateString string
 
 //go:embed files/templates/*.gohtml
-var templates embed.FS
+var templatesFs embed.FS

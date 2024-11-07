@@ -1,5 +1,5 @@
 Content-Type: text/html; charset=utf-8
-From: test@dev.poeticmetric.com
+From: {{ .From }}
 MIME-Version: 1.0
 Subject: {{ .Subject }}
 To: {{ .To }}
