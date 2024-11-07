@@ -56,7 +56,7 @@ export default function Bootstrap() {
       } catch (error) {
         showBoundary(error);
       } finally {
-        setState((s) => ({ ...s, isInProgress: false }));
+        setState((prev) => ({ ...prev, isInProgress: false }));
       }
     }
 
