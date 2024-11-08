@@ -1,4 +1,3 @@
-import { IconX } from "@tabler/icons-react";
 import clsx from "clsx";
 import { useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
@@ -53,9 +52,8 @@ export default function SignIn() {
   return (
     <>
       <Title>Sign In</Title>
-
-      {state.isAlreadySignedIn ? (
-        <Layout>
+      <Layout headerProps={{ variant: "basic" }}>
+        {state.isAlreadySignedIn ? (
           <div className="container">
             <FormTitle
               actions={(
@@ -68,9 +66,7 @@ export default function SignIn() {
               title="Signed in!"
             />
           </div>
-        </Layout>
-      ) : state.isSignInComplete ? (
-        <Layout>
+        ) : state.isSignInComplete ? (
           <div className="container">
             <FormTitle
               actions={(
@@ -83,9 +79,7 @@ export default function SignIn() {
               title="Signed in!"
             />
           </div>
-        </Layout>
-      ) : (
-        <Layout>
+        ) : (
           <div className="container">
             <FormTitle
               description="Sign in to view your analytics dashboard."
@@ -97,14 +91,6 @@ export default function SignIn() {
               <ActivityOverlay isActive={isSubmitting}>
                 <form className="card-body" onSubmit={handleSubmit(submit)}>
                   <fieldset className="fieldset" disabled={isSubmitting}>
-                    {errors.root ? (
-                      <div className="alert alert-danger">
-                        <IconX className="icon" size={24} />
-
-                        {errors.root.message}
-                      </div>
-                    ) : null}
-
                     <div className="form-group">
                       <label className="form-label" htmlFor="input-user-email">E-mail address</label>
 
@@ -154,8 +140,8 @@ export default function SignIn() {
               </ActivityOverlay>
             </div>
           </div>
-        </Layout>
-      )}
+        )}
+      </Layout>
     </>
   );
 }

@@ -1,13 +1,21 @@
 import clsx from "clsx";
 import { JSX, PropsWithoutRef } from "react";
+import Header from "~/components/Header";
+import type { HeaderProps } from "~/components/Header";
 import styles from "./Layout.module.css";
 
-type LayoutProps = PropsWithoutRef<JSX.IntrinsicElements["main"]>
+type LayoutProps = Overwrite<PropsWithoutRef<JSX.IntrinsicElements["main"]>, {
+  headerProps?: HeaderProps
+}>
 
-export default function Layout({ children, className, ...props }: LayoutProps) {
+export default function Layout({ children, className, headerProps, ...props }: LayoutProps) {
   return (
-    <main {...props} className={clsx(styles.layout, className)}>
-      {children}
-    </main>
+    <>
+      <Header {...headerProps} />
+
+      <main {...props} className={clsx(styles.layout, className)}>
+        {children}
+      </main>
+    </>
   );
 }
