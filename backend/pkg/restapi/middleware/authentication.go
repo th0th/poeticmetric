@@ -63,7 +63,7 @@ func AuthenticationHandler(
 				}
 			}
 
-			if authentication == nil {
+			if authentication != nil {
 				r = r.WithContext(SetAuthentication(r.Context(), authentication))
 			}
 
