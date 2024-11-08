@@ -65,13 +65,8 @@ func (r *Responder) Forbidden(w http.ResponseWriter) {
 }
 
 func (r *Responder) Json(w http.ResponseWriter, data any) {
-	j, err := json.Marshal(data)
-	if err != nil {
-		r.Error(w, err)
-	}
-
 	w.Header().Set("Content-Type", "application/json")
-	_, err = w.Write(j)
+	err := json.NewEncoder(w).Encode(data)
 	if err != nil {
 		r.Error(w, err)
 	}

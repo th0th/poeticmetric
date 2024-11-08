@@ -325,13 +325,9 @@ func (s *service) validateRunParams(ctx context.Context, params *poeticmetric.Bo
 		v.F("userPassword2", params.UserPassword2): v.All(
 			v.Nonzero[*string]().Msg("This field is required."),
 
-			v.Is(func(x *string) bool {
-				if params.UserPassword != nil && params.UserPassword2 != nil {
-					return *params.UserPassword == *params.UserPassword2
-				}
-
-				return true
-			}).Msg("Passwords do not match."),
+			v.Nested(func(x *string) v.Validator {
+				return v.Value(*x, v.Eq(*params.UserPassword).Msg("Passwords do not match."))
+			}),
 		),
 	})
 
