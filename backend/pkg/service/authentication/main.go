@@ -5,8 +5,6 @@ import (
 	"errors"
 	"net/mail"
 
-	v "github.com/RussellLuo/validating/v3"
-	"github.com/RussellLuo/vext"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 
@@ -14,27 +12,30 @@ import (
 )
 
 type NewParams struct {
-	EmailService poeticmetric.EmailService
-	Postgres     *gorm.DB
+	EmailService      poeticmetric.EmailService
+	Postgres          *gorm.DB
+	ValidationService poeticmetric.ValidationService
 }
 
 type service struct {
-	emailService poeticmetric.EmailService
-	postgres     *gorm.DB
+	emailService      poeticmetric.EmailService
+	postgres          *gorm.DB
+	validationService poeticmetric.ValidationService
 }
 
 func New(params NewParams) poeticmetric.AuthenticationService {
 	return &service{
-		emailService: params.EmailService,
-		postgres:     params.Postgres,
+		emailService:      params.EmailService,
+		postgres:          params.Postgres,
+		validationService: params.ValidationService,
 	}
 }
 
-func (s *service) CreateUserAccessToken(ctx context.Context, userID uint) (*poeticmetric.AuthenticationServiceUserAccessToken, error) {
+func (s *service) CreateUserAccessToken(ctx context.Context, userID uint) (*poeticmetric.AuthenticationUserAccessToken, error) {
 	modelUserAccessToken := poeticmetric.UserAccessToken{UserID: userID}
 	modelUserAccessToken.SetToken()
 
-	var userAccessToken *poeticmetric.AuthenticationServiceUserAccessToken
+	var userAccessToken *poeticmetric.AuthenticationUserAccessToken
 
 	err := poeticmetric.ServicePostgresTransaction(ctx, s, func(ctx2 context.Context) error {
 		postgres := poeticmetric.ServicePostgres(ctx2, s)
@@ -56,6 +57,17 @@ func (s *service) CreateUserAccessToken(ctx context.Context, userID uint) (*poet
 	}
 
 	return userAccessToken, nil
+}
+
+func (s *service) DeleteUserAccessTokens(ctx context.Context, userID uint) error {
+	postgres := poeticmetric.ServicePostgres(ctx, s)
+
+	err := postgres.Delete(&poeticmetric.UserAccessToken{}, poeticmetric.UserAccessToken{UserID: userID}, "UserID").Error
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (s *service) DeleteUserAccessToken(ctx context.Context, userAccessTokenID uint) error {
@@ -83,12 +95,12 @@ func (s *service) Postgres() *gorm.DB {
 	return s.postgres
 }
 
-func (s *service) ReadUserAccessToken(ctx context.Context, userAccessTokenID uint) (*poeticmetric.AuthenticationServiceUserAccessToken, error) {
+func (s *service) ReadUserAccessToken(ctx context.Context, userAccessTokenID uint) (*poeticmetric.AuthenticationUserAccessToken, error) {
 	postgres := poeticmetric.ServicePostgres(ctx, s)
 
-	userAccessToken := poeticmetric.AuthenticationServiceUserAccessToken{}
+	userAccessToken := poeticmetric.AuthenticationUserAccessToken{}
 	err := postgres.
-		First(&userAccessToken, poeticmetric.AuthenticationServiceUserAccessToken{ID: userAccessTokenID}, "ID").
+		First(&userAccessToken, poeticmetric.AuthenticationUserAccessToken{ID: userAccessTokenID}, "ID").
 		Error
 	if err != nil {
 		return nil, err
@@ -144,11 +156,41 @@ func (s *service) ReadUserByUserAccessToken(ctx context.Context, token string) (
 	return &user, &userAccessToken, nil
 }
 
-func (s *service) SendUserPasswordRecoveryEmail(
-	ctx context.Context,
-	params *poeticmetric.AuthenticationServiceSendUserPasswordRecoveryEmailParams,
-) error {
-	err := s.validateSendUserPasswordRecoveryEmail(ctx, params)
+func (s *service) ResetUserPassword(ctx context.Context, params *poeticmetric.AuthenticationResetUserPasswordParams) error {
+	err := s.validationService.AuthenticationResetUserPasswordParams(ctx, params)
+	if err != nil {
+		return err
+	}
+
+	postgres := poeticmetric.ServicePostgres(ctx, s)
+
+	user := poeticmetric.User{PasswordResetToken: params.PasswordResetToken}
+	err = postgres.Select("ID").First(&user, user, "PasswordResetToken").Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return poeticmetric.ErrNotFound
+		}
+
+		return err
+	}
+
+	err = user.SetPassword(*params.UserPassword)
+	if err != nil {
+		return err
+	}
+
+	user.PasswordResetToken = nil
+
+	err = postgres.Model(&user).Select("Password", "PasswordResetToken").UpdateColumns(&user).Error
+	if err != nil {
+		return errors.Unwrap(err)
+	}
+
+	return nil
+}
+
+func (s *service) SendUserPasswordRecoveryEmail(ctx context.Context, params *poeticmetric.AuthenticationSendUserPasswordRecoveryEmailParams) error {
+	err := s.validationService.AuthenticationSendUserPasswordRecoveryEmailParams(ctx, params)
 	if err != nil {
 		return err
 	}
@@ -182,23 +224,17 @@ func (s *service) SendUserPasswordRecoveryEmail(
 	return nil
 }
 
-func (s *service) validateSendUserPasswordRecoveryEmail(
-	_ context.Context,
-	params *poeticmetric.AuthenticationServiceSendUserPasswordRecoveryEmailParams,
-) error {
-	validationErrs := v.Validate(v.Schema{
-		v.F("email", params.Email): v.All(
-			v.Nonzero[*string]().Msg("This field is required."),
+func (s *service) ValidateUserPasswordResetToken(ctx context.Context, token string) (bool, error) {
+	postgres := poeticmetric.ServicePostgres(ctx, s)
 
-			v.Nested(func(x *string) v.Validator {
-				return v.Value(*x, vext.Email().Msg("Please provide a valid e-mail address."))
-			}),
-		),
-	})
+	err := postgres.Select("PasswordResetToken").First(&poeticmetric.User{}, poeticmetric.User{PasswordResetToken: &token}).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return false, nil
+		}
 
-	if len(validationErrs) > 0 {
-		return validationErrs
+		return false, err
 	}
 
-	return nil
+	return true, nil
 }

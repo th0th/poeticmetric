@@ -1,10 +1,19 @@
 definitions:
-  poeticmetric.AuthenticationServiceSendUserPasswordRecoveryEmailParams:
+  poeticmetric.AuthenticationResetUserPasswordParams:
+    properties:
+      passwordResetToken:
+        type: string
+      userPassword:
+        type: string
+      userPassword2:
+        type: string
+    type: object
+  poeticmetric.AuthenticationSendUserPasswordRecoveryEmailParams:
     properties:
       email:
         type: string
     type: object
-  poeticmetric.AuthenticationServiceUserAccessToken:
+  poeticmetric.AuthenticationUserAccessToken:
     properties:
       createdAt:
         type: string
@@ -41,6 +50,29 @@ info:
   title: PoeticMetric REST API
   version: "1.0"
 paths:
+  /authentication/reset-user-password:
+    post:
+      description: Reset user's password also deleting all existing user access tokens
+        for that user.
+      parameters:
+      - description: Params
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/poeticmetric.AuthenticationResetUserPasswordParams'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responder.DetailResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/poeticmetric.AuthenticationResetUserPasswordParams'
+      summary: Reset user's password
+      tags:
+      - authentication
   /authentication/send-user-password-recovery-email:
     post:
       description: Send a password recovery e-mail to the user.
@@ -50,7 +82,7 @@ paths:
         name: params
         required: true
         schema:
-          $ref: '#/definitions/poeticmetric.AuthenticationServiceSendUserPasswordRecoveryEmailParams'
+          $ref: '#/definitions/poeticmetric.AuthenticationSendUserPasswordRecoveryEmailParams'
       responses:
         "201":
           description: Created
@@ -81,7 +113,7 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/poeticmetric.AuthenticationServiceUserAccessToken'
+            $ref: '#/definitions/poeticmetric.AuthenticationUserAccessToken'
         "400":
           description: Bad Request
           schema:

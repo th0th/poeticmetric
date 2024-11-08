@@ -2,17 +2,18 @@ package authentication
 
 import (
 	"context"
-	"fmt"
+	"log"
 	"os"
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
-	v "github.com/RussellLuo/validating/v3"
 	"github.com/brianvoe/gofakeit/v7"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+	"golang.org/x/crypto/bcrypt"
 	postgres2 "gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 
 	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
 	"github.com/th0th/poeticmetric/backend/pkg/service/email"
@@ -26,39 +27,53 @@ func Test_service_CreateUserAccessToken(t *testing.T) {
 	postgres, err := gorm.Open(postgres2.New(postgres2.Config{Conn: db}), &gorm.Config{})
 	assert.NoError(t, err)
 
-	authenticationService := service{
-		postgres: postgres,
-	}
-
 	// language=postgresql
 	insertQuery := `INSERT INTO "user_access_tokens" ("created_at","last_used_at","token","user_id") VALUES ($1,$2,$3,$4) RETURNING "id"`
 
 	// language=postgresql
 	selectQuery := `SELECT * FROM "user_access_tokens" WHERE "user_access_tokens"."id" = $1 ORDER BY "user_access_tokens"."id" LIMIT $2`
 
+	type fields struct {
+		emailService poeticmetric.EmailService
+		postgres     *gorm.DB
+	}
+	type args struct {
+		ctx    context.Context
+		userID uint
+	}
 	tests := []struct {
-		name      string
-		setupMock func(token *sqlmockhelper.AnyValue)
-		userID    uint
-		want      func(t assert.TestingT, userAccessToken *poeticmetric.AuthenticationServiceUserAccessToken, token *sqlmockhelper.AnyValue)
-		wantErr   assert.ErrorAssertionFunc
+		name    string
+		fields  fields
+		args    args
+		setup   func() *sqlmockhelper.ValueArg
+		want    func(t assert.TestingT, userAccessToken *poeticmetric.AuthenticationUserAccessToken, token *sqlmockhelper.ValueArg)
+		wantErr assert.ErrorAssertionFunc
 	}{
 		{
-			name:   "successful",
-			userID: 1,
-			setupMock: func(token *sqlmockhelper.AnyValue) {
+			name: "successful",
+			fields: fields{
+				postgres: postgres,
+			},
+			args: args{
+				ctx:    context.Background(),
+				userID: 1,
+			},
+			setup: func() *sqlmockhelper.ValueArg {
+				mockTokenValue := new(sqlmockhelper.ValueArg)
 				userAccessTokenID := uint(1)
 
 				sqlMock.ExpectBegin()
 				sqlMock.ExpectQuery(insertQuery).
-					WithArgs(sqlmock.AnyArg(), nil, token, userAccessTokenID).
+					WithArgs(sqlmock.AnyArg(), nil, mockTokenValue, userAccessTokenID).
 					WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(userAccessTokenID))
 				sqlMock.ExpectQuery(selectQuery).
 					WithArgs(userAccessTokenID, 1).
 					WillReturnRows(sqlmock.NewRows([]string{"created_at", "id", "token"}).AddRow(gofakeit.Date(), 1, "x"))
 				sqlMock.ExpectCommit()
+
+				return mockTokenValue
 			},
-			want: func(t assert.TestingT, userAccessToken *poeticmetric.AuthenticationServiceUserAccessToken, token *sqlmockhelper.AnyValue) {
+			want: func(t assert.TestingT, userAccessToken *poeticmetric.AuthenticationUserAccessToken, mockTokenValue *sqlmockhelper.ValueArg) {
 				assert.NotNil(t, userAccessToken)
 				assert.NotZero(t, userAccessToken.CreatedAt)
 				assert.Equal(t, "x", userAccessToken.Token)
@@ -66,18 +81,26 @@ func Test_service_CreateUserAccessToken(t *testing.T) {
 			wantErr: assert.NoError,
 		},
 		{
-			name:   "any error on insert",
-			userID: 1,
-			setupMock: func(token *sqlmockhelper.AnyValue) {
+			name: "any error on insert",
+			fields: fields{
+				postgres: postgres,
+			},
+			args: args{
+				ctx:    context.Background(),
+				userID: 1,
+			},
+			setup: func() *sqlmockhelper.ValueArg {
 				userAccessTokenID := uint(1)
 
 				sqlMock.ExpectBegin()
 				sqlMock.ExpectQuery(insertQuery).
-					WithArgs(sqlmock.AnyArg(), nil, token, userAccessTokenID).
+					WithArgs(sqlmock.AnyArg(), nil, sqlmock.AnyArg(), userAccessTokenID).
 					WillReturnError(os.ErrClosed)
 				sqlMock.ExpectRollback()
+
+				return nil
 			},
-			want: func(t assert.TestingT, userAccessToken *poeticmetric.AuthenticationServiceUserAccessToken, token *sqlmockhelper.AnyValue) {
+			want: func(t assert.TestingT, userAccessToken *poeticmetric.AuthenticationUserAccessToken, token *sqlmockhelper.ValueArg) {
 				assert.Nil(t, userAccessToken)
 			},
 			wantErr: func(t assert.TestingT, err error, i ...interface{}) bool {
@@ -85,21 +108,30 @@ func Test_service_CreateUserAccessToken(t *testing.T) {
 			},
 		},
 		{
-			name:   "any error on select",
-			userID: 1,
-			setupMock: func(token *sqlmockhelper.AnyValue) {
+			name: "any error on select",
+			fields: fields{
+				postgres: postgres,
+			},
+			args: args{
+				ctx:    context.Background(),
+				userID: 1,
+			},
+			setup: func() *sqlmockhelper.ValueArg {
+				mockTokenValue := new(sqlmockhelper.ValueArg)
 				userAccessTokenID := uint(1)
 
 				sqlMock.ExpectBegin()
 				sqlMock.ExpectQuery(insertQuery).
-					WithArgs(sqlmock.AnyArg(), nil, token, userAccessTokenID).
+					WithArgs(sqlmock.AnyArg(), nil, mockTokenValue, userAccessTokenID).
 					WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(userAccessTokenID))
 				sqlMock.ExpectQuery(selectQuery).
 					WithArgs(userAccessTokenID, 1).
 					WillReturnError(os.ErrClosed)
 				sqlMock.ExpectRollback()
+
+				return mockTokenValue
 			},
-			want: func(t assert.TestingT, userAccessToken *poeticmetric.AuthenticationServiceUserAccessToken, token *sqlmockhelper.AnyValue) {
+			want: func(t assert.TestingT, userAccessToken *poeticmetric.AuthenticationUserAccessToken, token *sqlmockhelper.ValueArg) {
 				assert.Nil(t, userAccessToken)
 			},
 			wantErr: func(t assert.TestingT, err error, i ...interface{}) bool {
@@ -107,19 +139,18 @@ func Test_service_CreateUserAccessToken(t *testing.T) {
 			},
 		},
 	}
-
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			token := sqlmockhelper.AnyValue{}
-			tt.setupMock(&token)
+			s := &service{
+				emailService: tt.fields.emailService,
+				postgres:     tt.fields.postgres,
+			}
 
-			userAccessToken, err2 := authenticationService.CreateUserAccessToken(context.Background(), tt.userID)
-			tt.wantErr(t, err2)
+			mockTokenValue := tt.setup()
 
-			tt.want(t, userAccessToken, &token)
-
-			err = sqlMock.ExpectationsWereMet()
-			assert.NoError(t, err)
+			got, gotErr := s.CreateUserAccessToken(tt.args.ctx, tt.args.userID)
+			tt.wantErr(t, gotErr)
+			tt.want(t, got, mockTokenValue)
 		})
 	}
 }
@@ -190,14 +221,169 @@ func Test_service_DeleteUserAccessToken(t *testing.T) {
 			err = authenticationService.DeleteUserAccessToken(context.Background(), tt.userAccessTokenID)
 			tt.wantErr(t, err)
 
-			err = sqlMock.ExpectationsWereMet()
-			assert.NoError(t, err)
+			assert.NoError(t, sqlMock.ExpectationsWereMet())
+		})
+	}
+}
+
+func Test_service_DeleteUserAccessTokens(t *testing.T) {
+	db, sqlMock, err := sqlmock.New(sqlmock.QueryMatcherOption(sqlmock.QueryMatcherEqual))
+	assert.NoError(t, err)
+
+	postgres, err := gorm.Open(postgres2.New(postgres2.Config{Conn: db}), &gorm.Config{})
+	assert.NoError(t, err)
+
+	// language=postgresql
+	deleteQuery := `DELETE FROM "user_access_tokens" WHERE "user_access_tokens"."user_id" = $1`
+
+	type fields struct {
+		emailService poeticmetric.EmailService
+		postgres     *gorm.DB
+	}
+	type args struct {
+		ctx    context.Context
+		userID uint
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		setup   func()
+		wantErr assert.ErrorAssertionFunc
+	}{
+		{
+			name: "successful",
+			fields: fields{
+				postgres: postgres,
+			},
+			args: args{
+				ctx:    context.Background(),
+				userID: 1,
+			},
+			setup: func() {
+				sqlMock.ExpectBegin()
+				sqlMock.ExpectExec(deleteQuery).WithArgs(1).WillReturnResult(sqlmock.NewResult(0, 1))
+				sqlMock.ExpectCommit()
+			},
+			wantErr: assert.NoError,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			s := &service{
+				emailService: tt.fields.emailService,
+				postgres:     tt.fields.postgres,
+			}
+
+			tt.setup()
+
+			err = s.DeleteUserAccessTokens(tt.args.ctx, tt.args.userID)
+			tt.wantErr(t, err)
+		})
+	}
+}
+
+func Test_service_ResetUserPassword(t *testing.T) {
+	db, sqlMock, gotErr := sqlmock.New(sqlmock.QueryMatcherOption(sqlmock.QueryMatcherEqual))
+	assert.NoError(t, gotErr)
+
+	postgres, gotErr := gorm.Open(postgres2.New(postgres2.Config{Conn: db}), &gorm.Config{
+		Logger: logger.New(log.New(os.Stdout, "\r\n", log.LstdFlags), logger.Config{LogLevel: logger.Info}),
+	})
+	assert.NoError(t, gotErr)
+
+	mockValidationService := new(poeticmetric.MockValidationService)
+
+	// language=postgresql
+	selectQuery := `SELECT "id" FROM "users" WHERE "users"."password_reset_token" = $1 ORDER BY "users"."id" LIMIT $2`
+
+	// language=postgresql
+	updateQuery := `UPDATE "users" SET "password"=$1,"password_reset_token"=$2 WHERE "id" = $3`
+
+	type fields struct {
+		emailService      poeticmetric.EmailService
+		postgres          *gorm.DB
+		validationService poeticmetric.ValidationService
+	}
+	type args struct {
+		ctx    context.Context
+		params *poeticmetric.AuthenticationResetUserPasswordParams
+	}
+	type payload struct {
+		password *sqlmockhelper.ValueArg
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		setup   func() payload
+		want    func(payload)
+		wantErr assert.ErrorAssertionFunc
+	}{
+		{
+			name: "successful",
+			fields: fields{
+				postgres:          postgres,
+				validationService: mockValidationService,
+			},
+			args: args{
+				ctx: context.Background(),
+				params: &poeticmetric.AuthenticationResetUserPasswordParams{
+					PasswordResetToken: poeticmetric.Pointer("token"),
+					UserPassword:       poeticmetric.Pointer("password"),
+					UserPassword2:      poeticmetric.Pointer("password"),
+				},
+			},
+			setup: func() payload {
+				passwordArg := new(sqlmockhelper.ValueArg)
+
+				sqlMock.
+					ExpectQuery(selectQuery).
+					WithArgs("token", 1).
+					WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(1))
+				sqlMock.ExpectBegin()
+				sqlMock.ExpectExec(updateQuery).WithArgs(passwordArg, sqlmock.AnyArg(), 1).WillReturnResult(sqlmock.NewResult(0, 1))
+				sqlMock.ExpectCommit()
+
+				mockValidationService.On("AuthenticationResetUserPasswordParams", mock.Anything, &poeticmetric.AuthenticationResetUserPasswordParams{
+					PasswordResetToken: poeticmetric.Pointer("token"),
+					UserPassword:       poeticmetric.Pointer("password"),
+					UserPassword2:      poeticmetric.Pointer("password"),
+				}).Return(nil)
+
+				return payload{
+					password: passwordArg,
+				}
+			},
+			want: func(payload payload) {
+				assert.NoError(t, bcrypt.CompareHashAndPassword([]byte(payload.password.Value.(string)), []byte("password")))
+			},
+			wantErr: assert.NoError,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			s := &service{
+				emailService:      tt.fields.emailService,
+				postgres:          tt.fields.postgres,
+				validationService: tt.fields.validationService,
+			}
+
+			p := tt.setup()
+
+			gotErr = s.ResetUserPassword(tt.args.ctx, tt.args.params)
+			tt.wantErr(t, gotErr)
+			tt.want(p)
+
+			assert.NoError(t, sqlMock.ExpectationsWereMet())
+			mockValidationService.AssertExpectations(t)
 		})
 	}
 }
 
 func Test_service_SendUserPasswordRecoveryEmail(t *testing.T) {
 	mockEmailService := new(email.MockService)
+	mockValidationService := new(poeticmetric.MockValidationService)
 
 	db, sqlMock, err := sqlmock.New(sqlmock.QueryMatcherOption(sqlmock.QueryMatcherEqual))
 	assert.NoError(t, err)
@@ -205,24 +391,37 @@ func Test_service_SendUserPasswordRecoveryEmail(t *testing.T) {
 	postgres, err := gorm.Open(postgres2.New(postgres2.Config{Conn: db}), &gorm.Config{})
 	assert.NoError(t, err)
 
-	authenticationService := service{
-		emailService: mockEmailService,
-		postgres:     postgres,
-	}
-
 	// language=postgresql
 	selectQuery := `SELECT * FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" LIMIT $2`
 
+	type fields struct {
+		emailService      poeticmetric.EmailService
+		postgres          *gorm.DB
+		validationService poeticmetric.ValidationService
+	}
+	type args struct {
+		ctx    context.Context
+		params *poeticmetric.AuthenticationSendUserPasswordRecoveryEmailParams
+	}
 	tests := []struct {
 		name    string
-		params  *poeticmetric.AuthenticationServiceSendUserPasswordRecoveryEmailParams
+		fields  fields
+		args    args
 		setup   func()
 		wantErr assert.ErrorAssertionFunc
 	}{
 		{
 			name: "successful",
-			params: &poeticmetric.AuthenticationServiceSendUserPasswordRecoveryEmailParams{
-				Email: poeticmetric.Pointer("user@domain.tld"),
+			fields: fields{
+				emailService:      mockEmailService,
+				postgres:          postgres,
+				validationService: mockValidationService,
+			},
+			args: args{
+				ctx: context.Background(),
+				params: &poeticmetric.AuthenticationSendUserPasswordRecoveryEmailParams{
+					Email: poeticmetric.Pointer("user@domain.tld"),
+				},
 			},
 			setup: func() {
 				mockEmailService.On("Send", mock.MatchedBy(func(params poeticmetric.EmailServiceSendParams) bool {
@@ -236,6 +435,14 @@ func Test_service_SendUserPasswordRecoveryEmail(t *testing.T) {
 						templateData.User.Name == "User"
 				})).Return(nil)
 
+				mockValidationService.On(
+					"AuthenticationSendUserPasswordRecoveryEmailParams",
+					mock.Anything,
+					&poeticmetric.AuthenticationSendUserPasswordRecoveryEmailParams{
+						Email: poeticmetric.Pointer("user@domain.tld"),
+					},
+				).Return(nil)
+
 				sqlMock.
 					ExpectQuery(selectQuery).
 					WithArgs("user@domain.tld", 1).
@@ -244,64 +451,20 @@ func Test_service_SendUserPasswordRecoveryEmail(t *testing.T) {
 			wantErr: assert.NoError,
 		},
 	}
-
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			s := &service{
+				emailService:      tt.fields.emailService,
+				postgres:          tt.fields.postgres,
+				validationService: tt.fields.validationService,
+			}
+
 			tt.setup()
 
-			err = authenticationService.SendUserPasswordRecoveryEmail(context.Background(), tt.params)
-			tt.wantErr(t, err)
+			gotErr := s.SendUserPasswordRecoveryEmail(tt.args.ctx, tt.args.params)
+			tt.wantErr(t, gotErr)
 
-			err = sqlMock.ExpectationsWereMet()
-			assert.NoError(t, err)
-
-			mockEmailService.AssertExpectations(t)
-		})
-	}
-}
-
-func Test_service_validateSendUserPasswordRecoveryEmail(t *testing.T) {
-	type args struct {
-		ctx    context.Context
-		params *poeticmetric.AuthenticationServiceSendUserPasswordRecoveryEmailParams
-	}
-	tests := []struct {
-		name    string
-		args    args
-		wantErr assert.ErrorAssertionFunc
-	}{
-		{
-			name: "successful",
-			args: args{
-				ctx: context.Background(),
-				params: &poeticmetric.AuthenticationServiceSendUserPasswordRecoveryEmailParams{
-					Email: poeticmetric.Pointer("user@domain.tld"),
-				},
-			},
-			wantErr: assert.NoError,
-		},
-		{
-			name: "invalid e-mail",
-			args: args{
-				ctx: context.Background(),
-				params: &poeticmetric.AuthenticationServiceSendUserPasswordRecoveryEmailParams{
-					Email: poeticmetric.Pointer("invalid-email"),
-				},
-			},
-			wantErr: func(t assert.TestingT, err error, i ...interface{}) bool {
-				return assert.Equal(
-					t,
-					v.NewErrors("email", v.ErrInvalid, "Please provide a valid e-mail address."),
-					err,
-				)
-			},
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			s := &service{}
-
-			tt.wantErr(t, s.validateSendUserPasswordRecoveryEmail(tt.args.ctx, tt.args.params), fmt.Sprintf("validateSendUserPasswordRecoveryEmail(%v, %v)", tt.args.ctx, tt.args.params))
+			mockValidationService.AssertExpectations(t)
 		})
 	}
 }
