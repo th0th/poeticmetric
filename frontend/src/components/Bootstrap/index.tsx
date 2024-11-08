@@ -36,6 +36,21 @@ export default function Bootstrap() {
       const responseJson = await response.json();
 
       if (response.ok) {
+        const accessTokenResponse = await api.post("/authentication/user-access-tokens", {
+          email: data.userEmail,
+          password: data.userPassword,
+        });
+        const accessTokenResponseJson = await accessTokenResponse.json();
+
+        debugger;
+
+        if (accessTokenResponse.ok) {
+          console.log(accessTokenResponseJson);
+
+          localStorage.setItem("accessToken", accessTokenResponseJson.accessToken);
+        } else {
+          setErrors(setError, accessTokenResponseJson);
+        }
         setState((prev) => ({ ...prev, isBootstrapComplete: true }));
       } else {
         setErrors(setError, responseJson);
