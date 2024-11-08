@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    {{ include "poeticmetric.labels" . | nindent 4 }}
+  name: {{ include "poeticmetric.fullname" . }}-smtp
+data:
+  FROM: {{ .Values.poeticmetric.smtp.from | quote }}
+  HOST: {{ .Values.poeticmetric.smtp.host | quote }}
+  PORT: {{ .Values.poeticmetric.smtp.port | quote }}

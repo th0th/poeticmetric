@@ -11,7 +11,7 @@ spec:
   template:
     metadata:
       labels:
-        {{- include "poeticmetric.selectorLabels" . | nindent 8 }}
+        {{ include "poeticmetric.selectorLabels" . | nindent 8 }}
       name: migrator
     spec:
       containers:
@@ -43,6 +43,14 @@ spec:
           secretRef:
             name: {{ include "poeticmetric.fullname" . }}-rabbitmq
             optional: false
+        - prefix: SMTP_
+          configMapRef:
+            name: {{ include "poeticmetric.fullname" . }}-smtp
+            optional: false
+        - prefix: SMTP_
+          secretRef:
+              name: {{ include "poeticmetric.fullname" . }}-smtp
+              optional: false
         - configMapRef:
             name: {{ include "poeticmetric.fullname" . }}-poeticmetric
             optional: false

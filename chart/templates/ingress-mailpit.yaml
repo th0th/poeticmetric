@@ -1,0 +1,26 @@
+{{ if .Values.mailpit.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    {{ toYaml .Values.mailpit.ingress.annotations | nindent 4 }}
+  labels:
+    {{ include "poeticmetric.labels" . | nindent 4 }}
+  name: {{ include "poeticmetric.fullname" . }}-mailpit
+spec:
+  rules:
+  - host: {{ .Values.mailpit.ingress.host | default (printf "mailpit.%s" .Values.poeticmetric.host) }}
+    http:
+      paths:
+      - backend:
+          service:
+            name: {{ include "poeticmetric.fullname" . }}-mailpit
+            port:
+              number: 8025
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - {{ .Values.mailpit.ingress.host | default (printf "mailpit.%s" .Values.poeticmetric.host) }}
+    secretName: {{ include "poeticmetric.fullname" . }}-mailpit-tls
+{{ end }}

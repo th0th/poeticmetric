@@ -1,0 +1,7 @@
+Content-Type: text/html; charset=utf-8
+From: {{ .From }}
+MIME-Version: 1.0
+Subject: {{ .Subject }}
+To: {{ .To }}
+
+{{ .Body }}

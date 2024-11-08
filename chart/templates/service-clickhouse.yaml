@@ -3,12 +3,12 @@ kind: Service
 metadata:
   name: {{ include "poeticmetric.fullname" . }}-clickhouse
   labels:
-    {{- include "poeticmetric.labels" . | nindent 4 }}
+    {{ include "poeticmetric.labels" . | nindent 4 }}
 spec:
   type: ClusterIP
   selector:
     statefulSet: clickhouse
-    {{- include "poeticmetric.selectorLabels" . | nindent 4 }}
+    {{ include "poeticmetric.selectorLabels" . | nindent 4 }}
   ports:
   - name: clickhouse-tcp
     port: 9000

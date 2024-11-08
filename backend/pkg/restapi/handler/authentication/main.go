@@ -1,6 +1,8 @@
 package authentication
 
 import (
+	"encoding/json"
+	"errors"
 	"net/http"
 
 	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
@@ -63,4 +65,34 @@ func (h *Handler) DeleteUserAccessToken(w http.ResponseWriter, r *http.Request) 
 	}
 
 	w.WriteHeader(http.StatusNoContent)
+}
+
+// SendUserPasswordRecoveryEmail godoc
+// @Description Send a password recovery e-mail to the user.
+// @Param params body poeticmetric.AuthenticationServiceSendUserPasswordRecoveryEmailParams true "Params"
+// @Router /authentication/send-user-password-recovery-email [post]
+// @Success 201 {object} responder.DetailResponse
+// @Summary Send user password recovery e-mail
+// @Tags authentication
+func (h *Handler) SendUserPasswordRecoveryEmail(w http.ResponseWriter, r *http.Request) {
+	params := poeticmetric.AuthenticationServiceSendUserPasswordRecoveryEmailParams{}
+	err := json.NewDecoder(r.Body).Decode(&params)
+	if err != nil {
+		h.responder.Error(w, err)
+		return
+	}
+
+	err = h.authenticationService.SendUserPasswordRecoveryEmail(r.Context(), &params)
+	if err != nil {
+		if !errors.Is(err, poeticmetric.ErrNotFound) {
+			h.responder.Error(w, err)
+			return
+		}
+	}
+
+	w.WriteHeader(http.StatusAccepted)
+	h.responder.Detail(
+		w,
+		"If the e-mail address exists in our database, you will receive a reset link. Check your inbox and follow the instructions.",
+	)
 }

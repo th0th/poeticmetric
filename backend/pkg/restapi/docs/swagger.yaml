@@ -1,4 +1,9 @@
 definitions:
+  poeticmetric.AuthenticationServiceSendUserPasswordRecoveryEmailParams:
+    properties:
+      email:
+        type: string
+    type: object
   poeticmetric.AuthenticationServiceUserAccessToken:
     properties:
       createdAt:
@@ -36,6 +41,24 @@ info:
   title: PoeticMetric REST API
   version: "1.0"
 paths:
+  /authentication/send-user-password-recovery-email:
+    post:
+      description: Send a password recovery e-mail to the user.
+      parameters:
+      - description: Params
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/poeticmetric.AuthenticationServiceSendUserPasswordRecoveryEmailParams'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/responder.DetailResponse'
+      summary: Send user password recovery e-mail
+      tags:
+      - authentication
   /authentication/user-access-tokens:
     delete:
       description: Delete user access token currently in use.

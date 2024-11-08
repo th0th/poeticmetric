@@ -5,3 +5,4 @@ metadata:
 data:
   DATABASE_DEBUG: {{ .Values.poeticmetric.development.databaseDebug | quote }}
   DEBUG: {{ .Values.poeticmetric.development.debug | quote }}
+  FRONTEND_BASE_URL: {{ printf "https://%s" .Values.poeticmetric.host | quote }}

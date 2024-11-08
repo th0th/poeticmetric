@@ -2,6 +2,7 @@ package env
 
 import (
 	"fmt"
+	"net/smtp"
 	"os"
 
 	env2 "github.com/caarlos0/env/v11"
@@ -46,6 +47,14 @@ func (s *service) DatabaseDebug() bool {
 	return s.vars.DatabaseDebug
 }
 
+func (s *service) Debug() bool {
+	return s.vars.Debug
+}
+
+func (s *service) FrontendUrl(path string) string {
+	return fmt.Sprintf("%s%s", s.vars.FrontendBaseUrl, path)
+}
+
 func (s *service) GormConfig() *gorm.Config {
 	logLevel := logger.Error
 
@@ -63,6 +72,10 @@ func (s *service) GormConfig() *gorm.Config {
 			},
 		),
 	}
+}
+
+func (s *service) IsHosted() bool {
+	return s.vars.IsHosted
 }
 
 func (s *service) PostgresDatabase() string {
@@ -84,12 +97,20 @@ func (s *service) RestApiBasePath() string {
 	return "/api"
 }
 
-func (s *service) Debug() bool {
-	return s.vars.Debug
+func (s *service) SmtpAddr() string {
+	return fmt.Sprintf("%s:%s", s.vars.SmtpHost, s.vars.SmtpPort)
 }
 
-func (s *service) IsHosted() bool {
-	return s.vars.IsHosted
+func (s *service) SmtpAuth() smtp.Auth {
+	if s.vars.SmtpUser == "" || s.vars.SmtpPassword == "" {
+		return nil
+	}
+
+	return smtp.PlainAuth("", s.vars.SmtpUser, s.vars.SmtpPassword, s.vars.SmtpHost)
+}
+
+func (s *service) SmtpFrom() string {
+	return fmt.Sprintf("PoeticMetric <%s>", s.vars.SmtpFrom)
 }
 
 var Logger = zerolog.New(os.Stdout).With().Timestamp().Logger()

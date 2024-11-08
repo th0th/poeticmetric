@@ -1,6 +1,8 @@
 package poeticmetric
 
 import (
+	"net/smtp"
+
 	"gorm.io/gorm"
 )
 
@@ -8,18 +10,22 @@ type EnvService interface {
 	ClickhouseDatabase() string
 	ClickhouseDsn() string
 	Debug() bool
+	FrontendUrl(path string) string
 	GormConfig() *gorm.Config
 	IsHosted() bool
 	PostgresDatabase() string
 	PostgresDsn() string
 	RestApiBasePath() string
+	SmtpAddr() string
+	SmtpAuth() smtp.Auth
+	SmtpFrom() string
 }
 
 type EnvServiceVars struct {
-	BasePath      string `env:"BASE_PATH" envDefault:"/"`
-	DatabaseDebug bool   `env:"DATABASE_DEBUG" envDefault:"false"`
-	Debug         bool   `env:"DEBUG" envDefault:"false"`
-	IsHosted      bool   `env:"IS_HOSTED" envDefault:"false"`
+	DatabaseDebug   bool   `env:"DATABASE_DEBUG" envDefault:"false"`
+	Debug           bool   `env:"DEBUG" envDefault:"false"`
+	FrontendBaseUrl string `env:"FRONTEND_BASE_URL,notEmpty,required"`
+	IsHosted        bool   `env:"IS_HOSTED" envDefault:"false"`
 
 	// Clickhouse
 	ClickhouseDatabase string `env:"CLICKHOUSE_DATABASE,notEmpty,required"`
@@ -41,4 +47,11 @@ type EnvServiceVars struct {
 	RabbitMqPort     int    `env:"RABBITMQ_PORT,notEmpty,required"`
 	RabbitMqUser     string `env:"RABBITMQ_USER,notEmpty,required"`
 	RabbitMqVhost    string `env:"RABBITMQ_VHOST,notEmpty,required"`
+
+	// SMTP
+	SmtpFrom     string `env:"SMTP_FROM,notEmpty,required"`
+	SmtpHost     string `env:"SMTP_HOST,notEmpty,required"`
+	SmtpPassword string `env:"SMTP_PASSWORD"`
+	SmtpPort     string `env:"SMTP_PORT,notEmpty,required"`
+	SmtpUser     string `env:"SMTP_USER"`
 }

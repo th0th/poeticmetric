@@ -2,20 +2,20 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   labels:
-    {{- include "poeticmetric.labels" . | nindent 4 }}
+    {{ include "poeticmetric.labels" . | nindent 4 }}
   name: {{ include "poeticmetric.fullname" . }}-postgres
 spec:
   replicas: 1
   selector:
     matchLabels:
       statefulSet: postgres
-      {{- include "poeticmetric.selectorLabels" . | nindent 6 }}
+      {{ include "poeticmetric.selectorLabels" . | nindent 6 }}
   serviceName: postgres-hl
   template:
     metadata:
       labels:
         statefulSet: postgres
-        {{- include "poeticmetric.selectorLabels" . | nindent 8 }}
+        {{ include "poeticmetric.selectorLabels" . | nindent 8 }}
       name: postgres
     spec:
       containers:
@@ -41,8 +41,8 @@ spec:
         image: {{ .Values.postgres.image.repository }}:{{ .Values.postgres.image.tag }}
         imagePullPolicy: {{ .Values.postgres.image.pullPolicy }}
         name: postgres
-        resources: {{- toYaml .Values.postgres.resources | nindent 10 }}
-  {{- if .Values.postgres.persistence.enabled }}
+        resources: {{ toYaml .Values.postgres.resources | nindent 10 }}
+  {{ if .Values.postgres.persistence.enabled }}
         volumeMounts:
         - mountPath: /var/lib/postgresql/data
           name: data
@@ -62,4 +62,4 @@ spec:
         requests:
           storage: 10Gi
       volumeMode: Filesystem
-  {{- end }}
+  {{ end }}
