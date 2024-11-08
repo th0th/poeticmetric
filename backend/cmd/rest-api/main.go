@@ -37,8 +37,6 @@ import (
 // @description User access token authentication
 // @in header
 // @name Authorization
-
-// @Failure 500 {object} responder.DetailResponse
 func main() {
 	// services
 	envService, err := env.New()
