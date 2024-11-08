@@ -4,12 +4,12 @@ import styles from "./FormTitle.module.css";
 import { IconChevronLeft } from "@tabler/icons-react";
 
 type AuthenticationHeaderProps = Overwrite<Omit<PropsWithoutRef<JSX.IntrinsicElements["div"]>, "children">, {
-  actions?: ReactNode,
-  description: ReactNode,
-  maxWidth?: CSSProperties["maxWidth"],
-  showGoBack?: boolean,
-  summary: ReactNode,
-  title: ReactNode,
+  actions?: ReactNode;
+  description: ReactNode;
+  maxWidth?: CSSProperties["maxWidth"];
+  showGoBack?: boolean;
+  summary: ReactNode;
+  title: ReactNode;
 }>
 
 export default function FormTitle(
