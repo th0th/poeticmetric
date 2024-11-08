@@ -23,6 +23,7 @@ import (
 	"github.com/th0th/poeticmetric/backend/pkg/service/bootstrap"
 	"github.com/th0th/poeticmetric/backend/pkg/service/email"
 	"github.com/th0th/poeticmetric/backend/pkg/service/env"
+	"github.com/th0th/poeticmetric/backend/pkg/service/validation"
 )
 
 // @description This is a REST API for PoeticMetric.
@@ -55,6 +56,10 @@ func main() {
 		cmd.LogPanic(err, "failed to init postgres")
 	}
 
+	validationService := validation.New(validation.NewParams{
+		Postgres: postgres,
+	})
+
 	emailService, err := email.New(email.NewParams{
 		EnvService: envService,
 	})
@@ -63,8 +68,9 @@ func main() {
 	}
 
 	authenticationService := authentication.New(authentication.NewParams{
-		EmailService: emailService,
-		Postgres:     postgres,
+		EmailService:      emailService,
+		Postgres:          postgres,
+		ValidationService: validationService,
 	})
 
 	bootstrapService := bootstrap.New(bootstrap.NewParams{
@@ -108,6 +114,7 @@ func main() {
 		alice.New(permissionUserAccessTokenAuthenticated).ThenFunc(authenticationHandler.DeleteUserAccessToken),
 	)
 	mux.HandleFunc("POST /authentication/send-user-password-recovery-email", authenticationHandler.SendUserPasswordRecoveryEmail)
+	mux.HandleFunc("POST /authentication/reset-user-password", authenticationHandler.ResetUserPassword)
 
 	// handlers: bootstrap
 	mux.HandleFunc("GET /bootstrap", bootstrapHandler.Check)
