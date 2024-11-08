@@ -287,9 +287,7 @@ func Test_service_ResetUserPassword(t *testing.T) {
 	db, sqlMock, gotErr := sqlmock.New(sqlmock.QueryMatcherOption(sqlmock.QueryMatcherEqual))
 	assert.NoError(t, gotErr)
 
-	postgres, gotErr := gorm.Open(postgres2.New(postgres2.Config{Conn: db}), &gorm.Config{
-		Logger: logger.New(log.New(os.Stdout, "\r\n", log.LstdFlags), logger.Config{LogLevel: logger.Info}),
-	})
+	postgres, gotErr := gorm.Open(postgres2.New(postgres2.Config{Conn: db}), &gorm.Config{})
 	assert.NoError(t, gotErr)
 
 	mockValidationService := new(poeticmetric.MockValidationService)
@@ -388,11 +386,16 @@ func Test_service_SendUserPasswordRecoveryEmail(t *testing.T) {
 	db, sqlMock, err := sqlmock.New(sqlmock.QueryMatcherOption(sqlmock.QueryMatcherEqual))
 	assert.NoError(t, err)
 
-	postgres, err := gorm.Open(postgres2.New(postgres2.Config{Conn: db}), &gorm.Config{})
+	postgres, err := gorm.Open(postgres2.New(postgres2.Config{Conn: db}), &gorm.Config{
+		Logger: logger.New(log.New(os.Stdout, "\r\n", log.LstdFlags), logger.Config{LogLevel: logger.Info}),
+	})
 	assert.NoError(t, err)
 
 	// language=postgresql
 	selectQuery := `SELECT * FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" LIMIT $2`
+
+	// language=postgresql
+	updateQuery := `UPDATE "users" SET "password_reset_token"=$1 WHERE "id" = $2`
 
 	type fields struct {
 		emailService      poeticmetric.EmailService
@@ -424,6 +427,14 @@ func Test_service_SendUserPasswordRecoveryEmail(t *testing.T) {
 				},
 			},
 			setup: func() {
+				sqlMock.
+					ExpectQuery(selectQuery).
+					WithArgs("user@domain.tld", 1).
+					WillReturnRows(sqlmock.NewRows([]string{"email", "id", "name"}).AddRow("user@domain.tld", uint(1), "User"))
+				sqlMock.ExpectBegin()
+				sqlMock.ExpectExec(updateQuery).WithArgs(sqlmock.AnyArg(), 1).WillReturnResult(sqlmock.NewResult(0, 1))
+				sqlMock.ExpectCommit()
+
 				mockEmailService.On("Send", mock.MatchedBy(func(params poeticmetric.EmailServiceSendParams) bool {
 					templateData := params.TemplateData.(poeticmetric.EmailServiceTemplatePasswordRecoveryParams)
 
@@ -442,11 +453,6 @@ func Test_service_SendUserPasswordRecoveryEmail(t *testing.T) {
 						Email: poeticmetric.Pointer("user@domain.tld"),
 					},
 				).Return(nil)
-
-				sqlMock.
-					ExpectQuery(selectQuery).
-					WithArgs("user@domain.tld", 1).
-					WillReturnRows(sqlmock.NewRows([]string{"email", "id", "name"}).AddRow("user@domain.tld", uint(1), "User"))
 			},
 			wantErr: assert.NoError,
 		},

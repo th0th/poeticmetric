@@ -206,16 +206,29 @@ func (s *service) SendUserPasswordRecoveryEmail(ctx context.Context, params *poe
 
 		return err
 	}
-
 	user.SetPasswordResetToken()
 
-	err = s.emailService.Send(poeticmetric.EmailServiceSendParams{
-		Subject:  "PoeticMetric password recovery",
-		Template: poeticmetric.EmailServiceTemplatePasswordRecovery,
-		TemplateData: poeticmetric.EmailServiceTemplatePasswordRecoveryParams{
-			User: user,
-		},
-		To: &mail.Address{Address: user.Email, Name: user.Name},
+	err = poeticmetric.ServicePostgresTransaction(ctx, s, func(ctx2 context.Context) error {
+		postgres2 := poeticmetric.ServicePostgres(ctx2, s)
+
+		err2 := postgres2.Model(&user).Select("PasswordResetToken").UpdateColumns(&user).Error
+		if err2 != nil {
+			return err2
+		}
+
+		err2 = s.emailService.Send(poeticmetric.EmailServiceSendParams{
+			Subject:  "PoeticMetric password recovery",
+			Template: poeticmetric.EmailServiceTemplatePasswordRecovery,
+			TemplateData: poeticmetric.EmailServiceTemplatePasswordRecoveryParams{
+				User: user,
+			},
+			To: &mail.Address{Address: user.Email, Name: user.Name},
+		})
+		if err2 != nil {
+			return err2
+		}
+
+		return nil
 	})
 	if err != nil {
 		return err
