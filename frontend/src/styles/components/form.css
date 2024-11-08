@@ -6,6 +6,10 @@
 
 .form-error {
   color: rgb(var(--color-red-600-rgb));
+
+  @media (prefers-color-scheme: dark) {
+    color: rgb(var(--color-red-900-rgb));
+  }
 }
 
 .form-group {
@@ -36,6 +40,20 @@
     background-repeat: no-repeat;
     background-size: calc(.75em + .625rem) calc(.75em + .625rem);
     border-color: rgb(var(--color-red-600-rgb));
+
+    &:focus-visible {
+      outline-color: rgb(var(--color-red-600-rgb));
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    &.input-invalid {
+      border-color: rgb(var(--color-red-900-rgb));
+
+      &:focus-visible {
+        outline-color: rgb(var(--color-red-900-rgb));
+      }
+    }
   }
 }
 

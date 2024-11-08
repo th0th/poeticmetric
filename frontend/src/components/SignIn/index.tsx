@@ -1,9 +1,11 @@
+import { IconX } from "@tabler/icons-react";
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
 import { Link } from "wouter";
 import ActivityOverlay from "~/components/ActivityOverlay";
+import { base64Encode } from "~/helpers/base64";
 import FormTitle from "./FormTitle";
 import Layout from "~/components/Layout";
 import styles from "./SignIn.module.css";
@@ -17,21 +19,24 @@ type Form = {
 };
 
 type State = {
+  /* TODO: Implement this logic after auth handler is ready */
   isAlreadySignedIn: boolean;
   isSignInComplete: boolean;
 };
 
 export default function SignIn() {
   const { showBoundary } = useErrorBoundary();
-  const [state, setState] = useState<State>({ isAlreadySignedIn: false, isSignInComplete: true });
-  const { formState: { errors, isSubmitting }, handleSubmit, register, setError } = useForm<Form>({});
+  const [state, setState] = useState<State>({ isAlreadySignedIn: false, isSignInComplete: false });
+  const { clearErrors, formState: { errors, isSubmitting }, handleSubmit, register, setError } = useForm<Form>({});
 
   async function submit(data: Form) {
     try {
-      setState((s) => ({ ...s, isInProgress: true }));
+      const response = await api.post("/authentication/user-access-tokens", undefined, {
+        headers: {
+          authorization: `Basic ${base64Encode(`${data.userEmail}:${data.userPassword}`)}`,
+        },
+      });
 
-      /* TODO: Change endpoint */
-      const response = await api.post("/authentication/user-access-tokens", data);
       const responseJson = await response.json();
 
       if (response.ok) {
@@ -43,8 +48,6 @@ export default function SignIn() {
       }
     } catch (error) {
       showBoundary(error);
-    } finally {
-      setState((s) => ({ ...s, isInProgress: false }));
     }
   }
 
@@ -95,15 +98,23 @@ export default function SignIn() {
               <ActivityOverlay isActive={isSubmitting}>
                 <form className="card-body" onSubmit={handleSubmit(submit)}>
                   <fieldset className="fieldset" disabled={isSubmitting}>
+                    {errors.root ? (
+                      <div className="alert alert-danger">
+                        <IconX className="icon" size={24} />
+
+                        {errors.root.message}
+                      </div>
+                    ) : null}
+
                     <div className="form-group">
                       <label className="form-label" htmlFor="input-user-email">E-mail address</label>
 
                       <input
-                        className={clsx("input", errors.userEmail && "input-invalid")}
+                        className={clsx("input", errors.userEmail || errors.root && "input-invalid")}
                         id="input-user-email"
                         required
                         type="email"
-                        {...register("userEmail")}
+                        {...register("userEmail", { onChange: () => clearErrors() })}
                       />
 
                       {!!errors.userEmail ? (
@@ -119,10 +130,10 @@ export default function SignIn() {
                       </div>
 
                       <input
-                        className={clsx("input", errors.userPassword && "input-invalid")}
+                        className={clsx("input", errors.userPassword || errors.root && "input-invalid")}
                         required
                         type="password"
-                        {...register("userPassword")}
+                        {...register("userPassword", { onChange: () => clearErrors() })}
                       />
 
                       {!!errors.userPassword ? (

@@ -80,7 +80,7 @@ func (r *Responder) NotFound(w http.ResponseWriter) {
 func (r *Responder) Unauthorized(w http.ResponseWriter) {
 	w.WriteHeader(http.StatusUnauthorized)
 	w.Header().Set("WWW-Authenticate", `Basic realm="Restricted"`)
-	r.Detail(w, "You are not authorized.")
+	r.Detail(w, "Invalid credentials.")
 }
 
 var Logger = zerolog.New(os.Stdout).With().Str("service", "responder").Timestamp().Logger()
