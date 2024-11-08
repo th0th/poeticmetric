@@ -1,0 +1,21 @@
+.h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 3.5rem;
+  margin-bottom: 2rem;
+}
+
+.h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 3rem;
+  margin-bottom: 1.5rem;
+}
+
+.p {
+  margin-bottom: 1rem;
+}
+
+.strong {
+  font-weight: 700;
+}
