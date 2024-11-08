@@ -5,7 +5,6 @@ import autoprefixer from "autoprefixer";
 import postcssCustomMedia from "postcss-custom-media";
 
 export default defineConfig({
-  assetsInclude: ["**/*.md"],
   css: {
     modules: {
       localsConvention: "dashes",
