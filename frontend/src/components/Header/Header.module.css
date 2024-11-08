@@ -1,4 +1,4 @@
-@import "../../styles/media.css";
+@import "~/styles/media.css";
 
 .navbar {
   align-items: center;
@@ -6,7 +6,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  padding: 0.5rem 0rem;
+  padding-block: 0.5rem;
 
   position: relative;
 
@@ -64,9 +64,8 @@
     justify-content: flex-start;
 
     .navbar-collapse {
-      display: flex;
       flex-basis: auto;
-      height: auto !important;
+      flex-grow: inherit;
     }
 
     .navbar-toggler {

@@ -1,4 +1,9 @@
+@import "~/styles/media.css";
+
 .collapse {
+  --collapse-height: 0;
+
+  height: var(--collapse-height);
   margin: -4px;
   overflow: hidden;
   transition: height 0.35s ease;
@@ -6,4 +11,16 @@
   .content {
     padding: 4px;
   }
+
+  &.collapse-lg {
+    @media (--min-lg) {
+      height: auto;
+      overflow: visible;
+
+      .content {
+        padding: 0;
+      }
+    }
+  }
 }
+
