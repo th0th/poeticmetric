@@ -19,7 +19,6 @@ type Form = {
 };
 
 type State = {
-  /* TODO: Implement this logic after auth handler is ready */
   isAlreadySignedIn: boolean;
   isSignInComplete: boolean;
 };
