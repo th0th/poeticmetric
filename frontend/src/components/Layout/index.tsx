@@ -5,7 +5,7 @@ import type { HeaderProps } from "~/components/Header";
 import styles from "./Layout.module.css";
 
 type LayoutProps = Overwrite<PropsWithoutRef<JSX.IntrinsicElements["main"]>, {
-  headerProps?: HeaderProps,
+  headerProps?: HeaderProps;
 }>;
 
 export default function Layout({ children, className, headerProps, ...props }: LayoutProps) {

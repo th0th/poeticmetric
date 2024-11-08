@@ -18,6 +18,7 @@ type Form = {
 };
 
 type State = {
+  /* TODO: Implement this logic after auth handler is ready */
   isAlreadySignedIn: boolean;
   isSignInComplete: boolean;
 };
@@ -53,7 +54,7 @@ export default function SignIn() {
     <>
       <Title>Sign In</Title>
 
-      <Layout className={styles.layout} headerProps={{ variant: "basic" }}>
+      <Layout headerProps={{ variant: "basic" }}>
         {state.isAlreadySignedIn ? (
           <div className="container">
             <FormTitle
