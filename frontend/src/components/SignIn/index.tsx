@@ -52,7 +52,8 @@ export default function SignIn() {
   return (
     <>
       <Title>Sign In</Title>
-      <Layout headerProps={{ variant: "basic" }}>
+
+      <Layout className={styles.layout} headerProps={{ variant: "basic" }}>
         {state.isAlreadySignedIn ? (
           <div className="container">
             <FormTitle
@@ -83,6 +84,8 @@ export default function SignIn() {
           <div className="container">
             <FormTitle
               description="Sign in to view your analytics dashboard."
+              maxWidth="28rem"
+              showGoBack={false}
               summary="Sign in"
               title="Welcome back!"
             />
@@ -134,7 +137,7 @@ export default function SignIn() {
                   <p className={styles.signUpLink}>
                     {"Don't have an account?"}
                     {" "}
-                    <Link className="link link-animate" style={{ marginBlock: "3rem" }} to="/sign-up">Sign up</Link>
+                    <Link className="link link-animate" to="/sign-up">Sign up</Link>
                   </p>
                 </div>
               </ActivityOverlay>

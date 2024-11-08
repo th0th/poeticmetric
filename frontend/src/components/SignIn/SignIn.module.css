@@ -1,3 +1,9 @@
+@import "~/styles/media.css";
+
+.layout {
+  transition: margin-top 0.5s ease;
+}
+
 .card {
   margin-inline: auto;
   margin-top: 2rem;
@@ -19,4 +25,10 @@
 .sign-up-link {
   font-size: 0.875rem;
   text-align: center;
+}
+
+@media (--min-md) and  (orientation: landscape) {
+  .layout {
+    margin-top: 12vh;
+  }
 }
