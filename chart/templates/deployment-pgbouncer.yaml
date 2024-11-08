@@ -2,19 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    {{- include "poeticmetric.labels" . | nindent 4 }}
+    {{ include "poeticmetric.labels" . | nindent 4 }}
   name: {{ include "poeticmetric.fullname" . }}-pgbouncer
 spec:
   replicas: {{ .Values.pgbouncer.replicas }}
   selector:
     matchLabels:
       deployment: pgbouncer
-      {{- include "poeticmetric.selectorLabels" . | nindent 6 }}
+      {{ include "poeticmetric.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
         deployment: pgbouncer
-        {{- include "poeticmetric.selectorLabels" . | nindent 8 }}
+        {{ include "poeticmetric.selectorLabels" . | nindent 8 }}
     spec:
       containers:
       - env:
@@ -51,7 +51,7 @@ spec:
         image: {{ printf "%s:%s" .Values.pgbouncer.image.repository .Values.pgbouncer.image.tag }}
         imagePullPolicy: {{ .Values.pgbouncer.image.pullPolicy }}
         name: pgbouncer
-        {{- if .Values.pgbouncer.resources }}
+        {{ if .Values.pgbouncer.resources }}
         resources:
-          {{- toYaml .Values.pgbouncer.resources | nindent 10 }}
-        {{- end }}
+          {{ toYaml .Values.pgbouncer.resources | nindent 10 }}
+        {{ end }}

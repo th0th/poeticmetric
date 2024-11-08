@@ -1,3 +1,8 @@
+mailpit:
+  enabled: true
+  ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: self-signed
 poeticmetric:
   backend:
     image:
@@ -18,3 +23,7 @@ poeticmetric:
     ingress:
       annotations:
         cert-manager.io/cluster-issuer: self-signed
+  smtp:
+    from: poeticmetric@dev.poeticmetric.com
+    host: poeticmetric-mailpit
+    port: "1025"

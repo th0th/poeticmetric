@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: {{ include "poeticmetric.fullname" . }}-rabbitmq
   labels:
-    {{- include "poeticmetric.labels" . | nindent 4 }}
+    {{ include "poeticmetric.labels" . | nindent 4 }}
 data:
   HOST: "{{ include "poeticmetric.fullname" . }}-rabbitmq"
   PORT: "5672"

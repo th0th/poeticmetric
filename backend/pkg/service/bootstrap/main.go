@@ -8,9 +8,9 @@ import (
 	"time"
 
 	v "github.com/RussellLuo/validating/v3"
+	"github.com/RussellLuo/vext"
 	"github.com/brianvoe/gofakeit/v7"
 	"github.com/google/uuid"
-	"github.com/th0th/validatingextra"
 	"gorm.io/gorm"
 
 	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
@@ -277,45 +277,49 @@ func (s *service) validateRunParams(ctx context.Context, params *poeticmetric.Bo
 		v.F("organizationName", params.OrganizationName): v.All(
 			v.Nonzero[*string]().Msg("This field is required."),
 
-			validatingextra.PointerValue[string](
-				v.LenString(poeticmetric.OrganizationNameMinLength, poeticmetric.OrganizationNameMaxLength).Msg(fmt.Sprintf(
+			v.Nested(func(x *string) v.Validator {
+				return v.Value(*x, v.LenString(poeticmetric.OrganizationNameMinLength, poeticmetric.OrganizationNameMaxLength).Msg(fmt.Sprintf(
 					"The organization name must be between %d and %d characters long.",
 					poeticmetric.OrganizationNameMinLength,
 					poeticmetric.OrganizationNameMaxLength,
-				)),
-			),
+				)))
+			}),
 		),
 
 		v.F("userEmail", params.UserEmail): v.All(
 			v.Nonzero[*string]().Msg("This field is required."),
 
-			validatingextra.PointerValue[string](validatingextra.Email().Msg("Please provide a valid e-mail address.")),
+			v.Nested(func(x *string) v.Validator {
+				return v.Value(*x, vext.Email().Msg("Please provide a valid e-mail address."))
+			}),
 
-			validatingextra.PointerValue[string](validatingextra.EmailNonDisposable().Msg("Please provide a non-disposable e-mail address.")),
+			v.Nested(func(x *string) v.Validator {
+				return v.Value(*x, vext.EmailNonDisposable().Msg("Please provide a non-disposable e-mail address."))
+			}),
 		),
 
 		v.F("userName", params.UserName): v.All(
 			v.Nonzero[*string]().Msg("This field is required."),
 
-			validatingextra.PointerValue[string](
-				v.LenString(poeticmetric.UserNameMinLength, poeticmetric.UserNameMaxLength).Msg(fmt.Sprintf(
+			v.Nested(func(x *string) v.Validator {
+				return v.Value(*x, v.LenString(poeticmetric.UserNameMinLength, poeticmetric.UserNameMaxLength).Msg(fmt.Sprintf(
 					"The user name must be between %d and %d characters long.",
 					poeticmetric.UserNameMinLength,
 					poeticmetric.UserNameMaxLength,
-				)),
-			),
+				)))
+			}),
 		),
 
 		v.F("userPassword", params.UserPassword): v.All(
 			v.Nonzero[*string]().Msg("This field is required."),
 
-			validatingextra.PointerValue[string](
-				v.LenString(poeticmetric.UserPasswordMinLength, poeticmetric.UserPasswordMaxLength).Msg(fmt.Sprintf(
+			v.Nested(func(x *string) v.Validator {
+				return v.Value(*x, v.LenString(poeticmetric.UserPasswordMinLength, poeticmetric.UserPasswordMaxLength).Msg(fmt.Sprintf(
 					"The password must be between %d and %d characters long.",
 					poeticmetric.UserPasswordMinLength,
 					poeticmetric.UserPasswordMaxLength,
-				)),
-			),
+				)))
+			}),
 		),
 
 		v.F("userPassword2", params.UserPassword2): v.All(

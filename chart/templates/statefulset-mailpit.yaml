@@ -1,0 +1,25 @@
+{{ if .Values.mailpit.enabled }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "poeticmetric.fullname" . }}-mailpit
+  labels:
+    {{ include "poeticmetric.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      statefulSet: mailpit
+      {{ include "poeticmetric.selectorLabels" . | nindent 6 }}
+  serviceName: mailpit-hl
+  template:
+    metadata:
+      labels:
+        statefulSet: mailpit
+        {{ include "poeticmetric.selectorLabels" . | nindent 8 }}
+      name: mailpit
+    spec:
+      containers:
+      - image: {{ .Values.mailpit.image.repository }}:{{ .Values.mailpit.image.tag }}
+        name: mailpit
+{{ end }}

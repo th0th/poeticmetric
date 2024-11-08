@@ -13,12 +13,17 @@ type AuthenticationService interface {
 	ReadUserAccessToken(ctx context.Context, userAccessTokenID uint) (*AuthenticationServiceUserAccessToken, error)
 	ReadUserByEmailPassword(ctx context.Context, email string, password string) (*User, error)
 	ReadUserByUserAccessToken(ctx context.Context, token string) (*User, *UserAccessToken, error)
+	SendUserPasswordRecoveryEmail(ctx context.Context, params *AuthenticationServiceSendUserPasswordRecoveryEmailParams) error
 }
 
 type AuthenticationServiceUserAccessToken struct {
 	CreatedAt time.Time `json:"createdAt"`
 	ID        uint      `json:"id"`
 	Token     string    `json:"token"`
+}
+
+type AuthenticationServiceSendUserPasswordRecoveryEmailParams struct {
+	Email *string `json:"email"`
 }
 
 func (*AuthenticationServiceUserAccessToken) TableName() string {

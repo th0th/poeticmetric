@@ -1,16 +1,16 @@
 linters:
   enable:
-  - gosimple
-  - govet
-  - ineffassign
-  - staticcheck
   - bodyclose
+  - copyloopvar
   - errorlint
-  - exportloopref
   - gocritic
   - goprintffuncname
   - gosec
+  - gosimple
+  - govet
+  - ineffassign
   - prealloc
+  - staticcheck
   - whitespace
 linters-settings:
   gocritic:

@@ -7,6 +7,15 @@ clickhouse:
     enabled: true
     size: 10Gi
   resources: {}
+mailpit:
+  enabled: false
+  image:
+    pullPolicy: IfNotPresent
+    repository: axllent/mailpit
+    tag: latest
+  ingress:
+    annotations: {}
+    host: ""
 pgbouncer:
   config: {}
   image:
@@ -50,3 +59,9 @@ poeticmetric:
       annotations: {}
     replicas: 1
     resources: {}
+  smtp:
+    from: poeticmetric.com
+    host: ""
+    password: ""
+    port: 587
+    user: ""
