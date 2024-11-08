@@ -63,6 +63,7 @@ export default function SignIn() {
                   Go to dashboard
                 </Link>
               )}
+              description="It looks like you're already signed in."
               summary="Sign in"
               title="Signed in!"
             />
@@ -77,6 +78,7 @@ export default function SignIn() {
                   Go to dashboard
                 </Link>
               )}
+              description="You are successfully signed in."
               summary="Sign in"
               title="Signed in!"
             />
