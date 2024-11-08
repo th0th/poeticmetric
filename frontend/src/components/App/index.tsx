@@ -4,7 +4,7 @@ import Bootstrap from "~/components/Bootstrap";
 import Error from "~/components/Error";
 import Header from "~/components/Header";
 import Home from "~/components/Home";
-import Manifesto from "../Manifesto";
+import Manifesto from "~/components/Manifesto";
 
 export default function App() {
   return (
@@ -12,9 +12,9 @@ export default function App() {
       <Header />
 
       <Switch>
-        <Route component={Manifesto} path="/manifesto" />
         <Route component={Bootstrap} path="/bootstrap" />
         <Route component={Home} path="/" />
+        <Route component={Manifesto} path="/manifesto" />
 
         <Route>
           <Error />
