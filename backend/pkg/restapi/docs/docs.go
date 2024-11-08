@@ -16,6 +16,40 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/authentication/reset-user-password": {
+            "post": {
+                "description": "Reset user's password also deleting all existing user access tokens for that user.",
+                "tags": [
+                    "authentication"
+                ],
+                "summary": "Reset user's password",
+                "parameters": [
+                    {
+                        "description": "Params",
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/poeticmetric.AuthenticationResetUserPasswordParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responder.DetailResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/poeticmetric.AuthenticationResetUserPasswordParams"
+                        }
+                    }
+                }
+            }
+        },
         "/authentication/send-user-password-recovery-email": {
             "post": {
                 "description": "Send a password recovery e-mail to the user.",
@@ -30,7 +64,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/poeticmetric.AuthenticationServiceSendUserPasswordRecoveryEmailParams"
+                            "$ref": "#/definitions/poeticmetric.AuthenticationSendUserPasswordRecoveryEmailParams"
                         }
                     }
                 ],
@@ -60,7 +94,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/poeticmetric.AuthenticationServiceUserAccessToken"
+                            "$ref": "#/definitions/poeticmetric.AuthenticationUserAccessToken"
                         }
                     },
                     "400": {
@@ -140,7 +174,21 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "poeticmetric.AuthenticationServiceSendUserPasswordRecoveryEmailParams": {
+        "poeticmetric.AuthenticationResetUserPasswordParams": {
+            "type": "object",
+            "properties": {
+                "passwordResetToken": {
+                    "type": "string"
+                },
+                "userPassword": {
+                    "type": "string"
+                },
+                "userPassword2": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.AuthenticationSendUserPasswordRecoveryEmailParams": {
             "type": "object",
             "properties": {
                 "email": {
@@ -148,7 +196,7 @@ const docTemplate = `{
                 }
             }
         },
-        "poeticmetric.AuthenticationServiceUserAccessToken": {
+        "poeticmetric.AuthenticationUserAccessToken": {
             "type": "object",
             "properties": {
                 "createdAt": {
