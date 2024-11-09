@@ -79,9 +79,9 @@ export default function Bootstrap() {
             <div className={styles.title}>
               <small className={styles.summary}>Bootstrap</small>
 
-              <h2 className={styles.heading}>
+              <h1 className={styles.heading}>
                 Already bootstrapped!
-              </h2>
+              </h1>
 
               <p>
                 It looks like PoeticMetric has already been installed.
@@ -105,9 +105,9 @@ export default function Bootstrap() {
             <div className={styles.title}>
               <small className={styles.summary}>Bootstrap</small>
 
-              <h2 className={styles.heading}>
+              <h1 className={styles.heading}>
                 You are all set!
-              </h2>
+              </h1>
 
               <p>
                 PoeticMetric has been successfully installed.
