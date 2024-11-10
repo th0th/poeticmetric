@@ -1,3 +1,4 @@
+import stylisticTs from "@stylistic/eslint-plugin-ts";
 import pluginImport from "eslint-plugin-import";
 import jsxA11y from "eslint-plugin-jsx-a11y";
 import pluginReact from "eslint-plugin-react";
@@ -17,6 +18,7 @@ export default [
   {
     rules: {
       "arrow-parens": "error",
+      "comma-dangle": ["error", "always-multiline"],
       "eol-last": ["error"],
       eqeqeq: ["error"],
       "max-len": ["error", { code: 140, ignoreStrings: true }],
@@ -28,6 +30,8 @@ export default [
       "prefer-destructuring": ["error"],
       "quote-props": ["error", "as-needed"],
       quotes: ["error", "double", { allowTemplateLiterals: true }],
+      semi: ["error", "always"],
+      "semi-style": ["error", "last"],
       "sort-keys": "error",
     },
   },
@@ -90,12 +94,21 @@ export default [
   },
 
   // typescript
+  ...typescriptEslint.configs.recommended,
   {
-    ...typescriptEslint.configs.recommended[0],
-    languageOptions: {
-      parser: typescriptEslint.parser,
+    rules: {
+      "@typescript-eslint/consistent-type-definitions": ["error", "type"],
+      "@typescript-eslint/no-explicit-any": 0,
     },
-    rules: {},
+  },
+
+  {
+    plugins: {
+      "@stylistic/ts": stylisticTs,
+    },
+    rules: {
+      "@stylistic/ts/member-delimiter-style": ["error"],
+    },
   },
 
   // typescript-sort-keys
