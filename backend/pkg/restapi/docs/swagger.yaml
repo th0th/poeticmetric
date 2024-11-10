@@ -37,6 +37,29 @@ definitions:
       userPassword2:
         type: string
     type: object
+  poeticmetric.OrganizationSite:
+    properties:
+      ID:
+        type: integer
+      createdAt:
+        type: string
+      domain:
+        type: string
+      googleSearchConsoleSiteUrl:
+        type: string
+      hasEvents:
+        type: boolean
+      isPublic:
+        type: boolean
+      name:
+        type: string
+      safeQueryParameters:
+        items:
+          type: string
+        type: array
+      updatedAt:
+        type: string
+    type: object
   responder.DetailResponse:
     properties:
       detail:
@@ -151,6 +174,21 @@ paths:
       summary: Run bootstrap
       tags:
       - boostrap
+  /sites:
+    get:
+      description: List sites.
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.OrganizationSite'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: List sites
+      tags:
+      - sites
 securityDefinitions:
   BasicAuthentication:
     type: basic
