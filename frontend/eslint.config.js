@@ -39,10 +39,6 @@ export default [
   // import
   {
     ...pluginImport.flatConfigs.recommended,
-    rules: {
-      "import/no-extraneous-dependencies": "error",
-      "import/no-unresolved": "error",
-    },
     settings: {
       "import/resolver": {
         typescript: {},
