@@ -1,3 +1,6 @@
+clickhouse:
+  password: poeticmetric
+  user: poeticmetric
 mailpit:
   enabled: true
   ingress:
@@ -27,3 +30,7 @@ poeticmetric:
     from: poeticmetric@dev.poeticmetric.com
     host: poeticmetric-mailpit
     port: "1025"
+postgres:
+  password: poeticmetric
+redis:
+  password: poeticmetric
