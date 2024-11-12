@@ -13,3 +13,9 @@ func (a *ValueArg) Match(value driver.Value) bool {
 
 	return true
 }
+
+type CustomConverter struct{}
+
+func (s CustomConverter) ConvertValue(v any) (driver.Value, error) {
+	return v, nil
+}
