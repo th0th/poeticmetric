@@ -1,25 +1,28 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"time"
 
 	"github.com/justinas/alice"
+	goredis "github.com/redis/go-redis/v9"
 	"github.com/rs/zerolog/hlog"
-	httpSwagger "github.com/swaggo/http-swagger/v2"
-	clickhouse2 "gorm.io/driver/clickhouse"
-	postgres2 "gorm.io/driver/postgres"
+	httpswagger "github.com/swaggo/http-swagger/v2"
+	limiterredis "github.com/ulule/limiter/v3/drivers/store/redis"
+	gormclickhouse "gorm.io/driver/clickhouse"
+	gormpostgres "gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
 	"github.com/th0th/poeticmetric/backend/cmd"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/docs"
-	authentication2 "github.com/th0th/poeticmetric/backend/pkg/restapi/handler/authentication"
-	bootstrap2 "github.com/th0th/poeticmetric/backend/pkg/restapi/handler/bootstrap"
+	authenticationhandler "github.com/th0th/poeticmetric/backend/pkg/restapi/handler/authentication"
+	bootstraphandler "github.com/th0th/poeticmetric/backend/pkg/restapi/handler/bootstrap"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/handler/root"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/handler/sites"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/middleware"
-	responder2 "github.com/th0th/poeticmetric/backend/pkg/restapi/responder"
+	restapiresponder "github.com/th0th/poeticmetric/backend/pkg/restapi/responder"
 	"github.com/th0th/poeticmetric/backend/pkg/service/authentication"
 	"github.com/th0th/poeticmetric/backend/pkg/service/bootstrap"
 	"github.com/th0th/poeticmetric/backend/pkg/service/email"
@@ -27,6 +30,8 @@ import (
 	"github.com/th0th/poeticmetric/backend/pkg/service/site"
 	"github.com/th0th/poeticmetric/backend/pkg/service/validation"
 )
+
+var ctx = context.Background()
 
 // @description This is a REST API for PoeticMetric.
 // @termsOfService https://poeticmetric.com/terms-of-service
@@ -48,14 +53,23 @@ func main() {
 
 	docs.SwaggerInfo.BasePath = envService.RestApiBasePath()
 
-	postgres, err := gorm.Open(postgres2.Open(envService.PostgresDsn()), envService.GormConfig())
+	postgres, err := gorm.Open(gormpostgres.Open(envService.PostgresDsn()), envService.GormConfig())
 	if err != nil {
 		cmd.LogPanic(err, "failed to init postgres")
 	}
 
-	clickhouse, err := gorm.Open(clickhouse2.Open(envService.ClickhouseDsn()), envService.GormConfig())
+	clickhouse, err := gorm.Open(gormclickhouse.Open(envService.ClickhouseDsn()), envService.GormConfig())
 	if err != nil {
 		cmd.LogPanic(err, "failed to init postgres")
+	}
+
+	redis := goredis.NewClient(&goredis.Options{
+		Addr:     envService.RedisAddr(),
+		Password: envService.RedisPassword(),
+	})
+	err = redis.Ping(ctx).Err()
+	if err != nil {
+		cmd.LogPanic(err, "failed to ping redis")
 	}
 
 	validationService := validation.New(validation.NewParams{
@@ -85,17 +99,17 @@ func main() {
 		Postgres: postgres,
 	})
 
-	responder := responder2.New(responder2.NewParams{
+	responder := restapiresponder.New(restapiresponder.NewParams{
 		EnvService: envService,
 	})
 
 	// handlers
-	authenticationHandler := authentication2.New(authentication2.NewParams{
+	authenticationHandler := authenticationhandler.New(authenticationhandler.NewParams{
 		AuthenticationService: authenticationService,
 		Responder:             responder,
 	})
 
-	bootstrapHandler := bootstrap2.New(bootstrap2.NewParams{
+	bootstrapHandler := bootstraphandler.New(bootstraphandler.NewParams{
 		BootstrapService: bootstrapService,
 		Responder:        responder,
 	})
@@ -112,11 +126,17 @@ func main() {
 	mux := http.NewServeMux()
 
 	// middleware
+	limiterStore, err := limiterredis.NewStore(redis)
+	if err != nil {
+		cmd.LogPanic(err, "failed to init limiter store")
+	}
+
+	sensitiveRateLimit := alice.New(middleware.SensitiveRateLimit(responder, limiterStore))
 	permissionBasicAuthenticated := alice.New(middleware.PermissionBasicAuthenticated(responder))
 	permissionUserAccessTokenAuthenticated := alice.New(middleware.PermissionUserAccessTokenAuthenticated(responder))
 
 	// handlers: authentication
-	mux.Handle("POST /authentication/user-access-tokens", permissionBasicAuthenticated.ThenFunc(authenticationHandler.CreateUserAccessToken))
+	mux.Handle("POST /authentication/user-access-tokens", sensitiveRateLimit.Extend(permissionBasicAuthenticated).ThenFunc(authenticationHandler.CreateUserAccessToken))
 	mux.Handle("DELETE /authentication/user-access-tokens", permissionUserAccessTokenAuthenticated.ThenFunc(authenticationHandler.DeleteUserAccessToken))
 	mux.HandleFunc("POST /authentication/send-user-password-recovery-email", authenticationHandler.SendUserPasswordRecoveryEmail)
 	mux.HandleFunc("POST /authentication/reset-user-password", authenticationHandler.ResetUserPassword)
@@ -127,7 +147,7 @@ func main() {
 
 	// handlers: docs
 	mux.Handle("/docs", http.RedirectHandler(fmt.Sprintf("%s/docs/", envService.RestApiBasePath()), http.StatusFound))
-	mux.Handle("/docs/", httpSwagger.Handler(httpSwagger.DeepLinking(true), httpSwagger.Layout(httpSwagger.BaseLayout)))
+	mux.Handle("/docs/", httpswagger.Handler(httpswagger.DeepLinking(true), httpswagger.Layout(httpswagger.BaseLayout)))
 
 	// handlers: root
 	mux.HandleFunc("/{$}", rootHandler.Index())
