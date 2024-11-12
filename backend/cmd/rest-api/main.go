@@ -17,12 +17,14 @@ import (
 	authentication2 "github.com/th0th/poeticmetric/backend/pkg/restapi/handler/authentication"
 	bootstrap2 "github.com/th0th/poeticmetric/backend/pkg/restapi/handler/bootstrap"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/handler/root"
+	"github.com/th0th/poeticmetric/backend/pkg/restapi/handler/sites"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/middleware"
 	responder2 "github.com/th0th/poeticmetric/backend/pkg/restapi/responder"
 	"github.com/th0th/poeticmetric/backend/pkg/service/authentication"
 	"github.com/th0th/poeticmetric/backend/pkg/service/bootstrap"
 	"github.com/th0th/poeticmetric/backend/pkg/service/email"
 	"github.com/th0th/poeticmetric/backend/pkg/service/env"
+	"github.com/th0th/poeticmetric/backend/pkg/service/site"
 	"github.com/th0th/poeticmetric/backend/pkg/service/validation"
 )
 
@@ -79,6 +81,10 @@ func main() {
 		Postgres:   postgres,
 	})
 
+	siteService := site.New(site.NewParams{
+		Postgres: postgres,
+	})
+
 	responder := responder2.New(responder2.NewParams{
 		EnvService: envService,
 	})
@@ -98,21 +104,20 @@ func main() {
 		EnvService: envService,
 	})
 
+	sitesHandler := sites.New(sites.NewParams{
+		Responder:   responder,
+		SiteService: siteService,
+	})
+
 	mux := http.NewServeMux()
 
 	// middleware
-	permissionBasicAuthenticated := middleware.PermissionBasicAuthenticated(responder)
-	permissionUserAccessTokenAuthenticated := middleware.PermissionUserAccessTokenAuthenticated(responder)
+	permissionBasicAuthenticated := alice.New(middleware.PermissionBasicAuthenticated(responder))
+	permissionUserAccessTokenAuthenticated := alice.New(middleware.PermissionUserAccessTokenAuthenticated(responder))
 
 	// handlers: authentication
-	mux.Handle(
-		"POST /authentication/user-access-tokens",
-		alice.New(permissionBasicAuthenticated).ThenFunc(authenticationHandler.CreateUserAccessToken),
-	)
-	mux.Handle(
-		"DELETE /authentication/user-access-tokens",
-		alice.New(permissionUserAccessTokenAuthenticated).ThenFunc(authenticationHandler.DeleteUserAccessToken),
-	)
+	mux.Handle("POST /authentication/user-access-tokens", permissionBasicAuthenticated.ThenFunc(authenticationHandler.CreateUserAccessToken))
+	mux.Handle("DELETE /authentication/user-access-tokens", permissionUserAccessTokenAuthenticated.ThenFunc(authenticationHandler.DeleteUserAccessToken))
 	mux.HandleFunc("POST /authentication/send-user-password-recovery-email", authenticationHandler.SendUserPasswordRecoveryEmail)
 	mux.HandleFunc("POST /authentication/reset-user-password", authenticationHandler.ResetUserPassword)
 
@@ -122,13 +127,13 @@ func main() {
 
 	// handlers: docs
 	mux.Handle("/docs", http.RedirectHandler(fmt.Sprintf("%s/docs/", envService.RestApiBasePath()), http.StatusFound))
-	mux.Handle("/docs/", httpSwagger.Handler(
-		httpSwagger.DeepLinking(true),
-		httpSwagger.Layout(httpSwagger.BaseLayout),
-	))
+	mux.Handle("/docs/", httpSwagger.Handler(httpSwagger.DeepLinking(true), httpSwagger.Layout(httpSwagger.BaseLayout)))
 
 	// handlers: root
 	mux.HandleFunc("/{$}", rootHandler.Index())
+
+	// handlers: sites
+	mux.Handle("GET /sites", permissionUserAccessTokenAuthenticated.ThenFunc(sitesHandler.List))
 
 	httpServer := http.Server{
 		Handler: alice.New(

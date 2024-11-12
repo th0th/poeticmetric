@@ -171,6 +171,31 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/sites": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "List sites.",
+                "tags": [
+                    "sites"
+                ],
+                "summary": "List sites",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/poeticmetric.OrganizationSite"
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -229,6 +254,41 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "userPassword2": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.OrganizationSite": {
+            "type": "object",
+            "properties": {
+                "ID": {
+                    "type": "integer"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "domain": {
+                    "type": "string"
+                },
+                "googleSearchConsoleSiteUrl": {
+                    "type": "string"
+                },
+                "hasEvents": {
+                    "type": "boolean"
+                },
+                "isPublic": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "safeQueryParameters": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "updatedAt": {
                     "type": "string"
                 }
             }

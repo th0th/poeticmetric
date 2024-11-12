@@ -20,6 +20,43 @@ import (
 	"github.com/th0th/poeticmetric/backend/pkg/test/sqlmockhelper"
 )
 
+func TestNew(t *testing.T) {
+	emailService := new(email.MockService)
+	postgres := new(gorm.DB)
+	validationService := new(poeticmetric.MockValidationService)
+
+	type args struct {
+		params NewParams
+	}
+	tests := []struct {
+		name string
+		args args
+		want poeticmetric.AuthenticationService
+	}{
+		{
+			name: "successful",
+			args: args{
+				params: NewParams{
+					EmailService:      emailService,
+					Postgres:          postgres,
+					ValidationService: validationService,
+				},
+			},
+			want: &service{
+				emailService:      emailService,
+				postgres:          postgres,
+				validationService: validationService,
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := New(tt.args.params)
+			assert.Equal(t, tt.want, got)
+		})
+	}
+}
+
 func Test_service_CreateUserAccessToken(t *testing.T) {
 	db, sqlMock, err := sqlmock.New(sqlmock.QueryMatcherOption(sqlmock.QueryMatcherEqual))
 	assert.NoError(t, err)
