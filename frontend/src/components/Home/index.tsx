@@ -1,3 +1,4 @@
+import Layout from "~/components/Layout";
 import Title from "~/components/Title";
 
 export default function Home() {
@@ -5,9 +6,11 @@ export default function Home() {
     <>
       <Title>Homepage</Title>
 
-      <div className="container">
-        <div>Something beautiful</div>
-      </div>
+      <Layout>
+        <div className="container">
+          <div>Something beautiful</div>
+        </div>
+      </Layout>
     </>
   );
 }

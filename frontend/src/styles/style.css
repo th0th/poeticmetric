@@ -1,4 +1,13 @@
 @import "variables.css";
 @import "fonts.css";
-@import "components.css";
+
+/* components */
+@import "components/alert.css";
+@import "components/button.css";
+@import "components/card.css";
+@import "components/container.css";
+@import "components/form.css";
+@import "components/link.css";
+@import "components/spinner.css";
+
 @import "globals.css";
