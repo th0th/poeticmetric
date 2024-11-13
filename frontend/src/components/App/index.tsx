@@ -13,7 +13,6 @@ export default function App() {
       <Header />
 
       <Switch>
-        <Route component={SignIn} path="/sign-in" />
         <Route component={Bootstrap} path="/bootstrap" />
         <Route component={Home} path="/" />
         <Route component={Manifesto} path="/manifesto" />
