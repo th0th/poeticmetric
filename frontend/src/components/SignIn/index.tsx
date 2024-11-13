@@ -1,16 +1,17 @@
+import { IconX } from "@tabler/icons-react";
 import clsx from "clsx";
 import { useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
 import { Link } from "wouter";
 import ActivityOverlay from "~/components/ActivityOverlay";
-import { base64Encode } from "~/helpers/base64";
-import FormTitle from "./FormTitle";
 import Layout from "~/components/Layout";
-import styles from "./SignIn.module.css";
 import Title from "~/components/Title";
+import { base64Encode } from "~/helpers/base64";
 import { api } from "~/lib/api";
 import { setErrors } from "~/lib/form";
+import FormTitle from "./FormTitle";
+import styles from "./SignIn.module.css";
 
 type Form = {
   userEmail: string;
@@ -25,7 +26,7 @@ type State = {
 
 export default function SignIn() {
   const { showBoundary } = useErrorBoundary();
-  const [state, setState] = useState<State>({ isAlreadySignedIn: false, isSignInComplete: false });
+  const [state, setState] = useState<State>({ isAlreadySignedIn: false, isSignInComplete: true });
   const { clearErrors, formState: { errors, isSubmitting }, handleSubmit, register, setError } = useForm<Form>();
 
   async function submit(data: Form) {
@@ -54,7 +55,7 @@ export default function SignIn() {
     <>
       <Title>Sign In</Title>
 
-      <Layout headerProps={{ variant: "basic" }}>
+      <Layout className={styles.layout} headerProps={{ variant: "basic" }}>
         {state.isAlreadySignedIn ? (
           <div className="container">
             <FormTitle
@@ -63,7 +64,7 @@ export default function SignIn() {
                   Go to dashboard
                 </Link>
               )}
-              description="It looks like you're already signed in."
+              description="It looks like you are already signed in."
               summary="Sign in"
               title="Signed in!"
             />
@@ -77,6 +78,7 @@ export default function SignIn() {
                 </Link>
               )}
               description="You are successfully signed in."
+              showGoBack={false}
               summary="Sign in"
               title="Signed in!"
             />
@@ -95,6 +97,14 @@ export default function SignIn() {
               <ActivityOverlay isActive={isSubmitting}>
                 <form className="card-body" onSubmit={handleSubmit(submit)}>
                   <fieldset className="fieldset" disabled={isSubmitting}>
+                    {errors.root ? (
+                      <div className="alert alert-danger">
+                        <IconX className="icon" size={24} />
+
+                        {errors.root.message}
+                      </div>
+                    ) : null}
+
                     <div className="form-group">
                       <label className="form-label" htmlFor="input-user-email">E-mail address</label>
 

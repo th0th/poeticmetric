@@ -1,9 +1,5 @@
 @import "~/styles/media.css";
 
-.layout {
-  transition: margin-top 0.5s ease;
-}
-
 .card {
   margin-inline: auto;
   margin-top: 2rem;
@@ -29,6 +25,13 @@
 
 @media (--min-md) and  (orientation: landscape) {
   .layout {
-    margin-top: 12vh;
+    display: grid;
+    flex-grow: 1;
+    grid-template-rows: repeat(3, 1fr);
+
+    > :global(.container) {
+      align-self: center;
+      grid-row: 2 span / 3;
+    }
   }
 }
