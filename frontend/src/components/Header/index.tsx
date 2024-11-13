@@ -1,7 +1,7 @@
 import { IconMenu2 } from "@tabler/icons-react";
 import clsx from "clsx";
-import { PropsWithoutRef, ReactNode, useEffect, useMemo, useState , JSX } from "react";
-import { Link , useLocation } from "wouter";
+import { PropsWithoutRef, ReactNode, useEffect, useMemo, useState, JSX } from "react";
+import { Link, useLocation } from "wouter";
 import Collapse from "~/components/Collapse";
 import styles from "./Header.module.css";
 import Logo from "~/components/Logo";
