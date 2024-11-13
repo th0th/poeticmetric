@@ -1,14 +1,12 @@
 import { IconMenu2 } from "@tabler/icons-react";
 import clsx from "clsx";
-import { PropsWithoutRef, ReactNode, useEffect, useMemo, useState } from "react";
-import { Link } from "wouter";
+import { PropsWithoutRef, ReactNode, useEffect, useMemo, useState , JSX } from "react";
+import { Link , useLocation } from "wouter";
 import Collapse from "~/components/Collapse";
 import styles from "./Header.module.css";
 import Logo from "~/components/Logo";
-import { useLocation } from "wouter";
-import { JSX } from "react";
 
-const links: Array<{ link: string, name: string }> = [
+const links: Array<{ link: string; name: string }> = [
   { link: "/", name: "Home" },
   { link: "/manifesto", name: "Manifesto" },
   { link: "/pricing", name: "Pricing" },
@@ -16,8 +14,8 @@ const links: Array<{ link: string, name: string }> = [
 ];
 
 export type HeaderProps = Overwrite<PropsWithoutRef<JSX.IntrinsicElements["header"]>, {
-  variant?: "basic" | "default"
-}>
+  variant?: "basic" | "default";
+}>;
 
 export default function Header({ variant = "default", ...props }: HeaderProps) {
   const [location] = useLocation();
