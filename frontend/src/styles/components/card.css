@@ -1,0 +1,15 @@
+.card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+
+  .card-body {
+    padding: 1em;
+  }
+
+  .card-footer {
+    background-color: rgba(var(--color-foreground-rgb) / 0.03);
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    border-top: 1px solid var(--color-border);
+    padding: 0.5rem 1rem;
+  }
+}

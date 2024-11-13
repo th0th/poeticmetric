@@ -1,0 +1,22 @@
+.card {
+  margin-inline: auto;
+  margin-top: 2rem;
+  max-width: 28rem;
+}
+
+.forgot-password-link {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: space-between;
+
+  > a {
+    font-size: 0.875rem;
+  }
+}
+
+.sign-up-link {
+  font-size: 0.875rem;
+  text-align: center;
+}
