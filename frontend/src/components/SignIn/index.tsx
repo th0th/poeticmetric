@@ -27,7 +27,7 @@ type State = {
 export default function SignIn() {
   const { showBoundary } = useErrorBoundary();
   const [state, setState] = useState<State>({ isAlreadySignedIn: false, isSignInComplete: false });
-  const { clearErrors, formState: { errors, isSubmitting }, handleSubmit, register, setError } = useForm<Form>({});
+  const { clearErrors, formState: { errors, isSubmitting }, handleSubmit, register, setError } = useForm<Form>();
 
   async function submit(data: Form) {
     try {
@@ -64,7 +64,7 @@ export default function SignIn() {
                   Go to dashboard
                 </Link>
               )}
-              description="It looks like you're already signed in."
+              description="It looks like you are already signed in."
               summary="Sign in"
               title="Signed in!"
             />
@@ -79,7 +79,7 @@ export default function SignIn() {
                   Go to dashboard
                 </Link>
               )}
-              description="You're successfully signed in."
+              description="You are successfully signed in."
               summary="Sign in"
               title="Signed in!"
             />

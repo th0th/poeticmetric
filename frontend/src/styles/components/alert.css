@@ -1,5 +1,6 @@
 .alert {
   --border-color: transparent;
+
   align-items: center;
   border: 1px solid var(--border-color);
   border-radius: 0.25rem;
