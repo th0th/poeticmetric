@@ -26,7 +26,7 @@ type State = {
 
 export default function SignIn() {
   const { showBoundary } = useErrorBoundary();
-  const [state, setState] = useState<State>({ isAlreadySignedIn: false, isSignInComplete: true });
+  const [state, setState] = useState<State>({ isAlreadySignedIn: false, isSignInComplete: false });
   const { clearErrors, formState: { errors, isSubmitting }, handleSubmit, register, setError } = useForm<Form>();
 
   async function submit(data: Form) {
