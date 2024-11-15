@@ -133,10 +133,11 @@ export default function PasswordReset() {
                       />
 
                       <div className="form-group">
-                        <label className="form-label">Password</label>
+                        <label className="form-label" htmlFor="input-user-password">Password</label>
 
                         <input
                           className={clsx("input", (!!errors.userPassword || !!errors.root) && "input-invalid")}
+                          id="input-user-password"
                           required
                           type="password"
                           {...register("userPassword", { onChange: () => clearErrors() })}
@@ -148,10 +149,11 @@ export default function PasswordReset() {
                       </div>
 
                       <div className="form-group">
-                        <label className="form-label">Password (again)</label>
+                        <label className="form-label" htmlFor="input-user-password2">Password (again)</label>
 
                         <input
                           className={clsx("input", (!!errors.userPassword2 || !!errors.root) && "input-invalid")}
+                          id="input-user-password2"
                           required
                           type="password"
                           {...register("userPassword2", { onChange: () => clearErrors() })}
