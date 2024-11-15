@@ -39,7 +39,7 @@ export function getFetcher(requireUserAccessToken: boolean) {
 
     try {
       response = await apiCall(endpoint, init);
-    } catch (e) {
+    } catch {
       throw new Error("An error occurred while calling the API.");
     }
 

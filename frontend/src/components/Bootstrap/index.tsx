@@ -6,8 +6,10 @@ import { Link } from "wouter";
 import ActivityOverlay from "~/components/ActivityOverlay";
 import Layout from "~/components/Layout";
 import Title from "~/components/Title";
+import { base64Encode } from "~/helpers/base64";
 import { api } from "~/lib/api";
 import { setErrors } from "~/lib/form";
+import { setUserAccessToken } from "~/lib/user-access-token";
 import styles from "./Bootstrap.module.css";
 
 type Form = {
@@ -36,6 +38,19 @@ export default function Bootstrap() {
       const responseJson = await response.json();
 
       if (response.ok) {
+        const accessTokenResponse = await api.post("/authentication/user-access-tokens", undefined, {
+          headers: {
+            authorization: `Basic ${base64Encode(`${data.userEmail}:${data.userPassword}`)}`,
+          },
+        });
+
+        const accessTokenResponseJson = await accessTokenResponse.json();
+
+        if (accessTokenResponse.ok) {
+          setUserAccessToken(accessTokenResponseJson.accessToken);
+        } else {
+          setErrors(setError, accessTokenResponseJson);
+        }
         setState((prev) => ({ ...prev, isBootstrapComplete: true }));
       } else {
         setErrors(setError, responseJson);
@@ -79,9 +94,9 @@ export default function Bootstrap() {
             <div className={styles.title}>
               <small className={styles.summary}>Bootstrap</small>
 
-              <h2 className={styles.heading}>
+              <h1 className={styles.heading}>
                 Already bootstrapped!
-              </h2>
+              </h1>
 
               <p>
                 It looks like PoeticMetric has already been installed.
@@ -105,9 +120,9 @@ export default function Bootstrap() {
             <div className={styles.title}>
               <small className={styles.summary}>Bootstrap</small>
 
-              <h2 className={styles.heading}>
+              <h1 className={styles.heading}>
                 You are all set!
-              </h2>
+              </h1>
 
               <p>
                 PoeticMetric has been successfully installed.
