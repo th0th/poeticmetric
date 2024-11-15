@@ -106,7 +106,7 @@ export default function SignIn() {
                       <label className="form-label" htmlFor="input-user-email">E-mail address</label>
 
                       <input
-                        className={clsx("input", errors.userEmail || errors.root && "input-invalid")}
+                        className={clsx("input", !!errors.userEmail || !!errors.root && "input-invalid")}
                         id="input-user-email"
                         required
                         type="email"
