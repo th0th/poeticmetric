@@ -1,4 +1,6 @@
-# Building a Better Web: PoeticMetric's Vision
+### Building a better web: 
+
+# PoeticMetric's vision
 
 Many of the analytics tools out there give analytics, and even marketing, a bad name. For more than 15 years since it was made available in 2005, Google Analytics has been the go-to tool for businesses. It has been proven [way](https://www.nytimes.com/2019/09/04/technology/google-youtube-fine-ftc.html)  [too](https://www.bbc.com/news/technology-46944696)  [many](https://www.nytimes.com/2019/01/21/technology/google-europe-gdpr-fine.html)  [times](https://digitalguardian.com/blog/google-fined-57m-data-protection-watchdog-over-gdpr-violations) that even if it is advertised as free, it comes with a crucial cost: **Breach of people's privacy and abuse of people's psychological vulnerabilities to make more profit.**
 
