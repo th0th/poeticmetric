@@ -26,7 +26,7 @@ type State = {
 
 export default function SignIn() {
   const { showBoundary } = useErrorBoundary();
-  const location = useLocation();
+  const [location, navigate] = useLocation();
   const searchParams = useSearch();
   const user = useUser();
   const [state, setState] = useState<State>({ isAlreadySignedIn: false });
@@ -54,7 +54,7 @@ export default function SignIn() {
 
         const next = new URLSearchParams(searchParams).get("next");
 
-        location.push(next || "/sites");
+        navigate(next || "/sites");
       } else {
         setErrors(setError, responseJson);
       }
@@ -129,7 +129,7 @@ export default function SignIn() {
                       </div>
 
                       <input
-                        className={clsx("input", errors.userPassword || errors.root && "input-invalid")}
+                        className={clsx("input", !!errors.userPassword || !!errors.root && "input-invalid")}
                         required
                         type="password"
                         {...register("userPassword", { onChange: () => clearErrors() })}
