@@ -1,5 +1,6 @@
 import { Route, Switch } from "wouter";
 import "../../styles/style.css";
+import AuthProvider from "~/components/AuthProvider";
 import Bootstrap from "~/components/Bootstrap";
 import Error from "~/components/Error";
 import Home from "~/components/Home";
@@ -8,7 +9,7 @@ import SignIn from "~/components/SignIn";
 
 export default function App() {
   return (
-    <>
+    <AuthProvider>
       <Switch>
         <Route component={Bootstrap} path="/bootstrap" />
         <Route component={Home} path="/" />
@@ -19,6 +20,6 @@ export default function App() {
           <Error />
         </Route>
       </Switch>
-    </>
+    </AuthProvider>
   );
 }
