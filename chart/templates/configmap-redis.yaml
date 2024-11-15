@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    {{ include "poeticmetric.labels" . | nindent 4 }}
+  name: {{ include "poeticmetric.fullname" . }}-redis
+data:
+  HOST: "{{ include "poeticmetric.fullname" . }}-redis"
+  PORT: "6379"

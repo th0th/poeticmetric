@@ -15,6 +15,8 @@ type EnvService interface {
 	IsHosted() bool
 	PostgresDatabase() string
 	PostgresDsn() string
+	RedisAddr() string
+	RedisPassword() string
 	RestApiBasePath() string
 	SmtpAddr() string
 	SmtpAuth() smtp.Auth
@@ -41,12 +43,10 @@ type EnvServiceVars struct {
 	PostgresPort     int    `env:"POSTGRES_PORT,notEmpty,required"`
 	PostgresUser     string `env:"POSTGRES_USER,notEmpty,required"`
 
-	// RabbitMQ
-	RabbitMqHost     string `env:"RABBITMQ_HOST,notEmpty,required"`
-	RabbitMqPassword string `env:"RABBITMQ_PASSWORD,notEmpty,required"`
-	RabbitMqPort     int    `env:"RABBITMQ_PORT,notEmpty,required"`
-	RabbitMqUser     string `env:"RABBITMQ_USER,notEmpty,required"`
-	RabbitMqVhost    string `env:"RABBITMQ_VHOST,notEmpty,required"`
+	// Redis
+	RedisHost     string `env:"REDIS_HOST,notEmpty,required"`
+	RedisPassword string `env:"REDIS_PASSWORD"`
+	RedisPort     int    `env:"REDIS_PORT,notEmpty,required"`
 
 	// SMTP
 	SmtpFrom     string `env:"SMTP_FROM,notEmpty,required"`

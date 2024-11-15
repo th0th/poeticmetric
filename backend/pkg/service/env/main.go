@@ -93,6 +93,14 @@ func (s *service) PostgresDsn() string {
 	)
 }
 
+func (s *service) RedisAddr() string {
+	return fmt.Sprintf("%s:%d", s.vars.RedisHost, s.vars.RedisPort)
+}
+
+func (s *service) RedisPassword() string {
+	return s.vars.RedisPassword
+}
+
 func (s *service) RestApiBasePath() string {
 	return "/api"
 }

@@ -3,10 +3,12 @@ clickhouse:
     pullPolicy: IfNotPresent
     repository: clickhouse/clickhouse-server
     tag: 24-alpine
+  password: ""
   persistence:
     enabled: true
     size: 10Gi
   resources: {}
+  user: poeticmetric
 mailpit:
   enabled: false
   image:
@@ -29,10 +31,12 @@ postgres:
     pullPolicy: IfNotPresent
     repository: postgres
     tag: 17-alpine
+  password: ""
   persistence:
     enabled: true
     size: 10Gi
   resources: {}
+  user: poeticmetric
 poeticmetric:
   backend:
     image:
@@ -65,3 +69,13 @@ poeticmetric:
     password: ""
     port: 587
     user: ""
+redis:
+  image:
+    pullPolicy: IfNotPresent
+    repository: redis
+    tag: 6.2-alpine
+  password: ""
+  persistence:
+    enabled: true
+    size: 10Gi
+  resources: {}

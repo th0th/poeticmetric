@@ -35,13 +35,13 @@ spec:
           secretRef:
             name: {{ include "poeticmetric.fullname" . }}-postgres
             optional: false
-        - configMapRef:
-            name: {{ include "poeticmetric.fullname" . }}-rabbitmq
+        - prefix: REDIS_
+          configMapRef:
+            name: {{ include "poeticmetric.fullname" . }}-redis
             optional: false
-          prefix: RABBITMQ_
-        - prefix: RABBITMQ_
+        - prefix: REDIS_
           secretRef:
-            name: {{ include "poeticmetric.fullname" . }}-rabbitmq
+            name: {{ include "poeticmetric.fullname" . }}-redis
             optional: false
         - prefix: SMTP_
           configMapRef:
