@@ -3,8 +3,7 @@
 .markdown {
   --scale-ratio: 1.618;
 
-  --fs-base: 1rem;
-  --fs-1: var(--fs-base);
+  --fs-1: 1rem;
   --fs-2: calc(var(--fs-1) * var(--scale-ratio));
   --fs-3: calc(var(--fs-2) * var(--scale-ratio));
   --fs-4: calc(var(--fs-3) * var(--scale-ratio));
