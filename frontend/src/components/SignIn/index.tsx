@@ -1,15 +1,17 @@
 import { IconX } from "@tabler/icons-react";
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
-import { Link } from "wouter";
+import { Link, useLocation, useSearch } from "wouter";
 import ActivityOverlay from "~/components/ActivityOverlay";
 import Layout from "~/components/Layout";
 import Title from "~/components/Title";
 import { base64Encode } from "~/helpers/base64";
+import useUser from "~/hooks/useUser";
 import { api } from "~/lib/api";
 import { setErrors } from "~/lib/form";
+import { setUserAccessToken } from "~/lib/user-access-token";
 import FormTitle from "./FormTitle";
 import styles from "./SignIn.module.css";
 
@@ -19,15 +21,22 @@ type Form = {
 };
 
 type State = {
-  /* TODO: Implement this logic after auth handler is ready */
   isAlreadySignedIn: boolean;
-  isSignInComplete: boolean;
 };
 
 export default function SignIn() {
   const { showBoundary } = useErrorBoundary();
-  const [state, setState] = useState<State>({ isAlreadySignedIn: false, isSignInComplete: false });
+  const location = useLocation();
+  const searchParams = useSearch();
+  const user = useUser();
+  const [state, setState] = useState<State>({ isAlreadySignedIn: false });
   const { clearErrors, formState: { errors, isSubmitting }, handleSubmit, register, setError } = useForm<Form>();
+
+  useEffect(() => {
+    if (user) {
+      setState((prev) => ({ ...prev, isAlreadySignedIn: true }));
+    }
+  }, []);
 
   async function submit(data: Form) {
     try {
@@ -40,9 +49,11 @@ export default function SignIn() {
       const responseJson = await response.json();
 
       if (response.ok) {
-        localStorage.setItem("accessToken", responseJson.accessToken);
+        setUserAccessToken(responseJson.accessToken);
 
-        setState((prev) => ({ ...prev, isSignInComplete: true }));
+        const next = new URLSearchParams(searchParams).get("next");
+
+        location.push(next || "/sites");
       } else {
         setErrors(setError, responseJson);
       }
@@ -65,20 +76,6 @@ export default function SignIn() {
                 </Link>
               )}
               description="It looks like you are already signed in."
-              summary="Sign in"
-              title="Signed in!"
-            />
-          </div>
-        ) : state.isSignInComplete ? (
-          <div className="container">
-            <FormTitle
-              actions={(
-                <Link className="button button-lg button-blue" to="/sites">
-                  Go to dashboard
-                </Link>
-              )}
-              description="You are successfully signed in."
-              showGoBack={false}
               summary="Sign in"
               title="Signed in!"
             />
