@@ -1,10 +1,10 @@
 import { IconMenu2 } from "@tabler/icons-react";
 import clsx from "clsx";
-import { PropsWithoutRef, ReactNode, useEffect, useMemo, useState, JSX } from "react";
+import { JSX, PropsWithoutRef, ReactNode, useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "wouter";
 import Collapse from "~/components/Collapse";
-import styles from "./Header.module.css";
 import Logo from "~/components/Logo";
+import styles from "./Header.module.css";
 
 const links: Array<{ link: string; name: string }> = [
   { link: "/", name: "Home" },
