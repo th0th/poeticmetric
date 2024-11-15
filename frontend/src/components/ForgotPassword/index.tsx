@@ -24,7 +24,7 @@ type State = {
 
 export default function ForgotPassword() {
   const { showBoundary } = useErrorBoundary();
-  const [state, setState] = useState<State>({ isAlreadySignedIn: false, isEmailSent: true });
+  const [state, setState] = useState<State>({ isAlreadySignedIn: false, isEmailSent: false });
   const user = useUser();
   const { clearErrors, formState: { errors, isSubmitting }, handleSubmit, register, setError } = useForm<Form>();
 
@@ -53,7 +53,7 @@ export default function ForgotPassword() {
 
   return (
     <>
-      <Title>Sign In</Title>
+      <Title>Forgot password?</Title>
 
       <Layout className={styles.layout}>
         {state.isAlreadySignedIn ? (
@@ -88,7 +88,7 @@ export default function ForgotPassword() {
           <div className="container">
             <FormTitle
               description="Enter your email address and we will send you a link to reset your password."
-              maxWidth="28rem"
+              maxWidth="27rem"
               showGoBack={false}
               summary="Password recovery"
               title="Forgot password?"
