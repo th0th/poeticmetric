@@ -2,7 +2,7 @@ import ReactMarkdown from "react-markdown";
 import { Link } from "wouter";
 import styles from "./Markdown.module.css";
 
-type MarkdownProps = {
+export type MarkdownProps = {
   content: string;
 }
 

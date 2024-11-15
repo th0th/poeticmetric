@@ -1,3 +1,5 @@
+@import "~/styles/media.css";
+
 .card {
   margin-inline: auto;
   margin-top: 2rem;
@@ -19,4 +21,17 @@
 .sign-up-link {
   font-size: 0.875rem;
   text-align: center;
+}
+
+@media (--min-md) and  (orientation: landscape) {
+  .layout {
+    display: grid;
+    flex-grow: 1;
+    grid-template-rows: repeat(3, 1fr);
+
+    > :global(.container) {
+      align-self: center;
+      grid-row: 2 span / 3;
+    }
+  }
 }

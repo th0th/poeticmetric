@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { JSX, PropsWithoutRef } from "react";
 import styles from "./ActivityOverlay.module.css";
 
-type ActivityOverlayProps = Overwrite<PropsWithoutRef<JSX.IntrinsicElements["div"]>, {
+export type ActivityOverlayProps = Overwrite<PropsWithoutRef<JSX.IntrinsicElements["div"]>, {
   isActive: boolean;
 }>
 

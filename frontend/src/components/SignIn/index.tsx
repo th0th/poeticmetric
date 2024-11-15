@@ -5,13 +5,13 @@ import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
 import { Link } from "wouter";
 import ActivityOverlay from "~/components/ActivityOverlay";
-import { base64Encode } from "~/helpers/base64";
-import FormTitle from "./FormTitle";
 import Layout from "~/components/Layout";
-import styles from "./SignIn.module.css";
 import Title from "~/components/Title";
+import { base64Encode } from "~/helpers/base64";
 import { api } from "~/lib/api";
 import { setErrors } from "~/lib/form";
+import FormTitle from "./FormTitle";
+import styles from "./SignIn.module.css";
 
 type Form = {
   userEmail: string;
@@ -55,8 +55,8 @@ export default function SignIn() {
     <>
       <Title>Sign In</Title>
 
-      {state.isAlreadySignedIn ? (
-        <Layout>
+      <Layout className={styles.layout} headerProps={{ variant: "basic" }}>
+        {state.isAlreadySignedIn ? (
           <div className="container">
             <FormTitle
               actions={(
@@ -69,9 +69,7 @@ export default function SignIn() {
               title="Signed in!"
             />
           </div>
-        </Layout>
-      ) : state.isSignInComplete ? (
-        <Layout>
+        ) : state.isSignInComplete ? (
           <div className="container">
             <FormTitle
               actions={(
@@ -80,16 +78,17 @@ export default function SignIn() {
                 </Link>
               )}
               description="You are successfully signed in."
+              showGoBack={false}
               summary="Sign in"
               title="Signed in!"
             />
           </div>
-        </Layout>
-      ) : (
-        <Layout>
+        ) : (
           <div className="container">
             <FormTitle
               description="Sign in to view your analytics dashboard."
+              maxWidth="28rem"
+              showGoBack={false}
               summary="Sign in"
               title="Welcome back!"
             />
@@ -149,14 +148,14 @@ export default function SignIn() {
                   <p className={styles.signUpLink}>
                     {"Don't have an account?"}
                     {" "}
-                    <Link className="link link-animate" style={{ marginBlock: "3rem" }} to="/sign-up">Sign up</Link>
+                    <Link className="link link-animate" to="/sign-up">Sign up</Link>
                   </p>
                 </div>
               </ActivityOverlay>
             </div>
           </div>
-        </Layout>
-      )}
+        )}
+      </Layout>
     </>
   );
 }

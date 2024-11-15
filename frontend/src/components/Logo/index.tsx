@@ -2,7 +2,7 @@ import { JSX, PropsWithoutRef } from "react";
 import clsx from "clsx";
 import styles from "./Logo.module.css";
 
-type LogoProps = PropsWithoutRef<JSX.IntrinsicElements["svg"]>;
+export type LogoProps = PropsWithoutRef<JSX.IntrinsicElements["svg"]>;
 
 export default function Logo({ className, ...props }: LogoProps) {
   return (
