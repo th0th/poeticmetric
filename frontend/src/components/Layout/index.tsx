@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import { JSX, PropsWithoutRef } from "react";
-import Header from "~/components/Header";
-import type { HeaderProps } from "~/components/Header";
+import Header, { HeaderProps } from "~/components/Header";
 import styles from "./Layout.module.css";
 
 export type LayoutProps = Overwrite<PropsWithoutRef<JSX.IntrinsicElements["main"]>, {
