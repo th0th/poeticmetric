@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { JSX, PropsWithoutRef, useEffect, useRef, useState } from "react";
 import styles from "./Collapse.module.css";
 
-type CollapseProps = Overwrite<PropsWithoutRef<JSX.IntrinsicElements["div"]>, {
+export type CollapseProps = Overwrite<PropsWithoutRef<JSX.IntrinsicElements["div"]>, {
   open: boolean;
   resolution?: "lg";
 }>;
