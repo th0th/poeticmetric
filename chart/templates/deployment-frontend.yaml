@@ -18,7 +18,12 @@ spec:
         deployment: frontend
     spec:
       containers:
-      - image: {{ printf "%s:%s" .Values.poeticmetric.frontend.image.repository .Values.poeticmetric.frontend.image.tag }}
+      - env:
+        {{ if .Values.poeticmetric.development.enabled }}
+        - name: POETICMETRIC_FRONTEND_DEV
+          value: "true"
+        {{ end }}
+        image: {{ printf "%s:%s" .Values.poeticmetric.frontend.image.repository .Values.poeticmetric.frontend.image.tag }}
         imagePullPolicy: {{ .Values.poeticmetric.frontend.image.pullPolicy }}
         name: frontend
         resources:

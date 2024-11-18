@@ -21,7 +21,7 @@ COPY tsconfig.json .
 COPY tsconfig.node.json .
 COPY vite.config.ts .
 
-COPY docker-entrypoint.development.sh /usr/local/bin/docker-entrypoint.sh
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 EXPOSE 80
 
