@@ -19,10 +19,8 @@ spec:
     spec:
       containers:
       - env:
-        {{ if .Values.poeticmetric.development.enabled }}
-        - name: POETICMETRIC_FRONTEND_DEV
-          value: "true"
-        {{ end }}
+        - name: NODE_ENV
+          value: {{ if .Values.poeticmetric.development.enabled }}development{{ else }}production{{ end }}
         image: {{ printf "%s:%s" .Values.poeticmetric.frontend.image.repository .Values.poeticmetric.frontend.image.tag }}
         imagePullPolicy: {{ .Values.poeticmetric.frontend.image.pullPolicy }}
         name: frontend

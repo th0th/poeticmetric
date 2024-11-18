@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
-if [ "$POETICMETRIC_FRONTEND_DEV" == "true" ]; then
-  exec pnpm run dev
-else
-  pnpm run build
+if [ "$NODE_ENV" == "production" ]; then
   exec pnpm run start
+else
+  exec pnpm run dev
 fi

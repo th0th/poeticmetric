@@ -5,14 +5,11 @@ RUN npm install --global pnpm
 
 WORKDIR /poeticmetric
 
-# copy only package definition files
 COPY package.json .
 COPY pnpm-lock.yaml .
 
-# install dependencies
 RUN pnpm install
 
-# copy the rest of the files
 COPY public public
 COPY src src
 COPY index.html .
@@ -20,6 +17,8 @@ COPY server.js .
 COPY tsconfig.json .
 COPY tsconfig.node.json .
 COPY vite.config.ts .
+
+RUN pnpm build
 
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
