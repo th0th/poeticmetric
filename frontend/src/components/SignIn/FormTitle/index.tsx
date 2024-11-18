@@ -10,7 +10,7 @@ export type AuthenticationHeaderProps = Overwrite<Omit<PropsWithoutRef<JSX.Intri
   showGoBack?: boolean;
   summary: ReactNode;
   title: ReactNode;
-}>
+}>;
 
 export default function FormTitle(
   {
