@@ -2,6 +2,9 @@
 set -eo pipefail
 
 case "$INSTANCE" in
+  migrator)
+    exec /usr/local/bin/poeticmetric-migrator
+  ;;
   rest-api)
     exec /usr/local/bin/poeticmetric-rest-api
   ;;
