@@ -118,7 +118,7 @@ func (s *service) SmtpAuth() smtp.Auth {
 }
 
 func (s *service) SmtpFrom() string {
-	return fmt.Sprintf("PoeticMetric <%s>", s.vars.SmtpFrom)
+	return s.vars.SmtpFrom
 }
 
 var Logger = zerolog.New(os.Stdout).With().Timestamp().Logger()
