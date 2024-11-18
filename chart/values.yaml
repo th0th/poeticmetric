@@ -40,7 +40,7 @@ postgres:
 poeticmetric:
   backend:
     image:
-      pullPolicy: IfNotPresent
+      pullPolicy: Always
       repository: ghcr.io/th0th/poeticmetric/backend
       tag: latest
   development:
@@ -50,7 +50,7 @@ poeticmetric:
     hostBasePath: ""
   frontend:
     image:
-      pullPolicy: IfNotPresent
+      pullPolicy: Always
       repository: ghcr.io/th0th/poeticmetric/frontend
       tag: latest
     ingress:
