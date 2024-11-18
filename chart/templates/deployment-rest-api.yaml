@@ -73,7 +73,7 @@ spec:
         - mountPath: /poeticmetric/go.sum
           name: go-sum
         {{ end }}
-      {{ if not .Values.poeticmetric.development.enabled }}
+      {{ if .Values.ghcrAuth }}
       imagePullSecrets:
       - name: {{ include "poeticmetric.fullname" . }}-ghcr-io
       {{ end }}

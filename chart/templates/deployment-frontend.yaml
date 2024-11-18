@@ -49,7 +49,7 @@ spec:
         - mountPath: /poeticmetric/vite.config.ts
           name: vite-config-ts
         {{ end }}
-      {{ if not .Values.poeticmetric.development.enabled }}
+      {{ if .Values.ghcrAuth }}
       imagePullSecrets:
       - name: {{ include "poeticmetric.fullname" . }}-ghcr-io
       {{ end }}
