@@ -118,17 +118,11 @@ func (s *service) SmtpAuth() smtp.Auth {
 	return smtp.PlainAuth("", s.vars.SmtpUser, s.vars.SmtpPassword, s.vars.SmtpHost)
 }
 
-func (s *service) SmtpFrom() string {
-	address := mail.Address{
+func (s *service) SmtpFrom() *mail.Address {
+	return &mail.Address{
 		Name:    "PoeticMetric",
 		Address: s.vars.SmtpFromAddress,
 	}
-
-	return address.String()
-}
-
-func (s *service) SmtpFromAddress() string {
-	return s.vars.SmtpFromAddress
 }
 
 var Logger = zerolog.New(os.Stdout).With().Timestamp().Logger()

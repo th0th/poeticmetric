@@ -1,6 +1,7 @@
 package poeticmetric
 
 import (
+	"net/mail"
 	"net/smtp"
 
 	"gorm.io/gorm"
@@ -20,8 +21,7 @@ type EnvService interface {
 	RestApiBasePath() string
 	SmtpAddr() string
 	SmtpAuth() smtp.Auth
-	SmtpFrom() string
-	SmtpFromAddress() string
+	SmtpFrom() *mail.Address
 }
 
 type EnvServiceVars struct {

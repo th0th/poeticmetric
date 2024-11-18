@@ -76,7 +76,7 @@ func (s *service) Send(params poeticmetric.EmailServiceSendParams) error {
 	smtpMessageTemplateBuffer := bytes.Buffer{}
 	err = smtpMessageTemplate.Execute(&smtpMessageTemplateBuffer, smtpMessageParams{
 		Body:    templateBuffer.String(),
-		From:    s.envService.SmtpFrom(),
+		From:    s.envService.SmtpFrom().String(),
 		Subject: params.Subject,
 		To:      params.To.String(),
 	})
@@ -87,7 +87,7 @@ func (s *service) Send(params poeticmetric.EmailServiceSendParams) error {
 	err = smtp.SendMail(
 		s.envService.SmtpAddr(),
 		s.envService.SmtpAuth(),
-		s.envService.SmtpFromAddress(),
+		s.envService.SmtpFrom().Address,
 		[]string{params.To.Address},
 		smtpMessageTemplateBuffer.Bytes(),
 	)
