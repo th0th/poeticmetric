@@ -2,9 +2,10 @@ import { IconX } from "@tabler/icons-react";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { Link, useLocation, useSearch } from "wouter";
 import ActivityOverlay from "~/components/ActivityOverlay";
+import FormGroup from "~/components/FormGroup";
 import FormTitle from "~/components/FormTitle";
 import Layout from "~/components/Layout";
 import Title from "~/components/Title";
@@ -30,8 +31,8 @@ export default function SignIn() {
   const searchParams = useSearch();
   const user = useUser();
   const [state, setState] = useState<State>({ isAlreadySignedIn: false });
-  const { clearErrors, formState: { errors, isSubmitting }, getValues, handleSubmit, register, setError } = useForm<Form>();
-  const forgetPasswordLink = !!getValues("userEmail") ? `/forgot-password?email=${getValues("userEmail")}` : "/forgot-password";
+  const methods = useForm<Form>();
+  const forgetPasswordLink = !!methods.getValues("userEmail") ? `/forgot-password?email=${methods.getValues("userEmail")}` : "/forgot-password";
 
   useEffect(() => {
     if (user) {
@@ -56,7 +57,7 @@ export default function SignIn() {
 
         location.push(next || "/sites");
       } else {
-        setErrors(setError, responseJson);
+        setErrors(methods.setError, responseJson);
       }
     } catch (error) {
       showBoundary(error);
@@ -92,58 +93,45 @@ export default function SignIn() {
             />
 
             <div className={clsx("card", styles.card)}>
-              <ActivityOverlay isActive={isSubmitting}>
-                <form className="card-body" onSubmit={handleSubmit(submit)}>
-                  <fieldset className="fieldset" disabled={isSubmitting}>
-                    {errors.root ? (
-                      <div className="alert alert-danger">
-                        <IconX className="icon" size={24} />
+              <ActivityOverlay isActive={methods.formState.isSubmitting}>
+                <FormProvider {...methods}>
+                  <form className="card-body" onSubmit={methods.handleSubmit(submit)}>
+                    <fieldset className="fieldset" disabled={methods.formState.isSubmitting}>
+                      {methods.formState.errors.root ? (
+                        <div className="alert alert-danger">
+                          <IconX className="icon" size={24} />
 
-                        {errors.root.message}
-                      </div>
-                    ) : null}
+                          {methods.formState.errors.root.message}
+                        </div>
+                      ) : null}
 
-                    <div className="form-group">
-                      <label className="form-label" htmlFor="input-user-email">E-mail address</label>
-
-                      <input
-                        className={clsx("input", !!errors.userEmail || !!errors.root && "input-invalid")}
+                      <FormGroup
                         id="input-user-email"
-                        required
-                        type="email"
-                        {...register("userEmail", { onChange: () => clearErrors() })}
+                        inputProps={{
+                          autoComplete: "email",
+                          required: true,
+                          type: "email",
+                        }}
+                        labelText="E-mail address"
+                        name="userEmail"
                       />
 
-                      {!!errors.userEmail ? (
-                        <div className="form-error">{errors.userEmail.message}</div>
-                      ) : null}
-                    </div>
-
-                    <div className="form-group">
-                      <div className={styles.forgotPasswordLink}>
-                        <label className="form-label">Password</label>
-
-                        <Link className="link link-muted" href={forgetPasswordLink} tabIndex={1}>
-                          Forgot password?
-                        </Link>
-                      </div>
-
-                      <input
-                        className={clsx("input", errors.userPassword || errors.root && "input-invalid")}
-                        required
-                        type="password"
-                        {...register("userPassword", { onChange: () => clearErrors() })}
+                      <FormGroup
+                        id="input-user-password"
+                        inputProps={{ autoComplete: "current-password", required: true, type: "password" }}
+                        labelHelper={(
+                          <Link className={clsx("link link-muted", styles.forgotPasswordLink)} href={forgetPasswordLink} tabIndex={1}>
+                            Forgot password?
+                          </Link>
+                        )}
+                        labelText="Password"
+                        name="userPassword"
                       />
 
-                      {!!errors.userPassword ? (
-                        <div className="form-error">{errors.userPassword.message}</div>
-                      ) : null}
-                    </div>
-
-                    <button className="button button-blue" type="submit">Sign in</button>
-                  </fieldset>
-                </form>
-
+                      <button className="button button-blue" type="submit">Sign in</button>
+                    </fieldset>
+                  </form>
+                </FormProvider>
                 <div className="card-footer">
                   <p className={styles.signUpLink}>
                     {"Don't have an account?"}

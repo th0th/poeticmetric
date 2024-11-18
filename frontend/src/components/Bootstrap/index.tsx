@@ -1,9 +1,10 @@
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { Link } from "wouter";
 import ActivityOverlay from "~/components/ActivityOverlay";
+import FormGroup from "~/components/FormGroup";
 import Layout from "~/components/Layout";
 import Title from "~/components/Title";
 import { base64Encode } from "~/helpers/base64";
@@ -30,7 +31,9 @@ type State = {
 export default function Bootstrap() {
   const { showBoundary } = useErrorBoundary();
   const [state, setState] = useState<State>({ isAlreadyBootstrapped: false, isBootstrapComplete: false, isInProgress: true });
-  const { formState: { errors, isSubmitting }, handleSubmit, register, setError } = useForm<Form>({});
+  const methods = useForm<Form>({
+    defaultValues: { createDemoSite: false },
+  });
 
   async function submit(data: Form) {
     try {
@@ -49,11 +52,11 @@ export default function Bootstrap() {
         if (accessTokenResponse.ok) {
           setUserAccessToken(accessTokenResponseJson.accessToken);
         } else {
-          setErrors(setError, accessTokenResponseJson);
+          setErrors(methods.setError, accessTokenResponseJson);
         }
         setState((prev) => ({ ...prev, isBootstrapComplete: true }));
       } else {
-        setErrors(setError, responseJson);
+        setErrors(methods.setError, responseJson);
       }
     } catch (error) {
       showBoundary(error);
@@ -152,92 +155,63 @@ export default function Bootstrap() {
             </div>
 
             <div className={clsx("card", styles.card)}>
-              <ActivityOverlay isActive={isSubmitting}>
-                <form className="card-body" onSubmit={handleSubmit(submit)}>
-                  <fieldset className="fieldset" disabled={isSubmitting}>
-                    <div className="form-group">
-                      <label className="form-label" htmlFor="input-user-name">Full name</label>
-
-                      <input
-                        className={clsx("input", errors.userName && "input-invalid")}
+              <ActivityOverlay isActive={methods.formState.isSubmitting}>
+                <FormProvider {...methods}>
+                  <form className="card-body" onSubmit={methods.handleSubmit(submit)}>
+                    <fieldset className="fieldset" disabled={methods.formState.isSubmitting}>
+                      <FormGroup
                         id="input-user-name"
-                        required
-                        {...register("userName")}
+                        labelText="Full name"
+                        name="userName"
                       />
 
-                      {!!errors.userName ? (<div>{errors.userName.message}</div>) : null}
-                    </div>
-
-                    <div className="form-group">
-                      <label className="form-label" htmlFor="input-user-email">E-mail address</label>
-
-                      <input
-                        className={clsx("input", errors.userEmail && "input-invalid")}
+                      <FormGroup
                         id="input-user-email"
-                        required
-                        type="email"
-                        {...register("userEmail")}
+                        inputProps={{
+                          type: "email",
+                        }}
+                        labelText="E-mail address"
+                        name="userEmail"
                       />
 
-                      {!!errors.userEmail ? (<div className="form-error">{errors.userEmail.message}</div>) : null}
-                    </div>
-
-                    <div className="form-group">
-                      <label className="form-label">New password</label>
-
-                      <input
-                        className={clsx("input", errors.userPassword && "input-invalid")}
-                        required
-                        type="password"
-                        {...register("userPassword")}
+                      <FormGroup
+                        id="input-user-password"
+                        inputProps={{
+                          type: "password",
+                        }}
+                        labelText="New password"
+                        name="userPassword"
                       />
 
-                      {!!errors.userPassword ? (<div className="form-error">{errors.userPassword.message}</div>) : null}
-                    </div>
-
-                    <div className="form-group">
-                      <label className="form-label">New password (again)</label>
-
-                      <input
-                        className={clsx("input", errors.userPassword2 && "input-invalid")}
-                        required
-                        type="password"
-                        {...register("userPassword2")}
+                      <FormGroup
+                        id="input-user-password2"
+                        inputProps={{
+                          type: "password",
+                        }}
+                        labelText="New password (again)"
+                        name="userPassword2"
                       />
 
-                      {!!errors.userPassword2 ? (<div className="form-error">{errors.userPassword2.message}</div>) : null}
-                    </div>
-
-                    <div className="form-group">
-                      <label className="form-label">Organization</label>
-
-                      <input
-                        className={clsx("input", errors.organizationName && "input-invalid")}
-                        required
-                        {...register("organizationName")}
+                      <FormGroup
+                        id="input-organization-name"
+                        labelText="Organization"
+                        name="organizationName"
                       />
 
-                      {!!errors.organizationName ? (<div className="form-error">{errors.organizationName.message}</div>) : null}
-                    </div>
+                      <FormGroup
+                        id="input-create-demo-site"
+                        inputProps={{
+                          required: false,
+                          type: "checkbox",
+                        }}
+                        labelText="Create demo site"
+                        name="createDemoSite"
+                      />
 
-                    <div className="form-group">
-                      <div className="form-group-inline">
-                        <input
-                          className={clsx(errors.createDemoSite && "input-invalid")}
-                          id="input-create-demo-site"
-                          type="checkbox"
-                          {...register("createDemoSite")}
-                        />
-
-                        <label htmlFor="input-create-demo-site">Create demo site</label>
-                      </div>
-
-                      {!!errors.createDemoSite ? (<div className="form-error">{errors.createDemoSite.message}</div>) : null}
-                    </div>
-
-                    <button className="button button-blue" type="submit">Complete installation</button>
-                  </fieldset>
-                </form>
+                      <button className="button button-blue" type="submit">Complete installation</button>
+                    </fieldset>
+                  </form>
+                </FormProvider>
               </ActivityOverlay>
             </div>
           </div>

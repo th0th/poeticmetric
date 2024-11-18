@@ -7,15 +7,7 @@
 }
 
 .forgot-password-link {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  justify-content: space-between;
-
-  > a {
-    font-size: 0.875rem;
-  }
+  font-size: 0.875rem;
 }
 
 .sign-up-link {

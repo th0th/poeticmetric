@@ -18,8 +18,9 @@
   gap: 0.25em;
 
   .form-group-inline {
+    align-self: flex-start;
     display: flex;
-    flex-direction: row;
+    flex-direction: row-reverse;
     gap: 0.375em;
 
     input[type="checkbox"] {
