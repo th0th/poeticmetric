@@ -49,9 +49,9 @@ type EnvServiceVars struct {
 	RedisPort     int    `env:"REDIS_PORT,notEmpty,required"`
 
 	// SMTP
-	SmtpFrom     string `env:"SMTP_FROM,notEmpty,required"`
-	SmtpHost     string `env:"SMTP_HOST,notEmpty,required"`
-	SmtpPassword string `env:"SMTP_PASSWORD"`
-	SmtpPort     string `env:"SMTP_PORT,notEmpty,required"`
-	SmtpUser     string `env:"SMTP_USER"`
+	SmtpFromAddress string `env:"SMTP_FROM_ADDRESS,notEmpty,required"`
+	SmtpHost        string `env:"SMTP_HOST,notEmpty,required"`
+	SmtpPassword    string `env:"SMTP_PASSWORD"`
+	SmtpPort        string `env:"SMTP_PORT,notEmpty,required"`
+	SmtpUser        string `env:"SMTP_USER"`
 }

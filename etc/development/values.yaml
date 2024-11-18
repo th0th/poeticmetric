@@ -27,7 +27,7 @@ poeticmetric:
       annotations:
         cert-manager.io/cluster-issuer: self-signed
   smtp:
-    from: PoeticMetric <poeticmetric@dev.poeticmetric.com>
+    fromAddress: poeticmetric@dev.poeticmetric.com
     host: poeticmetric-mailpit
     port: "1025"
 postgres:
