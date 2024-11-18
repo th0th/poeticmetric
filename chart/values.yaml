@@ -9,6 +9,7 @@ clickhouse:
     size: 10Gi
   resources: {}
   user: poeticmetric
+ghcrAuth: ""
 mailpit:
   enabled: false
   image:
