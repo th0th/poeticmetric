@@ -1,8 +1,6 @@
 name: Run tests
 on:
   pull_request:
-    types:
-      - labeled
 jobs:
   frontend:
     if: "contains(github.event.pull_request.labels.*.name, 'status: ready for review')"
