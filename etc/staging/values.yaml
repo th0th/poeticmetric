@@ -1,0 +1,32 @@
+clickhouse:
+  resources: {}
+pgbouncer:
+  config: {}
+  resources: {}
+postgres:
+  resources: {}
+poeticmetric:
+  backend:
+    image:
+      tag: staging
+  frontend:
+    image:
+      tag: staging
+    ingress:
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod-poeticmetric
+    resources: {}
+  host: staging.poeticmetric.com
+  restApi:
+    ingress:
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod-poeticmetric
+    resources: {}
+  smtp:
+    from: PoeticMetric <poeticmetric@staging.poeticmetric.com>
+    host: email-smtp.eu-west-1.amazonaws.com
+    port: 587
+redis:
+  persistence:
+    enabled: false
+  resources: {}
