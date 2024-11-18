@@ -44,7 +44,7 @@ app.use("*all", async (req, res) => {
       : await vite.transformIndexHtml(originalUrl, await fs.readFile("./index.html", "utf-8"));
 
     const render = isProduction
-      ? (await import("./dist/server/entry-server.js")).render
+      ? (await import("./dist/server/entry-server.js")).render // eslint-disable-line import/no-unresolved
       : (await vite.ssrLoadModule("/src/entry-server.tsx")).render;
 
     const html = getHtmlFromTemplate(template, await render(originalUrl, ssrManifest));
