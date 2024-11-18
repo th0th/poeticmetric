@@ -1,0 +1,80 @@
+.marquee {
+  --number-of-items: 10;
+  --animation-duration: 50s;
+  --nth-child: 1;
+  --marquee-height: 200px;
+  --item-width: 200px;
+
+  border-radius: var(--border-radius);
+  height: var(--marquee-height);
+  margin-block: 4rem;
+  margin-inline: auto;
+  mask-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0),
+      rgba(0, 0, 0, 1) 20%,
+      rgba(0, 0, 0, 1) 80%,
+      rgba(0, 0, 0, 0)
+  );
+  overflow: hidden;
+  position: relative;
+
+  .item {
+    align-items: center;
+    animation: scrollLeft var(--animation-duration) linear infinite;
+    animation-delay: calc(var(--animation-duration) / var(--number-of-items) * (var(--number-of-items) - var(--nth-child)) * -1);
+    border-radius: var(--border-radius);
+    display: flex;
+    height: var(--marquee-height);
+    justify-content: center;
+    left: max(var(--item-width) * var(--number-of-items), 100%);
+    position: absolute;
+    width: var(--item-width);
+
+    &:nth-child(1) {
+      --nth-child: 1;
+    }
+
+    &:nth-child(2) {
+      --nth-child: 2;
+    }
+
+    &:nth-child(3) {
+      --nth-child: 3;
+    }
+
+    &:nth-child(4) {
+      --nth-child: 4;
+    }
+
+    &:nth-child(5) {
+      --nth-child: 5;
+    }
+
+    &:nth-child(6) {
+      --nth-child: 6;
+    }
+
+    &:nth-child(7) {
+      --nth-child: 7;
+    }
+
+    &:nth-child(8) {
+      --nth-child: 8;
+    }
+
+    &:nth-child(9) {
+      --nth-child: 9;
+    }
+
+    &:nth-child(10) {
+      --nth-child: 10;
+    }
+  }
+}
+
+@keyframes scrollLeft {
+  to {
+    left: calc(var(--item-width) * -1);
+  }
+}
