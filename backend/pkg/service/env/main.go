@@ -2,6 +2,7 @@ package env
 
 import (
 	"fmt"
+	"net/mail"
 	"net/smtp"
 	"os"
 
@@ -118,7 +119,16 @@ func (s *service) SmtpAuth() smtp.Auth {
 }
 
 func (s *service) SmtpFrom() string {
-	return fmt.Sprintf("PoeticMetric <%s>", s.vars.SmtpFromAddress)
+	address := mail.Address{
+		Name:    "PoeticMetric",
+		Address: s.vars.SmtpFromAddress,
+	}
+
+	return address.String()
+}
+
+func (s *service) SmtpFromAddress() string {
+	return s.vars.SmtpFromAddress
 }
 
 var Logger = zerolog.New(os.Stdout).With().Timestamp().Logger()

@@ -21,6 +21,7 @@ type EnvService interface {
 	SmtpAddr() string
 	SmtpAuth() smtp.Auth
 	SmtpFrom() string
+	SmtpFromAddress() string
 }
 
 type EnvServiceVars struct {

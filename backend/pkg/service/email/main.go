@@ -87,7 +87,7 @@ func (s *service) Send(params poeticmetric.EmailServiceSendParams) error {
 	err = smtp.SendMail(
 		s.envService.SmtpAddr(),
 		s.envService.SmtpAuth(),
-		s.envService.SmtpFrom(),
+		s.envService.SmtpFromAddress(),
 		[]string{params.To.Address},
 		smtpMessageTemplateBuffer.Bytes(),
 	)
