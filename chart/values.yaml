@@ -9,6 +9,7 @@ clickhouse:
     size: 10Gi
   resources: {}
   user: poeticmetric
+ghcrAuth: ""
 mailpit:
   enabled: false
   image:
@@ -40,7 +41,7 @@ postgres:
 poeticmetric:
   backend:
     image:
-      pullPolicy: IfNotPresent
+      pullPolicy: Always
       repository: ghcr.io/th0th/poeticmetric/backend
       tag: latest
   development:
@@ -50,7 +51,7 @@ poeticmetric:
     hostBasePath: ""
   frontend:
     image:
-      pullPolicy: IfNotPresent
+      pullPolicy: Always
       repository: ghcr.io/th0th/poeticmetric/frontend
       tag: latest
     ingress:
@@ -64,7 +65,7 @@ poeticmetric:
     replicas: 1
     resources: {}
   smtp:
-    from: poeticmetric.com
+    from: PoeticMetric <poeticmetric@poeticmetric.com>
     host: ""
     password: ""
     port: 587
