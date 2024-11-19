@@ -19,7 +19,7 @@ export default function App() {
         <Route component={PasswordRecovery} path="/forgot-password" />
         <Route component={PasswordReset} path="/password-reset" />
         <Route component={SignIn} path="/sign-in" />
-        
+
         <Route>
           <Error />
         </Route>
