@@ -118,11 +118,11 @@ jobs:
           --set clickhouse.password="${{ secrets.CLICKHOUSE_PASSWORD }}" \
           --set clickhouse.user="${{ secrets.CLICKHOUSE_USER }}" \
           --set ghcrAuth="${{ secrets.GHCR_AUTH }}" \
+          --set poeticmetric.smtp.password="${{ secrets.SMTP_PASSWORD }}" \
+          --set poeticmetric.smtp.user="${{ secrets.SMTP_USER }}" \
           --set postgres.password="${{ secrets.POSTGRES_PASSWORD }}" \
           --set postgres.user="${{ secrets.POSTGRES_USER }}" \
           --set redis.password="${{ secrets.REDIS_PASSWORD }}" \
-          --set smtp.password="${{ secrets.SMTP_PASSWORD }}" \
-          --set smtp.user="${{ secrets.SMTP_USER }}" \
           --values etc/${{ inputs.environment }}/values.yaml
 
     - name: Rollout restart workloads

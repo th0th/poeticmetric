@@ -1,16 +1,16 @@
 import clsx from "clsx";
-import { PropsWithoutRef, ReactNode, JSX, CSSProperties } from "react";
+import { PropsWithoutRef, ReactNode, JSX } from "react";
 import styles from "./FormTitle.module.css";
 import { IconChevronLeft } from "@tabler/icons-react";
 
-export type AuthenticationHeaderProps = Overwrite<Omit<PropsWithoutRef<JSX.IntrinsicElements["div"]>, "children">, {
+export type FormTitleProps = Overwrite<Omit<PropsWithoutRef<JSX.IntrinsicElements["div"]>, "children">, {
   actions?: ReactNode;
   description: ReactNode;
-  maxWidth?: CSSProperties["maxWidth"];
+  maxWidth?: "fit-content" | "28rem";
   showGoBack?: boolean;
   summary: ReactNode;
   title: ReactNode;
-}>
+}>;
 
 export default function FormTitle(
   {
@@ -22,7 +22,7 @@ export default function FormTitle(
     summary,
     title,
     ...props
-  }: AuthenticationHeaderProps) {
+  }: FormTitleProps) {
   return (
     <div
       {...props}

@@ -65,7 +65,7 @@ poeticmetric:
     replicas: 1
     resources: {}
   smtp:
-    from: PoeticMetric <poeticmetric@poeticmetric.com>
+    fromAddress: poeticmetric@poeticmetric.com
     host: ""
     password: ""
     port: 587

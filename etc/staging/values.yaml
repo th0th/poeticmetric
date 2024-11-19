@@ -23,7 +23,7 @@ poeticmetric:
         cert-manager.io/cluster-issuer: letsencrypt-prod-poeticmetric
     resources: {}
   smtp:
-    from: PoeticMetric <poeticmetric@staging.poeticmetric.com>
+    fromAddress: poeticmetric@staging.poeticmetric.com
     host: email-smtp.eu-west-1.amazonaws.com
     port: 587
 redis:

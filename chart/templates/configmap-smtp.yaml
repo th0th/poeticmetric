@@ -5,6 +5,6 @@ metadata:
     {{ include "poeticmetric.labels" . | nindent 4 }}
   name: {{ include "poeticmetric.fullname" . }}-smtp
 data:
-  FROM: {{ .Values.poeticmetric.smtp.from | quote }}
+  FROM_ADDRESS: {{ .Values.poeticmetric.smtp.fromAddress | quote }}
   HOST: {{ .Values.poeticmetric.smtp.host | quote }}
   PORT: {{ .Values.poeticmetric.smtp.port | quote }}
