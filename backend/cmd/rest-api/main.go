@@ -73,7 +73,8 @@ func main() {
 	}
 
 	validationService := validation.New(validation.NewParams{
-		Postgres: postgres,
+		EnvService: envService,
+		Postgres:   postgres,
 	})
 
 	emailService, err := email.New(email.NewParams{
@@ -96,7 +97,8 @@ func main() {
 	})
 
 	siteService := site.New(site.NewParams{
-		Postgres: postgres,
+		Postgres:          postgres,
+		ValidationService: validationService,
 	})
 
 	responder := restapiresponder.New(restapiresponder.NewParams{
@@ -134,6 +136,7 @@ func main() {
 	sensitiveRateLimit := alice.New(middleware.SensitiveRateLimit(responder, limiterStore))
 	permissionBasicAuthenticated := alice.New(middleware.PermissionBasicAuthenticated(responder))
 	permissionUserAccessTokenAuthenticated := alice.New(middleware.PermissionUserAccessTokenAuthenticated(responder))
+	permissionWrite := alice.New(middleware.PermissionOrganizationOwner(responder))
 
 	// handlers: authentication
 	mux.Handle("POST /authentication/user-access-tokens", sensitiveRateLimit.Extend(permissionBasicAuthenticated).ThenFunc(authenticationHandler.CreateUserAccessToken))
@@ -153,6 +156,7 @@ func main() {
 	mux.HandleFunc("/{$}", rootHandler.Index())
 
 	// handlers: sites
+	mux.Handle("POST /sites", permissionWrite.ThenFunc(sitesHandler.Create))
 	mux.Handle("GET /sites", permissionUserAccessTokenAuthenticated.ThenFunc(sitesHandler.List))
 
 	httpServer := http.Server{

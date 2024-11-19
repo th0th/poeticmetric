@@ -5,8 +5,11 @@ import (
 	"net/smtp"
 	"os"
 
-	env2 "github.com/caarlos0/env/v11"
+	"github.com/caarlos0/env/v11"
 	"github.com/rs/zerolog"
+	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/google"
+	"google.golang.org/api/searchconsole/v1"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 
@@ -20,7 +23,7 @@ type service struct {
 func New() (poeticmetric.EnvService, error) {
 	e := service{}
 
-	err := env2.Parse(&e.vars)
+	err := env.Parse(&e.vars)
 	if err != nil {
 		return nil, err
 	}
@@ -53,6 +56,20 @@ func (s *service) Debug() bool {
 
 func (s *service) FrontendUrl(path string) string {
 	return fmt.Sprintf("%s%s", s.vars.FrontendBaseUrl, path)
+}
+
+func (s *service) GoogleOAuthConfig() (*oauth2.Config, error) {
+	if s.vars.GoogleClientID == nil || s.vars.GoogleClientSecret == nil {
+		return nil, fmt.Errorf("google oauth credentials are not set")
+	}
+
+	return &oauth2.Config{
+		ClientID:     *s.vars.GoogleClientID,
+		ClientSecret: *s.vars.GoogleClientSecret,
+		Endpoint:     google.Endpoint,
+		RedirectURL:  s.FrontendUrl(""),
+		Scopes:       []string{searchconsole.WebmastersReadonlyScope},
+	}, nil
 }
 
 func (s *service) GormConfig() *gorm.Config {

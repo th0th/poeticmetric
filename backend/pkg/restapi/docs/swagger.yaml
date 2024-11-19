@@ -1,18 +1,4 @@
 definitions:
-  poeticmetric.AuthenticationResetUserPasswordParams:
-    properties:
-      passwordResetToken:
-        type: string
-      userPassword:
-        type: string
-      userPassword2:
-        type: string
-    type: object
-  poeticmetric.AuthenticationSendUserPasswordRecoveryEmailParams:
-    properties:
-      email:
-        type: string
-    type: object
   poeticmetric.AuthenticationUserAccessToken:
     properties:
       createdAt:
@@ -37,6 +23,21 @@ definitions:
       userPassword2:
         type: string
     type: object
+  poeticmetric.CreateSiteParams:
+    properties:
+      domain:
+        type: string
+      googleSearchConsoleSiteURL:
+        type: string
+      isPublic:
+        type: boolean
+      name:
+        type: string
+      safeQueryParameters:
+        items:
+          type: string
+        type: array
+    type: object
   poeticmetric.OrganizationSite:
     properties:
       ID:
@@ -45,7 +46,7 @@ definitions:
         type: string
       domain:
         type: string
-      googleSearchConsoleSiteUrl:
+      googleSearchConsoleSiteURL:
         type: string
       hasEvents:
         type: boolean
@@ -58,6 +59,20 @@ definitions:
           type: string
         type: array
       updatedAt:
+        type: string
+    type: object
+  poeticmetric.ResetUserPasswordParams:
+    properties:
+      passwordResetToken:
+        type: string
+      userPassword:
+        type: string
+      userPassword2:
+        type: string
+    type: object
+  poeticmetric.SendUserPasswordRecoveryEmailParams:
+    properties:
+      email:
         type: string
     type: object
   responder.DetailResponse:
@@ -83,7 +98,7 @@ paths:
         name: params
         required: true
         schema:
-          $ref: '#/definitions/poeticmetric.AuthenticationResetUserPasswordParams'
+          $ref: '#/definitions/poeticmetric.ResetUserPasswordParams'
       responses:
         "200":
           description: OK
@@ -92,7 +107,7 @@ paths:
         "422":
           description: Unprocessable Entity
           schema:
-            $ref: '#/definitions/poeticmetric.AuthenticationResetUserPasswordParams'
+            $ref: '#/definitions/poeticmetric.ResetUserPasswordParams'
       summary: Reset user's password
       tags:
       - authentication
@@ -105,7 +120,7 @@ paths:
         name: params
         required: true
         schema:
-          $ref: '#/definitions/poeticmetric.AuthenticationSendUserPasswordRecoveryEmailParams'
+          $ref: '#/definitions/poeticmetric.SendUserPasswordRecoveryEmailParams'
       responses:
         "201":
           description: Created
@@ -126,7 +141,7 @@ paths:
             $ref: '#/definitions/responder.DetailResponse'
       security:
       - UserAccessTokenAuthentication: []
-      summary: Create user access token
+      summary: Delete user access token
       tags:
       - authentication
     post:
@@ -187,6 +202,25 @@ paths:
       security:
       - UserAccessTokenAuthentication: []
       summary: List sites
+      tags:
+      - sites
+    post:
+      description: Create site.
+      parameters:
+      - description: Params
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/poeticmetric.CreateSiteParams'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/poeticmetric.OrganizationSite'
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Create site
       tags:
       - sites
 securityDefinitions:

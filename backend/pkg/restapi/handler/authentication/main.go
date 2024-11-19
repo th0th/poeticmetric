@@ -53,7 +53,7 @@ func (h *Handler) CreateUserAccessToken(w http.ResponseWriter, r *http.Request) 
 // @Router /authentication/user-access-tokens [delete]
 // @Security UserAccessTokenAuthentication
 // @Success 204
-// @Summary Create user access token
+// @Summary Delete user access token
 // @Tags authentication
 func (h *Handler) DeleteUserAccessToken(w http.ResponseWriter, r *http.Request) {
 	authentication := middleware.GetAuthentication(r.Context())
@@ -69,14 +69,14 @@ func (h *Handler) DeleteUserAccessToken(w http.ResponseWriter, r *http.Request) 
 
 // ResetUserPassword godoc
 // @Description Reset user's password also deleting all existing user access tokens for that user.
-// @Failure 422 {object} poeticmetric.AuthenticationResetUserPasswordParams
-// @Param params body poeticmetric.AuthenticationResetUserPasswordParams true "Params"
+// @Failure 422 {object} poeticmetric.ResetUserPasswordParams
+// @Param params body poeticmetric.ResetUserPasswordParams true "Params"
 // @Router /authentication/reset-user-password [post]
 // @Success 200 {object} responder.DetailResponse
 // @Summary Reset user's password
 // @Tags authentication
 func (h *Handler) ResetUserPassword(w http.ResponseWriter, r *http.Request) {
-	params := poeticmetric.AuthenticationResetUserPasswordParams{}
+	params := poeticmetric.ResetUserPasswordParams{}
 	err := json.NewDecoder(r.Body).Decode(&params)
 	if err != nil {
 		h.responder.Error(w, err)
@@ -94,13 +94,13 @@ func (h *Handler) ResetUserPassword(w http.ResponseWriter, r *http.Request) {
 
 // SendUserPasswordRecoveryEmail godoc
 // @Description Send a password recovery e-mail to the user.
-// @Param params body poeticmetric.AuthenticationSendUserPasswordRecoveryEmailParams true "Params"
+// @Param params body poeticmetric.SendUserPasswordRecoveryEmailParams true "Params"
 // @Router /authentication/send-user-password-recovery-email [post]
 // @Success 201 {object} responder.DetailResponse
 // @Summary Send user password recovery e-mail
 // @Tags authentication
 func (h *Handler) SendUserPasswordRecoveryEmail(w http.ResponseWriter, r *http.Request) {
-	params := poeticmetric.AuthenticationSendUserPasswordRecoveryEmailParams{}
+	params := poeticmetric.SendUserPasswordRecoveryEmailParams{}
 	err := json.NewDecoder(r.Body).Decode(&params)
 	if err != nil {
 		h.responder.Error(w, err)

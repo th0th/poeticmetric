@@ -3,6 +3,7 @@ package poeticmetric
 import (
 	"net/smtp"
 
+	"golang.org/x/oauth2"
 	"gorm.io/gorm"
 )
 
@@ -11,6 +12,7 @@ type EnvService interface {
 	ClickhouseDsn() string
 	Debug() bool
 	FrontendUrl(path string) string
+	GoogleOAuthConfig() (*oauth2.Config, error)
 	GormConfig() *gorm.Config
 	IsHosted() bool
 	PostgresDatabase() string
@@ -35,6 +37,10 @@ type EnvServiceVars struct {
 	ClickhousePassword string `env:"CLICKHOUSE_PASSWORD,notEmpty,required"`
 	ClickhousePort     int    `env:"CLICKHOUSE_PORT,notEmpty,required"`
 	ClickhouseUser     string `env:"CLICKHOUSE_USER,notEmpty,required"`
+
+	// Google
+	GoogleClientID     *string `env:"GOOGLE_CLIENT_ID"`
+	GoogleClientSecret *string `env:"GOOGLE_CLIENT_SECRET"`
 
 	// Postgres
 	PostgresDatabase string `env:"POSTGRES_DATABASE,notEmpty,required"`
