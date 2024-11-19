@@ -17,13 +17,13 @@ type State = {
   isAlreadySignedIn: boolean;
   isPasswordUpdated: boolean;
   isTokenValid: boolean;
-}
+};
 
 type Form = {
   passwordResetToken: string;
   userPassword: string;
   userPassword2: string;
-}
+};
 
 export default function PasswordReset() {
   const { showBoundary } = useErrorBoundary();
