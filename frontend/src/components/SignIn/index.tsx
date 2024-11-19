@@ -5,6 +5,7 @@ import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useSearch } from "wouter";
 import ActivityOverlay from "~/components/ActivityOverlay";
+import FormTitle from "~/components/FormTitle";
 import Layout from "~/components/Layout";
 import Title from "~/components/Title";
 import { base64Encode } from "~/helpers/base64";
@@ -12,7 +13,6 @@ import useUser from "~/hooks/useUser";
 import { api } from "~/lib/api";
 import { setErrors } from "~/lib/form";
 import { setUserAccessToken } from "~/lib/user-access-token";
-import FormTitle from "./FormTitle";
 import styles from "./SignIn.module.css";
 
 type Form = {
@@ -30,7 +30,8 @@ export default function SignIn() {
   const searchParams = useSearch();
   const user = useUser();
   const [state, setState] = useState<State>({ isAlreadySignedIn: false });
-  const { clearErrors, formState: { errors, isSubmitting }, handleSubmit, register, setError } = useForm<Form>();
+  const { clearErrors, formState: { errors, isSubmitting }, getValues, handleSubmit, register, setError } = useForm<Form>();
+  const forgetPasswordLink = !!getValues("userEmail") ? `/forgot-password?email=${getValues("userEmail")}` : "/forgot-password";
 
   useEffect(() => {
     if (user) {
@@ -122,7 +123,9 @@ export default function SignIn() {
                       <div className={styles.forgotPasswordLink}>
                         <label className="form-label">Password</label>
 
-                        <a className="link link-muted" href="/forgot-password" tabIndex={1}>Forgot password?</a>
+                        <Link className="link link-muted" href={forgetPasswordLink} tabIndex={1}>
+                          Forgot password?
+                        </Link>
                       </div>
 
                       <input

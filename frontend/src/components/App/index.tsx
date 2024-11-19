@@ -3,9 +3,9 @@ import "../../styles/style.css";
 import AuthProvider from "~/components/AuthProvider";
 import Bootstrap from "~/components/Bootstrap";
 import Error from "~/components/Error";
-import ForgotPassword from "~/components/ForgotPassword";
 import Home from "~/components/Home";
 import Manifesto from "~/components/Manifesto";
+import PasswordRecovery from "~/components/PasswordRecovery";
 import SignIn from "~/components/SignIn";
 
 export default function App() {
@@ -13,9 +13,9 @@ export default function App() {
     <AuthProvider>
       <Switch>
         <Route component={Bootstrap} path="/bootstrap" />
-        <Route component={ForgotPassword} path="/forgot-password" />
         <Route component={Home} path="/" />
         <Route component={Manifesto} path="/manifesto" />
+        <Route component={PasswordRecovery} path="/forgot-password" />
         <Route component={SignIn} path="/sign-in" />
 
         <Route>

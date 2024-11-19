@@ -3,15 +3,15 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
-import { Link } from "wouter";
+import { Link, useSearch } from "wouter";
 import ActivityOverlay from "~/components/ActivityOverlay";
+import FormTitle from "~/components/FormTitle";
 import Layout from "~/components/Layout";
 import Title from "~/components/Title";
 import useUser from "~/hooks/useUser";
 import { api } from "~/lib/api";
 import { setErrors } from "~/lib/form";
-import styles from "./ForgotPassword.module.css";
-import FormTitle from "./FormTitle";
+import styles from "./PasswordRecovery.module.css";
 
 type Form = {
   userEmail: string;
@@ -22,11 +22,16 @@ type State = {
   isEmailSent: boolean;
 };
 
-export default function ForgotPassword() {
+export default function PasswordRecovery() {
   const { showBoundary } = useErrorBoundary();
+  const searchParams = useSearch();
   const [state, setState] = useState<State>({ isAlreadySignedIn: false, isEmailSent: false });
   const user = useUser();
-  const { clearErrors, formState: { errors, isSubmitting }, handleSubmit, register, setError } = useForm<Form>();
+  const { clearErrors, formState: { errors, isSubmitting }, handleSubmit, register, setError } = useForm<Form>({
+    defaultValues: {
+      userEmail: new URLSearchParams(searchParams).get("email") || "",
+    },
+  });
 
   useEffect(() => {
     if (user) {
