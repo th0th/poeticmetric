@@ -34,11 +34,12 @@ func (s *service) Create(ctx context.Context, organizationID uint, params *poeti
 	postgres := poeticmetric.ServicePostgres(ctx, s)
 
 	site := &poeticmetric.Site{
-		Domain:              *params.Domain,
-		IsPublic:            *params.IsPublic,
-		Name:                *params.Name,
-		SafeQueryParameters: params.SafeQueryParameters,
-		OrganizationID:      organizationID,
+		Domain:                     *params.Domain,
+		GoogleSearchConsoleSiteUrl: params.GoogleSearchConsoleSiteURL,
+		IsPublic:                   *params.IsPublic,
+		Name:                       *params.Name,
+		SafeQueryParameters:        params.SafeQueryParameters,
+		OrganizationID:             organizationID,
 	}
 
 	err = postgres.Create(site).Error
