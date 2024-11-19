@@ -5,12 +5,12 @@ import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
 import { Link, useSearch } from "wouter";
 import ActivityOverlay from "~/components/ActivityOverlay";
+import FormTitle from "~/components/FormTitle";
 import Layout from "~/components/Layout";
 import Title from "~/components/Title";
 import useUser from "~/hooks/useUser";
 import { api } from "~/lib/api";
 import { setErrors } from "~/lib/form";
-import FormTitle from "./FormTitle";
 import styles from "./PasswordReset.module.css";
 
 type State = {
@@ -106,7 +106,7 @@ export default function PasswordReset() {
             <div className="container">
               <FormTitle
                 description="Enter a new password to access your account."
-                maxWidth="30rem"
+                maxWidth="28rem"
                 showGoBack={false}
                 summary="Password reset"
                 title="Reset your password"
