@@ -93,7 +93,7 @@ export default function PasswordRecovery() {
           <div className="container">
             <FormTitle
               description="Enter your email address and we will send you a link to reset your password."
-              maxWidth="27rem"
+              maxWidth="28rem"
               showGoBack={false}
               summary="Password recovery"
               title="Forgot password?"
