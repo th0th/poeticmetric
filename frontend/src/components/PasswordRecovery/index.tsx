@@ -3,58 +3,51 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
-import { Link, useLocation, useSearch } from "wouter";
+import { Link, useSearch } from "wouter";
 import ActivityOverlay from "~/components/ActivityOverlay";
 import FormTitle from "~/components/FormTitle";
 import Layout from "~/components/Layout";
 import Title from "~/components/Title";
-import { base64Encode } from "~/helpers/base64";
 import useUser from "~/hooks/useUser";
 import { api } from "~/lib/api";
 import { setErrors } from "~/lib/form";
-import { setUserAccessToken } from "~/lib/user-access-token";
-import styles from "./SignIn.module.css";
+import styles from "./PasswordRecovery.module.css";
 
 type Form = {
   userEmail: string;
-  userPassword: string;
 };
 
 type State = {
   isAlreadySignedIn: boolean;
+  isEmailSent: boolean;
 };
 
-export default function SignIn() {
+export default function PasswordRecovery() {
   const { showBoundary } = useErrorBoundary();
-  const location = useLocation();
   const searchParams = useSearch();
+  const [state, setState] = useState<State>({ isAlreadySignedIn: false, isEmailSent: false });
   const user = useUser();
-  const [state, setState] = useState<State>({ isAlreadySignedIn: false });
-  const { clearErrors, formState: { errors, isSubmitting }, getValues, handleSubmit, register, setError } = useForm<Form>();
-  const forgetPasswordLink = !!getValues("userEmail") ? `/forgot-password?email=${getValues("userEmail")}` : "/forgot-password";
+  const { clearErrors, formState: { errors, isSubmitting }, handleSubmit, register, setError } = useForm<Form>({
+    defaultValues: {
+      userEmail: new URLSearchParams(searchParams).get("email") || "",
+    },
+  });
 
   useEffect(() => {
     if (user) {
       setState((prev) => ({ ...prev, isAlreadySignedIn: true }));
     }
-  }, []);
+  }, [user]);
 
   async function submit(data: Form) {
     try {
-      const response = await api.post("/authentication/user-access-tokens", undefined, {
-        headers: {
-          authorization: `Basic ${base64Encode(`${data.userEmail}:${data.userPassword}`)}`,
-        },
+      const response = await api.post("/authentication/send-user-password-recovery-email", {
+        email: data.userEmail,
       });
-
       const responseJson = await response.json();
 
       if (response.ok) {
-        setUserAccessToken(responseJson.accessToken);
-
-        const next = new URLSearchParams(searchParams).get("next");
-
-        location.push(next || "/sites");
+        setState((prev) => ({ ...prev, isEmailSent: true }));
       } else {
         setErrors(setError, responseJson);
       }
@@ -65,30 +58,45 @@ export default function SignIn() {
 
   return (
     <>
-      <Title>Sign In</Title>
+      <Title>Forgot password?</Title>
 
-      <Layout className={styles.layout} headerProps={{ variant: "basic" }}>
+      <Layout className={styles.layout}>
         {state.isAlreadySignedIn ? (
           <div className="container">
             <FormTitle
               actions={(
-                <Link className="button button-lg button-blue" to="/sites">
-                  Go to dashboard
+                <Link className="button button-lg button-blue" to="/settings">
+                  Go to settings
                 </Link>
               )}
-              description="It looks like you are already signed in."
-              summary="Sign in"
-              title="Signed in!"
+              description="You can reset your password from user settings."
+              summary="Password recovery"
+              title="You are already in!"
+            />
+          </div>
+        ) : state.isEmailSent ? (
+          <div className="container">
+            <FormTitle
+              actions={(
+                <Link className="button button-lg button-blue" to="/sign-in">
+                  Return to sign in
+                </Link>
+              )}
+              description="If the e-mail address exists in our database, you will receive a reset link. Check your inbox and follow the instructions."
+              maxWidth="28rem"
+              showGoBack={false}
+              summary="Password recovery"
+              title="Check your inbox"
             />
           </div>
         ) : (
           <div className="container">
             <FormTitle
-              description="Sign in to view your analytics dashboard."
+              description="Enter your email address and we will send you a link to reset your password."
               maxWidth="28rem"
               showGoBack={false}
-              summary="Sign in"
-              title="Welcome back!"
+              summary="Password recovery"
+              title="Forgot password?"
             />
 
             <div className={clsx("card", styles.card)}>
@@ -107,7 +115,7 @@ export default function SignIn() {
                       <label className="form-label" htmlFor="input-user-email">E-mail address</label>
 
                       <input
-                        className={clsx("input", !!errors.userEmail || !!errors.root && "input-invalid")}
+                        className={clsx("input", errors.userEmail || errors.root && "input-invalid")}
                         id="input-user-email"
                         required
                         type="email"
@@ -119,36 +127,14 @@ export default function SignIn() {
                       ) : null}
                     </div>
 
-                    <div className="form-group">
-                      <div className={styles.forgotPasswordLink}>
-                        <label className="form-label">Password</label>
-
-                        <Link className="link link-muted" href={forgetPasswordLink} tabIndex={1}>
-                          Forgot password?
-                        </Link>
-                      </div>
-
-                      <input
-                        className={clsx("input", errors.userPassword || errors.root && "input-invalid")}
-                        required
-                        type="password"
-                        {...register("userPassword", { onChange: () => clearErrors() })}
-                      />
-
-                      {!!errors.userPassword ? (
-                        <div className="form-error">{errors.userPassword.message}</div>
-                      ) : null}
-                    </div>
-
-                    <button className="button button-blue" type="submit">Sign in</button>
+                    <button className="button button-blue" type="submit">Continue</button>
                   </fieldset>
                 </form>
 
                 <div className="card-footer">
-                  <p className={styles.signUpLink}>
-                    {"Don't have an account?"}
-                    {" "}
-                    <Link className="link link-animate" to="/sign-up">Sign up</Link>
+                  <p className={styles.signInLink}>
+                    {"Remember your password? "}
+                    <Link className="link link-animate" to="/sign-in">Sign in</Link>
                   </p>
                 </div>
               </ActivityOverlay>

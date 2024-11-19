@@ -4,7 +4,7 @@ import styles from "./ActivityOverlay.module.css";
 
 export type ActivityOverlayProps = Overwrite<PropsWithoutRef<JSX.IntrinsicElements["div"]>, {
   isActive: boolean;
-}>
+}>;
 
 export default function ActivityOverlay({ children, className, isActive, ...props }: ActivityOverlayProps) {
   return (
