@@ -33,6 +33,14 @@ func New(params NewParams) poeticmetric.ValidationService {
 }
 
 func (s *service) CreateSiteParams(ctx context.Context, organizationID uint, params *poeticmetric.CreateSiteParams) error {
+	postgres := poeticmetric.ServicePostgres(ctx, s)
+
+	organization := poeticmetric.Organization{}
+	err := postgres.Select("GoogleOauthRefreshToken").First(&organization, poeticmetric.Organization{ID: organizationID}, "ID").Error
+	if err != nil {
+		return err
+	}
+
 	errs := []error{}
 
 	validationErrs := v.Validate(v.Schema{
@@ -44,9 +52,9 @@ func (s *service) CreateSiteParams(ctx context.Context, organizationID uint, par
 			}),
 
 			v.Is(func(x *string) bool {
-				isOk, err := s.uniqueSiteDomain(ctx, *x, nil)
-				if err != nil {
-					errs = append(errs, err)
+				isOk, err2 := s.uniqueSiteDomain(ctx, *x, nil)
+				if err2 != nil {
+					errs = append(errs, err2)
 				}
 
 				return isOk
@@ -57,10 +65,14 @@ func (s *service) CreateSiteParams(ctx context.Context, organizationID uint, par
 			v.Zero[*string](),
 
 			v.All(
+				v.Is(func(_ any) bool {
+					return organization.GoogleOauthRefreshToken != nil
+				}).Msg("You need to connect your Google Search Console account to use this feature."),
+
 				v.Is(func(x *string) bool {
-					isOk, err := s.googleSearchConsoleSiteURL(ctx, organizationID, *x)
-					if err != nil {
-						errs = append(errs, err)
+					isOk, err2 := s.googleSearchConsoleSiteURL(ctx, organizationID, *x)
+					if err2 != nil {
+						errs = append(errs, err2)
 					}
 
 					return isOk
