@@ -1,10 +1,15 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ include "poeticmetric.fullname" . }}-clickhouse
   labels:
     {{ include "poeticmetric.labels" . | nindent 4 }}
+  name: {{ include "poeticmetric.fullname" . }}-clickhouse
 spec:
+  {{ if .Values.clickhouse.persistence.enabled }}
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Retain
+    whenScaled: Retain
+  {{ end }}
   replicas: 1
   selector:
     matchLabels:
@@ -43,8 +48,8 @@ spec:
         name: clickhouse
         resources: {{ toYaml .Values.clickhouse.resources | nindent 10 }}
         volumeMounts:
-        - name: configmap-clickhouse
-          mountPath: /etc/clickhouse-server/config.d/custom_config.xml
+        - mountPath: /etc/clickhouse-server/config.d/custom_config.xml
+          name: configmap-clickhouse
           subPath: CONFIG
         {{ if .Values.clickhouse.persistence.enabled }}
         - mountPath: /var/lib/clickhouse/
@@ -56,12 +61,9 @@ spec:
           name: {{ include "poeticmetric.fullname" . }}-clickhouse
         name: configmap-clickhouse
   {{ if .Values.clickhouse.persistence.enabled }}
-  persistentVolumeClaimRetentionPolicy:
-    whenDeleted: Retain
-    whenScaled: Retain
   volumeClaimTemplates:
-  - kind: PersistentVolumeClaim
-    apiVersion: v1
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
     metadata:
       name: data
     spec:
