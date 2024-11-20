@@ -1,9 +1,13 @@
 clickhouse:
+  persistence:
+    enabled: false
   resources: {}
 pgbouncer:
   config: {}
   resources: {}
 postgres:
+  persistence:
+    enabled: false
   resources: {}
 poeticmetric:
   backend:
