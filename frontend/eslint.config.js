@@ -104,6 +104,7 @@ export default [
     },
     rules: {
       "@stylistic/ts/member-delimiter-style": ["error"],
+      "@stylistic/ts/semi": ["error"],
     },
   },
 

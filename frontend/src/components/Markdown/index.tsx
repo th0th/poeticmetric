@@ -4,7 +4,7 @@ import styles from "./Markdown.module.css";
 
 export type MarkdownProps = {
   content: string;
-}
+};
 
 export default function Markdown({ content }: MarkdownProps) {
   return (
