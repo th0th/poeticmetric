@@ -6,6 +6,7 @@ import Error from "~/components/Error";
 import Home from "~/components/Home";
 import Manifesto from "~/components/Manifesto";
 import PasswordRecovery from "~/components/PasswordRecovery";
+import PasswordReset from "~/components/PasswordReset";
 import SignIn from "~/components/SignIn";
 
 export default function App() {
@@ -16,6 +17,7 @@ export default function App() {
         <Route component={Home} path="/" />
         <Route component={Manifesto} path="/manifesto" />
         <Route component={PasswordRecovery} path="/forgot-password" />
+        <Route component={PasswordReset} path="/password-reset" />
         <Route component={SignIn} path="/sign-in" />
 
         <Route>
