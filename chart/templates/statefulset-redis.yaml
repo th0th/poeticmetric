@@ -5,6 +5,11 @@ metadata:
     {{ include "poeticmetric.labels" . | nindent 4 }}
   name: {{ include "poeticmetric.fullname" . }}-redis
 spec:
+  {{ if .Values.redis.persistence.enabled }}
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Retain
+    whenScaled: Retain
+  {{ end }}
   replicas: 1
   selector:
     matchLabels:
@@ -36,9 +41,6 @@ spec:
           subPath: redis
         {{ end }}
   {{ if .Values.redis.persistence.enabled }}
-  persistentVolumeClaimRetentionPolicy:
-    whenDeleted: Retain
-    whenScaled: Retain
   volumeClaimTemplates:
   - kind: PersistentVolumeClaim
     apiVersion: v1

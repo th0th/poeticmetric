@@ -26,7 +26,7 @@ type State = {
 
 export default function SignIn() {
   const { showBoundary } = useErrorBoundary();
-  const location = useLocation();
+  const [, navigate] = useLocation();
   const searchParams = useSearch();
   const user = useUser();
   const [state, setState] = useState<State>({ isAlreadySignedIn: false });
@@ -54,7 +54,7 @@ export default function SignIn() {
 
         const next = new URLSearchParams(searchParams).get("next");
 
-        location.push(next || "/sites");
+        navigate(next || "/sites");
       } else {
         setErrors(setError, responseJson);
       }
@@ -121,7 +121,7 @@ export default function SignIn() {
 
                     <div className="form-group">
                       <div className={styles.forgotPasswordLink}>
-                        <label className="form-label">Password</label>
+                        <label className="form-label" htmlFor="input-user-password">Password</label>
 
                         <Link className="link link-muted" href={forgetPasswordLink} tabIndex={1}>
                           Forgot password?
@@ -129,7 +129,8 @@ export default function SignIn() {
                       </div>
 
                       <input
-                        className={clsx("input", errors.userPassword || errors.root && "input-invalid")}
+                        className={clsx("input", !!errors.userPassword || !!errors.root && "input-invalid")}
+                        id="input-user-password"
                         required
                         type="password"
                         {...register("userPassword", { onChange: () => clearErrors() })}
