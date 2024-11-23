@@ -10,12 +10,23 @@ type AuthenticationService interface {
 
 	CreateUserAccessToken(ctx context.Context, userID uint) (*AuthenticationUserAccessToken, error)
 	DeleteUserAccessToken(ctx context.Context, userAccessTokenID uint) error
+	ReadUser(ctx context.Context, userID uint) (*AuthenticationUser, error)
 	ReadUserAccessToken(ctx context.Context, userAccessTokenID uint) (*AuthenticationUserAccessToken, error)
 	ReadUserByEmailPassword(ctx context.Context, email string, password string) (*User, error)
 	ReadUserByUserAccessToken(ctx context.Context, token string) (*User, *UserAccessToken, error)
 	ResetUserPassword(ctx context.Context, params *AuthenticationResetUserPasswordParams) error
 	SendUserPasswordRecoveryEmail(ctx context.Context, params *AuthenticationSendUserPasswordRecoveryEmailParams) error
 	ValidateUserPasswordResetToken(ctx context.Context, token string) (bool, error)
+}
+
+type AuthenticationUser struct {
+	CreatedAt           time.Time `json:"createdAt"`
+	Email               string    `json:"email"`
+	Id                  uint      `json:"id"`
+	IsEmailVerified     bool      `json:"isEmailVerified"`
+	IsOrganizationOwner bool      `json:"isOrganizationOwner"`
+	Name                string    `json:"name"`
+	UpdatedAt           time.Time `json:"updatedAt"`
 }
 
 type AuthenticationUserAccessToken struct {

@@ -95,6 +95,18 @@ func (s *service) Postgres() *gorm.DB {
 	return s.postgres
 }
 
+func (s *service) ReadUser(ctx context.Context, userID uint) (*poeticmetric.AuthenticationUser, error) {
+	postgres := poeticmetric.ServicePostgres(ctx, s)
+
+	user := poeticmetric.AuthenticationUser{}
+	err := postgres.Model(&poeticmetric.User{}).First(&user, poeticmetric.User{ID: userID}, "ID").Error
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}
+
 func (s *service) ReadUserAccessToken(ctx context.Context, userAccessTokenID uint) (*poeticmetric.AuthenticationUserAccessToken, error) {
 	postgres := poeticmetric.ServicePostgres(ctx, s)
 
