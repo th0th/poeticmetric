@@ -1,3 +1,4 @@
+import { IconX } from "@tabler/icons-react";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
@@ -155,11 +156,19 @@ export default function Bootstrap() {
               <ActivityOverlay isActive={isSubmitting}>
                 <form className="card-body" onSubmit={handleSubmit(submit)}>
                   <fieldset className="fieldset" disabled={isSubmitting}>
+                    {errors.root ? (
+                      <div className="alert alert-danger">
+                        <IconX className="icon" size={24} />
+
+                        {errors.root.message}
+                      </div>
+                    ) : null}
+
                     <div className="form-group">
                       <label className="form-label" htmlFor="input-user-name">Full name</label>
 
                       <input
-                        className={clsx("input", errors.userName && "input-invalid")}
+                        className={clsx("input", !!errors.userName || !!errors.root && "input-invalid")}
                         id="input-user-name"
                         required
                         {...register("userName")}
@@ -172,7 +181,7 @@ export default function Bootstrap() {
                       <label className="form-label" htmlFor="input-user-email">E-mail address</label>
 
                       <input
-                        className={clsx("input", errors.userEmail && "input-invalid")}
+                        className={clsx("input", !!errors.userEmail || !!errors.root && "input-invalid")}
                         id="input-user-email"
                         required
                         type="email"
@@ -183,10 +192,11 @@ export default function Bootstrap() {
                     </div>
 
                     <div className="form-group">
-                      <label className="form-label">New password</label>
+                      <label className="form-label" htmlFor="input-user-password">New password</label>
 
                       <input
-                        className={clsx("input", errors.userPassword && "input-invalid")}
+                        className={clsx("input", !!errors.userPassword || !!errors.root && "input-invalid")}
+                        id="input-user-password"
                         required
                         type="password"
                         {...register("userPassword")}
@@ -196,10 +206,11 @@ export default function Bootstrap() {
                     </div>
 
                     <div className="form-group">
-                      <label className="form-label">New password (again)</label>
+                      <label className="form-label" htmlFor="input-user-password2">New password (again)</label>
 
                       <input
-                        className={clsx("input", errors.userPassword2 && "input-invalid")}
+                        className={clsx("input", !!errors.userPassword2 || !!errors.root && "input-invalid")}
+                        id="input-user-password2"
                         required
                         type="password"
                         {...register("userPassword2")}
@@ -209,10 +220,11 @@ export default function Bootstrap() {
                     </div>
 
                     <div className="form-group">
-                      <label className="form-label">Organization</label>
+                      <label className="form-label" htmlFor="input-organization-name">Organization</label>
 
                       <input
-                        className={clsx("input", errors.organizationName && "input-invalid")}
+                        className={clsx("input", !!errors.organizationName || !!errors.root && "input-invalid")}
+                        id="input-organization-name"
                         required
                         {...register("organizationName")}
                       />
@@ -223,7 +235,7 @@ export default function Bootstrap() {
                     <div className="form-group">
                       <div className="form-group-inline">
                         <input
-                          className={clsx(errors.createDemoSite && "input-invalid")}
+                          className={clsx(!!errors.createDemoSite || !!errors.root && "input-invalid")}
                           id="input-create-demo-site"
                           type="checkbox"
                           {...register("createDemoSite")}

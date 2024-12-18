@@ -5,6 +5,11 @@ metadata:
     {{ include "poeticmetric.labels" . | nindent 4 }}
   name: {{ include "poeticmetric.fullname" . }}-postgres
 spec:
+  {{ if .Values.postgres.persistence.enabled }}
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Retain
+    whenScaled: Retain
+  {{ end }}
   replicas: 1
   selector:
     matchLabels:
@@ -42,17 +47,16 @@ spec:
         imagePullPolicy: {{ .Values.postgres.image.pullPolicy }}
         name: postgres
         resources: {{ toYaml .Values.postgres.resources | nindent 10 }}
-  {{ if .Values.postgres.persistence.enabled }}
+        {{ if .Values.postgres.persistence.enabled }}
         volumeMounts:
         - mountPath: /var/lib/postgresql/data
           name: data
           subPath: postgres
-  persistentVolumeClaimRetentionPolicy:
-    whenDeleted: Retain
-    whenScaled: Retain
+        {{ end }}
+  {{ if .Values.postgres.persistence.enabled }}
   volumeClaimTemplates:
-  - kind: PersistentVolumeClaim
-    apiVersion: v1
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
     metadata:
       name: data
     spec:
