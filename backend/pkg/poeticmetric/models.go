@@ -24,6 +24,11 @@ const (
 )
 
 const (
+	SiteNameMaxLength = 50
+	SiteNameMinLength = 1
+)
+
+const (
 	UserNameMaxLength     = 70
 	UserNameMinLength     = 1
 	UserPasswordMaxLength = 72

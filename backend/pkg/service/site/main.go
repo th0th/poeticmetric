@@ -9,20 +9,58 @@ import (
 )
 
 type NewParams struct {
-	Postgres *gorm.DB
+	Postgres          *gorm.DB
+	ValidationService poeticmetric.ValidationService
 }
 
 type service struct {
-	postgres *gorm.DB
+	postgres          *gorm.DB
+	validationService poeticmetric.ValidationService
 }
 
 func New(params NewParams) poeticmetric.SiteService {
 	return &service{
-		postgres: params.Postgres,
+		postgres:          params.Postgres,
+		validationService: params.ValidationService,
 	}
 }
 
-func (s *service) ListOrganizationSites(ctx context.Context, organizationID uint) ([]*poeticmetric.OrganizationSite, error) {
+func (s *service) Create(ctx context.Context, organizationID uint, params *poeticmetric.CreateSiteParams) (*poeticmetric.OrganizationSite, error) {
+	err := s.validationService.CreateSiteParams(ctx, organizationID, params)
+	if err != nil {
+		return nil, err
+	}
+
+	postgres := poeticmetric.ServicePostgres(ctx, s)
+
+	site := &poeticmetric.Site{
+		Domain:                     *params.Domain,
+		GoogleSearchConsoleSiteUrl: params.GoogleSearchConsoleSiteURL,
+		IsPublic:                   *params.IsPublic,
+		Name:                       *params.Name,
+		SafeQueryParameters:        params.SafeQueryParameters,
+		OrganizationID:             organizationID,
+	}
+
+	err = postgres.Create(site).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return &poeticmetric.OrganizationSite{
+		CreatedAt:                  site.CreatedAt,
+		Domain:                     site.Domain,
+		GoogleSearchConsoleSiteUrl: site.GoogleSearchConsoleSiteUrl,
+		HasEvents:                  site.HasEvents,
+		ID:                         site.ID,
+		IsPublic:                   site.IsPublic,
+		Name:                       site.Name,
+		SafeQueryParameters:        site.SafeQueryParameters,
+		UpdatedAt:                  site.UpdatedAt,
+	}, nil
+}
+
+func (s *service) List(ctx context.Context, organizationID uint) ([]*poeticmetric.OrganizationSite, error) {
 	postgres := poeticmetric.ServicePostgres(ctx, s)
 
 	organizationSites := []*poeticmetric.OrganizationSite{}

@@ -156,8 +156,8 @@ func (s *service) ReadUserByUserAccessToken(ctx context.Context, token string) (
 	return &user, &userAccessToken, nil
 }
 
-func (s *service) ResetUserPassword(ctx context.Context, params *poeticmetric.AuthenticationResetUserPasswordParams) error {
-	err := s.validationService.AuthenticationResetUserPasswordParams(ctx, params)
+func (s *service) ResetUserPassword(ctx context.Context, params *poeticmetric.ResetUserPasswordParams) error {
+	err := s.validationService.ResetUserPasswordParams(ctx, params)
 	if err != nil {
 		return err
 	}
@@ -189,8 +189,8 @@ func (s *service) ResetUserPassword(ctx context.Context, params *poeticmetric.Au
 	return nil
 }
 
-func (s *service) SendUserPasswordRecoveryEmail(ctx context.Context, params *poeticmetric.AuthenticationSendUserPasswordRecoveryEmailParams) error {
-	err := s.validationService.AuthenticationSendUserPasswordRecoveryEmailParams(ctx, params)
+func (s *service) SendUserPasswordRecoveryEmail(ctx context.Context, params *poeticmetric.SendUserPasswordRecoveryEmailParams) error {
+	err := s.validationService.SendUserPasswordRecoveryEmailParams(ctx, params)
 	if err != nil {
 		return err
 	}
