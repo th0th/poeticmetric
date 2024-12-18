@@ -30,7 +30,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/poeticmetric.AuthenticationResetUserPasswordParams"
+                            "$ref": "#/definitions/poeticmetric.ResetUserPasswordParams"
                         }
                     }
                 ],
@@ -44,7 +44,7 @@ const docTemplate = `{
                     "422": {
                         "description": "Unprocessable Entity",
                         "schema": {
-                            "$ref": "#/definitions/poeticmetric.AuthenticationResetUserPasswordParams"
+                            "$ref": "#/definitions/poeticmetric.ResetUserPasswordParams"
                         }
                     }
                 }
@@ -64,7 +64,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/poeticmetric.AuthenticationSendUserPasswordRecoveryEmailParams"
+                            "$ref": "#/definitions/poeticmetric.SendUserPasswordRecoveryEmailParams"
                         }
                     }
                 ],
@@ -115,7 +115,7 @@ const docTemplate = `{
                 "tags": [
                     "authentication"
                 ],
-                "summary": "Create user access token",
+                "summary": "Delete user access token",
                 "responses": {
                     "204": {
                         "description": "No Content"
@@ -195,32 +195,41 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "post": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Create site.",
+                "tags": [
+                    "sites"
+                ],
+                "summary": "Create site",
+                "parameters": [
+                    {
+                        "description": "Params",
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/poeticmetric.CreateSiteParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/poeticmetric.OrganizationSite"
+                        }
+                    }
+                }
             }
         }
     },
     "definitions": {
-        "poeticmetric.AuthenticationResetUserPasswordParams": {
-            "type": "object",
-            "properties": {
-                "passwordResetToken": {
-                    "type": "string"
-                },
-                "userPassword": {
-                    "type": "string"
-                },
-                "userPassword2": {
-                    "type": "string"
-                }
-            }
-        },
-        "poeticmetric.AuthenticationSendUserPasswordRecoveryEmailParams": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string"
-                }
-            }
-        },
         "poeticmetric.AuthenticationUserAccessToken": {
             "type": "object",
             "properties": {
@@ -258,6 +267,29 @@ const docTemplate = `{
                 }
             }
         },
+        "poeticmetric.CreateSiteParams": {
+            "type": "object",
+            "properties": {
+                "domain": {
+                    "type": "string"
+                },
+                "googleSearchConsoleSiteURL": {
+                    "type": "string"
+                },
+                "isPublic": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "safeQueryParameters": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
         "poeticmetric.OrganizationSite": {
             "type": "object",
             "properties": {
@@ -270,7 +302,7 @@ const docTemplate = `{
                 "domain": {
                     "type": "string"
                 },
-                "googleSearchConsoleSiteUrl": {
+                "googleSearchConsoleSiteURL": {
                     "type": "string"
                 },
                 "hasEvents": {
@@ -289,6 +321,28 @@ const docTemplate = `{
                     }
                 },
                 "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.ResetUserPasswordParams": {
+            "type": "object",
+            "properties": {
+                "passwordResetToken": {
+                    "type": "string"
+                },
+                "userPassword": {
+                    "type": "string"
+                },
+                "userPassword2": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.SendUserPasswordRecoveryEmailParams": {
+            "type": "object",
+            "properties": {
+                "email": {
                     "type": "string"
                 }
             }

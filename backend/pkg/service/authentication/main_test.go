@@ -23,7 +23,7 @@ import (
 func TestNew(t *testing.T) {
 	emailService := new(email.MockService)
 	postgres := new(gorm.DB)
-	validationService := new(poeticmetric.MockValidationService)
+	validationService := new(poeticmetric.ValidationServiceMock)
 
 	type args struct {
 		params NewParams
@@ -327,7 +327,7 @@ func Test_service_ResetUserPassword(t *testing.T) {
 	postgres, gotErr := gorm.Open(postgres2.New(postgres2.Config{Conn: db}), &gorm.Config{})
 	assert.NoError(t, gotErr)
 
-	mockValidationService := new(poeticmetric.MockValidationService)
+	mockValidationService := new(poeticmetric.ValidationServiceMock)
 
 	// language=postgresql
 	selectQuery := `SELECT "id" FROM "users" WHERE "users"."password_reset_token" = $1 ORDER BY "users"."id" LIMIT $2`
@@ -342,7 +342,7 @@ func Test_service_ResetUserPassword(t *testing.T) {
 	}
 	type args struct {
 		ctx    context.Context
-		params *poeticmetric.AuthenticationResetUserPasswordParams
+		params *poeticmetric.ResetUserPasswordParams
 	}
 	type payload struct {
 		password *sqlmockhelper.ValueArg
@@ -363,7 +363,7 @@ func Test_service_ResetUserPassword(t *testing.T) {
 			},
 			args: args{
 				ctx: context.Background(),
-				params: &poeticmetric.AuthenticationResetUserPasswordParams{
+				params: &poeticmetric.ResetUserPasswordParams{
 					PasswordResetToken: poeticmetric.Pointer("token"),
 					UserPassword:       poeticmetric.Pointer("password"),
 					UserPassword2:      poeticmetric.Pointer("password"),
@@ -380,7 +380,7 @@ func Test_service_ResetUserPassword(t *testing.T) {
 				sqlMock.ExpectExec(updateQuery).WithArgs(passwordArg, sqlmock.AnyArg(), 1).WillReturnResult(sqlmock.NewResult(0, 1))
 				sqlMock.ExpectCommit()
 
-				mockValidationService.On("AuthenticationResetUserPasswordParams", mock.Anything, &poeticmetric.AuthenticationResetUserPasswordParams{
+				mockValidationService.On("ResetUserPasswordParams", mock.Anything, &poeticmetric.ResetUserPasswordParams{
 					PasswordResetToken: poeticmetric.Pointer("token"),
 					UserPassword:       poeticmetric.Pointer("password"),
 					UserPassword2:      poeticmetric.Pointer("password"),
@@ -418,7 +418,7 @@ func Test_service_ResetUserPassword(t *testing.T) {
 
 func Test_service_SendUserPasswordRecoveryEmail(t *testing.T) {
 	mockEmailService := new(email.MockService)
-	mockValidationService := new(poeticmetric.MockValidationService)
+	mockValidationService := new(poeticmetric.ValidationServiceMock)
 
 	db, sqlMock, err := sqlmock.New(sqlmock.QueryMatcherOption(sqlmock.QueryMatcherEqual))
 	assert.NoError(t, err)
@@ -441,7 +441,7 @@ func Test_service_SendUserPasswordRecoveryEmail(t *testing.T) {
 	}
 	type args struct {
 		ctx    context.Context
-		params *poeticmetric.AuthenticationSendUserPasswordRecoveryEmailParams
+		params *poeticmetric.SendUserPasswordRecoveryEmailParams
 	}
 	tests := []struct {
 		name    string
@@ -459,7 +459,7 @@ func Test_service_SendUserPasswordRecoveryEmail(t *testing.T) {
 			},
 			args: args{
 				ctx: context.Background(),
-				params: &poeticmetric.AuthenticationSendUserPasswordRecoveryEmailParams{
+				params: &poeticmetric.SendUserPasswordRecoveryEmailParams{
 					Email: poeticmetric.Pointer("user@domain.tld"),
 				},
 			},
@@ -484,9 +484,9 @@ func Test_service_SendUserPasswordRecoveryEmail(t *testing.T) {
 				})).Return(nil)
 
 				mockValidationService.On(
-					"AuthenticationSendUserPasswordRecoveryEmailParams",
+					"SendUserPasswordRecoveryEmailParams",
 					mock.Anything,
-					&poeticmetric.AuthenticationSendUserPasswordRecoveryEmailParams{
+					&poeticmetric.SendUserPasswordRecoveryEmailParams{
 						Email: poeticmetric.Pointer("user@domain.tld"),
 					},
 				).Return(nil)

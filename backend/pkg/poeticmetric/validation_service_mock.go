@@ -7,18 +7,22 @@ import (
 	"gorm.io/gorm"
 )
 
-type MockValidationService struct {
+type ValidationServiceMock struct {
 	mock.Mock
 }
 
-func (m *MockValidationService) Postgres() *gorm.DB {
+func (m *ValidationServiceMock) ResetUserPasswordParams(ctx context.Context, params *ResetUserPasswordParams) error {
+	return m.Called(ctx, params).Error(0)
+}
+
+func (m *ValidationServiceMock) SendUserPasswordRecoveryEmailParams(ctx context.Context, params *SendUserPasswordRecoveryEmailParams) error {
+	return m.Called(ctx, params).Error(0)
+}
+
+func (m *ValidationServiceMock) CreateSiteParams(ctx context.Context, organizationID uint, params *CreateSiteParams) error {
+	return m.Called(ctx, params).Error(0)
+}
+
+func (m *ValidationServiceMock) Postgres() *gorm.DB {
 	return m.Called().Get(0).(*gorm.DB)
-}
-
-func (m *MockValidationService) AuthenticationResetUserPasswordParams(ctx context.Context, params *AuthenticationResetUserPasswordParams) error {
-	return m.Called(ctx, params).Error(0)
-}
-
-func (m *MockValidationService) AuthenticationSendUserPasswordRecoveryEmailParams(ctx context.Context, params *AuthenticationSendUserPasswordRecoveryEmailParams) error {
-	return m.Called(ctx, params).Error(0)
 }

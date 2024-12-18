@@ -13,8 +13,8 @@ type AuthenticationService interface {
 	ReadUserAccessToken(ctx context.Context, userAccessTokenID uint) (*AuthenticationUserAccessToken, error)
 	ReadUserByEmailPassword(ctx context.Context, email string, password string) (*User, error)
 	ReadUserByUserAccessToken(ctx context.Context, token string) (*User, *UserAccessToken, error)
-	ResetUserPassword(ctx context.Context, params *AuthenticationResetUserPasswordParams) error
-	SendUserPasswordRecoveryEmail(ctx context.Context, params *AuthenticationSendUserPasswordRecoveryEmailParams) error
+	ResetUserPassword(ctx context.Context, params *ResetUserPasswordParams) error
+	SendUserPasswordRecoveryEmail(ctx context.Context, params *SendUserPasswordRecoveryEmailParams) error
 	ValidateUserPasswordResetToken(ctx context.Context, token string) (bool, error)
 }
 
@@ -24,11 +24,11 @@ type AuthenticationUserAccessToken struct {
 	Token     string    `json:"token"`
 }
 
-type AuthenticationSendUserPasswordRecoveryEmailParams struct {
+type SendUserPasswordRecoveryEmailParams struct {
 	Email *string `json:"email"`
 }
 
-type AuthenticationResetUserPasswordParams struct {
+type ResetUserPasswordParams struct {
 	PasswordResetToken *string
 	UserPassword       *string
 	UserPassword2      *string
