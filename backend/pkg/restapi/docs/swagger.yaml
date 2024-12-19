@@ -16,23 +16,6 @@ definitions:
       updatedAt:
         type: string
     type: object
-  poeticmetric.AuthenticationUser:
-    properties:
-      createdAt:
-        type: string
-      email:
-        type: string
-      id:
-        type: integer
-      isEmailVerified:
-        type: boolean
-      isOrganizationOwner:
-        type: boolean
-      name:
-        type: string
-      updatedAt:
-        type: string
-    type: object
   poeticmetric.AuthenticationUserAccessToken:
     properties:
       createdAt:
