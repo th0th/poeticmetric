@@ -78,6 +78,34 @@ const docTemplate = `{
                 }
             }
         },
+        "/authentication/user": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read currently authentication user",
+                "tags": [
+                    "authentication"
+                ],
+                "summary": "Read user",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/poeticmetric.AuthenticationUser"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responder.DetailResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/authentication/user-access-tokens": {
             "post": {
                 "security": [
@@ -230,6 +258,32 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "poeticmetric.AuthenticationUser": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "isEmailVerified": {
+                    "type": "boolean"
+                },
+                "isOrganizationOwner": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
         "poeticmetric.AuthenticationUserAccessToken": {
             "type": "object",
             "properties": {

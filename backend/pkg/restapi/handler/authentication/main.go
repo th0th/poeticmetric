@@ -67,6 +67,26 @@ func (h *Handler) DeleteUserAccessToken(w http.ResponseWriter, r *http.Request) 
 	w.WriteHeader(http.StatusNoContent)
 }
 
+// ReadUser godoc
+// @Description Read currently authentication user
+// @Failure 400 {object} responder.DetailResponse
+// @Router /authentication/user [get]
+// @Security UserAccessTokenAuthentication
+// @Success 200 {object} poeticmetric.AuthenticationUser
+// @Summary Read user
+// @Tags authentication
+func (h *Handler) ReadUser(w http.ResponseWriter, r *http.Request) {
+	authentication := middleware.GetAuthentication(r.Context())
+
+	user, err := h.authenticationService.ReadUser(r.Context(), authentication.User.ID)
+	if err != nil {
+		h.responder.Error(w, err)
+		return
+	}
+
+	h.responder.Json(w, user)
+}
+
 // ResetUserPassword godoc
 // @Description Reset user's password also deleting all existing user access tokens for that user.
 // @Failure 422 {object} poeticmetric.ResetUserPasswordParams
