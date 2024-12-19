@@ -1,4 +1,21 @@
 definitions:
+  poeticmetric.AuthenticationUser:
+    properties:
+      createdAt:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      isEmailVerified:
+        type: boolean
+      isOrganizationOwner:
+        type: boolean
+      name:
+        type: string
+      updatedAt:
+        type: string
+    type: object
   poeticmetric.AuthenticationUserAccessToken:
     properties:
       createdAt:
@@ -127,6 +144,23 @@ paths:
           schema:
             $ref: '#/definitions/responder.DetailResponse'
       summary: Send user password recovery e-mail
+      tags:
+      - authentication
+  /authentication/user:
+    get:
+      description: Read currently authentication user
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/poeticmetric.AuthenticationUser'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responder.DetailResponse'
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read user
       tags:
       - authentication
   /authentication/user-access-tokens:
