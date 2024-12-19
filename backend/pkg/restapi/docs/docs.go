@@ -284,6 +284,32 @@ const docTemplate = `{
                 }
             }
         },
+        "poeticmetric.AuthenticationUser": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "isEmailVerified": {
+                    "type": "boolean"
+                },
+                "isOrganizationOwner": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
         "poeticmetric.AuthenticationUserAccessToken": {
             "type": "object",
             "properties": {
