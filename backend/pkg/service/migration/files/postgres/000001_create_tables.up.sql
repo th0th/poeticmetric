@@ -86,3 +86,21 @@ CREATE TABLE sites (
 );
 
 CREATE INDEX idx_sites_organization_id ON sites (organization_id);
+
+-- functions and triggers
+CREATE FUNCTION notify_after_insert()
+  RETURNS trigger
+  LANGUAGE plpgsql
+AS
+$function$
+BEGIN
+  PERFORM pg_notify(tg_argv[0], row_to_json(new)::text);
+  RETURN NULL;
+END;
+$function$;
+
+CREATE TRIGGER organizations_after_insert
+  AFTER INSERT
+  ON organizations
+  FOR EACH ROW
+EXECUTE FUNCTION notify_after_insert('organizations_after_insert');
