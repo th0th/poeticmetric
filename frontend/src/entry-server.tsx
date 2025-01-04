@@ -1,34 +1,12 @@
 import { StrictMode } from "react";
-import { renderToString } from "react-dom/server";
-import { HelmetProvider, HelmetServerState } from "react-helmet-async";
-import { Router } from "wouter";
+import { renderToPipeableStream, type RenderToPipeableStreamOptions } from "react-dom/server";
 import App from "~/components/App";
-import AppErrorBoundary from "~/components/AppErrorBoundary";
 
-export function render(url: string) {
-  const helmetContext: { helmet?: HelmetServerState } = {};
-
-  const body = renderToString(
+export function render(url: string, options?: RenderToPipeableStreamOptions) {
+  return renderToPipeableStream(
     <StrictMode>
-      <HelmetProvider context={helmetContext}>
-        <AppErrorBoundary>
-          <Router ssrPath={url}>
-            <App />
-          </Router>
-        </AppErrorBoundary>
-      </HelmetProvider>
+      <App path={`/${url}`} />
     </StrictMode>,
+    options,
   );
-
-  const helmet = helmetContext?.helmet;
-
-  const head = [
-    helmet?.title.toString(),
-    helmet?.priority.toString(),
-    helmet?.meta.toString(),
-    helmet?.link.toString(),
-    helmet?.script.toString(),
-  ].join("");
-
-  return { body, head };
 }

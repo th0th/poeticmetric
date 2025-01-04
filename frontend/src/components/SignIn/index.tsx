@@ -5,7 +5,7 @@ import { Link, useLocation, useSearch } from "wouter";
 import ActivityOverlay from "~/components/ActivityOverlay";
 import Layout from "~/components/Layout";
 import Title from "~/components/Title";
-import { base64Encode } from "~/helpers/base64";
+import { base64Encode } from "~/lib/base64";
 import useAuthentication from "~/hooks/useAuthentication";
 import { api } from "~/lib/api";
 import { setErrors } from "~/lib/form";

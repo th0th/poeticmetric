@@ -6,7 +6,7 @@ export type SwrConfigProps = {
   children: ReactNode;
 };
 
-const fetcher = getFetcher(false);
+const fetcher = getFetcher();
 
 export default function SWRConfig({ children }: SwrConfigProps) {
   return (

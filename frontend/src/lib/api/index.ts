@@ -29,12 +29,8 @@ export async function apiCall(path: string, init?: RequestInit): Promise<Respons
   return fetch(`/api${path}`, { ...init, headers });
 }
 
-export function getFetcher(requireUserAccessToken: boolean) {
+export function getFetcher() {
   async function fetcher(endpoint: string, init?: RequestInit) {
-    if (requireUserAccessToken && getUserAccessToken() === null) {
-      return null;
-    }
-
     let response: Response;
 
     try {

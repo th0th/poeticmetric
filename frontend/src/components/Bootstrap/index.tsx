@@ -1,13 +1,13 @@
 import clsx from "clsx";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
 import { Link } from "wouter";
 import ActivityOverlay from "~/components/ActivityOverlay";
 import Layout from "~/components/Layout";
 import Title from "~/components/Title";
-import { base64Encode } from "~/helpers/base64";
 import { api } from "~/lib/api";
+import { base64Encode } from "~/lib/base64";
 import { setErrors } from "~/lib/form";
 import { setUserAccessToken } from "~/lib/user-access-token";
 
@@ -21,17 +21,14 @@ type Form = {
 };
 
 type State = {
-  isAlreadyDone: boolean | null;
   isComplete: boolean;
+  isReady: boolean | null;
 };
 
 export default function Bootstrap() {
   const { showBoundary } = useErrorBoundary();
-  const [state, setState] = useState<State>({ isAlreadyDone: null, isComplete: false });
+  const [state, setState] = useState<State>({ isComplete: false, isReady: null });
   const { formState: { errors, isSubmitting }, handleSubmit, register, setError } = useForm<Form>();
-  // const x = use(api.get("/bootstrap"));
-
-  // console.log(x);
 
   async function submit(data: Form) {
     try {
@@ -65,14 +62,15 @@ export default function Bootstrap() {
     async function run() {
       try {
         const response = await api.get("/bootstrap");
-
-        if (!response.ok) {
-          setState((prev) => ({ ...prev, isAlreadyDone: true }));
+        if (response.ok) {
+          setState((s) => ({ ...s, isReady: true }));
+        } else if (response.status === 400) {
+          setState((s) => ({ ...s, isReady: false }));
+        } else {
+          throw new Error("got an unexpected response");
         }
       } catch (error) {
         showBoundary(error);
-      } finally {
-        setState((prev) => ({ ...prev, isInProgress: false }));
       }
     }
 
@@ -84,21 +82,16 @@ export default function Bootstrap() {
       <Title>Complete PoeticMetric installation</Title>
 
       <Layout mainClassName="py-16">
-        {state.isAlreadyDone === null ? (
-          <div className="align-items-center d-flex flex-grow-1 justify-content-center p-16">
-            <div className="spinner spinner-border text-body-secondary" />
+        {state.isReady === null ? (
+          <div className="align-items-center d-flex flex-grow-1 justify-content-center">
+            <div className="spinner spinner-border text-primary" role="status" />
           </div>
         ) : (
           <div className="container mw-32rem">
-          <div className="text-center">
+            <div className="text-center">
               <h1 className="fs-5_5 fw-bold text-primary-emphasis">Bootstrap</h1>
-              {state.isAlreadyDone ? (
-                <>
-                  <h2 className="display-5">You are all set!</h2>
 
-                  <div className="fs-5_5 text-body-emphasis">It looks like PoeticMetric has already been installed.</div>
-                </>
-              ) : (
+              {state.isReady ? (
                 <>
                   <h2 className="display-5">
                     Welcome to
@@ -108,14 +101,16 @@ export default function Bootstrap() {
 
                   <div className="fs-5_5 text-body-emphasis">Complete PoeticMetric installation to continue.</div>
                 </>
+              ) : (
+                <>
+                  <h2 className="display-5">You are all set!</h2>
+
+                  <div className="fs-5_5 text-body-emphasis">It looks like PoeticMetric has already been installed.</div>
+                </>
               )}
             </div>
 
-            {state.isAlreadyDone ? (
-              <div className="text-center mt-8">
-                <Link className="btn btn-primary" to="/">Return home</Link>
-              </div>
-            ) : (
+            {state.isReady ? (
               <form className="card mt-16 overflow-hidden position-relative" onSubmit={handleSubmit(submit)}>
                 <ActivityOverlay isActive={isSubmitting} />
 
@@ -208,6 +203,10 @@ export default function Bootstrap() {
                   <button className="btn btn-primary" type="submit">Complete installation</button>
                 </fieldset>
               </form>
+            ) : (
+              <div className="text-center mt-8">
+                <Link className="btn btn-primary" to="/">Return home</Link>
+              </div>
             )}
           </div>
         )}
