@@ -1,4 +1,4 @@
-import stylisticTs from "@stylistic/eslint-plugin-ts";
+import stylistic from "@stylistic/eslint-plugin";
 import pluginImport from "eslint-plugin-import";
 import jsxA11y from "eslint-plugin-jsx-a11y";
 import pluginReact from "eslint-plugin-react";
@@ -85,6 +85,7 @@ export default [
       "react/jsx-tag-spacing": "error",
       "react/jsx-wrap-multilines": ["error"],
       "react/no-array-index-key": ["error"],
+      "react/no-unescaped-entities": ["error"],
       "react/react-in-jsx-scope": "off",
     },
   },
@@ -100,11 +101,13 @@ export default [
 
   {
     plugins: {
-      "@stylistic/ts": stylisticTs,
+      "@stylistic": stylistic,
     },
     rules: {
-      "@stylistic/ts/member-delimiter-style": ["error"],
-      "@stylistic/ts/semi": ["error"],
+      "@stylistic/jsx-props-no-multi-spaces": ["error"],
+      "@stylistic/member-delimiter-style": ["error"],
+      "@stylistic/no-multi-spaces": ["error"],
+      "@stylistic/semi": ["error"],
     },
   },
 

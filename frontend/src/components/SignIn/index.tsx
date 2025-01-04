@@ -1,43 +1,33 @@
-import { IconX } from "@tabler/icons-react";
-import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useSearch } from "wouter";
 import ActivityOverlay from "~/components/ActivityOverlay";
-import FormTitle from "~/components/FormTitle";
 import Layout from "~/components/Layout";
 import Title from "~/components/Title";
 import { base64Encode } from "~/helpers/base64";
-import useUser from "~/hooks/useUser";
+import useAuthentication from "~/hooks/useAuthentication";
 import { api } from "~/lib/api";
 import { setErrors } from "~/lib/form";
 import { setUserAccessToken } from "~/lib/user-access-token";
-import styles from "./SignIn.module.css";
 
 type Form = {
   userEmail: string;
   userPassword: string;
 };
 
-type State = {
-  isAlreadySignedIn: boolean;
-};
-
 export default function SignIn() {
   const { showBoundary } = useErrorBoundary();
   const [, navigate] = useLocation();
   const searchParams = useSearch();
-  const user = useUser();
-  const [state, setState] = useState<State>({ isAlreadySignedIn: false });
-  const { clearErrors, formState: { errors, isSubmitting }, getValues, handleSubmit, register, setError } = useForm<Form>();
-  const forgetPasswordLink = !!getValues("userEmail") ? `/forgot-password?email=${getValues("userEmail")}` : "/forgot-password";
+  const { user } = useAuthentication();
+  const { formState: { errors, isSubmitting }, handleSubmit, register, setError, watch } = useForm<Form>();
+  const userEmail = watch("userEmail");
 
-  useEffect(() => {
-    if (user) {
-      setState((prev) => ({ ...prev, isAlreadySignedIn: true }));
-    }
-  }, []);
+  const passwordRecoveryLink = useMemo(
+    () => `/password-recovery${userEmail === "" ? "" : `?userEmail=${encodeURIComponent(userEmail)}`}`,
+    [userEmail],
+  );
 
   async function submit(data: Form) {
     try {
@@ -50,7 +40,7 @@ export default function SignIn() {
       const responseJson = await response.json();
 
       if (response.ok) {
-        setUserAccessToken(responseJson.accessToken);
+        setUserAccessToken(responseJson.token);
 
         const next = new URLSearchParams(searchParams).get("next");
 
@@ -65,97 +55,77 @@ export default function SignIn() {
 
   return (
     <>
-      <Title>Sign In</Title>
+      <Title>Sign in</Title>
 
-      <Layout className={styles.layout} headerProps={{ variant: "basic" }}>
-        {state.isAlreadySignedIn ? (
-          <div className="container">
-            <FormTitle
-              actions={(
-                <Link className="button button-lg button-blue" to="/sites">
-                  Go to dashboard
-                </Link>
-              )}
-              description="It looks like you are already signed in."
-              summary="Sign in"
-              title="Signed in!"
-            />
+      <Layout headerProps={{ variant: "basic" }}>
+        <div className="container mw-32rem">
+          <div className="text-center">
+            <h1 className="fs-5_5 fw-bold text-primary-emphasis">Sign in</h1>
+
+            <h2 className="display-5">{user === null ? "Welcome back!" : "Signed in!"}</h2>
+
+            <div className="fs-5_5 text-body-emphasis">
+              {user === null ? "Sign in to view your analytics dashboard." : "You seem to be signed in already."}
+            </div>
           </div>
-        ) : (
-          <div className="container">
-            <FormTitle
-              description="Sign in to view your analytics dashboard."
-              maxWidth="28rem"
-              showGoBack={false}
-              summary="Sign in"
-              title="Welcome back!"
-            />
 
-            <div className={clsx("card", styles.card)}>
-              <ActivityOverlay isActive={isSubmitting}>
-                <form className="card-body" onSubmit={handleSubmit(submit)}>
-                  <fieldset className="fieldset" disabled={isSubmitting}>
+          {user === null ? (
+            <div className="card mt-16 overflow-hidden position-relative">
+              <div className="card-body">
+                <ActivityOverlay isActive={isSubmitting} />
+
+                <form onSubmit={handleSubmit(submit)}>
+                  <fieldset className="gap-12 vstack">
                     {errors.root ? (
-                      <div className="alert alert-danger">
-                        <IconX className="icon" size={24} />
-
-                        {errors.root.message}
-                      </div>
+                      <div className="alert alert-danger mb-0">{errors.root.message}</div>
                     ) : null}
 
-                    <div className="form-group">
+                    <div>
                       <label className="form-label" htmlFor="input-user-email">E-mail address</label>
 
-                      <input
-                        className={clsx("input", !!errors.userEmail || !!errors.root && "input-invalid")}
-                        id="input-user-email"
-                        required
-                        type="email"
-                        {...register("userEmail", { onChange: () => clearErrors() })}
-                      />
-
-                      {!!errors.userEmail ? (
-                        <div className="form-error">{errors.userEmail.message}</div>
-                      ) : null}
+                      <input className="form-control" required type="email" {...register("userEmail")} />
                     </div>
 
-                    <div className="form-group">
-                      <div className={styles.forgotPasswordLink}>
-                        <label className="form-label" htmlFor="input-user-password">Password</label>
+                    <div>
+                      <div className="align-items-end d-flex gap-2 mb-4">
+                        <label className="form-label mb-0" htmlFor="input-user-password">Password</label>
 
-                        <Link className="link link-muted" href={forgetPasswordLink} tabIndex={1}>
+                        <Link
+                          className="fs-7 ms-auto text-decoration-none text-decoration-underline-focus-visible text-decoration-underline-hover"
+                          href={passwordRecoveryLink}
+                          tabIndex={1}
+                        >
                           Forgot password?
                         </Link>
                       </div>
 
-                      <input
-                        className={clsx("input", !!errors.userPassword || !!errors.root && "input-invalid")}
-                        id="input-user-password"
-                        required
-                        type="password"
-                        {...register("userPassword", { onChange: () => clearErrors() })}
-                      />
-
-                      {!!errors.userPassword ? (
-                        <div className="form-error">{errors.userPassword.message}</div>
-                      ) : null}
+                      <input className="form-control" required type="password" {...register("userPassword")} />
                     </div>
 
-                    <button className="button button-blue" type="submit">Sign in</button>
+                    <button className="btn btn-primary" type="submit">Sign in</button>
                   </fieldset>
                 </form>
+              </div>
 
-                <div className="card-footer">
-                  <p className={styles.signUpLink}>
-                    {"Don't have an account?"}
-                    {" "}
-                    <Link className="link link-animate" to="/sign-up">Sign up</Link>
-                  </p>
-                </div>
-              </ActivityOverlay>
+              <div className="card-footer fs-7 text-center">
+                Don&apos;t have an account?
+                {" "}
+                <Link
+                  className="fw-medium text-decoration-none text-decoration-underline-focus-visible text-decoration-underline-hover"
+                  to="/sign-up"
+                >
+                  Sign up
+                </Link>
+              </div>
             </div>
-          </div>
-        )}
+          ) : (
+            <div className="d-flex justify-content-center mt-8">
+              <Link className="btn btn-lg btn-primary" to="/sites">
+                Go to dashboard
+              </Link>
+            </div>
+          )}
+        </div>
       </Layout>
     </>
   );

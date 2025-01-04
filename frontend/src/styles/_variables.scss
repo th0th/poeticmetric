@@ -1,0 +1,154 @@
+@import "bootstrap/scss/functions";
+
+// color overrides
+$blue: #117BBF;
+$cyan: #06B6D4;
+$gray-600: #4A5568;
+$gray-900: #111215;
+$green: #38A169;
+$orange: #DD6B20;
+$purple: #805AD5;
+$red: #C53030;
+$yellow: #D69E2E;
+
+// custom colors
+$navy: #172537;
+
+// color variants
+// color variants - blue
+$blue-50: tint-color($blue, 90%);
+
+// color variants - custom - navy
+$navy-100: tint-color($navy, 80%);
+$navy-200: tint-color($navy, 60%);
+$navy-300: tint-color($navy, 40%);
+$navy-400: tint-color($navy, 20%);
+$navy-500: $navy;
+$navy-600: shade-color($navy, 20%);
+$navy-700: shade-color($navy, 40%);
+$navy-800: shade-color($navy, 60%);
+$navy-900: shade-color($navy, 80%);
+
+// pre-overrides
+$table-striped-bg-factor: 0.035;
+
+@import "bootstrap/scss/variables";
+
+// custom variables
+$box-shadow: 0 0.25rem 1rem rgba($black, 0.05);
+$box-shadow-lg: 0 .375rem 3rem rgba($black, 0.1);
+$body-color-subtle: $border-color;
+
+// custom variables - dark
+$box-shadow-dark: 0 .25rem 2rem rgba($black, 0.5);
+$body-color-subtle-dark: $border-color-dark;
+
+// variable alterations
+$body-bg-dark: $navy;
+$body-secondary-bg-dark: tint-color($navy, 5%);
+$body-tertiary-bg-dark: tint-color($navy, 10%);
+$border-color-translucent: rgba($black, .125);
+$border-color-translucent-dark: rgba($white, .25);
+$btn-font-weight: $font-weight-medium;
+$btn-white-space: nowrap;
+$card-title-spacer-y: 1rem;
+$caret-spacing: $caret-width * 1.5;
+$display-font-weight: 700;
+$dropdown-divider-margin-y: $spacer * 0.375;
+$enable-negative-margins: true;
+$fixed-sizes: (
+  0: 0,
+  "0_25rem": 0.25rem,
+  "0_5rem": 0.5rem,
+  "0_625rem": 0.625rem,
+  1rem: 1rem,
+  "1_25rem": 1.25rem,
+  "1_5rem": 1.5rem,
+  2rem: 2rem,
+  2_5rem: 2.5rem,
+  3rem: 3rem,
+  "3_5rem": 3.5rem,
+  4rem: 4rem,
+  5rem: 5rem,
+  6rem: 6rem,
+  7rem: 7rem,
+  8rem: 8rem,
+  9rem: 9rem,
+  10rem: 10rem,
+  12rem: 12rem,
+  16rem: 16rem,
+  18rem: 18rem,
+  20rem: 20rem,
+  32rem: 32rem,
+  36rem: 36rem,
+  44rem: 44rem,
+  50rem: 50rem,
+);
+$font-family-sans-serif: "Inter", "Arial", sans-serif;
+$font-family-monospace: "Roboto Mono", monospace;
+$font-family-serif: "Noto Serif", serif;
+$font-weight-black: 900;
+$font-weight-extra-bold: 800;
+$font-weight-extra-light: 200;
+$font-weight-regular: 400;
+$font-weight-semi-bold: 600;
+$font-weight-thin: 100;
+$font-sizes: map-merge($font-sizes, (
+  5_5: 1.125rem,
+  7: 0.875rem,
+  8: .75rem,
+  9: .625rem,
+  10: .5rem,
+));
+$h1-font-size: $font-size-base * 2;
+$h2-font-size: $font-size-base * 1.5;
+$h3-font-size: $font-size-base * 1.375;
+$h4-font-size: $font-size-base * 1.25;
+$h5-font-size: $font-size-base * 1.125;
+$form-label-font-weight: $font-weight-medium;
+$headings-font-weight: $font-weight-bold;
+$input-placeholder-color: var(--#{$prefix}tertiary-color);
+$modal-backdrop-bg: rgba($black, 50%);
+$modal-backdrop-opacity: 1;
+$nav-link-font-size: map-get($font-sizes, 7);
+$nav-link-font-weight: $font-weight-medium;
+$offcanvas-bg-color: rgb(var(--#{$prefix}body-bg-rgb), 0.75); /* stylelint-disable-line color-function-notation */
+$offcanvas-backdrop-bg: rgba($black, 50%);
+$offcanvas-backdrop-opacity: 1;
+$paragraph-margin-bottom: 0;
+$primary-text-emphasis: shade-color($primary, 25%);
+$rfs-base-value: 1rem;
+$spacers: map-merge($spacers, (0: 0,
+  1: $spacer * .125,
+  2: $spacer * .25,
+  3: $spacer * .375,
+  4: $spacer * .5,
+  5: $spacer * .625,
+  6: $spacer * .75,
+  7: $spacer * .875,
+  8: $spacer,
+  10: $spacer * 1.25,
+  12: $spacer * 1.5,
+  16: $spacer * 2,
+  20: $spacer * 2.5,
+  24: $spacer * 3,
+  28: $spacer * 3.5,
+  32: $spacer * 4,
+  40: $spacer * 5,
+  48: $spacer * 6,
+  64: $spacer * 6,
+  72: $spacer * 9,
+  88: $spacer * 12,
+));
+$theme-colors: map-merge($theme-colors, (
+  navy: $navy,
+));
+$tooltip-max-width: 240px;
+$tooltip-padding-y: 0.5rem;
+$zindex-levels: map-merge($zindex-levels, (
+  1046: 1046,
+  1056: 1056,
+));
+
+// ones with overridden variables
+$dropdown-font-size: map-get($font-sizes, 7);

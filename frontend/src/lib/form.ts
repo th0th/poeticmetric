@@ -28,7 +28,7 @@ export function setErrors<T extends object>(setError: UseFormSetError<T>, obj: a
 
 export function setValues<T extends object>(setValue: UseFormSetValue<T>, obj: any) {
   for (const field in obj) {
-    if (hasOwnProperty<T>(obj, field))  {
+    if (hasOwnProperty<T>(obj, field)) {
       setValue(field, obj[field]);
     }
   }

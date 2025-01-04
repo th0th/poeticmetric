@@ -1,8 +1,7 @@
 import react from "@vitejs/plugin-react-swc";
+import autoprefixer from "autoprefixer";
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
-import autoprefixer from "autoprefixer";
-import postcssCustomMedia from "postcss-custom-media";
 
 export default defineConfig({
   css: {
@@ -12,8 +11,13 @@ export default defineConfig({
     postcss: {
       plugins: [
         autoprefixer(),
-        postcssCustomMedia(),
       ],
+    },
+    preprocessorOptions: {
+      scss: {
+        loadPaths: ["./src/styles"],
+        silenceDeprecations: ["mixed-decls", "color-functions", "global-builtin", "import"],
+      },
     },
   },
   plugins: [react()],

@@ -21,5 +21,25 @@
       <option name="workingDir" value="" />
       <envs />
     </TaskOptions>
+    <TaskOptions isEnabled="true">
+      <option name="arguments" value="--load-path $ProjectFileDir$/frontend/node_modules $ProjectFileDir$/frontend/src/styles/style.scss $ProjectFileDir$/frontend/src/styles/style.css" />
+      <option name="checkSyntaxErrors" value="true" />
+      <option name="description" />
+      <option name="exitCodeBehavior" value="ERROR" />
+      <option name="fileExtension" value="scss" />
+      <option name="immediateSync" value="true" />
+      <option name="name" value="Compile style.scss" />
+      <option name="output" value="$ProjectFileDir$/frontend/src/styles/style.css:$ProjectFileDir$/frontend/src/styles/style.css.map" />
+      <option name="outputFilters">
+        <array />
+      </option>
+      <option name="outputFromStdout" value="false" />
+      <option name="program" value="$ProjectFileDir$/frontend/node_modules/.bin/sass" />
+      <option name="runOnExternalChanges" value="true" />
+      <option name="scopeName" value="Recently Changed Files" />
+      <option name="trackOnlyRoot" value="true" />
+      <option name="workingDir" value="$FileDir$" />
+      <envs />
+    </TaskOptions>
   </component>
 </project>

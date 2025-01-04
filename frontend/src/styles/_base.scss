@@ -1,0 +1,339 @@
+@import "variables";
+@import "bootstrap/scss/maps";
+
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities";
+
+$utilities: map-merge($utilities, (
+  "aspect-ratio": (
+    class: aspect-ratio,
+    property: aspect-ratio,
+    values: (
+      "1": 1,
+      "5-3": calc(5 / 3),
+    ),
+  ),
+  "backdrop": (
+    class: backdrop,
+    property: backdrop-filter,
+    responsive: true,
+    values: (
+      blur-2px: blur(2px),
+      blur-20px: blur(20px),
+      blur: blur(6px),
+      none: none,
+    ),
+  ),
+  "background-attachment": (
+    class: bg-attachment,
+    property: background-attachment,
+    values: (
+      fixed: fixed,
+    ),
+  ),
+  "background-color": map-merge(map-get($utilities, "background-color"), (
+    responsive: true,
+    state: focus-visible hover,
+    values: map-merge(map-get(map-get($utilities, "background-color"), "values"), (
+      gray-400: $gray-400,
+      inverted: var(--#{$prefix}body-color),
+      primary-50: $blue-50,
+      primary-100: $blue-100,
+      primary-200: $blue-200,
+      primary-300: $blue-300,
+      primary-400: $blue-400,
+    )),
+  )),
+  "background-position": (
+    class: bg-position,
+    property: background-position,
+    values: (
+      center: center center,
+    ),
+  ),
+  "background-size": (
+    class: bg-size,
+    property: background-size,
+    values: (
+      cover: cover,
+    ),
+  ),
+  "bg-opacity": map-merge(map-get($utilities, "bg-opacity"), (
+    state: focus-visible hover,
+    values: map-merge(map-get(map-get($utilities, "bg-opacity"), "values"), (
+      0: 0,
+    )),
+  )),
+  "border-bottom": map-merge(map-get($utilities, "border-bottom"), (
+    responsive: true,
+  )),
+  "border-color": map-merge(map-get($utilities, "border-color"), (
+    state: focus-visible hover,
+  )),
+  "border-end": map-merge(map-get($utilities, "border-end"), (
+    responsive: true,
+  )),
+  "border-start": map-merge(map-get($utilities, "border-start"), (
+    responsive: true,
+  )),
+  "border-top": map-merge(map-get($utilities, "border-top"), (
+    responsive: true,
+  )),
+  "bottom": map-merge(map-get($utilities, "bottom"), (
+    responsive: true,
+  )),
+  "color": map-merge(map-get($utilities, "color"), (
+    state: focus-visible hover,
+    values: map-merge(map-get(map-get($utilities, "color"), "values"), (
+      inverted: var(--#{$prefix}tertiary-bg),
+    )),
+  )),
+  "cursor": (
+    class: cursor,
+    property: cursor,
+    values: (
+      grab: grab,
+      grabbing: grabbing,
+    ),
+  ),
+  "end": map-merge(map-get($utilities, "end"), (
+    responsive: true,
+  )),
+  "font-family": map-merge(map-get($utilities, "font-family"), (
+    values: map-merge(map-get(map-get($utilities, "font-family"), "values"), (
+      serif: $font-family-serif,
+    ))
+  )),
+  "font-weight": map-merge(map-get($utilities, "font-weight"), (
+    values: (
+      black: $font-weight-black,
+      bold: $font-weight-bold,
+      extra-bold: $font-weight-extra-bold,
+      extra-light: $font-weight-extra-light,
+      light: $font-weight-light,
+      medium: $font-weight-medium,
+      regular: $font-weight-regular,
+      semi-bold: $font-weight-semi-bold,
+      thin: $font-weight-thin,
+    ),
+  )),
+  "height": map-merge(map-get($utilities, "height"), (
+    values: map-merge(map-merge(map-get(map-get($utilities, "height"), "values"), $fixed-sizes), (
+      "vh-100-header-height": calc(100vh - var(--header-height)),
+    )),
+  )),
+  "inset": (
+    class: inset,
+    property: inset,
+    values: (
+      0: 0,
+    ),
+  ),
+  "line-clamp": (
+    class: "line-clamp",
+    property: -webkit-line-clamp,
+    values: (
+      3: 3,
+    ),
+  ),
+  "line-height": map-merge(map-get($utilities, "line-height"), (
+    values: map-merge(map-get(map-get($utilities, "line-height"), "values"), (
+      xl: 2.5,
+    )),
+  )),
+  "max-height": map-merge(map-get($utilities, "max-height"), (
+    responsive: true,
+    values: map-merge(
+        map-get(map-get($utilities, "max-height"), "values"),
+        map-merge(
+            $fixed-sizes,
+            (
+              50vh: 50vh,
+            ),
+        )
+    ),
+  )),
+  "max-width": map-merge(map-get($utilities, "max-width"), (
+    responsive: true,
+    values: map-merge(map-get(map-get($utilities, "max-width"), "values"), $fixed-sizes),
+  )),
+  "min-height": (
+    class: min-h,
+    property: min-height,
+    values: (
+      0: 0,
+      "vh-100-header": calc(100vh - var(--header-height)),
+    ),
+  ),
+  "min-viewport-height": map-merge(map-get($utilities, "min-viewport-height"), (
+    values: map-merge(map-get(map-get($utilities, "min-viewport-height"), "values"), (
+      "100-header": calc(100vh - var(--header-height)),
+    )),
+  )),
+  "min-width": (
+    class: min-w,
+    property: min-width,
+    values: map-merge($fixed-sizes, (
+      0: 0,
+      100: 100%,
+    )),
+  ),
+  "monitor-kind": (
+    css-var: true,
+    css-variable-name: monitor-kind-color,
+    class: monitor-kind,
+    values: (
+      heartbeat: #{$green},
+      http: #{$blue},
+      ping: #{$orange},
+    ),
+  ),
+  "opacity": map-merge(map-get($utilities, "opacity"), (
+    values: map-merge(map-get(map-get($utilities, "opacity"), "values"), (
+      10: .1,
+      65: .65,
+    )),
+  )),
+  "overflow": map-merge(map-get($utilities, "overflow"), (
+    responsive: true,
+  )),
+  "position": map-merge(map-get($utilities, "position"), (
+    responsive: true,
+  )),
+  "rotate": (
+    class: rotate,
+    property: transform,
+    state: focus hover,
+    values: (
+      45deg: rotate(45deg),
+      90deg: rotate(90deg)
+    ),
+  ),
+  "rounded-top-end": (
+    class: rounded-top-end,
+    property: border-top-right-radius,
+    values: (
+      0: 0,
+      1: var(--#{$prefix}border-radius-sm),
+      2: var(--#{$prefix}border-radius),
+      3: var(--#{$prefix}border-radius-lg),
+      4: var(--#{$prefix}border-radius-xl),
+      5: var(--#{$prefix}border-radius-xxl),
+      circle: 50%,
+      null: var(--#{$prefix}border-radius),
+      pill: var(--#{$prefix}border-radius-pill))),
+  "rounded-top-start": (
+    class: rounded-top-start,
+    property: border-top-left-radius,
+    values: (
+      0: 0,
+      1: var(--#{$prefix}border-radius-sm),
+      2: var(--#{$prefix}border-radius),
+      3: var(--#{$prefix}border-radius-lg),
+      4: var(--#{$prefix}border-radius-xl),
+      5: var(--#{$prefix}border-radius-xxl),
+      circle: 50%,
+      null: var(--#{$prefix}border-radius),
+      pill: var(--#{$prefix}border-radius-pill))),
+  "scale": (
+    class: scale,
+    property: transform,
+    state: focus hover,
+    values: (
+      xs: scale(1.01),
+    ),
+  ),
+  "shadow": map-merge(map-get($utilities, "shadow"), (
+    state: focus hover,
+  )),
+  "size": (
+    class: size,
+    property: height width,
+    values: $fixed-sizes,
+  ),
+  "start": map-merge(map-get($utilities, "start"), (
+    responsive: true,
+  )),
+  "stroke": (
+    class: stroke,
+    property: stroke-width,
+    values: (
+      0: 0,
+      1: 1,
+      2: 2,
+    ),
+  ),
+  "top": map-merge(map-get($utilities, "top"), (
+    responsive: true,
+  )),
+  "status-color": (
+    css-var: true,
+    css-variable-name: status-color,
+    class: status,
+    values: (
+      danger: var(--#{$prefix}danger),
+      secondary: var(--#{$prefix}secondary),
+      success: var(--#{$prefix}success),
+      warning: var(--#{$prefix}warning),
+    ),
+  ),
+  "status-color-rgb": (
+    css-var: true,
+    css-variable-name: status-color-rgb,
+    class: status,
+    values: (
+      danger: var(--#{$prefix}danger-rgb),
+      secondary: var(--#{$prefix}secondary-rgb),
+      success: var(--#{$prefix}success-rgb),
+      warning: var(--#{$prefix}warning-rgb),
+    ),
+  ),
+  "subtle-background-color": map-merge(map-get($utilities, "subtle-background-color"), (
+    state: focus focus-visible hover,
+  )),
+  "text-decoration": map-merge(map-get($utilities, "text-decoration"), (
+    state: focus-visible hover,
+  )),
+  "text-decoration-style": (
+    class: text-decoration-style,
+    property: text-decoration-style,
+    values: (
+      dashed: dashed,
+      dotted: dotted,
+    ),
+  ),
+  "transition": (
+    local-vars: (
+      "transition-duration": 0.15s,
+    ),
+    property: transition,
+    values: (
+      "all": all var(--#{$prefix}transition-duration) ease-in-out,
+      "bg": background-color var(--#{$prefix}transition-duration) ease-in-out,
+      "color": color var(--#{$prefix}transition-duration) ease-in-out,
+      "padding-block": padding-block var(--#{$prefix}transition-duration) ease-in-out,
+    ),
+  ),
+  "transition-duration": (
+    css-var: true,
+    class: transition-duration,
+    values: (
+      "long": 1s,
+      "medium": 0.15s,
+    ),
+  ),
+  "white-space": map-merge(map-get($utilities, "white-space"), (
+    values: map-merge(map-get(map-get($utilities, "white-space"), "values"), (
+      pre-wrap: pre-wrap,
+    )),
+  )),
+  "width": map-merge(map-get($utilities, "width"), (
+    values: map-merge(map-get(map-get($utilities, "width"), "values"), map-merge($fixed-sizes, (
+      "33": 33.3333%,
+      "66": 66.6667%,
+    ))),
+  )),
+  "z-index": map-merge(map-get($utilities, "z-index"), (
+    state: focus focus-visible hover,
+  )),
+));

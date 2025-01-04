@@ -8,7 +8,7 @@ import ActivityOverlay from "~/components/ActivityOverlay";
 import FormTitle from "~/components/FormTitle";
 import Layout from "~/components/Layout";
 import Title from "~/components/Title";
-import useUser from "~/hooks/useUser";
+import useAuthentication from "~/hooks/useAuthentication";
 import { api } from "~/lib/api";
 import { setErrors } from "~/lib/form";
 import styles from "./PasswordReset.module.css";
@@ -28,7 +28,7 @@ type Form = {
 export default function PasswordReset() {
   const { showBoundary } = useErrorBoundary();
   const search = useSearch();
-  const user = useUser();
+  const user = useAuthentication();
   const token = new URLSearchParams(search).get("t");
   const [state, setState] = useState<State>({ isAlreadySignedIn: false, isPasswordUpdated: false, isTokenValid: false });
   const { clearErrors, formState: { errors, isSubmitting }, handleSubmit, register, reset, setError } = useForm<Form>();

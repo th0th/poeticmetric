@@ -8,7 +8,7 @@ import ActivityOverlay from "~/components/ActivityOverlay";
 import FormTitle from "~/components/FormTitle";
 import Layout from "~/components/Layout";
 import Title from "~/components/Title";
-import useUser from "~/hooks/useUser";
+import useAuthentication from "~/hooks/useAuthentication";
 import { api } from "~/lib/api";
 import { setErrors } from "~/lib/form";
 import styles from "./PasswordRecovery.module.css";
@@ -26,7 +26,7 @@ export default function PasswordRecovery() {
   const { showBoundary } = useErrorBoundary();
   const searchParams = useSearch();
   const [state, setState] = useState<State>({ isAlreadySignedIn: false, isEmailSent: false });
-  const user = useUser();
+  const user = useAuthentication();
   const { clearErrors, formState: { errors, isSubmitting }, handleSubmit, register, setError } = useForm<Form>({
     defaultValues: {
       userEmail: new URLSearchParams(searchParams).get("email") || "",
