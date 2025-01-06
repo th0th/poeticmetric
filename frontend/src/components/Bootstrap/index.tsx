@@ -1,10 +1,10 @@
+import { IconAlertTriangle } from "@tabler/icons-react";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
 import { Link } from "wouter";
 import ActivityOverlay from "~/components/ActivityOverlay";
-import Layout from "~/components/Layout";
 import Title from "~/components/Title";
 import { api } from "~/lib/api";
 import { base64Encode } from "~/lib/base64";
@@ -81,7 +81,7 @@ export default function Bootstrap() {
     <>
       <Title>Complete PoeticMetric installation</Title>
 
-      <Layout mainClassName="py-16">
+      <div className="py-16">
         {state.isReady === null ? (
           <div className="align-items-center d-flex flex-grow-1 justify-content-center">
             <div className="spinner spinner-border text-primary" role="status" />
@@ -115,6 +115,14 @@ export default function Bootstrap() {
                 <ActivityOverlay isActive={isSubmitting} />
 
                 <fieldset className="card-body gap-12 vstack" disabled={isSubmitting}>
+                  {errors.root ? (
+                    <div className="alert alert-danger align-items-center d-flex gap-6 mb-0 mt-16">
+                      <IconAlertTriangle className="flex-grow-0 flex-shrink-0" />
+
+                      {errors.root.message}
+                    </div>
+                  ) : null}
+
                   <div>
                     <label className="form-label" htmlFor="input-user-name">Full name</label>
 
@@ -210,7 +218,7 @@ export default function Bootstrap() {
             )}
           </div>
         )}
-      </Layout>
+      </div>
     </>
   );
 };

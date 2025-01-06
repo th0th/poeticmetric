@@ -1,69 +1,175 @@
-import { IconMenu2 } from "@tabler/icons-react";
+import { IconBrandLinkedin, IconMail, IconMenu2 } from "@tabler/icons-react";
 import clsx from "clsx";
-import { JSX, PropsWithoutRef, ReactNode, useEffect, useMemo, useState } from "react";
-import { Link, useLocation } from "wouter";
-import Collapse from "~/components/Collapse";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Dropdown, Nav, Navbar, NavItem, NavLink as BsNavLink, Offcanvas } from "react-bootstrap";
+import { Link, LinkProps } from "wouter";
 import Logo from "~/components/Logo";
-import styles from "./Header.module.css";
+import useAuthentication from "~/hooks/useAuthentication";
+import useHeaderVariant from "~/hooks/useHeaderVariant";
+import styles from "./Header.module.scss";
+import UserDropdown from "./UserDropdown";
 
-const links: Array<{ link: string; name: string }> = [
-  { link: "/", name: "Home" },
-  { link: "/manifesto", name: "Manifesto" },
-  { link: "/pricing", name: "Pricing" },
-  { link: "/docs", name: "Docs" },
-];
+type State = {
+  isOffcanvasShown: boolean;
+};
 
-export type HeaderProps = Overwrite<PropsWithoutRef<JSX.IntrinsicElements["header"]>, {
-  variant?: "basic" | "default";
-}>;
+type NavItemWithItems = {
+  items: Array<NavItemWithTo>;
+  title: string;
+};
 
-export default function Header({ variant = "default", ...props }: HeaderProps) {
-  const [location] = useLocation();
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+type NavItemWithTo = {
+  title: string;
+  to: LinkProps["to"];
+};
+
+type NavItem = NavItemWithItems | NavItemWithTo;
+
+export default function Header() {
+  const offcanvasBody = useRef<HTMLDivElement>(null);
+  const [state, setState] = useState<State>({ isOffcanvasShown: false });
+  const { user } = useAuthentication();
+  const variant = useHeaderVariant();
+
+  const navItems = useMemo<Array<NavItem>>(() => {
+    if (variant === "application") {
+      const v = [];
+
+      if (user !== undefined && user !== null && user.isEmailVerified) {
+        v.push(
+          { title: "Sites", to: "/sites" },
+          { title: "Team", to: "/team" },
+        );
+      }
+
+      return v;
+    }
+
+    if (variant === "site") {
+      return [
+        { title: "Home", to: "/" },
+        { title: "Manifesto", to: "/manifesto" },
+        { title: "Pricing", to: "/pricing" },
+        { title: "Docs", to: "/docs" },
+        { title: "Blog", to: "/blog" },
+      ];
+    }
+
+    return [];
+  }, [user, variant]);
+
+  const toggleOffcanvas = useCallback(() => {
+    setState((s) => ({ ...s, isOffcanvasShown: !s.isOffcanvasShown }));
+  }, []);
 
   useEffect(() => {
-    setIsDrawerOpen(false);
-  }, [location]);
+    function handleClick(event: MouseEvent) {
+      if (
+        event.target !== null
+        && "closest" in event.target
+        && typeof event.target.closest === "function"
+        && event.target.closest("a:not([role])") !== null
+      ) {
+        setState((s) => ({ ...s, isOffcanvasShown: false }));
+      }
+    }
 
-  const navLinks = useMemo<ReactNode>(() => (
-    <ul className={clsx(styles.navbarNav)}>
-      {links.map(({ link, name }) => (
-        <li key={name}>
-          <Link
-            className={(active) => clsx(styles.navLink, { active })}
-            to={link}
-          >
-            {name}
-          </Link>
-        </li>
-      ))}
-    </ul>
-  ), []);
+    window.addEventListener("click", handleClick);
+
+    return () => window.removeEventListener("click", handleClick);
+  }, []);
 
   return (
-    <header {...props}>
-      <nav className={clsx(styles.navbar)}>
-        <div className={clsx("container")}>
-          <Link className={clsx(styles.navbarBrand)} to="/">
-            <Logo height="36" />
-          </Link>
+    <Navbar
+      as="header"
+      className={clsx(
+        "backdrop-blur bg-body bg-opacity-50 border-bottom position-sticky py-0 sticky-top z-1046",
+        styles.header,
+      )}
+      expand="md"
+    >
+      <div className="container gap-4">
+        <Navbar.Toggle onClick={toggleOffcanvas}>
+          <IconMenu2 />
+        </Navbar.Toggle>
 
-          {variant === "basic" ? null : (
+        <Navbar.Brand as={Link} className={clsx("d-none d-sm-block me-1", styles.navbarBrand)} to="/">
+          <Logo className="d-block h-100" logotype={variant === "site"} />
+        </Navbar.Brand>
+
+        <Navbar.Offcanvas
+          backdrop={false}
+          className={clsx("backdrop-blur backdrop-md-none h-auto", styles.offcanvas)}
+          placement="top"
+          show={state.isOffcanvasShown}
+        >
+          <Offcanvas.Body className="d-flex flex-column flex-md-row" ref={offcanvasBody}>
+            <Nav className="me-md-auto px-4 px-md-0 py-3 py-md-0 text-center">
+              {navItems.map((navItem) => "items" in navItem ? (
+                <Dropdown as={NavItem} key={navItem.title}>
+                  <Dropdown.Toggle as={BsNavLink}>{navItem.title}</Dropdown.Toggle>
+
+                  <Dropdown.Menu className="text-center text-md-start">
+                    {navItem.items.map((subNavItem) => (
+                      <Dropdown.Item as={Link} key={subNavItem.title} to={subNavItem.to}>{subNavItem.title}</Dropdown.Item>
+                    ))}
+                  </Dropdown.Menu>
+                </Dropdown>
+              ) : (
+                <Nav.Item key={navItem.title}>
+                  <Nav.Link as={Link} to={navItem.to}>{navItem.title}</Nav.Link>
+                </Nav.Item>
+              ))}
+            </Nav>
+
+            <div className="align-items-center d-flex d-md-none flex-row gap-4 mt-auto">
+              <div className="align-items-center d-flex flex-row gal-2">
+                <a className="p-2" href="https://www.linkedin.com/company/webgazer/" target="_blank">
+                  <IconBrandLinkedin />
+                </a>
+
+                <a className="p-2" href="mailto:info@webgazer.io">
+                  <IconMail />
+                </a>
+              </div>
+
+              <div className="mx-auto" />
+
+              {user === null ? (
+                <>
+                  <Link className="btn btn-outline-primary" to="/sign-in">Sign in</Link>
+
+                  <Link className="btn btn-primary" to="/sign-up">Sign up</Link>
+                </>
+              ) : (
+                <>
+                  {variant === "site" ? (
+                    <Link className="btn btn-primary" to="/sites">Go to application</Link>
+                  ) : null}
+                </>
+              )}
+            </div>
+          </Offcanvas.Body>
+        </Navbar.Offcanvas>
+
+        <div className="gap-4 align-items-center d-flex flex-row ms-auto">
+          {user ? (
             <>
-              <button
-                className={clsx("button", styles.navbarToggler)}
-                onClick={() => setIsDrawerOpen((prev) => !prev)}
-              >
-                <IconMenu2 size={24} style={{ verticalAlign: "middle" }} />
-              </button>
+              {variant === "site" ? (
+                <Link className="btn btn-primary btn-sm d-none d-md-block" to="/sites">Go to application</Link>
+              ) : null}
 
-              <Collapse className={styles.navbarCollapse} open={isDrawerOpen}>
-                {navLinks}
-              </Collapse>
+              <UserDropdown />
+            </>
+          ) : (
+            <>
+              <Link className="btn btn-outline-primary btn-sm d-none d-sm-block" to="/sign-in">Sign in</Link>
+
+              <Link className="btn btn-primary btn-sm" to="/sign-up">Sign up</Link>
             </>
           )}
         </div>
-      </nav>
-    </header>
+      </div>
+    </Navbar>
   );
 }

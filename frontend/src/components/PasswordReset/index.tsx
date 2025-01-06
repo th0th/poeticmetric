@@ -1,23 +1,14 @@
-import { IconX } from "@tabler/icons-react";
+import { IconAlertTriangle } from "@tabler/icons-react";
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
-import { Link, useSearch } from "wouter";
+import { useSearch } from "wouter";
 import ActivityOverlay from "~/components/ActivityOverlay";
-import FormTitle from "~/components/FormTitle";
-import Layout from "~/components/Layout";
 import Title from "~/components/Title";
 import useAuthentication from "~/hooks/useAuthentication";
 import { api } from "~/lib/api";
 import { setErrors } from "~/lib/form";
-import styles from "./PasswordReset.module.css";
-
-type State = {
-  isAlreadySignedIn: boolean;
-  isPasswordUpdated: boolean;
-  isTokenValid: boolean;
-};
 
 type Form = {
   passwordResetToken: string;
@@ -28,40 +19,68 @@ type Form = {
 export default function PasswordReset() {
   const { showBoundary } = useErrorBoundary();
   const search = useSearch();
-  const user = useAuthentication();
-  const token = new URLSearchParams(search).get("t");
-  const [state, setState] = useState<State>({ isAlreadySignedIn: false, isPasswordUpdated: false, isTokenValid: false });
-  const { clearErrors, formState: { errors, isSubmitting }, handleSubmit, register, reset, setError } = useForm<Form>();
+  const { user } = useAuthentication();
+  const {
+    formState: { errors, isLoading, isSubmitSuccessful, isSubmitting },
+    handleSubmit,
+    register,
+    setError,
+    watch,
+  } = useForm<Form>({
+    defaultValues: async () => {
+      const values: Form = {
+        passwordResetToken: "",
+        userPassword: "",
+        userPassword2: "",
+      };
 
-  useEffect(() => {
-    if (user) {
-      setState((prev) => ({ ...prev, isAlreadySignedIn: true }));
+      try {
+        const passwordResetToken = new URLSearchParams(search).get("t") || "";
+        const response = await api.post("/authentication/reset-user-password", { passwordResetToken });
+        const responseJson = await response.json();
+
+        if (responseJson.passwordResetToken !== undefined) {
+          setError("passwordResetToken", { message: responseJson.passwordResetToken });
+        } else {
+          values.passwordResetToken = passwordResetToken;
+        }
+
+        return values;
+      } catch (e) {
+        showBoundary(e);
+      }
+
+      return values;
+    },
+  });
+  const passwordResetToken = watch("passwordResetToken");
+
+  const title = useMemo(() => {
+    if (isSubmitSuccessful) {
+      return "You are all set!";
+    } else if (user !== null) {
+      return "You are already in!";
+    } else {
+      return "Reset your password";
     }
-  }, [user]);
+  }, [isSubmitSuccessful, user]);
 
-  useEffect(() => {
-    setState((prev) => ({ ...prev, isTokenValid: !!token }));
-  }, [token]);
-
-  useEffect(() => {
-    if (!!errors.passwordResetToken) {
-      setState((prev) => ({ ...prev, isTokenValid: false }));
-
-      reset();
+  const description = useMemo(() => {
+    if (isSubmitSuccessful) {
+      return "You successfully reset your password.";
+    } else if (user !== null) {
+      return "You can reset your password from user settings.";
+    } else {
+      return "Enter a new password to access your account.";
     }
-  }, [errors.passwordResetToken]);
+  }, [isSubmitSuccessful, user]);
 
   async function submit(data: Form) {
     try {
-      const response = await api.post("/authentication/reset-user-password", {
-        ...data,
-      });
-
+      const response = await api.post("/authentication/reset-user-password", data);
       const responseJson = await response.json();
 
-      if (response.ok) {
-        setState((prev) => ({ ...prev, isPasswordUpdated: true }));
-      } else {
+      if (!response.ok) {
         setErrors(setError, responseJson);
       }
     } catch (error) {
@@ -71,128 +90,83 @@ export default function PasswordReset() {
 
   return (
     <>
-      <Title>Reset password</Title>
+      <Title>Password reset</Title>
 
-      <Layout className={styles.layout}>
-        {state.isAlreadySignedIn ? (
-          <div className="container">
-            <FormTitle
-              actions={(
-                <Link className="button button-lg button-blue" to="/settings">
-                  Go to settings
-                </Link>
-              )}
-              description="You can reset your password from user settings."
-              summary="Password reset"
-              title="You are already in!"
-            />
+      <div className="container mw-32rem py-16">
+        <div className="text-center">
+          <h1 className="fs-5_5 fw-bold text-primary-emphasis">Password recovery</h1>
+          <h2 className="display-5">{title}</h2>
+          <div className="fs-5_5 text-body-emphasis">{description}</div>
+        </div>
+
+        <div className="mt-16">
+          {isLoading ? (
+            <div className="d-flex justify-content-center">
+              <div className="spinner spinner-border text-primary" role="status" />
+            </div>
+          ) : null}
+        </div>
+
+        {passwordResetToken === "" ? (
+          <div className="alert alert-danger align-items-center d-flex gap-6 mb-0 mt-16">
+            <IconAlertTriangle className="flex-grow-0 flex-shrink-0" />
+
+            <div className="flex-grow-1">
+              This link is not valid, please request a new one. If you continue to have problems,
+              please
+              {" "}
+              <a
+                className="alert-link"
+                href="mailto:support@poeticmetric.com?subject=I%20am%20having%20issues%20resetting%20my%20password"
+                target="_blank"
+              >
+                contact support
+              </a>
+              .
+            </div>
           </div>
-        ) : state.isTokenValid ?
-          state.isPasswordUpdated ? (
-            <div className="container">
-              <FormTitle
-                actions={(
-                  <Link className="button button-lg button-blue" to="/sign-in">
-                    Sign in to your account
-                  </Link>
-                )}
-                description="You succesfully reset your password."
-                showGoBack={false}
-                summary="Password reset"
-                title="You are all set!"
-              />
-            </div>
-          ) : (
-            <div className="container">
-              <FormTitle
-                description="Enter a new password to access your account."
-                maxWidth="28rem"
-                showGoBack={false}
-                summary="Password reset"
-                title="Reset your password"
-              />
+        ) : (
+          <>
+            {isSubmitSuccessful ? null : (
+              <form className="card mt-16 overflow-hidden position-relative" onSubmit={handleSubmit(submit)}>
+                <ActivityOverlay isActive={isSubmitting} />
 
-              <div className={clsx("card", styles.card)}>
-                <ActivityOverlay isActive={isSubmitting}>
-                  <form className="card-body" onSubmit={handleSubmit(submit)}>
-                    <fieldset className="fieldset" disabled={isSubmitting}>
-                      {errors.root ? (
-                        <div className="alert alert-danger">
-                          <IconX className="icon" size={24} />
+                <fieldset className="card-body gap-12 vstack" disabled={isSubmitting}>
+                  <div>
+                    <label className="form-label" htmlFor="input-user-password">New password</label>
 
-                          {errors.root.message}
-                        </div>
-                      ) : null}
+                    <input
+                      className={clsx("form-control", { "is-invalid": errors.userPassword })}
+                      id="input-user-password"
+                      required
+                      type="password"
+                      {...register("userPassword")}
+                    />
 
-                      <input
-                        className={styles.visuallyHidden}
-                        {...register("passwordResetToken", {
-                          onChange: () => clearErrors(),
-                          value: token || "",
-                        })}
-                      />
+                    <div className="invalid-feedback">{errors.userPassword?.message}</div>
+                  </div>
 
-                      <div className="form-group">
-                        <label className="form-label" htmlFor="input-user-password">Password</label>
+                  <div>
+                    <label className="form-label" htmlFor="input-user-password2">New password (again)</label>
 
-                        <input
-                          className={clsx("input", (!!errors.userPassword || !!errors.root) && "input-invalid")}
-                          id="input-user-password"
-                          required
-                          type="password"
-                          {...register("userPassword", { onChange: () => clearErrors() })}
-                        />
+                    <input
+                      className={clsx("form-control", { "is-invalid": errors.userPassword2 })}
+                      id="input-user-password2"
+                      required
+                      type="password"
+                      {...register("userPassword2")}
+                    />
 
-                        {!!errors.userPassword ? (
-                          <div className="form-error">{errors.userPassword.message}</div>
-                        ) : null}
-                      </div>
+                    <div className="invalid-feedback">{errors.userPassword2?.message}</div>
+                  </div>
 
-                      <div className="form-group">
-                        <label className="form-label" htmlFor="input-user-password2">Password (again)</label>
-
-                        <input
-                          className={clsx("input", (!!errors.userPassword2 || !!errors.root) && "input-invalid")}
-                          id="input-user-password2"
-                          required
-                          type="password"
-                          {...register("userPassword2", { onChange: () => clearErrors() })}
-                        />
-
-                        {!!errors.userPassword2 ? (
-                          <div className="form-error">{errors.userPassword2.message}</div>
-                        ) : null}
-                      </div>
-
-                      <button className="button button-blue" type="submit">Reset password</button>
-                    </fieldset>
-                  </form>
-                </ActivityOverlay>
-              </div>
-            </div>
-          ) : (
-            <div className="container">
-              <FormTitle
-                actions={(
-                  <>
-                    <Link className="button button-lg button-blue" to="/forgot-password">
-                      Request new link
-                    </Link>
-
-                    <a className="button button-lg button-blue-ghost" href="mailto:support@poeticmetric.com">
-                      Contact support
-                    </a>
-                  </>
-                )}
-                description="Your link is invalid or expired. Request a new one or contact support for help."
-                maxWidth="28rem"
-                showGoBack={false}
-                summary="Password reset"
-                title="Ooops, invalid link!"
-              />
-            </div>
-          )}
-      </Layout>
+                  <button className="btn btn-primary" type="submit">Continue</button>
+                </fieldset>
+              </form>
+            )}
+          </>
+        )}
+      </div>
     </>
   );
 }

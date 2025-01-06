@@ -11,17 +11,7 @@ export default function ActivityOverlay({ className, isActive, ...props }: Activ
       {...props}
       className={clsx("align-items-center backdrop-blur d-flex justify-content-center position-absolute z-2 inset-0", className)}
     >
-      <div className="spinner" />
+      <div className="spinner spinner-border text-primary-emphasis" />
     </div>
   ) : null;
-
-  // return (
-  //   <div {...props} className={clsx(styles.activityOverlay, isActive && styles.active, className)}>
-  //     <div className={styles.overlay}></div>
-  //
-  //     <div className={clsx("spinner", styles.spinner)}></div>
-  //
-  //     {children}
-  //   </div>
-  // );
 }

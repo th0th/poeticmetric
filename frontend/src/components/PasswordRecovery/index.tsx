@@ -1,53 +1,54 @@
-import { IconX } from "@tabler/icons-react";
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
 import { Link, useSearch } from "wouter";
 import ActivityOverlay from "~/components/ActivityOverlay";
-import FormTitle from "~/components/FormTitle";
-import Layout from "~/components/Layout";
 import Title from "~/components/Title";
 import useAuthentication from "~/hooks/useAuthentication";
 import { api } from "~/lib/api";
 import { setErrors } from "~/lib/form";
-import styles from "./PasswordRecovery.module.css";
 
 type Form = {
-  userEmail: string;
-};
-
-type State = {
-  isAlreadySignedIn: boolean;
-  isEmailSent: boolean;
+  email: string;
 };
 
 export default function PasswordRecovery() {
   const { showBoundary } = useErrorBoundary();
   const searchParams = useSearch();
-  const [state, setState] = useState<State>({ isAlreadySignedIn: false, isEmailSent: false });
-  const user = useAuthentication();
-  const { clearErrors, formState: { errors, isSubmitting }, handleSubmit, register, setError } = useForm<Form>({
+  const { user } = useAuthentication();
+  const { formState: { errors, isSubmitSuccessful, isSubmitting }, handleSubmit, register, setError } = useForm<Form>({
     defaultValues: {
-      userEmail: new URLSearchParams(searchParams).get("email") || "",
+      email: new URLSearchParams(searchParams).get("email") || "",
     },
   });
 
-  useEffect(() => {
-    if (user) {
-      setState((prev) => ({ ...prev, isAlreadySignedIn: true }));
+  const title = useMemo(() => {
+    if (isSubmitSuccessful) {
+      return "Check your inbox";
+    } else if (user !== null) {
+      return "You are already in!";
+    } else {
+      return "Forgot password?";
     }
-  }, [user]);
+  }, [isSubmitSuccessful, user]);
+
+  const description = useMemo(() => {
+    if (isSubmitSuccessful) {
+      return "If there is an account associated with the e-mail address you provided, you will receive a password recovery link. Check your inbox and follow the instructions.";
+    } else if (user === null) {
+      return "Enter your email address and we will send you a link to reset your password.";
+    } else {
+      return "You can reset your password from user settings.";
+    }
+  }, [isSubmitSuccessful, user]);
 
   async function submit(data: Form) {
     try {
-      const response = await api.post("/authentication/send-user-password-recovery-email", {
-        email: data.userEmail,
-      });
+      const response = await api.post("/authentication/send-user-password-recovery-email", data);
       const responseJson = await response.json();
 
       if (response.ok) {
-        setState((prev) => ({ ...prev, isEmailSent: true }));
       } else {
         setErrors(setError, responseJson);
       }
@@ -58,90 +59,50 @@ export default function PasswordRecovery() {
 
   return (
     <>
-      <Title>Forgot password?</Title>
+      <Title>Password recovery</Title>
 
-      <Layout className={styles.layout}>
-        {state.isAlreadySignedIn ? (
-          <div className="container">
-            <FormTitle
-              actions={(
-                <Link className="button button-lg button-blue" to="/settings">
-                  Go to settings
-                </Link>
-              )}
-              description="You can reset your password from user settings."
-              summary="Password recovery"
-              title="You are already in!"
-            />
-          </div>
-        ) : state.isEmailSent ? (
-          <div className="container">
-            <FormTitle
-              actions={(
-                <Link className="button button-lg button-blue" to="/sign-in">
-                  Return to sign in
-                </Link>
-              )}
-              description="If the e-mail address exists in our database, you will receive a reset link. Check your inbox and follow the instructions."
-              maxWidth="28rem"
-              showGoBack={false}
-              summary="Password recovery"
-              title="Check your inbox"
-            />
-          </div>
-        ) : (
-          <div className="container">
-            <FormTitle
-              description="Enter your email address and we will send you a link to reset your password."
-              maxWidth="28rem"
-              showGoBack={false}
-              summary="Password recovery"
-              title="Forgot password?"
-            />
+      <div className="container mw-32rem py-16">
+        <div className="text-center">
+          <h1 className="fs-5_5 fw-bold text-primary-emphasis">Password recovery</h1>
+          <h2 className="display-5">{title}</h2>
+          <div className="fs-5_5 text-body-emphasis">{description}</div>
+        </div>
 
-            <div className={clsx("card", styles.card)}>
-              <ActivityOverlay isActive={isSubmitting}>
-                <form className="card-body" onSubmit={handleSubmit(submit)}>
-                  <fieldset className="fieldset" disabled={isSubmitting}>
-                    {errors.root ? (
-                      <div className="alert alert-danger">
-                        <IconX className="icon" size={24} />
+        {isSubmitSuccessful ? null : (
+          <form className="card mt-16 overflow-hidden position-relative" onSubmit={handleSubmit(submit)}>
+            <ActivityOverlay isActive={isSubmitting} />
 
-                        {errors.root.message}
-                      </div>
-                    ) : null}
+            <fieldset className="card-body gap-12 vstack" disabled={isSubmitting}>
+              <div>
+                <label className="form-label" htmlFor="input-email">E-mail address</label>
 
-                    <div className="form-group">
-                      <label className="form-label" htmlFor="input-user-email">E-mail address</label>
+                <input
+                  className={clsx("form-control", { "is-invalid": errors.email })}
+                  id="input-email"
+                  required
+                  type="email"
+                  {...register("email")}
+                />
 
-                      <input
-                        className={clsx("input", errors.userEmail || errors.root && "input-invalid")}
-                        id="input-user-email"
-                        required
-                        type="email"
-                        {...register("userEmail", { onChange: () => clearErrors() })}
-                      />
+                <div className="invalid-feedback">{errors.email?.message}</div>
+              </div>
 
-                      {!!errors.userEmail ? (
-                        <div className="form-error">{errors.userEmail.message}</div>
-                      ) : null}
-                    </div>
+              <button className="btn btn-primary" type="submit">Continue</button>
+            </fieldset>
 
-                    <button className="button button-blue" type="submit">Continue</button>
-                  </fieldset>
-                </form>
-
-                <div className="card-footer">
-                  <p className={styles.signInLink}>
-                    {"Remember your password? "}
-                    <Link className="link link-animate" to="/sign-in">Sign in</Link>
-                  </p>
-                </div>
-              </ActivityOverlay>
+            <div className="card-footer fs-7 text-center">
+              Remembered your password?
+              {" "}
+              <Link
+                className="fw-medium text-decoration-none text-decoration-underline-focus-visible text-decoration-underline-hover"
+                to="/sign-in"
+              >
+                Sign in
+              </Link>
             </div>
-          </div>
+          </form>
         )}
-      </Layout>
+      </div>
     </>
   );
 }

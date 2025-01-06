@@ -4,6 +4,7 @@ import jsxA11y from "eslint-plugin-jsx-a11y";
 import pluginReact from "eslint-plugin-react";
 import pluginSortDestructureKeys from "eslint-plugin-sort-destructure-keys";
 import pluginTypescriptSortKeys from "eslint-plugin-typescript-sort-keys";
+import pluginReactHooks from "eslint-plugin-react-hooks";
 import globals from "globals";
 import typescriptEslint from "typescript-eslint";
 
@@ -87,6 +88,16 @@ export default [
       "react/no-array-index-key": ["error"],
       "react/no-unescaped-entities": ["error"],
       "react/react-in-jsx-scope": "off",
+    },
+  },
+
+  // react hooks
+  {
+    plugins: {
+      "react-hooks": pluginReactHooks,
+    },
+    rules: {
+      ...pluginReactHooks.configs.recommended.rules,
     },
   },
 
