@@ -1,5 +1,5 @@
 import { IconBrandLinkedin, IconMail, IconMenu2 } from "@tabler/icons-react";
-import clsx from "clsx";
+import classNames from "classnames";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Dropdown, Nav, Navbar, NavItem, NavLink as BsNavLink, Offcanvas } from "react-bootstrap";
 import { Link, LinkProps } from "wouter";
@@ -82,7 +82,7 @@ export default function Header() {
   return (
     <Navbar
       as="header"
-      className={clsx(
+      className={classNames(
         "backdrop-blur bg-body bg-opacity-50 border-bottom position-sticky py-0 sticky-top z-1046",
         styles.header,
       )}
@@ -93,13 +93,13 @@ export default function Header() {
           <IconMenu2 />
         </Navbar.Toggle>
 
-        <Navbar.Brand as={Link} className={clsx("d-none d-sm-block me-1", styles.navbarBrand)} to="/">
+        <Navbar.Brand as={Link} className={classNames("d-none d-sm-block me-1", styles.navbarBrand)} to="/">
           <Logo className="d-block h-100" logotype={variant === "site"} />
         </Navbar.Brand>
 
         <Navbar.Offcanvas
           backdrop={false}
-          className={clsx("backdrop-blur backdrop-md-none h-auto", styles.offcanvas)}
+          className={classNames("backdrop-blur backdrop-md-none h-auto", styles.offcanvas)}
           placement="top"
           show={state.isOffcanvasShown}
         >

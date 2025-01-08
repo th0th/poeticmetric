@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import classNames from "classnames";
 import { useMemo } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
@@ -77,7 +77,7 @@ export default function PasswordRecovery() {
                 <label className="form-label" htmlFor="input-email">E-mail address</label>
 
                 <input
-                  className={clsx("form-control", { "is-invalid": errors.email })}
+                  className={classNames("form-control", { "is-invalid": errors.email })}
                   id="input-email"
                   required
                   type="email"

@@ -148,7 +148,7 @@ paths:
       - authentication
   /authentication/user:
     get:
-      description: Read currently authentication user
+      description: Read currently authenticated user
       responses:
         "200":
           description: OK
@@ -161,6 +161,22 @@ paths:
       security:
       - UserAccessTokenAuthentication: []
       summary: Read user
+      tags:
+      - authentication
+    patch:
+      description: Update currently authenticated user
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/poeticmetric.AuthenticationUser'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responder.DetailResponse'
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Update user
       tags:
       - authentication
   /authentication/user-access-tokens:

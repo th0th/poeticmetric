@@ -17,7 +17,7 @@
     "@vitejs/plugin-react-swc": "^3.7.2",
     "autoprefixer": "^10.4.20",
     "bootstrap": "^5.3.3",
-    "clsx": "^2.1.1",
+    "classnames": "^2.5.1",
     "compression": "^1.7.5",
     "cross-env": "^7.0.3",
     "express": "^5.0.1",

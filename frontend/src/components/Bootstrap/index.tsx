@@ -1,5 +1,5 @@
 import { IconAlertTriangle } from "@tabler/icons-react";
-import clsx from "clsx";
+import classNames from "classnames";
 import { useMemo } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
@@ -149,7 +149,7 @@ export default function Bootstrap() {
                         <label className="form-label" htmlFor="input-user-name">Full name</label>
 
                         <input
-                          className={clsx("form-control", { "is-invalid": errors.userName })}
+                          className={classNames("form-control", { "is-invalid": errors.userName })}
                           id="input-user-name"
                           required
                           {...register("userName")}
@@ -162,7 +162,7 @@ export default function Bootstrap() {
                         <label className="form-label" htmlFor="input-user-email">E-mail address</label>
 
                         <input
-                          className={clsx("form-control", { "is-invalid": errors.userEmail })}
+                          className={classNames("form-control", { "is-invalid": errors.userEmail })}
                           id="input-user-email"
                           required
                           type="email"
@@ -176,7 +176,7 @@ export default function Bootstrap() {
                         <label className="form-label" htmlFor="input-user-password">New password</label>
 
                         <input
-                          className={clsx("form-control", { "is-invalid": errors.userPassword })}
+                          className={classNames("form-control", { "is-invalid": errors.userPassword })}
                           id="input-user-password"
                           required
                           type="password"
@@ -190,7 +190,7 @@ export default function Bootstrap() {
                         <label className="form-label" htmlFor="input-user-password2">New password (again)</label>
 
                         <input
-                          className={clsx("form-control", { "is-invalid": errors.userPassword2 })}
+                          className={classNames("form-control", { "is-invalid": errors.userPassword2 })}
                           id="input-user-password2"
                           required
                           type="password"
@@ -204,7 +204,7 @@ export default function Bootstrap() {
                         <label className="form-label" htmlFor="input-organization-name">Organization</label>
 
                         <input
-                          className={clsx("form-control", { "is-invalid": errors.organizationName })}
+                          className={classNames("form-control", { "is-invalid": errors.organizationName })}
                           id="input-organization-name"
                           required
                           {...register("organizationName")}
@@ -216,7 +216,7 @@ export default function Bootstrap() {
                       <div>
                         <div className="form-check">
                           <input
-                            className={clsx("form-check-input", { "is-invalid": errors.createDemoSite })}
+                            className={classNames("form-check-input", { "is-invalid": errors.createDemoSite })}
                             id="input-create-demo-site"
                             type="checkbox"
                             {...register("createDemoSite")}

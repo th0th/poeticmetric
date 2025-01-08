@@ -1,5 +1,6 @@
-import clsx from "clsx";
+import classNames from "classnames";
 import { JSX, PropsWithoutRef } from "react";
+import ActivityIndicator from "~/components/ActivityIndicator";
 
 export type ActivityOverlayProps = Overwrite<Omit<PropsWithoutRef<JSX.IntrinsicElements["div"]>, "children">, {
   isActive: boolean;
@@ -9,9 +10,9 @@ export default function ActivityOverlay({ className, isActive, ...props }: Activ
   return isActive ? (
     <div
       {...props}
-      className={clsx("align-items-center backdrop-blur d-flex justify-content-center position-absolute z-2 inset-0", className)}
+      className={classNames("align-items-center backdrop-blur d-flex justify-content-center position-absolute z-2 inset-0", className)}
     >
-      <div className="spinner spinner-border text-primary-emphasis" />
+      <ActivityIndicator />
     </div>
   ) : null;
 }

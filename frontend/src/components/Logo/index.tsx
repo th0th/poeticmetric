@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import classNames from "classnames";
 import { m } from "framer-motion";
 import { JSX, PropsWithoutRef } from "react";
 
@@ -11,7 +11,7 @@ export default function Logo({ className, logotype = false }: Props) {
   return (
     <m.svg
       animate={{ viewBox: logotype ? "0 0 529 100" : "0 0 100 100" }}
-      className={clsx("text-body", className)}
+      className={classNames("text-body", className)}
       initial={{ viewBox: logotype ? "0 0 529 100" : "0 0 100 100" }}
       xmlns="http://www.w3.org/2000/svg"
     >

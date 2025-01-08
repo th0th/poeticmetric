@@ -1,5 +1,5 @@
 import { IconBrandGithub, IconBrandLinkedin, IconBrandX, TablerIcon } from "@tabler/icons-react";
-import clsx from "clsx";
+import classNames from "classnames";
 import { JSX, PropsWithoutRef } from "react";
 import { Link } from "wouter";
 import Logo from "~/components/Logo";
@@ -99,7 +99,7 @@ export default function Footer({ className, ...props }: FooterProps) {
   const isFooterRendered = useIsFooterRendered();
 
   return isFooterRendered ? (
-    <footer {...props} className={clsx("bg-body border-top mt-auto", className)}>
+    <footer {...props} className={classNames("bg-body border-top mt-auto", className)}>
       <div className="container py-16">
         <div className="d-flex flex-column-reverse flex-lg-row gap-8">
           <div
@@ -180,7 +180,7 @@ export default function Footer({ className, ...props }: FooterProps) {
 }
 
 function getNavColumnItemClassName(item: NavColumnItem) {
-  return clsx(
+  return classNames(
     "fw-regular my-1 nav-link py-1 text-decoration-underline-focus-visible text-decoration-underline-hover",
     item.fontWeight !== undefined ? `fw-${item.fontWeight}` : undefined,
     item.variant !== undefined ? `text-${item.variant}` : "text-body",

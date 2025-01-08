@@ -85,11 +85,37 @@ const docTemplate = `{
                         "UserAccessTokenAuthentication": []
                     }
                 ],
-                "description": "Read currently authentication user",
+                "description": "Read currently authenticated user",
                 "tags": [
                     "authentication"
                 ],
                 "summary": "Read user",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/poeticmetric.AuthenticationUser"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responder.DetailResponse"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Update currently authenticated user",
+                "tags": [
+                    "authentication"
+                ],
+                "summary": "Update user",
                 "responses": {
                     "200": {
                         "description": "OK",

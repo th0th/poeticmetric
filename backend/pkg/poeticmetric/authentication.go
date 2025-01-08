@@ -16,6 +16,7 @@ type AuthenticationService interface {
 	ReadUserByUserAccessToken(ctx context.Context, token string) (*User, *UserAccessToken, error)
 	ResetUserPassword(ctx context.Context, params *ResetUserPasswordParams) error
 	SendUserPasswordRecoveryEmail(ctx context.Context, params *SendUserPasswordRecoveryEmailParams) error
+	UpdateUser(ctx context.Context, userID uint, params *UpdateAuthenticationUserParams) error
 	ValidateUserPasswordResetToken(ctx context.Context, token string) (bool, error)
 }
 
@@ -43,6 +44,10 @@ type ResetUserPasswordParams struct {
 	PasswordResetToken *string
 	UserPassword       *string
 	UserPassword2      *string
+}
+
+type UpdateAuthenticationUserParams struct {
+	Name *string `json:"name"`
 }
 
 func (*AuthenticationUserAccessToken) TableName() string {

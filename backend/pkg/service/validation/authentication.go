@@ -2,11 +2,11 @@ package validation
 
 import (
 	"context"
-	"errors"
 	"fmt"
 
 	v "github.com/RussellLuo/validating/v3"
 	"github.com/RussellLuo/vext"
+	"github.com/go-errors/errors"
 	"gorm.io/gorm"
 
 	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
@@ -72,6 +72,28 @@ func (s *service) SendUserPasswordRecoveryEmailParams(ctx context.Context, param
 
 	if len(validationErrs) > 0 {
 		return validationErrs
+	}
+
+	return nil
+}
+
+func (s *service) UpdateAuthenticationUserParams(ctx context.Context, params *poeticmetric.UpdateAuthenticationUserParams) error {
+	validationErrs := v.Validate(v.Schema{
+		v.F("name", params.Name): v.Any(
+			v.Zero[*string](),
+
+			v.Nested(func(x *string) v.Validator {
+				return v.Value(*x, v.LenString(poeticmetric.UserNameMinLength, poeticmetric.UserNameMaxLength).Msg(fmt.Sprintf(
+					"The name must be between %d and %d characters long.",
+					poeticmetric.UserNameMinLength,
+					poeticmetric.UserNameMaxLength,
+				)))
+			}),
+		),
+	})
+
+	if len(validationErrs) > 0 {
+		return errors.Wrap(validationErrs, 0)
 	}
 
 	return nil

@@ -1,5 +1,5 @@
 import { IconAlertTriangle } from "@tabler/icons-react";
-import clsx from "clsx";
+import classNames from "classnames";
 import { useMemo } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
@@ -136,7 +136,7 @@ export default function PasswordReset() {
                     <label className="form-label" htmlFor="input-user-password">New password</label>
 
                     <input
-                      className={clsx("form-control", { "is-invalid": errors.userPassword })}
+                      className={classNames("form-control", { "is-invalid": errors.userPassword })}
                       id="input-user-password"
                       required
                       type="password"
@@ -150,7 +150,7 @@ export default function PasswordReset() {
                     <label className="form-label" htmlFor="input-user-password2">New password (again)</label>
 
                     <input
-                      className={clsx("form-control", { "is-invalid": errors.userPassword2 })}
+                      className={classNames("form-control", { "is-invalid": errors.userPassword2 })}
                       id="input-user-password2"
                       required
                       type="password"

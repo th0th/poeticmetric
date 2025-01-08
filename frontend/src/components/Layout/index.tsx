@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import classNames from "classnames";
 import { JSX, PropsWithoutRef, ReactNode } from "react";
 import Header from "~/components/Header";
 
@@ -12,7 +12,7 @@ export default function Layout({ children, mainClassName }: LayoutProps) {
     <>
       <Header />
 
-      <main className={clsx("d-flex flex-grow-1", mainClassName)}>{children}</main>
+      <main className={classNames("d-flex flex-grow-1", mainClassName)}>{children}</main>
     </>
   );
 }

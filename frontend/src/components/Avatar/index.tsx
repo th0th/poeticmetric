@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import classNames from "classnames";
 import md5 from "md5";
 import { ForwardedRef, forwardRef, JSX, PropsWithoutRef, useMemo } from "react";
 
@@ -19,7 +19,7 @@ function Avatar({ alt, className, email, size = 32, ...props }: AvatarProps, ref
     <img
       {...props}
       alt={alt}
-      className={clsx("rounded-circle", className)}
+      className={classNames("rounded-circle", className)}
       loading="lazy"
       ref={ref}
       src={src}
