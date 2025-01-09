@@ -4,8 +4,8 @@ $size: 2em;
   align-items: flex-end;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   height: $size;
+  justify-content: space-between;
   width: $size;
 
   .line {
@@ -28,6 +28,7 @@ $size: 2em;
   0% {
     height: 0;
   }
+
   100% {
     height: 75%;
   }

@@ -1,15 +1,19 @@
 {
-  "extends": "stylelint-config-recommended",
+  "extends": ["stylelint-config-standard-scss"],
   "plugins": [
     "stylelint-order"
   ],
   "rules": {
     "color-function-notation": null,
     "order/properties-alphabetical-order": true,
+    "scss/at-extend-no-missing-placeholder": null,
+    "scss/no-global-function-names": null,
     "selector-pseudo-class-no-unknown": [
       true,
       {
-        "ignorePseudoClasses": ["global"]
+        "ignorePseudoClasses": [
+          "global"
+        ]
       }
     ]
   }
