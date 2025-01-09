@@ -27,7 +27,7 @@ export default function useAuthenticationUser(config?: Config): Response {
     }
 
     return hydrateAuthenticationUser(data);
-  }, []);
+  }, [baseFetcher]);
 
   return useSWR<HydratedData, Error>("/authentication/user", { ...config, fetcher });
 }
