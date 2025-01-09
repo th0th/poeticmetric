@@ -19,7 +19,7 @@ export default function AuthenticationProvider({ children }: { children: ReactNo
     if (error !== undefined) {
       showBoundary(error);
     }
-  }, []);
+  }, [error, showBoundary]);
 
   return (
     <AuthenticationContext.Provider
