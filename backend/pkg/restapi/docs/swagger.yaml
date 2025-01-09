@@ -105,6 +105,23 @@ info:
   title: PoeticMetric REST API
   version: "1.0"
 paths:
+  /authentication/change-user-password:
+    post:
+      description: Change currently authenticated user's password
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responder.DetailResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responder.DetailResponse'
+      security:
+      - BasicAuthentication: []
+      summary: Change password
+      tags:
+      - authentication
   /authentication/reset-user-password:
     post:
       description: Reset user's password also deleting all existing user access tokens
@@ -148,7 +165,7 @@ paths:
       - authentication
   /authentication/user:
     get:
-      description: Read currently authentication user
+      description: Read currently authenticated user
       responses:
         "200":
           description: OK
@@ -161,6 +178,22 @@ paths:
       security:
       - UserAccessTokenAuthentication: []
       summary: Read user
+      tags:
+      - authentication
+    patch:
+      description: Update currently authenticated user
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/poeticmetric.AuthenticationUser'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responder.DetailResponse'
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Update user
       tags:
       - authentication
   /authentication/user-access-tokens:
@@ -263,6 +296,6 @@ securityDefinitions:
   UserAccessTokenAuthentication:
     description: User access token authentication
     in: header
-    name: Authorization
+    name: authorization
     type: apiKey
 swagger: "2.0"

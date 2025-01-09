@@ -8,6 +8,7 @@ import (
 type AuthenticationService interface {
 	ServiceWithPostgres
 
+	ChangeUserPassword(ctx context.Context, userID uint, params *ChangeUserPasswordParams) error
 	CreateUserAccessToken(ctx context.Context, userID uint) (*AuthenticationUserAccessToken, error)
 	DeleteUserAccessToken(ctx context.Context, userAccessTokenID uint) error
 	ReadUser(ctx context.Context, userID uint) (*AuthenticationUser, error)
@@ -16,6 +17,7 @@ type AuthenticationService interface {
 	ReadUserByUserAccessToken(ctx context.Context, token string) (*User, *UserAccessToken, error)
 	ResetUserPassword(ctx context.Context, params *ResetUserPasswordParams) error
 	SendUserPasswordRecoveryEmail(ctx context.Context, params *SendUserPasswordRecoveryEmailParams) error
+	UpdateUser(ctx context.Context, userID uint, params *UpdateAuthenticationUserParams) error
 	ValidateUserPasswordResetToken(ctx context.Context, token string) (bool, error)
 }
 
@@ -35,6 +37,11 @@ type AuthenticationUserAccessToken struct {
 	Token     string    `json:"token"`
 }
 
+type ChangeUserPasswordParams struct {
+	NewPassword  *string `json:"newPassword"`
+	NewPassword2 *string `json:"newPassword2"`
+}
+
 type SendUserPasswordRecoveryEmailParams struct {
 	Email *string `json:"email"`
 }
@@ -43,6 +50,10 @@ type ResetUserPasswordParams struct {
 	PasswordResetToken *string
 	UserPassword       *string
 	UserPassword2      *string
+}
+
+type UpdateAuthenticationUserParams struct {
+	Name *string `json:"name"`
 }
 
 func (*AuthenticationUserAccessToken) TableName() string {

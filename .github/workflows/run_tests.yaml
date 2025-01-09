@@ -65,7 +65,7 @@ jobs:
         filter_mode: nofilter
         github_token: ${{ secrets.GITHUB_TOKEN }}
         reporter: github-pr-review
-        stylelint_input: "**/*.css"
+        stylelint_input: "src/**/*.scss"
         workdir: frontend
 
   backend:
