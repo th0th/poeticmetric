@@ -101,7 +101,7 @@ func Test_service_Create(t *testing.T) {
 				},
 			},
 			setup: func() {
-				mockValidationService.On("CreateSiteParams", mock.Anything, mock.Anything).Return(nil)
+				mockValidationService.On("CreateSiteParams", mock.Anything, uint(1), mock.Anything).Return(nil)
 
 				sqlMock.ExpectBegin()
 				sqlMock.ExpectQuery(insertQuery).
