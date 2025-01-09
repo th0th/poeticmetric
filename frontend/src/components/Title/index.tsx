@@ -1,5 +1,4 @@
 import { useMemo } from "react";
-import { Helmet } from "react-helmet-async";
 
 export type TitleProps = {
   children: string;
@@ -16,9 +15,9 @@ export default function Title({ children, template = "default" }: TitleProps) {
   }, [children, template]);
 
   return (
-    <Helmet>
+    <>
       <title>{title}</title>
       <meta content={title} property="og:title" />
-    </Helmet>
+    </>
   );
 }

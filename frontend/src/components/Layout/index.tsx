@@ -1,20 +1,18 @@
-import clsx from "clsx";
-import { JSX, PropsWithoutRef } from "react";
-import Header, { HeaderProps } from "~/components/Header";
-import styles from "./Layout.module.css";
+import classNames from "classnames";
+import { JSX, PropsWithoutRef, ReactNode } from "react";
+import Header from "~/components/Header";
 
-export type LayoutProps = Overwrite<PropsWithoutRef<JSX.IntrinsicElements["main"]>, {
-  headerProps?: HeaderProps;
-}>;
+export type LayoutProps = {
+  children: ReactNode;
+  mainClassName?: PropsWithoutRef<JSX.IntrinsicElements["main"]>["className"];
+};
 
-export default function Layout({ children, className, headerProps, ...props }: LayoutProps) {
+export default function Layout({ children, mainClassName }: LayoutProps) {
   return (
     <>
-      <Header {...headerProps} />
+      <Header />
 
-      <main {...props} className={clsx(styles.layout, className)}>
-        {children}
-      </main>
+      <main className={classNames("d-flex flex-grow-1", mainClassName)}>{children}</main>
     </>
   );
 }

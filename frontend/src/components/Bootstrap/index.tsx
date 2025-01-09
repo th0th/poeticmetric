@@ -1,20 +1,19 @@
-import { IconX } from "@tabler/icons-react";
-import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { IconAlertTriangle } from "@tabler/icons-react";
+import classNames from "classnames";
+import { useMemo } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
 import { Link } from "wouter";
 import ActivityOverlay from "~/components/ActivityOverlay";
-import Layout from "~/components/Layout";
 import Title from "~/components/Title";
-import { base64Encode } from "~/helpers/base64";
 import { api } from "~/lib/api";
+import { base64Encode } from "~/lib/base64";
 import { setErrors } from "~/lib/form";
 import { setUserAccessToken } from "~/lib/user-access-token";
-import styles from "./Bootstrap.module.css";
 
 type Form = {
   createDemoSite: boolean;
+  isAlreadyDone: boolean;
   organizationName: string;
   userEmail: string;
   userName: string;
@@ -22,16 +21,60 @@ type Form = {
   userPassword2: string;
 };
 
-type State = {
-  isAlreadyBootstrapped: boolean;
-  isBootstrapComplete: boolean;
-  isInProgress: boolean;
-};
-
 export default function Bootstrap() {
   const { showBoundary } = useErrorBoundary();
-  const [state, setState] = useState<State>({ isAlreadyBootstrapped: false, isBootstrapComplete: false, isInProgress: true });
-  const { formState: { errors, isSubmitting }, handleSubmit, register, setError } = useForm<Form>({});
+  const { formState: { errors, isLoading, isSubmitSuccessful, isSubmitting }, handleSubmit, register, setError, watch } = useForm<Form>({
+    defaultValues: async () => {
+      const values: Form = {
+        createDemoSite: false,
+        isAlreadyDone: false,
+        organizationName: "",
+        userEmail: "",
+        userName: "",
+        userPassword: "",
+        userPassword2: "",
+      };
+
+      try {
+        const response = await api.get("/bootstrap");
+
+        if (response.status === 400) {
+          values.isAlreadyDone = true;
+        }
+      } catch (e) {
+        showBoundary(e);
+      }
+
+      return values;
+    },
+  });
+  const isAlreadyDone = watch("isAlreadyDone");
+
+  const title = useMemo(() => {
+    if (isAlreadyDone) {
+      return "You are all set!";
+    } else if (isSubmitSuccessful) {
+      return "Installation is complete";
+    } else {
+      return (
+        <>
+          Welcome to
+          <br />
+          PoeticMetric!
+        </>
+      );
+    }
+  }, [isAlreadyDone, isSubmitSuccessful]);
+
+  const description = useMemo(() => {
+    if (isAlreadyDone) {
+      return "It looks like PoeticMetric has already been installed.";
+    } else if (isSubmitSuccessful) {
+      return "That's all folks!";
+    } else {
+      return "Complete PoeticMetric installation to continue.";
+    }
+  }, [isAlreadyDone, isSubmitSuccessful]);
 
   async function submit(data: Form) {
     try {
@@ -41,220 +84,161 @@ export default function Bootstrap() {
       if (response.ok) {
         const accessTokenResponse = await api.post("/authentication/user-access-tokens", undefined, {
           headers: {
-            authorization: `Basic ${base64Encode(`${data.userEmail}:${data.userPassword}`)}`,
+            authorization: `basic ${base64Encode(`${data.userEmail}:${data.userPassword}`)}`,
           },
         });
 
         const accessTokenResponseJson = await accessTokenResponse.json();
 
         if (accessTokenResponse.ok) {
-          setUserAccessToken(accessTokenResponseJson.accessToken);
+          setUserAccessToken(accessTokenResponseJson.token);
         } else {
           setErrors(setError, accessTokenResponseJson);
         }
-        setState((prev) => ({ ...prev, isBootstrapComplete: true }));
       } else {
         setErrors(setError, responseJson);
       }
-    } catch (error) {
-      showBoundary(error);
+    } catch (e) {
+      showBoundary(e);
     }
   }
-
-  useEffect(() => {
-    async function run() {
-      try {
-        const response = await api.get("/bootstrap");
-
-        if (!response.ok) {
-          setState((prev) => ({ ...prev, isAlreadyBootstrapped: true }));
-        }
-      } catch (error) {
-        showBoundary(error);
-      } finally {
-        setState((prev) => ({ ...prev, isInProgress: false }));
-      }
-    }
-
-    run();
-  }, []);
 
   return (
     <>
       <Title>Complete PoeticMetric installation</Title>
 
-      {state.isInProgress ? (
-        <Layout>
-          <div className="spinner-full">
-            <div className="spinner spinner-lg" />
+      <div className="py-16">
+        {isLoading ? (
+          <div className="align-items-center d-flex flex-grow-1 justify-content-center">
+            <div className="spinner spinner-border text-primary" role="status" />
           </div>
-        </Layout>
-      ) : state.isAlreadyBootstrapped ? (
-        <Layout>
-          <div className="container">
-            <div className={styles.title}>
-              <small className={styles.summary}>Bootstrap</small>
+        ) : (
+          <div className="container mw-32rem">
+            <div className="text-center">
+              <h1 className="fs-5_5 fw-bold text-primary-emphasis">Bootstrap</h1>
 
-              <h1 className={styles.heading}>
-                Already bootstrapped!
-              </h1>
+              <h2 className="display-5">{title}</h2>
 
-              <p>
-                It looks like PoeticMetric has already been installed.
-              </p>
+              <div className="fs-5_5 text-body-emphasis">{description}</div>
+            </div>
 
-              <div className={styles.buttonGroup}>
-                <Link className="button button-lg button-blue" to="/">
-                  Return home
-                </Link>
-
-                <a className="button button-lg button-blue-ghost" href="mailto:support@poeticmetric.com">
-                  Contact support
-                </a>
+            {isAlreadyDone ? (
+              <div className="text-center mt-8">
+                <Link className="btn btn-primary" to="/">Return home</Link>
               </div>
-            </div>
-          </div>
-        </Layout>
-      ) : state.isBootstrapComplete ? (
-        <Layout>
-          <div className="container">
-            <div className={styles.title}>
-              <small className={styles.summary}>Bootstrap</small>
+            ) : (
+              <>
+                {isSubmitSuccessful ? (
+                  <div className="text-center mt-8">
+                    <Link className="btn btn-primary" to="/">Go to app</Link>
+                  </div>
+                ) : (
+                  <form className="card mt-16 overflow-hidden position-relative" onSubmit={handleSubmit(submit)}>
+                    <ActivityOverlay isActive={isSubmitting} />
 
-              <h1 className={styles.heading}>
-                You are all set!
-              </h1>
+                    <fieldset className="card-body gap-12 vstack" disabled={isSubmitting}>
+                      {errors.root ? (
+                        <div className="alert alert-danger align-items-center d-flex gap-6 mb-0 mt-16">
+                          <IconAlertTriangle className="flex-grow-0 flex-shrink-0" />
 
-              <p>
-                PoeticMetric has been successfully installed.
-              </p>
+                          {errors.root.message}
+                        </div>
+                      ) : null}
 
-              <div className={styles.buttonGroup}>
-                <Link className="button button-lg button-blue" to="/sites">
-                  Go to dashboard
-                </Link>
-              </div>
-            </div>
-          </div>
-        </Layout>
-      ) : (
-        <Layout>
-          <div className="container">
-            <div className={styles.title}>
-              <small className={styles.summary}>Bootstrap</small>
+                      <div>
+                        <label className="form-label" htmlFor="input-user-name">Full name</label>
 
-              <h1 className={styles.heading}>
-                Welcome to
-                <br />
-                PoeticMetric!
-              </h1>
-
-              <p>Complete PoeticMetric installation to continue.</p>
-            </div>
-
-            <div className={clsx("card", styles.card)}>
-              <ActivityOverlay isActive={isSubmitting}>
-                <form className="card-body" onSubmit={handleSubmit(submit)}>
-                  <fieldset className="fieldset" disabled={isSubmitting}>
-                    {errors.root ? (
-                      <div className="alert alert-danger">
-                        <IconX className="icon" size={24} />
-
-                        {errors.root.message}
-                      </div>
-                    ) : null}
-
-                    <div className="form-group">
-                      <label className="form-label" htmlFor="input-user-name">Full name</label>
-
-                      <input
-                        className={clsx("input", !!errors.userName || !!errors.root && "input-invalid")}
-                        id="input-user-name"
-                        required
-                        {...register("userName")}
-                      />
-
-                      {!!errors.userName ? (<div>{errors.userName.message}</div>) : null}
-                    </div>
-
-                    <div className="form-group">
-                      <label className="form-label" htmlFor="input-user-email">E-mail address</label>
-
-                      <input
-                        className={clsx("input", !!errors.userEmail || !!errors.root && "input-invalid")}
-                        id="input-user-email"
-                        required
-                        type="email"
-                        {...register("userEmail")}
-                      />
-
-                      {!!errors.userEmail ? (<div className="form-error">{errors.userEmail.message}</div>) : null}
-                    </div>
-
-                    <div className="form-group">
-                      <label className="form-label" htmlFor="input-user-password">New password</label>
-
-                      <input
-                        className={clsx("input", !!errors.userPassword || !!errors.root && "input-invalid")}
-                        id="input-user-password"
-                        required
-                        type="password"
-                        {...register("userPassword")}
-                      />
-
-                      {!!errors.userPassword ? (<div className="form-error">{errors.userPassword.message}</div>) : null}
-                    </div>
-
-                    <div className="form-group">
-                      <label className="form-label" htmlFor="input-user-password2">New password (again)</label>
-
-                      <input
-                        className={clsx("input", !!errors.userPassword2 || !!errors.root && "input-invalid")}
-                        id="input-user-password2"
-                        required
-                        type="password"
-                        {...register("userPassword2")}
-                      />
-
-                      {!!errors.userPassword2 ? (<div className="form-error">{errors.userPassword2.message}</div>) : null}
-                    </div>
-
-                    <div className="form-group">
-                      <label className="form-label" htmlFor="input-organization-name">Organization</label>
-
-                      <input
-                        className={clsx("input", !!errors.organizationName || !!errors.root && "input-invalid")}
-                        id="input-organization-name"
-                        required
-                        {...register("organizationName")}
-                      />
-
-                      {!!errors.organizationName ? (<div className="form-error">{errors.organizationName.message}</div>) : null}
-                    </div>
-
-                    <div className="form-group">
-                      <div className="form-group-inline">
                         <input
-                          className={clsx(!!errors.createDemoSite || !!errors.root && "input-invalid")}
-                          id="input-create-demo-site"
-                          type="checkbox"
-                          {...register("createDemoSite")}
+                          className={classNames("form-control", { "is-invalid": errors.userName })}
+                          id="input-user-name"
+                          required
+                          {...register("userName")}
                         />
 
-                        <label htmlFor="input-create-demo-site">Create demo site</label>
+                        <div className="invalid-feedback">{errors.userName?.message}</div>
                       </div>
 
-                      {!!errors.createDemoSite ? (<div className="form-error">{errors.createDemoSite.message}</div>) : null}
-                    </div>
+                      <div>
+                        <label className="form-label" htmlFor="input-user-email">E-mail address</label>
 
-                    <button className="button button-blue" type="submit">Complete installation</button>
-                  </fieldset>
-                </form>
-              </ActivityOverlay>
-            </div>
+                        <input
+                          className={classNames("form-control", { "is-invalid": errors.userEmail })}
+                          id="input-user-email"
+                          required
+                          type="email"
+                          {...register("userEmail")}
+                        />
+
+                        <div className="invalid-feedback">{errors.userEmail?.message}</div>
+                      </div>
+
+                      <div>
+                        <label className="form-label" htmlFor="input-user-password">New password</label>
+
+                        <input
+                          className={classNames("form-control", { "is-invalid": errors.userPassword })}
+                          id="input-user-password"
+                          required
+                          type="password"
+                          {...register("userPassword")}
+                        />
+
+                        <div className="invalid-feedback">{errors.userPassword?.message}</div>
+                      </div>
+
+                      <div>
+                        <label className="form-label" htmlFor="input-user-password2">New password (again)</label>
+
+                        <input
+                          className={classNames("form-control", { "is-invalid": errors.userPassword2 })}
+                          id="input-user-password2"
+                          required
+                          type="password"
+                          {...register("userPassword2")}
+                        />
+
+                        <div className="invalid-feedback">{errors.userPassword2?.message}</div>
+                      </div>
+
+                      <div>
+                        <label className="form-label" htmlFor="input-organization-name">Organization</label>
+
+                        <input
+                          className={classNames("form-control", { "is-invalid": errors.organizationName })}
+                          id="input-organization-name"
+                          required
+                          {...register("organizationName")}
+                        />
+
+                        <div className="invalid-feedback">{errors.organizationName?.message}</div>
+                      </div>
+
+                      <div>
+                        <div className="form-check">
+                          <input
+                            className={classNames("form-check-input", { "is-invalid": errors.createDemoSite })}
+                            id="input-create-demo-site"
+                            type="checkbox"
+                            {...register("createDemoSite")}
+                          />
+
+                          <label className="form-check-label" htmlFor="input-create-demo-site">
+                            Create demo site
+                          </label>
+
+                          <div className="invalid-feedback">{errors.createDemoSite?.message}</div>
+                        </div>
+                      </div>
+
+                      <button className="btn btn-primary" type="submit">Complete installation</button>
+                    </fieldset>
+                  </form>
+                )}
+              </>
+            )}
           </div>
-        </Layout>
-      )}
+        )}
+      </div>
     </>
   );
-}
+};

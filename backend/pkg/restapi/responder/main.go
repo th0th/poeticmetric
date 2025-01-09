@@ -2,6 +2,7 @@ package responder
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"os"
 
@@ -36,11 +37,11 @@ func (r *Responder) Detail(w http.ResponseWriter, detail string) {
 }
 
 func (r *Responder) Error(w http.ResponseWriter, err error) {
-	var validationErrors v.Errors
-	if errors.As(err, &validationErrors) {
+	var validationErrs v.Errors
+	if errors.As(err, &validationErrs) {
 		validationErrMap := map[string]string{}
-		for _, validationError := range validationErrors {
-			validationErrMap[validationError.Field()] = validationError.Message()
+		for _, validationErr := range validationErrs {
+			validationErrMap[validationErr.Field()] = validationErr.Message()
 		}
 
 		w.WriteHeader(http.StatusUnprocessableEntity)
@@ -51,8 +52,14 @@ func (r *Responder) Error(w http.ResponseWriter, err error) {
 	w.WriteHeader(http.StatusInternalServerError)
 
 	detail := "An error has occurred."
+
 	if r.envService.Debug() {
 		detail = err.Error()
+
+		var wrappedErr *errors.Error
+		if errors.As(err, &wrappedErr) {
+			detail = fmt.Sprintf("%s\n%s", wrappedErr.Err.Error(), wrappedErr.ErrorStack())
+		}
 	}
 
 	Logger.Err(err).Msg("an error has occurred")

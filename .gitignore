@@ -4,5 +4,8 @@
 /.idea/sqldialects.xml
 /.idea/workspace.xml
 
-/etc/*/secrets.yaml
+# frontend
+/frontend/node_modules
+
+# others
 .DS_Store

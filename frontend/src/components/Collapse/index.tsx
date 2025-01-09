@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import classNames from "classnames";
 import { JSX, PropsWithoutRef, useEffect, useRef, useState } from "react";
 import styles from "./Collapse.module.css";
 
@@ -29,7 +29,7 @@ export default function Collapse({ children, className, open, resolution = "lg",
   return (
     <div
       {...props}
-      className={clsx(styles.collapse, styles[`collapse-${resolution}`], className)}
+      className={classNames(styles.collapse, styles[`collapse-${resolution}`], className)}
       ref={containerRef}
     >
       <div className={styles.content} ref={contentRef}>

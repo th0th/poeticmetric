@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import classNames from "classnames";
 import { PropsWithoutRef, ReactNode, JSX } from "react";
 import styles from "./FormTitle.module.css";
 import { IconChevronLeft } from "@tabler/icons-react";
@@ -26,7 +26,7 @@ export default function FormTitle(
   return (
     <div
       {...props}
-      className={clsx(styles.formTitle, className)}
+      className={classNames(styles.formTitle, className)}
       style={{ maxWidth }}
     >
       <p className={styles.summary}>{summary}</p>
@@ -48,7 +48,7 @@ export default function FormTitle(
       {showGoBack ? (
         <button
           aria-label="Go back"
-          className={clsx("button", "button-sm", styles.goBack)}
+          className={classNames("button", "button-sm", styles.goBack)}
           onClick={() => history.back()}
         >
           <IconChevronLeft size="1rem" />

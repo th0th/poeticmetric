@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+. $(dirname "$(readlink -f "$0")")/base
+KUBERNETES_CONTEXT=$(kubernetes-context)
+KUBERNETES_NAMESPACE=$(kubernetes-namespace)
+
+ACTION=$1
+
+MIGRATE_ARGS=()
+
+if [ "$ACTION" == "create" ]; then
+  MIGRATE_ARGS+=(
+    'create'
+    '-dir "/poeticmetric/pkg/service/migration/files/postgres"'
+    '-ext sql'
+    '-seq'
+    "${@:2}"
+  )
+else
+  MIGRATE_ARGS+=(
+    '-database "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DATABASE}?sslmode=disable"'
+    '-source "file:///poeticmetric/pkg/service/migration/files/postgres"'
+    "$@"
+  )
+fi
+
+echo ${MIGRATE_ARGS[@]}
+
+MIGRATE_CMD="migrate ${MIGRATE_ARGS[@]}"
+
+kubectl \
+  --context "${KUBERNETES_CONTEXT}" \
+  --namespace ${KUBERNETES_NAMESPACE} \
+  exec deployment/poeticmetric-rest-api -- \
+    bash -c "${MIGRATE_CMD}"

@@ -16,6 +16,34 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/authentication/change-user-password": {
+            "post": {
+                "security": [
+                    {
+                        "BasicAuthentication": []
+                    }
+                ],
+                "description": "Change currently authenticated user's password",
+                "tags": [
+                    "authentication"
+                ],
+                "summary": "Change password",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responder.DetailResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responder.DetailResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/authentication/reset-user-password": {
             "post": {
                 "description": "Reset user's password also deleting all existing user access tokens for that user.",
@@ -85,11 +113,37 @@ const docTemplate = `{
                         "UserAccessTokenAuthentication": []
                     }
                 ],
-                "description": "Read currently authentication user",
+                "description": "Read currently authenticated user",
                 "tags": [
                     "authentication"
                 ],
                 "summary": "Read user",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/poeticmetric.AuthenticationUser"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responder.DetailResponse"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Update currently authenticated user",
+                "tags": [
+                    "authentication"
+                ],
+                "summary": "Update user",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -418,7 +472,7 @@ const docTemplate = `{
         "UserAccessTokenAuthentication": {
             "description": "User access token authentication",
             "type": "apiKey",
-            "name": "Authorization",
+            "name": "authorization",
             "in": "header"
         }
     }

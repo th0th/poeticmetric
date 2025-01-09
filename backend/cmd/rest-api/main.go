@@ -8,6 +8,7 @@ import (
 
 	"github.com/justinas/alice"
 	goredis "github.com/redis/go-redis/v9"
+	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/hlog"
 	httpswagger "github.com/swaggo/http-swagger/v2"
 	limiterredis "github.com/ulule/limiter/v3/drivers/store/redis"
@@ -16,6 +17,7 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/th0th/poeticmetric/backend/cmd"
+	"github.com/th0th/poeticmetric/backend/pkg/lib/log"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/docs"
 	authenticationhandler "github.com/th0th/poeticmetric/backend/pkg/restapi/handler/authentication"
 	bootstraphandler "github.com/th0th/poeticmetric/backend/pkg/restapi/handler/bootstrap"
@@ -43,8 +45,10 @@ var ctx = context.Background()
 // @securityDefinitions.apiKey UserAccessTokenAuthentication
 // @description User access token authentication
 // @in header
-// @name Authorization
+// @name authorization
 func main() {
+	zerolog.ErrorStackMarshaler = log.MarshalStack
+
 	// services
 	envService, err := env.New()
 	if err != nil {
@@ -142,6 +146,8 @@ func main() {
 	mux.Handle("GET /authentication/user", permissionUserAccessTokenAuthenticated.ThenFunc(authenticationHandler.ReadUser))
 	mux.Handle("POST /authentication/user-access-tokens", sensitiveRateLimit.Extend(permissionBasicAuthenticated).ThenFunc(authenticationHandler.CreateUserAccessToken))
 	mux.Handle("DELETE /authentication/user-access-tokens", permissionUserAccessTokenAuthenticated.ThenFunc(authenticationHandler.DeleteUserAccessToken))
+	mux.Handle("PATCH /authentication/user", permissionUserAccessTokenAuthenticated.ThenFunc(authenticationHandler.UpdateUser))
+	mux.Handle("POST /authentication/change-user-password", permissionBasicAuthenticated.ThenFunc(authenticationHandler.ChangeUserPassword))
 	mux.HandleFunc("POST /authentication/send-user-password-recovery-email", authenticationHandler.SendUserPasswordRecoveryEmail)
 	mux.HandleFunc("POST /authentication/reset-user-password", authenticationHandler.ResetUserPassword)
 
