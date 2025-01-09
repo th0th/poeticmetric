@@ -12,6 +12,42 @@ import (
 	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
 )
 
+func (s *service) ChangeUserPasswordParams(ctx context.Context, params *poeticmetric.ChangeUserPasswordParams) error {
+	validationErrs := v.Validate(v.Schema{
+		v.F("newPassword", params.NewPassword): v.All(
+			v.Nonzero[*string]().Msg("This field is required."),
+
+			v.Nested(func(x *string) v.Validator {
+				return v.Value(*x, v.LenString(poeticmetric.UserPasswordMinLength, poeticmetric.UserPasswordMaxLength).Msg(fmt.Sprintf(
+					"New password should be between %d and %d characters in length.",
+					poeticmetric.UserPasswordMinLength,
+					poeticmetric.UserPasswordMaxLength,
+				)))
+			}),
+		),
+
+		v.F("newPassword2", params.NewPassword2): v.All(
+			v.Nonzero[*string]().Msg("This field is required."),
+
+			v.Any(
+				v.Is(func(_ *string) bool {
+					return params.NewPassword == nil
+				}),
+
+				v.Nested(func(x *string) v.Validator {
+					return v.Value(*x, v.Eq(*params.NewPassword).Msg("Passwords don't match."))
+				}),
+			),
+		),
+	})
+
+	if len(validationErrs) > 0 {
+		return errors.Wrap(validationErrs, 0)
+	}
+
+	return nil
+}
+
 func (s *service) ResetUserPasswordParams(ctx context.Context, params *poeticmetric.ResetUserPasswordParams) error {
 	errs := []error{}
 

@@ -28,9 +28,9 @@ export default function App({ path }: AppProps) {
         <Router ssrPath={path}>
           <SWRConfig>
             <AuthenticationProvider>
-              <Suspense fallback={(<h1>Loading</h1>)}>
-                <Header />
+              <Header />
 
+              <Suspense fallback={(<h1>Loading</h1>)}>
                 <Switch>
                   <Route component={Home} path="/" />
                   <Route component={Bootstrap} path="/bootstrap" />
@@ -46,9 +46,9 @@ export default function App({ path }: AppProps) {
                     <Error />
                   </Route>
                 </Switch>
-
-                <Footer />
               </Suspense>
+
+              <Footer />
             </AuthenticationProvider>
           </SWRConfig>
         </Router>

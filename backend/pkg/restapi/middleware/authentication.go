@@ -33,7 +33,7 @@ func AuthenticationHandler(
 ) func(handler http.Handler) http.Handler {
 	return func(handler http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			authorizationHeader := r.Header.Get("Authorization")
+			authorizationHeader := r.Header.Get("authorization")
 
 			var authentication *Authentication
 			var err error
@@ -86,7 +86,7 @@ func SetAuthentication(ctx context.Context, authentication *Authentication) cont
 }
 
 func basicAuthentication(authenticationService poeticmetric.AuthenticationService, r *http.Request) (*Authentication, error) {
-	authorizationHeader := r.Header.Get("Authorization")
+	authorizationHeader := r.Header.Get("authorization")
 	credentialsByte, err := base64.StdEncoding.DecodeString(authorizationHeader[6:])
 	if err != nil {
 		return nil, errAuthenticationFailed
@@ -115,7 +115,7 @@ func basicAuthentication(authenticationService poeticmetric.AuthenticationServic
 }
 
 func userAccessTokenAuthentication(authenticationService poeticmetric.AuthenticationService, r *http.Request) (*Authentication, error) {
-	authorizationHeader := r.Header.Get("Authorization")
+	authorizationHeader := r.Header.Get("authorization")
 	token := authorizationHeader[7:]
 
 	user, userAccessToken, err := authenticationService.ReadUserByUserAccessToken(r.Context(), token)

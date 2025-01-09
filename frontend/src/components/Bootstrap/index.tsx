@@ -84,7 +84,7 @@ export default function Bootstrap() {
       if (response.ok) {
         const accessTokenResponse = await api.post("/authentication/user-access-tokens", undefined, {
           headers: {
-            authorization: `Basic ${base64Encode(`${data.userEmail}:${data.userPassword}`)}`,
+            authorization: `basic ${base64Encode(`${data.userEmail}:${data.userPassword}`)}`,
           },
         });
 

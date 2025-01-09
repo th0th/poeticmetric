@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { lazy } from "react";
-import { Link, Route } from "wouter";
+import { Link, Redirect, Route } from "wouter";
 import Breadcrumb from "~/components/Breadcrumb";
 import Title from "~/components/Title";
 import useAuthentication from "~/hooks/useAuthentication";
@@ -90,8 +90,9 @@ export default function Settings() {
           </div>
 
           <div className="col">
-            <Route component={Password} path="/settings/password" />
-            <Route component={Profile} path="/settings/profile" />
+              <Route path="/settings"><Redirect to="/settings/profile" /></Route>
+              <Route component={Password} path="/settings/password" />
+              <Route component={Profile} path="/settings/profile" />
           </div>
         </div>
       </div>

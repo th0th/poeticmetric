@@ -11,6 +11,10 @@ type ValidationServiceMock struct {
 	mock.Mock
 }
 
+func (m *ValidationServiceMock) CreateSiteParams(ctx context.Context, organizationID uint, params *CreateSiteParams) error {
+	return m.Called(ctx, params).Error(0)
+}
+
 func (m *ValidationServiceMock) ResetUserPasswordParams(ctx context.Context, params *ResetUserPasswordParams) error {
 	return m.Called(ctx, params).Error(0)
 }
@@ -19,10 +23,10 @@ func (m *ValidationServiceMock) SendUserPasswordRecoveryEmailParams(ctx context.
 	return m.Called(ctx, params).Error(0)
 }
 
-func (m *ValidationServiceMock) CreateSiteParams(ctx context.Context, organizationID uint, params *CreateSiteParams) error {
-	return m.Called(ctx, params).Error(0)
-}
-
 func (m *ValidationServiceMock) Postgres() *gorm.DB {
 	return m.Called().Get(0).(*gorm.DB)
+}
+
+func (m *ValidationServiceMock) UpdateAuthenticationUserParams(ctx context.Context, params *UpdateAuthenticationUserParams) error {
+	return m.Called(ctx, params).Error(0)
 }

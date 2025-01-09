@@ -3,7 +3,6 @@ import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
-import ActivityOverlay from "~/components/ActivityOverlay";
 import { api } from "~/lib/api";
 import { setErrors } from "~/lib/form";
 
@@ -13,12 +12,12 @@ type Form = {
 };
 
 type State = {
-  isSuccessful: boolean;
+  isDone: boolean;
 };
 
 export default function Profile() {
   const { showBoundary } = useErrorBoundary();
-  const [state, setState] = useState<State>({ isSuccessful: false });
+  const [state, setState] = useState<State>({ isDone: false });
   const {
     formState: { errors, isSubmitSuccessful, isSubmitting },
     handleSubmit,
@@ -56,7 +55,7 @@ export default function Profile() {
         setErrors(setError, responseJson);
       } else {
         reset({ name: responseJson.name });
-        setState((s) => ({ ...s, isSuccessful: true }));
+        setState((s) => ({ ...s, isDone: true }));
       }
     } catch (e) {
       showBoundary(e);
@@ -65,21 +64,21 @@ export default function Profile() {
 
   useEffect(() => {
     const { unsubscribe } = watch(() => {
-      setState((s) => ({ ...s, isSuccessful: false }));
+      if (state.isDone) {
+        setState((s) => ({ ...s, isDone: false }));
+      }
     });
 
     return () => unsubscribe();
-  }, [isSubmitSuccessful, watch]);
+  }, [isSubmitSuccessful, state.isDone, watch]);
 
   return (
     <>
       <h2 className="fs-5">Profile</h2>
 
-      <form className="card overflow-hidden position-relative" onSubmit={handleSubmit(submit)}>
-        <ActivityOverlay isActive={isSubmitting} />
-
-        <fieldset className="card-body gap-16 vstack" disabled={isSubmitting}>
-          {state.isSuccessful ? (
+      <form className="card" onSubmit={handleSubmit(submit)}>
+        <fieldset className="card-body gap-12 vstack" disabled={isSubmitting}>
+          {state.isDone ? (
             <div className="alert alert-success align-items-center d-flex gap-6 mb-0">
               <IconCircleCheck className="flex-grow-0 flex-shrink-0" />
 
@@ -123,7 +122,13 @@ export default function Profile() {
           </div>
 
           <div>
-            <button className="btn btn-primary" type="submit">Update my profile</button>
+            <button className="align-items-center btn btn-primary d-flex gap-4 justify-content-center" type="submit">
+              {isSubmitting ? (
+                <span className="spinner-border spinner-border-sm" />
+              ) : null}
+
+              <span>Update my profile</span>
+            </button>
           </div>
         </fieldset>
       </form>

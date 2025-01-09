@@ -8,6 +8,7 @@ import (
 type AuthenticationService interface {
 	ServiceWithPostgres
 
+	ChangeUserPassword(ctx context.Context, userID uint, params *ChangeUserPasswordParams) error
 	CreateUserAccessToken(ctx context.Context, userID uint) (*AuthenticationUserAccessToken, error)
 	DeleteUserAccessToken(ctx context.Context, userAccessTokenID uint) error
 	ReadUser(ctx context.Context, userID uint) (*AuthenticationUser, error)
@@ -34,6 +35,11 @@ type AuthenticationUserAccessToken struct {
 	CreatedAt time.Time `json:"createdAt"`
 	ID        uint      `json:"id"`
 	Token     string    `json:"token"`
+}
+
+type ChangeUserPasswordParams struct {
+	NewPassword  *string `json:"newPassword"`
+	NewPassword2 *string `json:"newPassword2"`
 }
 
 type SendUserPasswordRecoveryEmailParams struct {
