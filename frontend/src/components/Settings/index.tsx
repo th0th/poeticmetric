@@ -3,12 +3,13 @@ import { lazy } from "react";
 import { Link, Redirect, Route } from "wouter";
 import Breadcrumb from "~/components/Breadcrumb";
 import Title from "~/components/Title";
+import withAuthorization from "~/components/withAuthorization";
 import useAuthentication from "~/hooks/useAuthentication";
 
 const Password = lazy(() => import("./Password"));
 const Profile = lazy(() => import("./Profile"));
 
-export default function Settings() {
+function Settings() {
   const { user } = useAuthentication();
 
   return (
@@ -90,12 +91,14 @@ export default function Settings() {
           </div>
 
           <div className="col">
-              <Route path="/settings"><Redirect to="/settings/profile" /></Route>
-              <Route component={Password} path="/settings/password" />
-              <Route component={Profile} path="/settings/profile" />
+            <Route path="/settings"><Redirect to="/settings/profile" /></Route>
+            <Route component={Password} path="/settings/password" />
+            <Route component={Profile} path="/settings/profile" />
           </div>
         </div>
       </div>
     </>
   );
 }
+
+export default withAuthorization(Settings, { isAuthenticated: true });

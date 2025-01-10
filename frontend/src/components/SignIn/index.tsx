@@ -19,7 +19,7 @@ export default function SignIn() {
   const { showBoundary } = useErrorBoundary();
   const [, navigate] = useLocation();
   const searchParams = useSearch();
-  const { user } = useAuthentication();
+  const { refresh, user } = useAuthentication();
   const { formState: { errors, isSubmitting }, handleSubmit, register, setError, watch } = useForm<Form>();
   const userEmail = watch("userEmail");
 
@@ -32,7 +32,7 @@ export default function SignIn() {
     try {
       const response = await api.post("/authentication/user-access-tokens", undefined, {
         headers: {
-          authorization: `Basic ${base64Encode(`${data.userEmail}:${data.userPassword}`)}`,
+          authorization: `basic ${base64Encode(`${data.userEmail}:${data.userPassword}`)}`,
         },
       });
 
@@ -40,6 +40,7 @@ export default function SignIn() {
 
       if (response.ok) {
         setUserAccessToken(responseJson.token);
+        await refresh();
 
         const next = new URLSearchParams(searchParams).get("next");
 
