@@ -1,12 +1,11 @@
 import { IconAlertTriangle } from "@tabler/icons-react";
 import classNames from "classnames";
-import { useMemo } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
 import { useSearch } from "wouter";
 import ActivityOverlay from "~/components/ActivityOverlay";
 import Title from "~/components/Title";
-import useAuthentication from "~/hooks/useAuthentication";
+import withAuthorization from "~/components/withAuthorization";
 import { api } from "~/lib/api";
 import { setErrors } from "~/lib/form";
 
@@ -16,10 +15,9 @@ type Form = {
   userPassword2: string;
 };
 
-export default function PasswordReset() {
+function PasswordReset() {
   const { showBoundary } = useErrorBoundary();
   const search = useSearch();
-  const { user } = useAuthentication();
   const {
     formState: { errors, isLoading, isSubmitSuccessful, isSubmitting },
     handleSubmit,
@@ -55,26 +53,6 @@ export default function PasswordReset() {
   });
   const passwordResetToken = watch("passwordResetToken");
 
-  const title = useMemo(() => {
-    if (isSubmitSuccessful) {
-      return "You are all set!";
-    } else if (user !== null) {
-      return "You are already in!";
-    } else {
-      return "Reset your password";
-    }
-  }, [isSubmitSuccessful, user]);
-
-  const description = useMemo(() => {
-    if (isSubmitSuccessful) {
-      return "You successfully reset your password.";
-    } else if (user !== null) {
-      return "You can reset your password from user settings.";
-    } else {
-      return "Enter a new password to access your account.";
-    }
-  }, [isSubmitSuccessful, user]);
-
   async function submit(data: Form) {
     try {
       const response = await api.post("/authentication/reset-user-password", data);
@@ -95,8 +73,10 @@ export default function PasswordReset() {
       <div className="container mw-32rem py-16">
         <div className="text-center">
           <h1 className="fs-5_5 fw-bold text-primary-emphasis">Password recovery</h1>
-          <h2 className="display-5">{title}</h2>
-          <div className="fs-5_5 text-body-emphasis">{description}</div>
+          <h2 className="display-5">{isSubmitSuccessful ? "You are all set!" : "Reset your password"}</h2>
+          <div className="fs-5_5 text-body-emphasis">
+            {isSubmitSuccessful ? "Your password is successfully reset." : "Enter a new password to access your account."}
+          </div>
         </div>
 
         <div className="mt-16">
@@ -170,3 +150,5 @@ export default function PasswordReset() {
     </>
   );
 }
+
+export default withAuthorization(PasswordReset, { isAuthenticated: false });
