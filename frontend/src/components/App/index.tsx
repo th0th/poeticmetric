@@ -1,6 +1,7 @@
 import { domAnimation, LazyMotion } from "framer-motion";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useMemo } from "react";
 import { Route, Router, Switch } from "wouter";
+import ActivityIndicator from "~/components/ActivityIndicator";
 import AppErrorBoundary from "~/components/AppErrorBoundary";
 import Error from "~/components/Error";
 import Footer from "~/components/Footer";
@@ -22,6 +23,12 @@ const Settings = lazy(() => import("~/components/Settings"));
 const SignIn = lazy(() => import("~/components/SignIn"));
 
 export default function App({ path }: AppProps) {
+  const suspenseFallback = useMemo(() => (
+    <div className="align-items-center d-flex flex-grow-1 justify-content-center">
+      <ActivityIndicator />
+    </div>
+  ), []);
+
   return (
     <AppErrorBoundary>
       <LazyMotion features={domAnimation}>
@@ -30,7 +37,7 @@ export default function App({ path }: AppProps) {
             <AuthenticationProvider>
               <Header />
 
-              <Suspense fallback={(<h1>Loading</h1>)}>
+              <Suspense fallback={suspenseFallback}>
                 <Switch>
                   <Route component={Home} path="/" />
                   <Route component={Bootstrap} path="/bootstrap" />

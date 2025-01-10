@@ -1,11 +1,10 @@
 import classNames from "classnames";
-import { useMemo } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
 import { Link, useSearch } from "wouter";
 import ActivityOverlay from "~/components/ActivityOverlay";
 import Title from "~/components/Title";
-import useAuthentication from "~/hooks/useAuthentication";
+import withAuthorization from "~/components/withAuthorization";
 import { api } from "~/lib/api";
 import { setErrors } from "~/lib/form";
 
@@ -13,35 +12,14 @@ type Form = {
   email: string;
 };
 
-export default function PasswordRecovery() {
+function PasswordRecovery() {
   const { showBoundary } = useErrorBoundary();
   const searchParams = useSearch();
-  const { user } = useAuthentication();
   const { formState: { errors, isSubmitSuccessful, isSubmitting }, handleSubmit, register, setError } = useForm<Form>({
     defaultValues: {
       email: new URLSearchParams(searchParams).get("email") || "",
     },
   });
-
-  const title = useMemo(() => {
-    if (isSubmitSuccessful) {
-      return "Check your inbox";
-    } else if (user !== null) {
-      return "You are already in!";
-    } else {
-      return "Forgot password?";
-    }
-  }, [isSubmitSuccessful, user]);
-
-  const description = useMemo(() => {
-    if (isSubmitSuccessful) {
-      return "If there is an account associated with the e-mail address you provided, you will receive a password recovery link. Check your inbox and follow the instructions.";
-    } else if (user === null) {
-      return "Enter your email address and we will send you a link to reset your password.";
-    } else {
-      return "You can reset your password from user settings.";
-    }
-  }, [isSubmitSuccessful, user]);
 
   async function submit(data: Form) {
     try {
@@ -64,8 +42,10 @@ export default function PasswordRecovery() {
       <div className="container mw-32rem py-16">
         <div className="text-center">
           <h1 className="fs-5_5 fw-bold text-primary-emphasis">Password recovery</h1>
-          <h2 className="display-5">{title}</h2>
-          <div className="fs-5_5 text-body-emphasis">{description}</div>
+          <h2 className="display-5">{isSubmitSuccessful ? "Check your inbox" : "Forgot password?"}</h2>
+          <div className="fs-5_5 text-body-emphasis">
+            {isSubmitSuccessful ? "If there is an account associated with the e-mail address you provided, you will receive a password recovery link. Check your inbox and follow the instructions." : "Enter your email address and we will send you a link to reset your password."}
+          </div>
         </div>
 
         {isSubmitSuccessful ? null : (
@@ -106,3 +86,5 @@ export default function PasswordRecovery() {
     </>
   );
 }
+
+export default withAuthorization(PasswordRecovery, { isAuthenticated: false });
