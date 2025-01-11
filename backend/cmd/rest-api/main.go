@@ -143,10 +143,12 @@ func main() {
 	permissionWrite := alice.New(middleware.PermissionOrganizationOwner(responder))
 
 	// handlers: authentication
+	mux.Handle("GET /authentication/organization", permissionUserAccessTokenAuthenticated.ThenFunc(authenticationHandler.ReadOrganization))
 	mux.Handle("GET /authentication/user", permissionUserAccessTokenAuthenticated.ThenFunc(authenticationHandler.ReadUser))
 	mux.Handle("POST /authentication/user-access-tokens", sensitiveRateLimit.Extend(permissionBasicAuthenticated).ThenFunc(authenticationHandler.CreateUserAccessToken))
 	mux.Handle("DELETE /authentication/user-access-tokens", permissionUserAccessTokenAuthenticated.ThenFunc(authenticationHandler.DeleteUserAccessToken))
 	mux.Handle("PATCH /authentication/user", permissionUserAccessTokenAuthenticated.ThenFunc(authenticationHandler.UpdateUser))
+	mux.Handle("PATCH /authentication/organization", permissionUserAccessTokenAuthenticated.Append(permissionWrite.Then).ThenFunc(authenticationHandler.UpdateOrganization))
 	mux.Handle("POST /authentication/change-user-password", permissionBasicAuthenticated.ThenFunc(authenticationHandler.ChangeUserPassword))
 	mux.HandleFunc("POST /authentication/send-user-password-recovery-email", authenticationHandler.SendUserPasswordRecoveryEmail)
 	mux.HandleFunc("POST /authentication/reset-user-password", authenticationHandler.ResetUserPassword)

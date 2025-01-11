@@ -1,4 +1,9 @@
 definitions:
+  poeticmetric.AuthenticationOrganization:
+    properties:
+      name:
+        type: string
+    type: object
   poeticmetric.AuthenticationUser:
     properties:
       createdAt:
@@ -120,6 +125,39 @@ paths:
       security:
       - BasicAuthentication: []
       summary: Change password
+      tags:
+      - authentication
+  /authentication/organization:
+    get:
+      description: Read currently authenticated user's organization
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/poeticmetric.AuthenticationOrganization'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responder.DetailResponse'
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read organization
+      tags:
+      - authentication
+    patch:
+      description: Update currently authenticated user's organization
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/poeticmetric.AuthenticationOrganization'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responder.DetailResponse'
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Update organization
       tags:
       - authentication
   /authentication/reset-user-password:

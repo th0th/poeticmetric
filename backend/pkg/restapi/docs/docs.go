@@ -44,6 +44,60 @@ const docTemplate = `{
                 }
             }
         },
+        "/authentication/organization": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read currently authenticated user's organization",
+                "tags": [
+                    "authentication"
+                ],
+                "summary": "Read organization",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/poeticmetric.AuthenticationOrganization"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responder.DetailResponse"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Update currently authenticated user's organization",
+                "tags": [
+                    "authentication"
+                ],
+                "summary": "Update organization",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/poeticmetric.AuthenticationOrganization"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responder.DetailResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/authentication/reset-user-password": {
             "post": {
                 "description": "Reset user's password also deleting all existing user access tokens for that user.",
@@ -312,6 +366,14 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "poeticmetric.AuthenticationOrganization": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "poeticmetric.AuthenticationUser": {
             "type": "object",
             "properties": {
