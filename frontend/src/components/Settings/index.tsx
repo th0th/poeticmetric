@@ -6,6 +6,7 @@ import Title from "~/components/Title";
 import withAuthorization from "~/components/withAuthorization";
 import useAuthentication from "~/hooks/useAuthentication";
 
+const OrganizationDetails = lazy(() => import("./OrganizationDetails"));
 const Password = lazy(() => import("./Password"));
 const Profile = lazy(() => import("./Profile"));
 
@@ -91,9 +92,11 @@ function Settings() {
           </div>
 
           <div className="col">
-            <Route path="/settings"><Redirect to="/settings/profile" /></Route>
+            <Route component={OrganizationDetails} path="/settings/organization-details" />
             <Route component={Password} path="/settings/password" />
             <Route component={Profile} path="/settings/profile" />
+
+            <Route path="/settings"><Redirect to="/settings/profile" /></Route>
           </div>
         </div>
       </div>

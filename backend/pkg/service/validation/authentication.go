@@ -48,6 +48,8 @@ func (s *service) ChangeUserPasswordParams(ctx context.Context, params *poeticme
 	return nil
 }
 
+
+
 func (s *service) ResetUserPasswordParams(ctx context.Context, params *poeticmetric.ResetUserPasswordParams) error {
 	errs := []error{}
 
@@ -135,6 +137,28 @@ func (s *service) UpdateAuthenticationUserParams(ctx context.Context, params *po
 	return nil
 }
 
+func (s *service) UpdateOrganizationParams(ctx context.Context, params *poeticmetric.UpdateOrganizationParams) error {
+	validationErrs := v.Validate(v.Schema{
+		v.F("name", params.Name): v.Any(
+			v.Zero[*string](),
+
+			v.Nested(func(x *string) v.Validator {
+				return v.Value(*x, v.LenString(poeticmetric.OrganizationNameMinLength, poeticmetric.OrganizationNameMaxLength).Msg(fmt.Sprintf(
+					"This field should be between %d and %d characters in length.",
+					poeticmetric.OrganizationNameMinLength,
+					poeticmetric.OrganizationNameMaxLength,
+				)))
+			}),
+		),
+	})
+
+	if len(validationErrs) > 0 {
+		return errors.Wrap(validationErrs, 0)
+	}
+
+	return nil
+}
+
 func (s *service) userPasswordResetToken(ctx context.Context, token string) (bool, error) {
 	postgres := poeticmetric.ServicePostgres(ctx, s)
 
@@ -149,3 +173,4 @@ func (s *service) userPasswordResetToken(ctx context.Context, token string) (boo
 
 	return true, nil
 }
+

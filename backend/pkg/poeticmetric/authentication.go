@@ -11,14 +11,20 @@ type AuthenticationService interface {
 	ChangeUserPassword(ctx context.Context, userID uint, params *ChangeUserPasswordParams) error
 	CreateUserAccessToken(ctx context.Context, userID uint) (*AuthenticationUserAccessToken, error)
 	DeleteUserAccessToken(ctx context.Context, userAccessTokenID uint) error
+	ReadOrganization(ctx context.Context, organizationID uint) (*AuthenticationOrganization, error)
 	ReadUser(ctx context.Context, userID uint) (*AuthenticationUser, error)
 	ReadUserAccessToken(ctx context.Context, userAccessTokenID uint) (*AuthenticationUserAccessToken, error)
 	ReadUserByEmailPassword(ctx context.Context, email string, password string) (*User, error)
 	ReadUserByUserAccessToken(ctx context.Context, token string) (*User, *UserAccessToken, error)
 	ResetUserPassword(ctx context.Context, params *ResetUserPasswordParams) error
 	SendUserPasswordRecoveryEmail(ctx context.Context, params *SendUserPasswordRecoveryEmailParams) error
+	UpdateOrganization(ctx context.Context, organizationID uint, params *UpdateOrganizationParams) error
 	UpdateUser(ctx context.Context, userID uint, params *UpdateAuthenticationUserParams) error
 	ValidateUserPasswordResetToken(ctx context.Context, token string) (bool, error)
+}
+
+type AuthenticationOrganization struct {
+	Name string `json:"name"`
 }
 
 type AuthenticationUser struct {
@@ -54,6 +60,14 @@ type ResetUserPasswordParams struct {
 
 type UpdateAuthenticationUserParams struct {
 	Name *string `json:"name"`
+}
+
+type UpdateOrganizationParams struct {
+	Name *string `json:"name"`
+}
+
+func (o *AuthenticationOrganization) TableName() string {
+	return "organizations"
 }
 
 func (*AuthenticationUserAccessToken) TableName() string {

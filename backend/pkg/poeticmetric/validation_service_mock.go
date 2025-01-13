@@ -34,3 +34,7 @@ func (m *ValidationServiceMock) SendUserPasswordRecoveryEmailParams(ctx context.
 func (m *ValidationServiceMock) UpdateAuthenticationUserParams(ctx context.Context, params *UpdateAuthenticationUserParams) error {
 	return m.Called(ctx, params).Error(0)
 }
+
+func (m *ValidationServiceMock) UpdateOrganizationParams(ctx context.Context, params *UpdateOrganizationParams) error {
+	return m.Called(ctx, params).Error(0)
+}
