@@ -12,7 +12,7 @@ MIGRATE_ARGS=()
 if [ "$ACTION" == "create" ]; then
   MIGRATE_ARGS+=(
     'create'
-    '-dir "/poeticmetric/pkg/service/migration/files/clickhouse"'
+    '-dir "/poeticmetric/pkg/lib/migration/files/clickhouse"'
     '-ext sql'
     '-seq'
     "${@:2}"
@@ -20,7 +20,7 @@ if [ "$ACTION" == "create" ]; then
 else
   MIGRATE_ARGS+=(
     '-database "clickhouse://${CLICKHOUSE_HOST}:${CLICKHOUSE_PORT}?username=${CLICKHOUSE_USER}&password=${CLICKHOUSE_PASSWORD}&database=${CLICKHOUSE_DATABASE}&x-multi-statement=true"'
-    '-source "file:///poeticmetric/pkg/service/migration/files/clickhouse"'
+    '-source "file:///poeticmetric/pkg/lib/migration/files/clickhouse"'
     "$@"
   )
 fi

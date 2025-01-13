@@ -12,7 +12,7 @@ MIGRATE_ARGS=()
 if [ "$ACTION" == "create" ]; then
   MIGRATE_ARGS+=(
     'create'
-    '-dir "/poeticmetric/pkg/service/migration/files/postgres"'
+    '-dir "/poeticmetric/pkg/lib/migration/files/postgres"'
     '-ext sql'
     '-seq'
     "${@:2}"
@@ -20,7 +20,7 @@ if [ "$ACTION" == "create" ]; then
 else
   MIGRATE_ARGS+=(
     '-database "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DATABASE}?sslmode=disable"'
-    '-source "file:///poeticmetric/pkg/service/migration/files/postgres"'
+    '-source "file:///poeticmetric/pkg/lib/migration/files/postgres"'
     "$@"
   )
 fi

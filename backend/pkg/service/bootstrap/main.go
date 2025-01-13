@@ -126,7 +126,7 @@ func (s *service) Run(ctx context.Context, params *poeticmetric.BootstrapService
 	organization := poeticmetric.Organization{
 		ID:     1,
 		Name:   *params.OrganizationName,
-		PlanID: &plans[len(plans)-1].ID,
+		PlanID: plans[len(plans)-1].ID,
 	}
 
 	user := poeticmetric.User{

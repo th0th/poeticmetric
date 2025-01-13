@@ -45,6 +45,7 @@ export default function App({ path }: AppProps) {
                   <Route component={PasswordRecovery} path="/password-recovery" />
                   <Route component={PasswordReset} path="/password-reset" />
                   <Route component={Settings} path="/settings" />
+                  <Route component={Settings} path="/settings/organization-details" />
                   <Route component={Settings} path="/settings/password" />
                   <Route component={Settings} path="/settings/profile" />
                   <Route component={SignIn} path="/sign-in" />
