@@ -11,7 +11,7 @@ import (
 )
 
 // ChangeUserPassword godoc
-// @Description Change currently authenticated user's password
+// @Description Change currently authenticated user's password.
 // @Failure 400 {object} responder.DetailResponse
 // @Router /authentication/change-user-password [post]
 // @Security BasicAuthentication

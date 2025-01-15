@@ -27,7 +27,7 @@ func New(params NewParams) *Handler {
 }
 
 // Check godoc
-// @Description check if the bootstrap process is already done
+// @Description check if the bootstrap process is already done.
 // @Failure 400 {object} responder.DetailResponse
 // @Router /bootstrap [get]
 // @Success 200
@@ -50,7 +50,7 @@ func (h *Handler) Check(w http.ResponseWriter, r *http.Request) {
 }
 
 // Run godoc
-// @Description check if the bootstrap process is already done
+// @Description check if the bootstrap process is already done.
 // @Param params body poeticmetric.BootstrapServiceRunParams true "Params"
 // @Router /bootstrap [post]
 // @Success 201

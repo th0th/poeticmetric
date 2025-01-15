@@ -1,0 +1,5 @@
+{
+	"devDependencies": {
+		"@types/lodash-es": "^4.17.12"
+	}
+}
