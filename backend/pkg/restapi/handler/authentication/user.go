@@ -12,7 +12,7 @@ import (
 )
 
 // ReadUser godoc
-// @Description Read currently authenticated user
+// @Description Read currently authenticated user.
 // @Failure 400 {object} responder.DetailResponse
 // @Router /authentication/user [get]
 // @Security UserAccessTokenAuthentication
@@ -32,7 +32,7 @@ func (h *Handler) ReadUser(w http.ResponseWriter, r *http.Request) {
 }
 
 // UpdateUser godoc
-// @Description Update currently authenticated user
+// @Description Update currently authenticated user.
 // @Failure 400 {object} responder.DetailResponse
 // @Router /authentication/user [patch]
 // @Security UserAccessTokenAuthentication

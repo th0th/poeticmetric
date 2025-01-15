@@ -23,6 +23,7 @@ import (
 	bootstraphandler "github.com/th0th/poeticmetric/backend/pkg/restapi/handler/bootstrap"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/handler/root"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/handler/sites"
+	"github.com/th0th/poeticmetric/backend/pkg/restapi/handler/users"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/middleware"
 	restapiresponder "github.com/th0th/poeticmetric/backend/pkg/restapi/responder"
 	"github.com/th0th/poeticmetric/backend/pkg/service/authentication"
@@ -30,6 +31,7 @@ import (
 	"github.com/th0th/poeticmetric/backend/pkg/service/email"
 	"github.com/th0th/poeticmetric/backend/pkg/service/env"
 	"github.com/th0th/poeticmetric/backend/pkg/service/site"
+	"github.com/th0th/poeticmetric/backend/pkg/service/user"
 	"github.com/th0th/poeticmetric/backend/pkg/service/validation"
 )
 
@@ -43,7 +45,7 @@ var ctx = context.Background()
 // @securityDefinitions.basic BasicAuthentication
 
 // @securityDefinitions.apiKey UserAccessTokenAuthentication
-// @description User access token authentication
+// @description User access token authentication.
 // @in header
 // @name authorization
 func main() {
@@ -105,6 +107,11 @@ func main() {
 		ValidationService: validationService,
 	})
 
+	userService := user.New(user.NewParams{
+		Postgres:          postgres,
+		ValidationService: validationService,
+	})
+
 	responder := restapiresponder.New(restapiresponder.NewParams{
 		EnvService: envService,
 	})
@@ -127,6 +134,11 @@ func main() {
 	sitesHandler := sites.New(sites.NewParams{
 		Responder:   responder,
 		SiteService: siteService,
+	})
+
+	usersHandler := users.New(users.NewParams{
+		UserService: userService,
+		Responder:   responder,
 	})
 
 	mux := http.NewServeMux()
@@ -167,6 +179,9 @@ func main() {
 	// handlers: sites
 	mux.Handle("POST /sites", permissionWrite.ThenFunc(sitesHandler.Create))
 	mux.Handle("GET /sites", permissionUserAccessTokenAuthenticated.ThenFunc(sitesHandler.List))
+
+	// handlers: users
+	mux.Handle("GET /users", permissionUserAccessTokenAuthenticated.ThenFunc(usersHandler.List))
 
 	httpServer := http.Server{
 		Handler: alice.New(

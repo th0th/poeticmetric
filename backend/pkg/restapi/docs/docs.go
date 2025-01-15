@@ -23,7 +23,7 @@ const docTemplate = `{
                         "BasicAuthentication": []
                     }
                 ],
-                "description": "Change currently authenticated user's password",
+                "description": "Change currently authenticated user's password.",
                 "tags": [
                     "authentication"
                 ],
@@ -51,7 +51,7 @@ const docTemplate = `{
                         "UserAccessTokenAuthentication": []
                     }
                 ],
-                "description": "Read currently authenticated user's organization",
+                "description": "Read currently authenticated user's organization.",
                 "tags": [
                     "authentication"
                 ],
@@ -77,7 +77,7 @@ const docTemplate = `{
                         "UserAccessTokenAuthentication": []
                     }
                 ],
-                "description": "Update currently authenticated user's organization",
+                "description": "Update currently authenticated user's organization.",
                 "tags": [
                     "authentication"
                 ],
@@ -167,7 +167,7 @@ const docTemplate = `{
                         "UserAccessTokenAuthentication": []
                     }
                 ],
-                "description": "Read currently authenticated user",
+                "description": "Read currently authenticated user.",
                 "tags": [
                     "authentication"
                 ],
@@ -193,7 +193,7 @@ const docTemplate = `{
                         "UserAccessTokenAuthentication": []
                     }
                 ],
-                "description": "Update currently authenticated user",
+                "description": "Update currently authenticated user.",
                 "tags": [
                     "authentication"
                 ],
@@ -267,7 +267,7 @@ const docTemplate = `{
         },
         "/bootstrap": {
             "get": {
-                "description": "check if the bootstrap process is already done",
+                "description": "check if the bootstrap process is already done.",
                 "tags": [
                     "boostrap"
                 ],
@@ -285,7 +285,7 @@ const docTemplate = `{
                 }
             },
             "post": {
-                "description": "check if the bootstrap process is already done",
+                "description": "check if the bootstrap process is already done.",
                 "tags": [
                     "boostrap"
                 ],
@@ -359,6 +359,31 @@ const docTemplate = `{
                         "description": "Created",
                         "schema": {
                             "$ref": "#/definitions/poeticmetric.OrganizationSite"
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "List users.",
+                "tags": [
+                    "users"
+                ],
+                "summary": "List users",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/poeticmetric.OrganizationUser"
+                            }
                         }
                     }
                 }
@@ -495,6 +520,32 @@ const docTemplate = `{
                 }
             }
         },
+        "poeticmetric.OrganizationUser": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "isEmailVerified": {
+                    "type": "boolean"
+                },
+                "isOrganizationOwner": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
         "poeticmetric.ResetUserPasswordParams": {
             "type": "object",
             "properties": {
@@ -532,7 +583,7 @@ const docTemplate = `{
             "type": "basic"
         },
         "UserAccessTokenAuthentication": {
-            "description": "User access token authentication",
+            "description": "User access token authentication.",
             "type": "apiKey",
             "name": "authorization",
             "in": "header"

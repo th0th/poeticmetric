@@ -12,7 +12,7 @@ import (
 )
 
 // ReadOrganization godoc
-// @Description Read currently authenticated user's organization
+// @Description Read currently authenticated user's organization.
 // @Failure 400 {object} responder.DetailResponse
 // @Router /authentication/organization [get]
 // @Security UserAccessTokenAuthentication
@@ -32,7 +32,7 @@ func (h *Handler) ReadOrganization(w http.ResponseWriter, r *http.Request) {
 }
 
 // UpdateOrganization godoc
-// @Description Update currently authenticated user's organization
+// @Description Update currently authenticated user's organization.
 // @Failure 400 {object} responder.DetailResponse
 // @Router /authentication/organization [patch]
 // @Security UserAccessTokenAuthentication
