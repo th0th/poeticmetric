@@ -21,6 +21,7 @@ const PasswordRecovery = lazy(() => import("~/components/PasswordRecovery"));
 const PasswordReset = lazy(() => import("~/components/PasswordReset"));
 const Settings = lazy(() => import("~/components/Settings"));
 const SignIn = lazy(() => import("~/components/SignIn"));
+const Team = lazy(() => import("~/components/Team"));
 
 export default function App({ path }: AppProps) {
   const suspenseFallback = useMemo(() => (
@@ -49,6 +50,7 @@ export default function App({ path }: AppProps) {
                   <Route component={Settings} path="/settings/password" />
                   <Route component={Settings} path="/settings/profile" />
                   <Route component={SignIn} path="/sign-in" />
+                  <Route component={Team} path="/team" />
 
                   <Route>
                     <Error />

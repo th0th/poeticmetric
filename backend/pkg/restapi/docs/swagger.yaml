@@ -83,6 +83,23 @@ definitions:
       updatedAt:
         type: string
     type: object
+  poeticmetric.OrganizationUser:
+    properties:
+      createdAt:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      isEmailVerified:
+        type: boolean
+      isOrganizationOwner:
+        type: boolean
+      name:
+        type: string
+      updatedAt:
+        type: string
+    type: object
   poeticmetric.ResetUserPasswordParams:
     properties:
       passwordResetToken:
@@ -112,7 +129,7 @@ info:
 paths:
   /authentication/change-user-password:
     post:
-      description: Change currently authenticated user's password
+      description: Change currently authenticated user's password.
       responses:
         "200":
           description: OK
@@ -129,7 +146,7 @@ paths:
       - authentication
   /authentication/organization:
     get:
-      description: Read currently authenticated user's organization
+      description: Read currently authenticated user's organization.
       responses:
         "200":
           description: OK
@@ -145,7 +162,7 @@ paths:
       tags:
       - authentication
     patch:
-      description: Update currently authenticated user's organization
+      description: Update currently authenticated user's organization.
       responses:
         "200":
           description: OK
@@ -203,7 +220,7 @@ paths:
       - authentication
   /authentication/user:
     get:
-      description: Read currently authenticated user
+      description: Read currently authenticated user.
       responses:
         "200":
           description: OK
@@ -219,7 +236,7 @@ paths:
       tags:
       - authentication
     patch:
-      description: Update currently authenticated user
+      description: Update currently authenticated user.
       responses:
         "200":
           description: OK
@@ -268,7 +285,7 @@ paths:
       - authentication
   /bootstrap:
     get:
-      description: check if the bootstrap process is already done
+      description: check if the bootstrap process is already done.
       responses:
         "200":
           description: OK
@@ -280,7 +297,7 @@ paths:
       tags:
       - boostrap
     post:
-      description: check if the bootstrap process is already done
+      description: check if the bootstrap process is already done.
       parameters:
       - description: Params
         in: body
@@ -328,11 +345,26 @@ paths:
       summary: Create site
       tags:
       - sites
+  /users:
+    get:
+      description: List users.
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.OrganizationUser'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: List users
+      tags:
+      - users
 securityDefinitions:
   BasicAuthentication:
     type: basic
   UserAccessTokenAuthentication:
-    description: User access token authentication
+    description: User access token authentication.
     in: header
     name: authorization
     type: apiKey
