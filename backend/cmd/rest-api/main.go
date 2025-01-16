@@ -108,6 +108,7 @@ func main() {
 	})
 
 	userService := user.New(user.NewParams{
+		EmailService:      emailService,
 		Postgres:          postgres,
 		ValidationService: validationService,
 	})
@@ -182,6 +183,7 @@ func main() {
 
 	// handlers: users
 	mux.Handle("GET /users", permissionUserAccessTokenAuthenticated.ThenFunc(usersHandler.List))
+	mux.Handle("POST /users", permissionWrite.ThenFunc(usersHandler.Invite))
 
 	httpServer := http.Server{
 		Handler: alice.New(

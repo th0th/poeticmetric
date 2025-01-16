@@ -60,6 +60,13 @@ definitions:
           type: string
         type: array
     type: object
+  poeticmetric.InviteOrganizationUserParams:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+    type: object
   poeticmetric.OrganizationSite:
     properties:
       ID:
@@ -358,6 +365,27 @@ paths:
       security:
       - UserAccessTokenAuthentication: []
       summary: List users
+      tags:
+      - users
+    post:
+      description: Invite a new user to organization.
+      parameters:
+      - description: Params
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/poeticmetric.InviteOrganizationUserParams'
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.OrganizationUser'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Invite user
       tags:
       - users
 securityDefinitions:

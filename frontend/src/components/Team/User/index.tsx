@@ -15,8 +15,8 @@ export default function User({ user, ...props }: UserProps) {
   return (
     <div {...props} className="card">
       <div className="card-body overflow-hidden">
-        <div className="d-flex gap-4">
-          <Avatar alt={user.name} className="flex-grow-0 flex-shrink-0" email={user.email} size={48} />
+        <div className="d-flex gap-6">
+          <Avatar alt={user.name} className="flex-grow-0 flex-shrink-0" email={user.email} size={96} />
 
           <div className="flex-grow-1 flex-shrink-1 overflow-hidden">
             <div className="fs-7 fw-bold text-body-tertiary text-truncate">{user.isOrganizationOwner ? "Owner" : "Team member"}</div>

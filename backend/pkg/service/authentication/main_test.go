@@ -472,10 +472,10 @@ func Test_service_SendUserPasswordRecoveryEmail(t *testing.T) {
 				sqlMock.ExpectExec(updateQuery).WithArgs(sqlmock.AnyArg(), 1).WillReturnResult(sqlmock.NewResult(0, 1))
 				sqlMock.ExpectCommit()
 
-				mockEmailService.On("Send", mock.MatchedBy(func(params poeticmetric.EmailServiceSendParams) bool {
-					templateData := params.TemplateData.(poeticmetric.EmailServiceTemplatePasswordRecoveryParams)
+				mockEmailService.On("Send", mock.MatchedBy(func(params poeticmetric.SendEmailParams) bool {
+					templateData := params.TemplateData.(poeticmetric.PasswordRecoveryEmailTemplateParams)
 
-					return params.Template == poeticmetric.EmailServiceTemplatePasswordRecovery &&
+					return params.Template == poeticmetric.PasswordRecoveryEmailTemplate &&
 						params.To.Address == "user@domain.tld" &&
 						params.To.Name == "User" &&
 						templateData.User.Email == "user@domain.tld" &&

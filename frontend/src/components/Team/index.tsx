@@ -39,12 +39,14 @@ function Team() {
           </Link>
         </div>
 
-        <div className="gy-12 mt-8 row row-cols-1 row-cols-md-2 row-cols-xl-3">
-          {filteredUsers?.map((user) => (
-            <div className="col" key={user.id}>
-              <User user={user} />
-            </div>
-          ))}
+        <div className="mt-8">
+          <div className="gy-12 row row-cols-1 row-cols-md-2 row-cols-xl-3">
+            {filteredUsers?.map((user) => (
+              <div className="col" key={user.id}>
+                <User user={user} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </>

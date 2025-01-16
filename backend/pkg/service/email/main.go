@@ -61,7 +61,7 @@ func New(params NewParams) (poeticmetric.EmailService, error) {
 	}, nil
 }
 
-func (s *service) Send(params poeticmetric.EmailServiceSendParams) error {
+func (s *service) Send(params poeticmetric.SendEmailParams) error {
 	templateBuffer := bytes.Buffer{}
 	err := s.templates.ExecuteTemplate(&templateBuffer, string(params.Template), params.TemplateData)
 	if err != nil {

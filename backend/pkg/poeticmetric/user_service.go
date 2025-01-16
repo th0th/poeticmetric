@@ -8,7 +8,9 @@ import (
 type UserService interface {
 	ServiceWithPostgres
 
+	InviteOrganizationUser(ctx context.Context, organizationID uint, params *InviteOrganizationUserParams) (*OrganizationUser, error)
 	ListOrganizationUsers(ctx context.Context, organizationID uint) ([]*OrganizationUser, error)
+	ReadOrganizationUser(ctx context.Context, userID uint) (*OrganizationUser, error)
 }
 
 type OrganizationUser struct {
@@ -19,6 +21,11 @@ type OrganizationUser struct {
 	IsOrganizationOwner bool      `json:"isOrganizationOwner"`
 	Name                string    `json:"name"`
 	UpdatedAt           time.Time `json:"updatedAt"`
+}
+
+type InviteOrganizationUserParams struct {
+	Email *string `json:"email"`
+	Name  *string `json:"name"`
 }
 
 func (u *OrganizationUser) TableName() string {
