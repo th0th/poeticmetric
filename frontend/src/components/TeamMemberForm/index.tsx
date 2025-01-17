@@ -76,7 +76,7 @@ export default function TeamMemberForm() {
               <label className="form-label" htmlFor="input-name">Name</label>
 
               <input
-                className={classNames("form-control mw-20rem", { "is-invalid": errors.name })}
+                className={classNames("form-control", { "is-invalid": errors.name })}
                 id="input-name"
                 maxLength={70}
                 minLength={1}
@@ -91,7 +91,7 @@ export default function TeamMemberForm() {
               <label className="form-label" htmlFor="input-email">E-mail address</label>
 
               <input
-                className={classNames("form-control mw-20rem", { "is-invalid": errors.email })}
+                className={classNames("form-control", { "is-invalid": errors.email })}
                 disabled={userID !== null}
                 id="input-email"
                 required
