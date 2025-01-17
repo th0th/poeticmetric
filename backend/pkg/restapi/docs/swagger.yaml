@@ -121,6 +121,11 @@ definitions:
       email:
         type: string
     type: object
+  poeticmetric.UpdateOrganizationUserParams:
+    properties:
+      name:
+        type: string
+    type: object
   responder.DetailResponse:
     properties:
       detail:
@@ -386,6 +391,69 @@ paths:
       security:
       - UserAccessTokenAuthentication: []
       summary: Invite user
+      tags:
+      - users
+  /users/{userID}:
+    delete:
+      description: Delete a user from the organization.
+      parameters:
+      - description: User ID
+        in: path
+        name: userID
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Delete user
+      tags:
+      - users
+    get:
+      description: Read a user from the organization.
+      parameters:
+      - description: User ID
+        in: path
+        name: userID
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.OrganizationUser'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read user
+      tags:
+      - users
+    patch:
+      description: Update organization user.
+      parameters:
+      - description: User ID
+        in: path
+        name: userID
+        required: true
+        type: integer
+      - description: Params
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/poeticmetric.UpdateOrganizationUserParams'
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.OrganizationUser'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Update user
       tags:
       - users
 securityDefinitions:

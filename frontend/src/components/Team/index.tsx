@@ -32,7 +32,7 @@ function Team() {
 
           <div className="d-none d-md-block mx-auto" />
 
-          <Link className="align-items-center btn btn-primary d-flex gap-2 justify-content-center overflow-hidden" to="/teams/invite">
+          <Link className="align-items-center btn btn-primary d-flex gap-2 justify-content-center overflow-hidden" to="/team/invite">
             <IconUserPlus className="flex-grow-0 flex-shrink-0" />
 
             <span className="text-truncate">Invite team member</span>

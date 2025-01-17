@@ -11,6 +11,20 @@ import (
 	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
 )
 
+func (s *service) DeleteOrganizationUser(ctx context.Context, organizationID uint, userID uint) error {
+	postgres := poeticmetric.ServicePostgres(ctx, s)
+
+	q := postgres.Where(poeticmetric.User{ID: userID, OrganizationID: organizationID}).Delete(&poeticmetric.User{})
+	if q.Error != nil {
+		return errors.Wrap(q.Error, 0)
+	}
+	if q.RowsAffected != 1 {
+		return errors.Wrap(poeticmetric.ErrNotFound, 0)
+	}
+
+	return nil
+}
+
 func (s *service) InviteOrganizationUser(ctx context.Context, organizationID uint, params *poeticmetric.InviteOrganizationUserParams) (*poeticmetric.OrganizationUser, error) {
 	err := s.validationService.InviteOrganizationUserParams(ctx, organizationID, params)
 	if err != nil {
@@ -56,7 +70,7 @@ func (s *service) InviteOrganizationUser(ctx context.Context, organizationID uin
 		return nil, errors.Wrap(err, 0)
 	}
 
-	organizationUser, err := s.ReadOrganizationUser(ctx, user.ID)
+	organizationUser, err := s.ReadOrganizationUser(ctx, organizationID, user.ID)
 	if err != nil {
 		return nil, errors.Wrap(err, 0)
 	}
@@ -69,6 +83,8 @@ func (s *service) ListOrganizationUsers(ctx context.Context, organizationID uint
 
 	organizationUsers := []*poeticmetric.OrganizationUser{}
 	err := postgres.
+		Order("is_organization_owner desc").
+		Order("name").
 		Find(&organizationUsers, poeticmetric.User{OrganizationID: organizationID}, "OrganizationID").
 		Error
 	if err != nil {
@@ -78,14 +94,44 @@ func (s *service) ListOrganizationUsers(ctx context.Context, organizationID uint
 	return organizationUsers, nil
 }
 
-func (s *service) ReadOrganizationUser(ctx context.Context, userID uint) (*poeticmetric.OrganizationUser, error) {
+func (s *service) ReadOrganizationUser(ctx context.Context, organizationID uint, userID uint) (*poeticmetric.OrganizationUser, error) {
 	postgres := poeticmetric.ServicePostgres(ctx, s)
 
 	organizationUser := poeticmetric.OrganizationUser{}
-	err := postgres.First(&organizationUser, userID).Error
+	err := postgres.First(&organizationUser, poeticmetric.User{ID: userID, OrganizationID: organizationID}, "ID", "OrganizationID").Error
 	if err != nil {
 		return nil, errors.Wrap(err, 0)
 	}
 
 	return &organizationUser, nil
+}
+
+func (s *service) UpdateOrganizationUser(ctx context.Context, organizationID uint, userID uint, params *poeticmetric.UpdateOrganizationUserParams) error {
+	err := s.validationService.UpdateOrganizationUserParams(ctx, organizationID, userID, params)
+	if err != nil {
+		return errors.Wrap(err, 0)
+	}
+
+	update := poeticmetric.User{}
+	var fields []string
+
+	if params.Name != nil {
+		update.Name = *params.Name
+		fields = append(fields, "Name")
+	}
+
+	if len(fields) > 0 {
+		postgres := poeticmetric.ServicePostgres(ctx, s)
+		err = postgres.
+			Model(&poeticmetric.User{}).
+			Where(poeticmetric.User{ID: userID, OrganizationID: organizationID}, "ID", "OrganizationID").
+			Select(fields).
+			UpdateColumns(update).
+			Error
+		if err != nil {
+			return errors.Wrap(err, 0)
+		}
+	}
+
+	return nil
 }

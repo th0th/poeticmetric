@@ -48,3 +48,25 @@ func (s *service) InviteOrganizationUserParams(ctx context.Context, organization
 
 	return nil
 }
+
+func (s *service) UpdateOrganizationUserParams(ctx context.Context, organizationID uint, userID uint, params *poeticmetric.UpdateOrganizationUserParams) error {
+	validationErrs := v.Validate(v.Schema{
+		v.F("name", params.Name): v.Any(
+			v.Zero[*string](),
+
+			v.Nested(func(x *string) v.Validator {
+				return v.Value(*x, v.LenString(poeticmetric.UserNameMinLength, poeticmetric.UserNameMaxLength).Msg(fmt.Sprintf(
+					"This field should be between %d and %d characters in length.",
+					poeticmetric.UserNameMinLength,
+					poeticmetric.UserNameMaxLength,
+				)))
+			}),
+		),
+	})
+
+	if validationErrs != nil {
+		return errors.Wrap(validationErrs, 0)
+	}
+
+	return nil
+}

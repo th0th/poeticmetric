@@ -3,11 +3,12 @@ import { lazy, Suspense, useMemo } from "react";
 import { Route, Router, Switch } from "wouter";
 import ActivityIndicator from "~/components/ActivityIndicator";
 import AppErrorBoundary from "~/components/AppErrorBoundary";
-import Error from "~/components/Error";
 import Footer from "~/components/Footer";
 import Header from "~/components/Header";
 import Home from "~/components/Home";
+import NotFound from "~/components/NotFound";
 import SWRConfig from "~/components/SWRConfig";
+import withRequiredSearchParams from "~/components/withRequiredSearchParams";
 import AuthenticationProvider from "../AuthenticationProvider";
 import "~/styles/style.scss";
 
@@ -22,6 +23,7 @@ const PasswordReset = lazy(() => import("~/components/PasswordReset"));
 const Settings = lazy(() => import("~/components/Settings"));
 const SignIn = lazy(() => import("~/components/SignIn"));
 const Team = lazy(() => import("~/components/Team"));
+const TeamMemberForm = lazy(() => import("~/components/TeamMemberForm"));
 
 export default function App({ path }: AppProps) {
   const suspenseFallback = useMemo(() => (
@@ -51,9 +53,11 @@ export default function App({ path }: AppProps) {
                   <Route component={Settings} path="/settings/profile" />
                   <Route component={SignIn} path="/sign-in" />
                   <Route component={Team} path="/team" />
+                  <Route component={withRequiredSearchParams(TeamMemberForm, ["userID"])} path="/team/edit" />
+                  <Route component={TeamMemberForm} path="/team/invite" />
 
                   <Route>
-                    <Error />
+                    <NotFound />
                   </Route>
                 </Switch>
               </Suspense>

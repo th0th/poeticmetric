@@ -8,9 +8,11 @@ import (
 type UserService interface {
 	ServiceWithPostgres
 
+	DeleteOrganizationUser(ctx context.Context, organizationID uint, userID uint) error
 	InviteOrganizationUser(ctx context.Context, organizationID uint, params *InviteOrganizationUserParams) (*OrganizationUser, error)
 	ListOrganizationUsers(ctx context.Context, organizationID uint) ([]*OrganizationUser, error)
-	ReadOrganizationUser(ctx context.Context, userID uint) (*OrganizationUser, error)
+	ReadOrganizationUser(ctx context.Context, organizationID uint, userID uint) (*OrganizationUser, error)
+	UpdateOrganizationUser(ctx context.Context, organizationID uint, userID uint, params *UpdateOrganizationUserParams) error
 }
 
 type OrganizationUser struct {
@@ -26,6 +28,10 @@ type OrganizationUser struct {
 type InviteOrganizationUserParams struct {
 	Email *string `json:"email"`
 	Name  *string `json:"name"`
+}
+
+type UpdateOrganizationUserParams struct {
+	Name *string `json:"name"`
 }
 
 func (u *OrganizationUser) TableName() string {

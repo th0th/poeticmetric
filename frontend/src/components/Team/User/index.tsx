@@ -28,9 +28,9 @@ export default function User({ user, ...props }: UserProps) {
 
       <div className="card-footer">
         <div className="d-flex flex-column flex-sm-row gap-4">
-          <Link className="btn btn-primary btn-sm" to={`/team/edit?id=${user.id}`}>Edit</Link>
+          <Link className="btn btn-primary btn-sm" to={`/team/edit?userID=${user.id}`}>Edit</Link>
 
-          <Link className="btn btn-danger btn-sm" to={`/team/${setSearchParams({ action: "delete", id: user.id.toString() })}`}>
+          <Link className="btn btn-danger btn-sm" to={`/team/${setSearchParams({ action: "delete", userID: user.id.toString() })}`}>
             Delete
           </Link>
 
@@ -40,7 +40,7 @@ export default function User({ user, ...props }: UserProps) {
 
               <Link
                 className="btn btn-outline-secondary btn-sm"
-                to={`/team/${setSearchParams({ action: "transferOwnership", id: user.id.toString() })}`}
+                to={`/team/${setSearchParams({ action: "transferOwnership", userID: user.id.toString() })}`}
               >
                 Transfer ownership
               </Link>
