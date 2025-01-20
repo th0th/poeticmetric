@@ -6,6 +6,7 @@ import Title from "~/components/Title";
 import withAuthorization from "~/components/withAuthorization";
 import useUsers from "~/hooks/api/useUsers";
 import useListFilters from "~/hooks/useListFilters";
+import DeleteModal from "./DeleteModal";
 
 function Team() {
   const { data: users } = useUsers();
@@ -49,6 +50,8 @@ function Team() {
           </div>
         </div>
       </div>
+
+      <DeleteModal />
     </>
   );
 }
