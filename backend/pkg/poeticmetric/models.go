@@ -195,6 +195,10 @@ func (e *Event) TableName() string {
 	return "events_buffer"
 }
 
+func (u *User) SetActivationToken() {
+	u.ActivationToken = Pointer(uniuri.New())
+}
+
 func (u *User) SetPassword(password string) error {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 10)
 	if err != nil {

@@ -2,11 +2,12 @@ package validation
 
 import (
 	"context"
-	"errors"
+	_ "embed"
 	"fmt"
 
 	v "github.com/RussellLuo/validating/v3"
 	"github.com/RussellLuo/vext"
+	"github.com/go-errors/errors"
 	"golang.org/x/oauth2"
 	"google.golang.org/api/option"
 	"google.golang.org/api/searchconsole/v1"

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { Link, useLocation } from "wouter";
 import ActivityIndicator from "~/components/ActivityIndicator";
 import useAuthorization, { UseAuthorizationParams } from "~/hooks/useAuthorization";
@@ -6,15 +6,24 @@ import useAuthorization, { UseAuthorizationParams } from "~/hooks/useAuthorizati
 export type WithAuthorizationParams<IsAuthenticated extends boolean> =
   UseAuthorizationParams<IsAuthenticated>;
 
+type State = {
+  isReady: boolean;
+};
+
 export default function withAuthorization<IsAuthenticated extends boolean>(
   Component: FC,
   params: WithAuthorizationParams<IsAuthenticated>,
 ) {
   function Wrapped() {
     const [location] = useLocation();
+    const [state, setState] = useState<State>({ isReady: false });
     const isPermitted = useAuthorization(params);
 
-    if (isPermitted === undefined) {
+    useEffect(() => {
+      setState((s) => ({ ...s, isReady: true }));
+    }, []);
+
+    if (!state.isReady || isPermitted === undefined) {
       return (
         <div className="align-items-center d-flex flex-grow-1 justify-content-center">
           <ActivityIndicator />
