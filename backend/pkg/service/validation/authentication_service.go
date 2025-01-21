@@ -48,8 +48,6 @@ func (s *service) ChangeUserPasswordParams(ctx context.Context, params *poeticme
 	return nil
 }
 
-
-
 func (s *service) ResetUserPasswordParams(ctx context.Context, params *poeticmetric.ResetUserPasswordParams) error {
 	errs := []error{}
 

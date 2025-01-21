@@ -19,6 +19,10 @@ func (m *ValidationServiceMock) CreateSiteParams(ctx context.Context, organizati
 	return m.Called(ctx, organizationID, params).Error(0)
 }
 
+func (m *ValidationServiceMock) InviteOrganizationUserParams(ctx context.Context, organizationID uint, params *InviteOrganizationUserParams) error {
+	return m.Called(ctx, organizationID, params).Error(0)
+}
+
 func (m *ValidationServiceMock) Postgres() *gorm.DB {
 	return m.Called().Get(0).(*gorm.DB)
 }
@@ -37,4 +41,8 @@ func (m *ValidationServiceMock) UpdateAuthenticationUserParams(ctx context.Conte
 
 func (m *ValidationServiceMock) UpdateOrganizationParams(ctx context.Context, params *UpdateOrganizationParams) error {
 	return m.Called(ctx, params).Error(0)
+}
+
+func (m *ValidationServiceMock) UpdateOrganizationUserParams(ctx context.Context, organizationID uint, userID uint, params *UpdateOrganizationUserParams) error {
+	return m.Called(ctx, organizationID, userID, params).Error(0)
 }

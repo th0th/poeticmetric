@@ -228,11 +228,11 @@ func (s *service) SendUserPasswordRecoveryEmail(ctx context.Context, params *poe
 			return err2
 		}
 
-		err2 = s.emailService.Send(poeticmetric.EmailServiceSendParams{
+		err2 = s.emailService.Send(poeticmetric.SendEmailParams{
 			Subject:  "PoeticMetric password recovery",
-			Template: poeticmetric.EmailServiceTemplatePasswordRecovery,
-			TemplateData: poeticmetric.EmailServiceTemplatePasswordRecoveryParams{
-				User: user,
+			Template: poeticmetric.PasswordRecoveryEmailTemplate,
+			TemplateData: poeticmetric.PasswordRecoveryEmailTemplateParams{
+				User: &user,
 			},
 			To: &mail.Address{Address: user.Email, Name: user.Name},
 		})

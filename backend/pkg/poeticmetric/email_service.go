@@ -5,35 +5,41 @@ import (
 )
 
 const (
-	EmailServiceTemplatePasswordRecovery EmailServiceTemplate = "password-recovery.gohtml"
+	InviteEmailTemplate           EmailTemplate = "invite.gohtml"
+	PasswordRecoveryEmailTemplate EmailTemplate = "password-recovery.gohtml"
 )
 
 type EmailService interface {
-	Send(params EmailServiceSendParams) error
+	Send(params SendEmailParams) error
 }
 
-type EmailServiceMessageParams struct {
+type EmailMessageParams struct {
 	Body    string
 	From    *mail.Address
 	Subject string
 	To      []*mail.Address
 }
 
-type EmailServiceSendParams struct {
+type SendEmailParams struct {
 	Subject      string
-	Template     EmailServiceTemplate
+	Template     EmailTemplate
 	TemplateData any
 	To           *mail.Address
 }
 
-type EmailServiceTemplate string
+type EmailTemplate string
 
-type EmailServiceTemplatePasswordRecoveryParams struct {
-	User User
+type InviteEmailTemplateParams struct {
+	User *User
 }
 
-func EmailTemplates() []EmailServiceTemplate {
-	return []EmailServiceTemplate{
-		EmailServiceTemplatePasswordRecovery,
+type PasswordRecoveryEmailTemplateParams struct {
+	User *User
+}
+
+func EmailTemplates() []EmailTemplate {
+	return []EmailTemplate{
+		InviteEmailTemplate,
+		PasswordRecoveryEmailTemplate,
 	}
 }
