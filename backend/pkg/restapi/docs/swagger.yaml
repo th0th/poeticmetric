@@ -45,7 +45,7 @@ definitions:
       userPassword2:
         type: string
     type: object
-  poeticmetric.CreateSiteParams:
+  poeticmetric.CreateOrganizationSiteParams:
     properties:
       domain:
         type: string
@@ -69,8 +69,6 @@ definitions:
     type: object
   poeticmetric.OrganizationSite:
     properties:
-      ID:
-        type: integer
       createdAt:
         type: string
       domain:
@@ -79,6 +77,8 @@ definitions:
         type: string
       hasEvents:
         type: boolean
+      id:
+        type: integer
       isPublic:
         type: boolean
       name:
@@ -346,7 +346,7 @@ paths:
         name: params
         required: true
         schema:
-          $ref: '#/definitions/poeticmetric.CreateSiteParams'
+          $ref: '#/definitions/poeticmetric.CreateOrganizationSiteParams'
       responses:
         "201":
           description: Created

@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { JSX, PropsWithoutRef } from "react";
 import { Link } from "wouter";
 import Avatar from "~/components/Avatar";
@@ -8,12 +9,12 @@ export type UserProps = Overwrite<PropsWithoutRef<JSX.IntrinsicElements["div"]>,
   user: HydratedUser;
 }>;
 
-export default function User({ user, ...props }: UserProps) {
+export default function User({ className, user, ...props }: UserProps) {
   const { setSearchParams } = useSearchParams();
   const { user: authUser } = useAuthentication();
 
   return (
-    <div {...props} className="card">
+    <div {...props} className={classNames("card", className)}>
       <div className="card-body overflow-hidden">
         <div className="d-flex gap-6">
           <Avatar alt={user.name} className="flex-grow-0 flex-shrink-0" email={user.email} size={96} />

@@ -15,7 +15,7 @@ func (m *ValidationServiceMock) ChangeUserPasswordParams(ctx context.Context, pa
 	return m.Called(ctx, params).Error(0)
 }
 
-func (m *ValidationServiceMock) CreateSiteParams(ctx context.Context, organizationID uint, params *CreateSiteParams) error {
+func (m *ValidationServiceMock) CreateOrganizationSiteParams(ctx context.Context, organizationID uint, params *CreateOrganizationSiteParams) error {
 	return m.Called(ctx, organizationID, params).Error(0)
 }
 

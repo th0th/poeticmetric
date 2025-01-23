@@ -3,12 +3,11 @@ import { Link } from "wouter";
 import Breadcrumb from "~/components/Breadcrumb";
 import User from "~/components/Team/User";
 import Title from "~/components/Title";
-import withAuthorization from "~/components/withAuthorization";
 import useUsers from "~/hooks/api/useUsers";
 import useListFilters from "~/hooks/useListFilters";
 import DeleteModal from "./DeleteModal";
 
-function Team() {
+export default function Team() {
   const { data: users } = useUsers();
   const [listFilters, filteredUsers] = useListFilters(users, [
     {
@@ -42,7 +41,7 @@ function Team() {
 
         <div className="mt-8">
           <div className="gy-12 row row-cols-1 row-cols-md-2 row-cols-xl-3">
-            {filteredUsers?.map((user) => (
+            {filteredUsers.map((user) => (
               <div className="col" key={user.id}>
                 <User user={user} />
               </div>
@@ -55,5 +54,3 @@ function Team() {
     </>
   );
 }
-
-export default withAuthorization(Team, { isAuthenticated: true });

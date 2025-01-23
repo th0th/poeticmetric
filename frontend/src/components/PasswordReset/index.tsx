@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { useSearch } from "wouter";
 import ActivityOverlay from "~/components/ActivityOverlay";
 import Title from "~/components/Title";
-import withAuthorization from "~/components/withAuthorization";
 import { api } from "~/lib/api";
 import { setErrors } from "~/lib/form";
 
@@ -15,7 +14,7 @@ type Form = {
   userPassword2: string;
 };
 
-function PasswordReset() {
+export default function PasswordReset() {
   const { showBoundary } = useErrorBoundary();
   const search = useSearch();
   const {
@@ -150,5 +149,3 @@ function PasswordReset() {
     </>
   );
 }
-
-export default withAuthorization(PasswordReset, { isAuthenticated: false });
