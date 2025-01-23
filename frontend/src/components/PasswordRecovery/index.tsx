@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import { Link, useSearch } from "wouter";
 import ActivityOverlay from "~/components/ActivityOverlay";
 import Title from "~/components/Title";
-import withAuthorization from "~/components/withAuthorization";
 import { api } from "~/lib/api";
 import { setErrors } from "~/lib/form";
 
@@ -12,7 +11,7 @@ type Form = {
   email: string;
 };
 
-function PasswordRecovery() {
+export default function PasswordRecovery() {
   const { showBoundary } = useErrorBoundary();
   const searchParams = useSearch();
   const { formState: { errors, isSubmitSuccessful, isSubmitting }, handleSubmit, register, setError } = useForm<Form>({
@@ -86,5 +85,3 @@ function PasswordRecovery() {
     </>
   );
 }
-
-export default withAuthorization(PasswordRecovery, { isAuthenticated: false });

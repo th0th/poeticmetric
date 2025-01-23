@@ -2,7 +2,7 @@ import { IconBrandLinkedin, IconMail, IconMenu2 } from "@tabler/icons-react";
 import classNames from "classnames";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Dropdown, Nav, Navbar, NavItem, NavLink as BsNavLink, Offcanvas } from "react-bootstrap";
-import { Link, LinkProps } from "wouter";
+import { Link } from "wouter";
 import Logo from "~/components/Logo";
 import useAuthentication from "~/hooks/useAuthentication";
 import useHeaderVariant from "~/hooks/useHeaderVariant";
@@ -20,7 +20,7 @@ type NavItemWithItems = {
 
 type NavItemWithTo = {
   title: string;
-  to: LinkProps["to"];
+  to: string;
 };
 
 type NavItem = NavItemWithItems | NavItemWithTo;
@@ -116,9 +116,11 @@ export default function Header() {
                   </Dropdown.Menu>
                 </Dropdown>
               ) : (
-                <Nav.Item key={navItem.title}>
-                  <Nav.Link as={Link} to={navItem.to}>{navItem.title}</Nav.Link>
-                </Nav.Item>
+                <div className="nav-item" key={navItem.title}>
+                  <Link className={(isActive) => classNames("nav-link", isActive && "active")} to={navItem.to}>
+                    {navItem.title}
+                  </Link>
+                </div>
               ))}
             </Nav>
 

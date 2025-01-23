@@ -27,7 +27,7 @@ func New(params NewParams) *Handler {
 
 // Create godoc
 // @Description Create site.
-// @Param params body poeticmetric.CreateSiteParams true "Params"
+// @Param params body poeticmetric.CreateOrganizationSiteParams true "Params"
 // @Router /sites [post]
 // @Security UserAccessTokenAuthentication
 // @Success 201 {object} poeticmetric.OrganizationSite
@@ -36,14 +36,14 @@ func New(params NewParams) *Handler {
 func (h *Handler) Create(w http.ResponseWriter, r *http.Request) {
 	auth := middleware.GetAuthentication(r.Context())
 
-	params := poeticmetric.CreateSiteParams{}
+	params := poeticmetric.CreateOrganizationSiteParams{}
 	err := json.NewDecoder(r.Body).Decode(&params)
 	if err != nil {
 		h.responder.Error(w, err)
 		return
 	}
 
-	organizationSite, err := h.siteService.Create(r.Context(), auth.User.OrganizationID, &params)
+	organizationSite, err := h.siteService.CreateOrganizationSite(r.Context(), auth.User.OrganizationID, &params)
 	if err != nil {
 		h.responder.Error(w, err)
 		return
@@ -63,7 +63,7 @@ func (h *Handler) Create(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) List(w http.ResponseWriter, r *http.Request) {
 	auth := middleware.GetAuthentication(r.Context())
 
-	organizationSites, err := h.siteService.List(r.Context(), auth.User.OrganizationID)
+	organizationSites, err := h.siteService.ListOrganizationSites(r.Context(), auth.User.OrganizationID)
 	if err != nil {
 		h.responder.Error(w, err)
 		return

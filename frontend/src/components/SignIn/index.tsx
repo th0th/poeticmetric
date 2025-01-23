@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import { Link, useLocation, useSearch } from "wouter";
 import ActivityOverlay from "~/components/ActivityOverlay";
 import Title from "~/components/Title";
-import withAuthorization from "~/components/withAuthorization";
 import useAuthentication from "~/hooks/useAuthentication";
 import { api } from "~/lib/api";
 import { base64Encode } from "~/lib/base64";
@@ -16,7 +15,7 @@ type Form = {
   userPassword: string;
 };
 
-function SignIn() {
+export default function SignIn() {
   const { showBoundary } = useErrorBoundary();
   const [, navigate] = useLocation();
   const searchParams = useSearch();
@@ -119,5 +118,3 @@ function SignIn() {
     </>
   );
 }
-
-export default withAuthorization(SignIn, { isAuthenticated: false });

@@ -32,7 +32,7 @@ $utilities: map-merge($utilities, (
   ),
   "background-color": map-merge(map-get($utilities, "background-color"), (
     responsive: true,
-    state: focus-visible hover,
+    state: focus-visible focus-within hover,
     values: map-merge(map-get(map-get($utilities, "background-color"), "values"), (
       gray-400: $gray-400,
       inverted: var(--#{$prefix}body-color),
@@ -58,7 +58,7 @@ $utilities: map-merge($utilities, (
     ),
   ),
   "bg-opacity": map-merge(map-get($utilities, "bg-opacity"), (
-    state: focus-visible hover,
+    state: focus-visible focus-within hover,
     values: map-merge(map-get(map-get($utilities, "bg-opacity"), "values"), (
       0: 0,
     )),
@@ -287,9 +287,6 @@ $utilities: map-merge($utilities, (
       warning: var(--#{$prefix}warning-rgb),
     ),
   ),
-  "subtle-background-color": map-merge(map-get($utilities, "subtle-background-color"), (
-    state: focus focus-visible hover,
-  )),
   "text-decoration": map-merge(map-get($utilities, "text-decoration"), (
     state: focus-visible hover,
   )),
