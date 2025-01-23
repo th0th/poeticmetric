@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-type CreateSiteParams struct {
+type CreateOrganizationSiteParams struct {
 	Domain                     *string  `json:"domain"`
 	GoogleSearchConsoleSiteURL *string  `json:"googleSearchConsoleSiteURL"`
 	IsPublic                   *bool    `json:"isPublic"`
@@ -18,7 +18,7 @@ type OrganizationSite struct {
 	Domain                     string    `json:"domain"`
 	GoogleSearchConsoleSiteUrl *string   `json:"googleSearchConsoleSiteURL"`
 	HasEvents                  bool      `json:"hasEvents"`
-	ID                         uint      `json:"ID"`
+	ID                         uint      `json:"id"`
 	IsPublic                   bool      `json:"isPublic"`
 	Name                       string    `json:"name"`
 	SafeQueryParameters        []string  `gorm:"serializer:json" json:"safeQueryParameters"`
@@ -28,6 +28,7 @@ type OrganizationSite struct {
 type SiteService interface {
 	ServiceWithPostgres
 
-	Create(ctx context.Context, organizationID uint, params *CreateSiteParams) (*OrganizationSite, error)
-	List(ctx context.Context, organizationID uint) ([]*OrganizationSite, error)
+	CreateOrganizationSite(ctx context.Context, organizationID uint, params *CreateOrganizationSiteParams) (*OrganizationSite, error)
+	ListOrganizationSites(ctx context.Context, organizationID uint) ([]*OrganizationSite, error)
+	ReadOrganizationSite(ctx context.Context, organizationID uint, siteID uint) (*OrganizationSite, error)
 }

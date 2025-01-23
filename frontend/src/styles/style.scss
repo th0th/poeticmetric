@@ -39,15 +39,6 @@
 
 :root, [data-bs-theme="light"] {
   --header-height: 4rem;
-  --#{$prefix}body-color-subtle: #{$body-color-subtle};
-  --#{$prefix}box-shadow: #{$box-shadow};
-}
-
-@if $enable-dark-mode {
-  @include color-mode(dark, true) {
-    --#{$prefix}body-color-subtle: #{$body-color-subtle-dark};
-    --#{$prefix}box-shadow: #{$box-shadow-dark};
-  }
 }
 
 .dropdown-item {

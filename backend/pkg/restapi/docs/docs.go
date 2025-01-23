@@ -350,7 +350,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/poeticmetric.CreateSiteParams"
+                            "$ref": "#/definitions/poeticmetric.CreateOrganizationSiteParams"
                         }
                     }
                 ],
@@ -597,7 +597,7 @@ const docTemplate = `{
                 }
             }
         },
-        "poeticmetric.CreateSiteParams": {
+        "poeticmetric.CreateOrganizationSiteParams": {
             "type": "object",
             "properties": {
                 "domain": {
@@ -634,9 +634,6 @@ const docTemplate = `{
         "poeticmetric.OrganizationSite": {
             "type": "object",
             "properties": {
-                "ID": {
-                    "type": "integer"
-                },
                 "createdAt": {
                     "type": "string"
                 },
@@ -648,6 +645,9 @@ const docTemplate = `{
                 },
                 "hasEvents": {
                     "type": "boolean"
+                },
+                "id": {
+                    "type": "integer"
                 },
                 "isPublic": {
                     "type": "boolean"

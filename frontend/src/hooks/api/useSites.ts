@@ -1,13 +1,13 @@
 import { useCallback } from "react";
 import useSWR, { BareFetcher, SWRConfiguration, SWRResponse, useSWRConfig } from "swr";
-import { hydrateUser } from "~/lib/api/users";
+import { hydrateSite } from "~/lib/api/sites";
 
 type Config = SWRConfiguration<HydratedData, Error, BareFetcher<HydratedData>>;
-type Data = Array<User>;
-type HydratedData = Array<HydratedUser>;
+type Data = Array<Site>;
+type HydratedData = Array<HydratedSite>;
 type Response = SWRResponse<HydratedData, Error>;
 
-export default function useUsers(config?: Config): Response {
+export default function useSites(config?: Config): Response {
   const { fetcher: baseFetcher } = useSWRConfig();
 
   const fetcher = useCallback<BareFetcher<HydratedData>>(async (...args) => {
@@ -21,8 +21,8 @@ export default function useUsers(config?: Config): Response {
       return data;
     }
 
-    return data.map(hydrateUser);
+    return data.map(hydrateSite);
   }, [baseFetcher]);
 
-  return useSWR<HydratedData, Error>("/users", { ...config, fetcher });
+  return useSWR<HydratedData, Error>("/sites", { ...config, fetcher });
 }

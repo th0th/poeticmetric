@@ -30,7 +30,7 @@ type AuthenticationOrganization struct {
 type AuthenticationUser struct {
 	CreatedAt           time.Time `json:"createdAt"`
 	Email               string    `json:"email"`
-	Id                  uint      `json:"id"`
+	ID                  uint      `json:"id"`
 	IsEmailVerified     bool      `json:"isEmailVerified"`
 	IsOrganizationOwner bool      `json:"isOrganizationOwner"`
 	Name                string    `json:"name"`

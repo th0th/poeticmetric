@@ -100,6 +100,10 @@ func (s *service) ReadOrganizationUser(ctx context.Context, organizationID uint,
 	organizationUser := poeticmetric.OrganizationUser{}
 	err := postgres.First(&organizationUser, poeticmetric.User{ID: userID, OrganizationID: organizationID}, "ID", "OrganizationID").Error
 	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, errors.Wrap(poeticmetric.ErrNotFound, 0)
+		}
+
 		return nil, errors.Wrap(err, 0)
 	}
 

@@ -33,7 +33,7 @@ func New(params NewParams) poeticmetric.ValidationService {
 	}
 }
 
-func (s *service) CreateSiteParams(ctx context.Context, organizationID uint, params *poeticmetric.CreateSiteParams) error {
+func (s *service) CreateOrganizationSiteParams(ctx context.Context, organizationID uint, params *poeticmetric.CreateOrganizationSiteParams) error {
 	postgres := poeticmetric.ServicePostgres(ctx, s)
 
 	organization := poeticmetric.Organization{}

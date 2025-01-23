@@ -3,14 +3,13 @@ import { lazy } from "react";
 import { Link, Redirect, Route } from "wouter";
 import Breadcrumb from "~/components/Breadcrumb";
 import Title from "~/components/Title";
-import withAuthorization from "~/components/withAuthorization";
 import useAuthentication from "~/hooks/useAuthentication";
 
 const OrganizationDetails = lazy(() => import("./OrganizationDetails"));
 const Password = lazy(() => import("./Password"));
 const Profile = lazy(() => import("./Profile"));
 
-function Settings() {
+export default function Settings() {
   const { user } = useAuthentication();
 
   return (
@@ -103,5 +102,3 @@ function Settings() {
     </>
   );
 }
-
-export default withAuthorization(Settings, { isAuthenticated: true });
