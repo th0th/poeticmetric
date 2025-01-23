@@ -10,7 +10,7 @@ import (
 )
 
 func (s *service) CreateOrganizationSite(ctx context.Context, organizationID uint, params *poeticmetric.CreateOrganizationSiteParams) (*poeticmetric.OrganizationSite, error) {
-	err := s.validationService.CreateSiteParams(ctx, organizationID, params)
+	err := s.validationService.CreateOrganizationSiteParams(ctx, organizationID, params)
 	if err != nil {
 		return nil, err
 	}
