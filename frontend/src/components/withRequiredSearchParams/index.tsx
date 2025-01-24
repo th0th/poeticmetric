@@ -4,7 +4,7 @@ import useSearchParams from "~/hooks/useSearchParams";
 
 export default function withRequiredSearchParams(Component: FC, paramNames: Array<string>) {
   function Wrapped() {
-    const { searchParams } = useSearchParams();
+    const [, searchParams] = useSearchParams();
 
     const shouldRender = useMemo<boolean>(() => {
       for (const paramName of paramNames) {
