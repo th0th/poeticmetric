@@ -43,6 +43,10 @@ func (m *ValidationServiceMock) UpdateOrganizationParams(ctx context.Context, pa
 	return m.Called(ctx, params).Error(0)
 }
 
+func (m *ValidationServiceMock) UpdateOrganizationSiteParams(ctx context.Context, organizationID uint, siteID uint, params *UpdateOrganizationSiteParams) error {
+	return m.Called(ctx, organizationID, siteID, params).Error(0)
+}
+
 func (m *ValidationServiceMock) UpdateOrganizationUserParams(ctx context.Context, organizationID uint, userID uint, params *UpdateOrganizationUserParams) error {
 	return m.Called(ctx, organizationID, userID, params).Error(0)
 }
