@@ -4,13 +4,14 @@ import { Link } from "wouter";
 import Avatar from "~/components/Avatar";
 import useAuthentication from "~/hooks/useAuthentication";
 import useSearchParams from "~/hooks/useSearchParams";
+import { getUpdatedSearch } from "~/lib/router";
 
 export type UserProps = Overwrite<PropsWithoutRef<JSX.IntrinsicElements["div"]>, {
   user: HydratedUser;
 }>;
 
 export default function User({ className, user, ...props }: UserProps) {
-  const { setSearchParams } = useSearchParams();
+  const [search] = useSearchParams();
   const { user: authUser } = useAuthentication();
 
   return (
@@ -31,7 +32,7 @@ export default function User({ className, user, ...props }: UserProps) {
         <div className="d-flex flex-column flex-sm-row gap-4">
           <Link className="btn btn-primary btn-sm" to={`/team/edit?userID=${user.id}`}>Edit</Link>
 
-          <Link className="btn btn-danger btn-sm" to={`/team${setSearchParams({ action: "delete", userID: user.id.toString() })}`}>
+          <Link className="btn btn-danger btn-sm" to={`/team${getUpdatedSearch(search, { action: "delete", userID: user.id.toString() })}`}>
             Delete
           </Link>
 
@@ -41,7 +42,7 @@ export default function User({ className, user, ...props }: UserProps) {
 
               <Link
                 className="btn btn-outline-secondary btn-sm"
-                to={`/team${setSearchParams({ action: "transferOwnership", userID: user.id.toString() })}`}
+                to={`/team${getUpdatedSearch(search, { action: "transferOwnership", userID: user.id.toString() })}`}
               >
                 Transfer ownership
               </Link>

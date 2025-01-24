@@ -42,6 +42,39 @@ func (s *service) organizationCanAddUser(ctx context.Context) *v.MessageValidato
 	return &mv
 }
 
+func (s *service) siteUniqueDomain(ctx context.Context, siteID *uint) *v.MessageValidator {
+	mv := v.MessageValidator{
+		Message: "is already in use",
+	}
+
+	mv.Validator = v.Func(func(field *v.Field) v.Errors {
+		value, ok := field.Value.(string)
+		if !ok {
+			return v.NewUnsupportedErrors("siteUniqueDomain", field, "string")
+		}
+
+		postgres := poeticmetric.ServicePostgres(ctx, s)
+
+		q := postgres.
+			Where(poeticmetric.OrganizationSite{Domain: value}, "Domain")
+		if siteID != nil {
+			q = q.Not(poeticmetric.OrganizationSite{ID: *siteID})
+		}
+		err := q.First(&poeticmetric.OrganizationSite{}).Error
+		if err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return nil
+			}
+
+			return v.NewErrors(field.Name, v.ErrUnsupported, err.Error())
+		}
+
+		return v.NewInvalidErrors(field, mv.Message)
+	})
+
+	return &mv
+}
+
 func (s *service) userUniqueEmail(ctx context.Context, userID *uint) *v.MessageValidator {
 	mv := v.MessageValidator{
 		Message: "is not unique",

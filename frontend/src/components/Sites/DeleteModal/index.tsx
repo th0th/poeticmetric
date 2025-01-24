@@ -3,7 +3,7 @@ import { Modal } from "react-bootstrap";
 import { useErrorBoundary } from "react-error-boundary";
 import { useLocation } from "wouter";
 import Portal from "~/components/Portal";
-import useUsers from "~/hooks/api/useUsers";
+import useSites from "~/hooks/api/useSites";
 import useSearchParams from "~/hooks/useSearchParams";
 import { api } from "~/lib/api";
 import { getUpdatedSearch } from "~/lib/router";
@@ -11,22 +11,22 @@ import { getUpdatedSearch } from "~/lib/router";
 type State = {
   isInProgress: boolean;
   isShown: boolean;
-  user: HydratedUser | null;
+  site: HydratedSite | null;
 };
 
 export default function DeleteModal() {
   const { showBoundary } = useErrorBoundary();
   const [location, navigate] = useLocation();
   const [search, searchParams] = useSearchParams();
-  const [state, setState] = useState<State>({ isInProgress: false, isShown: false, user: null });
+  const [state, setState] = useState<State>({ isInProgress: false, isShown: false, site: null });
   const isEnabled = useMemo(() => searchParams.get("action") === "delete", [searchParams]);
-  const userID = useMemo(() => Number(searchParams.get("userID")) || undefined, [searchParams]);
-  const { mutate } = useUsers();
+  const siteID = useMemo(() => Number(searchParams.get("siteID")) || undefined, [searchParams]);
+  const { mutate } = useSites();
 
   async function confirmDeletion() {
     try {
       setState((s) => ({ ...s, isInProgress: true }));
-      const response = await api.delete(`/users/${userID}`);
+      const response = await api.delete(`/sites/${siteID}`);
 
       if (response.ok) {
         await mutate();
@@ -41,7 +41,7 @@ export default function DeleteModal() {
   }
 
   function handleExited() {
-    navigate(`${location}${getUpdatedSearch(search, { action: null, userID: null })}`, { replace: true });
+    navigate(`${location}${getUpdatedSearch(search, { action: null, siteID: null })}`, { replace: true });
   }
 
   function hide() {
@@ -49,45 +49,45 @@ export default function DeleteModal() {
   }
 
   useEffect(() => {
-    if (isEnabled && userID !== undefined) {
+    if (isEnabled && siteID !== undefined) {
       setState((s) => ({ ...s, isShown: true }));
     }
-  }, [isEnabled, userID]);
+  }, [isEnabled, siteID]);
 
   useEffect(() => {
-    async function getUser() {
+    async function getSite() {
       try {
-        if (userID === null) {
+        if (siteID === null) {
           return;
         }
 
-        const response = await api.get(`/users/${userID}`);
+        const response = await api.get(`/sites/${siteID}`);
 
         if (response.ok) {
-          const user = await response.json();
-          setState((s) => ({ ...s, user }));
+          const site = await response.json();
+          setState((s) => ({ ...s, site }));
         }
       } catch (e) {
         showBoundary(e);
       }
     }
 
-    getUser().catch((e) => {
+    getSite().catch((e) => {
       showBoundary(e);
     });
-  }, [showBoundary, userID]);
+  }, [showBoundary, siteID]);
 
   return (
     <Portal>
       <Modal centered onExited={handleExited} onHide={hide} show={state.isShown}>
         <Modal.Header closeButton>
-          <Modal.Title>Delete user</Modal.Title>
+          <Modal.Title>Delete site</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
-          Are you sure you want to delete team member
+          Are you sure you want to delete site
           {" "}
-          <span className="fw-semi-bold">{state.user?.name}</span>
+          <span className="fw-semi-bold">{state.site?.name}</span>
           ?
         </Modal.Body>
 

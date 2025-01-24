@@ -1,4 +1,4 @@
-import { IconMailCheck, IconSquareRoundedCheck } from "@tabler/icons-react";
+import { IconWorldCheck } from "@tabler/icons-react";
 import classNames from "classnames";
 import { useMemo } from "react";
 import { useErrorBoundary } from "react-error-boundary";
@@ -87,12 +87,12 @@ export default function SiteForm() {
           {isSubmitSuccessful ? (
             <Result
               description={siteID === null
-                ? "An e-mail has been sent to the team member with an invitation to join your organization."
-                : "The team member has been updated."}
-              icon={siteID === null ? IconMailCheck : IconSquareRoundedCheck}
-              title={siteID === null ? "Invitation is sent" : "Team member is updated"}
-              to="/team"
-              toTitle="Go back to team"
+                ? "Site is successfully created."
+                : "Site has been updated."}
+              icon={IconWorldCheck}
+              title={siteID === null ? "Site is created" : "Site is updated"}
+              to="/sites"
+              toTitle="Go back to sites"
             />
           ) : (
             <form className="card overflow-hidden position-relative" onSubmit={handleSubmit(submit)}>

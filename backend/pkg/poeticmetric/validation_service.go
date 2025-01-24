@@ -14,5 +14,6 @@ type ValidationService interface {
 	SendUserPasswordRecoveryEmailParams(ctx context.Context, params *SendUserPasswordRecoveryEmailParams) error
 	UpdateAuthenticationUserParams(ctx context.Context, params *UpdateAuthenticationUserParams) error
 	UpdateOrganizationParams(ctx context.Context, params *UpdateOrganizationParams) error
+	UpdateOrganizationSiteParams(ctx context.Context, organizationID uint, siteID uint, params *UpdateOrganizationSiteParams) error
 	UpdateOrganizationUserParams(ctx context.Context, organizationID uint, userID uint, params *UpdateOrganizationUserParams) error
 }

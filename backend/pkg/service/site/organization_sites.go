@@ -44,6 +44,20 @@ func (s *service) CreateOrganizationSite(ctx context.Context, organizationID uin
 	}, nil
 }
 
+func (s *service) DeleteOrganizationSite(ctx context.Context, organizationID uint, siteID uint) error {
+	postgres := poeticmetric.ServicePostgres(ctx, s)
+
+	q := postgres.Where(poeticmetric.Site{ID: siteID, OrganizationID: organizationID}).Delete(&poeticmetric.Site{})
+	if q.Error != nil {
+		return errors.Wrap(q.Error, 0)
+	}
+	if q.RowsAffected != 1 {
+		return errors.Wrap(poeticmetric.ErrNotFound, 0)
+	}
+
+	return nil
+}
+
 func (s *service) ListOrganizationSites(ctx context.Context, organizationID uint) ([]*poeticmetric.OrganizationSite, error) {
 	postgres := poeticmetric.ServicePostgres(ctx, s)
 
@@ -70,4 +84,53 @@ func (s *service) ReadOrganizationSite(ctx context.Context, organizationID uint,
 	}
 
 	return &organizationSite, nil
+}
+
+func (s *service) UpdateOrganizationSite(ctx context.Context, organizationID uint, siteID uint, params *poeticmetric.UpdateOrganizationSiteParams) error {
+	postgres := poeticmetric.ServicePostgres(ctx, s)
+
+	err := s.validationService.UpdateOrganizationSiteParams(ctx, organizationID, siteID, params)
+	if err != nil {
+		return errors.Wrap(err, 0)
+	}
+
+	update := poeticmetric.Site{}
+	var fields []string
+
+	if params.Domain != nil {
+		update.Domain = *params.Domain
+		fields = append(fields, "Domain")
+	}
+
+	if params.GoogleSearchConsoleSiteURL != nil {
+		update.GoogleSearchConsoleSiteUrl = params.GoogleSearchConsoleSiteURL
+		fields = append(fields, "GoogleSearchConsoleSiteUrl")
+	}
+
+	if params.IsPublic != nil {
+		update.IsPublic = *params.IsPublic
+		fields = append(fields, "IsPublic")
+	}
+
+	if params.Name != nil {
+		update.Name = *params.Name
+		fields = append(fields, "Name")
+	}
+
+	if params.SafeQueryParameters != nil {
+		update.SafeQueryParameters = params.SafeQueryParameters
+		fields = append(fields, "SafeQueryParameters")
+	}
+
+	err = postgres.
+		Model(&poeticmetric.Site{}).
+		Select(fields).
+		Where(poeticmetric.Site{ID: siteID, OrganizationID: organizationID}, "ID", "OrganizationId").
+		Updates(update).
+		Error
+	if err != nil {
+		return errors.Wrap(err, 0)
+	}
+
+	return nil
 }
