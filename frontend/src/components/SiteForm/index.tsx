@@ -23,7 +23,7 @@ export type Form = {
 
 export default function SiteForm() {
   const { showBoundary } = useErrorBoundary();
-  const { searchParams } = useSearchParams();
+  const [,searchParams] = useSearchParams();
   const siteID = searchParams.get("siteID");
   const title = useMemo(() => siteID === null ? "Add site" : "Edit site", [siteID]);
   const form = useForm<Form>({
