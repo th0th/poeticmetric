@@ -119,15 +119,6 @@ func (s *service) UpdateOrganizationSiteParams(ctx context.Context, organization
 				v.Is(func(_ any) bool {
 					return organization.GoogleOauthRefreshToken != nil
 				}).Msg("You need to connect your Google Search Console account to use this feature."),
-
-				//v.Is(func(x *string) bool {
-				//	isOk, err2 := s.googleSearchConsoleSiteURL(ctx, organizationID, *x)
-				//	if err2 != nil {
-				//		errs = append(errs, err2)
-				//	}
-				//
-				//	return isOk
-				//}),
 			),
 		),
 
