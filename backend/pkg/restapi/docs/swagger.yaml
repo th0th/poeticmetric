@@ -121,6 +121,21 @@ definitions:
       email:
         type: string
     type: object
+  poeticmetric.UpdateOrganizationSiteParams:
+    properties:
+      domain:
+        type: string
+      googleSearchConsoleSiteURL:
+        type: string
+      isPublic:
+        type: boolean
+      name:
+        type: string
+      safeQueryParameters:
+        items:
+          type: string
+        type: array
+    type: object
   poeticmetric.UpdateOrganizationUserParams:
     properties:
       name:
@@ -355,6 +370,69 @@ paths:
       security:
       - UserAccessTokenAuthentication: []
       summary: Create site
+      tags:
+      - sites
+  /sites/{siteID}:
+    delete:
+      description: Delete an organization site.
+      parameters:
+      - description: Site ID
+        in: path
+        name: siteID
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Delete site
+      tags:
+      - sites
+    get:
+      description: Read an organization site.
+      parameters:
+      - description: Site ID
+        in: path
+        name: siteID
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.OrganizationSite'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read site
+      tags:
+      - sites
+    patch:
+      description: Update organization site.
+      parameters:
+      - description: Site ID
+        in: path
+        name: siteID
+        required: true
+        type: integer
+      - description: Params
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/poeticmetric.UpdateOrganizationSiteParams'
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.OrganizationSite'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Update site
       tags:
       - sites
   /users:

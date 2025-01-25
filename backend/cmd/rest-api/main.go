@@ -178,8 +178,11 @@ func main() {
 	mux.HandleFunc("/{$}", rootHandler.Index())
 
 	// handlers: sites
+	mux.Handle("DELETE /sites/{siteID}", permissionUserAccessTokenAuthenticated.Append(permissionOwner.Then).ThenFunc(sitesHandler.Delete))
 	mux.Handle("POST /sites", permissionUserAccessTokenAuthenticated.ThenFunc(sitesHandler.Create))
 	mux.Handle("GET /sites", permissionUserAccessTokenAuthenticated.ThenFunc(sitesHandler.List))
+	mux.Handle("GET /sites/{siteID}", permissionUserAccessTokenAuthenticated.ThenFunc(sitesHandler.Read))
+	mux.Handle("PATCH /sites/{siteID}", permissionUserAccessTokenAuthenticated.Append(permissionOwner.Then).ThenFunc(sitesHandler.Update))
 
 	// handlers: users
 	mux.Handle("DELETE /users/{userID}", permissionUserAccessTokenAuthenticated.Append(permissionOwner.Then).ThenFunc(usersHandler.Delete))
