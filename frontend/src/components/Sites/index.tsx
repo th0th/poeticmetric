@@ -5,15 +5,16 @@ import Title from "~/components/Title";
 import useSites from "~/hooks/api/useSites";
 import useListFilters from "~/hooks/useListFilters";
 import Site from "./Site";
+import DeleteModal from "./DeleteModal";
 
 export default function Sites() {
   const { data: sites } = useSites();
   const [listFilters, filteredSites] = useListFilters(sites, [
     {
       dataBy: "isPublic",
-      dataDisplayBy: (site: HydratedSite) => site.isPublic ? "Owner" : "Team member",
-      name: "Role",
-      searchParamName: "public",
+      dataDisplayBy: (site: HydratedSite) => site.isPublic ? "Public" : "Not public",
+      name: "Public",
+      searchParamName: "isPublic",
     },
   ]);
 
@@ -44,6 +45,8 @@ export default function Sites() {
           ))}
         </div>
       </div>
+
+      <DeleteModal />
     </>
   );
 }

@@ -19,7 +19,7 @@ type Form = {
 
 export default function TeamMemberForm() {
   const { showBoundary } = useErrorBoundary();
-  const { searchParams } = useSearchParams();
+  const [, searchParams] = useSearchParams();
   const userID = searchParams.get("userID");
   const title = useMemo(() => userID === null ? "Invite team member" : "Edit team member", [userID]);
   const { formState: { errors, isLoading, isSubmitSuccessful, isSubmitting }, handleSubmit, register, setError, watch } = useForm<Form>({
