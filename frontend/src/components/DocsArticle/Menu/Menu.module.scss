@@ -1,0 +1,8 @@
+@import "base";
+
+.menu {
+  @include media-breakpoint-up(md) {
+    max-height: calc(100vh - var(--header-height));
+    top: var(--header-height);
+  }
+}

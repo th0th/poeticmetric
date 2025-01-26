@@ -4,7 +4,7 @@ import { useLocation } from "wouter";
 export const siteLocations: Array<string> = [
   "/",
   "/blog",
-  "/docs",
+  "/docs(/.*)?",
   "/manifesto",
   "/open-source",
   "/pricing",
@@ -12,8 +12,16 @@ export const siteLocations: Array<string> = [
   "/terms-of-service",
 ];
 
-export default function useHeaderVariant(): "application" | "site" {
+export default function useLayoutVariant(): LayoutVariant {
   const [location] = useLocation();
 
-  return useMemo(() => siteLocations.includes(location) ? "site" : "application", [location]);
+  return useMemo(() => {
+    for (const d of siteLocations) {
+      if (new RegExp(`^${d}$`).test(location)) {
+        return "site";
+      }
+    }
+
+    return "application";
+  }, [location]);
 }

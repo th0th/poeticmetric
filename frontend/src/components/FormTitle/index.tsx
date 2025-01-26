@@ -1,7 +1,7 @@
+import { IconChevronLeft } from "@tabler/icons-react";
 import classNames from "classnames";
 import { PropsWithoutRef, ReactNode, JSX } from "react";
 import styles from "./FormTitle.module.css";
-import { IconChevronLeft } from "@tabler/icons-react";
 
 export type FormTitleProps = Overwrite<Omit<PropsWithoutRef<JSX.IntrinsicElements["div"]>, "children">, {
   actions?: ReactNode;

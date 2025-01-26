@@ -8,6 +8,7 @@ import Pre from "~/components/Markdown/Pre";
 import Table from "~/components/Markdown/Table";
 import MarkdownContext from "~/contexts/MarkdownContext";
 import Alert from "./Alert";
+import Image from "./Image";
 import styles from "./Markdown.module.scss";
 import TableOfContents from "./TableOfContents";
 
@@ -32,6 +33,7 @@ export default function Markdown({ children, className, options: optionsFromProp
       TableOfContents,
       a: Anchor,
       blockquote: Blockquote,
+      img: Image,
       pre: Pre,
       table: Table,
     },
