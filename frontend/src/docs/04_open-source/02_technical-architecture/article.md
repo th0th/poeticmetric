@@ -5,8 +5,6 @@ title: Technical architecture
 
 In this article, we will explore the technical software architecture that drives PoeticMetric Analytics, highlighting the core principles of transparency and openness that are at the heart of our platform. Built upon open source technologies, PoeticMetric Analytics is designed to provide website owners with a comprehensive and privacy-first web analytics solution. By understanding the underlying technical architecture, you gain insights into how your data is collected, processed, and stored, ensuring full transparency and control over your analytics experience. Let's dive into the details of PoeticMetric's software architecture and discover how open source empowers you to make informed decisions about your data.
 
-<!-- end -->
-
 ## An overview of PoeticMetric's topology
 
 ![PoeticMetric's architecture](./topology.png)

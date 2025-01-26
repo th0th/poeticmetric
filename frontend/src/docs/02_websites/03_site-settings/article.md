@@ -10,8 +10,6 @@ title: Site settings
 * [Safe query parameters](#safe-query-parameters)
 * [Public reports](#public-reports)
 
-<!-- end -->
-
 ![site settings](./site-settings.png "Site settings")
 
 ## Domain

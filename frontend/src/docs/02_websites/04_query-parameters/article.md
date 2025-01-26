@@ -5,8 +5,6 @@ title: "Query parameters"
 
 **Query parameters** (also known as "query string" or "URL parameters") are the part of the **URL** (uniform resource locator) that comes after the question mark **(?)**.
 
-<!-- end -->
-
 Query parameters consist of a key and a value, separated by an equal sign (=). And if there are multiple parameters, each is separated by an ampersand (&).
 
 ![query parameters in the address bar](./address-bar.jpg "Query parameters in the address bar")

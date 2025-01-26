@@ -5,8 +5,6 @@ title: Self-hosting
 
 You can get your own PoeticMetric Analytics self-hosted website analytics instance up and running in minutes following this guide. It doesn't require any software development expertise, if you are a little tech-savvy you can do it. PoeticMetric is designed to be self-hosted with Docker, and ready-to-use Docker images are published publicly.
 
-<!-- end -->
-
 If you are curious, there is another documentation article that explains about the parts of PoeticMetric and how these parts communicate with each other. You can check the technical architecture documentation [here](/docs/open-source/technical-architecture).
 
 ## Requirements
