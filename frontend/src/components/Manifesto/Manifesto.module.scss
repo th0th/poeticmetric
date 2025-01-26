@@ -1,0 +1,12 @@
+@import "base";
+
+.manifesto {
+  h1:global(#poeticmetrics-vision) {
+    font-size: map-get($display-font-sizes, 4);
+  }
+
+  h3:global(#building-a-better-web) {
+    font-size: map-get($font-sizes, 4);
+    margin-block-end: 0;
+  }
+}

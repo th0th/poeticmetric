@@ -2,9 +2,9 @@ import stylistic from "@stylistic/eslint-plugin";
 import pluginImport from "eslint-plugin-import";
 import jsxA11y from "eslint-plugin-jsx-a11y";
 import pluginReact from "eslint-plugin-react";
+import pluginReactHooks from "eslint-plugin-react-hooks";
 import pluginSortDestructureKeys from "eslint-plugin-sort-destructure-keys";
 import pluginTypescriptSortKeys from "eslint-plugin-typescript-sort-keys";
-import pluginReactHooks from "eslint-plugin-react-hooks";
 import globals from "globals";
 import typescriptEslint from "typescript-eslint";
 
@@ -107,6 +107,7 @@ export default [
     rules: {
       "@typescript-eslint/consistent-type-definitions": ["error", "type"],
       "@typescript-eslint/no-explicit-any": 0,
+      "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
     },
   },
 

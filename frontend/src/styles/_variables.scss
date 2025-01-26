@@ -132,7 +132,7 @@ $spacers: map-merge($spacers, (0: 0,
   88: $spacer * 12,
 ));
 $theme-colors: map-merge($theme-colors, (
-  navy: $navy,
+  "navy": $navy,
 ));
 $tooltip-max-width: 240px;
 $tooltip-padding-y: 0.5rem;
