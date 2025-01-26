@@ -12,7 +12,7 @@ title: Site settings
 
 <!-- end -->
 
-![site settings](/docs-files/websites/site-settings/site-settings.png "Site settings")
+![site settings](./site-settings.png "Site settings")
 
 ## Domain
 

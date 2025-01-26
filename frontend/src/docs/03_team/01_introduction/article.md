@@ -13,7 +13,7 @@ You can invite your team by going to the [Team](/team) page, and clicking the **
 
 Until they accept the invite clicking the link included in the e-mail, their account will be listed on the team page with an **"invited by not activated yet"** indicator.
 
-<img alt="invited-team-member" src="/docs-files/team/introduction/invited-team-member.png" style="max-width: 400px" />
+<img alt="invited-team-member" src="./invited-team-member.png" style="max-width: 400px" />
 
 <Alert variant="primary">
     You can read more about team member permissions on <a href="/docs/team/permissions">Permissions</a>.

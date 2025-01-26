@@ -33,11 +33,11 @@ To set safe query parameters for your website on PoeticMetric:
 
 1. Go to **Sites**, and click the **Edit** button below the website you would like to set safe query parameters for.
 
-   ![edit site](/docs-files/websites/query-parameters/edit-site.png "Edit site")
+   ![edit site](./edit-site.png "Edit site")
 
 2. Under the **Safe query parameters** section, type the query parameter you want to add and press enter.
 
-   ![set query parameters in PoeticMetric site settings](/docs-files/websites/query-parameters/update-safe-query-parameters.png "Set safe query parameters in PoeticMetric site settings")
+   ![set query parameters in PoeticMetric site settings](./update-safe-query-parameters.png "Set safe query parameters in PoeticMetric site settings")
 
 3. Repeat the process for each query parameter you want to add.
 

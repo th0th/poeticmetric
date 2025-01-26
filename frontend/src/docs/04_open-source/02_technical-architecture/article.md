@@ -9,14 +9,8 @@ In this article, we will explore the technical software architecture that drives
 
 ## An overview of PoeticMetric's topology
 
-<a href="/docs-files/open-source/technical-architecture/topology.png" target="_blank">
-    <figure>
-        <img alt="Software architecture (topology)" src="/docs-files/open-source/technical-architecture/topology.png">
-        <figcaption>
-            PoeticMetric's architecture
-        </figcaption>
-    </figure>
-</a>
+![PoeticMetric's architecture](./topology.png)
+<span class="d-block fs-7 text-center">PoeticMetric's architecture</span>
 
 ## Components
 

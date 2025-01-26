@@ -9,7 +9,7 @@ The first team member, who signed up is set as the **organization owner**. Organ
 
 <!-- end -->
 
-<img alt="owner" src="/docs-files/team/permissions/owner.png" style="max-width: 400px" />
+<img alt="owner" src="./owner.png" style="max-width: 400px" />
 
 The organization owner is the only team member who can
 

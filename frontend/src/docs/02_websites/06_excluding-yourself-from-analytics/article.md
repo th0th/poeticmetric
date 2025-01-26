@@ -17,9 +17,9 @@ You might be familiar with this process and look for a way to ignore some IP add
 
     * For **Google Chrome**, you can select **View > Developer > JavaScript Console** ([screenshot](./google-chrome.png)). Or press `Command + Option + J` on **MacOS**, `Control + Shift + J` on **Windows, Linux and Chrome OS**.
 
-    * For **Safari**, first, you [need to enable **Developer tools**](https://support.apple.com/guide/safari/use-the-developer-tools-in-the-develop-menu-sfri20948/mac). Then you can select **Develop > Show JavaScript Console** ([screenshot](/docs-files/websites/excluding-yourself-from-analytics/safari.png)). Or press `Command + Option + C`.
+    * For **Safari**, first, you [need to enable **Developer tools**](https://support.apple.com/guide/safari/use-the-developer-tools-in-the-develop-menu-sfri20948/mac). Then you can select **Develop > Show JavaScript Console** ([screenshot](./safari.png)). Or press `Command + Option + C`.
 
-    * For **Mozilla Firefox**, you can select **Menu > More tools > Browser console** ([screenshot](/docs-files/websites/excluding-yourself-from-analytics/mozilla-firefox.png)). Or press `Command + Shift + J` on **MacOS**, `Control + Shift + J` on **Windows**.
+    * For **Mozilla Firefox**, you can select **Menu > More tools > Browser console** ([screenshot](./mozilla-firefox.png)). Or press `Command + Shift + J` on **MacOS**, `Control + Shift + J` on **Windows**.
 
 3. Then paste this and press enter:
 
