@@ -51,5 +51,3 @@ export default function DocsArticle() {
     </DocsArticleContext.Provider>
   );
 }
-
-export const Component = DocsArticle;

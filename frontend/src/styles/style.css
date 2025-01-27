@@ -25506,7 +25506,7 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
-:root, [data-bs-theme=light] {
+:root {
   --header-height: 4rem;
 }
 

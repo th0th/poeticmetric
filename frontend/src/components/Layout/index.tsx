@@ -16,7 +16,7 @@ export default function Layout({ children, mainClassName }: LayoutProps) {
     <>
       <Header layoutVariant={layoutVariant} />
 
-      <main className={classNames("d-flex flex-grow-1", mainClassName)}>{children}</main>
+      <main className={classNames("d-flex flex-column flex-grow-1", mainClassName)}>{children}</main>
 
       {layoutVariant === "site" ? (
         <Footer />

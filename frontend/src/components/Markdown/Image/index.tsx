@@ -1,13 +1,13 @@
 import classNames from "classnames";
 import { JSX, PropsWithoutRef, useContext, useMemo } from "react";
 import MarkdownContext from "~/contexts/MarkdownContext";
-// import { getBlogPostAssets } from "~/lib/blog";
+import { getBlogPostAssets } from "~/lib/blog";
 import { getDocsArticleAssets } from "~/lib/docs";
 
 export type ImageProps = PropsWithoutRef<JSX.IntrinsicElements["img"]>;
 
 const assetsMap: Record<Exclude<Markdown["type"], undefined>, Record<string, string>> = {
-  // blogPost: getBlogPostAssets(),
+  blogPost: getBlogPostAssets(),
   docsArticle: getDocsArticleAssets(),
 };
 
