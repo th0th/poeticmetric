@@ -16,6 +16,8 @@ export type AppProps = {
   path?: string;
 };
 
+const BlogPage = lazy(() => import("~/components/BlogPage"));
+const BlogPost = lazy(() => import("~/components/BlogPost"));
 const Bootstrap = lazy(() => import("~/components/Bootstrap"));
 const DocsArticle = lazy(() => import("~/components/DocsArticle"));
 const Manifesto = lazy(() => import("~/components/Manifesto"));
@@ -46,6 +48,9 @@ export default function App({ path }: AppProps) {
                   <Switch>
                     <Route component={Home} path="/" />
                     <Route component={Bootstrap} path="/bootstrap" />
+                    <Route component={BlogPage} path="/blog" />
+                    <Route component={BlogPage} path="/blog/page/:blogPage" />
+                    <Route component={BlogPost} path="/blog/:blogPostSlug" />
                     <Route component={DocsArticle} path="/docs" />
                     <Route component={DocsArticle} path="/docs/:docsCategorySlug/:docsArticleSlug" />
                     <Route component={Manifesto} path="/manifesto" />
