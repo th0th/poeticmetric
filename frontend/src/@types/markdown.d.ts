@@ -1,5 +1,6 @@
 type Markdown = {
   content: string;
   path?: string;
-  type?: "blogPost" | "docsArticle";
+  type?: "docsArticle";
+  // type?: "blogPost" | "docsArticle";
 };

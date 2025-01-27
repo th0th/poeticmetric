@@ -2,8 +2,8 @@ import classNames from "classnames";
 import Description from "~/components/Description";
 import Markdown from "~/components/Markdown";
 import Title from "~/components/Title";
-import markdown from "./manifesto.md?raw";
 import styles from "./Manifesto.module.scss";
+import markdown from "./manifesto.md?raw";
 
 export default function Manifesto() {
   return (

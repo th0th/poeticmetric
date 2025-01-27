@@ -40,6 +40,16 @@ export default [
   // import
   {
     ...pluginImport.flatConfigs.recommended,
+    rules: {
+      ...pluginImport.flatConfigs.recommended.rules,
+      "import/order": ["error", {
+        alphabetize: { order: "asc" },
+        groups: [["builtin", "external"], "parent", "sibling", "index"],
+        pathGroups: [
+          { group: "external", pattern: "~/**", position: "after" },
+        ],
+      }],
+    },
     settings: {
       "import/resolver": {
         typescript: {},

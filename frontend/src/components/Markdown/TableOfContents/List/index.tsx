@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import React, { JSX } from "react";
-import { TableOfContentsItem } from "../tableOfContentsItem";
 import Item from "../Item";
+import { TableOfContentsItem } from "../tableOfContentsItem";
 
 export type ListProps = Overwrite<React.PropsWithoutRef<JSX.IntrinsicElements["ol"]>, {
   allItems: Array<TableOfContentsItem>;

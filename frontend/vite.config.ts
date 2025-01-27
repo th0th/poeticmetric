@@ -2,6 +2,7 @@ import react from "@vitejs/plugin-react-swc";
 import autoprefixer from "autoprefixer";
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
+import { nodePolyfills } from "vite-plugin-node-polyfills";
 
 export default defineConfig({
   css: {
@@ -20,7 +21,7 @@ export default defineConfig({
       },
     },
   },
-  plugins: [react()],
+  plugins: [nodePolyfills({ include: ["buffer"] }), react()],
   resolve: {
     alias: [
       {

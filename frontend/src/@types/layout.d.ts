@@ -1,0 +1,1 @@
+type LayoutVariant = "application" | "site";

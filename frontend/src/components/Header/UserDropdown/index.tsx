@@ -2,13 +2,13 @@ import { Dropdown, DropdownProps } from "react-bootstrap";
 import { Link } from "wouter";
 import Avatar from "~/components/Avatar";
 import useAuthentication from "~/hooks/useAuthentication";
-import useHeaderVariant from "~/hooks/useHeaderVariant";
 
-export type UserDropdownProps = Omit<DropdownProps, "align" | "children">;
+export type UserDropdownProps = Overwrite<Omit<DropdownProps, "align" | "children">, {
+  layoutVariant: LayoutVariant;
+}>;
 
-export default function UserDropdown({ ...props }: UserDropdownProps) {
+export default function UserDropdown({ layoutVariant, ...props }: UserDropdownProps) {
   const { signOut, user } = useAuthentication();
-  const headerVariant = useHeaderVariant();
 
   return user ? (
     <Dropdown {...props} align="end">
@@ -21,7 +21,7 @@ export default function UserDropdown({ ...props }: UserDropdownProps) {
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        {headerVariant !== "application" ? (
+        {layoutVariant !== "application" ? (
           <>
             <Dropdown.Item as={Link} className="d-sm-none" to="/sites">Go to application</Dropdown.Item>
 
