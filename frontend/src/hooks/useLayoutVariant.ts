@@ -3,7 +3,7 @@ import { useLocation } from "wouter";
 
 export const siteLocations: Array<string> = [
   "/",
-  "/blog",
+  "/blog(/.*)?",
   "/docs(/.*)?",
   "/manifesto",
   "/open-source",

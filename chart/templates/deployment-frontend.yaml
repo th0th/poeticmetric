@@ -21,6 +21,11 @@ spec:
       - env:
         - name: NODE_ENV
           value: {{ if .Values.poeticmetric.development.enabled }}development{{ else }}production{{ end }}
+        - name: VITE_FRONTEND_BASE_URL
+          valueFrom:
+            configMapKeyRef:
+              key: FRONTEND_BASE_URL
+              name: {{ include "poeticmetric.fullname" . }}-poeticmetric
         image: {{ printf "%s:%s" .Values.poeticmetric.frontend.image.repository .Values.poeticmetric.frontend.image.tag }}
         imagePullPolicy: {{ .Values.poeticmetric.frontend.image.pullPolicy }}
         name: frontend

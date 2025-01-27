@@ -1,10 +1,14 @@
 import { JSX, PropsWithoutRef } from "react";
 import { Link } from "wouter";
 
-export type AnchorProps = PropsWithoutRef<JSX.IntrinsicElements["a"]>;
+export type AnchorProps = Pick<PropsWithoutRef<JSX.IntrinsicElements["a"]>, "className" | "href">;
 
 export default function Anchor({ href, ...props }: AnchorProps) {
-  return (
-    <Link target={href?.startsWith("http") ? "_blank" : undefined} to={href || ""} {...props} />
+  const isExternal = href === undefined || href.startsWith("http");
+
+  return isExternal ? (
+    <a {...props} href={href} target="_blank" />
+  ) : (
+    <Link {...props} to={href} />
   );
 }
