@@ -1,13 +1,16 @@
 import { IconBrandLinkedin, IconMail, IconMenu2 } from "@tabler/icons-react";
 import classNames from "classnames";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Dropdown, Nav, Navbar, NavItem, NavLink as BsNavLink, Offcanvas } from "react-bootstrap";
+import { JSX, PropsWithoutRef, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { NavLink as BsNavLink, Dropdown, Nav, NavItem, Navbar, Offcanvas } from "react-bootstrap";
 import { Link } from "wouter";
 import Logo from "~/components/Logo";
 import useAuthentication from "~/hooks/useAuthentication";
-import useHeaderVariant from "~/hooks/useHeaderVariant";
 import styles from "./Header.module.scss";
 import UserDropdown from "./UserDropdown";
+
+export type HeaderProps = Overwrite<PropsWithoutRef<JSX.IntrinsicElements["header"]>, {
+  layoutVariant: LayoutVariant;
+}>;
 
 type State = {
   isOffcanvasShown: boolean;
@@ -25,14 +28,13 @@ type NavItemWithTo = {
 
 type NavItem = NavItemWithItems | NavItemWithTo;
 
-export default function Header() {
+export default function Header({ layoutVariant }: HeaderProps) {
   const offcanvasBody = useRef<HTMLDivElement>(null);
   const [state, setState] = useState<State>({ isOffcanvasShown: false });
   const { user } = useAuthentication();
-  const variant = useHeaderVariant();
 
   const navItems = useMemo<Array<NavItem>>(() => {
-    if (variant === "application") {
+    if (layoutVariant === "application") {
       const v = [];
 
       if (user !== undefined && user !== null && user.isEmailVerified) {
@@ -45,7 +47,7 @@ export default function Header() {
       return v;
     }
 
-    if (variant === "site") {
+    if (layoutVariant === "site") {
       return [
         { title: "Home", to: "/" },
         { title: "Manifesto", to: "/manifesto" },
@@ -56,7 +58,7 @@ export default function Header() {
     }
 
     return [];
-  }, [user, variant]);
+  }, [user, layoutVariant]);
 
   const toggleOffcanvas = useCallback(() => {
     setState((s) => ({ ...s, isOffcanvasShown: !s.isOffcanvasShown }));
@@ -94,7 +96,7 @@ export default function Header() {
         </Navbar.Toggle>
 
         <Navbar.Brand as={Link} className={classNames("d-none d-sm-block me-1", styles.navbarBrand)} to="/">
-          <Logo className="d-block h-100" logotype={variant === "site"} />
+          <Logo className="d-block h-100" logotype={layoutVariant === "site"} />
         </Navbar.Brand>
 
         <Navbar.Offcanvas
@@ -130,7 +132,7 @@ export default function Header() {
                   <IconBrandLinkedin />
                 </a>
 
-                <a className="p-2" href="mailto:info@webgazer.io">
+                <a className="p-2" href="mailto:info@poeticmetric.com">
                   <IconMail />
                 </a>
               </div>
@@ -145,7 +147,7 @@ export default function Header() {
                 </>
               ) : (
                 <>
-                  {variant === "site" ? (
+                  {layoutVariant === "site" ? (
                     <Link className="btn btn-primary" to="/sites">Go to application</Link>
                   ) : null}
                 </>
@@ -157,11 +159,11 @@ export default function Header() {
         <div className="gap-4 align-items-center d-flex flex-row ms-auto">
           {user ? (
             <>
-              {variant === "site" ? (
+              {layoutVariant === "site" ? (
                 <Link className="btn btn-primary btn-sm d-none d-md-block" to="/sites">Go to application</Link>
               ) : null}
 
-              <UserDropdown />
+              <UserDropdown layoutVariant={layoutVariant} />
             </>
           ) : (
             <>

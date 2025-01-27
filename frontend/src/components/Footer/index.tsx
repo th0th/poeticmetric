@@ -3,7 +3,6 @@ import classNames from "classnames";
 import { JSX, PropsWithoutRef } from "react";
 import { Link } from "wouter";
 import Logo from "~/components/Logo";
-import useIsFooterRendered from "~/hooks/useIsFooterRendered";
 
 export type FooterProps = Omit<PropsWithoutRef<JSX.IntrinsicElements["footer"]>, "children">;
 
@@ -47,7 +46,7 @@ const navColumns: Array<NavColumn> = [
   },
   {
     items: [
-      { href: "https://status.webgazer.io", title: "Service status" },
+      { href: "https://status.poeticmetric.com", title: "Service status" },
       { title: "Documentation", to: "/docs" },
       { title: "Blog", to: "/blog" },
       { title: "For open source", to: "/for/open-source" },
@@ -96,9 +95,7 @@ function isNavColumnAnchor(item: NavColumnItem): item is NavColumnAnchor {
 }
 
 export default function Footer({ className, ...props }: FooterProps) {
-  const isFooterRendered = useIsFooterRendered();
-
-  return isFooterRendered ? (
+  return (
     <footer {...props} className={classNames("bg-body border-top mt-auto", className)}>
       <div className="container py-16">
         <div className="d-flex flex-column-reverse flex-lg-row gap-8">
@@ -176,7 +173,7 @@ export default function Footer({ className, ...props }: FooterProps) {
         </div>
       </div>
     </footer>
-  ) : null;
+  );
 }
 
 function getNavColumnItemClassName(item: NavColumnItem) {

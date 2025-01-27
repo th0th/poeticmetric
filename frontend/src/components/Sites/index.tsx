@@ -4,8 +4,8 @@ import Breadcrumb from "~/components/Breadcrumb";
 import Title from "~/components/Title";
 import useSites from "~/hooks/api/useSites";
 import useListFilters from "~/hooks/useListFilters";
-import Site from "./Site";
 import DeleteModal from "./DeleteModal";
+import Site from "./Site";
 
 export default function Sites() {
   const { data: sites } = useSites();
