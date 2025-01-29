@@ -23,12 +23,14 @@ const DocsArticle = lazy(() => import("~/components/DocsArticle"));
 const Manifesto = lazy(() => import("~/components/Manifesto"));
 const PasswordRecovery = lazy(() => import("~/components/PasswordRecovery"));
 const PasswordReset = lazy(() => import("~/components/PasswordReset"));
+const PrivacyPolicy = lazy(() => import("~/components/PrivacyPolicy"));
 const Settings = lazy(() => import("~/components/Settings"));
 const SignIn = lazy(() => import("~/components/SignIn"));
 const SiteForm = lazy(() => import("~/components/SiteForm"));
 const Sites = lazy(() => import("~/components/Sites"));
 const Team = lazy(() => import("~/components/Team"));
 const TeamMemberForm = lazy(() => import("~/components/TeamMemberForm"));
+const TermsOfService = lazy(() => import("~/components/TermsOfService"));
 
 export default function App({ path }: AppProps) {
   const suspenseFallback = useMemo(() => (
@@ -54,6 +56,8 @@ export default function App({ path }: AppProps) {
                     <Route component={DocsArticle} path="/docs" />
                     <Route component={DocsArticle} path="/docs/:docsCategorySlug/:docsArticleSlug" />
                     <Route component={Manifesto} path="/manifesto" />
+                    <Route component={PrivacyPolicy} path="/privacy-policy" />
+                    <Route component={TermsOfService} path="/terms-of-service" />
                     <Route component={withAuthorization(PasswordRecovery, { isAuthenticated: false })} path="/password-recovery" />
                     <Route component={withAuthorization(PasswordReset, { isAuthenticated: false })} path="/password-reset" />
                     <Route component={withAuthorization(Settings, { isAuthenticated: true })} path="/settings" />
