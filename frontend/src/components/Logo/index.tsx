@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { m } from "framer-motion";
-import { JSX, PropsWithoutRef } from "react";
+import { JSX, PropsWithoutRef, useId } from "react";
 
 export type Props = Overwrite<PropsWithoutRef<JSX.IntrinsicElements["svg"]>, {
   className?: string;
@@ -8,6 +8,8 @@ export type Props = Overwrite<PropsWithoutRef<JSX.IntrinsicElements["svg"]>, {
 }>;
 
 export default function Logo({ className, logotype = false }: Props) {
+  const id = useId();
+
   return (
     <m.svg
       animate={{ viewBox: logotype ? "0 0 529 100" : "0 0 100 100" }}
@@ -15,7 +17,7 @@ export default function Logo({ className, logotype = false }: Props) {
       initial={{ viewBox: logotype ? "0 0 529 100" : "0 0 100 100" }}
       xmlns="http://www.w3.org/2000/svg"
     >
-      <circle cx="50" cy="50" fill="url(#paint0_linear)" r="50" />
+      <circle cx="50" cy="50" fill={`url(#gradient-${id})`} r="50" />
 
       <path
         d="M40.2863 39.6961L34.6706 45.3118L6.07449 73.9059C3.2686 68.7608 1.33919 63.0686 0.490173 57.0294L29.0549 28.4647C32.1568 25.3647 37.1843 25.3647 40.2843 28.4667H40.2863C40.3098 28.4902 40.3333 28.5137 40.3568 28.5392C43.3863 31.6431 43.3627 36.6177 40.2863 39.6961V39.6961Z"
@@ -78,7 +80,7 @@ export default function Logo({ className, logotype = false }: Props) {
       </>
 
       <defs>
-        <linearGradient gradientUnits="userSpaceOnUse" id="paint0_linear" x1="0" x2="100" y1="0" y2="100">
+        <linearGradient gradientUnits="userSpaceOnUse" id={`gradient-${id}`} x1="0" x2="100" y1="0" y2="100">
           <stop stopColor="#3C91E6" />
           <stop offset="1" stopColor="#26639F" />
         </linearGradient>
