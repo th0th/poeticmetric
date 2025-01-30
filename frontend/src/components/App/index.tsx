@@ -3,7 +3,6 @@ import { lazy, Suspense, useMemo } from "react";
 import { Route, Router, Switch } from "wouter";
 import ActivityIndicator from "~/components/ActivityIndicator";
 import AppErrorBoundary from "~/components/AppErrorBoundary";
-import Home from "~/components/Home";
 import Layout from "~/components/Layout";
 import NotFound from "~/components/NotFound";
 import SWRConfig from "~/components/SWRConfig";
@@ -20,7 +19,9 @@ const BlogPage = lazy(() => import("~/components/BlogPage"));
 const BlogPost = lazy(() => import("~/components/BlogPost"));
 const Bootstrap = lazy(() => import("~/components/Bootstrap"));
 const DocsArticle = lazy(() => import("~/components/DocsArticle"));
+const Home = lazy(() => import("~/components/Home"));
 const Manifesto = lazy(() => import("~/components/Manifesto"));
+const OpenSource = lazy(() => import("~/components/OpenSource"));
 const PasswordRecovery = lazy(() => import("~/components/PasswordRecovery"));
 const PasswordReset = lazy(() => import("~/components/PasswordReset"));
 const PrivacyPolicy = lazy(() => import("~/components/PrivacyPolicy"));
@@ -49,15 +50,17 @@ export default function App({ path }: AppProps) {
                 <Suspense fallback={suspenseFallback}>
                   <Switch>
                     <Route component={Home} path="/" />
-                    <Route component={Bootstrap} path="/bootstrap" />
                     <Route component={BlogPage} path="/blog" />
                     <Route component={BlogPage} path="/blog/page/:blogPage" />
                     <Route component={BlogPost} path="/blog/:blogPostSlug" />
                     <Route component={DocsArticle} path="/docs" />
                     <Route component={DocsArticle} path="/docs/:docsCategorySlug/:docsArticleSlug" />
                     <Route component={Manifesto} path="/manifesto" />
+                    <Route component={OpenSource} path="/open-source" />
                     <Route component={PrivacyPolicy} path="/privacy-policy" />
                     <Route component={TermsOfService} path="/terms-of-service" />
+
+                    <Route component={Bootstrap} path="/bootstrap" />
                     <Route component={withAuthorization(PasswordRecovery, { isAuthenticated: false })} path="/password-recovery" />
                     <Route component={withAuthorization(PasswordReset, { isAuthenticated: false })} path="/password-reset" />
                     <Route component={withAuthorization(Settings, { isAuthenticated: true })} path="/settings" />
