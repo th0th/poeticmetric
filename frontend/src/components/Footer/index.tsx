@@ -37,31 +37,20 @@ const navColumns: Array<NavColumn> = [
   {
     items: [
       { fontWeight: "semi-bold", title: "Start free trial", to: "/sign-up", variant: "primary" },
-      { title: "Uptime monitoring", to: "/services/uptime-monitoring" },
-      { title: "Cron job monitoring", to: "/services/cron-job-monitoring" },
-      { title: "Status pages", to: "/services/status-pages" },
+      { title: "Manifesto", to: "/manifesto" },
+      { title: "Open source", to: "/open-source" },
       { title: "Pricing", to: "/pricing" },
+      { href: "https://status.poeticmetric.com", title: "Service status" },
     ],
     title: "Product",
   },
   {
     items: [
-      { href: "https://status.poeticmetric.com", title: "Service status" },
+
       { title: "Documentation", to: "/docs" },
       { title: "Blog", to: "/blog" },
-      { title: "For open source", to: "/for/open-source" },
-
-      { title: "Alternative to UptimeRobot", to: "/alternative-to-uptimerobot" },
-      { title: "Alternative to Pingdom", to: "/alternative-to-pingdom" },
     ],
     title: "Resources",
-  },
-  {
-    items: [
-      { title: "Website speed test", to: "/tools/website-speed-test" },
-      { title: "Disposable e-mail checker", to: "/tools/disposable-email-address-checker" },
-    ],
-    title: "Tools",
   },
   {
     items: [
