@@ -21,12 +21,6 @@ export default function useLayoutVariant(): LayoutVariant {
   const [location] = useLocation();
 
   return useMemo(() => {
-    for (const d of applicationLocations) {
-      if (new RegExp(`^${d}$`).test(location)) {
-        return "application";
-      }
-    }
-
-    return "site";
+    return applicationLocations.includes(location) ? "application" : "site";
   }, [location]);
 }
