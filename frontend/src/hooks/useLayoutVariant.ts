@@ -4,8 +4,8 @@ import { useLocation } from "wouter";
 export const applicationLocations: Array<string> = [
   "/billing",
   "/settings",
+  "/settings/account-deletion",
   "/settings/organization-details",
-  "/settings/organization-deletion",
   "/settings/password",
   "/settings/profile",
   "/sites",
@@ -13,8 +13,8 @@ export const applicationLocations: Array<string> = [
   "/sites/edit",
   "/sites/report",
   "/team",
-  "/team/invite",
   "/team/edit",
+  "/team/invite",
 ];
 
 export default function useLayoutVariant(): LayoutVariant {

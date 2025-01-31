@@ -67,6 +67,22 @@ definitions:
       name:
         type: string
     type: object
+  poeticmetric.OrganizationDeletionParams:
+    properties:
+      detail:
+        type: string
+      reason:
+        type: string
+    type: object
+  poeticmetric.OrganizationDeletionReason:
+    properties:
+      detailTitle:
+        type: string
+      order:
+        type: integer
+      reason:
+        type: string
+    type: object
   poeticmetric.OrganizationSite:
     properties:
       createdAt:
@@ -172,6 +188,23 @@ paths:
       tags:
       - authentication
   /authentication/organization:
+    delete:
+      description: Delete organization and all associated data irreversibly.
+      parameters:
+      - description: Params
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/poeticmetric.OrganizationDeletionParams'
+      responses:
+        "204":
+          description: No Content
+      security:
+      - BasicAuthentication: []
+      summary: Delete organization
+      tags:
+      - authentication
     get:
       description: Read currently authenticated user's organization.
       responses:
@@ -202,6 +235,21 @@ paths:
       security:
       - UserAccessTokenAuthentication: []
       summary: Update organization
+      tags:
+      - authentication
+  /authentication/organization-deletion-reasons:
+    get:
+      description: List possible organization deletion reasons.
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.OrganizationDeletionReason'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: List organization deletion reasons
       tags:
       - authentication
   /authentication/reset-user-password:

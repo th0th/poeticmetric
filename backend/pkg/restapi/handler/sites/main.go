@@ -54,7 +54,7 @@ func (h *Handler) Create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusCreated)
-	h.responder.Json(w, organizationSite)
+	h.responder.JSON(w, organizationSite)
 }
 
 // Delete godoc
@@ -104,7 +104,7 @@ func (h *Handler) List(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h.responder.Json(w, organizationSites)
+	h.responder.JSON(w, organizationSites)
 }
 
 // Read godoc
@@ -130,7 +130,7 @@ func (h *Handler) Read(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h.responder.Json(w, organizationSite)
+	h.responder.JSON(w, organizationSite)
 }
 
 // Update godoc
@@ -180,5 +180,5 @@ func (h *Handler) Update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h.responder.Json(w, organizationSite)
+	h.responder.JSON(w, organizationSite)
 }

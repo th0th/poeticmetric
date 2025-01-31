@@ -11,3 +11,9 @@ type AuthenticationUser = {
 type HydratedAuthenticationUser = Overwrite<AuthenticationUser, {
   canWrite: boolean;
 }>;
+
+type OrganizationDeletionReason = {
+  detailTitle: string | null;
+  order: number;
+  reason: string;
+};

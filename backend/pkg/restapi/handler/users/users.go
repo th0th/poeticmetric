@@ -85,7 +85,7 @@ func (h *Handler) Invite(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusCreated)
-	h.responder.Json(w, organizationUser)
+	h.responder.JSON(w, organizationUser)
 }
 
 // List godoc
@@ -104,7 +104,7 @@ func (h *Handler) List(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h.responder.Json(w, organizationUsers)
+	h.responder.JSON(w, organizationUsers)
 }
 
 // Read godoc
@@ -130,7 +130,7 @@ func (h *Handler) Read(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h.responder.Json(w, organizationUser)
+	h.responder.JSON(w, organizationUser)
 }
 
 // Update godoc
@@ -179,5 +179,5 @@ func (h *Handler) Update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h.responder.Json(w, organizationUser)
+	h.responder.JSON(w, organizationUser)
 }

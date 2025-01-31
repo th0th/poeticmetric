@@ -5,6 +5,7 @@ import Breadcrumb from "~/components/Breadcrumb";
 import Title from "~/components/Title";
 import useAuthentication from "~/hooks/useAuthentication";
 
+const AccountDeletion = lazy(() => import("./AccountDeletion"));
 const OrganizationDetails = lazy(() => import("./OrganizationDetails"));
 const Password = lazy(() => import("./Password"));
 const Profile = lazy(() => import("./Profile"));
@@ -80,9 +81,9 @@ export default function Settings() {
                         isActive && "bg-body-secondary",
                         !isActive && "bg-body-tertiary-focus-visible bg-body-tertiary-hover",
                       )}
-                      to="/settings/organization-deletion"
+                      to="/settings/account-deletion"
                     >
-                      Organization deletion
+                      Account deletion
                     </Link>
                   </li>
                 </>
@@ -91,6 +92,7 @@ export default function Settings() {
           </div>
 
           <div className="col">
+            <Route component={AccountDeletion} path="/settings/account-deletion" />
             <Route component={OrganizationDetails} path="/settings/organization-details" />
             <Route component={Password} path="/settings/password" />
             <Route component={Profile} path="/settings/profile" />

@@ -66,6 +66,10 @@ export default function App({ path }: AppProps) {
                     <Route component={withAuthorization(Settings, { isAuthenticated: true })} path="/settings" />
                     <Route
                       component={withAuthorization(Settings, { isAuthenticated: true, isOrganizationOwner: true })}
+                      path="/settings/account-deletion"
+                    />
+                    <Route
+                      component={withAuthorization(Settings, { isAuthenticated: true, isOrganizationOwner: true })}
                       path="/settings/organization-details"
                     />
                     <Route component={withAuthorization(Settings, { isAuthenticated: true })} path="/settings/password" />

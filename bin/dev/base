@@ -4,3 +4,11 @@ set -eo pipefail
 get-base-dir() {
   echo "$(dirname $(dirname $(dirname "$(readlink -f "$0")")))"
 }
+
+kubernetes-context() {
+  echo "docker-desktop"
+}
+
+kubernetes-namespace() {
+  echo "poeticmetric-development"
+}
