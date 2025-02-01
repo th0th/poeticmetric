@@ -23,6 +23,10 @@ func (m *ValidationServiceMock) InviteOrganizationUserParams(ctx context.Context
 	return m.Called(ctx, organizationID, params).Error(0)
 }
 
+func (m *ValidationServiceMock) OrganizationDeletionParams(ctx context.Context, params *OrganizationDeletionParams) error {
+	return m.Called(ctx, params).Error(0)
+}
+
 func (m *ValidationServiceMock) Postgres() *gorm.DB {
 	return m.Called().Get(0).(*gorm.DB)
 }

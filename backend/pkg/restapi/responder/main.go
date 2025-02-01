@@ -33,7 +33,7 @@ func New(params NewParams) poeticmetric.RestApiResponder {
 }
 
 func (r *Responder) Detail(w http.ResponseWriter, detail string) {
-	r.Json(w, DetailResponse{Detail: detail})
+	r.JSON(w, DetailResponse{Detail: detail})
 }
 
 func (r *Responder) Error(w http.ResponseWriter, err error) {
@@ -45,7 +45,7 @@ func (r *Responder) Error(w http.ResponseWriter, err error) {
 		}
 
 		w.WriteHeader(http.StatusUnprocessableEntity)
-		r.Json(w, validationErrMap)
+		r.JSON(w, validationErrMap)
 		return
 	}
 
@@ -71,7 +71,7 @@ func (r *Responder) Forbidden(w http.ResponseWriter) {
 	r.Detail(w, "You don't have enough permission.")
 }
 
-func (r *Responder) Json(w http.ResponseWriter, data any) {
+func (r *Responder) JSON(w http.ResponseWriter, data any) {
 	w.Header().Set("Content-Type", "application/json")
 	err := json.NewEncoder(w).Encode(data)
 	if err != nil {

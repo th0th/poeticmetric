@@ -5,12 +5,19 @@ import (
 	"time"
 )
 
+const (
+	OrganizationDeletionDetailMaxLength = 1000
+	OrganizationDeletionDetailMinLength = 2
+)
+
 type AuthenticationService interface {
 	ServiceWithPostgres
 
 	ChangeUserPassword(ctx context.Context, userID uint, params *ChangeUserPasswordParams) error
 	CreateUserAccessToken(ctx context.Context, userID uint) (*AuthenticationUserAccessToken, error)
+	DeleteOrganization(ctx context.Context, organizationID uint, params *OrganizationDeletionParams) error
 	DeleteUserAccessToken(ctx context.Context, userAccessTokenID uint) error
+	ListOrganizationDeletionReasons(ctx context.Context) ([]*OrganizationDeletionReason, error)
 	ReadOrganization(ctx context.Context, organizationID uint) (*AuthenticationOrganization, error)
 	ReadUser(ctx context.Context, userID uint) (*AuthenticationUser, error)
 	ReadUserAccessToken(ctx context.Context, userAccessTokenID uint) (*AuthenticationUserAccessToken, error)
@@ -46,6 +53,17 @@ type AuthenticationUserAccessToken struct {
 type ChangeUserPasswordParams struct {
 	NewPassword  *string `json:"newPassword"`
 	NewPassword2 *string `json:"newPassword2"`
+}
+
+type OrganizationDeletionParams struct {
+	Detail *string `json:"detail"`
+	Reason *string `json:"reason"`
+}
+
+type OrganizationDeletionReason struct {
+	DetailTitle *string `json:"detailTitle"`
+	Order       int     `json:"order"`
+	Reason      string  `json:"reason"`
 }
 
 type SendUserPasswordRecoveryEmailParams struct {

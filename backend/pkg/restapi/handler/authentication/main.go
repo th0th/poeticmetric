@@ -44,7 +44,7 @@ func (h *Handler) CreateUserAccessToken(w http.ResponseWriter, r *http.Request) 
 	}
 
 	w.WriteHeader(http.StatusCreated)
-	h.responder.Json(w, userAccessToken)
+	h.responder.JSON(w, userAccessToken)
 }
 
 // DeleteUserAccessToken godoc

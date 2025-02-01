@@ -156,12 +156,14 @@ func main() {
 	permissionOwner := alice.New(middleware.PermissionOrganizationOwner(responder))
 
 	// handlers: authentication
+	mux.Handle("DELETE /authentication/organization", permissionBasicAuthenticated.Extend(permissionOwner).ThenFunc(authenticationHandler.DeleteOrganization))
 	mux.Handle("GET /authentication/organization", permissionUserAccessTokenAuthenticated.ThenFunc(authenticationHandler.ReadOrganization))
+	mux.Handle("GET /authentication/organization-deletion-options", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(authenticationHandler.GetOrganizationDeletionOptions))
 	mux.Handle("GET /authentication/user", permissionUserAccessTokenAuthenticated.ThenFunc(authenticationHandler.ReadUser))
 	mux.Handle("POST /authentication/user-access-tokens", sensitiveRateLimit.Extend(permissionBasicAuthenticated).ThenFunc(authenticationHandler.CreateUserAccessToken))
 	mux.Handle("DELETE /authentication/user-access-tokens", permissionUserAccessTokenAuthenticated.ThenFunc(authenticationHandler.DeleteUserAccessToken))
 	mux.Handle("PATCH /authentication/user", permissionUserAccessTokenAuthenticated.ThenFunc(authenticationHandler.UpdateUser))
-	mux.Handle("PATCH /authentication/organization", permissionUserAccessTokenAuthenticated.Append(permissionOwner.Then).ThenFunc(authenticationHandler.UpdateOrganization))
+	mux.Handle("PATCH /authentication/organization", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(authenticationHandler.UpdateOrganization))
 	mux.Handle("POST /authentication/change-user-password", permissionBasicAuthenticated.ThenFunc(authenticationHandler.ChangeUserPassword))
 	mux.HandleFunc("POST /authentication/send-user-password-recovery-email", authenticationHandler.SendUserPasswordRecoveryEmail)
 	mux.HandleFunc("POST /authentication/reset-user-password", authenticationHandler.ResetUserPassword)
@@ -178,18 +180,18 @@ func main() {
 	mux.HandleFunc("/{$}", rootHandler.Index())
 
 	// handlers: sites
-	mux.Handle("DELETE /sites/{siteID}", permissionUserAccessTokenAuthenticated.Append(permissionOwner.Then).ThenFunc(sitesHandler.Delete))
+	mux.Handle("DELETE /sites/{siteID}", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(sitesHandler.Delete))
 	mux.Handle("POST /sites", permissionUserAccessTokenAuthenticated.ThenFunc(sitesHandler.Create))
 	mux.Handle("GET /sites", permissionUserAccessTokenAuthenticated.ThenFunc(sitesHandler.List))
 	mux.Handle("GET /sites/{siteID}", permissionUserAccessTokenAuthenticated.ThenFunc(sitesHandler.Read))
-	mux.Handle("PATCH /sites/{siteID}", permissionUserAccessTokenAuthenticated.Append(permissionOwner.Then).ThenFunc(sitesHandler.Update))
+	mux.Handle("PATCH /sites/{siteID}", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(sitesHandler.Update))
 
 	// handlers: users
-	mux.Handle("DELETE /users/{userID}", permissionUserAccessTokenAuthenticated.Append(permissionOwner.Then).ThenFunc(usersHandler.Delete))
+	mux.Handle("DELETE /users/{userID}", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(usersHandler.Delete))
 	mux.Handle("GET /users/{userID}", permissionUserAccessTokenAuthenticated.ThenFunc(usersHandler.Read))
 	mux.Handle("GET /users", permissionUserAccessTokenAuthenticated.ThenFunc(usersHandler.List))
-	mux.Handle("PATCH /users/{userID}", permissionUserAccessTokenAuthenticated.Append(permissionOwner.Then).ThenFunc(usersHandler.Update))
-	mux.Handle("POST /users", permissionUserAccessTokenAuthenticated.Append(permissionOwner.Then).ThenFunc(usersHandler.Invite))
+	mux.Handle("PATCH /users/{userID}", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(usersHandler.Update))
+	mux.Handle("POST /users", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(usersHandler.Invite))
 
 	httpServer := http.Server{
 		Handler: alice.New(

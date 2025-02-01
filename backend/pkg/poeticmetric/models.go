@@ -76,6 +76,21 @@ type Organization struct {
 	UpdatedAt               time.Time
 }
 
+type OrganizationDeletion struct {
+	DateTime                     time.Time
+	Detail                       *string
+	ID                           uint
+	OrganizationCreatedAt        time.Time
+	OrganizationID               uint
+	OrganizationName             string
+	OrganizationPlanName         string
+	OrganizationStripeCustomerID *string
+	Reason                       string
+	UserEmail                    string
+	UserID                       uint
+	UserName                     string
+}
+
 type Plan struct {
 	CreatedAt         time.Time `gorm:"not null"`
 	ID                uint      `gorm:"primaryKey"`

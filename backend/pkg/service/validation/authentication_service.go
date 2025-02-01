@@ -3,6 +3,7 @@ package validation
 import (
 	"context"
 	"fmt"
+	"slices"
 
 	v "github.com/RussellLuo/validating/v3"
 	"github.com/RussellLuo/vext"
@@ -38,6 +39,64 @@ func (s *service) ChangeUserPasswordParams(ctx context.Context, params *poeticme
 					return v.Value(*x, v.Eq(*params.NewPassword).Msg("Passwords don't match."))
 				}),
 			),
+		),
+	})
+
+	if len(validationErrs) > 0 {
+		return errors.Wrap(validationErrs, 0)
+	}
+
+	return nil
+}
+
+func (s *service) OrganizationDeletionParams(ctx context.Context, params *poeticmetric.OrganizationDeletionParams) error {
+	reasons := []*poeticmetric.OrganizationDeletionReason{}
+	postgres := poeticmetric.ServicePostgres(ctx, s)
+	err := postgres.Find(&reasons).Error
+	if err != nil {
+		return errors.Wrap(err, 0)
+	}
+	reasonStrings := make([]string, len(reasons))
+	for i := range reasons {
+		reasonStrings[i] = reasons[i].Reason
+	}
+
+	validationErrs := v.Validate(v.Schema{
+		v.F("detail", params.Detail): v.Any(
+			v.Is(func(_ *string) bool {
+				return params.Reason == nil
+			}),
+
+			v.Is(func(x *string) bool {
+				reasonIndex := slices.IndexFunc(reasons, func(reason *poeticmetric.OrganizationDeletionReason) bool {
+					return reason.Reason == *params.Reason
+				})
+
+				return reasonIndex < 0 || reasons[reasonIndex].DetailTitle == nil
+			}),
+
+			v.All(
+				v.Nonzero[*string]().Msg("This field is required."),
+
+				v.Nested(func(x *string) v.Validator {
+					return v.Value(*x, v.
+						LenString(poeticmetric.OrganizationDeletionDetailMinLength, poeticmetric.OrganizationDeletionDetailMaxLength).
+						Msg(fmt.Sprintf(
+							"This field should be between %d and %d characters in length.",
+							poeticmetric.OrganizationDeletionDetailMinLength,
+							poeticmetric.OrganizationDeletionDetailMaxLength,
+						)),
+					)
+				}),
+			),
+		),
+
+		v.F("reason", params.Reason): v.All(
+			v.Nonzero[*string]().Msg("This field is required."),
+
+			v.Nested(func(x *string) v.Validator {
+				return v.Value(*x, v.In(reasonStrings...).Msg("Please select one of the options."))
+			}),
 		),
 	})
 
@@ -171,4 +230,3 @@ func (s *service) userPasswordResetToken(ctx context.Context, token string) (boo
 
 	return true, nil
 }
-
