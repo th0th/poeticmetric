@@ -11,6 +11,62 @@ import (
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/middleware"
 )
 
+type GetOrganizationDeletionOptionsResponse struct {
+	DetailMaxLength int                                        `json:"detailMaxLength"`
+	DetailMinLength int                                        `json:"detailMinLength"`
+	Reasons         []*poeticmetric.OrganizationDeletionReason `json:"reasons"`
+}
+
+// DeleteOrganization godoc
+// @Description Delete organization and all associated data irreversibly.
+// @Param params body poeticmetric.OrganizationDeletionParams true "Params"
+// @Router /authentication/organization [delete]
+// @Security BasicAuthentication
+// @Success 204
+// @Summary Delete organization
+// @Tags authentication
+func (h *Handler) DeleteOrganization(w http.ResponseWriter, r *http.Request) {
+	auth := middleware.GetAuthentication(r.Context())
+
+	params := poeticmetric.OrganizationDeletionParams{}
+	err := json.NewDecoder(r.Body).Decode(&params)
+	if err != nil {
+		h.responder.Error(w, errors.Wrap(err, 0))
+		return
+	}
+
+	err = h.authenticationService.DeleteOrganization(r.Context(), auth.User.OrganizationID, &params)
+	if err != nil {
+		h.responder.Error(w, err)
+		return
+	}
+
+	w.WriteHeader(http.StatusNoContent)
+}
+
+// GetOrganizationDeletionOptions godoc
+// @Description List possible organization deletion reasons.
+// @Router /authentication/organization-deletion-reasons [get]
+// @Security UserAccessTokenAuthentication
+// @Success 200 {array} poeticmetric.OrganizationDeletionReason
+// @Summary List organization deletion reasons
+// @Tags authentication
+func (h *Handler) GetOrganizationDeletionOptions(w http.ResponseWriter, r *http.Request) {
+	organizationDeletionReasons, err := h.authenticationService.ListOrganizationDeletionReasons(r.Context())
+	if err != nil {
+		h.responder.Error(w, err)
+		return
+	}
+
+	response := GetOrganizationDeletionOptionsResponse{
+		DetailMaxLength: poeticmetric.OrganizationDeletionDetailMaxLength,
+		DetailMinLength: poeticmetric.OrganizationDeletionDetailMinLength,
+		Reasons:         organizationDeletionReasons,
+	}
+
+	h.responder.JSON(w, response)
+}
+
 // ReadOrganization godoc
 // @Description Read currently authenticated user's organization.
 // @Failure 400 {object} responder.DetailResponse
@@ -28,7 +84,7 @@ func (h *Handler) ReadOrganization(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h.responder.Json(w, user)
+	h.responder.JSON(w, user)
 }
 
 // UpdateOrganization godoc
@@ -68,5 +124,5 @@ func (h *Handler) UpdateOrganization(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h.responder.Json(w, organization)
+	h.responder.JSON(w, organization)
 }

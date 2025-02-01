@@ -63,6 +63,34 @@
                     }
                 }
             },
+            "delete": {
+                "security": [
+                    {
+                        "BasicAuthentication": []
+                    }
+                ],
+                "description": "Delete organization and all associated data irreversibly.",
+                "tags": [
+                    "authentication"
+                ],
+                "summary": "Delete organization",
+                "parameters": [
+                    {
+                        "description": "Params",
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/poeticmetric.OrganizationDeletionParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            },
             "patch": {
                 "security": [
                     {
@@ -85,6 +113,31 @@
                         "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/responder.DetailResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/authentication/organization-deletion-reasons": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "List possible organization deletion reasons.",
+                "tags": [
+                    "authentication"
+                ],
+                "summary": "List organization deletion reasons",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/poeticmetric.OrganizationDeletionReason"
+                            }
                         }
                     }
                 }
@@ -720,6 +773,31 @@
                     "type": "string"
                 },
                 "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.OrganizationDeletionParams": {
+            "type": "object",
+            "properties": {
+                "detail": {
+                    "type": "string"
+                },
+                "reason": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.OrganizationDeletionReason": {
+            "type": "object",
+            "properties": {
+                "detailTitle": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "reason": {
                     "type": "string"
                 }
             }
