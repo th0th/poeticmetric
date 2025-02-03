@@ -26,6 +26,11 @@ spec:
             configMapKeyRef:
               key: FRONTEND_BASE_URL
               name: {{ include "poeticmetric.fullname" . }}-poeticmetric
+        - name: VITE_FRONTEND_TAGS_ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              key: FRONTEND_TAGS_ENVIRONMENT
+              name: {{ include "poeticmetric.fullname" . }}-poeticmetric
         image: {{ printf "%s:%s" .Values.poeticmetric.frontend.image.repository .Values.poeticmetric.frontend.image.tag }}
         imagePullPolicy: {{ .Values.poeticmetric.frontend.image.pullPolicy }}
         name: frontend

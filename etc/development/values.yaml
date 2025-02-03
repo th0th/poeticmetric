@@ -21,6 +21,7 @@ poeticmetric:
     ingress:
       annotations:
         cert-manager.io/cluster-issuer: self-signed
+    tagsEnvironment: development
   host: dev.poeticmetric.com
   restApi:
     ingress:

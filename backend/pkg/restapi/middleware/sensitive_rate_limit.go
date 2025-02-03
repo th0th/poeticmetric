@@ -26,8 +26,7 @@ func SensitiveRateLimit(responder poeticmetric.RestApiResponder, store limiter.S
 			responder.Error(w, err)
 		}),
 		stdlib.WithLimitReachedHandler(func(w http.ResponseWriter, r *http.Request) {
-			w.WriteHeader(http.StatusTooManyRequests)
-			responder.Detail(w, "Rate limit reached. Please wait a bit and try again.")
+			responder.Detail(w, http.StatusTooManyRequests, "Rate limit reached. Please wait a bit and try again.")
 		}),
 	)
 

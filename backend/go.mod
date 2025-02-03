@@ -22,6 +22,7 @@ require (
 	github.com/stripe/stripe-go/v79 v79.12.0
 	github.com/swaggo/http-swagger/v2 v2.0.2
 	github.com/swaggo/swag v1.16.4
+	github.com/tdewolff/minify/v2 v2.21.3
 	github.com/testcontainers/testcontainers-go v0.35.0
 	github.com/testcontainers/testcontainers-go/modules/postgres v0.35.0
 	github.com/ulule/limiter/v3 v3.11.2
@@ -108,6 +109,7 @@ require (
 	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/stretchr/objx v0.5.2 // indirect
 	github.com/swaggo/files/v2 v2.0.0 // indirect
+	github.com/tdewolff/parse/v2 v2.7.19 // indirect
 	github.com/th0th/disposableemail v0.0.2-0.20241107110532-1e027547679f // indirect
 	github.com/tklauser/go-sysconf v0.3.12 // indirect
 	github.com/tklauser/numcpus v0.6.1 // indirect

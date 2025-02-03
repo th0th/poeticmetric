@@ -10,10 +10,13 @@ import (
 )
 
 const (
-	EventDeviceTypeDesktop = "DESKTOP"
-	EventDeviceTypeMobile  = "MOBILE"
-	EventDeviceTypeTablet  = "TABLET"
-	EventKindPageView      = "PAGE_VIEW"
+	EventDeviceTypeDesktop EventDeviceType = "DESKTOP"
+	EventDeviceTypeMobile  EventDeviceType = "MOBILE"
+	EventDeviceTypeTablet  EventDeviceType = "TABLET"
+)
+
+const (
+	EventKindPageView EventKind = "PAGE_VIEW"
 )
 
 const (
@@ -38,13 +41,13 @@ const (
 type Event struct {
 	BrowserName            *string
 	BrowserVersion         *string
-	CountryIsoCode         *string
+	CountryISOCode         *string
 	DateTime               time.Time
-	DeviceType             *string
+	DeviceType             *EventDeviceType
 	Duration               time.Duration
 	ID                     string
 	IsBot                  bool
-	Kind                   string
+	Kind                   EventKind
 	Language               *string
 	Locale                 *string
 	OperatingSystemName    *string
@@ -52,15 +55,19 @@ type Event struct {
 	Referrer               *string
 	SiteID                 uint
 	TimeZone               *string
-	Url                    string
+	URL                    string
 	UserAgent              string
-	UtmCampaign            *string
-	UtmContent             *string
-	UtmMedium              *string
-	UtmSource              *string
-	UtmTerm                *string
+	UTMCampaign            *string
+	UTMContent             *string
+	UTMMedium              *string
+	UTMSource              *string
+	UTMTerm                *string
 	VisitorID              string
 }
+
+type EventDeviceType string
+
+type EventKind string
 
 type Organization struct {
 	CreatedAt               time.Time
@@ -148,11 +155,11 @@ func (e *Event) FillFromUrl(url string, safeQueryParameters []string) error {
 		return err
 	}
 
-	e.UtmCampaign = PointerOrNil(u.Query().Get("utm_campaign"))
-	e.UtmContent = PointerOrNil(u.Query().Get("utm_content"))
-	e.UtmMedium = PointerOrNil(u.Query().Get("utm_medium"))
-	e.UtmSource = PointerOrNil(u.Query().Get("utm_source"))
-	e.UtmTerm = PointerOrNil(u.Query().Get("utm_term"))
+	e.UTMCampaign = PointerOrNil(u.Query().Get("utm_campaign"))
+	e.UTMContent = PointerOrNil(u.Query().Get("utm_content"))
+	e.UTMMedium = PointerOrNil(u.Query().Get("utm_medium"))
+	e.UTMSource = PointerOrNil(u.Query().Get("utm_source"))
+	e.UTMTerm = PointerOrNil(u.Query().Get("utm_term"))
 
 	safeQueryParametersMap := map[string]bool{}
 
@@ -169,7 +176,7 @@ func (e *Event) FillFromUrl(url string, safeQueryParameters []string) error {
 	}
 
 	u.RawQuery = q.Encode()
-	e.Url = u.String()
+	e.URL = u.String()
 
 	return nil
 }

@@ -23,7 +23,7 @@ func main() {
 		cmd.LogPanic(err, "failed to init postgres")
 	}
 
-	clickhouse, err := gorm.Open(clickhouse2.Open(envService.ClickhouseDsn()), envService.GormConfig())
+	clickhouse, err := gorm.Open(clickhouse2.Open(envService.ClickHouseDsn()), envService.GormConfig())
 	if err != nil {
 		cmd.LogPanic(err, "failed to init clickhouse")
 	}
@@ -34,7 +34,7 @@ func main() {
 			return fmt.Errorf("failed to run postgres migrations: %w", err2)
 		}
 
-		err2 = migration.ClickHouse(clickhouse, envService.ClickhouseDatabase())
+		err2 = migration.ClickHouse(clickhouse, envService.ClickHouseDatabase())
 		if err2 != nil {
 			return fmt.Errorf("failed to run clickhouse migrations: %w", err2)
 		}

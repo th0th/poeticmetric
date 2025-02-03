@@ -248,6 +248,13 @@ github.com/swaggo/http-swagger/v2 v2.0.2 h1:FKCdLsl+sFCx60KFsyM0rDarwiUSZ8DqbfSy
 github.com/swaggo/http-swagger/v2 v2.0.2/go.mod h1:r7/GBkAWIfK6E/OLnE8fXnviHiDeAHmgIyooa4xm3AQ=
 github.com/swaggo/swag v1.16.4 h1:clWJtd9LStiG3VeijiCfOVODP6VpHtKdQy9ELFG3s1A=
 github.com/swaggo/swag v1.16.4/go.mod h1:VBsHJRsDvfYvqoiMKnsdwhNV9LEMHgEDZcyVYX0sxPg=
+github.com/tdewolff/minify/v2 v2.21.3 h1:KmhKNGrN/dGcvb2WDdB5yA49bo37s+hcD8RiF+lioV8=
+github.com/tdewolff/minify/v2 v2.21.3/go.mod h1:iGxHaGiONAnsYuo8CRyf8iPUcqRJVB/RhtEcTpqS7xw=
+github.com/tdewolff/parse/v2 v2.7.19 h1:7Ljh26yj+gdLFEq/7q9LT4SYyKtwQX4ocNrj45UCePg=
+github.com/tdewolff/parse/v2 v2.7.19/go.mod h1:3FbJWZp3XT9OWVN3Hmfp0p/a08v4h8J9W1aghka0soA=
+github.com/tdewolff/test v1.0.11-0.20231101010635-f1265d231d52/go.mod h1:6DAvZliBAAnD7rhVgwaM7DE5/d9NMOAJ09SqYqeK4QE=
+github.com/tdewolff/test v1.0.11-0.20240106005702-7de5f7df4739 h1:IkjBCtQOOjIn03u/dMQK9g+Iw9ewps4mCl1nB8Sscbo=
+github.com/tdewolff/test v1.0.11-0.20240106005702-7de5f7df4739/go.mod h1:XPuWBzvdUzhCuxWO1ojpXsyzsA5bFoS3tO/Q3kFuTG8=
 github.com/testcontainers/testcontainers-go v0.35.0 h1:uADsZpTKFAtp8SLK+hMwSaa+X+JiERHtd4sQAFmXeMo=
 github.com/testcontainers/testcontainers-go v0.35.0/go.mod h1:oEVBj5zrfJTrgjwONs1SsRbnBtH9OKl+IGl3UMcr2B4=
 github.com/testcontainers/testcontainers-go/modules/postgres v0.35.0 h1:eEGx9kYzZb2cNhRbBrNOCL/YPOM7+RMJiy3bB+ie0/I=

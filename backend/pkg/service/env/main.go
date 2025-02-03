@@ -32,11 +32,11 @@ func New() (poeticmetric.EnvService, error) {
 	return &e, nil
 }
 
-func (s *service) ClickhouseDatabase() string {
+func (s *service) ClickHouseDatabase() string {
 	return s.vars.ClickhouseDatabase
 }
 
-func (s *service) ClickhouseDsn() string {
+func (s *service) ClickHouseDsn() string {
 	return fmt.Sprintf(
 		"clickhouse://%s:%s@%s:%d/%s",
 		s.vars.ClickhouseUser,
@@ -55,10 +55,6 @@ func (s *service) Debug() bool {
 	return s.vars.Debug
 }
 
-func (s *service) FrontendUrl(path string) string {
-	return fmt.Sprintf("%s%s", s.vars.FrontendBaseUrl, path)
-}
-
 func (s *service) GoogleOAuthConfig() (*oauth2.Config, error) {
 	if s.vars.GoogleClientID == nil || s.vars.GoogleClientSecret == nil {
 		return nil, fmt.Errorf("google oauth credentials are not set")
@@ -68,7 +64,7 @@ func (s *service) GoogleOAuthConfig() (*oauth2.Config, error) {
 		ClientID:     *s.vars.GoogleClientID,
 		ClientSecret: *s.vars.GoogleClientSecret,
 		Endpoint:     google.Endpoint,
-		RedirectURL:  s.FrontendUrl(""),
+		RedirectURL:  s.FrontendURL(""),
 		Scopes:       []string{searchconsole.WebmastersReadonlyScope},
 	}, nil
 }

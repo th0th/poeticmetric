@@ -9,10 +9,10 @@ import (
 )
 
 type EnvService interface {
-	ClickhouseDatabase() string
-	ClickhouseDsn() string
+	ClickHouseDatabase() string
+	ClickHouseDsn() string
 	Debug() bool
-	FrontendUrl(path string) string
+	FrontendURL(path string) string
 	GoogleOAuthConfig() (*oauth2.Config, error)
 	GormConfig() *gorm.Config
 	IsHosted() bool
@@ -21,6 +21,7 @@ type EnvService interface {
 	RedisAddr() string
 	RedisPassword() string
 	RestApiBasePath() string
+	RESTApiURL(path string) string
 	SmtpAddr() string
 	SmtpAuth() smtp.Auth
 	SmtpFrom() *mail.Address
@@ -29,8 +30,9 @@ type EnvService interface {
 type EnvServiceVars struct {
 	DatabaseDebug   bool   `env:"DATABASE_DEBUG" envDefault:"false"`
 	Debug           bool   `env:"DEBUG" envDefault:"false"`
-	FrontendBaseUrl string `env:"FRONTEND_BASE_URL,notEmpty,required"`
+	FrontendBaseURL string `env:"FRONTEND_BASE_URL,notEmpty,required"`
 	IsHosted        bool   `env:"IS_HOSTED" envDefault:"false"`
+	RESTApiBaseURL  string `env:"REST_API_BASE_URL,notEmpty,required"`
 
 	// Clickhouse
 	ClickhouseDatabase string `env:"CLICKHOUSE_DATABASE,notEmpty,required"`

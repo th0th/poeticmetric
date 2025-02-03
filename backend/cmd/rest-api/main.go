@@ -21,8 +21,10 @@ import (
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/docs"
 	authenticationhandler "github.com/th0th/poeticmetric/backend/pkg/restapi/handler/authentication"
 	bootstraphandler "github.com/th0th/poeticmetric/backend/pkg/restapi/handler/bootstrap"
+	"github.com/th0th/poeticmetric/backend/pkg/restapi/handler/events"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/handler/root"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/handler/sites"
+	trackinghandler "github.com/th0th/poeticmetric/backend/pkg/restapi/handler/tracking"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/handler/users"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/middleware"
 	restapiresponder "github.com/th0th/poeticmetric/backend/pkg/restapi/responder"
@@ -30,7 +32,9 @@ import (
 	"github.com/th0th/poeticmetric/backend/pkg/service/bootstrap"
 	"github.com/th0th/poeticmetric/backend/pkg/service/email"
 	"github.com/th0th/poeticmetric/backend/pkg/service/env"
+	"github.com/th0th/poeticmetric/backend/pkg/service/event"
 	"github.com/th0th/poeticmetric/backend/pkg/service/site"
+	"github.com/th0th/poeticmetric/backend/pkg/service/tracking"
 	"github.com/th0th/poeticmetric/backend/pkg/service/user"
 	"github.com/th0th/poeticmetric/backend/pkg/service/validation"
 )
@@ -64,7 +68,7 @@ func main() {
 		cmd.LogPanic(err, "failed to init postgres")
 	}
 
-	clickhouse, err := gorm.Open(gormclickhouse.Open(envService.ClickhouseDsn()), envService.GormConfig())
+	clickHouse, err := gorm.Open(gormclickhouse.Open(envService.ClickHouseDsn()), envService.GormConfig())
 	if err != nil {
 		cmd.LogPanic(err, "failed to init postgres")
 	}
@@ -97,14 +101,22 @@ func main() {
 	})
 
 	bootstrapService := bootstrap.New(bootstrap.NewParams{
-		Clickhouse: clickhouse,
+		Clickhouse: clickHouse,
 		EnvService: envService,
 		Postgres:   postgres,
+	})
+
+	eventService := event.New(event.NewParams{
+		ClickHouse: clickHouse,
 	})
 
 	siteService := site.New(site.NewParams{
 		Postgres:          postgres,
 		ValidationService: validationService,
+	})
+
+	trackingService := tracking.New(tracking.NewParams{
+		EnvService: envService,
 	})
 
 	userService := user.New(user.NewParams{
@@ -128,6 +140,11 @@ func main() {
 		Responder:        responder,
 	})
 
+	eventsHandler := events.New(events.NewParams{
+		EventService: eventService,
+		Responder:    responder,
+	})
+
 	rootHandler := root.New(root.NewParams{
 		EnvService: envService,
 	})
@@ -135,6 +152,11 @@ func main() {
 	sitesHandler := sites.New(sites.NewParams{
 		Responder:   responder,
 		SiteService: siteService,
+	})
+
+	trackingHandler := trackinghandler.New(trackinghandler.NewParams{
+		Responder:       responder,
+		TrackingService: trackingService,
 	})
 
 	usersHandler := users.New(users.NewParams{
@@ -173,8 +195,11 @@ func main() {
 	mux.HandleFunc("POST /bootstrap", bootstrapHandler.Run)
 
 	// handlers: docs
-	mux.Handle("/docs", http.RedirectHandler(fmt.Sprintf("%s/docs/", envService.RestApiBasePath()), http.StatusFound))
+	mux.Handle("/docs", http.RedirectHandler(fmt.Sprintf("%s/docs/", envService.RESTApiURL("")), http.StatusFound))
 	mux.Handle("/docs/", httpswagger.Handler(httpswagger.DeepLinking(true), httpswagger.Layout(httpswagger.BaseLayout)))
+
+	// handlers: events
+	mux.HandleFunc("POST /events", eventsHandler.Create)
 
 	// handlers: root
 	mux.HandleFunc("/{$}", rootHandler.Index())
@@ -185,6 +210,9 @@ func main() {
 	mux.Handle("GET /sites", permissionUserAccessTokenAuthenticated.ThenFunc(sitesHandler.List))
 	mux.Handle("GET /sites/{siteID}", permissionUserAccessTokenAuthenticated.ThenFunc(sitesHandler.Read))
 	mux.Handle("PATCH /sites/{siteID}", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(sitesHandler.Update))
+
+	// handlers: tracker
+	mux.HandleFunc("GET /pm.js", trackingHandler.Script)
 
 	// handlers: users
 	mux.Handle("DELETE /users/{userID}", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(usersHandler.Delete))

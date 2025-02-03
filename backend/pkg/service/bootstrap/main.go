@@ -217,7 +217,7 @@ func (s *service) Run(ctx context.Context, params *poeticmetric.BootstrapService
 					timeZone := gofakeit.TimeZoneRegion()
 
 					event := poeticmetric.Event{
-						//CountryIsoCode: country.GetIsoCodeFromTimeZoneName(timeZone),
+						//CountryISOCode: country.GetIsoCodeFromTimeZoneName(timeZone),
 						DateTime: gofakeit.DateRange(now.Add(-31*24*time.Hour), now),
 						Duration: time.Duration(gofakeit.IntRange(1, 1200)) * time.Second,
 						ID:       uuid.NewString(),
@@ -242,11 +242,11 @@ func (s *service) Run(ctx context.Context, params *poeticmetric.BootstrapService
 					event.VisitorID = gofakeit.RandomString(visitorIds)
 
 					if gofakeit.Bool() && gofakeit.Bool() { //nolint:staticcheck
-						event.UtmSource = poeticmetric.Pointer(gofakeit.RandomString(utmSources))
-						event.UtmCampaign = poeticmetric.Pointer(gofakeit.RandomString(utmCampaigns))
-						event.UtmMedium = poeticmetric.Pointer(gofakeit.RandomString(utmMediums))
-						event.UtmContent = poeticmetric.Pointer(gofakeit.RandomString(utmContents))
-						event.UtmTerm = poeticmetric.Pointer(gofakeit.RandomString(utmTerms))
+						event.UTMSource = poeticmetric.Pointer(gofakeit.RandomString(utmSources))
+						event.UTMCampaign = poeticmetric.Pointer(gofakeit.RandomString(utmCampaigns))
+						event.UTMMedium = poeticmetric.Pointer(gofakeit.RandomString(utmMediums))
+						event.UTMContent = poeticmetric.Pointer(gofakeit.RandomString(utmContents))
+						event.UTMTerm = poeticmetric.Pointer(gofakeit.RandomString(utmTerms))
 					}
 
 					events = append(events, &event)
