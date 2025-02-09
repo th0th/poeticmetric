@@ -219,7 +219,7 @@ func (s *service) Run(ctx context.Context, params *poeticmetric.BootstrapService
 					event := poeticmetric.Event{
 						//CountryISOCode: country.GetIsoCodeFromTimeZoneName(timeZone),
 						DateTime:        gofakeit.DateRange(now.Add(-31*24*time.Hour), now),
-						DurationSeconds: uint32(gofakeit.IntRange(1, 1200)),
+						DurationSeconds: uint32(gofakeit.IntRange(1, 1200)), //nolint:gosec
 						ID:              uuid.NewString(),
 						Kind:            poeticmetric.EventKindPageView,
 						//Language:       locale.GetLanguage(languageBcp),
