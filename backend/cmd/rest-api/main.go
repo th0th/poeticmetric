@@ -4,19 +4,21 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"os"
+	"os/signal"
 	"time"
 
+	"github.com/go-errors/errors"
 	"github.com/justinas/alice"
-	goredis "github.com/redis/go-redis/v9"
+	amqp "github.com/rabbitmq/amqp091-go"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/hlog"
 	httpswagger "github.com/swaggo/http-swagger/v2"
-	limiterredis "github.com/ulule/limiter/v3/drivers/store/redis"
+	govalkey "github.com/valkey-io/valkey-go"
 	gormclickhouse "gorm.io/driver/clickhouse"
 	gormpostgres "gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
-	"github.com/th0th/poeticmetric/backend/cmd"
 	"github.com/th0th/poeticmetric/backend/pkg/lib/log"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/docs"
 	authenticationhandler "github.com/th0th/poeticmetric/backend/pkg/restapi/handler/authentication"
@@ -37,6 +39,7 @@ import (
 	"github.com/th0th/poeticmetric/backend/pkg/service/tracking"
 	"github.com/th0th/poeticmetric/backend/pkg/service/user"
 	"github.com/th0th/poeticmetric/backend/pkg/service/validation"
+	"github.com/th0th/poeticmetric/backend/pkg/service/workpublisher"
 )
 
 var ctx = context.Background()
@@ -58,28 +61,30 @@ func main() {
 	// services
 	envService, err := env.New()
 	if err != nil {
-		cmd.LogPanic(err, "failed to init env service")
+		Logger.Panic().Stack().Err(errors.Wrap(err, 0)).Msg("failed to init env service")
 	}
 
 	docs.SwaggerInfo.BasePath = envService.RestApiBasePath()
 
 	postgres, err := gorm.Open(gormpostgres.Open(envService.PostgresDsn()), envService.GormConfig())
 	if err != nil {
-		cmd.LogPanic(err, "failed to init postgres")
+		Logger.Panic().Stack().Err(errors.Wrap(err, 0)).Msg("failed to init postgres")
 	}
 
 	clickHouse, err := gorm.Open(gormclickhouse.Open(envService.ClickHouseDsn()), envService.GormConfig())
 	if err != nil {
-		cmd.LogPanic(err, "failed to init postgres")
+		Logger.Panic().Stack().Err(errors.Wrap(err, 0)).Msg("failed to init clickhouse")
 	}
 
-	redis := goredis.NewClient(&goredis.Options{
-		Addr:     envService.RedisAddr(),
-		Password: envService.RedisPassword(),
-	})
-	err = redis.Ping(ctx).Err()
+	rabbitMQ, err := amqp.Dial(envService.RabbitMqURL())
 	if err != nil {
-		cmd.LogPanic(err, "failed to ping redis")
+		Logger.Panic().Stack().Err(errors.Wrap(err, 0)).Msg("rabbitmq initialization failed")
+	}
+	defer rabbitMQ.Close()
+
+	valkey, err := govalkey.NewClient(envService.ValkeyClientOption())
+	if err != nil {
+		Logger.Panic().Stack().Err(errors.Wrap(err, 0)).Msg("failed to init valkey client")
 	}
 
 	validationService := validation.New(validation.NewParams{
@@ -91,7 +96,7 @@ func main() {
 		EnvService: envService,
 	})
 	if err != nil {
-		cmd.LogPanic(err, "failed to init email service")
+		Logger.Panic().Stack().Err(errors.Wrap(err, 0)).Msg("failed to init email service")
 	}
 
 	authenticationService := authentication.New(authentication.NewParams{
@@ -108,6 +113,8 @@ func main() {
 
 	eventService := event.New(event.NewParams{
 		ClickHouse: clickHouse,
+		Postgres:   postgres,
+		Valkey:     valkey,
 	})
 
 	siteService := site.New(site.NewParams{
@@ -123,6 +130,10 @@ func main() {
 		EmailService:      emailService,
 		Postgres:          postgres,
 		ValidationService: validationService,
+	})
+
+	workPublisher := workpublisher.New(workpublisher.NewParams{
+		RabbitMQ: rabbitMQ,
 	})
 
 	responder := restapiresponder.New(restapiresponder.NewParams{
@@ -141,8 +152,10 @@ func main() {
 	})
 
 	eventsHandler := events.New(events.NewParams{
-		EventService: eventService,
-		Responder:    responder,
+		EventService:      eventService,
+		Responder:         responder,
+		ValidationService: validationService,
+		WorkPublisher:     workPublisher,
 	})
 
 	rootHandler := root.New(root.NewParams{
@@ -167,12 +180,7 @@ func main() {
 	mux := http.NewServeMux()
 
 	// middleware
-	limiterStore, err := limiterredis.NewStore(redis)
-	if err != nil {
-		cmd.LogPanic(err, "failed to init limiter store")
-	}
-
-	sensitiveRateLimit := alice.New(middleware.SensitiveRateLimit(responder, limiterStore))
+	sensitiveRateLimit := alice.New(middleware.SensitiveRateLimit(responder, valkey))
 	permissionBasicAuthenticated := alice.New(middleware.PermissionBasicAuthenticated(responder))
 	permissionUserAccessTokenAuthenticated := alice.New(middleware.PermissionUserAccessTokenAuthenticated(responder))
 	permissionOwner := alice.New(middleware.PermissionOrganizationOwner(responder))
@@ -225,7 +233,7 @@ func main() {
 		Handler: alice.New(
 			middleware.BasePathHandler(envService),
 			middleware.AuthenticationHandler(authenticationService, responder),
-			hlog.NewHandler(cmd.Logger),
+			hlog.NewHandler(Logger),
 			hlog.AccessHandler(func(r *http.Request, status, size int, duration time.Duration) {
 				hlog.FromRequest(r).Info().
 					Str("method", r.Method).
@@ -237,13 +245,22 @@ func main() {
 			}),
 			hlog.RemoteIPHandler("ip"),
 		).Then(mux),
-
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 10 * time.Second,
 	}
 
 	err = httpServer.ListenAndServe()
 	if err != nil {
-		cmd.LogPanic(err, "failed to start http server")
+		Logger.Panic().Stack().Err(errors.Wrap(err, 0)).Msg("failed to start http server")
+	}
+
+	signalChannel := make(chan os.Signal, 1)
+	signal.Notify(signalChannel, os.Interrupt)
+	<-signalChannel
+	err = httpServer.Shutdown(ctx)
+	if err != nil {
+		Logger.Panic().Stack().Err(errors.Wrap(err, 0)).Msg("http server shutdown failed")
 	}
 }
+
+var Logger = zerolog.New(os.Stdout).With().Timestamp().Logger()

@@ -3,6 +3,7 @@ package responder
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
 
@@ -48,6 +49,18 @@ func (r *Responder) Error(w http.ResponseWriter, err error) {
 		return
 	}
 
+	if errors.Is(err, io.EOF) {
+		// this happens when the request body is empty
+		r.JSON(w, http.StatusBadRequest, DetailResponse{Detail: "An error has occurred while parsing your request."})
+		return
+	}
+
+	var jsonSyntaxError *json.SyntaxError
+	if errors.As(err, &jsonSyntaxError) {
+		r.JSON(w, http.StatusBadRequest, DetailResponse{Detail: "Please send a valid JSON in the request body."})
+		return
+	}
+
 	detail := "An error has occurred."
 
 	if r.envService.Debug() {
@@ -59,7 +72,7 @@ func (r *Responder) Error(w http.ResponseWriter, err error) {
 		}
 	}
 
-	Logger.Err(err).Msg("an error has occurred")
+	Logger.Error().Stack().Err(err).Msg("an error has occurred")
 	r.Detail(w, http.StatusInternalServerError, detail)
 }
 

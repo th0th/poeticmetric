@@ -49,14 +49,6 @@ func (s *EnvServiceMock) PostgresDsn() string {
 	return s.Called().String(0)
 }
 
-func (s *EnvServiceMock) RedisAddr() string {
-	return s.Called().String(0)
-}
-
-func (s *EnvServiceMock) RedisPassword() string {
-	return s.Called().String(0)
-}
-
 func (s *EnvServiceMock) RestApiBasePath() string {
 	return s.Called().String(0)
 }

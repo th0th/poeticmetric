@@ -3,25 +3,20 @@ kind: StatefulSet
 metadata:
   labels:
     {{ include "poeticmetric.labels" . | nindent 4 }}
-  name: {{ include "poeticmetric.fullname" . }}-redis
+  name: {{ include "poeticmetric.fullname" . }}-valkey
 spec:
-  {{ if .Values.redis.persistence.enabled }}
-  persistentVolumeClaimRetentionPolicy:
-    whenDeleted: Retain
-    whenScaled: Retain
-  {{ end }}
   replicas: 1
   selector:
     matchLabels:
-      statefulSet: redis
+      statefulSet: valkey
       {{ include "poeticmetric.selectorLabels" . | nindent 6 }}
-  serviceName: redis-hl
+  serviceName: valkey-hl
   template:
     metadata:
       labels:
-        statefulSet: redis
+        statefulSet: valkey
         {{ include "poeticmetric.selectorLabels" . | nindent 8 }}
-      name: redis
+      name: valkey
     spec:
       containers:
       - env:
@@ -29,18 +24,21 @@ spec:
           valueFrom:
             secretKeyRef:
               key: PASSWORD
-              name: {{ include "poeticmetric.fullname" . }}-redis
-              optional: false
-        image: {{ .Values.redis.image.repository }}:{{ .Values.redis.image.tag }}
-        name: redis
-        resources: {{ toYaml .Values.redis.resources | nindent 10 }}
-        {{ if .Values.redis.persistence.enabled }}
+              name: {{ include "poeticmetric.fullname" . }}-valkey
+        image: {{ .Values.valkey.image.repository }}:{{ .Values.valkey.image.tag }}
+        name: valkey
+        resources:
+          {{ toYaml .Values.valkey.resources | nindent 10 }}
+        {{ if .Values.valkey.persistence.enabled }}
         volumeMounts:
         - mountPath: /data
           name: data
-          subPath: redis
+          subPath: valkey
         {{ end }}
-  {{ if .Values.redis.persistence.enabled }}
+  {{ if .Values.valkey.persistence.enabled }}
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Retain
+    whenScaled: Retain
   volumeClaimTemplates:
   - kind: PersistentVolumeClaim
     apiVersion: v1
@@ -51,6 +49,6 @@ spec:
       - ReadWriteOnce
       resources:
         requests:
-          storage: {{ .Values.redis.persistence.size }}
+          storage: 10Gi
       volumeMode: Filesystem
   {{ end }}

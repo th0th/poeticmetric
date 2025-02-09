@@ -3,14 +3,14 @@ kind: Service
 metadata:
   labels:
     {{ include "poeticmetric.labels" . | nindent 4 }}
-  name: {{ include "poeticmetric.fullname" . }}-redis
+  name: {{ include "poeticmetric.fullname" . }}-valkey
 spec:
   type: ClusterIP
   selector:
-    statefulSet: redis
+    statefulSet: valkey
     {{ include "poeticmetric.selectorLabels" . | nindent 4 }}
   ports:
-  - name: redis
+  - name: valkey
     port: 6379
     protocol: TCP
     targetPort: 6379

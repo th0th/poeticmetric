@@ -4,7 +4,7 @@ CREATE TABLE "events" (
   "country_iso_code" Nullable(String),
   "date_time" DateTime,
   "device_type" Nullable(String),
-  "duration" UInt32,
+  "duration_seconds" UInt32,
   "id" UUID,
   "is_bot" UInt8,
   "kind" String,
@@ -23,7 +23,7 @@ CREATE TABLE "events" (
   "utm_source" Nullable(String),
   "utm_term" Nullable(String),
   "visitor_id" String
-) ENGINE = ReplacingMergeTree("duration")
+) ENGINE = ReplacingMergeTree("duration_seconds")
     ORDER BY ("site_id", "id")
     SETTINGS index_granularity = 8192;
 

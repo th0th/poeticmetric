@@ -1,10 +1,13 @@
 package poeticmetric
 
 import (
-	url2 "net/url"
+	"crypto/sha256"
+	"fmt"
+	"net/url"
 	"time"
 
 	"github.com/dchest/uniuri"
+	"github.com/go-errors/errors"
 	"github.com/mileusna/useragent"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -44,7 +47,7 @@ type Event struct {
 	CountryISOCode         *string
 	DateTime               time.Time
 	DeviceType             *EventDeviceType
-	Duration               time.Duration
+	DurationSeconds        uint32
 	ID                     string
 	IsBot                  bool
 	Kind                   EventKind
@@ -65,9 +68,9 @@ type Event struct {
 	VisitorID              string
 }
 
-type EventDeviceType string
+type EventDeviceType = string
 
-type EventKind string
+type EventKind = string
 
 type Organization struct {
 	CreatedAt               time.Time
@@ -79,6 +82,7 @@ type Organization struct {
 	PlanID                  uint
 	StripeCustomerID        *string
 	SubscriptionPeriod      *string
+	TimeZone                string
 	TrialEndsAt             *time.Time
 	UpdatedAt               time.Time
 }
@@ -149,68 +153,97 @@ type UserAccessToken struct {
 	UserID     uint
 }
 
-func (e *Event) FillFromUrl(url string, safeQueryParameters []string) error {
-	u, err := url2.Parse(url)
+func EventKinds() []EventKind {
+	return []EventKind{
+		EventKindPageView,
+	}
+}
+
+func (e *Event) Fill(params *CreateEventParams, organizationSalt string, safeQueryParameters []string) error {
+	e.URL = *params.URL
+	e.UserAgent = params.UserAgent
+
+	parsedURL, err := url.Parse(*params.URL)
 	if err != nil {
-		return err
+		return errors.Wrap(err, 0)
 	}
 
-	e.UTMCampaign = PointerOrNil(u.Query().Get("utm_campaign"))
-	e.UTMContent = PointerOrNil(u.Query().Get("utm_content"))
-	e.UTMMedium = PointerOrNil(u.Query().Get("utm_medium"))
-	e.UTMSource = PointerOrNil(u.Query().Get("utm_source"))
-	e.UTMTerm = PointerOrNil(u.Query().Get("utm_term"))
+	// visitor ID
+	checksum := sha256.Sum256([]byte(organizationSalt + params.IPAddress + params.UserAgent))
+	e.VisitorID = fmt.Sprintf("%x", checksum)
 
+	// user agent
+	userAgent := useragent.Parse(params.UserAgent)
+
+	e.IsBot = userAgent.Bot
+
+	if userAgent.Name != "" {
+		e.BrowserName = &userAgent.Name
+	}
+
+	if userAgent.OS != "" {
+		e.OperatingSystemName = &userAgent.OS
+	}
+
+	if userAgent.OSVersion != "" {
+		e.OperatingSystemVersion = &userAgent.OSVersion
+	}
+
+	if userAgent.Version != "" {
+		e.BrowserVersion = &userAgent.Version
+	}
+
+	if userAgent.Desktop {
+		e.DeviceType = Pointer(EventDeviceTypeDesktop)
+	} else if userAgent.Mobile {
+		e.DeviceType = Pointer(EventDeviceTypeMobile)
+	} else if userAgent.Tablet {
+		e.DeviceType = Pointer(EventDeviceTypeTablet)
+	}
+
+	// utm
+	utmCampaign := parsedURL.Query().Get("utm_campaign")
+	if utmCampaign != "" {
+		e.UTMCampaign = &utmCampaign
+	}
+
+	utmContent := parsedURL.Query().Get("utm_content")
+	if utmContent != "" {
+		e.UTMContent = &utmContent
+	}
+
+	utmMedium := parsedURL.Query().Get("utm_medium")
+	if utmMedium != "" {
+		e.UTMMedium = &utmMedium
+	}
+
+	utmSource := parsedURL.Query().Get("utm_source")
+	if utmSource != "" {
+		e.UTMSource = &utmSource
+	}
+
+	utmTerm := parsedURL.Query().Get("utm_term")
+	if utmTerm != "" {
+		e.UTMTerm = &utmTerm
+	}
+
+	// safe query parameters
 	safeQueryParametersMap := map[string]bool{}
-
 	for _, queryParameter := range safeQueryParameters {
 		safeQueryParametersMap[queryParameter] = true
 	}
 
-	q := u.Query()
-
-	for k := range u.Query() {
+	query := parsedURL.Query()
+	for k := range query {
 		if !safeQueryParametersMap[k] {
-			q.Del(k)
+			query.Del(k)
 		}
 	}
 
-	u.RawQuery = q.Encode()
-	e.URL = u.String()
+	parsedURL.RawQuery = query.Encode()
+	e.URL = parsedURL.String()
 
 	return nil
-}
-
-func (e *Event) FillFromUserAgent(userAgent string) {
-	e.UserAgent = userAgent
-
-	ua := useragent.Parse(userAgent)
-
-	e.IsBot = ua.Bot
-
-	if ua.Name != "" {
-		e.BrowserName = &ua.Name
-	}
-
-	if ua.Version != "" {
-		e.BrowserVersion = &ua.Version
-	}
-
-	if ua.OS != "" {
-		e.OperatingSystemName = &ua.OS
-	}
-
-	if ua.OSVersion != "" {
-		e.OperatingSystemVersion = &ua.OSVersion
-	}
-
-	if ua.Desktop {
-		e.DeviceType = Pointer(EventDeviceTypeDesktop)
-	} else if ua.Mobile {
-		e.DeviceType = Pointer(EventDeviceTypeMobile)
-	} else if ua.Tablet {
-		e.DeviceType = Pointer(EventDeviceTypeTablet)
-	}
 }
 
 func (e *Event) TableName() string {

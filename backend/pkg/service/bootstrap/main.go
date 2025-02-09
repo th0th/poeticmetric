@@ -200,14 +200,14 @@ func (s *service) Run(ctx context.Context, params *poeticmetric.BootstrapService
 				return fmt.Sprintf("%s://%s", protocol, gofakeit.DomainName())
 			})
 			referrerPaths := generateSlice(100, randomUrlPath)
-			urls := generateSlice(35, func() string { return fmt.Sprintf("https://%s%s", site.Domain, randomUrlPath()) })
+			//urls := generateSlice(35, func() string { return fmt.Sprintf("https://%s%s", site.Domain, randomUrlPath()) })
 			utmSources := generateSlice(35, gofakeit.Word)
 			utmCampaigns := generateSlice(35, gofakeit.Word)
 			utmMediums := generateSlice(35, gofakeit.Word)
 			utmContents := generateSlice(35, gofakeit.Word)
 			utmTerms := generateSlice(35, gofakeit.Word)
 			visitorIds := generateSlice(4000, gofakeit.UUID)
-			userAgents := generateSlice(100, gofakeit.UserAgent)
+			//userAgents := generateSlice(100, gofakeit.UserAgent)
 
 			for i := 0; i < batches; i += 1 {
 				events := []*poeticmetric.Event{}
@@ -218,10 +218,10 @@ func (s *service) Run(ctx context.Context, params *poeticmetric.BootstrapService
 
 					event := poeticmetric.Event{
 						//CountryISOCode: country.GetIsoCodeFromTimeZoneName(timeZone),
-						DateTime: gofakeit.DateRange(now.Add(-31*24*time.Hour), now),
-						Duration: time.Duration(gofakeit.IntRange(1, 1200)) * time.Second,
-						ID:       uuid.NewString(),
-						Kind:     poeticmetric.EventKindPageView,
+						DateTime:        gofakeit.DateRange(now.Add(-31*24*time.Hour), now),
+						DurationSeconds: uint32(gofakeit.IntRange(1, 1200)),
+						ID:              uuid.NewString(),
+						Kind:            poeticmetric.EventKindPageView,
 						//Language:       locale.GetLanguage(languageBcp),
 						Locale:   &languageBcp,
 						SiteID:   site.ID,
@@ -232,12 +232,12 @@ func (s *service) Run(ctx context.Context, params *poeticmetric.BootstrapService
 						event.Referrer = poeticmetric.Pointer(fmt.Sprintf("%s%s", gofakeit.RandomString(referrerSites), gofakeit.RandomString(referrerPaths)))
 					}
 
-					err = event.FillFromUrl(gofakeit.RandomString(urls), nil)
-					if err != nil {
-						return err
-					}
+					//err = event.FillFromUrl(gofakeit.RandomString(urls), nil)
+					//if err != nil {
+					//	return err
+					//}
 
-					event.FillFromUserAgent(gofakeit.RandomString(userAgents))
+					//event.FillFromUserAgent(gofakeit.RandomString(userAgents))
 
 					event.VisitorID = gofakeit.RandomString(visitorIds)
 

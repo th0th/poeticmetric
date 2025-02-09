@@ -2,33 +2,43 @@ package middleware
 
 import (
 	"net/http"
+	"time"
 
-	"github.com/ulule/limiter/v3"
-	"github.com/ulule/limiter/v3/drivers/middleware/stdlib"
+	"github.com/go-errors/errors"
+	"github.com/valkey-io/valkey-go"
+	"github.com/valkey-io/valkey-go/valkeylimiter"
 
-	"github.com/th0th/poeticmetric/backend/cmd"
 	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
 )
 
-func SensitiveRateLimit(responder poeticmetric.RestApiResponder, store limiter.Store) func(handler http.Handler) http.Handler {
-	limiterSensitiveRate, err := limiter.NewRateFromFormatted("4-M")
-	if err != nil {
-		cmd.LogPanic(err, "failed to init limiter sensitive rate")
+func SensitiveRateLimit(responder poeticmetric.RestApiResponder, valkeyClient valkey.Client) func(handler http.Handler) http.Handler {
+	return func(handler http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			limiter, err := valkeylimiter.NewRateLimiter(valkeylimiter.RateLimiterOption{
+				ClientBuilder: func(_ valkey.ClientOption) (valkey.Client, error) {
+					return valkeyClient, nil
+				},
+				KeyPrefix: "rest_api_rate_limit_sensitive",
+				Limit:     4,
+				Window:    time.Minute,
+			})
+			if err != nil {
+				responder.Error(w, errors.Wrap(err, 0))
+				return
+			}
+
+			result, err := limiter.Allow(r.Context(), r.Header.Get("X-Forwarded-For"))
+			if err != nil {
+				responder.Error(w, errors.Wrap(err, 0))
+				return
+			}
+
+			if !result.Allowed {
+				responder.Detail(w, http.StatusTooManyRequests, "Rate limit reached. Please try again.")
+				return
+			}
+
+			handler.ServeHTTP(w, r)
+		})
 	}
-
-	limiterSensitiveMiddleware := stdlib.NewMiddleware(
-		limiter.New(
-			store,
-			limiterSensitiveRate,
-			limiter.WithTrustForwardHeader(true),
-		),
-		stdlib.WithErrorHandler(func(w http.ResponseWriter, r *http.Request, err error) {
-			responder.Error(w, err)
-		}),
-		stdlib.WithLimitReachedHandler(func(w http.ResponseWriter, r *http.Request) {
-			responder.Detail(w, http.StatusTooManyRequests, "Rate limit reached. Please wait a bit and try again.")
-		}),
-	)
-
-	return limiterSensitiveMiddleware.Handler
 }

@@ -4,6 +4,7 @@ import (
 	"net/mail"
 	"net/smtp"
 
+	govalkey "github.com/valkey-io/valkey-go"
 	"golang.org/x/oauth2"
 	"gorm.io/gorm"
 )
@@ -18,13 +19,17 @@ type EnvService interface {
 	IsHosted() bool
 	PostgresDatabase() string
 	PostgresDsn() string
-	RedisAddr() string
-	RedisPassword() string
-	RestApiBasePath() string
+	RabbitMqURL() string
 	RESTApiURL(path string) string
+	RestApiBasePath() string
 	SmtpAddr() string
 	SmtpAuth() smtp.Auth
 	SmtpFrom() *mail.Address
+	ValkeyAddr() string
+	ValkeyClientOption() govalkey.ClientOption
+	ValkeyPassword() string
+	WorkerConcurrency() int
+	WorkerQueues() []string
 }
 
 type EnvServiceVars struct {
@@ -45,6 +50,10 @@ type EnvServiceVars struct {
 	GoogleClientID     *string `env:"GOOGLE_CLIENT_ID"`
 	GoogleClientSecret *string `env:"GOOGLE_CLIENT_SECRET"`
 
+	// PoeticMetric
+	WorkerConcurrency int      `env:"WORKER_CONCURRENCY" envDefault:"1"`
+	WorkerQueues      []string `env:"WORKER_QUEUES" envDefault:""`
+
 	// Postgres
 	PostgresDatabase string `env:"POSTGRES_DATABASE,notEmpty,required"`
 	PostgresHost     string `env:"POSTGRES_HOST,notEmpty,required"`
@@ -52,10 +61,12 @@ type EnvServiceVars struct {
 	PostgresPort     int    `env:"POSTGRES_PORT,notEmpty,required"`
 	PostgresUser     string `env:"POSTGRES_USER,notEmpty,required"`
 
-	// Redis
-	RedisHost     string `env:"REDIS_HOST,notEmpty,required"`
-	RedisPassword string `env:"REDIS_PASSWORD"`
-	RedisPort     int    `env:"REDIS_PORT,notEmpty,required"`
+	// RabbitMQ
+	RabbitMqHost     string `env:"RABBITMQ_HOST,notEmpty,required"`
+	RabbitMqPassword string `env:"RABBITMQ_PASSWORD,notEmpty,required"`
+	RabbitMqPort     int    `env:"RABBITMQ_PORT,notEmpty,required"`
+	RabbitMqUser     string `env:"RABBITMQ_USER,notEmpty,required"`
+	RabbitMqVhost    string `env:"RABBITMQ_VHOST,notEmpty,required"`
 
 	// SMTP
 	SmtpFromAddress string `env:"SMTP_FROM_ADDRESS,notEmpty,required"`
@@ -63,4 +74,9 @@ type EnvServiceVars struct {
 	SmtpPassword    string `env:"SMTP_PASSWORD"`
 	SmtpPort        string `env:"SMTP_PORT,notEmpty,required"`
 	SmtpUser        string `env:"SMTP_USER"`
+
+	// Valkey
+	ValkeyHost     string `env:"VALKEY_HOST,notEmpty,required"`
+	ValkeyPassword string `env:"VALKEY_PASSWORD,notEmpty,required"`
+	ValkeyPort     int    `env:"VALKEY_PORT,notEmpty,required"`
 }
