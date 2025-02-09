@@ -49,7 +49,7 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="development - redis" uuid="abe60c43-ae46-4e7d-87a6-a2686520058a">
+    <data-source source="LOCAL" name="development - valkey" uuid="abe60c43-ae46-4e7d-87a6-a2686520058a">
       <driver-ref>redis</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>jdbc.RedisDriver</jdbc-driver>
@@ -57,13 +57,16 @@
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.host.port" value="6379" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="true" />
-        <property name="com.intellij.clouds.kubernetes.db.resource" value="poeticmetric-redis" />
+        <property name="com.intellij.clouds.kubernetes.db.resource" value="poeticmetric-valkey" />
         <property name="com.intellij.clouds.kubernetes.db.context" value="docker-desktop" />
         <property name="com.intellij.clouds.kubernetes.db.resource.type" value="Service" />
         <property name="com.intellij.clouds.kubernetes.db.namespace" value="poeticmetric-development" />
         <property name="com.intellij.clouds.kubernetes.db.container.port" value="6379" />
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
+      <driver-properties>
+        <property name="verifyConnectionMode" value="false" />
+      </driver-properties>
     </data-source>
     <data-source source="LOCAL" name="production - clickhouse" uuid="00017018-69c0-42fe-8230-9357261e3983">
       <driver-ref>clickhouse</driver-ref>

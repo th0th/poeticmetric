@@ -33,8 +33,12 @@ func (s *service) Create(ctx context.Context, params *poeticmetric.CreateEventPa
 		DurationSeconds: *params.DurationSeconds,
 		ID:              params.ID,
 		Kind:            *params.Kind,
+		Locale:          params.Locale,
 		Referrer:        params.Referrer,
 		SiteID:          site.ID,
+		TimeZone:        params.TimeZone,
+		URL:             *params.URL,
+		UserAgent:       params.UserAgent,
 	}
 
 	organizationSalt, err := s.OrganizationSalt(ctx, site.OrganizationID)

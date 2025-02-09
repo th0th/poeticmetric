@@ -201,6 +201,18 @@ func (e *Event) Fill(params *CreateEventParams, organizationSalt string, safeQue
 		e.DeviceType = Pointer(EventDeviceTypeTablet)
 	}
 
+	// locale
+	language := LocaleLanguageMap()[*params.Locale]
+	if language != "" {
+		e.Language = &language
+	}
+
+	// time zone
+	countryISOCode := TimeZoneCountryISOCodeMap()[*params.TimeZone]
+	if countryISOCode != "" {
+		e.CountryISOCode = &countryISOCode
+	}
+
 	// utm
 	utmCampaign := parsedURL.Query().Get("utm_campaign")
 	if utmCampaign != "" {
