@@ -122,6 +122,7 @@ jobs:
           --set poeticmetric.smtp.user="${{ secrets.SMTP_USER }}" \
           --set postgres.password="${{ secrets.POSTGRES_PASSWORD }}" \
           --set postgres.user="${{ secrets.POSTGRES_USER }}" \
+          --set rabbitmq.password="${{ secrets.RABBITMQ_PASSWORD }}" \
           --set valkey.password="${{ secrets.VALKEY_PASSWORD }}" \
           --values etc/${{ inputs.environment }}/values.yaml
 

@@ -84,7 +84,7 @@ rabbitmq:
     enabled: true
   serviceMonitor:
     enabled: true
-  user: "poeticmetric"
+  user: poeticmetric
 valkey:
   image:
     pullPolicy: IfNotPresent
