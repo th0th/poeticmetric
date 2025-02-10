@@ -46,7 +46,7 @@ func (s *service) Create(ctx context.Context, params *poeticmetric.CreateEventPa
 		return errors.Wrap(err, 0)
 	}
 
-	err = event.Fill(params, organizationSalt, site.SafeQueryParameters)
+	err = event.Fill(params.IPAddress, organizationSalt, site.SafeQueryParameters)
 	if err != nil {
 		return errors.Wrap(err, 0)
 	}

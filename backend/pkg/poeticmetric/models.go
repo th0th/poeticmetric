@@ -159,21 +159,18 @@ func EventKinds() []EventKind {
 	}
 }
 
-func (e *Event) Fill(params *CreateEventParams, organizationSalt string, safeQueryParameters []string) error {
-	e.URL = *params.URL
-	e.UserAgent = params.UserAgent
-
-	parsedURL, err := url.Parse(*params.URL)
+func (e *Event) Fill(ipAddress string, organizationSalt string, safeQueryParameters []string) error {
+	parsedURL, err := url.Parse(e.URL)
 	if err != nil {
 		return errors.Wrap(err, 0)
 	}
 
 	// visitor ID
-	checksum := sha256.Sum256([]byte(organizationSalt + params.IPAddress + params.UserAgent))
+	checksum := sha256.Sum256([]byte(organizationSalt + ipAddress + e.UserAgent))
 	e.VisitorID = fmt.Sprintf("%x", checksum)
 
 	// user agent
-	userAgent := useragent.Parse(params.UserAgent)
+	userAgent := useragent.Parse(e.UserAgent)
 
 	e.IsBot = userAgent.Bot
 
@@ -202,15 +199,19 @@ func (e *Event) Fill(params *CreateEventParams, organizationSalt string, safeQue
 	}
 
 	// locale
-	language := LocaleLanguageMap()[*params.Locale]
-	if language != "" {
-		e.Language = &language
+	if e.Locale != nil {
+		language := LocaleLanguageMap()[*e.Locale]
+		if language != "" {
+			e.Language = &language
+		}
 	}
 
 	// time zone
-	countryISOCode := TimeZoneCountryISOCodeMap()[*params.TimeZone]
-	if countryISOCode != "" {
-		e.CountryISOCode = &countryISOCode
+	if e.TimeZone != nil {
+		countryISOCode := TimeZoneCountryISOCodeMap()[*e.TimeZone]
+		if countryISOCode != "" {
+			e.CountryISOCode = &countryISOCode
+		}
 	}
 
 	// utm
