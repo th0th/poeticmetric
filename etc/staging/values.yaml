@@ -20,6 +20,7 @@ poeticmetric:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod-poeticmetric
     resources: {}
+    tagsEnvironment: staging
   host: staging.poeticmetric.com
   restApi:
     ingress:
