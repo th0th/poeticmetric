@@ -37,8 +37,7 @@ func (h *Handler) Check(w http.ResponseWriter, r *http.Request) {
 	err := h.bootstrapService.Check(r.Context())
 	if err != nil {
 		if errors.Is(err, poeticmetric.BootstrapServiceErrAlreadyDone) {
-			w.WriteHeader(http.StatusBadRequest)
-			h.responder.Detail(w, "Bootstrap is already done.")
+			h.responder.Detail(w, http.StatusBadRequest, "Bootstrap is already done.")
 			return
 		}
 
@@ -46,7 +45,7 @@ func (h *Handler) Check(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h.responder.Detail(w, "Ready to go.")
+	h.responder.Detail(w, http.StatusOK, "Ready to go.")
 }
 
 // Run godoc
@@ -70,6 +69,5 @@ func (h *Handler) Run(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.WriteHeader(http.StatusCreated)
-	h.responder.Detail(w, "Bootstrap is successfully completed.")
+	h.responder.Detail(w, http.StatusCreated, "Bootstrap is successfully completed.")
 }

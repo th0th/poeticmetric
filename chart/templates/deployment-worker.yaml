@@ -1,0 +1,113 @@
+{{ $Values := .Values }}
+{{ $fullname := include "poeticmetric.fullname" . }}
+{{ $labels := include "poeticmetric.labels" . }}
+{{ $selectorLabels := include "poeticmetric.selectorLabels" . }}
+{{ range .Values.poeticmetric.workers }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    restart-on-deploy: "true"
+    {{ $labels | nindent 4 }}
+  name: {{ $fullname }}-worker{{ if .name }}-{{ .name }}{{ end }}
+spec:
+  replicas: {{ default 1 .replicas }}
+  selector:
+    matchLabels:
+      deployment: worker{{ if .name }}-{{ .name }}{{ end }}
+      {{ $selectorLabels | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        deployment: worker{{ if .name }}-{{ .name }}{{ end }}
+        {{ $selectorLabels | nindent 8 }}
+    spec:
+      containers:
+      - env:
+        - name: INSTANCE
+          value: worker
+        - name: WORKER_CONCURRENCY
+          value: {{ .concurrency | quote }}
+        - name: WORKER_QUEUES
+          value: {{ .queues | join "," | quote }}
+        envFrom:
+        - configMapRef:
+            name: {{ $fullname }}-clickhouse
+            optional: false
+          prefix: CLICKHOUSE_
+        - prefix: CLICKHOUSE_
+          secretRef:
+            name: {{ $fullname }}-clickhouse
+            optional: false
+        - configMapRef:
+            name: {{ $fullname }}-postgres
+            optional: false
+          prefix: POSTGRES_
+        - prefix: POSTGRES_
+          secretRef:
+            name: {{ $fullname }}-postgres
+            optional: false
+        - configMapRef:
+            name: {{ $fullname }}-rabbitmq
+            optional: false
+          prefix: RABBITMQ_
+        - prefix: RABBITMQ_
+          secretRef:
+            name: {{ $fullname }}-rabbitmq
+            optional: false
+        - prefix: SMTP_
+          configMapRef:
+            name: {{ $fullname }}-smtp
+            optional: false
+        - prefix: SMTP_
+          secretRef:
+            name: {{ $fullname }}-smtp
+            optional: false
+        - prefix: VALKEY_
+          configMapRef:
+            name: {{ $fullname }}-valkey
+            optional: false
+        - prefix: VALKEY_
+          secretRef:
+            name: {{ $fullname }}-valkey
+            optional: false
+        - configMapRef:
+            name: {{ $fullname }}-poeticmetric
+            optional: false
+        image: {{ printf "%s:%s" $Values.poeticmetric.backend.image.repository $Values.poeticmetric.backend.image.tag }}
+        imagePullPolicy: {{ $Values.poeticmetric.backend.image.pullPolicy }}
+        name: worker{{ if .name }}-{{ .name }}{{ end }}
+        resources:
+          {{ toYaml (default dict .resources) | nindent 10 }}
+        volumeMounts:
+        {{ if $Values.poeticmetric.development.hostBasePath }}
+        - mountPath: /poeticmetric/cmd
+          name: cmd
+        - mountPath: /poeticmetric/pkg
+          name: pkg
+        - mountPath: /poeticmetric/go.mod
+          name: go-mod
+        - mountPath: /poeticmetric/go.sum
+          name: go-sum
+        {{ end }}
+      {{ if $Values.ghcrAuth }}
+      imagePullSecrets:
+      - name: {{ $fullname }}-ghcr-io
+      {{ end }}
+      volumes:
+      {{ if $Values.poeticmetric.development.hostBasePath }}
+      - hostPath:
+          path: {{ $Values.poeticmetric.development.hostBasePath }}/backend/cmd
+        name: cmd
+      - hostPath:
+          path: {{ $Values.poeticmetric.development.hostBasePath }}/backend/pkg
+        name: pkg
+      - hostPath:
+          path: {{ $Values.poeticmetric.development.hostBasePath }}/backend/go.mod
+        name: go-mod
+      - hostPath:
+          path: {{ $Values.poeticmetric.development.hostBasePath }}/backend/go.sum
+        name: go-sum
+      {{ end }}
+---
+{{ end }}

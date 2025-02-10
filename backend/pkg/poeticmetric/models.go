@@ -1,19 +1,25 @@
 package poeticmetric
 
 import (
-	url2 "net/url"
+	"crypto/sha256"
+	"fmt"
+	"net/url"
 	"time"
 
 	"github.com/dchest/uniuri"
+	"github.com/go-errors/errors"
 	"github.com/mileusna/useragent"
 	"golang.org/x/crypto/bcrypt"
 )
 
 const (
-	EventDeviceTypeDesktop = "DESKTOP"
-	EventDeviceTypeMobile  = "MOBILE"
-	EventDeviceTypeTablet  = "TABLET"
-	EventKindPageView      = "PAGE_VIEW"
+	EventDeviceTypeDesktop EventDeviceType = "DESKTOP"
+	EventDeviceTypeMobile  EventDeviceType = "MOBILE"
+	EventDeviceTypeTablet  EventDeviceType = "TABLET"
+)
+
+const (
+	EventKindPageView EventKind = "PAGE_VIEW"
 )
 
 const (
@@ -38,13 +44,13 @@ const (
 type Event struct {
 	BrowserName            *string
 	BrowserVersion         *string
-	CountryIsoCode         *string
+	CountryISOCode         *string
 	DateTime               time.Time
-	DeviceType             *string
-	Duration               time.Duration
+	DeviceType             *EventDeviceType
+	DurationSeconds        uint32
 	ID                     string
 	IsBot                  bool
-	Kind                   string
+	Kind                   EventKind
 	Language               *string
 	Locale                 *string
 	OperatingSystemName    *string
@@ -52,15 +58,19 @@ type Event struct {
 	Referrer               *string
 	SiteID                 uint
 	TimeZone               *string
-	Url                    string
+	URL                    string
 	UserAgent              string
-	UtmCampaign            *string
-	UtmContent             *string
-	UtmMedium              *string
-	UtmSource              *string
-	UtmTerm                *string
+	UTMCampaign            *string
+	UTMContent             *string
+	UTMMedium              *string
+	UTMSource              *string
+	UTMTerm                *string
 	VisitorID              string
 }
+
+type EventDeviceType = string
+
+type EventKind = string
 
 type Organization struct {
 	CreatedAt               time.Time
@@ -72,6 +82,7 @@ type Organization struct {
 	PlanID                  uint
 	StripeCustomerID        *string
 	SubscriptionPeriod      *string
+	TimeZone                string
 	TrialEndsAt             *time.Time
 	UpdatedAt               time.Time
 }
@@ -142,68 +153,110 @@ type UserAccessToken struct {
 	UserID     uint
 }
 
-func (e *Event) FillFromUrl(url string, safeQueryParameters []string) error {
-	u, err := url2.Parse(url)
+func EventKinds() []EventKind {
+	return []EventKind{
+		EventKindPageView,
+	}
+}
+
+func (e *Event) Fill(ipAddress string, organizationSalt string, safeQueryParameters []string) error {
+	parsedURL, err := url.Parse(e.URL)
 	if err != nil {
-		return err
+		return errors.Wrap(err, 0)
 	}
 
-	e.UtmCampaign = PointerOrNil(u.Query().Get("utm_campaign"))
-	e.UtmContent = PointerOrNil(u.Query().Get("utm_content"))
-	e.UtmMedium = PointerOrNil(u.Query().Get("utm_medium"))
-	e.UtmSource = PointerOrNil(u.Query().Get("utm_source"))
-	e.UtmTerm = PointerOrNil(u.Query().Get("utm_term"))
+	// visitor ID
+	checksum := sha256.Sum256([]byte(organizationSalt + ipAddress + e.UserAgent))
+	e.VisitorID = fmt.Sprintf("%x", checksum)
 
+	// user agent
+	userAgent := useragent.Parse(e.UserAgent)
+
+	e.IsBot = userAgent.Bot
+
+	if userAgent.Name != "" {
+		e.BrowserName = &userAgent.Name
+	}
+
+	if userAgent.OS != "" {
+		e.OperatingSystemName = &userAgent.OS
+	}
+
+	if userAgent.OSVersion != "" {
+		e.OperatingSystemVersion = &userAgent.OSVersion
+	}
+
+	if userAgent.Version != "" {
+		e.BrowserVersion = &userAgent.Version
+	}
+
+	if userAgent.Desktop {
+		e.DeviceType = Pointer(EventDeviceTypeDesktop)
+	} else if userAgent.Mobile {
+		e.DeviceType = Pointer(EventDeviceTypeMobile)
+	} else if userAgent.Tablet {
+		e.DeviceType = Pointer(EventDeviceTypeTablet)
+	}
+
+	// locale
+	if e.Locale != nil {
+		language := LocaleLanguageMap()[*e.Locale]
+		if language != "" {
+			e.Language = &language
+		}
+	}
+
+	// time zone
+	if e.TimeZone != nil {
+		countryISOCode := TimeZoneCountryISOCodeMap()[*e.TimeZone]
+		if countryISOCode != "" {
+			e.CountryISOCode = &countryISOCode
+		}
+	}
+
+	// utm
+	utmCampaign := parsedURL.Query().Get("utm_campaign")
+	if utmCampaign != "" {
+		e.UTMCampaign = &utmCampaign
+	}
+
+	utmContent := parsedURL.Query().Get("utm_content")
+	if utmContent != "" {
+		e.UTMContent = &utmContent
+	}
+
+	utmMedium := parsedURL.Query().Get("utm_medium")
+	if utmMedium != "" {
+		e.UTMMedium = &utmMedium
+	}
+
+	utmSource := parsedURL.Query().Get("utm_source")
+	if utmSource != "" {
+		e.UTMSource = &utmSource
+	}
+
+	utmTerm := parsedURL.Query().Get("utm_term")
+	if utmTerm != "" {
+		e.UTMTerm = &utmTerm
+	}
+
+	// safe query parameters
 	safeQueryParametersMap := map[string]bool{}
-
 	for _, queryParameter := range safeQueryParameters {
 		safeQueryParametersMap[queryParameter] = true
 	}
 
-	q := u.Query()
-
-	for k := range u.Query() {
+	query := parsedURL.Query()
+	for k := range query {
 		if !safeQueryParametersMap[k] {
-			q.Del(k)
+			query.Del(k)
 		}
 	}
 
-	u.RawQuery = q.Encode()
-	e.Url = u.String()
+	parsedURL.RawQuery = query.Encode()
+	e.URL = parsedURL.String()
 
 	return nil
-}
-
-func (e *Event) FillFromUserAgent(userAgent string) {
-	e.UserAgent = userAgent
-
-	ua := useragent.Parse(userAgent)
-
-	e.IsBot = ua.Bot
-
-	if ua.Name != "" {
-		e.BrowserName = &ua.Name
-	}
-
-	if ua.Version != "" {
-		e.BrowserVersion = &ua.Version
-	}
-
-	if ua.OS != "" {
-		e.OperatingSystemName = &ua.OS
-	}
-
-	if ua.OSVersion != "" {
-		e.OperatingSystemVersion = &ua.OSVersion
-	}
-
-	if ua.Desktop {
-		e.DeviceType = Pointer(EventDeviceTypeDesktop)
-	} else if ua.Mobile {
-		e.DeviceType = Pointer(EventDeviceTypeMobile)
-	} else if ua.Tablet {
-		e.DeviceType = Pointer(EventDeviceTypeTablet)
-	}
 }
 
 func (e *Event) TableName() string {

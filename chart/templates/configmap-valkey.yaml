@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   labels:
     {{ include "poeticmetric.labels" . | nindent 4 }}
-  name: {{ include "poeticmetric.fullname" . }}-redis
+  name: {{ include "poeticmetric.fullname" . }}-valkey
 data:
-  HOST: "{{ include "poeticmetric.fullname" . }}-redis"
+  HOST: "{{ include "poeticmetric.fullname" . }}-valkey"
   PORT: "6379"

@@ -8,6 +8,7 @@ type ValidationService interface {
 	ServiceWithPostgres
 
 	ChangeUserPasswordParams(ctx context.Context, params *ChangeUserPasswordParams) error
+	CreateEventParams(ctx context.Context, params *CreateEventParams) error
 	CreateOrganizationSiteParams(ctx context.Context, organizationID uint, params *CreateOrganizationSiteParams) error
 	InviteOrganizationUserParams(ctx context.Context, organizationID uint, params *InviteOrganizationUserParams) error
 	OrganizationDeletionParams(ctx context.Context, params *OrganizationDeletionParams) error

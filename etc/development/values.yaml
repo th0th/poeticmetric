@@ -21,6 +21,7 @@ poeticmetric:
     ingress:
       annotations:
         cert-manager.io/cluster-issuer: self-signed
+    tagsEnvironment: development
   host: dev.poeticmetric.com
   restApi:
     ingress:
@@ -30,7 +31,16 @@ poeticmetric:
     fromAddress: poeticmetric@dev.poeticmetric.com
     host: poeticmetric-mailpit
     port: "1025"
+  workers:
+  - concurrency: 1
+    name: ""
+    queues: [ ]
+    replicas: 1
 postgres:
   password: poeticmetric
-redis:
+rabbitmq:
+  password: poeticmetric
+  serviceMonitor:
+    enabled: false
+valkey:
   password: poeticmetric

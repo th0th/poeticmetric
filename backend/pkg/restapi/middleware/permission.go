@@ -42,8 +42,7 @@ func PermissionHandler(responder poeticmetric.RestApiResponder, params Permissio
 			// IsEmailVerified
 			if params.IsEmailVerified != nil {
 				if authentication == nil || authentication.User == nil || authentication.User.IsEmailVerified != *params.IsEmailVerified {
-					w.WriteHeader(http.StatusForbidden)
-					responder.Detail(w, "Please verify your e-mail address.")
+					responder.Detail(w, http.StatusForbidden, "Please verify your e-mail address.")
 					return
 				}
 			}

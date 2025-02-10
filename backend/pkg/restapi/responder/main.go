@@ -3,6 +3,7 @@ package responder
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
 
@@ -32,8 +33,8 @@ func New(params NewParams) poeticmetric.RestApiResponder {
 	}
 }
 
-func (r *Responder) Detail(w http.ResponseWriter, detail string) {
-	r.JSON(w, DetailResponse{Detail: detail})
+func (r *Responder) Detail(w http.ResponseWriter, status int, detail string) {
+	r.JSON(w, status, DetailResponse{Detail: detail})
 }
 
 func (r *Responder) Error(w http.ResponseWriter, err error) {
@@ -44,12 +45,21 @@ func (r *Responder) Error(w http.ResponseWriter, err error) {
 			validationErrMap[validationErr.Field()] = validationErr.Message()
 		}
 
-		w.WriteHeader(http.StatusUnprocessableEntity)
-		r.JSON(w, validationErrMap)
+		r.JSON(w, http.StatusUnprocessableEntity, validationErrMap)
 		return
 	}
 
-	w.WriteHeader(http.StatusInternalServerError)
+	if errors.Is(err, io.EOF) {
+		// this happens when the request body is empty
+		r.JSON(w, http.StatusBadRequest, DetailResponse{Detail: "An error has occurred while parsing your request."})
+		return
+	}
+
+	var jsonSyntaxError *json.SyntaxError
+	if errors.As(err, &jsonSyntaxError) {
+		r.JSON(w, http.StatusBadRequest, DetailResponse{Detail: "Please send a valid JSON in the request body."})
+		return
+	}
 
 	detail := "An error has occurred."
 
@@ -62,17 +72,17 @@ func (r *Responder) Error(w http.ResponseWriter, err error) {
 		}
 	}
 
-	Logger.Err(err).Msg("an error has occurred")
-	r.Detail(w, detail)
+	Logger.Error().Stack().Err(err).Msg("an error has occurred")
+	r.Detail(w, http.StatusInternalServerError, detail)
 }
 
 func (r *Responder) Forbidden(w http.ResponseWriter) {
-	w.WriteHeader(http.StatusForbidden)
-	r.Detail(w, "You don't have enough permission.")
+	r.Detail(w, http.StatusForbidden, "You don't have enough permission.")
 }
 
-func (r *Responder) JSON(w http.ResponseWriter, data any) {
+func (r *Responder) JSON(w http.ResponseWriter, status int, data any) {
 	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(status)
 	err := json.NewEncoder(w).Encode(data)
 	if err != nil {
 		r.Error(w, err)
@@ -80,14 +90,20 @@ func (r *Responder) JSON(w http.ResponseWriter, data any) {
 }
 
 func (r *Responder) NotFound(w http.ResponseWriter) {
-	w.WriteHeader(http.StatusNotFound)
-	r.Detail(w, "Not found.")
+	r.Detail(w, http.StatusNotFound, "Not found.")
+}
+
+func (r *Responder) String(w http.ResponseWriter, contentType string, data []byte) {
+	w.Header().Set("Content-Type", contentType)
+	_, err := w.Write(data)
+	if err != nil {
+		r.Error(w, err)
+	}
 }
 
 func (r *Responder) Unauthorized(w http.ResponseWriter) {
-	w.WriteHeader(http.StatusUnauthorized)
 	w.Header().Set("WWW-Authenticate", `Basic realm="Restricted"`)
-	r.Detail(w, "Invalid credentials.")
+	r.Detail(w, http.StatusUnauthorized, "Invalid credentials.")
 }
 
 var Logger = zerolog.New(os.Stdout).With().Str("service", "responder").Timestamp().Logger()

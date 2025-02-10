@@ -20,7 +20,7 @@ export default function DeleteModal() {
   const [search, searchParams] = useSearchParams();
   const [state, setState] = useState<State>({ isInProgress: false, isShown: false, site: null });
   const isEnabled = useMemo(() => searchParams.get("action") === "delete", [searchParams]);
-  const siteID = useMemo(() => Number(searchParams.get("siteID")) || undefined, [searchParams]);
+  const siteID = useMemo(() => Number(searchParams.get("siteID")) || null, [searchParams]);
   const { mutate } = useSites();
 
   async function confirmDeletion() {
@@ -49,7 +49,7 @@ export default function DeleteModal() {
   }
 
   useEffect(() => {
-    if (isEnabled && siteID !== undefined) {
+    if (isEnabled && siteID !== null) {
       setState((s) => ({ ...s, isShown: true }));
     }
   }, [isEnabled, siteID]);

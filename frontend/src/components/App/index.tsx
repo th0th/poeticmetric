@@ -6,6 +6,7 @@ import AppErrorBoundary from "~/components/AppErrorBoundary";
 import Layout from "~/components/Layout";
 import NotFound from "~/components/NotFound";
 import SWRConfig from "~/components/SWRConfig";
+import Tags from "~/components/Tags";
 import withAuthorization from "~/components/withAuthorization";
 import withRequiredSearchParams from "~/components/withRequiredSearchParams";
 import AuthenticationProvider from "../AuthenticationProvider";
@@ -47,6 +48,8 @@ export default function App({ path }: AppProps) {
           <SWRConfig>
             <AuthenticationProvider>
               <Layout>
+                <Tags />
+
                 <Suspense fallback={suspenseFallback}>
                   <Switch>
                     <Route component={Home} path="/" />
