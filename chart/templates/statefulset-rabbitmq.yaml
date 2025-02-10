@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    {{ include "poeticmetric.labels" . | nindent 4 }}
+  name: {{ include "poeticmetric.fullname" . }}-rabbitmq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      statefulSet: rabbitmq
+      {{ include "poeticmetric.selectorLabels" . | nindent 6 }}
+  serviceName: rabbitmq-hl
+  template:
+    metadata:
+      labels:
+        statefulSet: rabbitmq
+        {{ include "poeticmetric.selectorLabels" . | nindent 8 }}
+      name: rabbitmq
+    spec:
+      containers:
+      - env:
+        - name: RABBITMQ_DEFAULT_PASS
+          valueFrom:
+            secretKeyRef:
+              key: PASSWORD
+              name: {{ include "poeticmetric.fullname" . }}-rabbitmq
+        - name: RABBITMQ_DEFAULT_USER
+          valueFrom:
+            secretKeyRef:
+              key: USER
+              name: {{ include "poeticmetric.fullname" . }}-rabbitmq
+        - name: RABBITMQ_DEFAULT_VHOST
+          valueFrom:
+            configMapKeyRef:
+              key: VHOST
+              name: {{ include "poeticmetric.fullname" . }}-rabbitmq
+        image: {{ .Values.rabbitmq.image.repository }}:{{ .Values.rabbitmq.image.tag }}
+        name: rabbitmq
+        resources:
+          {{ toYaml .Values.rabbitmq.resources | nindent 10 }}
+        volumeMounts:
+        {{ if .Values.rabbitmq.persistence.enabled }}
+        - mountPath: /var/lib/rabbitmq
+          name: data
+          subPath: rabbitmq
+        {{ end }}
+  {{ if .Values.rabbitmq.persistence.enabled }}
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Retain
+    whenScaled: Retain
+  volumeClaimTemplates:
+  - kind: PersistentVolumeClaim
+    apiVersion: v1
+    metadata:
+      name: data
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
+      volumeMode: Filesystem
+  {{ end }}

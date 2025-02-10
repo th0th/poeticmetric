@@ -38,13 +38,13 @@ spec:
           secretRef:
             name: {{ include "poeticmetric.fullname" . }}-postgres
             optional: false
-        - prefix: REDIS_
-          configMapRef:
-              name: {{ include "poeticmetric.fullname" . }}-redis
-              optional: false
-        - prefix: REDIS_
+        - configMapRef:
+            name: {{ include "poeticmetric.fullname" . }}-rabbitmq
+            optional: false
+          prefix: RABBITMQ_
+        - prefix: RABBITMQ_
           secretRef:
-            name: {{ include "poeticmetric.fullname" . }}-redis
+            name: {{ include "poeticmetric.fullname" . }}-rabbitmq
             optional: false
         - prefix: SMTP_
           configMapRef:
@@ -53,6 +53,14 @@ spec:
         - prefix: SMTP_
           secretRef:
             name: {{ include "poeticmetric.fullname" . }}-smtp
+            optional: false
+        - prefix: VALKEY_
+          configMapRef:
+            name: {{ include "poeticmetric.fullname" . }}-valkey
+            optional: false
+        - prefix: VALKEY_
+          secretRef:
+            name: {{ include "poeticmetric.fullname" . }}-valkey
             optional: false
         - configMapRef:
             name: {{ include "poeticmetric.fullname" . }}-poeticmetric

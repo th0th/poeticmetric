@@ -28,7 +28,7 @@ func (h *Handler) ReadUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h.responder.JSON(w, user)
+	h.responder.JSON(w, http.StatusOK, user)
 }
 
 // UpdateUser godoc
@@ -68,5 +68,5 @@ func (h *Handler) UpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h.responder.JSON(w, user)
+	h.responder.JSON(w, http.StatusOK, user)
 }

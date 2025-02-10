@@ -64,7 +64,7 @@ func (h *Handler) GetOrganizationDeletionOptions(w http.ResponseWriter, r *http.
 		Reasons:         organizationDeletionReasons,
 	}
 
-	h.responder.JSON(w, response)
+	h.responder.JSON(w, http.StatusOK, response)
 }
 
 // ReadOrganization godoc
@@ -84,7 +84,7 @@ func (h *Handler) ReadOrganization(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h.responder.JSON(w, user)
+	h.responder.JSON(w, http.StatusOK, user)
 }
 
 // UpdateOrganization godoc
@@ -124,5 +124,5 @@ func (h *Handler) UpdateOrganization(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h.responder.JSON(w, organization)
+	h.responder.JSON(w, http.StatusOK, organization)
 }

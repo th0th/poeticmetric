@@ -34,5 +34,5 @@ func (h *Handler) ChangeUserPassword(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h.responder.Detail(w, "User's password is updated.")
+	h.responder.Detail(w, http.StatusOK, "User's password is updated.")
 }

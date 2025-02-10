@@ -101,7 +101,7 @@ func (s *service) Send(params poeticmetric.SendEmailParams) error {
 func funcMap(envService poeticmetric.EnvService) template.FuncMap {
 	return template.FuncMap{
 		"frontendUrl": func(path string) string {
-			return envService.FrontendUrl(path)
+			return envService.FrontendURL(path)
 		},
 	}
 }

@@ -15,6 +15,10 @@ func (m *ValidationServiceMock) ChangeUserPasswordParams(ctx context.Context, pa
 	return m.Called(ctx, params).Error(0)
 }
 
+func (m *ValidationServiceMock) CreateEventParams(ctx context.Context, params *CreateEventParams) error {
+	return m.Called(ctx, params).Error(0)
+}
+
 func (m *ValidationServiceMock) CreateOrganizationSiteParams(ctx context.Context, organizationID uint, params *CreateOrganizationSiteParams) error {
 	return m.Called(ctx, organizationID, params).Error(0)
 }

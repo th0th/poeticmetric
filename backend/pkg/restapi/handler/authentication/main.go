@@ -43,8 +43,7 @@ func (h *Handler) CreateUserAccessToken(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	w.WriteHeader(http.StatusCreated)
-	h.responder.JSON(w, userAccessToken)
+	h.responder.JSON(w, http.StatusCreated, userAccessToken)
 }
 
 // DeleteUserAccessToken godoc
@@ -89,7 +88,7 @@ func (h *Handler) ResetUserPassword(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h.responder.Detail(w, "Password is successfully reset.")
+	h.responder.Detail(w, http.StatusOK, "Password is successfully reset.")
 }
 
 // SendUserPasswordRecoveryEmail godoc
@@ -115,9 +114,9 @@ func (h *Handler) SendUserPasswordRecoveryEmail(w http.ResponseWriter, r *http.R
 		}
 	}
 
-	w.WriteHeader(http.StatusAccepted)
 	h.responder.Detail(
 		w,
+		http.StatusAccepted,
 		"If the e-mail address exists in our database, you will receive a reset link. Check your inbox and follow the instructions.",
 	)
 }

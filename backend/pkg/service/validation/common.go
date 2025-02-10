@@ -3,6 +3,7 @@ package validation
 import (
 	"context"
 	_ "embed"
+	"net/url"
 
 	v "github.com/RussellLuo/validating/v3"
 	"github.com/go-errors/errors"
@@ -34,6 +35,39 @@ func (s *service) organizationCanAddUser(ctx context.Context) *v.MessageValidato
 
 		if !canAddUser {
 			return v.NewInvalidErrors(field, mv.Message)
+		}
+
+		return nil
+	})
+
+	return &mv
+}
+
+func (s *service) siteURL(ctx context.Context) *v.MessageValidator {
+	mv := v.MessageValidator{
+		Message: "is not valid",
+	}
+
+	mv.Validator = v.Func(func(field *v.Field) v.Errors {
+		value, ok := field.Value.(string)
+		if !ok {
+			return v.NewUnsupportedErrors("siteDomain", field, "string")
+		}
+
+		URL, err := url.Parse(value)
+		if err != nil {
+			return v.NewInvalidErrors(field, mv.Message)
+		}
+
+		postgres := poeticmetric.ServicePostgres(ctx, s)
+
+		err = postgres.Where(poeticmetric.OrganizationSite{Domain: URL.Hostname()}, "Domain").First(&poeticmetric.OrganizationSite{}).Error
+		if err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return v.NewInvalidErrors(field, mv.Message)
+			}
+
+			return v.NewErrors(field.Name, v.ErrUnsupported, err.Error())
 		}
 
 		return nil

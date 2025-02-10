@@ -70,11 +70,26 @@ poeticmetric:
     password: ""
     port: 587
     user: ""
-redis:
+  workers:
+  - concurrency: 1
+    name: ""
+    queues: [ ]
+    replicas: 1
+rabbitmq:
+  image:
+    repository: rabbitmq
+    tag: 3-management-alpine
+  password: ""
+  persistence:
+    enabled: true
+  serviceMonitor:
+    enabled: true
+  user: "poeticmetric"
+valkey:
   image:
     pullPolicy: IfNotPresent
-    repository: redis
-    tag: 6.2-alpine
+    repository: valkey/valkey
+    tag: 8-alpine
   password: ""
   persistence:
     enabled: true
