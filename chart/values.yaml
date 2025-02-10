@@ -58,6 +58,7 @@ poeticmetric:
       annotations: {}
     replicas: 1
     resources: {}
+    tagsEnvironment: ""
   host: poeticmetric.com
   restApi:
     ingress:

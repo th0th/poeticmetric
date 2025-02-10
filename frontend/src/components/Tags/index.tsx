@@ -12,6 +12,7 @@ type Tags = {
 };
 
 const parser = Parser();
+const tagsEnvironment = import.meta.env.VITE_FRONTEND_TAGS_ENVIRONMENT;
 
 export default function Tags() {
   const { showBoundary } = useErrorBoundary();
@@ -21,8 +22,8 @@ export default function Tags() {
     async function run() {
       let url = "https://webhook.webgazer.io/webhook/poeticmetric-tags";
 
-      if (import.meta.env.VITE_FRONTEND_TAGS_ENVIRONMENT !== undefined) {
-        url += `?environment=${import.meta.env.VITE_FRONTEND_TAGS_ENVIRONMENT}`;
+      if (tagsEnvironment !== undefined && tagsEnvironment !== "") {
+        url += `?environment=${tagsEnvironment}`;
       }
 
       const response = await fetch(url);
