@@ -1,6 +1,7 @@
 import { Parser } from "html-to-react";
 import { useEffect, useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
+import { tagsEnvironment } from "~/lib/config";
 
 type State = {
   tags: Tags | null;
@@ -12,8 +13,6 @@ type Tags = {
 };
 
 const parser = Parser();
-const tagsEnvironment = import.meta.env.VITE_FRONTEND_TAGS_ENVIRONMENT;
-console.log({ tagsEnvironment });
 
 export default function Tags() {
   const { showBoundary } = useErrorBoundary();
@@ -23,7 +22,6 @@ export default function Tags() {
     async function run() {
       let url = "https://webhook.webgazer.io/webhook/poeticmetric-tags";
 
-      console.log({ inEffect: tagsEnvironment });
       if (tagsEnvironment !== undefined && tagsEnvironment !== "") {
         url += `?environment=${tagsEnvironment}`;
       }
@@ -39,9 +37,7 @@ export default function Tags() {
 
   return (
     <>
-      <>
-        {state.tags !== null && state.tags.head !== "" ? parser.parse(state.tags.head) : null}
-      </>
+      {state.tags !== null && state.tags.head !== "" ? parser.parse(state.tags.head) : null}
 
       {state.tags !== null && state.tags.body !== "" ? parser.parse(state.tags.body) : null}
     </>

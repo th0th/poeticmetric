@@ -18,6 +18,12 @@ COPY tsconfig.json .
 COPY tsconfig.node.json .
 COPY vite.config.ts .
 
+ARG IS_HOSTED=false
+ARG TAGS_ENVIRONMENT
+
+ENV VITE_IS_HOSTED=${IS_HOSTED}
+ENV VITE_TAGS_ENVIRONMENT=${TAGS_ENVIRONMENT}
+
 RUN pnpm build
 
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh

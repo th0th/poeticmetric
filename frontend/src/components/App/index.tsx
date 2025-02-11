@@ -9,6 +9,7 @@ import SWRConfig from "~/components/SWRConfig";
 import Tags from "~/components/Tags";
 import withAuthorization from "~/components/withAuthorization";
 import withRequiredSearchParams from "~/components/withRequiredSearchParams";
+import { isHosted } from "~/lib/config";
 import AuthenticationProvider from "../AuthenticationProvider";
 import "~/styles/style.scss";
 
@@ -48,7 +49,9 @@ export default function App({ path }: AppProps) {
           <SWRConfig>
             <AuthenticationProvider>
               <Layout>
-                <Tags />
+                {isHosted ? (
+                  <Tags />
+                ) : null}
 
                 <Suspense fallback={suspenseFallback}>
                   <Switch>
