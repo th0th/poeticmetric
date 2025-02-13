@@ -23,7 +23,7 @@
     "cross-env": "^7.0.3",
     "dayjs": "^1.11.13",
     "express": "^5.0.1",
-    "framer-motion": "^11.18.2",
+    "framer-motion": "^12.4.2",
     "gray-matter": "^4.0.3",
     "highlight.js": "^11.11.1",
     "html-to-react": "^1.7.0",
