@@ -79,6 +79,9 @@ jobs:
     - name: Build and push docker image
       uses: docker/build-push-action@v5
       with:
+        build-args: |
+          IS_HOSTED=true
+          TAGS_ENVIRONMENT=${{ inputs.environment }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
         context: frontend
