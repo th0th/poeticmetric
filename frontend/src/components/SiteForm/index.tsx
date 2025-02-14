@@ -3,13 +3,12 @@ import classNames from "classnames";
 import { useMemo } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { FormProvider, useForm } from "react-hook-form";
-import { Link } from "wouter";
+import { Link, useSearchParams } from "wouter";
 import ActivityOverlay from "~/components/ActivityOverlay";
 import Breadcrumb from "~/components/Breadcrumb";
 import Result from "~/components/Result";
 import SafeQueryParameters from "~/components/SiteForm/SafeQueryParameters";
 import Title from "~/components/Title";
-import useSearchParams from "~/hooks/useSearchParams";
 import { api } from "~/lib/api";
 import { setErrors } from "~/lib/form";
 
@@ -23,8 +22,8 @@ export type Form = {
 
 export default function SiteForm() {
   const { showBoundary } = useErrorBoundary();
-  const [,searchParams] = useSearchParams();
-  const siteID = searchParams.get("siteID");
+  const [searchParams] = useSearchParams();
+  const siteID = useMemo(() => searchParams.get("siteID"), [searchParams]);
   const title = useMemo(() => siteID === null ? "Add site" : "Edit site", [siteID]);
   const form = useForm<Form>({
     defaultValues: async () => {

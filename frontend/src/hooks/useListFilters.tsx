@@ -2,8 +2,7 @@ import classNames from "classnames";
 import { get, groupBy, values as _values } from "lodash-es";
 import { ChangeEventHandler, JSX, PropsWithoutRef, ReactNode, useCallback, useMemo } from "react";
 import { Dropdown } from "react-bootstrap";
-import { useLocation } from "wouter";
-import useSearchParams from "~/hooks/useSearchParams";
+import { useLocation, useSearchParams } from "wouter";
 import { getUpdatedSearch } from "~/lib/router";
 
 type HydratedListFilter = Overwrite<ListFilter<any>, {
@@ -33,7 +32,7 @@ export default function useListFilters<T extends object>(
   listFiltersProps?: ListFiltersProps,
 ): [ReactNode, Array<T>] {
   const [location, navigate] = useLocation();
-  const [search, searchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const hydratedData = useMemo<Array<T>>(() => data || [], [data]);
 
   const hydratedListFilters = useMemo<Array<HydratedListFilter>>(() => {
@@ -84,12 +83,12 @@ export default function useListFilters<T extends object>(
       searchParamValue = Array.from(valueSet).join(",");
     }
 
-    navigate(`${location}${getUpdatedSearch(search, { [name]: searchParamValue })}`);
-  }, [location, navigate, search, searchParams]);
+    navigate(`${location}${getUpdatedSearch(searchParams, { [name]: searchParamValue })}`);
+  }, [location, navigate, searchParams]);
 
   const reset = useCallback((searchParamName: string) => {
-    navigate(`${location}${getUpdatedSearch(search, { [searchParamName]: null })}`);
-  }, [location, navigate, search]);
+    navigate(`${location}${getUpdatedSearch(searchParams, { [searchParamName]: null })}`);
+  }, [location, navigate, searchParams]);
 
   const listFilters = useMemo(() => {
     const { className, ...props } = listFiltersProps || {};

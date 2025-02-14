@@ -2,11 +2,10 @@ import { IconDotsVertical, IconEdit, IconTrash } from "@tabler/icons-react";
 import classNames from "classnames";
 import { JSX, KeyboardEvent, MouseEvent, PropsWithoutRef, useMemo } from "react";
 import { Dropdown } from "react-bootstrap";
-import { Link, useLocation } from "wouter";
+import { Link, useLocation, useSearchParams } from "wouter";
 import FavIcon from "~/components/FavIcon";
 import Portal from "~/components/Portal";
 import useAuthentication from "~/hooks/useAuthentication";
-import useSearchParams from "~/hooks/useSearchParams";
 import { getUpdatedSearch } from "~/lib/router";
 
 export type SiteProps = Overwrite<PropsWithoutRef<JSX.IntrinsicElements["div"]>, {
@@ -15,7 +14,7 @@ export type SiteProps = Overwrite<PropsWithoutRef<JSX.IntrinsicElements["div"]>,
 
 export default function Site({ className, site, ...props }: SiteProps) {
   const [, navigate] = useLocation();
-  const [search] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const { user } = useAuthentication();
   const reportLinkTo = useMemo(() => `/sites/report?siteID=${site.id}`, [site.id]);
 
@@ -76,7 +75,7 @@ export default function Site({ className, site, ...props }: SiteProps) {
                     <Dropdown.Item
                       as={Link}
                       className="bg-danger-focus-visible bg-danger-hover bg-opacity-10-focus-visible bg-opacity-10-hover gap-3 hstack text-danger"
-                      to={getUpdatedSearch(search, { action: "delete", siteID: site.id.toString() })}
+                      to={getUpdatedSearch(searchParams, { action: "delete", siteID: site.id.toString() })}
                     >
                       <IconTrash size="1em" />
 

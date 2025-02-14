@@ -1,10 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useErrorBoundary } from "react-error-boundary";
-import { useLocation } from "wouter";
+import { useLocation, useSearchParams } from "wouter";
 import Portal from "~/components/Portal";
 import useSites from "~/hooks/api/useSites";
-import useSearchParams from "~/hooks/useSearchParams";
 import { api } from "~/lib/api";
 import { getUpdatedSearch } from "~/lib/router";
 
@@ -17,7 +16,7 @@ type State = {
 export default function DeleteModal() {
   const { showBoundary } = useErrorBoundary();
   const [location, navigate] = useLocation();
-  const [search, searchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [state, setState] = useState<State>({ isInProgress: false, isShown: false, site: null });
   const isEnabled = useMemo(() => searchParams.get("action") === "delete", [searchParams]);
   const siteID = useMemo(() => Number(searchParams.get("siteID")) || null, [searchParams]);
@@ -41,7 +40,7 @@ export default function DeleteModal() {
   }
 
   function handleExited() {
-    navigate(`${location}${getUpdatedSearch(search, { action: null, siteID: null })}`, { replace: true });
+    navigate(`${location}${getUpdatedSearch(searchParams, { action: null, siteID: null })}`, { replace: true });
   }
 
   function hide() {
