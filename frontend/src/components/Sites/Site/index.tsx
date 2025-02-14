@@ -17,7 +17,7 @@ export default function Site({ className, site, ...props }: SiteProps) {
   const [, navigate] = useLocation();
   const [search] = useSearchParams();
   const { user } = useAuthentication();
-  const reportLinkTo = useMemo(() => `/sites/report?id=${site.id}`, [site.id]);
+  const reportLinkTo = useMemo(() => `/sites/report?siteID=${site.id}`, [site.id]);
 
   function handleItemClick(event: MouseEvent<HTMLDivElement>) {
     if (event.target instanceof Element && event.target.closest(".dropdown") === null && event.target.closest(".dropdown-menu") === null) {

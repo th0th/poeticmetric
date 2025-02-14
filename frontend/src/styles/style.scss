@@ -38,6 +38,9 @@
 // utilities
 @import "bootstrap/scss/utilities/api";
 
+// 3rd party
+@import "./react-datepicker";
+
 :root {
   --header-height: 4rem;
 }

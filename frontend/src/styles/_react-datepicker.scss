@@ -1,0 +1,27 @@
+@use "react-datepicker/src/stylesheets/variables" as * with (
+  $datepicker__background-color: var(--bs-body-bg),
+  $datepicker__border-color: var(--bs-dropdown-border-color),
+  $datepicker__border-radius: var(--bs-border-radius),
+  $datepicker__font-family: inherit,
+  $datepicker__header-color: var(--bs-body-color),
+  $datepicker__text-color: var(--bs-body-color),
+);
+@use "react-datepicker/src/stylesheets/datepicker";
+
+/* stylelint-disable selector-class-pattern */
+.react-datepicker {
+  background-color: $datepicker__background-color;
+
+  .react-datepicker__header {
+    background-color: transparent;
+  }
+
+  .react-datepicker__navigation-icon {
+    font-size: inherit;
+  }
+
+  @include media-breakpoint-up(lg) {
+    margin-top: -1px !important;
+  }
+}
+/* stylelint-enable */
