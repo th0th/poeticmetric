@@ -35,9 +35,9 @@ const PasswordRecovery = lazy(() => import("~/components/PasswordRecovery"));
 const PasswordReset = lazy(() => import("~/components/PasswordReset"));
 const PrivacyPolicy = lazy(() => import("~/components/PrivacyPolicy"));
 const Settings = lazy(() => import("~/components/Settings"));
-const Report = lazy(() => import("~/components/Report"));
 const SignIn = lazy(() => import("~/components/SignIn"));
 const SiteForm = lazy(() => import("~/components/SiteForm"));
+const SiteReport = lazy(() => import("~/components/SiteReport"));
 const Sites = lazy(() => import("~/components/Sites"));
 const Team = lazy(() => import("~/components/Team"));
 const TeamMemberForm = lazy(() => import("~/components/TeamMemberForm"));
@@ -105,7 +105,7 @@ export default function App({ path }: AppProps) {
                         })}
                         path="/sites/edit"
                       />
-                      <Route component={withAuthorization(Report, { isAuthenticated: true })} path="/sites/report" />
+                      <Route component={withAuthorization(SiteReport, { isAuthenticated: true })} path="/sites/report" />
                       <Route component={withAuthorization(Team, { isAuthenticated: true })} path="/team" />
                       <Route
                         component={withAuthorization(withRequiredSearchParams(TeamMemberForm, ["userID"]), {

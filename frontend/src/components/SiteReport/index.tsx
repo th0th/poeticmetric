@@ -1,11 +1,11 @@
 import { useMemo } from "react";
 import Breadcrumb from "~/components/Breadcrumb";
-import ReportFiltersTimeInput from "~/components/ReportFiltersTimeInput";
+import SiteReportFiltersTimeInput from "~/components/SiteReportFiltersTimeInput";
 import Title from "~/components/Title";
 import useSite from "~/hooks/api/useSite";
 import useSearchParams from "~/hooks/useSearchParams";
 
-export default function Report() {
+export default function SiteReport() {
   const [,searchParams] = useSearchParams();
   const siteID = useMemo(() => Number(searchParams.get("siteID")) || undefined, [searchParams]);
   const { data: site } = useSite(siteID);
@@ -24,7 +24,7 @@ export default function Report() {
           <Breadcrumb.Title>{title}</Breadcrumb.Title>
         </Breadcrumb>
 
-        <ReportFiltersTimeInput />
+        <SiteReportFiltersTimeInput />
       </div>
     </>
   );

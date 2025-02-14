@@ -6,7 +6,7 @@ import { Link, useLocation, useSearchParams } from "wouter";
 import useSiteReportFilters from "~/hooks/useSiteReportFilters";
 import { getUpdatedSearch } from "~/lib/router";
 
-export type ReportFiltersTimeInputProps = Omit<DropdownProps, "children">;
+export type SiteReportFiltersTimeInputProps = Omit<DropdownProps, "children">;
 
 type State = {
   isDatePickerVisible: boolean;
@@ -63,7 +63,7 @@ const options: Array<Array<Option>> = [
   ],
 ];
 
-export default function ReportFiltersTimeInput({ ...props }: ReportFiltersTimeInputProps) {
+export default function SiteReportFiltersTimeInput({ ...props }: SiteReportFiltersTimeInputProps) {
   const [location] = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const [state, setState] = useState<State>({ isDatePickerVisible: false });
