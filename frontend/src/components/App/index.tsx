@@ -1,6 +1,8 @@
 import { enGB } from "date-fns/locale/en-GB";
 import dayjs from "dayjs";
+import dayjsDuration from "dayjs/plugin/duration";
 import dayjsIsoWeek from "dayjs/plugin/isoWeek";
+import dayjsRelativeTime from "dayjs/plugin/relativeTime";
 import { domAnimation, LazyMotion } from "framer-motion";
 import { lazy, Suspense, useMemo } from "react";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
@@ -23,6 +25,8 @@ export type AppProps = {
 };
 
 dayjs.extend(dayjsIsoWeek);
+dayjs.extend(dayjsDuration);
+dayjs.extend(dayjsRelativeTime);
 
 const BlogPage = lazy(() => import("~/components/BlogPage"));
 const BlogPost = lazy(() => import("~/components/BlogPost"));

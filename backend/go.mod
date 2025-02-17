@@ -12,6 +12,7 @@ require (
 	github.com/go-errors/errors v1.5.1
 	github.com/golang-migrate/migrate/v4 v4.18.2
 	github.com/google/uuid v1.6.0
+	github.com/gorilla/schema v1.4.1
 	github.com/jinzhu/now v1.1.5
 	github.com/justinas/alice v1.2.0
 	github.com/mileusna/useragent v1.3.5

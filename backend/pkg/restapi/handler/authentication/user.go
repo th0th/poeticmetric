@@ -24,7 +24,7 @@ func (h *Handler) ReadUser(w http.ResponseWriter, r *http.Request) {
 
 	user, err := h.authenticationService.ReadUser(r.Context(), authentication.User.ID)
 	if err != nil {
-		h.responder.Error(w, err)
+		h.responder.Error(w, errors.Wrap(err, 0))
 		return
 	}
 

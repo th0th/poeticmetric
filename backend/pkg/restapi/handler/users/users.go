@@ -53,7 +53,7 @@ func (h *Handler) Delete(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		h.responder.Error(w, err)
+		h.responder.Error(w, errors.Wrap(err, 0))
 		return
 	}
 
@@ -74,13 +74,13 @@ func (h *Handler) Invite(w http.ResponseWriter, r *http.Request) {
 	params := poeticmetric.InviteOrganizationUserParams{}
 	err := json.NewDecoder(r.Body).Decode(&params)
 	if err != nil {
-		h.responder.Error(w, err)
+		h.responder.Error(w, errors.Wrap(err, 0))
 		return
 	}
 
 	organizationUser, err := h.userService.InviteOrganizationUser(r.Context(), auth.User.OrganizationID, &params)
 	if err != nil {
-		h.responder.Error(w, err)
+		h.responder.Error(w, errors.Wrap(err, 0))
 		return
 	}
 
@@ -99,7 +99,7 @@ func (h *Handler) List(w http.ResponseWriter, r *http.Request) {
 
 	organizationUsers, err := h.userService.ListOrganizationUsers(r.Context(), auth.User.OrganizationID)
 	if err != nil {
-		h.responder.Error(w, err)
+		h.responder.Error(w, errors.Wrap(err, 0))
 		return
 	}
 
@@ -125,7 +125,7 @@ func (h *Handler) Read(w http.ResponseWriter, r *http.Request) {
 
 	organizationUser, err := h.userService.ReadOrganizationUser(r.Context(), auth.User.OrganizationID, userID)
 	if err != nil {
-		h.responder.Error(w, err)
+		h.responder.Error(w, errors.Wrap(err, 0))
 		return
 	}
 
@@ -147,7 +147,7 @@ func (h *Handler) Update(w http.ResponseWriter, r *http.Request) {
 	params := poeticmetric.UpdateOrganizationUserParams{}
 	err := json.NewDecoder(r.Body).Decode(&params)
 	if err != nil {
-		h.responder.Error(w, err)
+		h.responder.Error(w, errors.Wrap(err, 0))
 		return
 	}
 
@@ -174,7 +174,7 @@ func (h *Handler) Update(w http.ResponseWriter, r *http.Request) {
 		return nil
 	})
 	if err != nil {
-		h.responder.Error(w, err)
+		h.responder.Error(w, errors.Wrap(err, 0))
 		return
 	}
 

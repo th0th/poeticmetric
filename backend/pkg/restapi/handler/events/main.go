@@ -63,7 +63,7 @@ func (h *Handler) Create(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		h.responder.Error(w, err)
+		h.responder.Error(w, errors.Wrap(err, 0))
 		return
 	}
 

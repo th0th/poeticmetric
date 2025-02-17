@@ -3,6 +3,8 @@ package tracking
 import (
 	"net/http"
 
+	"github.com/go-errors/errors"
+
 	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
 )
 
@@ -26,7 +28,7 @@ func New(params NewParams) Handler {
 func (h *Handler) Script(w http.ResponseWriter, r *http.Request) {
 	trackerScript, err := h.trackingService.GetScript(r.Context())
 	if err != nil {
-		h.responder.Error(w, err)
+		h.responder.Error(w, errors.Wrap(err, 0))
 		return
 	}
 

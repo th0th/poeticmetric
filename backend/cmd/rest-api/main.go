@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/go-errors/errors"
+	"github.com/gorilla/schema"
 	"github.com/justinas/alice"
 	amqp "github.com/rabbitmq/amqp091-go"
 	"github.com/rs/zerolog"
@@ -25,6 +26,7 @@ import (
 	bootstraphandler "github.com/th0th/poeticmetric/backend/pkg/restapi/handler/bootstrap"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/handler/events"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/handler/root"
+	"github.com/th0th/poeticmetric/backend/pkg/restapi/handler/sitereports"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/handler/sites"
 	trackinghandler "github.com/th0th/poeticmetric/backend/pkg/restapi/handler/tracking"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/handler/users"
@@ -87,6 +89,8 @@ func main() {
 		Logger.Panic().Stack().Err(errors.Wrap(err, 0)).Msg("failed to init valkey client")
 	}
 
+	decoder := schema.NewDecoder()
+
 	validationService := validation.New(validation.NewParams{
 		EnvService: envService,
 		Postgres:   postgres,
@@ -118,6 +122,7 @@ func main() {
 	})
 
 	siteService := site.New(site.NewParams{
+		ClickHouse:        clickHouse,
 		Postgres:          postgres,
 		ValidationService: validationService,
 	})
@@ -162,6 +167,11 @@ func main() {
 		EnvService: envService,
 	})
 
+	siteReportsHandler := sitereports.New(sitereports.NewParams{
+		Responder:   responder,
+		SiteService: siteService,
+	})
+
 	sitesHandler := sites.New(sites.NewParams{
 		Responder:   responder,
 		SiteService: siteService,
@@ -184,6 +194,7 @@ func main() {
 	permissionBasicAuthenticated := alice.New(middleware.PermissionBasicAuthenticated(responder))
 	permissionUserAccessTokenAuthenticated := alice.New(middleware.PermissionUserAccessTokenAuthenticated(responder))
 	permissionOwner := alice.New(middleware.PermissionOrganizationOwner(responder))
+	siteReportFilters := alice.New(middleware.SiteReportFiltersHandler(decoder, responder))
 
 	// handlers: authentication
 	mux.Handle("DELETE /authentication/organization", permissionBasicAuthenticated.Extend(permissionOwner).ThenFunc(authenticationHandler.DeleteOrganization))
@@ -218,6 +229,10 @@ func main() {
 	mux.Handle("GET /sites", permissionUserAccessTokenAuthenticated.ThenFunc(sitesHandler.List))
 	mux.Handle("GET /sites/{siteID}", permissionUserAccessTokenAuthenticated.ThenFunc(sitesHandler.Read))
 	mux.Handle("PATCH /sites/{siteID}", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(sitesHandler.Update))
+
+	// handlers: site reports
+	mux.Handle("GET /site-reports/overview", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteOverviewReport))
+	mux.Handle("GET /site-reports/visitor", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteVisitorReport))
 
 	// handlers: tracker
 	mux.HandleFunc("GET /pm.js", trackingHandler.Script)

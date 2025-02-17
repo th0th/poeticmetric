@@ -137,6 +137,43 @@ definitions:
       email:
         type: string
     type: object
+  poeticmetric.SiteOverviewReport:
+    properties:
+      averagePageViewDurationSeconds:
+        type: integer
+      averagePageViewDurationSecondsPercentageChange:
+        type: integer
+      pageViewCount:
+        type: integer
+      pageViewCountPerVisitor:
+        type: number
+      pageViewCountPerVisitorPercentageChange:
+        type: integer
+      pageViewCountPercentageChange:
+        type: integer
+      visitorCount:
+        type: integer
+      visitorCountPercentageChange:
+        type: integer
+    type: object
+  poeticmetric.SiteVisitorReport:
+    properties:
+      averageVisitorCount:
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/poeticmetric.SiteVisitorReportDatum'
+        type: array
+      intervalSeconds:
+        type: integer
+    type: object
+  poeticmetric.SiteVisitorReportDatum:
+    properties:
+      dateTime:
+        type: string
+      visitorCount:
+        type: integer
+    type: object
   poeticmetric.UpdateOrganizationSiteParams:
     properties:
       domain:
@@ -386,6 +423,158 @@ paths:
       summary: Run bootstrap
       tags:
       - boostrap
+  /site-reports/overview:
+    get:
+      description: Read overview report for a site.
+      parameters:
+      - in: query
+        name: browserName
+        type: string
+      - in: query
+        name: browserVersion
+        type: string
+      - in: query
+        name: countryISOCode
+        type: string
+      - in: query
+        name: deviceType
+        type: string
+      - in: query
+        name: end
+        type: string
+      - in: query
+        name: language
+        type: string
+      - in: query
+        name: locale
+        type: string
+      - in: query
+        name: operatingSystemName
+        type: string
+      - in: query
+        name: operatingSystemVersion
+        type: string
+      - in: query
+        name: path
+        type: string
+      - in: query
+        name: referrer
+        type: string
+      - in: query
+        name: referrerSite
+        type: string
+      - in: query
+        name: siteID
+        type: integer
+      - in: query
+        name: start
+        type: string
+      - in: query
+        name: timeZone
+        type: string
+      - in: query
+        name: utmCampaign
+        type: string
+      - in: query
+        name: utmContent
+        type: string
+      - in: query
+        name: utmMedium
+        type: string
+      - in: query
+        name: utmSource
+        type: string
+      - in: query
+        name: utmTerm
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.SiteOverviewReport'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read overview report
+      tags:
+      - site-reports
+  /site-reports/visitor:
+    get:
+      description: Read visitor report for a site.
+      parameters:
+      - in: query
+        name: browserName
+        type: string
+      - in: query
+        name: browserVersion
+        type: string
+      - in: query
+        name: countryISOCode
+        type: string
+      - in: query
+        name: deviceType
+        type: string
+      - in: query
+        name: end
+        type: string
+      - in: query
+        name: language
+        type: string
+      - in: query
+        name: locale
+        type: string
+      - in: query
+        name: operatingSystemName
+        type: string
+      - in: query
+        name: operatingSystemVersion
+        type: string
+      - in: query
+        name: path
+        type: string
+      - in: query
+        name: referrer
+        type: string
+      - in: query
+        name: referrerSite
+        type: string
+      - in: query
+        name: siteID
+        type: integer
+      - in: query
+        name: start
+        type: string
+      - in: query
+        name: timeZone
+        type: string
+      - in: query
+        name: utmCampaign
+        type: string
+      - in: query
+        name: utmContent
+        type: string
+      - in: query
+        name: utmMedium
+        type: string
+      - in: query
+        name: utmSource
+        type: string
+      - in: query
+        name: utmTerm
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.SiteVisitorReport'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read visitor report
+      tags:
+      - site-reports
   /sites:
     get:
       description: List sites.

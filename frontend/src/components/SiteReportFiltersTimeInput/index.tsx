@@ -3,7 +3,7 @@ import { Fragment, useCallback, useMemo, useState } from "react";
 import { Dropdown, DropdownProps } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import { Link, useLocation, useSearchParams } from "wouter";
-import useSiteReportFilters from "~/hooks/useSiteReportFilters";
+import useSiteReportData from "~/hooks/useSiteReportData";
 import { getUpdatedSearch } from "~/lib/router";
 
 export type SiteReportFiltersTimeInputProps = Omit<DropdownProps, "children">;
@@ -67,7 +67,7 @@ export default function SiteReportFiltersTimeInput({ ...props }: SiteReportFilte
   const [location] = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const [state, setState] = useState<State>({ isDatePickerVisible: false });
-  const { end, start } = useSiteReportFilters();
+  const { filters: { end, start } } = useSiteReportData();
 
   const selectedOption = useMemo<Option | null>(
     () => options.flat().find((o) => o.getEnd().isSame(end) && o.getStart().isSame(start)) || null,

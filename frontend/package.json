@@ -33,6 +33,7 @@
     "markdown-to-jsx": "^7.7.3",
     "markdown-to-txt": "^2.0.1",
     "md5": "^2.3.0",
+    "millify": "^6.1.0",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.9",
     "react-datepicker": "^7.6.0",

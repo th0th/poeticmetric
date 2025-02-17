@@ -1,9 +1,11 @@
 import { useMemo } from "react";
 import { useSearchParams } from "wouter";
 import Breadcrumb from "~/components/Breadcrumb";
+import Overview from "~/components/SiteReport/Overview";
 import SiteReportFiltersTimeInput from "~/components/SiteReportFiltersTimeInput";
 import Title from "~/components/Title";
 import useSite from "~/hooks/api/useSite";
+import SiteReportDataProvider from "../SiteReportDataProvider";
 
 export default function SiteReport() {
   const [searchParams] = useSearchParams();
@@ -24,9 +26,15 @@ export default function SiteReport() {
           <Breadcrumb.Title>{title}</Breadcrumb.Title>
         </Breadcrumb>
 
-        <div className="d-flex flex-row mt-12">
-          <SiteReportFiltersTimeInput />
-        </div>
+        <SiteReportDataProvider>
+          <div className="d-flex flex-row mt-12">
+            <SiteReportFiltersTimeInput />
+          </div>
+
+          <div className="mt-8">
+            <Overview />
+          </div>
+        </SiteReportDataProvider>
       </div>
     </>
   );

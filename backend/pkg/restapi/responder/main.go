@@ -77,7 +77,7 @@ func (r *Responder) Error(w http.ResponseWriter, err error) {
 }
 
 func (r *Responder) Forbidden(w http.ResponseWriter) {
-	r.Detail(w, http.StatusForbidden, "You don't have enough permission.")
+	r.Detail(w, http.StatusForbidden, "You are not authorized.")
 }
 
 func (r *Responder) JSON(w http.ResponseWriter, status int, data any) {
@@ -85,7 +85,7 @@ func (r *Responder) JSON(w http.ResponseWriter, status int, data any) {
 	w.WriteHeader(status)
 	err := json.NewEncoder(w).Encode(data)
 	if err != nil {
-		r.Error(w, err)
+		r.Error(w, errors.Wrap(err, 0))
 	}
 }
 
@@ -97,7 +97,7 @@ func (r *Responder) String(w http.ResponseWriter, contentType string, data []byt
 	w.Header().Set("Content-Type", contentType)
 	_, err := w.Write(data)
 	if err != nil {
-		r.Error(w, err)
+		r.Error(w, errors.Wrap(err, 0))
 	}
 }
 
