@@ -5,6 +5,7 @@ import (
 	_ "embed"
 
 	"github.com/go-errors/errors"
+	"golang.org/x/sync/errgroup"
 	"gorm.io/gorm"
 
 	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
@@ -106,12 +107,27 @@ func (s *service) ReadSiteVisitorReport(ctx context.Context, filters *poeticmetr
 		IntervalSeconds: filters.IntervalSeconds(),
 	}
 
-	err := s.clickHouse.Raw(siteVisitorReportDataQuery, filters.Map()).Scan(&siteVisitorReport.Data).Error
-	if err != nil {
-		return nil, errors.Wrap(err, 0)
-	}
+	errGroup, ctx := errgroup.WithContext(ctx)
 
-	err = s.clickHouse.Raw(siteVisitorReportAverageVisitorCountQuery, filters.Map()).Scan(&siteVisitorReport.AverageVisitorCount).Error
+	errGroup.Go(func() error {
+		err := s.clickHouse.Raw(siteVisitorReportDataQuery, filters.Map()).Scan(&siteVisitorReport.Data).Error
+		if err != nil {
+			return errors.Wrap(err, 0)
+		}
+
+		return nil
+	})
+
+	errGroup.Go(func() error {
+		err := s.clickHouse.Raw(siteVisitorReportAverageVisitorCountQuery, filters.Map()).Scan(&siteVisitorReport.AverageVisitorCount).Error
+		if err != nil {
+			return errors.Wrap(err, 0)
+		}
+
+		return nil
+	})
+
+	err := errGroup.Wait()
 	if err != nil {
 		return nil, errors.Wrap(err, 0)
 	}
