@@ -17,17 +17,17 @@ import TimeChartAxisBottomTick, {
   timeChartAxisBottomTickFormat,
   timeChartAxisBottomTickLabelProps,
 } from "~/components/TimeChartAxisBottomTick";
-import useSiteVisitorReport from "~/hooks/api/useSiteVisitorReport";
+import useSitePageViewReport from "~/hooks/api/useSitePageViewReport";
 import useSiteReportData from "~/hooks/useSiteReportData";
-import styles from "./Visitors.module.scss";
+import styles from "./PageViews.module.scss";
 
-type ChartDatum = Overwrite<HydratedSiteVisitorReportDatum, {
+type ChartDatum = Overwrite<HydratedSitePageViewReportDatum, {
   x: number;
   y: number | null;
 }>;
 
-type InnerVisitorsProps = Overwrite<VisitorsProps, {
-  report: HydratedSiteVisitorReport;
+type InnerPageViewsProps = Overwrite<PageViewsProps, {
+  report: HydratedSitePageViewReport;
 }>;
 
 type Tooltip = {
@@ -36,13 +36,13 @@ type Tooltip = {
   start: Dayjs;
 };
 
-export type VisitorsProps = Omit<PropsWithoutRef<JSX.IntrinsicElements["svg"]>, "children">;
+export type PageViewsProps = Omit<PropsWithoutRef<JSX.IntrinsicElements["svg"]>, "children">;
 
 const padding = { bottom: 30, left: 54, top: 8 };
 
-const xBisect = bisector((d: HydratedSiteVisitorReportDatum) => d.dateTimeDate).center;
+const xBisect = bisector((d: HydratedSitePageViewReportDatum) => d.dateTimeDate).center;
 
-function InnerVisitors({ className, report, ...props }: InnerVisitorsProps) {
+function InnerPageViews({ className, report, ...props }: InnerPageViewsProps) {
   const { height: parentHeight, parentRef, width: parentWidth } = useParentSize();
   const { filters } = useSiteReportData();
   const height = useMemo(() => parentHeight || 0, [parentHeight]);
@@ -51,15 +51,15 @@ function InnerVisitors({ className, report, ...props }: InnerVisitorsProps) {
   const innerWidth = useMemo(() => width - padding.left, [width]);
   const xDomain = useMemo(() => [filters.start.toDate(), filters.end.toDate()], [filters.end, filters.start]);
   const xScale = useMemo(() => scaleTime({ domain: xDomain, range: [0, innerWidth] }), [innerWidth, xDomain]);
-  const yMax = useMemo(() => Math.max(...report.data.map((d) => d.visitorCount || 0), 10), [report]);
+  const yMax = useMemo(() => Math.max(...report.data.map((d) => d.pageViewCount || 0), 10), [report]);
   const yDomain = useMemo(() => [0, yMax], [yMax]);
   const yScale = useMemo(() => scaleLinear({ domain: yDomain, range: [innerHeight, 0] }), [innerHeight, yDomain]);
   const chartData = useMemo<Array<ChartDatum>>(() => report.data.map((d) => ({
     ...d,
     x: xScale(d.dateTimeDate),
-    y: d.visitorCount === null ? null : yScale(d.visitorCount),
+    y: d.pageViewCount === null ? null : yScale(d.pageViewCount),
   })), [report, xScale, yScale]);
-  const averageY = useMemo(() => report.averageVisitorCount !== null ? yScale(report.averageVisitorCount) : null, [report, yScale]);
+  const averageY = useMemo(() => report.averagePageViewCount !== null ? yScale(report.averagePageViewCount) : null, [report, yScale]);
   const { hideTooltip, showTooltip: rawShowTooltip, tooltipData, tooltipLeft, tooltipOpen, tooltipTop } = useTooltip<Tooltip>();
 
   const showTooltip = useCallback((event: EventType) => {
@@ -72,7 +72,7 @@ function InnerVisitors({ className, report, ...props }: InnerVisitorsProps) {
     const datumIndex = xBisect(chartData, xScale.invert(svgLocalPoint.x - padding.left));
     const datum = chartData[datumIndex];
 
-    if (datum.visitorCount === null) {
+    if (datum.pageViewCount === null) {
       hideTooltip();
 
       return;
@@ -130,7 +130,7 @@ function InnerVisitors({ className, report, ...props }: InnerVisitorsProps) {
                 />
 
                 <text className="fs-9" dy="1em" textAnchor="end" x={innerWidth} y={averageY}>
-                  {`Average: ${report.averageVisitorCount} page views`}
+                  {`Average: ${report.averagePageViewCount} page views`}
                 </text>
               </Group>
             ) : null}
@@ -138,7 +138,7 @@ function InnerVisitors({ className, report, ...props }: InnerVisitorsProps) {
             <LinePath
               className="stroke-2 stroke-current-color text-primary"
               data={chartData}
-              defined={(d) => d.visitorCount !== null}
+              defined={(d) => d.pageViewCount !== null}
               x={(d) => d.x}
               y={(d) => d.y || 0}
             />
@@ -195,21 +195,21 @@ function InnerVisitors({ className, report, ...props }: InnerVisitorsProps) {
             </div>
           </div>
 
-          <div className="fw-medium mt-1 text-center">{`${tooltipData.datum.visitorCount} visitors`}</div>
+          <div className="fw-medium mt-1 text-center">{`${tooltipData.datum.pageViewCount} page views`}</div>
         </ChartTooltip>
       ) : null}
     </div>
   );
 }
 
-export default function Visitors({ ...props }: VisitorsProps) {
-  const { data: report } = useSiteVisitorReport();
+export default function PageViews({ ...props }: PageViewsProps) {
+  const { data: report } = useSitePageViewReport();
 
   return report === undefined ? (
     <div className="align-items-center d-flex flex-fill justify-content-center">
       <ActivityIndicator />
     </div>
   ) : (
-    <InnerVisitors {...props} report={report} />
+    <InnerPageViews {...props} report={report} />
   );
 }

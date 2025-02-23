@@ -13,6 +13,7 @@ type SiteService interface {
 	ListOrganizationSites(ctx context.Context, organizationID uint) ([]*OrganizationSite, error)
 	ReadOrganizationSite(ctx context.Context, organizationID uint, siteID uint) (*OrganizationSite, error)
 	ReadSiteOverviewReport(ctx context.Context, filters *SiteReportFilters) (*SiteOverviewReport, error)
+	ReadSitePageViewReport(ctx context.Context, filters *SiteReportFilters) (*SitePageViewReport, error)
 	ReadSiteVisitorReport(ctx context.Context, filters *SiteReportFilters) (*SiteVisitorReport, error)
 	UpdateOrganizationSite(ctx context.Context, organizationID uint, siteID uint, params *UpdateOrganizationSiteParams) error
 }
@@ -46,6 +47,17 @@ type SiteOverviewReport struct {
 	PageViewCountPercentageChange                  int16    `json:"pageViewCountPercentageChange"`
 	VisitorCount                                   uint64   `json:"visitorCount"`
 	VisitorCountPercentageChange                   int16    `json:"visitorCountPercentageChange"`
+}
+
+type SitePageViewReport struct {
+	AveragePageViewCount *uint64                   `json:"averagePageViewCount"`
+	Data                 []SitePageViewReportDatum `json:"data"`
+	IntervalSeconds      uint64                    `json:"intervalSeconds"`
+}
+
+type SitePageViewReportDatum struct {
+	DateTime      time.Time `json:"dateTime"`
+	PageViewCount *uint64   `json:"pageViewCount"`
 }
 
 type SiteReportFilters struct {

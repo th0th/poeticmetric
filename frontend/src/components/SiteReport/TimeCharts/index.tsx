@@ -1,6 +1,7 @@
 import { ReactNode, useCallback, useMemo } from "react";
 import { Dropdown, DropdownProps } from "react-bootstrap";
 import { useSearchParams } from "wouter";
+import PageViews from "~/components/SiteReport/TimeCharts/PageViews";
 import Visitors from "./Visitors";
 
 type Section = {
@@ -11,7 +12,7 @@ type Section = {
 
 const sections: Array<Section> = [
   { content: <Visitors />, title: "Visitors" },
-  { content: null, slug: "page-views", title: "Page views" },
+  { content: <PageViews />, slug: "page-views", title: "Page views" },
 ];
 
 const routerQuerySectionSlugKey = "visitorsPageViews";

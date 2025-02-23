@@ -14,6 +14,16 @@ type HydratedSiteOverviewReport = Overwrite<SiteOverviewReport, {
   visitorCountPercentageChangeVariant: DisplayVariant;
 }>;
 
+type HydratedSitePageViewReport = Overwrite<SitePageViewReport, {
+  averagePageViewCountDisplay: string;
+  data: Array<HydratedSitePageViewReportDatum>;
+}>;
+
+type HydratedSitePageViewReportDatum = Overwrite<SitePageViewReportDatum, {
+  dateTimeDate: Date;
+  dateTimeDayjs: import("dayjs").Dayjs;
+}>;
+
 type HydratedSiteVisitorReport = Overwrite<SiteVisitorReport, {
   averageVisitorCountDisplay: string;
   data: Array<HydratedSiteVisitorReportDatum>;
@@ -45,6 +55,17 @@ type SiteOverviewReport = {
   pageViewCountPercentageChange: number;
   visitorCount: number;
   visitorCountPercentageChange: number;
+};
+
+type SitePageViewReport = {
+  averagePageViewCount: number | null;
+  data: Array<SitePageViewReportDatum>;
+  intervalSeconds: number;
+};
+
+type SitePageViewReportDatum = {
+  dateTime: string;
+  pageViewCount: number | null;
 };
 
 type SiteVisitorReport = {

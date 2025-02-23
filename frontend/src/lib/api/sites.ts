@@ -43,6 +43,26 @@ export function hydrateSiteOverviewReport(d: SiteOverviewReport): HydratedSiteOv
   };
 }
 
+export function hydrateSitePageViewReport(d: SitePageViewReport): HydratedSitePageViewReport {
+  return {
+    ...d,
+    averagePageViewCountDisplay: d.averagePageViewCount !== null
+      ? millify(d.averagePageViewCount)
+      : "N/A",
+    data: d.data.map(hydrateSitePageViewReportDatum),
+  };
+}
+
+export function hydrateSitePageViewReportDatum(d: SitePageViewReportDatum): HydratedSitePageViewReportDatum {
+  const dateTimeDayjs = dayjs(d.dateTime);
+
+  return {
+    ...d,
+    dateTimeDate: dateTimeDayjs.toDate(),
+    dateTimeDayjs,
+  };
+}
+
 export function hydrateSiteVisitorReport(d: SiteVisitorReport): HydratedSiteVisitorReport {
   return {
     ...d,

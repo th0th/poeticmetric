@@ -45,6 +45,25 @@ func (h *Handler) ReadSiteOverviewReport(w http.ResponseWriter, r *http.Request)
 	h.responder.JSON(w, http.StatusOK, organizationSite)
 }
 
+// ReadSitePageViewReport godoc
+// @Description Read page view report for a site.
+// @Param filters query poeticmetric.SiteReportFilters true "Filters"
+// @Router /site-reports/page-view [get]
+// @Security UserAccessTokenAuthentication
+// @Success 200 {array} poeticmetric.SitePageViewReport
+// @Summary Read page view report
+// @Tags site-reports
+func (h *Handler) ReadSitePageViewReport(w http.ResponseWriter, r *http.Request) {
+	filters := middleware.GetSiteReportFilters(r)
+	organizationSite, err := h.siteService.ReadSitePageViewReport(r.Context(), filters)
+	if err != nil {
+		h.responder.Error(w, errors.Wrap(err, 0))
+		return
+	}
+
+	h.responder.JSON(w, http.StatusOK, organizationSite)
+}
+
 // ReadSiteVisitorReport godoc
 // @Description Read visitor report for a site.
 // @Param filters query poeticmetric.SiteReportFilters true "Filters"
