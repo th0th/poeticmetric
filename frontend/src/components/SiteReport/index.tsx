@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { useSearchParams } from "wouter";
 import Breadcrumb from "~/components/Breadcrumb";
 import Overview from "~/components/SiteReport/Overview";
+import TimeCharts from "~/components/SiteReport/TimeCharts";
 import SiteReportFiltersTimeInput from "~/components/SiteReportFiltersTimeInput";
 import Title from "~/components/Title";
 import useSite from "~/hooks/api/useSite";
@@ -32,7 +33,15 @@ export default function SiteReport() {
           </div>
 
           <div className="mt-8">
-            <Overview />
+            <div className="gy-8 row">
+              <div className="col-12">
+                <Overview />
+              </div>
+
+              <div className="col-8">
+                <TimeCharts />
+              </div>
+            </div>
           </div>
         </SiteReportDataProvider>
       </div>

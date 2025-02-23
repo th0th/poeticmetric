@@ -98,6 +98,13 @@ $utilities: map-merge($utilities, (
   "end": map-merge(map-get($utilities, "end"), (
     responsive: true,
   )),
+  "fill": (
+    class: fill,
+    property: fill,
+    values: (
+      "transparent": transparent,
+    ),
+  ),
   "font-family": map-merge(map-get($utilities, "font-family"), (
     values: map-merge(map-get(map-get($utilities, "font-family"), "values"), (
       serif: $font-family-serif,
@@ -177,16 +184,6 @@ $utilities: map-merge($utilities, (
       100: 100%,
     )),
   ),
-  "monitor-kind": (
-    css-var: true,
-    css-variable-name: monitor-kind-color,
-    class: monitor-kind,
-    values: (
-      heartbeat: #{$green},
-      http: #{$blue},
-      ping: #{$orange},
-    ),
-  ),
   "opacity": map-merge(map-get($utilities, "opacity"), (
     values: map-merge(map-get(map-get($utilities, "opacity"), "values"), (
       10: .1,
@@ -253,7 +250,14 @@ $utilities: map-merge($utilities, (
   "start": map-merge(map-get($utilities, "start"), (
     responsive: true,
   )),
-  "stroke": (
+  "stroke-color": (
+    class: "stroke",
+    property: stroke,
+    values: (
+      current-color: currentColor,
+    ),
+  ),
+  "stroke-width": (
     class: stroke,
     property: stroke-width,
     values: (
@@ -265,28 +269,6 @@ $utilities: map-merge($utilities, (
   "top": map-merge(map-get($utilities, "top"), (
     responsive: true,
   )),
-  "status-color": (
-    css-var: true,
-    css-variable-name: status-color,
-    class: status,
-    values: (
-      danger: var(--#{$prefix}danger),
-      secondary: var(--#{$prefix}secondary),
-      success: var(--#{$prefix}success),
-      warning: var(--#{$prefix}warning),
-    ),
-  ),
-  "status-color-rgb": (
-    css-var: true,
-    css-variable-name: status-color-rgb,
-    class: status,
-    values: (
-      danger: var(--#{$prefix}danger-rgb),
-      secondary: var(--#{$prefix}secondary-rgb),
-      success: var(--#{$prefix}success-rgb),
-      warning: var(--#{$prefix}warning-rgb),
-    ),
-  ),
   "text-decoration": map-merge(map-get($utilities, "text-decoration"), (
     state: focus-visible hover,
   )),

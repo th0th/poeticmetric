@@ -1,5 +1,5 @@
 SELECT
-  avg(visitor_count) as average_visitor_count
+  round(avg(visitor_count)) AS average_visitor_count
 FROM (
   WITH
     toDateTime(@start) AS start,

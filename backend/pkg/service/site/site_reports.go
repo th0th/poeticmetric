@@ -107,7 +107,7 @@ func (s *service) ReadSiteVisitorReport(ctx context.Context, filters *poeticmetr
 		IntervalSeconds: filters.IntervalSeconds(),
 	}
 
-	errGroup, ctx := errgroup.WithContext(ctx)
+	errGroup := errgroup.Group{}
 
 	errGroup.Go(func() error {
 		err := s.clickHouse.Raw(siteVisitorReportDataQuery, filters.Map()).Scan(&siteVisitorReport.Data).Error

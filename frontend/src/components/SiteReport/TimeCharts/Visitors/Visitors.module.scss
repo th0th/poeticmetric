@@ -1,0 +1,23 @@
+@import "base";
+
+.average-line {
+  stroke: var(--#{$prefix}border-color);
+  stroke-dasharray: 4,3
+}
+
+.cross-hair-circle {
+  fill: var(--#{$prefix}body-bg);
+  stroke: var(--#{$prefix}primary);
+}
+
+.cross-hair-line {
+  stroke: var(--#{$prefix}border-color);
+  stroke-dasharray: 3,2;
+}
+
+:global .visx-axis-tick {
+  text {
+    font-size: map-get($font-sizes, 8);
+    font-weight: $font-weight-medium;
+  }
+}

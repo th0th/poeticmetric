@@ -72,7 +72,7 @@ type SiteReportFilters struct {
 }
 
 type SiteVisitorReport struct {
-	AverageVisitorCount uint64                   `json:"averageVisitorCount"`
+	AverageVisitorCount *uint64                  `json:"averageVisitorCount"`
 	Data                []SiteVisitorReportDatum `json:"data"`
 	IntervalSeconds     uint64                   `json:"intervalSeconds"`
 }
@@ -96,10 +96,10 @@ func (s *OrganizationSite) TableName() string {
 
 func (f *SiteReportFilters) IntervalSeconds() uint64 {
 	diff := f.End.Sub(f.Start)
-	if diff > 360 * 24 * time.Hour {
+	if diff > 360*24*time.Hour {
 		return uint64(7 * 24 * time.Hour.Seconds())
 	}
-	if diff > 7 * 24 * time.Hour {
+	if diff > 7*24*time.Hour {
 		return uint64(24 * time.Hour.Seconds())
 	}
 

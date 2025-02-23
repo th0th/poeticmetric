@@ -42,3 +42,23 @@ export function hydrateSiteOverviewReport(d: SiteOverviewReport): HydratedSiteOv
     visitorCountPercentageChangeVariant: getVariant(d.visitorCountPercentageChange),
   };
 }
+
+export function hydrateSiteVisitorReport(d: SiteVisitorReport): HydratedSiteVisitorReport {
+  return {
+    ...d,
+    averageVisitorCountDisplay: d.averageVisitorCount !== null
+      ? d.averageVisitorCount.toString()
+      : "N/A",
+    data: d.data.map(hydrateSiteVisitorReportDatum),
+  };
+}
+
+function hydrateSiteVisitorReportDatum(d: SiteVisitorReportDatum): HydratedSiteVisitorReportDatum {
+  const dateTimeDayjs = dayjs(d.dateTime);
+
+  return {
+    ...d,
+    dateTimeDate: dateTimeDayjs.toDate(),
+    dateTimeDayjs,
+  };
+}
