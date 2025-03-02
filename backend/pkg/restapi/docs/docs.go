@@ -615,6 +615,139 @@ const docTemplate = `{
                 }
             }
         },
+        "/site-reports/path": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read path report for a site.",
+                "tags": [
+                    "site-reports"
+                ],
+                "summary": "Read path report",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "browserName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "browserVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "countryISOCode",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "deviceType",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "end",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "language",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "locale",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "path",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrerSite",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "siteID",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "start",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "timeZone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmCampaign",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmContent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmMedium",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmSource",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmTerm",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pagination cursor",
+                        "name": "cursor",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/poeticmetric.SitePathReport"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/site-reports/visitor": {
             "get": {
                 "security": [
@@ -1328,6 +1461,49 @@ const docTemplate = `{
                 },
                 "pageViewCount": {
                     "type": "integer"
+                }
+            }
+        },
+        "poeticmetric.SitePathReport": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/poeticmetric.SitePathReportDatum"
+                    }
+                },
+                "paginationCursor": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.SitePathReportDatum": {
+            "type": "object",
+            "properties": {
+                "averageDurationSeconds": {
+                    "type": "integer"
+                },
+                "bouncePercentage": {
+                    "type": "number"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "viewCount": {
+                    "type": "integer"
+                },
+                "viewPercentage": {
+                    "type": "number"
+                },
+                "visitorCount": {
+                    "type": "integer"
+                },
+                "visitorPercentage": {
+                    "type": "number"
                 }
             }
         },

@@ -2,8 +2,14 @@ package poeticmetric
 
 import (
 	"context"
+	"encoding/base64"
+	"encoding/json"
 	"time"
+
+	"github.com/go-errors/errors"
 )
+
+const SiteReportPageSize = 100
 
 type SiteService interface {
 	ServiceWithPostgres
@@ -14,6 +20,7 @@ type SiteService interface {
 	ReadOrganizationSite(ctx context.Context, organizationID uint, siteID uint) (*OrganizationSite, error)
 	ReadSiteOverviewReport(ctx context.Context, filters *SiteReportFilters) (*SiteOverviewReport, error)
 	ReadSitePageViewReport(ctx context.Context, filters *SiteReportFilters) (*SitePageViewReport, error)
+	ReadSitePathReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SitePathReportPaginationCursor]) (*SitePathReport, error)
 	ReadSiteVisitorReport(ctx context.Context, filters *SiteReportFilters) (*SiteVisitorReport, error)
 	UpdateOrganizationSite(ctx context.Context, organizationID uint, siteID uint, params *UpdateOrganizationSiteParams) error
 }
@@ -49,6 +56,27 @@ type SiteOverviewReport struct {
 	VisitorCountPercentageChange                   int16    `json:"visitorCountPercentageChange"`
 }
 
+type SitePathReport struct {
+	Data             []SitePathReportDatum                                       `json:"data"`
+	PaginationCursor *SiteReportPaginationCursor[SitePathReportPaginationCursor] `json:"paginationCursor" swaggertype:"string"`
+}
+
+type SitePathReportDatum struct {
+	AverageDurationSeconds uint32  `json:"averageDurationSeconds"`
+	BouncePercentage       float32 `json:"bouncePercentage"`
+	Path                   string  `json:"path"`
+	URL                    string  `json:"url"`
+	ViewCount              uint64  `json:"viewCount"`
+	ViewPercentage         float32 `json:"viewPercentage"`
+	VisitorCount           uint64  `json:"visitorCount"`
+	VisitorPercentage      float32 `json:"visitorPercentage"`
+}
+
+type SitePathReportPaginationCursor struct {
+	Path         string
+	VisitorCount uint64
+}
+
 type SitePageViewReport struct {
 	AveragePageViewCount *uint64                   `json:"averagePageViewCount"`
 	Data                 []SitePageViewReportDatum `json:"data"`
@@ -81,6 +109,10 @@ type SiteReportFilters struct {
 	UtmMedium              *string   `schema:"utmMedium"`
 	UtmSource              *string   `schema:"utmSource"`
 	UtmTerm                *string   `schema:"utmTerm"`
+}
+
+type SiteReportPaginationCursor[T any] struct {
+	Data T
 }
 
 type SiteVisitorReport struct {
@@ -141,4 +173,18 @@ func (f *SiteReportFilters) Map() map[string]any {
 		"utmSource":              f.UtmSource,
 		"utmTerm":                f.UtmTerm,
 	}
+}
+
+func (c *SiteReportPaginationCursor[any]) MarshalJSON() ([]byte, error) {
+	data, err := json.Marshal(c.Data)
+	if err != nil {
+		return nil, errors.Wrap(err, 0)
+	}
+
+	data, err = json.Marshal(base64.StdEncoding.EncodeToString(data))
+	if err != nil {
+		return nil, errors.Wrap(err, 0)
+	}
+
+	return data, nil
 }

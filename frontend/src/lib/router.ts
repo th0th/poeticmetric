@@ -1,5 +1,5 @@
 export function getUpdatedSearch(search: URLSearchParams | string, params?: Record<string, string | null>): string {
-  const newSearchParams = typeof search === "string" ? new URLSearchParams(search) : search;
+  const newSearchParams = new URLSearchParams(search);
 
   if (params !== undefined) {
     for (const v in Object.keys(params)) {

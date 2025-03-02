@@ -174,6 +174,34 @@ definitions:
       pageViewCount:
         type: integer
     type: object
+  poeticmetric.SitePathReport:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/poeticmetric.SitePathReportDatum'
+        type: array
+      paginationCursor:
+        type: string
+    type: object
+  poeticmetric.SitePathReportDatum:
+    properties:
+      averageDurationSeconds:
+        type: integer
+      bouncePercentage:
+        type: number
+      path:
+        type: string
+      url:
+        type: string
+      viewCount:
+        type: integer
+      viewPercentage:
+        type: number
+      visitorCount:
+        type: integer
+      visitorPercentage:
+        type: number
+    type: object
   poeticmetric.SiteVisitorReport:
     properties:
       averageVisitorCount:
@@ -591,6 +619,86 @@ paths:
       security:
       - UserAccessTokenAuthentication: []
       summary: Read page view report
+      tags:
+      - site-reports
+  /site-reports/path:
+    get:
+      description: Read path report for a site.
+      parameters:
+      - in: query
+        name: browserName
+        type: string
+      - in: query
+        name: browserVersion
+        type: string
+      - in: query
+        name: countryISOCode
+        type: string
+      - in: query
+        name: deviceType
+        type: string
+      - in: query
+        name: end
+        type: string
+      - in: query
+        name: language
+        type: string
+      - in: query
+        name: locale
+        type: string
+      - in: query
+        name: operatingSystemName
+        type: string
+      - in: query
+        name: operatingSystemVersion
+        type: string
+      - in: query
+        name: path
+        type: string
+      - in: query
+        name: referrer
+        type: string
+      - in: query
+        name: referrerSite
+        type: string
+      - in: query
+        name: siteID
+        type: integer
+      - in: query
+        name: start
+        type: string
+      - in: query
+        name: timeZone
+        type: string
+      - in: query
+        name: utmCampaign
+        type: string
+      - in: query
+        name: utmContent
+        type: string
+      - in: query
+        name: utmMedium
+        type: string
+      - in: query
+        name: utmSource
+        type: string
+      - in: query
+        name: utmTerm
+        type: string
+      - description: Pagination cursor
+        in: query
+        name: cursor
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.SitePathReport'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read path report
       tags:
       - site-reports
   /site-reports/visitor:

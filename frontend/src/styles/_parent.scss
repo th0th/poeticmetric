@@ -1,0 +1,15 @@
+.parent {
+  .child-d-block, .child-d-inline-block {
+    display: none;
+  }
+
+  &:focus, &:focus-within, &:hover {
+    .child-d-block {
+      display: block;
+    }
+
+    .child-d-inline-block {
+      display: inline-block;
+    }
+  }
+}

@@ -60,6 +60,48 @@ func (s *service) ReadSitePageViewReport(ctx context.Context, filters *poeticmet
 	return &sitePageViewReport, nil
 }
 
+func (s *service) ReadSitePathReport(
+	ctx context.Context,
+	filters *poeticmetric.SiteReportFilters,
+	paginationCursor *poeticmetric.SiteReportPaginationCursor[poeticmetric.SitePathReportPaginationCursor],
+) (*poeticmetric.SitePathReport, error) {
+	report := poeticmetric.SitePathReport{
+		Data: []poeticmetric.SitePathReportDatum{},
+	}
+
+	queryValues := map[string]any{
+		"limit": poeticmetric.SiteReportPageSize,
+	}
+	for k, v := range filters.Map() {
+		queryValues[k] = v
+	}
+	if paginationCursor != nil {
+		queryValues["paginationPath"] = paginationCursor.Data.Path
+		queryValues["paginationVisitorCount"] = paginationCursor.Data.VisitorCount
+	} else {
+		queryValues["paginationPath"] = nil
+		queryValues["paginationVisitorCount"] = nil
+	}
+
+	err := s.clickHouse.Raw(sitePathReportQuery, queryValues).Scan(&report.Data).Error
+	if err != nil {
+		return nil, errors.Wrap(err, 0)
+	}
+
+	if len(report.Data) >= poeticmetric.SiteReportPageSize {
+		datum := report.Data[len(report.Data)-1]
+
+		report.PaginationCursor = &poeticmetric.SiteReportPaginationCursor[poeticmetric.SitePathReportPaginationCursor]{
+			Data: poeticmetric.SitePathReportPaginationCursor{
+				Path:         datum.Path,
+				VisitorCount: datum.VisitorCount,
+			},
+		}
+	}
+
+	return &report, nil
+}
+
 func (s *service) ReadSiteVisitorReport(ctx context.Context, filters *poeticmetric.SiteReportFilters) (*poeticmetric.SiteVisitorReport, error) {
 	siteVisitorReport := poeticmetric.SiteVisitorReport{
 		IntervalSeconds: filters.IntervalSeconds(),
@@ -101,6 +143,9 @@ var sitePageViewReportAveragePageViewCountQuery string
 
 //go:embed files/site_page_view_report_data.sql
 var sitePageViewReportDataQuery string
+
+//go:embed files/site_path_report.sql
+var sitePathReportQuery string
 
 //go:embed files/site_visitor_report_average_visitor_count.sql
 var siteVisitorReportAverageVisitorCountQuery string

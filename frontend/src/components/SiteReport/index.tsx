@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { useSearchParams } from "wouter";
 import Breadcrumb from "~/components/Breadcrumb";
 import Overview from "~/components/SiteReport/Overview";
+import Path from "~/components/SiteReport/Path";
 import TimeCharts from "~/components/SiteReport/TimeCharts";
 import SiteReportFiltersTimeInput from "~/components/SiteReportFiltersTimeInput";
 import Title from "~/components/Title";
@@ -40,6 +41,10 @@ export default function SiteReport() {
 
               <div className="col-8">
                 <TimeCharts />
+              </div>
+
+              <div className="col-4">
+                <Path />
               </div>
             </div>
           </div>

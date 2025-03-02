@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import millify from "millify";
+import { humanizeSeconds } from "~/lib/humanize-seconds";
 
 export function hydrateSite(d: Site): HydratedSite {
   return {
@@ -29,7 +30,7 @@ export function hydrateSiteOverviewReport(d: SiteOverviewReport): HydratedSiteOv
   return {
     ...d,
     averagePageViewDurationSecondsDisplay: d.averagePageViewDurationSeconds !== null
-      ? dayjs.duration(d.averagePageViewDurationSeconds, "seconds").humanize()
+      ? humanizeSeconds(d.averagePageViewDurationSeconds)
       : "N/A",
     averagePageViewDurationSecondsPercentageChangeVariant: getVariant(d.averagePageViewDurationSecondsPercentageChange),
     pageViewCountDisplay: millify(d.pageViewCount),
@@ -60,6 +61,25 @@ export function hydrateSitePageViewReportDatum(d: SitePageViewReportDatum): Hydr
     ...d,
     dateTimeDate: dateTimeDayjs.toDate(),
     dateTimeDayjs,
+  };
+}
+
+export function hydrateSitePathReport(d: SitePathReport): HydratedSitePathReport {
+  return {
+    ...d,
+    data: d.data.map(hydrateSitePathReportDatum),
+  };
+}
+
+export function hydrateSitePathReportDatum(d: SitePathReportDatum): HydratedSitePathReportDatum {
+  return {
+    ...d,
+    averageDurationSecondsDisplay: humanizeSeconds(d.averageDurationSeconds),
+    bouncePercentageDisplay: `${d.bouncePercentage}%`,
+    viewCountDisplay: millify(d.viewCount),
+    viewPercentageDisplay: `${d.viewPercentage}%`,
+    visitorCountDisplay: millify(d.visitorCount),
+    visitorPercentageDisplay: `${d.visitorPercentage}%`,
   };
 }
 

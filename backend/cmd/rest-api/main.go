@@ -90,6 +90,7 @@ func main() {
 	}
 
 	decoder := schema.NewDecoder()
+	decoder.IgnoreUnknownKeys(true)
 
 	validationService := validation.New(validation.NewParams{
 		EnvService: envService,
@@ -233,6 +234,7 @@ func main() {
 	// handlers: site reports
 	mux.Handle("GET /site-reports/overview", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteOverviewReport))
 	mux.Handle("GET /site-reports/page-view", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSitePageViewReport))
+	mux.Handle("GET /site-reports/path", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSitePathReport))
 	mux.Handle("GET /site-reports/visitor", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteVisitorReport))
 
 	// handlers: tracker
