@@ -41,7 +41,7 @@ export default function Modal() {
       </BaseModal.Header>
 
       <BaseModal.Body>
-        <table className="fs-7 table table-borderless table-hover table-striped">
+        <table className="fs-7 table table-borderless table-hover table-layout-fixed table-striped">
           <thead>
             <tr>
               <th className="w-8rem">Page</th>

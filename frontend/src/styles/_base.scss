@@ -266,6 +266,13 @@ $utilities: map-merge($utilities, (
       2: 2,
     ),
   ),
+  "table-layout": (
+    class: table-layout,
+    property: table-layout,
+    values: (
+      fixed: fixed,
+    ),
+  ),
   "top": map-merge(map-get($utilities, "top"), (
     responsive: true,
   )),

@@ -33,7 +33,7 @@ export default function Path() {
             </div>
           ) : (
             <>
-              <table className="fs-7 mb-0 table table-borderless table-sm w-100">
+              <table className="fs-7 mb-0 table table-borderless table-layout-fixed table-sm w-100">
                 <thead>
                   <tr>
                     <th>Page</th>
@@ -48,14 +48,14 @@ export default function Path() {
                       <td>
                         <div className="align-items-center d-flex gap-2">
                           <Link
-                            className="text-body text-decoration-none text-decoration-underline-focus-visible text-decoration-underline-hover"
+                            className="text-body text-decoration-none text-decoration-underline-focus-visible text-decoration-underline-hover text-truncate"
                             title={d.path}
                             to={`${location}${getUpdatedSearch(searchParams, { path: d.path })}`}
                           >
                             {d.path}
                           </Link>
 
-                          <a className="child-d-block" href={d.url} target="_blank">
+                          <a className="child-d-block" href={d.url} target="_blank" title={d.url}>
                             <IconExternalLink className="d-block" size="1em" />
                           </a>
                         </div>
