@@ -20,7 +20,7 @@
     font-size: inherit;
   }
 
-  @include media-breakpoint-up(lg) {
+  @include media-breakpoint-up(md) {
     margin-top: -1px !important;
   }
 }
