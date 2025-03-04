@@ -39,11 +39,11 @@ export default function SiteReport() {
                 <Overview />
               </div>
 
-              <div className="col-8">
+              <div className="col-12 col-lg-8">
                 <TimeCharts />
               </div>
 
-              <div className="col-4">
+              <div className="col-12 col-lg-4">
                 <Path />
               </div>
             </div>
