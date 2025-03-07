@@ -45,15 +45,16 @@ export default function Modal() {
           <thead>
             <tr>
               <th className="w-8rem">Referrer</th>
-
-              <th className="text-end w-5rem">Visitors</th>
+              <th />
+              <th className="text-center w-5rem">Visitors</th>
+              <th className="text-end w-5rem">%</th>
             </tr>
           </thead>
 
           <tbody>
             {data.map((d) => (
               <tr className="parent" key={d.referrerHost}>
-                <td>
+                <td colSpan={2}>
                   <Link
                     className="align-items-center d-flex gap-2 text-body text-decoration-none text-decoration-underline-hover"
                     title={d.referrerHost}
@@ -65,9 +66,8 @@ export default function Modal() {
                   </Link>
                 </td>
 
-                <td className="text-end">
-                  <span>{d.visitorCountDisplay}</span>
-                </td>
+                <td className="text-center">{d.visitorCountDisplay}</td>
+                <td className="text-end">{d.visitorPercentageDisplay}</td>
               </tr>
             ))}
           </tbody>
