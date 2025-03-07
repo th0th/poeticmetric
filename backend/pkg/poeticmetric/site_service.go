@@ -22,6 +22,7 @@ type SiteService interface {
 	ReadSitePageViewReport(ctx context.Context, filters *SiteReportFilters) (*SitePageViewReport, error)
 	ReadSitePathReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SitePathReportPaginationCursor]) (*SitePathReport, error)
 	ReadSiteReferrerHostReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteReferrerHostReportPaginationCursor]) (*SiteReferrerHostReport, error)
+	ReadSiteReferrerReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteReferrerReportPaginationCursor]) (*SiteReferrerReport, error)
 	ReadSiteVisitorReport(ctx context.Context, filters *SiteReportFilters) (*SiteVisitorReport, error)
 	UpdateOrganizationSite(ctx context.Context, organizationID uint, siteID uint, params *UpdateOrganizationSiteParams) error
 }
@@ -102,6 +103,24 @@ type SiteReferrerHostReportDatum struct {
 
 type SiteReferrerHostReportPaginationCursor struct {
 	Host         string
+	VisitorCount uint64
+}
+
+type SiteReferrerReport struct {
+	Data             []SiteReferrerReportDatum                                       `json:"data"`
+	PaginationCursor *SiteReportPaginationCursor[SiteReferrerReportPaginationCursor] `json:"paginationCursor" swaggertype:"string"`
+}
+
+type SiteReferrerReportDatum struct {
+	Referrer          string  `json:"referrer"`
+	ReferrerHost      string  `json:"referrerHost"`
+	ReferrerPath      string  `json:"referrerPath"`
+	VisitorCount      uint64  `json:"visitorCount"`
+	VisitorPercentage float32 `json:"visitorPercentage"`
+}
+
+type SiteReferrerReportPaginationCursor struct {
+	Referrer     string
 	VisitorCount uint64
 }
 

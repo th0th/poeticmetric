@@ -98,6 +98,21 @@ export function hydrateSiteReferrerHostReportDatum(d: SiteReferrerHostReportDatu
   };
 }
 
+export function hydrateSiteReferrerReport(d: SiteReferrerReport): HydratedSiteReferrerReport {
+  return {
+    ...d,
+    data: d.data.map(hydrateSiteReferrerReportDatum),
+  };
+}
+
+export function hydrateSiteReferrerReportDatum(d: SiteReferrerReportDatum): HydratedSiteReferrerReportDatum {
+  return {
+    ...d,
+    visitorCountDisplay: millify(d.visitorCount),
+    visitorPercentageDisplay: `${d.visitorPercentage}%`,
+  };
+}
+
 export function hydrateSiteVisitorReport(d: SiteVisitorReport): HydratedSiteVisitorReport {
   return {
     ...d,

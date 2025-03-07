@@ -70,7 +70,7 @@ func (s *service) GoogleOAuthConfig() (*oauth2.Config, error) {
 }
 
 func (s *service) GormConfig() *gorm.Config {
-	logLevel := logger.Error
+	logLevel := logger.Info
 
 	if s.DatabaseDebug() {
 		logLevel = logger.Info

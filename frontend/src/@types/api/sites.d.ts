@@ -46,6 +46,15 @@ type HydratedSiteReferrerHostReportDatum = Overwrite<SiteReferrerHostReportDatum
   visitorPercentageDisplay: string;
 }>;
 
+type HydratedSiteReferrerReport = Overwrite<SiteReferrerReport, {
+  data: Array<HydratedSiteReferrerReportDatum>;
+}>;
+
+type HydratedSiteReferrerReportDatum = Overwrite<SiteReferrerReportDatum, {
+  visitorCountDisplay: string;
+  visitorPercentageDisplay: string;
+}>;
+
 type HydratedSiteVisitorReport = Overwrite<SiteVisitorReport, {
   averageVisitorCountDisplay: string;
   data: Array<HydratedSiteVisitorReportDatum>;
@@ -113,6 +122,19 @@ type SiteReferrerHostReport = {
 
 type SiteReferrerHostReportDatum = {
   referrerHost: string;
+  visitorCount: number;
+  visitorPercentage: number;
+};
+
+type SiteReferrerReport = {
+  data: Array<SiteReferrerReportDatum>;
+  paginationCursor: string | null;
+};
+
+type SiteReferrerReportDatum = {
+  referrer: string;
+  referrerHost: string;
+  referrerPath: string;
   visitorCount: number;
   visitorPercentage: number;
 };

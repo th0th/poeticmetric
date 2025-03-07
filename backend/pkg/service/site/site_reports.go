@@ -144,6 +144,48 @@ func (s *service) ReadSiteReferrerHostReport(
 	return &report, nil
 }
 
+func (s *service) ReadSiteReferrerReport(
+	ctx context.Context,
+	filters *poeticmetric.SiteReportFilters,
+	paginationCursor *poeticmetric.SiteReportPaginationCursor[poeticmetric.SiteReferrerReportPaginationCursor],
+) (*poeticmetric.SiteReferrerReport, error) {
+	report := poeticmetric.SiteReferrerReport{
+		Data: []poeticmetric.SiteReferrerReportDatum{},
+	}
+
+	queryValues := map[string]any{
+		"limit": poeticmetric.SiteReportPageSize,
+	}
+	for k, v := range filters.Map() {
+		queryValues[k] = v
+	}
+	if paginationCursor != nil {
+		queryValues["paginationReferrer"] = paginationCursor.Data.Referrer
+		queryValues["paginationVisitorCount"] = paginationCursor.Data.VisitorCount
+	} else {
+		queryValues["paginationReferrer"] = nil
+		queryValues["paginationVisitorCount"] = nil
+	}
+
+	err := s.clickHouse.Raw(siteReferrerReportQuery, queryValues).Scan(&report.Data).Error
+	if err != nil {
+		return nil, errors.Wrap(err, 0)
+	}
+
+	if len(report.Data) >= poeticmetric.SiteReportPageSize {
+		datum := report.Data[len(report.Data)-1]
+
+		report.PaginationCursor = &poeticmetric.SiteReportPaginationCursor[poeticmetric.SiteReferrerReportPaginationCursor]{
+			Data: poeticmetric.SiteReferrerReportPaginationCursor{
+				Referrer:     datum.Referrer,
+				VisitorCount: datum.VisitorCount,
+			},
+		}
+	}
+
+	return &report, nil
+}
+
 func (s *service) ReadSiteVisitorReport(ctx context.Context, filters *poeticmetric.SiteReportFilters) (*poeticmetric.SiteVisitorReport, error) {
 	siteVisitorReport := poeticmetric.SiteVisitorReport{
 		IntervalSeconds: filters.IntervalSeconds(),
@@ -191,6 +233,9 @@ var sitePathReportQuery string
 
 //go:embed files/site_referrer_host_report.sql
 var siteReferrerHostReportQuery string
+
+//go:embed files/site_referrer_report.sql
+var siteReferrerReportQuery string
 
 //go:embed files/site_visitor_report_average_visitor_count.sql
 var siteVisitorReportAverageVisitorCountQuery string
