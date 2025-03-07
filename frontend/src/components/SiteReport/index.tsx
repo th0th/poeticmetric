@@ -3,6 +3,7 @@ import { useSearchParams } from "wouter";
 import Breadcrumb from "~/components/Breadcrumb";
 import Overview from "~/components/SiteReport/Overview";
 import Path from "~/components/SiteReport/Path";
+import Source from "~/components/SiteReport/Source";
 import TimeCharts from "~/components/SiteReport/TimeCharts";
 import SiteReportFiltersTimeInput from "~/components/SiteReportFiltersTimeInput";
 import Title from "~/components/Title";
@@ -45,6 +46,10 @@ export default function SiteReport() {
 
               <div className="col-12 col-lg-4">
                 <Path />
+              </div>
+
+              <div className="col-12 col-lg-4">
+                <Source />
               </div>
             </div>
           </div>

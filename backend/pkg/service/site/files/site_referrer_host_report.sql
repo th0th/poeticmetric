@@ -3,8 +3,7 @@ WITH
   toDateTime(@end) AS end,
   (
     SELECT
-      count(*) AS view_count,
-      count(DISTINCT visitor_id) AS visitor_count
+      count(DISTINCT visitor_id)
     FROM events_buffer
     WHERE
       date_time < end
@@ -19,21 +18,16 @@ WITH
       AND if(isNull(@operatingSystemName), TRUE, operating_system_name = @operatingSystemName)
       AND if(isNull(@operatingSystemVersion), TRUE, operating_system_version = @operatingSystemVersion)
       AND if(isNull(@path), TRUE, pathFull(url) = @path)
-      AND if(isNull(@referrer), TRUE, referrer = @referrer)
+      AND protocol(referrer) IN ('http', 'https')
       AND if(isNull(@referrerHost), TRUE, domain(referrer) = @referrerHost)
-  ) AS total
+  ) AS total_visitor_count
 SELECT
   *
 FROM (
   SELECT
-    round(avg(duration_seconds)) AS average_duration_seconds,
-    round(100 * countIf(duration_seconds == 0) / count(*)) AS bounce_percentage,
-    pathFull(url) AS path,
-    count(path) AS view_count,
-    round(100 * view_count / total.view_count, 2) AS view_percentage,
+    domain(referrer) AS referrer_host,
     count(DISTINCT visitor_id) AS visitor_count,
-    round(100 * visitor_count / total.visitor_count, 2) AS visitor_percentage,
-    url
+    toFloat32(round(100 * count(DISTINCT visitor_id) / total_visitor_count, 2)) AS visitor_percentage
   FROM events_buffer
   WHERE
     date_time < end
@@ -48,15 +42,15 @@ FROM (
     AND if(isNull(@operatingSystemName), TRUE, operating_system_name = @operatingSystemName)
     AND if(isNull(@operatingSystemVersion), TRUE, operating_system_version = @operatingSystemVersion)
     AND if(isNull(@path), TRUE, pathFull(url) = @path)
-    AND if(isNull(@referrer), TRUE, referrer = @referrer)
+    AND protocol(referrer) IN ('http', 'https')
     AND if(isNull(@referrerHost), TRUE, domain(referrer) = @referrerHost)
-  GROUP BY url
+  GROUP BY referrer_host
   )
 WHERE
   if(
-    isNull(@paginationVisitorCount) and isNull(@paginationPath),
+    isNull(@paginationVisitorCount) AND isNull(@paginationReferrerHost),
     TRUE,
-    visitor_count < @paginationVisitorCount OR (visitor_count = @paginationVisitorCount AND path < @paginationPath)
+    visitor_count < @paginationVisitorCount OR (visitor_count = @paginationVisitorCount AND referrer_host < @paginationReferrerHost)
   )
 ORDER BY visitor_count DESC
 LIMIT @limit;

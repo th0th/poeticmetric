@@ -431,7 +431,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "referrerSite",
+                        "name": "referrerHost",
                         "in": "query"
                     },
                     {
@@ -558,7 +558,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "referrerSite",
+                        "name": "referrerHost",
                         "in": "query"
                     },
                     {
@@ -685,7 +685,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "referrerSite",
+                        "name": "referrerHost",
                         "in": "query"
                     },
                     {
@@ -742,6 +742,139 @@ const docTemplate = `{
                             "type": "array",
                             "items": {
                                 "$ref": "#/definitions/poeticmetric.SitePathReport"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/site-reports/referrer-host": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read referrer host report for a site.",
+                "tags": [
+                    "site-reports"
+                ],
+                "summary": "Read referrer host report",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "browserName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "browserVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "countryISOCode",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "deviceType",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "end",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "language",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "locale",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "path",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrerHost",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "siteID",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "start",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "timeZone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmCampaign",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmContent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmMedium",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmSource",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmTerm",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pagination cursor",
+                        "name": "cursor",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/poeticmetric.SiteReferrerHostReport"
                             }
                         }
                     }
@@ -818,7 +951,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "referrerSite",
+                        "name": "referrerHost",
                         "in": "query"
                     },
                     {
@@ -1498,6 +1631,34 @@ const docTemplate = `{
                 },
                 "viewPercentage": {
                     "type": "number"
+                },
+                "visitorCount": {
+                    "type": "integer"
+                },
+                "visitorPercentage": {
+                    "type": "number"
+                }
+            }
+        },
+        "poeticmetric.SiteReferrerHostReport": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/poeticmetric.SiteReferrerHostReportDatum"
+                    }
+                },
+                "paginationCursor": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.SiteReferrerHostReportDatum": {
+            "type": "object",
+            "properties": {
+                "referrerHost": {
+                    "type": "string"
                 },
                 "visitorCount": {
                     "type": "integer"

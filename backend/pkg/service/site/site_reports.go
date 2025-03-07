@@ -102,6 +102,48 @@ func (s *service) ReadSitePathReport(
 	return &report, nil
 }
 
+func (s *service) ReadSiteReferrerHostReport(
+	ctx context.Context,
+	filters *poeticmetric.SiteReportFilters,
+	paginationCursor *poeticmetric.SiteReportPaginationCursor[poeticmetric.SiteReferrerHostReportPaginationCursor],
+) (*poeticmetric.SiteReferrerHostReport, error) {
+	report := poeticmetric.SiteReferrerHostReport{
+		Data: []poeticmetric.SiteReferrerHostReportDatum{},
+	}
+
+	queryValues := map[string]any{
+		"limit": poeticmetric.SiteReportPageSize,
+	}
+	for k, v := range filters.Map() {
+		queryValues[k] = v
+	}
+	if paginationCursor != nil {
+		queryValues["paginationReferrerHost"] = paginationCursor.Data.Host
+		queryValues["paginationVisitorCount"] = paginationCursor.Data.VisitorCount
+	} else {
+		queryValues["paginationReferrerHost"] = nil
+		queryValues["paginationVisitorCount"] = nil
+	}
+
+	err := s.clickHouse.Raw(siteReferrerHostReportQuery, queryValues).Scan(&report.Data).Error
+	if err != nil {
+		return nil, errors.Wrap(err, 0)
+	}
+
+	if len(report.Data) >= poeticmetric.SiteReportPageSize {
+		datum := report.Data[len(report.Data)-1]
+
+		report.PaginationCursor = &poeticmetric.SiteReportPaginationCursor[poeticmetric.SiteReferrerHostReportPaginationCursor]{
+			Data: poeticmetric.SiteReferrerHostReportPaginationCursor{
+				Host:         datum.ReferrerHost,
+				VisitorCount: datum.VisitorCount,
+			},
+		}
+	}
+
+	return &report, nil
+}
+
 func (s *service) ReadSiteVisitorReport(ctx context.Context, filters *poeticmetric.SiteReportFilters) (*poeticmetric.SiteVisitorReport, error) {
 	siteVisitorReport := poeticmetric.SiteVisitorReport{
 		IntervalSeconds: filters.IntervalSeconds(),
@@ -146,6 +188,9 @@ var sitePageViewReportDataQuery string
 
 //go:embed files/site_path_report.sql
 var sitePathReportQuery string
+
+//go:embed files/site_referrer_host_report.sql
+var siteReferrerHostReportQuery string
 
 //go:embed files/site_visitor_report_average_visitor_count.sql
 var siteVisitorReportAverageVisitorCountQuery string

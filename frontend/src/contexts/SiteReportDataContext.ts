@@ -14,7 +14,7 @@ export type SiteReportDataContextValue = {
     operatingSystemVersion: string | null;
     path: string | null;
     referrer: string | null;
-    referrerSite: string | null;
+    referrerHost: string | null;
     siteID: number;
     start: Dayjs;
     timeZone: string | null;

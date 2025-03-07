@@ -129,6 +129,7 @@ export default [
       "@stylistic/jsx-props-no-multi-spaces": ["error"],
       "@stylistic/member-delimiter-style": ["error"],
       "@stylistic/no-multi-spaces": ["error"],
+      "@stylistic/quote-props": ["error", "as-needed"],
       "@stylistic/semi": ["error"],
     },
   },

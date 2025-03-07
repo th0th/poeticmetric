@@ -31,6 +31,7 @@ WITH
       AND if(isNull(@operatingSystemVersion), TRUE, operating_system_version = @operatingSystemVersion)
       AND if(isNull(@path), TRUE, pathFull(url) = @path)
       AND if(isNull(@referrer), TRUE, referrer = @referrer)
+      AND if(isNull(@referrerHost), TRUE, domain(referrer) = @referrerHost)
   ) AS previous
 SELECT
   toUInt64(
@@ -99,4 +100,5 @@ WHERE
   AND if(isNull(@operatingSystemName), TRUE, operating_system_name = @operatingSystemName)
   AND if(isNull(@operatingSystemVersion), TRUE, operating_system_version = @operatingSystemVersion)
   AND if(isNull(@path), TRUE, pathFull(url) = @path)
-  AND if(isNull(@referrer), TRUE, referrer = @referrer);
+  AND if(isNull(@referrer), TRUE, referrer = @referrer)
+  AND if(isNull(@referrerHost), TRUE, domain(referrer) = @referrerHost);

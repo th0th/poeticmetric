@@ -21,6 +21,7 @@ type SiteService interface {
 	ReadSiteOverviewReport(ctx context.Context, filters *SiteReportFilters) (*SiteOverviewReport, error)
 	ReadSitePageViewReport(ctx context.Context, filters *SiteReportFilters) (*SitePageViewReport, error)
 	ReadSitePathReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SitePathReportPaginationCursor]) (*SitePathReport, error)
+	ReadSiteReferrerHostReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteReferrerHostReportPaginationCursor]) (*SiteReferrerHostReport, error)
 	ReadSiteVisitorReport(ctx context.Context, filters *SiteReportFilters) (*SiteVisitorReport, error)
 	UpdateOrganizationSite(ctx context.Context, organizationID uint, siteID uint, params *UpdateOrganizationSiteParams) error
 }
@@ -88,6 +89,22 @@ type SitePageViewReportDatum struct {
 	PageViewCount *uint64   `json:"pageViewCount"`
 }
 
+type SiteReferrerHostReport struct {
+	Data             []SiteReferrerHostReportDatum                                       `json:"data"`
+	PaginationCursor *SiteReportPaginationCursor[SiteReferrerHostReportPaginationCursor] `json:"paginationCursor" swaggertype:"string"`
+}
+
+type SiteReferrerHostReportDatum struct {
+	ReferrerHost      string  `json:"referrerHost"`
+	VisitorCount      uint64  `json:"visitorCount"`
+	VisitorPercentage float32 `json:"visitorPercentage"`
+}
+
+type SiteReferrerHostReportPaginationCursor struct {
+	Host         string
+	VisitorCount uint64
+}
+
 type SiteReportFilters struct {
 	BrowserName            *string   `schema:"browserName"`
 	BrowserVersion         *string   `schema:"browserVersion"`
@@ -100,8 +117,8 @@ type SiteReportFilters struct {
 	OperatingSystemVersion *string   `schema:"operatingSystemVersion"`
 	Path                   *string   `schema:"path"`
 	Referrer               *string   `schema:"referrer"`
-	ReferrerSite           *string   `schema:"referrerSite"`
-	SiteID                 uint64    `schema:"siteID"`
+	ReferrerHost           *string   `schema:"referrerHost"`
+	SiteID                 uint      `schema:"siteID"`
 	Start                  time.Time `schema:"start"`
 	TimeZone               *string   `schema:"timeZone"`
 	UtmCampaign            *string   `schema:"utmCampaign"`
@@ -163,7 +180,7 @@ func (f *SiteReportFilters) Map() map[string]any {
 		"operatingSystemVersion": f.OperatingSystemVersion,
 		"path":                   f.Path,
 		"referrer":               f.Referrer,
-		"referrerSite":           f.ReferrerSite,
+		"referrerHost":           f.ReferrerHost,
 		"siteID":                 f.SiteID,
 		"start":                  f.Start,
 		"timeZone":               f.TimeZone,

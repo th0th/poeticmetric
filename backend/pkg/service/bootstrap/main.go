@@ -194,7 +194,7 @@ func (s *service) Run(ctx context.Context, params *poeticmetric.BootstrapService
 		if *params.CreateDemoSite {
 			now := time.Now()
 
-			referrerSites := generateSlice(35, func() string {
+			referrerHosts := generateSlice(35, func() string {
 				protocol := gofakeit.RandomString([]string{"http", "https"})
 
 				return fmt.Sprintf("%s://%s", protocol, gofakeit.DomainName())
@@ -229,7 +229,7 @@ func (s *service) Run(ctx context.Context, params *poeticmetric.BootstrapService
 					}
 
 					if gofakeit.Bool() {
-						event.Referrer = poeticmetric.Pointer(fmt.Sprintf("%s%s", gofakeit.RandomString(referrerSites), gofakeit.RandomString(referrerPaths)))
+						event.Referrer = poeticmetric.Pointer(fmt.Sprintf("%s%s", gofakeit.RandomString(referrerHosts), gofakeit.RandomString(referrerPaths)))
 					}
 
 					err = event.Fill(gofakeit.IPv4Address(), event.DateTime.String(), nil)

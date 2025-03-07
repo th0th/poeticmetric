@@ -53,7 +53,7 @@ export default function SiteReportDataProvider({ children }: SiteReportProviderP
       operatingSystemVersion: searchParams.get("operatingSystemVersion"),
       path: searchParams.get("path"),
       referrer: searchParams.get("referrer"),
-      referrerSite: searchParams.get("referrerSite"),
+      referrerHost: searchParams.get("referrerHost"),
       siteID: site.id,
       start,
       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,

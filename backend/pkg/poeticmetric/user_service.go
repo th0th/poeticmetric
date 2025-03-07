@@ -18,7 +18,7 @@ type UserService interface {
 type OrganizationUser struct {
 	CreatedAt           time.Time `json:"createdAt"`
 	Email               string    `json:"email"`
-	ID                  uint64    `json:"id"`
+	ID                  uint      `json:"id"`
 	IsEmailVerified     bool      `json:"isEmailVerified"`
 	IsOrganizationOwner bool      `json:"isOrganizationOwner"`
 	Name                string    `json:"name"`

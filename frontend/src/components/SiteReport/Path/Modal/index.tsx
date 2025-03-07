@@ -76,19 +76,19 @@ export default function Modal() {
                     </a>
                   </div>
                 </td>
-                <td className="fw-medium text-center">
+                <td className="text-center">
                   <span title={d.visitorCount.toString()}>{d.visitorCountDisplay}</span>
                 </td>
 
-                <td className="fw-medium text-center">
+                <td className="text-center">
                   <span title={d.viewCount.toString()}>{d.viewCountDisplay}</span>
                 </td>
 
-                <td className="fw-medium text-center">
+                <td className="text-center">
                   <span>{d.averageDurationSecondsDisplay}</span>
                 </td>
 
-                <td className="fw-medium text-end">
+                <td className="text-end">
                   <span>{d.bouncePercentageDisplay}</span>
                 </td>
               </tr>

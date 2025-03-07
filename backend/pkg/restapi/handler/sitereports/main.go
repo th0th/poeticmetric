@@ -38,13 +38,13 @@ func New(params NewParams) *Handler {
 // @Tags site-reports
 func (h *Handler) ReadSiteOverviewReport(w http.ResponseWriter, r *http.Request) {
 	filters := middleware.GetSiteReportFilters(r)
-	organizationSite, err := h.siteService.ReadSiteOverviewReport(r.Context(), filters)
+	report, err := h.siteService.ReadSiteOverviewReport(r.Context(), filters)
 	if err != nil {
 		h.responder.Error(w, errors.Wrap(err, 0))
 		return
 	}
 
-	h.responder.JSON(w, http.StatusOK, organizationSite)
+	h.responder.JSON(w, http.StatusOK, report)
 }
 
 // ReadSitePageViewReport godoc
@@ -57,13 +57,13 @@ func (h *Handler) ReadSiteOverviewReport(w http.ResponseWriter, r *http.Request)
 // @Tags site-reports
 func (h *Handler) ReadSitePageViewReport(w http.ResponseWriter, r *http.Request) {
 	filters := middleware.GetSiteReportFilters(r)
-	organizationSite, err := h.siteService.ReadSitePageViewReport(r.Context(), filters)
+	report, err := h.siteService.ReadSitePageViewReport(r.Context(), filters)
 	if err != nil {
 		h.responder.Error(w, errors.Wrap(err, 0))
 		return
 	}
 
-	h.responder.JSON(w, http.StatusOK, organizationSite)
+	h.responder.JSON(w, http.StatusOK, report)
 }
 
 // ReadSitePathReport godoc
@@ -84,13 +84,40 @@ func (h *Handler) ReadSitePathReport(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	organizationSite, err := h.siteService.ReadSitePathReport(r.Context(), filters, paginationCursor)
+	report, err := h.siteService.ReadSitePathReport(r.Context(), filters, paginationCursor)
 	if err != nil {
 		h.responder.Error(w, errors.Wrap(err, 0))
 		return
 	}
 
-	h.responder.JSON(w, http.StatusOK, organizationSite)
+	h.responder.JSON(w, http.StatusOK, report)
+}
+
+// ReadSiteReferrerHostReport godoc
+// @Description Read referrer host report for a site.
+// @Param filters query poeticmetric.SiteReportFilters true "Filters"
+// @Param cursor query string false "Pagination cursor"
+// @Router /site-reports/referrer-host [get]
+// @Security UserAccessTokenAuthentication
+// @Success 200 {array} poeticmetric.SiteReferrerHostReport
+// @Summary Read referrer host report
+// @Tags site-reports
+func (h *Handler) ReadSiteReferrerHostReport(w http.ResponseWriter, r *http.Request) {
+	filters := middleware.GetSiteReportFilters(r)
+
+	paginationCursor, err := getPaginationCursor[poeticmetric.SiteReferrerHostReportPaginationCursor](r)
+	if err != nil {
+		h.responder.Error(w, errors.Wrap(err, 0))
+		return
+	}
+
+	report, err := h.siteService.ReadSiteReferrerHostReport(r.Context(), filters, paginationCursor)
+	if err != nil {
+		h.responder.Error(w, errors.Wrap(err, 0))
+		return
+	}
+
+	h.responder.JSON(w, http.StatusOK, report)
 }
 
 // ReadSiteVisitorReport godoc
@@ -103,13 +130,13 @@ func (h *Handler) ReadSitePathReport(w http.ResponseWriter, r *http.Request) {
 // @Tags site-reports
 func (h *Handler) ReadSiteVisitorReport(w http.ResponseWriter, r *http.Request) {
 	filters := middleware.GetSiteReportFilters(r)
-	organizationSite, err := h.siteService.ReadSiteVisitorReport(r.Context(), filters)
+	report, err := h.siteService.ReadSiteVisitorReport(r.Context(), filters)
 	if err != nil {
 		h.responder.Error(w, errors.Wrap(err, 0))
 		return
 	}
 
-	h.responder.JSON(w, http.StatusOK, organizationSite)
+	h.responder.JSON(w, http.StatusOK, report)
 }
 
 func getPaginationCursor[T any](r *http.Request) (*poeticmetric.SiteReportPaginationCursor[T], error) {
