@@ -137,6 +137,26 @@ definitions:
       email:
         type: string
     type: object
+  poeticmetric.SiteCountryReport:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/poeticmetric.SiteCountryReportDatum'
+        type: array
+      paginationCursor:
+        type: string
+    type: object
+  poeticmetric.SiteCountryReportDatum:
+    properties:
+      country:
+        type: string
+      countryISOCode:
+        type: string
+      visitorCount:
+        type: integer
+      visitorPercentage:
+        type: number
+    type: object
   poeticmetric.SiteLanguageReport:
     properties:
       data:
@@ -527,6 +547,82 @@ paths:
       summary: Run bootstrap
       tags:
       - boostrap
+  /site-reports/country:
+    get:
+      description: Read country report for a site.
+      parameters:
+      - in: query
+        name: browserName
+        type: string
+      - in: query
+        name: browserVersion
+        type: string
+      - in: query
+        name: countryISOCode
+        type: string
+      - in: query
+        name: deviceType
+        type: string
+      - in: query
+        name: end
+        type: string
+      - in: query
+        name: language
+        type: string
+      - in: query
+        name: locale
+        type: string
+      - in: query
+        name: operatingSystemName
+        type: string
+      - in: query
+        name: operatingSystemVersion
+        type: string
+      - in: query
+        name: path
+        type: string
+      - in: query
+        name: referrer
+        type: string
+      - in: query
+        name: referrerHost
+        type: string
+      - in: query
+        name: siteID
+        type: integer
+      - in: query
+        name: start
+        type: string
+      - in: query
+        name: timeZone
+        type: string
+      - in: query
+        name: utmCampaign
+        type: string
+      - in: query
+        name: utmContent
+        type: string
+      - in: query
+        name: utmMedium
+        type: string
+      - in: query
+        name: utmSource
+        type: string
+      - in: query
+        name: utmTerm
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.SiteCountryReport'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read country report
+      tags:
+      - site-reports
   /site-reports/language:
     get:
       description: Read language report for a site.

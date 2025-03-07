@@ -18,6 +18,7 @@ type SiteService interface {
 	DeleteOrganizationSite(ctx context.Context, organizationID uint, siteID uint) error
 	ListOrganizationSites(ctx context.Context, organizationID uint) ([]*OrganizationSite, error)
 	ReadOrganizationSite(ctx context.Context, organizationID uint, siteID uint) (*OrganizationSite, error)
+	ReadSiteCountryReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteCountryReportPaginationCursor]) (*SiteCountryReport, error)
 	ReadSiteLanguageReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteLanguageReportPaginationCursor]) (*SiteLanguageReport, error)
 	ReadSiteOverviewReport(ctx context.Context, filters *SiteReportFilters) (*SiteOverviewReport, error)
 	ReadSitePageViewReport(ctx context.Context, filters *SiteReportFilters) (*SitePageViewReport, error)
@@ -46,6 +47,23 @@ type OrganizationSite struct {
 	Name                       string    `json:"name"`
 	SafeQueryParameters        []string  `gorm:"serializer:json" json:"safeQueryParameters"`
 	UpdatedAt                  time.Time `json:"updatedAt"`
+}
+
+type SiteCountryReport struct {
+	Data             []SiteCountryReportDatum                                       `json:"data"`
+	PaginationCursor *SiteReportPaginationCursor[SiteCountryReportPaginationCursor] `json:"paginationCursor" swaggertype:"string"`
+}
+
+type SiteCountryReportDatum struct {
+	Country           string  `json:"country"`
+	CountryISOCode    string  `json:"countryISOCode"`
+	VisitorCount      uint    `json:"visitorCount"`
+	VisitorPercentage float64 `json:"visitorPercentage"`
+}
+
+type SiteCountryReportPaginationCursor struct {
+	CountryISOCode string
+	VisitorCount   uint
 }
 
 type SiteLanguageReport struct {

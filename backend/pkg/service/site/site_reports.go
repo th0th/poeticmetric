@@ -10,6 +10,54 @@ import (
 	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
 )
 
+func (s *service) ReadSiteCountryReport(
+	ctx context.Context,
+	filters *poeticmetric.SiteReportFilters,
+	paginationCursor *poeticmetric.SiteReportPaginationCursor[poeticmetric.SiteCountryReportPaginationCursor],
+) (*poeticmetric.SiteCountryReport, error) {
+	report := poeticmetric.SiteCountryReport{
+		Data: []poeticmetric.SiteCountryReportDatum{},
+	}
+
+	queryValues := map[string]any{
+		"limit": poeticmetric.SiteReportPageSize,
+	}
+	for k, v := range filters.Map() {
+		queryValues[k] = v
+	}
+	if paginationCursor != nil {
+		queryValues["paginationCountryISOCode"] = paginationCursor.Data.CountryISOCode
+		queryValues["paginationVisitorCount"] = paginationCursor.Data.VisitorCount
+	} else {
+		queryValues["paginationCountryISOCode"] = nil
+		queryValues["paginationVisitorCount"] = nil
+	}
+
+	err := s.clickHouse.Raw(siteCountryReportQuery, queryValues).Scan(&report.Data).Error
+	if err != nil {
+		return nil, errors.Wrap(err, 0)
+	}
+
+	countryISOCodeNameMap := poeticmetric.CountryISOCodeNameMap()
+
+	for i := range report.Data {
+		report.Data[i].Country = countryISOCodeNameMap[report.Data[i].CountryISOCode]
+	}
+
+	if len(report.Data) >= poeticmetric.SiteReportPageSize {
+		datum := report.Data[len(report.Data)-1]
+
+		report.PaginationCursor = &poeticmetric.SiteReportPaginationCursor[poeticmetric.SiteCountryReportPaginationCursor]{
+			Data: poeticmetric.SiteCountryReportPaginationCursor{
+				CountryISOCode: datum.CountryISOCode,
+				VisitorCount:   datum.VisitorCount,
+			},
+		}
+	}
+
+	return &report, nil
+}
+
 func (s *service) ReadSiteLanguageReport(
 	ctx context.Context,
 	filters *poeticmetric.SiteReportFilters,
@@ -263,6 +311,9 @@ func (s *service) ReadSiteVisitorReport(ctx context.Context, filters *poeticmetr
 
 	return &siteVisitorReport, nil
 }
+
+//go:embed files/site_country_report.sql
+var siteCountryReportQuery string
 
 //go:embed files/site_language_report.sql
 var siteLanguageReportQuery string
