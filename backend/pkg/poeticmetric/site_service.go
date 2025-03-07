@@ -18,6 +18,7 @@ type SiteService interface {
 	DeleteOrganizationSite(ctx context.Context, organizationID uint, siteID uint) error
 	ListOrganizationSites(ctx context.Context, organizationID uint) ([]*OrganizationSite, error)
 	ReadOrganizationSite(ctx context.Context, organizationID uint, siteID uint) (*OrganizationSite, error)
+	ReadSiteLanguageReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteLanguageReportPaginationCursor]) (*SiteLanguageReport, error)
 	ReadSiteOverviewReport(ctx context.Context, filters *SiteReportFilters) (*SiteOverviewReport, error)
 	ReadSitePageViewReport(ctx context.Context, filters *SiteReportFilters) (*SitePageViewReport, error)
 	ReadSitePathReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SitePathReportPaginationCursor]) (*SitePathReport, error)
@@ -45,6 +46,22 @@ type OrganizationSite struct {
 	Name                       string    `json:"name"`
 	SafeQueryParameters        []string  `gorm:"serializer:json" json:"safeQueryParameters"`
 	UpdatedAt                  time.Time `json:"updatedAt"`
+}
+
+type SiteLanguageReport struct {
+	Data             []SiteLanguageReportDatum                                       `json:"data"`
+	PaginationCursor *SiteReportPaginationCursor[SiteLanguageReportPaginationCursor] `json:"paginationCursor" swaggertype:"string"`
+}
+
+type SiteLanguageReportDatum struct {
+	Language          string  `json:"language"`
+	VisitorCount      uint    `json:"visitorCount"`
+	VisitorPercentage float64 `json:"visitorPercentage"`
+}
+
+type SiteLanguageReportPaginationCursor struct {
+	Language     string
+	VisitorCount uint
 }
 
 type SiteOverviewReport struct {

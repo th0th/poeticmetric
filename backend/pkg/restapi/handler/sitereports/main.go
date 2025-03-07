@@ -28,6 +28,32 @@ func New(params NewParams) *Handler {
 	}
 }
 
+// ReadSiteLanguageReport godoc
+// @Description Read language report for a site.
+// @Param filters query poeticmetric.SiteReportFilters true "Filters"
+// @Router /site-reports/language [get]
+// @Security UserAccessTokenAuthentication
+// @Success 200 {array} poeticmetric.SiteLanguageReport
+// @Summary Read language report
+// @Tags site-reports
+func (h *Handler) ReadSiteLanguageReport(w http.ResponseWriter, r *http.Request) {
+	filters := middleware.GetSiteReportFilters(r)
+
+	paginationCursor, err := getPaginationCursor[poeticmetric.SiteLanguageReportPaginationCursor](r)
+	if err != nil {
+		h.responder.Error(w, errors.Wrap(err, 0))
+		return
+	}
+
+	report, err := h.siteService.ReadSiteLanguageReport(r.Context(), filters, paginationCursor)
+	if err != nil {
+		h.responder.Error(w, errors.Wrap(err, 0))
+		return
+	}
+
+	h.responder.JSON(w, http.StatusOK, report)
+}
+
 // ReadSiteOverviewReport godoc
 // @Description Read overview report for a site.
 // @Param filters query poeticmetric.SiteReportFilters true "Filters"

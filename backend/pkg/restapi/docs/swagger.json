@@ -353,6 +353,133 @@
                 }
             }
         },
+        "/site-reports/language": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read language report for a site.",
+                "tags": [
+                    "site-reports"
+                ],
+                "summary": "Read language report",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "browserName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "browserVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "countryISOCode",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "deviceType",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "end",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "language",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "locale",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "path",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrerHost",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "siteID",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "start",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "timeZone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmCampaign",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmContent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmMedium",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmSource",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmTerm",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/poeticmetric.SiteLanguageReport"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/site-reports/overview": {
             "get": {
                 "security": [
@@ -1662,6 +1789,34 @@
             "properties": {
                 "email": {
                     "type": "string"
+                }
+            }
+        },
+        "poeticmetric.SiteLanguageReport": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/poeticmetric.SiteLanguageReportDatum"
+                    }
+                },
+                "paginationCursor": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.SiteLanguageReportDatum": {
+            "type": "object",
+            "properties": {
+                "language": {
+                    "type": "string"
+                },
+                "visitorCount": {
+                    "type": "integer"
+                },
+                "visitorPercentage": {
+                    "type": "number"
                 }
             }
         },

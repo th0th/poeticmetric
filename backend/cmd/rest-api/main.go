@@ -232,6 +232,7 @@ func main() {
 	mux.Handle("PATCH /sites/{siteID}", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(sitesHandler.Update))
 
 	// handlers: site reports
+	mux.Handle("GET /site-reports/language", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteLanguageReport))
 	mux.Handle("GET /site-reports/overview", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteOverviewReport))
 	mux.Handle("GET /site-reports/page-view", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSitePageViewReport))
 	mux.Handle("GET /site-reports/path", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSitePathReport))

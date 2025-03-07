@@ -10,6 +10,48 @@ import (
 	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
 )
 
+func (s *service) ReadSiteLanguageReport(
+	ctx context.Context,
+	filters *poeticmetric.SiteReportFilters,
+	paginationCursor *poeticmetric.SiteReportPaginationCursor[poeticmetric.SiteLanguageReportPaginationCursor],
+) (*poeticmetric.SiteLanguageReport, error) {
+	report := poeticmetric.SiteLanguageReport{
+		Data: []poeticmetric.SiteLanguageReportDatum{},
+	}
+
+	queryValues := map[string]any{
+		"limit": poeticmetric.SiteReportPageSize,
+	}
+	for k, v := range filters.Map() {
+		queryValues[k] = v
+	}
+	if paginationCursor != nil {
+		queryValues["paginationLanguage"] = paginationCursor.Data.Language
+		queryValues["paginationVisitorCount"] = paginationCursor.Data.VisitorCount
+	} else {
+		queryValues["paginationLanguage"] = nil
+		queryValues["paginationVisitorCount"] = nil
+	}
+
+	err := s.clickHouse.Raw(siteLanguageReportQuery, queryValues).Scan(&report.Data).Error
+	if err != nil {
+		return nil, errors.Wrap(err, 0)
+	}
+
+	if len(report.Data) >= poeticmetric.SiteReportPageSize {
+		datum := report.Data[len(report.Data)-1]
+
+		report.PaginationCursor = &poeticmetric.SiteReportPaginationCursor[poeticmetric.SiteLanguageReportPaginationCursor]{
+			Data: poeticmetric.SiteLanguageReportPaginationCursor{
+				Language:     datum.Language,
+				VisitorCount: datum.VisitorCount,
+			},
+		}
+	}
+
+	return &report, nil
+}
+
 func (s *service) ReadSiteOverviewReport(
 	ctx context.Context,
 	filters *poeticmetric.SiteReportFilters,
@@ -24,7 +66,10 @@ func (s *service) ReadSiteOverviewReport(
 	return &siteOverviewReport, nil
 }
 
-func (s *service) ReadSitePageViewReport(ctx context.Context, filters *poeticmetric.SiteReportFilters) (*poeticmetric.SitePageViewReport, error) {
+func (s *service) ReadSitePageViewReport(
+	ctx context.Context,
+	filters *poeticmetric.SiteReportFilters,
+) (*poeticmetric.SitePageViewReport, error) {
 	sitePageViewReport := poeticmetric.SitePageViewReport{
 		IntervalSeconds: filters.IntervalSeconds(),
 	}
@@ -218,6 +263,9 @@ func (s *service) ReadSiteVisitorReport(ctx context.Context, filters *poeticmetr
 
 	return &siteVisitorReport, nil
 }
+
+//go:embed files/site_language_report.sql
+var siteLanguageReportQuery string
 
 //go:embed files/site_overview_report.sql
 var siteOverviewReportQuery string
