@@ -48,7 +48,7 @@
     "millify": "^6.1.0",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.9",
-    "react-datepicker": "^8.1.0",
+    "react-datepicker": "^7.6.0",
     "react-dom": "^19.0.0",
     "react-error-boundary": "^5.0.0",
     "react-github-btn": "^1.4.0",
