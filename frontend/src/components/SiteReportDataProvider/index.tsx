@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { ReactNode, useMemo } from "react";
+import { ReactNode, useEffect, useMemo } from "react";
 import { useSearchParams } from "wouter";
 import ActivityIndicator from "~/components/ActivityIndicator";
 import SiteReportDataContext, { SiteReportDataContextValue } from "~/contexts/SiteReportDataContext";
@@ -10,7 +10,7 @@ export type SiteReportProviderProps = {
 };
 
 export default function SiteReportDataProvider({ children }: SiteReportProviderProps) {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const siteID = useMemo(() => Number(searchParams.get("siteID")) || undefined, [searchParams]);
   const { data: site } = useSite(siteID);
   const value = useMemo<SiteReportDataContextValue | null>(() => {
@@ -45,7 +45,7 @@ export default function SiteReportDataProvider({ children }: SiteReportProviderP
     const filters: SiteReportDataContextValue["filters"] = {
       browserName: searchParams.get("browserName"),
       browserVersion: searchParams.get("browserVersion"),
-      countryIsoCode: searchParams.get("countryIsoCode"),
+      countryISOCode: searchParams.get("countryISOCode"),
       deviceType: searchParams.get("deviceType"),
       end,
       language: searchParams.get("language"),
@@ -78,6 +78,21 @@ export default function SiteReportDataProvider({ children }: SiteReportProviderP
 
     return { filterQueryParams, filters, site };
   }, [searchParams, site]);
+
+  useEffect(() => {
+    if (value === null) {
+      return;
+    }
+
+    const correctedSearchParams = new URLSearchParams(searchParams);
+    searchParams.set("end", value.filters.end.toISOString());
+    searchParams.set("start", value.filters.start.toISOString());
+    searchParams.sort();
+
+    if (correctedSearchParams.toString() !== searchParams.toString()) {
+      setSearchParams(searchParams, { replace: true });
+    }
+  }, [searchParams, setSearchParams, value]);
 
   return value === null ? (
     <div className="align-items-center d-flex flex-grow-1 justify-content-center p-12">

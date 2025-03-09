@@ -91,8 +91,7 @@ $utilities: map-merge($utilities, (
     class: cursor,
     property: cursor,
     values: (
-      grab: grab,
-      grabbing: grabbing,
+      pointer: pointer,
     ),
   ),
   "end": map-merge(map-get($utilities, "end"), (
@@ -124,6 +123,7 @@ $utilities: map-merge($utilities, (
     ),
   )),
   "height": map-merge(map-get($utilities, "height"), (
+    responsive: true,
     values: map-merge(map-merge(map-get(map-get($utilities, "height"), "values"), $fixed-sizes), (
       "vh-100-header-height": calc(100vh - var(--header-height)),
     )),

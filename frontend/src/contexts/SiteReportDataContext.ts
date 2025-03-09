@@ -6,7 +6,7 @@ export type SiteReportDataContextValue = {
   filters: {
     browserName: string | null;
     browserVersion: string | null;
-    countryIsoCode: string | null;
+    countryISOCode: string | null;
     deviceType: string | null;
     end: Dayjs;
     language: string | null;

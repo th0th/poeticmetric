@@ -10,6 +10,36 @@ export function hydrateSite(d: Site): HydratedSite {
   };
 }
 
+export function hydrateSiteCountryReport(d: SiteCountryReport): HydratedSiteCountryReport {
+  return {
+    ...d,
+    data: d.data.map(hydrateSiteCountryReportDatum),
+  };
+}
+
+export function hydrateSiteCountryReportDatum(d: SiteCountryReportDatum): HydratedSiteCountryReportDatum {
+  return {
+    ...d,
+    visitorCountDisplay: millify(d.visitorCount),
+    visitorPercentageDisplay: `${d.visitorPercentage}%`,
+  };
+}
+
+export function hydrateSiteLanguageReport(d: SiteLanguageReport): HydratedSiteLanguageReport {
+  return {
+    ...d,
+    data: d.data.map(hydrateSiteLanguageReportDatum),
+  };
+}
+
+export function hydrateSiteLanguageReportDatum(d: SiteLanguageReportDatum): HydratedSiteLanguageReportDatum {
+  return {
+    ...d,
+    visitorCountDisplay: millify(d.visitorCount),
+    visitorPercentageDisplay: `${d.visitorPercentage}%`,
+  };
+}
+
 export function hydrateSiteOverviewReport(d: SiteOverviewReport): HydratedSiteOverviewReport {
   function getVariant(v: number | null): DisplayVariant {
     if (v === null) {

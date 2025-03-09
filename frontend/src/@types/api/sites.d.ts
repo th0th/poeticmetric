@@ -3,6 +3,24 @@ type HydratedSite = Overwrite<Site, {
   updatedAtDayjs: import("dayjs").Dayjs;
 }>;
 
+type HydratedSiteCountryReport = Overwrite<SiteCountryReport, {
+  data: Array<HydratedSiteCountryReportDatum>;
+}>;
+
+type HydratedSiteCountryReportDatum = Overwrite<SiteCountryReportDatum, {
+  visitorCountDisplay: string;
+  visitorPercentageDisplay: string;
+}>;
+
+type HydratedSiteLanguageReport = Overwrite<SiteLanguageReport, {
+  data: Array<HydratedSiteLanguageReportDatum>;
+}>;
+
+type HydratedSiteLanguageReportDatum = Overwrite<SiteLanguageReportDatum, {
+  visitorCountDisplay: string;
+  visitorPercentageDisplay: string;
+}>;
+
 type HydratedSiteOverviewReport = Overwrite<SiteOverviewReport, {
   averagePageViewDurationSecondsDisplay: string;
   averagePageViewDurationSecondsPercentageChangeVariant: DisplayVariant;
@@ -75,6 +93,29 @@ type Site = {
   name: string;
   safeQueryParameters: Array<string>;
   updatedAt: string;
+};
+
+type SiteCountryReport = {
+  data: Array<SiteCountryReportDatum>;
+  paginationCursor: string | null;
+};
+
+type SiteCountryReportDatum = {
+  country: string;
+  countryISOCode: string;
+  visitorCount: number;
+  visitorPercentage: number;
+};
+
+type SiteLanguageReport = {
+  data: Array<SiteLanguageReportDatum>;
+  paginationCursor: string | null;
+};
+
+type SiteLanguageReportDatum = {
+  language: string;
+  visitorCount: number;
+  visitorPercentage: number;
 };
 
 type SiteOverviewReport = {

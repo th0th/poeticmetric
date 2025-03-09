@@ -56,6 +56,9 @@ importers:
       bootstrap:
         specifier: ^5.3.3
         version: 5.3.3(@popperjs/core@2.11.8)
+      chroma-js:
+        specifier: ^3.1.2
+        version: 3.1.2
       classnames:
         specifier: ^2.5.1
         version: 2.5.1
@@ -147,6 +150,9 @@ importers:
       '@stylistic/eslint-plugin':
         specifier: ^4.2.0
         version: 4.2.0(eslint@9.21.0(jiti@1.21.6))(typescript@5.8.2)
+      '@types/chroma-js':
+        specifier: ^3.1.1
+        version: 3.1.1
       '@types/express':
         specifier: ^5.0.0
         version: 5.0.0
@@ -761,6 +767,9 @@ packages:
   '@types/body-parser@1.19.5':
     resolution: {integrity: sha512-fB3Zu92ucau0iQ0JMCFQE7b/dv8Ot07NI3KaZIkIUNXq82k4eBAqUaneXfleGY9JWskeS9y+u0nXMyspcuQrCg==}
 
+  '@types/chroma-js@3.1.1':
+    resolution: {integrity: sha512-SFCr4edNkZ1bGaLzGz7rgR1bRzVX4MmMxwsIa3/Bh6ose8v+hRpneoizHv0KChdjxaXyjRtaMq7sCuZSzPomQA==}
+
   '@types/connect@3.4.38':
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
 
@@ -1237,6 +1246,9 @@ packages:
 
   charenc@0.0.2:
     resolution: {integrity: sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==}
+
+  chroma-js@3.1.2:
+    resolution: {integrity: sha512-IJnETTalXbsLx1eKEgx19d5L6SRM7cH4vINw/99p/M11HCuXGRWL+6YmCm7FWFGIo6dtWuQoQi1dc5yQ7ESIHg==}
 
   cipher-base@1.0.6:
     resolution: {integrity: sha512-3Ek9H3X6pj5TgenXYtNWdaBon1tgYCaebd+XPg0keyjEbEfkD4KkmAxkQ/i1vYvxdcT5nscLBfq9VJRmCBcFSw==}
@@ -3888,6 +3900,8 @@ snapshots:
       '@types/connect': 3.4.38
       '@types/node': 22.13.9
 
+  '@types/chroma-js@3.1.1': {}
+
   '@types/connect@3.4.38':
     dependencies:
       '@types/node': 22.13.9
@@ -4543,6 +4557,8 @@ snapshots:
       supports-color: 7.2.0
 
   charenc@0.0.2: {}
+
+  chroma-js@3.1.2: {}
 
   cipher-base@1.0.6:
     dependencies:

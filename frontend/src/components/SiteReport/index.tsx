@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useSearchParams } from "wouter";
 import Breadcrumb from "~/components/Breadcrumb";
+import Geography from "~/components/SiteReport/Geography";
 import Overview from "~/components/SiteReport/Overview";
 import Path from "~/components/SiteReport/Path";
 import Source from "~/components/SiteReport/Source";
@@ -50,6 +51,10 @@ export default function SiteReport() {
 
               <div className="col-12 col-lg-4">
                 <Source />
+              </div>
+
+              <div className="col-12 col-lg-8">
+                <Geography />
               </div>
             </div>
           </div>
