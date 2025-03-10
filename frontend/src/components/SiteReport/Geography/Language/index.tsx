@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { Link, useLocation, useSearchParams } from "wouter";
 import ActivityIndicator from "~/components/ActivityIndicator";
+import Chart from "~/components/SiteReport/Geography/Language/Chart";
 import useSiteLanguageReport from "~/hooks/api/useSiteLanguageReport";
 import { getUpdatedSearch } from "~/lib/router";
 
@@ -23,13 +24,13 @@ export default function Language() {
     </div>
   ) : (
     <>
-      <div className="d-flex flex-column flex-grow-1 mb-n8">
+      <div className="d-flex flex-column flex-grow-1">
         <div className="flex-grow-1 row">
-          <div className="col-12 col-lg-7">
-
+          <div className="col-12 col-lg-7 d-flex flex-column">
+            <Chart />
           </div>
 
-          <div className="col-12 col-lg-5 d-flex flex-column">
+          <div className="col-12 col-lg-5 d-flex flex-column mb-n8">
             <div className="border-1 border-start-lg d-flex flex-column flex-grow-1 ps-lg-8">
               <table className="fs-7 mb-0 table table-borderless table-layout-fixed table-sm w-100">
                 <thead>

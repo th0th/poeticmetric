@@ -101,6 +101,7 @@ $utilities: map-merge($utilities, (
     class: fill,
     property: fill,
     values: (
+      current-color: currentColor,
       "transparent": transparent,
     ),
   ),
