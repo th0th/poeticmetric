@@ -58,6 +58,20 @@ func (s *service) ReadSiteCountryReport(
 	return &report, nil
 }
 
+func (s *service) ReadSiteDeviceTypeReport(
+	ctx context.Context,
+	filters *poeticmetric.SiteReportFilters,
+) (*poeticmetric.SiteDeviceTypeReport, error) {
+	siteDeviceTypeReport := poeticmetric.SiteDeviceTypeReport{}
+
+	err := s.clickHouse.Raw(siteDeviceTypeReportQuery, filters.Map()).Scan(&siteDeviceTypeReport).Error
+	if err != nil {
+		return nil, errors.Wrap(err, 0)
+	}
+
+	return &siteDeviceTypeReport, nil
+}
+
 func (s *service) ReadSiteLanguageReport(
 	ctx context.Context,
 	filters *poeticmetric.SiteReportFilters,
@@ -314,6 +328,9 @@ func (s *service) ReadSiteVisitorReport(ctx context.Context, filters *poeticmetr
 
 //go:embed files/site_country_report.sql
 var siteCountryReportQuery string
+
+//go:embed files/site_device_type_report.sql
+var siteDeviceTypeReportQuery string
 
 //go:embed files/site_language_report.sql
 var siteLanguageReportQuery string

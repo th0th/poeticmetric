@@ -31,6 +31,7 @@ func New(params NewParams) *Handler {
 // ReadSiteCountryReport godoc
 // @Description Read country report for a site.
 // @Param filters query poeticmetric.SiteReportFilters true "Filters"
+// @Param cursor query string false "Pagination cursor"
 // @Router /site-reports/country [get]
 // @Security UserAccessTokenAuthentication
 // @Success 200 {array} poeticmetric.SiteCountryReport
@@ -54,9 +55,30 @@ func (h *Handler) ReadSiteCountryReport(w http.ResponseWriter, r *http.Request) 
 	h.responder.JSON(w, http.StatusOK, report)
 }
 
+// ReadSiteDeviceTypeReport godoc
+// @Description Read device type report for a site.
+// @Param filters query poeticmetric.SiteReportFilters true "Filters"
+// @Router /site-reports/device-type [get]
+// @Security UserAccessTokenAuthentication
+// @Success 200 {array} poeticmetric.SiteDeviceTypeReport
+// @Summary Read country report
+// @Tags site-reports
+func (h *Handler) ReadSiteDeviceTypeReport(w http.ResponseWriter, r *http.Request) {
+	filters := middleware.GetSiteReportFilters(r)
+
+	report, err := h.siteService.ReadSiteDeviceTypeReport(r.Context(), filters)
+	if err != nil {
+		h.responder.Error(w, errors.Wrap(err, 0))
+		return
+	}
+
+	h.responder.JSON(w, http.StatusOK, report)
+}
+
 // ReadSiteLanguageReport godoc
 // @Description Read language report for a site.
 // @Param filters query poeticmetric.SiteReportFilters true "Filters"
+// @Param cursor query string false "Pagination cursor"
 // @Router /site-reports/language [get]
 // @Security UserAccessTokenAuthentication
 // @Success 200 {array} poeticmetric.SiteLanguageReport

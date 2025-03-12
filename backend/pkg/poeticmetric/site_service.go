@@ -19,6 +19,7 @@ type SiteService interface {
 	ListOrganizationSites(ctx context.Context, organizationID uint) ([]*OrganizationSite, error)
 	ReadOrganizationSite(ctx context.Context, organizationID uint, siteID uint) (*OrganizationSite, error)
 	ReadSiteCountryReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteCountryReportPaginationCursor]) (*SiteCountryReport, error)
+	ReadSiteDeviceTypeReport(ctx context.Context, filters *SiteReportFilters) (*SiteDeviceTypeReport, error)
 	ReadSiteLanguageReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteLanguageReportPaginationCursor]) (*SiteLanguageReport, error)
 	ReadSiteOverviewReport(ctx context.Context, filters *SiteReportFilters) (*SiteOverviewReport, error)
 	ReadSitePageViewReport(ctx context.Context, filters *SiteReportFilters) (*SitePageViewReport, error)
@@ -64,6 +65,14 @@ type SiteCountryReportDatum struct {
 type SiteCountryReportPaginationCursor struct {
 	CountryISOCode string
 	VisitorCount   uint
+}
+
+type SiteDeviceTypeReport []SiteDeviceTypeReportDatum
+
+type SiteDeviceTypeReportDatum struct {
+	DeviceType        string  `json:"deviceType"`
+	VisitorCount      uint64  `json:"visitorCount"`
+	VisitorPercentage float64 `json:"visitorPercentage"`
 }
 
 type SiteLanguageReport struct {
