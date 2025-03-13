@@ -52,6 +52,48 @@ func (s *service) ReadSiteBrowserNameReport(
 	return &report, nil
 }
 
+func (s *service) ReadSiteBrowserVersionReport(
+	ctx context.Context,
+	filters *poeticmetric.SiteReportFilters,
+	paginationCursor *poeticmetric.SiteReportPaginationCursor[poeticmetric.SiteBrowserVersionReportPaginationCursor],
+) (*poeticmetric.SiteBrowserVersionReport, error) {
+	report := poeticmetric.SiteBrowserVersionReport{
+		Data: []poeticmetric.SiteBrowserVersionReportDatum{},
+	}
+
+	queryValues := map[string]any{
+		"limit": poeticmetric.SiteReportPageSize,
+	}
+	for k, v := range filters.Map() {
+		queryValues[k] = v
+	}
+	if paginationCursor != nil {
+		queryValues["paginationBrowserVersion"] = paginationCursor.Data.BrowserVersion
+		queryValues["paginationVisitorCount"] = paginationCursor.Data.VisitorCount
+	} else {
+		queryValues["paginationBrowserVersion"] = nil
+		queryValues["paginationVisitorCount"] = nil
+	}
+
+	err := s.clickHouse.Raw(siteBrowserVersionReportQuery, queryValues).Scan(&report.Data).Error
+	if err != nil {
+		return nil, errors.Wrap(err, 0)
+	}
+
+	if len(report.Data) >= poeticmetric.SiteReportPageSize {
+		datum := report.Data[len(report.Data)-1]
+
+		report.PaginationCursor = &poeticmetric.SiteReportPaginationCursor[poeticmetric.SiteBrowserVersionReportPaginationCursor]{
+			Data: poeticmetric.SiteBrowserVersionReportPaginationCursor{
+				BrowserVersion: datum.BrowserVersion,
+				VisitorCount:   datum.VisitorCount,
+			},
+		}
+	}
+
+	return &report, nil
+}
+
 func (s *service) ReadSiteCountryReport(
 	ctx context.Context,
 	filters *poeticmetric.SiteReportFilters,
@@ -370,6 +412,9 @@ func (s *service) ReadSiteVisitorReport(ctx context.Context, filters *poeticmetr
 
 //go:embed files/site_browser_name_report.sql
 var siteBrowserNameReportQuery string
+
+//go:embed files/site_browser_version_report.sql
+var siteBrowserVersionReportQuery string
 
 //go:embed files/site_country_report.sql
 var siteCountryReportQuery string

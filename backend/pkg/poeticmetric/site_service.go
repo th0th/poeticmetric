@@ -23,6 +23,11 @@ type SiteService interface {
 		filters *SiteReportFilters,
 		paginationCursor *SiteReportPaginationCursor[SiteBrowserNameReportPaginationCursor],
 	) (*SiteBrowserNameReport, error)
+	ReadSiteBrowserVersionReport(
+		ctx context.Context,
+		filters *SiteReportFilters,
+		paginationCursor *SiteReportPaginationCursor[SiteBrowserVersionReportPaginationCursor],
+	) (*SiteBrowserVersionReport, error)
 	ReadSiteCountryReport(
 		ctx context.Context,
 		filters *SiteReportFilters,
@@ -99,7 +104,7 @@ type SiteBrowserVersionReport struct {
 type SiteBrowserVersionReportDatum struct {
 	BrowserVersion    string  `json:"browserVersion"`
 	VisitorCount      uint64  `json:"visitorCount"`
-	VisitorPercentage float32 `json:"visitorPercentage"`
+	VisitorPercentage float64 `json:"visitorPercentage"`
 }
 
 type SiteBrowserVersionReportPaginationCursor struct {

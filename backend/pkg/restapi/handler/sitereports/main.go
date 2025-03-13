@@ -55,6 +55,33 @@ func (h *Handler) ReadSiteBrowserNameReport(w http.ResponseWriter, r *http.Reque
 	h.responder.JSON(w, http.StatusOK, report)
 }
 
+// ReadSiteBrowserVersionReport godoc
+// @Description Read browser version report for a site.
+// @Param filters query poeticmetric.SiteReportFilters true "Filters"
+// @Param cursor query string false "Pagination cursor"
+// @Router /site-reports/browser-version [get]
+// @Security UserAccessTokenAuthentication
+// @Success 200 {array} poeticmetric.SiteBrowserVersionReport
+// @Summary Read browser version report
+// @Tags site-reports
+func (h *Handler) ReadSiteBrowserVersionReport(w http.ResponseWriter, r *http.Request) {
+	filters := middleware.GetSiteReportFilters(r)
+
+	paginationCursor, err := getPaginationCursor[poeticmetric.SiteBrowserVersionReportPaginationCursor](r)
+	if err != nil {
+		h.responder.Error(w, errors.Wrap(err, 0))
+		return
+	}
+
+	report, err := h.siteService.ReadSiteBrowserVersionReport(r.Context(), filters, paginationCursor)
+	if err != nil {
+		h.responder.Error(w, errors.Wrap(err, 0))
+		return
+	}
+
+	h.responder.JSON(w, http.StatusOK, report)
+}
+
 // ReadSiteCountryReport godoc
 // @Description Read country report for a site.
 // @Param filters query poeticmetric.SiteReportFilters true "Filters"
