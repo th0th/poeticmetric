@@ -28,6 +28,33 @@ func New(params NewParams) *Handler {
 	}
 }
 
+// ReadSiteBrowserNameReport godoc
+// @Description Read browser name report for a site.
+// @Param filters query poeticmetric.SiteReportFilters true "Filters"
+// @Param cursor query string false "Pagination cursor"
+// @Router /site-reports/browser-name [get]
+// @Security UserAccessTokenAuthentication
+// @Success 200 {array} poeticmetric.SiteBrowserNameReport
+// @Summary Read browser name report
+// @Tags site-reports
+func (h *Handler) ReadSiteBrowserNameReport(w http.ResponseWriter, r *http.Request) {
+	filters := middleware.GetSiteReportFilters(r)
+
+	paginationCursor, err := getPaginationCursor[poeticmetric.SiteBrowserNameReportPaginationCursor](r)
+	if err != nil {
+		h.responder.Error(w, errors.Wrap(err, 0))
+		return
+	}
+
+	report, err := h.siteService.ReadSiteBrowserNameReport(r.Context(), filters, paginationCursor)
+	if err != nil {
+		h.responder.Error(w, errors.Wrap(err, 0))
+		return
+	}
+
+	h.responder.JSON(w, http.StatusOK, report)
+}
+
 // ReadSiteCountryReport godoc
 // @Description Read country report for a site.
 // @Param filters query poeticmetric.SiteReportFilters true "Filters"

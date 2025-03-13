@@ -18,14 +18,39 @@ type SiteService interface {
 	DeleteOrganizationSite(ctx context.Context, organizationID uint, siteID uint) error
 	ListOrganizationSites(ctx context.Context, organizationID uint) ([]*OrganizationSite, error)
 	ReadOrganizationSite(ctx context.Context, organizationID uint, siteID uint) (*OrganizationSite, error)
-	ReadSiteCountryReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteCountryReportPaginationCursor]) (*SiteCountryReport, error)
+	ReadSiteBrowserNameReport(
+		ctx context.Context,
+		filters *SiteReportFilters,
+		paginationCursor *SiteReportPaginationCursor[SiteBrowserNameReportPaginationCursor],
+	) (*SiteBrowserNameReport, error)
+	ReadSiteCountryReport(
+		ctx context.Context,
+		filters *SiteReportFilters,
+		paginationCursor *SiteReportPaginationCursor[SiteCountryReportPaginationCursor],
+	) (*SiteCountryReport, error)
 	ReadSiteDeviceTypeReport(ctx context.Context, filters *SiteReportFilters) (*SiteDeviceTypeReport, error)
-	ReadSiteLanguageReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteLanguageReportPaginationCursor]) (*SiteLanguageReport, error)
+	ReadSiteLanguageReport(
+		ctx context.Context,
+		filters *SiteReportFilters,
+		paginationCursor *SiteReportPaginationCursor[SiteLanguageReportPaginationCursor],
+	) (*SiteLanguageReport, error)
 	ReadSiteOverviewReport(ctx context.Context, filters *SiteReportFilters) (*SiteOverviewReport, error)
 	ReadSitePageViewReport(ctx context.Context, filters *SiteReportFilters) (*SitePageViewReport, error)
-	ReadSitePathReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SitePathReportPaginationCursor]) (*SitePathReport, error)
-	ReadSiteReferrerHostReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteReferrerHostReportPaginationCursor]) (*SiteReferrerHostReport, error)
-	ReadSiteReferrerReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteReferrerReportPaginationCursor]) (*SiteReferrerReport, error)
+	ReadSitePathReport(
+		ctx context.Context,
+		filters *SiteReportFilters,
+		paginationCursor *SiteReportPaginationCursor[SitePathReportPaginationCursor],
+	) (*SitePathReport, error)
+	ReadSiteReferrerHostReport(
+		ctx context.Context,
+		filters *SiteReportFilters,
+		paginationCursor *SiteReportPaginationCursor[SiteReferrerHostReportPaginationCursor],
+	) (*SiteReferrerHostReport, error)
+	ReadSiteReferrerReport(
+		ctx context.Context,
+		filters *SiteReportFilters,
+		paginationCursor *SiteReportPaginationCursor[SiteReferrerReportPaginationCursor],
+	) (*SiteReferrerReport, error)
 	ReadSiteVisitorReport(ctx context.Context, filters *SiteReportFilters) (*SiteVisitorReport, error)
 	UpdateOrganizationSite(ctx context.Context, organizationID uint, siteID uint, params *UpdateOrganizationSiteParams) error
 }
@@ -48,6 +73,38 @@ type OrganizationSite struct {
 	Name                       string    `json:"name"`
 	SafeQueryParameters        []string  `gorm:"serializer:json" json:"safeQueryParameters"`
 	UpdatedAt                  time.Time `json:"updatedAt"`
+}
+
+type SiteBrowserNameReport struct {
+	Data             []SiteBrowserNameReportDatum                                       `json:"data"`
+	PaginationCursor *SiteReportPaginationCursor[SiteBrowserNameReportPaginationCursor] `json:"paginationCursor" swaggertype:"string"`
+}
+
+type SiteBrowserNameReportDatum struct {
+	BrowserName       string  `json:"browserName"`
+	VisitorCount      uint64  `json:"visitorCount"`
+	VisitorPercentage float64 `json:"visitorPercentage"`
+}
+
+type SiteBrowserNameReportPaginationCursor struct {
+	BrowserName  string
+	VisitorCount uint64
+}
+
+type SiteBrowserVersionReport struct {
+	Data             []SiteBrowserVersionReportDatum                                       `json:"data"`
+	PaginationCursor *SiteReportPaginationCursor[SiteBrowserVersionReportPaginationCursor] `json:"paginationCursor" swaggertype:"string"`
+}
+
+type SiteBrowserVersionReportDatum struct {
+	BrowserVersion    string  `json:"browserVersion"`
+	VisitorCount      uint64  `json:"visitorCount"`
+	VisitorPercentage float32 `json:"visitorPercentage"`
+}
+
+type SiteBrowserVersionReportPaginationCursor struct {
+	BrowserVersion string
+	VisitorCount   uint64
 }
 
 type SiteCountryReport struct {
@@ -89,6 +146,37 @@ type SiteLanguageReportDatum struct {
 type SiteLanguageReportPaginationCursor struct {
 	Language     string
 	VisitorCount uint
+}
+
+type SiteOperatingSystemNameReport struct {
+	Data             []SiteOperatingSystemNameReportDatum                                       `json:"data"`
+	PaginationCursor *SiteReportPaginationCursor[SiteOperatingSystemNameReportPaginationCursor] `json:"paginationCursor" swaggertype:"string"`
+}
+
+type SiteOperatingSystemNameReportDatum struct {
+	OperatingSystemName string `json:"operatingSystemName"`
+	VisitorCount        uint64 `json:"visitorCount"`
+}
+
+type SiteOperatingSystemNameReportPaginationCursor struct {
+	OperatingSystemName string
+	VisitorCount        uint64
+}
+
+type SiteOperatingSystemVersionReport struct {
+	Data             []SiteOperatingSystemVersionReportDatum                                       `json:"data"`
+	PaginationCursor *SiteReportPaginationCursor[SiteOperatingSystemVersionReportPaginationCursor] `json:"paginationCursor" swaggertype:"string"`
+}
+
+type SiteOperatingSystemVersionReportDatum struct {
+	OperatingSystemVersion string  `json:"operatingSystemVersion"`
+	VisitorCount           uint64  `json:"visitorCount"`
+	VisitorPercentage      float32 `json:"visitorPercentage"`
+}
+
+type SiteOperatingSystemVersionReportPaginationCursor struct {
+	OperatingSystemVersion string
+	VisitorCount           uint64
 }
 
 type SiteOverviewReport struct {

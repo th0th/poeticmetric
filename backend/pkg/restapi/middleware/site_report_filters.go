@@ -22,17 +22,29 @@ type SiteReportFiltersHandlerParams struct {
 
 type siteReportFiltersKeyType string
 
-func SiteReportFiltersHandler(decoder *schema.Decoder, responder poeticmetric.RestApiResponder) func(http.Handler) http.Handler {
+func SiteReportFiltersHandler(
+	validationService poeticmetric.ValidationService,
+	decoder *schema.Decoder,
+	responder poeticmetric.RestApiResponder,
+) func(http.Handler) http.Handler {
 	return func(handler http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			siteReportFilters := poeticmetric.SiteReportFilters{}
-			err := decoder.Decode(&siteReportFilters, r.URL.Query())
+			auth := GetAuthentication(r.Context())
+
+			filters := poeticmetric.SiteReportFilters{}
+			err := decoder.Decode(&filters, r.URL.Query())
 			if err != nil {
 				responder.Error(w, errors.Wrap(err, 0))
 				return
 			}
 
-			r = r.WithContext(context.WithValue(r.Context(), siteReportFiltersKey, &siteReportFilters))
+			err = validationService.SiteReportFilters(r.Context(), auth.User.OrganizationID, &filters)
+			if err != nil {
+				responder.Error(w, errors.Wrap(err, 0))
+				return
+			}
+
+			r = r.WithContext(context.WithValue(r.Context(), siteReportFiltersKey, &filters))
 
 			handler.ServeHTTP(w, r)
 		})

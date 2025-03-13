@@ -10,6 +10,48 @@ import (
 	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
 )
 
+func (s *service) ReadSiteBrowserNameReport(
+	ctx context.Context,
+	filters *poeticmetric.SiteReportFilters,
+	paginationCursor *poeticmetric.SiteReportPaginationCursor[poeticmetric.SiteBrowserNameReportPaginationCursor],
+) (*poeticmetric.SiteBrowserNameReport, error) {
+	report := poeticmetric.SiteBrowserNameReport{
+		Data: []poeticmetric.SiteBrowserNameReportDatum{},
+	}
+
+	queryValues := map[string]any{
+		"limit": poeticmetric.SiteReportPageSize,
+	}
+	for k, v := range filters.Map() {
+		queryValues[k] = v
+	}
+	if paginationCursor != nil {
+		queryValues["paginationBrowserName"] = paginationCursor.Data.BrowserName
+		queryValues["paginationVisitorCount"] = paginationCursor.Data.VisitorCount
+	} else {
+		queryValues["paginationBrowserName"] = nil
+		queryValues["paginationVisitorCount"] = nil
+	}
+
+	err := s.clickHouse.Raw(siteBrowserNameReportQuery, queryValues).Scan(&report.Data).Error
+	if err != nil {
+		return nil, errors.Wrap(err, 0)
+	}
+
+	if len(report.Data) >= poeticmetric.SiteReportPageSize {
+		datum := report.Data[len(report.Data)-1]
+
+		report.PaginationCursor = &poeticmetric.SiteReportPaginationCursor[poeticmetric.SiteBrowserNameReportPaginationCursor]{
+			Data: poeticmetric.SiteBrowserNameReportPaginationCursor{
+				BrowserName:  datum.BrowserName,
+				VisitorCount: datum.VisitorCount,
+			},
+		}
+	}
+
+	return &report, nil
+}
+
 func (s *service) ReadSiteCountryReport(
 	ctx context.Context,
 	filters *poeticmetric.SiteReportFilters,
@@ -325,6 +367,9 @@ func (s *service) ReadSiteVisitorReport(ctx context.Context, filters *poeticmetr
 
 	return &siteVisitorReport, nil
 }
+
+//go:embed files/site_browser_name_report.sql
+var siteBrowserNameReportQuery string
 
 //go:embed files/site_country_report.sql
 var siteCountryReportQuery string
