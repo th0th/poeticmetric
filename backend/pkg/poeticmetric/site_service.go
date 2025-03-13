@@ -161,6 +161,7 @@ type SiteOperatingSystemNameReport struct {
 type SiteOperatingSystemNameReportDatum struct {
 	OperatingSystemName string `json:"operatingSystemName"`
 	VisitorCount        uint64 `json:"visitorCount"`
+	VisitorPercentage   uint64 `json:"visitorPercentage"`
 }
 
 type SiteOperatingSystemNameReportPaginationCursor struct {
