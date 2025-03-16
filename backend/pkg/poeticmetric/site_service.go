@@ -39,6 +39,16 @@ type SiteService interface {
 		filters *SiteReportFilters,
 		paginationCursor *SiteReportPaginationCursor[SiteLanguageReportPaginationCursor],
 	) (*SiteLanguageReport, error)
+	ReadSiteOperatingSystemNameReport(
+		ctx context.Context,
+		filters *SiteReportFilters,
+		paginationCursor *SiteReportPaginationCursor[SiteOperatingSystemNameReportPaginationCursor],
+	) (*SiteOperatingSystemNameReport, error)
+	ReadSiteOperatingSystemVersionReport(
+		ctx context.Context,
+		filters *SiteReportFilters,
+		paginationCursor *SiteReportPaginationCursor[SiteOperatingSystemVersionReportPaginationCursor],
+	) (*SiteOperatingSystemVersionReport, error)
 	ReadSiteOverviewReport(ctx context.Context, filters *SiteReportFilters) (*SiteOverviewReport, error)
 	ReadSitePageViewReport(ctx context.Context, filters *SiteReportFilters) (*SitePageViewReport, error)
 	ReadSitePathReport(

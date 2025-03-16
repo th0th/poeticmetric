@@ -1023,6 +1023,272 @@ const docTemplate = `{
                 }
             }
         },
+        "/site-reports/operating-system-name": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read operating system name report for a site.",
+                "tags": [
+                    "site-reports"
+                ],
+                "summary": "Read operating system name report",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "browserName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "browserVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "countryISOCode",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "deviceType",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "end",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "language",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "locale",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "path",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrerHost",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "siteID",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "start",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "timeZone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmCampaign",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmContent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmMedium",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmSource",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmTerm",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pagination cursor",
+                        "name": "cursor",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/poeticmetric.SiteOperatingSystemNameReport"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/site-reports/operating-system-version": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read operating system version report for a site.",
+                "tags": [
+                    "site-reports"
+                ],
+                "summary": "Read operating system version report",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "browserName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "browserVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "countryISOCode",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "deviceType",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "end",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "language",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "locale",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "path",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrerHost",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "siteID",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "start",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "timeZone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmCampaign",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmContent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmMedium",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmSource",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmTerm",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pagination cursor",
+                        "name": "cursor",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/poeticmetric.SiteOperatingSystemVersionReport"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/site-reports/overview": {
             "get": {
                 "security": [
@@ -2454,6 +2720,62 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "language": {
+                    "type": "string"
+                },
+                "visitorCount": {
+                    "type": "integer"
+                },
+                "visitorPercentage": {
+                    "type": "number"
+                }
+            }
+        },
+        "poeticmetric.SiteOperatingSystemNameReport": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/poeticmetric.SiteOperatingSystemNameReportDatum"
+                    }
+                },
+                "paginationCursor": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.SiteOperatingSystemNameReportDatum": {
+            "type": "object",
+            "properties": {
+                "operatingSystemName": {
+                    "type": "string"
+                },
+                "visitorCount": {
+                    "type": "integer"
+                },
+                "visitorPercentage": {
+                    "type": "integer"
+                }
+            }
+        },
+        "poeticmetric.SiteOperatingSystemVersionReport": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/poeticmetric.SiteOperatingSystemVersionReportDatum"
+                    }
+                },
+                "paginationCursor": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.SiteOperatingSystemVersionReportDatum": {
+            "type": "object",
+            "properties": {
+                "operatingSystemVersion": {
                     "type": "string"
                 },
                 "visitorCount": {

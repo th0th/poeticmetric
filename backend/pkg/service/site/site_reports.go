@@ -198,6 +198,90 @@ func (s *service) ReadSiteLanguageReport(
 	return &report, nil
 }
 
+func (s *service) ReadSiteOperatingSystemNameReport(
+	ctx context.Context,
+	filters *poeticmetric.SiteReportFilters,
+	paginationCursor *poeticmetric.SiteReportPaginationCursor[poeticmetric.SiteOperatingSystemNameReportPaginationCursor],
+) (*poeticmetric.SiteOperatingSystemNameReport, error) {
+	report := poeticmetric.SiteOperatingSystemNameReport{
+		Data: []poeticmetric.SiteOperatingSystemNameReportDatum{},
+	}
+
+	queryValues := map[string]any{
+		"limit": poeticmetric.SiteReportPageSize,
+	}
+	for k, v := range filters.Map() {
+		queryValues[k] = v
+	}
+	if paginationCursor != nil {
+		queryValues["paginationOperatingSystemName"] = paginationCursor.Data.OperatingSystemName
+		queryValues["paginationVisitorCount"] = paginationCursor.Data.VisitorCount
+	} else {
+		queryValues["paginationOperatingSystemName"] = nil
+		queryValues["paginationVisitorCount"] = nil
+	}
+
+	err := s.clickHouse.Raw(siteOperatingSystemNameReportQuery, queryValues).Scan(&report.Data).Error
+	if err != nil {
+		return nil, errors.Wrap(err, 0)
+	}
+
+	if len(report.Data) >= poeticmetric.SiteReportPageSize {
+		datum := report.Data[len(report.Data)-1]
+
+		report.PaginationCursor = &poeticmetric.SiteReportPaginationCursor[poeticmetric.SiteOperatingSystemNameReportPaginationCursor]{
+			Data: poeticmetric.SiteOperatingSystemNameReportPaginationCursor{
+				OperatingSystemName: datum.OperatingSystemName,
+				VisitorCount: datum.VisitorCount,
+			},
+		}
+	}
+
+	return &report, nil
+}
+
+func (s *service) ReadSiteOperatingSystemVersionReport(
+	ctx context.Context,
+	filters *poeticmetric.SiteReportFilters,
+	paginationCursor *poeticmetric.SiteReportPaginationCursor[poeticmetric.SiteOperatingSystemVersionReportPaginationCursor],
+) (*poeticmetric.SiteOperatingSystemVersionReport, error) {
+	report := poeticmetric.SiteOperatingSystemVersionReport{
+		Data: []poeticmetric.SiteOperatingSystemVersionReportDatum{},
+	}
+
+	queryValues := map[string]any{
+		"limit": poeticmetric.SiteReportPageSize,
+	}
+	for k, v := range filters.Map() {
+		queryValues[k] = v
+	}
+	if paginationCursor != nil {
+		queryValues["paginationOperatingSystemVersion"] = paginationCursor.Data.OperatingSystemVersion
+		queryValues["paginationVisitorCount"] = paginationCursor.Data.VisitorCount
+	} else {
+		queryValues["paginationOperatingSystemVersion"] = nil
+		queryValues["paginationVisitorCount"] = nil
+	}
+
+	err := s.clickHouse.Raw(siteOperatingSystemVersionReportQuery, queryValues).Scan(&report.Data).Error
+	if err != nil {
+		return nil, errors.Wrap(err, 0)
+	}
+
+	if len(report.Data) >= poeticmetric.SiteReportPageSize {
+		datum := report.Data[len(report.Data)-1]
+
+		report.PaginationCursor = &poeticmetric.SiteReportPaginationCursor[poeticmetric.SiteOperatingSystemVersionReportPaginationCursor]{
+			Data: poeticmetric.SiteOperatingSystemVersionReportPaginationCursor{
+				OperatingSystemVersion: datum.OperatingSystemVersion,
+				VisitorCount: datum.VisitorCount,
+			},
+		}
+	}
+
+	return &report, nil
+}
+
 func (s *service) ReadSiteOverviewReport(
 	ctx context.Context,
 	filters *poeticmetric.SiteReportFilters,
@@ -424,6 +508,12 @@ var siteDeviceTypeReportQuery string
 
 //go:embed files/site_language_report.sql
 var siteLanguageReportQuery string
+
+//go:embed files/site_operating_system_name_report.sql
+var siteOperatingSystemNameReportQuery string
+
+//go:embed files/site_operating_system_version_report.sql
+var siteOperatingSystemVersionReportQuery string
 
 //go:embed files/site_overview_report.sql
 var siteOverviewReportQuery string

@@ -220,6 +220,42 @@ definitions:
       visitorPercentage:
         type: number
     type: object
+  poeticmetric.SiteOperatingSystemNameReport:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/poeticmetric.SiteOperatingSystemNameReportDatum'
+        type: array
+      paginationCursor:
+        type: string
+    type: object
+  poeticmetric.SiteOperatingSystemNameReportDatum:
+    properties:
+      operatingSystemName:
+        type: string
+      visitorCount:
+        type: integer
+      visitorPercentage:
+        type: integer
+    type: object
+  poeticmetric.SiteOperatingSystemVersionReport:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/poeticmetric.SiteOperatingSystemVersionReportDatum'
+        type: array
+      paginationCursor:
+        type: string
+    type: object
+  poeticmetric.SiteOperatingSystemVersionReportDatum:
+    properties:
+      operatingSystemVersion:
+        type: string
+      visitorCount:
+        type: integer
+      visitorPercentage:
+        type: number
+    type: object
   poeticmetric.SiteOverviewReport:
     properties:
       averagePageViewDurationSeconds:
@@ -988,6 +1024,166 @@ paths:
       security:
       - UserAccessTokenAuthentication: []
       summary: Read language report
+      tags:
+      - site-reports
+  /site-reports/operating-system-name:
+    get:
+      description: Read operating system name report for a site.
+      parameters:
+      - in: query
+        name: browserName
+        type: string
+      - in: query
+        name: browserVersion
+        type: string
+      - in: query
+        name: countryISOCode
+        type: string
+      - in: query
+        name: deviceType
+        type: string
+      - in: query
+        name: end
+        type: string
+      - in: query
+        name: language
+        type: string
+      - in: query
+        name: locale
+        type: string
+      - in: query
+        name: operatingSystemName
+        type: string
+      - in: query
+        name: operatingSystemVersion
+        type: string
+      - in: query
+        name: path
+        type: string
+      - in: query
+        name: referrer
+        type: string
+      - in: query
+        name: referrerHost
+        type: string
+      - in: query
+        name: siteID
+        type: integer
+      - in: query
+        name: start
+        type: string
+      - in: query
+        name: timeZone
+        type: string
+      - in: query
+        name: utmCampaign
+        type: string
+      - in: query
+        name: utmContent
+        type: string
+      - in: query
+        name: utmMedium
+        type: string
+      - in: query
+        name: utmSource
+        type: string
+      - in: query
+        name: utmTerm
+        type: string
+      - description: Pagination cursor
+        in: query
+        name: cursor
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.SiteOperatingSystemNameReport'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read operating system name report
+      tags:
+      - site-reports
+  /site-reports/operating-system-version:
+    get:
+      description: Read operating system version report for a site.
+      parameters:
+      - in: query
+        name: browserName
+        type: string
+      - in: query
+        name: browserVersion
+        type: string
+      - in: query
+        name: countryISOCode
+        type: string
+      - in: query
+        name: deviceType
+        type: string
+      - in: query
+        name: end
+        type: string
+      - in: query
+        name: language
+        type: string
+      - in: query
+        name: locale
+        type: string
+      - in: query
+        name: operatingSystemName
+        type: string
+      - in: query
+        name: operatingSystemVersion
+        type: string
+      - in: query
+        name: path
+        type: string
+      - in: query
+        name: referrer
+        type: string
+      - in: query
+        name: referrerHost
+        type: string
+      - in: query
+        name: siteID
+        type: integer
+      - in: query
+        name: start
+        type: string
+      - in: query
+        name: timeZone
+        type: string
+      - in: query
+        name: utmCampaign
+        type: string
+      - in: query
+        name: utmContent
+        type: string
+      - in: query
+        name: utmMedium
+        type: string
+      - in: query
+        name: utmSource
+        type: string
+      - in: query
+        name: utmTerm
+        type: string
+      - description: Pagination cursor
+        in: query
+        name: cursor
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.SiteOperatingSystemVersionReport'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read operating system version report
       tags:
       - site-reports
   /site-reports/overview:

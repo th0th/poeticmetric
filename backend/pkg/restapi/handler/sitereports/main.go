@@ -156,6 +156,60 @@ func (h *Handler) ReadSiteLanguageReport(w http.ResponseWriter, r *http.Request)
 	h.responder.JSON(w, http.StatusOK, report)
 }
 
+// ReadSiteOperatingSystemNameReport godoc
+// @Description Read operating system name report for a site.
+// @Param filters query poeticmetric.SiteReportFilters true "Filters"
+// @Param cursor query string false "Pagination cursor"
+// @Router /site-reports/operating-system-name [get]
+// @Security UserAccessTokenAuthentication
+// @Success 200 {array} poeticmetric.SiteOperatingSystemNameReport
+// @Summary Read operating system name report
+// @Tags site-reports
+func (h *Handler) ReadSiteOperatingSystemNameReport(w http.ResponseWriter, r *http.Request) {
+	filters := middleware.GetSiteReportFilters(r)
+
+	paginationCursor, err := getPaginationCursor[poeticmetric.SiteOperatingSystemNameReportPaginationCursor](r)
+	if err != nil {
+		h.responder.Error(w, errors.Wrap(err, 0))
+		return
+	}
+
+	report, err := h.siteService.ReadSiteOperatingSystemNameReport(r.Context(), filters, paginationCursor)
+	if err != nil {
+		h.responder.Error(w, errors.Wrap(err, 0))
+		return
+	}
+
+	h.responder.JSON(w, http.StatusOK, report)
+}
+
+// ReadSiteOperatingSystemVersionReport godoc
+// @Description Read operating system version report for a site.
+// @Param filters query poeticmetric.SiteReportFilters true "Filters"
+// @Param cursor query string false "Pagination cursor"
+// @Router /site-reports/operating-system-version [get]
+// @Security UserAccessTokenAuthentication
+// @Success 200 {array} poeticmetric.SiteOperatingSystemVersionReport
+// @Summary Read operating system version report
+// @Tags site-reports
+func (h *Handler) ReadSiteOperatingSystemVersionReport(w http.ResponseWriter, r *http.Request) {
+	filters := middleware.GetSiteReportFilters(r)
+
+	paginationCursor, err := getPaginationCursor[poeticmetric.SiteOperatingSystemVersionReportPaginationCursor](r)
+	if err != nil {
+		h.responder.Error(w, errors.Wrap(err, 0))
+		return
+	}
+
+	report, err := h.siteService.ReadSiteOperatingSystemVersionReport(r.Context(), filters, paginationCursor)
+	if err != nil {
+		h.responder.Error(w, errors.Wrap(err, 0))
+		return
+	}
+
+	h.responder.JSON(w, http.StatusOK, report)
+}
+
 // ReadSiteOverviewReport godoc
 // @Description Read overview report for a site.
 // @Param filters query poeticmetric.SiteReportFilters true "Filters"
