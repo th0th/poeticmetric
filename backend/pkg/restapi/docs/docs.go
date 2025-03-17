@@ -771,7 +771,7 @@ const docTemplate = `{
                 "tags": [
                     "site-reports"
                 ],
-                "summary": "Read country report",
+                "summary": "Read device type report",
                 "parameters": [
                     {
                         "type": "string",

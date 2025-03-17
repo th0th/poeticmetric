@@ -115,7 +115,7 @@ func (h *Handler) ReadSiteCountryReport(w http.ResponseWriter, r *http.Request) 
 // @Router /site-reports/device-type [get]
 // @Security UserAccessTokenAuthentication
 // @Success 200 {array} poeticmetric.SiteDeviceTypeReport
-// @Summary Read country report
+// @Summary Read device type report
 // @Tags site-reports
 func (h *Handler) ReadSiteDeviceTypeReport(w http.ResponseWriter, r *http.Request) {
 	filters := middleware.GetSiteReportFilters(r)

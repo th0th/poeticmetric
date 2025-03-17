@@ -12,6 +12,14 @@ type HydratedSiteCountryReportDatum = Overwrite<SiteCountryReportDatum, {
   visitorPercentageDisplay: string;
 }>;
 
+type HydratedSiteDeviceTypeReport = Array<HydratedSiteDeviceTypeReportDatum>;
+
+type HydratedSiteDeviceTypeReportDatum = Overwrite<SiteDeviceTypeReportDatum, {
+  deviceTypeDisplay: string;
+  visitorCountDisplay: string;
+  visitorPercentageDisplay: string;
+}>;
+
 type HydratedSiteLanguageReport = Overwrite<SiteLanguageReport, {
   data: Array<HydratedSiteLanguageReportDatum>;
 }>;
@@ -103,6 +111,14 @@ type SiteCountryReport = {
 type SiteCountryReportDatum = {
   country: string;
   countryISOCode: string;
+  visitorCount: number;
+  visitorPercentage: number;
+};
+
+type SiteDeviceTypeReport = Array<SiteDeviceTypeReportDatum>;
+
+type SiteDeviceTypeReportDatum = {
+  deviceType: string;
   visitorCount: number;
   visitorPercentage: number;
 };

@@ -25,6 +25,19 @@ export function hydrateSiteCountryReportDatum(d: SiteCountryReportDatum): Hydrat
   };
 }
 
+export function hydrateSiteDeviceTypeReport(d: SiteDeviceTypeReport): HydratedSiteDeviceTypeReport {
+  return d.map(hydrateSiteDeviceTypeReportDatum);
+}
+
+export function hydrateSiteDeviceTypeReportDatum(d: SiteDeviceTypeReportDatum): HydratedSiteDeviceTypeReportDatum {
+  return {
+    ...d,
+    deviceTypeDisplay: `${d.deviceType.slice(0, 1)}${d.deviceType.slice(1).toLowerCase()}`,
+    visitorCountDisplay: millify(d.visitorCount),
+    visitorPercentageDisplay: `${d.visitorPercentage}%`,
+  };
+}
+
 export function hydrateSiteLanguageReport(d: SiteLanguageReport): HydratedSiteLanguageReport {
   return {
     ...d,

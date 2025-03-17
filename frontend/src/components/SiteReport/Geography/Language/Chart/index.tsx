@@ -8,7 +8,6 @@ import { scaleBand, scaleLinear } from "@visx/scale";
 import { Bar } from "@visx/shape";
 import { useTooltip } from "@visx/tooltip";
 import classNames from "classnames";
-import { range } from "lodash-es";
 import millify from "millify";
 import { JSX, useCallback, useMemo } from "react";
 import { useSearchParams } from "wouter";
@@ -31,7 +30,7 @@ const padding = { bottom: 30, left: 54, top: 8 };
 function InnerChart({ className, data, ...props }: InnerChartProps) {
   const [, setSearchParams] = useSearchParams();
   const { height: parentHeight, parentRef, width: parentWidth } = useParentSize();
-  const height = useMemo(() => parentHeight || 0, [parentHeight]);
+  const height = useMemo(() => Math.max(parentHeight, 180) || 0, [parentHeight]);
   const innerHeight = useMemo(() => height - padding.top - padding.bottom, [height]);
   const width = useMemo(() => parentWidth || 0, [parentWidth]);
   const innerWidth = useMemo(() => width - padding.left, [width]);
@@ -39,7 +38,6 @@ function InnerChart({ className, data, ...props }: InnerChartProps) {
   const xScale = useMemo(() => scaleBand({ domain: xDomain, padding: 0.4, range: [0, innerWidth] }), [innerWidth, xDomain]);
   const yMax = useMemo(() => Math.max(...data.map((d) => d.visitorCount || 0), 10), [data]);
   const yDomain = useMemo(() => [0, yMax], [yMax]);
-  const yTickValues = useMemo(() => range(0, yDomain[1] + 1, yDomain[1] / 10), [yDomain]);
   const yScale = useMemo(() => scaleLinear({ domain: yDomain, range: [innerHeight, 0] }), [innerHeight, yDomain]);
   const chartData = useMemo(() => data.map((d) => {
     const y = yScale(d.visitorCount);
@@ -99,7 +97,7 @@ function InnerChart({ className, data, ...props }: InnerChartProps) {
                 top={innerHeight}
               />
 
-              <GridRows height={innerHeight} scale={yScale} tickValues={yTickValues} width={innerWidth} />
+              <GridRows height={innerHeight} scale={yScale} width={innerWidth} />
 
               <Group>
                 {chartData.map((d) => (

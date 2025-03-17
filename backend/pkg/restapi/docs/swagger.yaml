@@ -943,7 +943,7 @@ paths:
             type: array
       security:
       - UserAccessTokenAuthentication: []
-      summary: Read country report
+      summary: Read device type report
       tags:
       - site-reports
   /site-reports/language:

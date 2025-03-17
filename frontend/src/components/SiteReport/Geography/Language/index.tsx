@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 import { Link, useLocation, useSearchParams } from "wouter";
 import ActivityIndicator from "~/components/ActivityIndicator";
-import Chart from "~/components/SiteReport/Geography/Language/Chart";
 import useSiteLanguageReport from "~/hooks/api/useSiteLanguageReport";
 import { getUpdatedSearch } from "~/lib/router";
+import Chart from "./Chart";
 
 export default function Language() {
   const [location] = useLocation();

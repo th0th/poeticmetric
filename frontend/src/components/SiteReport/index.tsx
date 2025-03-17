@@ -1,15 +1,18 @@
 import { useMemo } from "react";
 import { useSearchParams } from "wouter";
 import Breadcrumb from "~/components/Breadcrumb";
-import Geography from "~/components/SiteReport/Geography";
-import Overview from "~/components/SiteReport/Overview";
-import Path from "~/components/SiteReport/Path";
-import Source from "~/components/SiteReport/Source";
-import TimeCharts from "~/components/SiteReport/TimeCharts";
 import SiteReportFiltersTimeInput from "~/components/SiteReportFiltersTimeInput";
 import Title from "~/components/Title";
 import useSite from "~/hooks/api/useSite";
 import SiteReportDataProvider from "../SiteReportDataProvider";
+import Geography from "./Geography";
+import Overview from "./Overview";
+import Path from "./Path";
+import Source from "./Source";
+import Technology from "./Technology";
+import TimeCharts from "./TimeCharts";
+import TimeTrends from "./TimeTrends";
+import UTM from "./UTM";
 
 export default function SiteReport() {
   const [searchParams] = useSearchParams();
@@ -36,7 +39,7 @@ export default function SiteReport() {
           </div>
 
           <div className="mt-8">
-            <div className="gy-8 row">
+            <div className="gx-8 gy-8 row">
               <div className="col-12">
                 <Overview />
               </div>
@@ -55,6 +58,18 @@ export default function SiteReport() {
 
               <div className="col-12 col-lg-8">
                 <Geography />
+              </div>
+
+              <div className="col-12 col-lg-4">
+                <Technology />
+              </div>
+
+              <div className="col-12 col-lg-4">
+                <TimeTrends />
+              </div>
+
+              <div className="col-12 col-lg-4">
+                <UTM />
               </div>
             </div>
           </div>
