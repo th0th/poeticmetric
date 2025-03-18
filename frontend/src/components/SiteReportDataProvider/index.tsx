@@ -19,7 +19,7 @@ export default function SiteReportDataProvider({ children }: SiteReportProviderP
     }
 
     // end
-    let end = dayjs().endOf("day");
+    let end = dayjs().startOf("day").add(1, "day");
     const endFromQuery = searchParams.get("end");
 
     if (endFromQuery !== null) {

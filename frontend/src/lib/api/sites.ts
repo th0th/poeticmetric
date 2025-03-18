@@ -25,6 +25,21 @@ export function hydrateSiteBrowserNameReportDatum(d: SiteBrowserNameReportDatum)
   };
 }
 
+export function hydrateSiteBrowserVersionReport(d: SiteBrowserVersionReport): HydratedSiteBrowserVersionReport {
+  return {
+    ...d,
+    data: d.data.map(hydrateSiteBrowserVersionReportDatum),
+  };
+}
+
+export function hydrateSiteBrowserVersionReportDatum(d: SiteBrowserVersionReportDatum): HydratedSiteBrowserVersionReportDatum {
+  return {
+    ...d,
+    visitorCountDisplay: millify(d.visitorCount),
+    visitorPercentageDisplay: `${d.visitorPercentage}%`,
+  };
+}
+
 export function hydrateSiteCountryReport(d: SiteCountryReport): HydratedSiteCountryReport {
   return {
     ...d,

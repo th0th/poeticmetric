@@ -30,7 +30,7 @@ export default function BrowserName() {
           <table className="fs-7 mb-0 table table-borderless table-layout-fixed table-sm w-100">
             <thead>
               <tr>
-                <th>Referrer</th>
+                <th>Browsers</th>
 
                 <th className="text-end w-5rem">Visitors</th>
               </tr>

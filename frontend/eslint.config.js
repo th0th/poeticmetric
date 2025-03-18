@@ -51,8 +51,11 @@ export default [
       }],
     },
     settings: {
+      ...pluginImport.flatConfigs.recommended.settings,
       "import/resolver": {
-        typescript: {},
+        typescript: {
+          project: __dirname,
+        },
       },
     },
   },

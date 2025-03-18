@@ -12,6 +12,15 @@ type HydratedSiteBrowserNameReportDatum = Overwrite<SiteBrowserNameReportDatum, 
   visitorPercentageDisplay: string;
 }>;
 
+type HydratedSiteBrowserVersionReport = Overwrite<SiteBrowserVersionReport, {
+  data: Array<HydratedSiteBrowserVersionReportDatum>;
+}>;
+
+type HydratedSiteBrowserVersionReportDatum = Overwrite<SiteBrowserVersionReportDatum, {
+  visitorCountDisplay: string;
+  visitorPercentageDisplay: string;
+}>;
+
 type HydratedSiteCountryReport = Overwrite<SiteCountryReport, {
   data: Array<HydratedSiteCountryReportDatum>;
 }>;
@@ -119,6 +128,17 @@ type SiteBrowserNameReport = {
 
 type SiteBrowserNameReportDatum = {
   browserName: string;
+  visitorCount: number;
+  visitorPercentage: number;
+};
+
+type SiteBrowserVersionReport = {
+  data: Array<SiteBrowserVersionReportDatum>;
+  paginationCursor: string | null;
+};
+
+type SiteBrowserVersionReportDatum = {
+  browserVersion: string;
   visitorCount: number;
   visitorPercentage: number;
 };
