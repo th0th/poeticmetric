@@ -27,7 +27,7 @@ SELECT
 FROM (
   SELECT
     round(avg(duration_seconds)) AS average_duration_seconds,
-    round(100 * countIf(duration_seconds == 0) / count(*)) AS bounce_percentage,
+    round(100 * countIf(duration_seconds == 0) / count(*), 2) AS bounce_percentage,
     pathFull(url) AS path,
     count(path) AS view_count,
     round(100 * view_count / total.view_count, 2) AS view_percentage,

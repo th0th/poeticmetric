@@ -27,7 +27,7 @@ FROM (
   SELECT
     domain(referrer) AS referrer_host,
     count(DISTINCT visitor_id) AS visitor_count,
-    toFloat32(round(100 * visitor_count / total_visitor_count, 2)) AS visitor_percentage
+    round(100 * visitor_count / total_visitor_count, 2) AS visitor_percentage
   FROM events_buffer
   WHERE
     date_time < end

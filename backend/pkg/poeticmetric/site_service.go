@@ -213,13 +213,13 @@ type SitePathReport struct {
 
 type SitePathReportDatum struct {
 	AverageDurationSeconds uint32  `json:"averageDurationSeconds"`
-	BouncePercentage       float32 `json:"bouncePercentage"`
+	BouncePercentage       float64 `json:"bouncePercentage"`
 	Path                   string  `json:"path"`
 	URL                    string  `json:"url"`
 	ViewCount              uint64  `json:"viewCount"`
-	ViewPercentage         float32 `json:"viewPercentage"`
+	ViewPercentage         float64 `json:"viewPercentage"`
 	VisitorCount           uint64  `json:"visitorCount"`
-	VisitorPercentage      float32 `json:"visitorPercentage"`
+	VisitorPercentage      float64 `json:"visitorPercentage"`
 }
 
 type SitePathReportPaginationCursor struct {
@@ -246,7 +246,7 @@ type SiteReferrerHostReport struct {
 type SiteReferrerHostReportDatum struct {
 	ReferrerHost      string  `json:"referrerHost"`
 	VisitorCount      uint64  `json:"visitorCount"`
-	VisitorPercentage float32 `json:"visitorPercentage"`
+	VisitorPercentage float64 `json:"visitorPercentage"`
 }
 
 type SiteReferrerHostReportPaginationCursor struct {
@@ -264,7 +264,7 @@ type SiteReferrerReportDatum struct {
 	ReferrerHost      string  `json:"referrerHost"`
 	ReferrerPath      string  `json:"referrerPath"`
 	VisitorCount      uint64  `json:"visitorCount"`
-	VisitorPercentage float32 `json:"visitorPercentage"`
+	VisitorPercentage float64 `json:"visitorPercentage"`
 }
 
 type SiteReferrerReportPaginationCursor struct {

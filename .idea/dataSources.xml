@@ -100,7 +100,7 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="staging - postgres" uuid="952bd4b6-6b19-4741-b12b-052c8aa18ccc">
+    <data-source source="LOCAL" name="staging - postgres" uuid="51edaca8-dafa-4e3a-9e64-635cf5c89d34">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
