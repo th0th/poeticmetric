@@ -2,7 +2,7 @@ clickhouse:
   image:
     pullPolicy: IfNotPresent
     repository: clickhouse/clickhouse-server
-    tag: 24-alpine
+    tag: 25.2
   password: ""
   persistence:
     enabled: true
