@@ -83,6 +83,42 @@ export function hydrateSiteLanguageReportDatum(d: SiteLanguageReportDatum): Hydr
   };
 }
 
+export function hydrateSiteOperatingSystemNameReport(d: SiteOperatingSystemNameReport): HydratedSiteOperatingSystemNameReport {
+  return {
+    ...d,
+    data: d.data.map(hydrateSiteOperatingSystemNameReportDatum),
+  };
+}
+
+export function hydrateSiteOperatingSystemNameReportDatum(
+  d: SiteOperatingSystemNameReportDatum,
+): HydratedSiteOperatingSystemNameReportDatum {
+  return {
+    ...d,
+    visitorCountDisplay: millify(d.visitorCount),
+    visitorPercentageDisplay: `${d.visitorPercentage}%`,
+  };
+}
+
+export function hydrateSiteOperatingSystemVersionReport(
+  d: SiteOperatingSystemVersionReport,
+): HydratedSiteOperatingSystemVersionReport {
+  return {
+    ...d,
+    data: d.data.map(hydrateSiteOperatingSystemVersionReportDatum),
+  };
+}
+
+export function hydrateSiteOperatingSystemVersionReportDatum(
+  d: SiteOperatingSystemVersionReportDatum,
+): HydratedSiteOperatingSystemVersionReportDatum {
+  return {
+    ...d,
+    visitorCountDisplay: millify(d.visitorCount),
+    visitorPercentageDisplay: `${d.visitorPercentage}%`,
+  };
+}
+
 export function hydrateSiteOverviewReport(d: SiteOverviewReport): HydratedSiteOverviewReport {
   function getVariant(v: number | null): DisplayVariant {
     if (v === null) {

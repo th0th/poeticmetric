@@ -1,6 +1,6 @@
 import stylistic from "@stylistic/eslint-plugin";
 import pluginImport from "eslint-plugin-import";
-import jsxA11y from "eslint-plugin-jsx-a11y";
+import pluginJSXA11Y from "eslint-plugin-jsx-a11y";
 import pluginReact from "eslint-plugin-react";
 import pluginReactHooks from "eslint-plugin-react-hooks";
 import pluginSortDestructureKeys from "eslint-plugin-sort-destructure-keys";
@@ -53,9 +53,7 @@ export default [
     settings: {
       ...pluginImport.flatConfigs.recommended.settings,
       "import/resolver": {
-        typescript: {
-          project: __dirname,
-        },
+        typescript: {},
       },
     },
   },
@@ -63,7 +61,7 @@ export default [
   // jsx-a11y
   {
     plugins: {
-      "jsx-a11y": jsxA11y,
+      "jsx-a11y": pluginJSXA11Y,
     },
     rules: {
       "jsx-a11y/no-autofocus": 0,
@@ -94,7 +92,7 @@ export default [
       "react/jsx-key": ["error", { checkFragmentShorthand: true }],
       "react/jsx-max-props-per-line": ["error", { when: "multiline" }],
       "react/jsx-no-target-blank": 0,
-      "react/jsx-one-expression-per-line": ["error", { allow: "single-child" }],
+      "react/jsx-one-expression-per-line": ["error", { allow: "non-jsx" }],
       "react/jsx-sort-props": "error",
       "react/jsx-tag-spacing": "error",
       "react/jsx-wrap-multilines": ["error"],

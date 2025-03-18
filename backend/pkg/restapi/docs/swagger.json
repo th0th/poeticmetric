@@ -2746,7 +2746,7 @@
                     "type": "integer"
                 },
                 "visitorPercentage": {
-                    "type": "integer"
+                    "type": "number"
                 }
             }
         },

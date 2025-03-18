@@ -1,15 +1,16 @@
-import { createElement, useMemo } from "react";
+import { useMemo } from "react";
 import { Link, useLocation, useSearchParams } from "wouter";
 import ActivityIndicator from "~/components/ActivityIndicator";
-import useSiteBrowserNameReport from "~/hooks/api/useSiteBrowserNameReport";
-import { getBrowserIcon } from "~/lib/icons";
+import useSiteOperatingSystemVersionReport from "~/hooks/api/useSiteOperatingSystemVersionReport";
+import useSiteReportData from "~/hooks/useSiteReportData";
 import { getUpdatedSearch } from "~/lib/router";
 import Modal from "./Modal";
 
-export default function BrowserName() {
+export default function OperatingSystemVersion() {
   const [location] = useLocation();
   const [searchParams] = useSearchParams();
-  const { data: report } = useSiteBrowserNameReport();
+  const { filters } = useSiteReportData();
+  const { data: report } = useSiteOperatingSystemVersionReport();
 
   const data = useMemo(() => {
     if (report === undefined) {
@@ -30,7 +31,7 @@ export default function BrowserName() {
           <table className="fs-7 mb-0 table table-borderless table-layout-fixed table-sm w-100">
             <thead>
               <tr>
-                <th>Browsers</th>
+                <th>{filters.operatingSystemName} versions</th>
 
                 <th className="text-end w-5rem">Visitors</th>
               </tr>
@@ -38,16 +39,14 @@ export default function BrowserName() {
 
             <tbody>
               {data.map((d) => (
-                <tr className="parent" key={d.browserName}>
+                <tr className="parent" key={d.operatingSystemVersion}>
                   <td>
                     <Link
                       className="align-items-center d-flex gap-2 text-body text-decoration-none text-decoration-underline-focus-visible text-decoration-underline-hover"
-                      title={d.browserName}
-                      to={`${location}${getUpdatedSearch(searchParams, { browserName: d.browserName })}`}
+                      title={d.operatingSystemVersion}
+                      to={`${location}${getUpdatedSearch(searchParams, { operatingSystemVersion: d.operatingSystemVersion })}`}
                     >
-                      {createElement(getBrowserIcon(d.browserName), { className: "flex-grow-0 flex-shrink-0", size: "1.2em" })}
-
-                      <span className="text-truncate">{d.browserName}</span>
+                      <span className="text-truncate">{d.operatingSystemVersion}</span>
                     </Link>
                   </td>
 
@@ -59,7 +58,7 @@ export default function BrowserName() {
 
           <Link
             className="bg-opacity-0 bg-opacity-10-focus-visible bg-opacity-10-hover bg-primary border-1 border-top d-block fw-medium mb-n8 mt-auto mx-n8 p-3 text-center text-decoration-none"
-            to={`${location}${getUpdatedSearch(searchParams, { detail: "browser-name" })}`}
+            to={`${location}${getUpdatedSearch(searchParams, { detail: "operating-system-version" })}`}
           >
             See more
           </Link>

@@ -3,6 +3,7 @@ import { Dropdown, DropdownProps } from "react-bootstrap";
 import { useSearchParams } from "wouter";
 import Browsers from "./Browsers";
 import Devices from "./Devices";
+import OperatingSystems from "./OperatingSystems";
 
 type Section = {
   content: ReactNode;
@@ -17,7 +18,7 @@ export default function Technology() {
   const sections: Array<Section> = useMemo(() => [
     { content: <Devices />, title: "Devices" },
     { content: <Browsers />, slug: "browsers", title: "Browsers" },
-    { content: null, slug: "operating-systems", title: "Operating systems" },
+    { content: <OperatingSystems />, slug: "operating-systems", title: "Operating systems" },
   ], []);
   const section = useMemo<Section>(() => {
     const slug = searchParams.get(routerQuerySectionSlugKey);

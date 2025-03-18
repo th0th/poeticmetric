@@ -169,9 +169,9 @@ type SiteOperatingSystemNameReport struct {
 }
 
 type SiteOperatingSystemNameReportDatum struct {
-	OperatingSystemName string `json:"operatingSystemName"`
-	VisitorCount        uint64 `json:"visitorCount"`
-	VisitorPercentage   uint64 `json:"visitorPercentage"`
+	OperatingSystemName string  `json:"operatingSystemName"`
+	VisitorCount        uint64  `json:"visitorCount"`
+	VisitorPercentage   float64 `json:"visitorPercentage"`
 }
 
 type SiteOperatingSystemNameReportPaginationCursor struct {
@@ -187,7 +187,7 @@ type SiteOperatingSystemVersionReport struct {
 type SiteOperatingSystemVersionReportDatum struct {
 	OperatingSystemVersion string  `json:"operatingSystemVersion"`
 	VisitorCount           uint64  `json:"visitorCount"`
-	VisitorPercentage      float32 `json:"visitorPercentage"`
+	VisitorPercentage      float64 `json:"visitorPercentage"`
 }
 
 type SiteOperatingSystemVersionReportPaginationCursor struct {

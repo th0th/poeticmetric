@@ -47,6 +47,24 @@ type HydratedSiteLanguageReportDatum = Overwrite<SiteLanguageReportDatum, {
   visitorPercentageDisplay: string;
 }>;
 
+type HydratedSiteOperatingSystemNameReport = Overwrite<SiteOperatingSystemNameReport, {
+  data: Array<HydratedSiteOperatingSystemNameReportDatum>;
+}>;
+
+type HydratedSiteOperatingSystemNameReportDatum = Overwrite<SiteOperatingSystemNameReportDatum, {
+  visitorCountDisplay: string;
+  visitorPercentageDisplay: string;
+}>;
+
+type HydratedSiteOperatingSystemVersionReport = Overwrite<SiteOperatingSystemVersionReport, {
+  data: Array<HydratedSiteOperatingSystemVersionReportDatum>;
+}>;
+
+type HydratedSiteOperatingSystemVersionReportDatum = Overwrite<SiteOperatingSystemVersionReportDatum, {
+  visitorCountDisplay: string;
+  visitorPercentageDisplay: string;
+}>;
+
 type HydratedSiteOverviewReport = Overwrite<SiteOverviewReport, {
   averagePageViewDurationSecondsDisplay: string;
   averagePageViewDurationSecondsPercentageChangeVariant: DisplayVariant;
@@ -170,6 +188,28 @@ type SiteLanguageReport = {
 
 type SiteLanguageReportDatum = {
   language: string;
+  visitorCount: number;
+  visitorPercentage: number;
+};
+
+type SiteOperatingSystemNameReport = {
+  data: Array<SiteOperatingSystemNameReportDatum>;
+  paginationCursor: string | null;
+};
+
+type SiteOperatingSystemNameReportDatum = {
+  operatingSystemName: string;
+  visitorCount: number;
+  visitorPercentage: number;
+};
+
+type SiteOperatingSystemVersionReport = {
+  data: Array<SiteOperatingSystemVersionReportDatum>;
+  paginationCursor: string | null;
+};
+
+type SiteOperatingSystemVersionReportDatum = {
+  operatingSystemVersion: string;
   visitorCount: number;
   visitorPercentage: number;
 };

@@ -236,7 +236,7 @@ definitions:
       visitorCount:
         type: integer
       visitorPercentage:
-        type: integer
+        type: number
     type: object
   poeticmetric.SiteOperatingSystemVersionReport:
     properties:

@@ -106,7 +106,9 @@ export default function Settings() {
               <Route component={Profile} path="/settings/profile" />
             </Suspense>
 
-            <Route path="/settings"><Redirect to="/settings/profile" /></Route>
+            <Route path="/settings">
+              <Redirect to="/settings/profile" />
+            </Route>
           </div>
         </div>
       </div>

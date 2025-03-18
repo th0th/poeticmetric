@@ -2754,7 +2754,7 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "visitorPercentage": {
-                    "type": "integer"
+                    "type": "number"
                 }
             }
         },
