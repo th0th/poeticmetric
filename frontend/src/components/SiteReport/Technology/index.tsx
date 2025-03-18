@@ -1,7 +1,8 @@
 import { ReactNode, useCallback, useMemo } from "react";
 import { Dropdown, DropdownProps } from "react-bootstrap";
 import { useSearchParams } from "wouter";
-import Devices from "~/components/SiteReport/Technology/Devices";
+import Browsers from "./Browsers";
+import Devices from "./Devices";
 
 type Section = {
   content: ReactNode;
@@ -15,7 +16,7 @@ export default function Technology() {
   const [searchParams, setSearchParams] = useSearchParams();
   const sections: Array<Section> = useMemo(() => [
     { content: <Devices />, title: "Devices" },
-    { content: null, slug: "browsers", title: "Browsers" },
+    { content: <Browsers />, slug: "browsers", title: "Browsers" },
     { content: null, slug: "operating-systems", title: "Operating systems" },
   ], []);
   const section = useMemo<Section>(() => {

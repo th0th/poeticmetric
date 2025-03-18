@@ -10,6 +10,21 @@ export function hydrateSite(d: Site): HydratedSite {
   };
 }
 
+export function hydrateSiteBrowserNameReport(d: SiteBrowserNameReport): HydratedSiteBrowserNameReport {
+  return {
+    ...d,
+    data: d.data.map(hydrateSiteBrowserNameReportDatum),
+  };
+}
+
+export function hydrateSiteBrowserNameReportDatum(d: SiteBrowserNameReportDatum): HydratedSiteBrowserNameReportDatum {
+  return {
+    ...d,
+    visitorCountDisplay: millify(d.visitorCount),
+    visitorPercentageDisplay: `${d.visitorPercentage}%`,
+  };
+}
+
 export function hydrateSiteCountryReport(d: SiteCountryReport): HydratedSiteCountryReport {
   return {
     ...d,

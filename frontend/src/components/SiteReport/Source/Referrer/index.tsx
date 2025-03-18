@@ -1,7 +1,7 @@
 import { useMemo } from "react";
-import ReferrerHost from "~/components/SiteReport/Source/Referrer/ReferrerHost";
 import useSiteReportData from "~/hooks/useSiteReportData";
 import ReferrerPath from "./Referrer";
+import ReferrerHost from "./ReferrerHost";
 
 export default function Referrer() {
   const { filters } = useSiteReportData();

@@ -3,6 +3,15 @@ type HydratedSite = Overwrite<Site, {
   updatedAtDayjs: import("dayjs").Dayjs;
 }>;
 
+type HydratedSiteBrowserNameReport = Overwrite<SiteBrowserNameReport, {
+  data: Array<HydratedSiteBrowserNameReportDatum>;
+}>;
+
+type HydratedSiteBrowserNameReportDatum = Overwrite<SiteBrowserNameReportDatum, {
+  visitorCountDisplay: string;
+  visitorPercentageDisplay: string;
+}>;
+
 type HydratedSiteCountryReport = Overwrite<SiteCountryReport, {
   data: Array<HydratedSiteCountryReportDatum>;
 }>;
@@ -101,6 +110,17 @@ type Site = {
   name: string;
   safeQueryParameters: Array<string>;
   updatedAt: string;
+};
+
+type SiteBrowserNameReport = {
+  data: Array<SiteBrowserNameReportDatum>;
+  paginationCursor: string | null;
+};
+
+type SiteBrowserNameReportDatum = {
+  browserName: string;
+  visitorCount: number;
+  visitorPercentage: number;
 };
 
 type SiteCountryReport = {
