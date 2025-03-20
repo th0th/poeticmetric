@@ -222,6 +222,21 @@ export function hydrateSiteReferrerReportDatum(d: SiteReferrerReportDatum): Hydr
   };
 }
 
+export function hydrateSiteTimeOfWeekTrendsReport(d: SiteTimeOfWeekTrendsReport): HydratedSiteTimeOfWeekTrendsReport {
+  return d.map(hydrateSiteTimeOfWeekTrendsReportDatum);
+}
+
+export function hydrateSiteTimeOfWeekTrendsReportDatum(d: SiteTimeOfWeekTrendsReportDatum): HydratedSiteTimeOfWeekTrendsReportDatum {
+  return {
+    ...d,
+    dayOfWeekDisplay: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"][d.dayOfWeek - 1],
+    hourOfDayEndDisplay: dayjs(`1996-01-30 ${d.hourOfDay + 2}:00:00`).format("h A"),
+    hourOfDayStartDisplay: dayjs(`1996-01-30 ${d.hourOfDay}:00:00`).format("h A"),
+    viewCountDisplay: millify(d.viewCount),
+    viewPercentageDisplay: `${d.viewPercentage}%`,
+  };
+}
+
 export function hydrateSiteVisitorReport(d: SiteVisitorReport): HydratedSiteVisitorReport {
   return {
     ...d,

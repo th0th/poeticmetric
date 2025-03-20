@@ -286,14 +286,14 @@ func (s *service) ReadSiteOverviewReport(
 	ctx context.Context,
 	filters *poeticmetric.SiteReportFilters,
 ) (*poeticmetric.SiteOverviewReport, error) {
-	siteOverviewReport := poeticmetric.SiteOverviewReport{}
+	report := poeticmetric.SiteOverviewReport{}
 
-	err := s.clickHouse.Raw(siteOverviewReportQuery, filters.Map()).Scan(&siteOverviewReport).Error
+	err := s.clickHouse.Raw(siteOverviewReportQuery, filters.Map()).Scan(&report).Error
 	if err != nil {
 		return nil, errors.Wrap(err, 0)
 	}
 
-	return &siteOverviewReport, nil
+	return &report, nil
 }
 
 func (s *service) ReadSitePageViewReport(
@@ -461,15 +461,29 @@ func (s *service) ReadSiteReferrerReport(
 	return &report, nil
 }
 
+func (s *service) ReadSiteTimeOfWeekTrendsReport(
+	ctx context.Context,
+	filters *poeticmetric.SiteReportFilters,
+) (*poeticmetric.SiteTimeOfWeekTrendsReport, error) {
+	report := poeticmetric.SiteTimeOfWeekTrendsReport{}
+
+	err := s.clickHouse.Raw(siteTimeOfWeekTrendsReportQuery, filters.Map()).Scan(&report).Error
+	if err != nil {
+		return nil, errors.Wrap(err, 0)
+	}
+
+	return &report, nil
+}
+
 func (s *service) ReadSiteVisitorReport(ctx context.Context, filters *poeticmetric.SiteReportFilters) (*poeticmetric.SiteVisitorReport, error) {
-	siteVisitorReport := poeticmetric.SiteVisitorReport{
+	report := poeticmetric.SiteVisitorReport{
 		IntervalSeconds: filters.IntervalSeconds(),
 	}
 
 	errGroup := errgroup.Group{}
 
 	errGroup.Go(func() error {
-		err := s.clickHouse.Raw(siteVisitorReportDataQuery, filters.Map()).Scan(&siteVisitorReport.Data).Error
+		err := s.clickHouse.Raw(siteVisitorReportDataQuery, filters.Map()).Scan(&report.Data).Error
 		if err != nil {
 			return errors.Wrap(err, 0)
 		}
@@ -478,7 +492,7 @@ func (s *service) ReadSiteVisitorReport(ctx context.Context, filters *poeticmetr
 	})
 
 	errGroup.Go(func() error {
-		err := s.clickHouse.Raw(siteVisitorReportAverageVisitorCountQuery, filters.Map()).Scan(&siteVisitorReport.AverageVisitorCount).Error
+		err := s.clickHouse.Raw(siteVisitorReportAverageVisitorCountQuery, filters.Map()).Scan(&report.AverageVisitorCount).Error
 		if err != nil {
 			return errors.Wrap(err, 0)
 		}
@@ -491,7 +505,7 @@ func (s *service) ReadSiteVisitorReport(ctx context.Context, filters *poeticmetr
 		return nil, errors.Wrap(err, 0)
 	}
 
-	return &siteVisitorReport, nil
+	return &report, nil
 }
 
 //go:embed files/site_browser_name_report.sql
@@ -532,6 +546,9 @@ var siteReferrerHostReportQuery string
 
 //go:embed files/site_referrer_report.sql
 var siteReferrerReportQuery string
+
+//go:embed files/site_time_of_week_trends_report.sql
+var siteTimeOfWeekTrendsReportQuery string
 
 //go:embed files/site_visitor_report_average_visitor_count.sql
 var siteVisitorReportAverageVisitorCountQuery string

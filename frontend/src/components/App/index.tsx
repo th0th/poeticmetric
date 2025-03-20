@@ -1,5 +1,6 @@
 import { enGB } from "date-fns/locale/en-GB";
 import dayjs from "dayjs";
+import "dayjs/locale/en-gb";
 import dayjsDuration from "dayjs/plugin/duration";
 import dayjsIsoWeek from "dayjs/plugin/isoWeek";
 import dayjsLocalizedFormat from "dayjs/plugin/localizedFormat";
@@ -25,6 +26,7 @@ export type AppProps = {
   path?: string;
 };
 
+dayjs.locale("en-gb");
 dayjs.extend(dayjsIsoWeek);
 dayjs.extend(dayjsDuration);
 dayjs.extend(dayjsLocalizedFormat);

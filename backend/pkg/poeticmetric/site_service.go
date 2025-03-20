@@ -13,59 +13,23 @@ const SiteReportPageSize = 100
 
 type SiteService interface {
 	ServiceWithPostgres
-
 	CreateOrganizationSite(ctx context.Context, organizationID uint, params *CreateOrganizationSiteParams) (*OrganizationSite, error)
 	DeleteOrganizationSite(ctx context.Context, organizationID uint, siteID uint) error
 	ListOrganizationSites(ctx context.Context, organizationID uint) ([]*OrganizationSite, error)
 	ReadOrganizationSite(ctx context.Context, organizationID uint, siteID uint) (*OrganizationSite, error)
-	ReadSiteBrowserNameReport(
-		ctx context.Context,
-		filters *SiteReportFilters,
-		paginationCursor *SiteReportPaginationCursor[SiteBrowserNameReportPaginationCursor],
-	) (*SiteBrowserNameReport, error)
-	ReadSiteBrowserVersionReport(
-		ctx context.Context,
-		filters *SiteReportFilters,
-		paginationCursor *SiteReportPaginationCursor[SiteBrowserVersionReportPaginationCursor],
-	) (*SiteBrowserVersionReport, error)
-	ReadSiteCountryReport(
-		ctx context.Context,
-		filters *SiteReportFilters,
-		paginationCursor *SiteReportPaginationCursor[SiteCountryReportPaginationCursor],
-	) (*SiteCountryReport, error)
+	ReadSiteBrowserNameReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteBrowserNameReportPaginationCursor]) (*SiteBrowserNameReport, error)
+	ReadSiteBrowserVersionReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteBrowserVersionReportPaginationCursor]) (*SiteBrowserVersionReport, error)
+	ReadSiteCountryReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteCountryReportPaginationCursor]) (*SiteCountryReport, error)
 	ReadSiteDeviceTypeReport(ctx context.Context, filters *SiteReportFilters) (*SiteDeviceTypeReport, error)
-	ReadSiteLanguageReport(
-		ctx context.Context,
-		filters *SiteReportFilters,
-		paginationCursor *SiteReportPaginationCursor[SiteLanguageReportPaginationCursor],
-	) (*SiteLanguageReport, error)
-	ReadSiteOperatingSystemNameReport(
-		ctx context.Context,
-		filters *SiteReportFilters,
-		paginationCursor *SiteReportPaginationCursor[SiteOperatingSystemNameReportPaginationCursor],
-	) (*SiteOperatingSystemNameReport, error)
-	ReadSiteOperatingSystemVersionReport(
-		ctx context.Context,
-		filters *SiteReportFilters,
-		paginationCursor *SiteReportPaginationCursor[SiteOperatingSystemVersionReportPaginationCursor],
-	) (*SiteOperatingSystemVersionReport, error)
+	ReadSiteLanguageReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteLanguageReportPaginationCursor]) (*SiteLanguageReport, error)
+	ReadSiteOperatingSystemNameReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteOperatingSystemNameReportPaginationCursor]) (*SiteOperatingSystemNameReport, error)
+	ReadSiteOperatingSystemVersionReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteOperatingSystemVersionReportPaginationCursor]) (*SiteOperatingSystemVersionReport, error)
 	ReadSiteOverviewReport(ctx context.Context, filters *SiteReportFilters) (*SiteOverviewReport, error)
 	ReadSitePageViewReport(ctx context.Context, filters *SiteReportFilters) (*SitePageViewReport, error)
-	ReadSitePathReport(
-		ctx context.Context,
-		filters *SiteReportFilters,
-		paginationCursor *SiteReportPaginationCursor[SitePathReportPaginationCursor],
-	) (*SitePathReport, error)
-	ReadSiteReferrerHostReport(
-		ctx context.Context,
-		filters *SiteReportFilters,
-		paginationCursor *SiteReportPaginationCursor[SiteReferrerHostReportPaginationCursor],
-	) (*SiteReferrerHostReport, error)
-	ReadSiteReferrerReport(
-		ctx context.Context,
-		filters *SiteReportFilters,
-		paginationCursor *SiteReportPaginationCursor[SiteReferrerReportPaginationCursor],
-	) (*SiteReferrerReport, error)
+	ReadSitePathReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SitePathReportPaginationCursor]) (*SitePathReport, error)
+	ReadSiteReferrerHostReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteReferrerHostReportPaginationCursor]) (*SiteReferrerHostReport, error)
+	ReadSiteReferrerReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteReferrerReportPaginationCursor]) (*SiteReferrerReport, error)
+	ReadSiteTimeOfWeekTrendsReport(ctx context.Context, filters *SiteReportFilters) (*SiteTimeOfWeekTrendsReport, error)
 	ReadSiteVisitorReport(ctx context.Context, filters *SiteReportFilters) (*SiteVisitorReport, error)
 	UpdateOrganizationSite(ctx context.Context, organizationID uint, siteID uint, params *UpdateOrganizationSiteParams) error
 }
@@ -297,6 +261,15 @@ type SiteReportFilters struct {
 
 type SiteReportPaginationCursor[T any] struct {
 	Data T
+}
+
+type SiteTimeOfWeekTrendsReport []SiteTimeOfWeekTrendReportDatum
+
+type SiteTimeOfWeekTrendReportDatum struct {
+	DayOfWeek      int     `json:"dayOfWeek"`
+	HourOfDay      int     `json:"hourOfDay"`
+	ViewCount      uint    `json:"viewCount"`
+	ViewPercentage float64 `json:"viewPercentage"`
 }
 
 type SiteVisitorReport struct {

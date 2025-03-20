@@ -329,6 +329,28 @@ func (h *Handler) ReadSiteReferrerHostReport(w http.ResponseWriter, r *http.Requ
 	h.responder.JSON(w, http.StatusOK, report)
 }
 
+// ReadSiteTimeOfWeekTrendsReport godoc
+// @Description Read time of week trends report for a site.
+// @Param filters query poeticmetric.SiteReportFilters true "Filters"
+// @Router /site-reports/time-of-week-trends [get]
+// @Security UserAccessTokenAuthentication
+// @Success 200 {array} poeticmetric.SiteTimeOfWeekTrendsReport
+// @Summary Read time of week trends report
+// @Tags site-reports
+func (h *Handler) ReadSiteTimeOfWeekTrendsReport(w http.ResponseWriter, r *http.Request) {
+	filters := middleware.GetSiteReportFilters(r)
+
+	report, err := h.siteService.ReadSiteTimeOfWeekTrendsReport(r.Context(), filters)
+	if err != nil {
+		h.responder.Error(w, errors.Wrap(err, 0))
+		return
+	}
+
+	h.responder.JSON(w, http.StatusOK, report)
+}
+
+
+
 // ReadSiteVisitorReport godoc
 // @Description Read visitor report for a site.
 // @Param filters query poeticmetric.SiteReportFilters true "Filters"

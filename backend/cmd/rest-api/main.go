@@ -244,6 +244,7 @@ func main() {
 	mux.Handle("GET /site-reports/path", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSitePathReport))
 	mux.Handle("GET /site-reports/referrer", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteReferrerReport))
 	mux.Handle("GET /site-reports/referrer-host", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteReferrerHostReport))
+	mux.Handle("GET /site-reports/time-of-week-trends", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteTimeOfWeekTrendsReport))
 	mux.Handle("GET /site-reports/visitor", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteVisitorReport))
 
 	// handlers: tracker

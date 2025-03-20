@@ -179,11 +179,11 @@ function InnerVisitors({ className, report, ...props }: InnerVisitorsProps) {
 
       {tooltipOpen && tooltipData !== undefined ? (
         <ChartTooltip left={tooltipLeft} top={tooltipTop}>
-          <div className="align-items-center d-flex flex-row gap-2 text-center">
+          <div className="align-items-center d-flex flex-row gap-4 text-center">
             <div>
               <div>{tooltipData.start.format("HH:mm")}</div>
 
-              <div className="fs-xxs">{tooltipData.start.format("MMM D")}</div>
+              <div className="fs-8 fw-medium">{tooltipData.start.format("MMM D")}</div>
             </div>
 
             <div>&rarr;</div>
@@ -191,7 +191,7 @@ function InnerVisitors({ className, report, ...props }: InnerVisitorsProps) {
             <div>
               <div>{tooltipData.end.format("HH:mm")}</div>
 
-              <div className="fs-xxs">{tooltipData.end.format("MMM D")}</div>
+              <div className="fs-8 fw-medium">{tooltipData.end.format("MMM D")}</div>
             </div>
           </div>
 

@@ -117,6 +117,16 @@ type HydratedSiteReferrerReportDatum = Overwrite<SiteReferrerReportDatum, {
   visitorPercentageDisplay: string;
 }>;
 
+type HydratedSiteTimeOfWeekTrendsReport = Array<HydratedSiteTimeOfWeekTrendsReportDatum>;
+
+type HydratedSiteTimeOfWeekTrendsReportDatum = Overwrite<SiteTimeOfWeekTrendsReportDatum, {
+  dayOfWeekDisplay: string;
+  hourOfDayEndDisplay: string;
+  hourOfDayStartDisplay: string;
+  viewCountDisplay: string;
+  viewPercentageDisplay: string;
+}>;
+
 type HydratedSiteVisitorReport = Overwrite<SiteVisitorReport, {
   averageVisitorCountDisplay: string;
   data: Array<HydratedSiteVisitorReportDatum>;
@@ -274,6 +284,15 @@ type SiteReferrerReportDatum = {
   referrerPath: string;
   visitorCount: number;
   visitorPercentage: number;
+};
+
+type SiteTimeOfWeekTrendsReport = Array<SiteTimeOfWeekTrendsReportDatum>;
+
+type SiteTimeOfWeekTrendsReportDatum = {
+  dayOfWeek: number;
+  hourOfDay: number;
+  viewCount: number;
+  viewPercentage: number;
 };
 
 type SiteVisitorReport = {

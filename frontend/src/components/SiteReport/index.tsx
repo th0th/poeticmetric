@@ -11,7 +11,7 @@ import Path from "./Path";
 import Source from "./Source";
 import Technology from "./Technology";
 import TimeCharts from "./TimeCharts";
-import TimeTrends from "./TimeTrends";
+import TimeOfWeekTrends from "./TimeOfWeekTrends";
 import UTM from "./UTM";
 
 export default function SiteReport() {
@@ -65,7 +65,7 @@ export default function SiteReport() {
               </div>
 
               <div className="col-12 col-lg-4">
-                <TimeTrends />
+                <TimeOfWeekTrends />
               </div>
 
               <div className="col-12 col-lg-4">

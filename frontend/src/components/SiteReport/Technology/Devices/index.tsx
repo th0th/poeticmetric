@@ -146,7 +146,7 @@ function InnerDevices({ report }: InnerDevicesProps) {
       {tooltipOpen && tooltipData !== undefined ? (
         <ChartTooltip left={tooltipLeft} top={tooltipTop}>
           <div className="text-center">
-            <div className="fs-xs fw-medium">{tooltipData.datum.deviceTypeDisplay}</div>
+            <div className="fs-8 fw-medium">{tooltipData.datum.deviceTypeDisplay}</div>
             <div className="mt-1">{`${tooltipData.datum.visitorCount} visitors (${tooltipData.datum.visitorPercentageDisplay})`}</div>
           </div>
         </ChartTooltip>

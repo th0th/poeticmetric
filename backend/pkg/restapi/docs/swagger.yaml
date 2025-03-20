@@ -361,6 +361,17 @@ definitions:
       visitorPercentage:
         type: number
     type: object
+  poeticmetric.SiteTimeOfWeekTrendReportDatum:
+    properties:
+      dayOfWeek:
+        type: integer
+      hourOfDay:
+        type: integer
+      viewCount:
+        type: integer
+      viewPercentage:
+        type: number
+    type: object
   poeticmetric.SiteVisitorReport:
     properties:
       averageVisitorCount:
@@ -1576,6 +1587,84 @@ paths:
       security:
       - UserAccessTokenAuthentication: []
       summary: Read referrer host report
+      tags:
+      - site-reports
+  /site-reports/time-of-week-trends:
+    get:
+      description: Read time of week trends report for a site.
+      parameters:
+      - in: query
+        name: browserName
+        type: string
+      - in: query
+        name: browserVersion
+        type: string
+      - in: query
+        name: countryISOCode
+        type: string
+      - in: query
+        name: deviceType
+        type: string
+      - in: query
+        name: end
+        type: string
+      - in: query
+        name: language
+        type: string
+      - in: query
+        name: locale
+        type: string
+      - in: query
+        name: operatingSystemName
+        type: string
+      - in: query
+        name: operatingSystemVersion
+        type: string
+      - in: query
+        name: path
+        type: string
+      - in: query
+        name: referrer
+        type: string
+      - in: query
+        name: referrerHost
+        type: string
+      - in: query
+        name: siteID
+        type: integer
+      - in: query
+        name: start
+        type: string
+      - in: query
+        name: timeZone
+        type: string
+      - in: query
+        name: utmCampaign
+        type: string
+      - in: query
+        name: utmContent
+        type: string
+      - in: query
+        name: utmMedium
+        type: string
+      - in: query
+        name: utmSource
+        type: string
+      - in: query
+        name: utmTerm
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              items:
+                $ref: '#/definitions/poeticmetric.SiteTimeOfWeekTrendReportDatum'
+              type: array
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read time of week trends report
       tags:
       - site-reports
   /site-reports/visitor:
