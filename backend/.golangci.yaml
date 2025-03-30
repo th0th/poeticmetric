@@ -1,21 +1,36 @@
+version: "2"
 linters:
   enable:
-  - bodyclose
-  - copyloopvar
-  - errorlint
-  - gocritic
-  - goprintffuncname
-  - gosec
-  - gosimple
-  - govet
-  - ineffassign
-  - prealloc
-  - staticcheck
-  - whitespace
-linters-settings:
-  gocritic:
-    disabled-checks:
-    - ifElseChain
-  gosec:
-    excludes:
-    - G601
+    - bodyclose
+    - copyloopvar
+    - errorlint
+    - gocritic
+    - goprintffuncname
+    - gosec
+    - prealloc
+    - whitespace
+  settings:
+    gocritic:
+      disabled-checks:
+        - ifElseChain
+    gosec:
+      excludes:
+        - G601
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
