@@ -30,7 +30,8 @@ type SiteService interface {
 	ReadSiteReferrerHostReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteReferrerHostReportPaginationCursor]) (*SiteReferrerHostReport, error)
 	ReadSiteReferrerReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteReferrerReportPaginationCursor]) (*SiteReferrerReport, error)
 	ReadSiteTimeOfWeekTrendsReport(ctx context.Context, filters *SiteReportFilters) (*SiteTimeOfWeekTrendsReport, error)
-	ReadSiteUTMCampaignReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteUTMCampaignReportPaginationCursor], ) (*SiteUTMCampaignReport, error)
+	ReadSiteUTMCampaignReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteUTMCampaignReportPaginationCursor]) (*SiteUTMCampaignReport, error)
+	ReadSiteUTMMediumReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteUTMMediumReportPaginationCursor]) (*SiteUTMMediumReport, error)
 	ReadSiteUTMSourceReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteUTMSourceReportPaginationCursor]) (*SiteUTMSourceReport, error)
 	ReadSiteVisitorReport(ctx context.Context, filters *SiteReportFilters) (*SiteVisitorReport, error)
 	UpdateOrganizationSite(ctx context.Context, organizationID uint, siteID uint, params *UpdateOrganizationSiteParams) error
@@ -274,11 +275,6 @@ type SiteTimeOfWeekTrendReportDatum struct {
 	ViewPercentage float64 `json:"viewPercentage"`
 }
 
-type SiteUTMCampaignReportPaginationCursor struct {
-	UTMCampaign  string
-	VisitorCount uint64
-}
-
 type SiteUTMCampaignReport struct {
 	Data             []SiteUTMCampaignReportDatum                                       `json:"data"`
 	PaginationCursor *SiteReportPaginationCursor[SiteUTMCampaignReportPaginationCursor] `json:"paginationCursor" swaggertype:"string"`
@@ -290,8 +286,24 @@ type SiteUTMCampaignReportDatum struct {
 	VisitorPercentage float64 `json:"visitorPercentage"`
 }
 
-type SiteUTMSourceReportPaginationCursor struct {
-	UTMSource    string
+type SiteUTMCampaignReportPaginationCursor struct {
+	UTMCampaign  string
+	VisitorCount uint64
+}
+
+type SiteUTMMediumReport struct {
+	Data             []SiteUTMMediumReportDatum                                       `json:"data"`
+	PaginationCursor *SiteReportPaginationCursor[SiteUTMMediumReportPaginationCursor] `json:"paginationCursor" swaggertype:"string"`
+}
+
+type SiteUTMMediumReportDatum struct {
+	UTMMedium         string  `json:"utmMedium"`
+	VisitorCount      uint64  `json:"visitorCount"`
+	VisitorPercentage float64 `json:"visitorPercentage"`
+}
+
+type SiteUTMMediumReportPaginationCursor struct {
+	UTMMedium    string
 	VisitorCount uint64
 }
 
@@ -304,6 +316,11 @@ type SiteUTMSourceReportDatum struct {
 	UTMSource         string  `json:"utmSource"`
 	VisitorCount      uint64  `json:"visitorCount"`
 	VisitorPercentage float64 `json:"visitorPercentage"`
+}
+
+type SiteUTMSourceReportPaginationCursor struct {
+	UTMSource    string
+	VisitorCount uint64
 }
 
 type SiteVisitorReport struct {

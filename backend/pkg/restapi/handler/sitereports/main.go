@@ -376,6 +376,33 @@ func (h *Handler) ReadSiteUTMCampaignReport(w http.ResponseWriter, r *http.Reque
 	h.responder.JSON(w, http.StatusOK, report)
 }
 
+// ReadSiteUTMMediumReport godoc
+// @Description Read UTM medium report for a site.
+// @Param filters query poeticmetric.SiteReportFilters true "Filters"
+// @Param cursor query string false "Pagination cursor"
+// @Router /site-reports/utm-medium [get]
+// @Security UserAccessTokenAuthentication
+// @Success 200 {array} poeticmetric.SiteUTMMediumReport
+// @Summary Read UTM medium report
+// @Tags site-reports
+func (h *Handler) ReadSiteUTMMediumReport(w http.ResponseWriter, r *http.Request) {
+	filters := middleware.GetSiteReportFilters(r)
+
+	paginationCursor, err := getPaginationCursor[poeticmetric.SiteUTMMediumReportPaginationCursor](r)
+	if err != nil {
+		h.responder.Error(w, errors.Wrap(err, 0))
+		return
+	}
+
+	report, err := h.siteService.ReadSiteUTMMediumReport(r.Context(), filters, paginationCursor)
+	if err != nil {
+		h.responder.Error(w, errors.Wrap(err, 0))
+		return
+	}
+
+	h.responder.JSON(w, http.StatusOK, report)
+}
+
 // ReadSiteUTMSourceReport godoc
 // @Description Read UTM source report for a site.
 // @Param filters query poeticmetric.SiteReportFilters true "Filters"
