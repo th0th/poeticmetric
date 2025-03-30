@@ -444,6 +444,24 @@ definitions:
       visitorPercentage:
         type: number
     type: object
+  poeticmetric.SiteUTMTermReport:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/poeticmetric.SiteUTMTermReportDatum'
+        type: array
+      paginationCursor:
+        type: string
+    type: object
+  poeticmetric.SiteUTMTermReportDatum:
+    properties:
+      utmTerm:
+        type: string
+      visitorCount:
+        type: integer
+      visitorPercentage:
+        type: number
+    type: object
   poeticmetric.SiteVisitorReport:
     properties:
       averageVisitorCount:
@@ -2108,6 +2126,89 @@ paths:
       security:
       - UserAccessTokenAuthentication: []
       summary: Read UTM source report
+      tags:
+      - site-reports
+  /site-reports/utm-term:
+    get:
+      description: Read UTM term report for a site.
+      parameters:
+      - in: query
+        name: browserName
+        type: string
+      - in: query
+        name: browserVersion
+        type: string
+      - in: query
+        name: countryISOCode
+        type: string
+      - in: query
+        name: deviceType
+        type: string
+      - default: "2026-01-01T00:00:00Z"
+        in: query
+        name: end
+        type: string
+      - in: query
+        name: language
+        type: string
+      - in: query
+        name: locale
+        type: string
+      - in: query
+        name: operatingSystemName
+        type: string
+      - in: query
+        name: operatingSystemVersion
+        type: string
+      - in: query
+        name: path
+        type: string
+      - in: query
+        name: referrer
+        type: string
+      - in: query
+        name: referrerHost
+        type: string
+      - in: query
+        name: siteID
+        type: integer
+      - default: "2025-01-01T00:00:00Z"
+        in: query
+        name: start
+        type: string
+      - default: UTC
+        in: query
+        name: timeZone
+        type: string
+      - in: query
+        name: utmCampaign
+        type: string
+      - in: query
+        name: utmContent
+        type: string
+      - in: query
+        name: utmMedium
+        type: string
+      - in: query
+        name: utmSource
+        type: string
+      - in: query
+        name: utmTerm
+        type: string
+      - description: Pagination cursor
+        in: query
+        name: cursor
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.SiteUTMTermReport'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read UTM term report
       tags:
       - site-reports
   /site-reports/visitor:

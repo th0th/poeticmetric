@@ -643,6 +643,48 @@ func (s *service) ReadSiteUTMSourceReport(
 	return &report, nil
 }
 
+func (s *service) ReadSiteUTMTermReport(
+	ctx context.Context,
+	filters *poeticmetric.SiteReportFilters,
+	paginationCursor *poeticmetric.SiteReportPaginationCursor[poeticmetric.SiteUTMTermReportPaginationCursor],
+) (*poeticmetric.SiteUTMTermReport, error) {
+	report := poeticmetric.SiteUTMTermReport{
+		Data: []poeticmetric.SiteUTMTermReportDatum{},
+	}
+
+	queryValues := map[string]any{
+		"limit": poeticmetric.SiteReportPageSize,
+	}
+	for k, v := range filters.Map() {
+		queryValues[k] = v
+	}
+	if paginationCursor != nil {
+		queryValues["paginationUTMTerm"] = paginationCursor.Data.UTMTerm
+		queryValues["paginationVisitorCount"] = paginationCursor.Data.VisitorCount
+	} else {
+		queryValues["paginationUTMTerm"] = nil
+		queryValues["paginationVisitorCount"] = nil
+	}
+
+	err := s.clickHouse.Raw(siteUTMTermReportQuery, queryValues).Scan(&report.Data).Error
+	if err != nil {
+		return nil, errors.Wrap(err, 0)
+	}
+
+	if len(report.Data) >= poeticmetric.SiteReportPageSize {
+		datum := report.Data[len(report.Data)-1]
+
+		report.PaginationCursor = &poeticmetric.SiteReportPaginationCursor[poeticmetric.SiteUTMTermReportPaginationCursor]{
+			Data: poeticmetric.SiteUTMTermReportPaginationCursor{
+				UTMTerm:      datum.UTMTerm,
+				VisitorCount: datum.VisitorCount,
+			},
+		}
+	}
+
+	return &report, nil
+}
+
 func (s *service) ReadSiteVisitorReport(ctx context.Context, filters *poeticmetric.SiteReportFilters) (*poeticmetric.SiteVisitorReport, error) {
 	report := poeticmetric.SiteVisitorReport{
 		IntervalSeconds: filters.IntervalSeconds(),
@@ -726,6 +768,9 @@ var siteUTMMediumReportQuery string
 
 //go:embed files/site_utm_source_report.sql
 var siteUTMSourceReportQuery string
+
+//go:embed files/site_utm_term_report.sql
+var siteUTMTermReportQuery string
 
 //go:embed files/site_visitor_report_average_visitor_count.sql
 var siteVisitorReportAverageVisitorCountQuery string

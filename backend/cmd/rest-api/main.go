@@ -249,6 +249,7 @@ func main() {
 	mux.Handle("GET /site-reports/utm-content", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteUTMContentReport))
 	mux.Handle("GET /site-reports/utm-medium", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteUTMMediumReport))
 	mux.Handle("GET /site-reports/utm-source", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteUTMSourceReport))
+	mux.Handle("GET /site-reports/utm-term", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteUTMTermReport))
 	mux.Handle("GET /site-reports/visitor", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteVisitorReport))
 
 	// handlers: tracker

@@ -34,6 +34,7 @@ type SiteService interface {
 	ReadSiteUTMContentReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteUTMContentReportPaginationCursor]) (*SiteUTMContentReport, error)
 	ReadSiteUTMMediumReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteUTMMediumReportPaginationCursor]) (*SiteUTMMediumReport, error)
 	ReadSiteUTMSourceReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteUTMSourceReportPaginationCursor]) (*SiteUTMSourceReport, error)
+	ReadSiteUTMTermReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteUTMTermReportPaginationCursor]) (*SiteUTMTermReport, error)
 	ReadSiteVisitorReport(ctx context.Context, filters *SiteReportFilters) (*SiteVisitorReport, error)
 	UpdateOrganizationSite(ctx context.Context, organizationID uint, siteID uint, params *UpdateOrganizationSiteParams) error
 }
@@ -337,6 +338,22 @@ type SiteUTMSourceReportDatum struct {
 
 type SiteUTMSourceReportPaginationCursor struct {
 	UTMSource    string
+	VisitorCount uint64
+}
+
+type SiteUTMTermReport struct {
+	Data             []SiteUTMTermReportDatum                                       `json:"data"`
+	PaginationCursor *SiteReportPaginationCursor[SiteUTMTermReportPaginationCursor] `json:"paginationCursor" swaggertype:"string"`
+}
+
+type SiteUTMTermReportDatum struct {
+	UTMTerm           string  `json:"utmTerm"`
+	VisitorCount      uint64  `json:"visitorCount"`
+	VisitorPercentage float64 `json:"visitorPercentage"`
+}
+
+type SiteUTMTermReportPaginationCursor struct {
+	UTMTerm      string
 	VisitorCount uint64
 }
 
