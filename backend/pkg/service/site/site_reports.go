@@ -475,6 +475,48 @@ func (s *service) ReadSiteTimeOfWeekTrendsReport(
 	return &report, nil
 }
 
+func (s *service) ReadSiteUTMCampaignReport(
+	ctx context.Context,
+	filters *poeticmetric.SiteReportFilters,
+	paginationCursor *poeticmetric.SiteReportPaginationCursor[poeticmetric.SiteUTMCampaignReportPaginationCursor],
+) (*poeticmetric.SiteUTMCampaignReport, error) {
+	report := poeticmetric.SiteUTMCampaignReport{
+		Data: []poeticmetric.SiteUTMCampaignReportDatum{},
+	}
+
+	queryValues := map[string]any{
+		"limit": poeticmetric.SiteReportPageSize,
+	}
+	for k, v := range filters.Map() {
+		queryValues[k] = v
+	}
+	if paginationCursor != nil {
+		queryValues["paginationUTMCampaign"] = paginationCursor.Data.UTMCampaign
+		queryValues["paginationVisitorCount"] = paginationCursor.Data.VisitorCount
+	} else {
+		queryValues["paginationUTMCampaign"] = nil
+		queryValues["paginationVisitorCount"] = nil
+	}
+
+	err := s.clickHouse.Raw(siteUTMCampaignReportQuery, queryValues).Scan(&report.Data).Error
+	if err != nil {
+		return nil, errors.Wrap(err, 0)
+	}
+
+	if len(report.Data) >= poeticmetric.SiteReportPageSize {
+		datum := report.Data[len(report.Data)-1]
+
+		report.PaginationCursor = &poeticmetric.SiteReportPaginationCursor[poeticmetric.SiteUTMCampaignReportPaginationCursor]{
+			Data: poeticmetric.SiteUTMCampaignReportPaginationCursor{
+				UTMCampaign:  datum.UTMCampaign,
+				VisitorCount: datum.VisitorCount,
+			},
+		}
+	}
+
+	return &report, nil
+}
+
 func (s *service) ReadSiteUTMSourceReport(
 	ctx context.Context,
 	filters *poeticmetric.SiteReportFilters,
@@ -591,6 +633,9 @@ var siteReferrerReportQuery string
 
 //go:embed files/site_time_of_week_trends_report.sql
 var siteTimeOfWeekTrendsReportQuery string
+
+//go:embed files/site_utm_campaign_report.sql
+var siteUTMCampaignReportQuery string
 
 //go:embed files/site_utm_source_report.sql
 var siteUTMSourceReportQuery string

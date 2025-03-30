@@ -30,6 +30,7 @@ type SiteService interface {
 	ReadSiteReferrerHostReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteReferrerHostReportPaginationCursor]) (*SiteReferrerHostReport, error)
 	ReadSiteReferrerReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteReferrerReportPaginationCursor]) (*SiteReferrerReport, error)
 	ReadSiteTimeOfWeekTrendsReport(ctx context.Context, filters *SiteReportFilters) (*SiteTimeOfWeekTrendsReport, error)
+	ReadSiteUTMCampaignReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteUTMCampaignReportPaginationCursor], ) (*SiteUTMCampaignReport, error)
 	ReadSiteUTMSourceReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteUTMSourceReportPaginationCursor]) (*SiteUTMSourceReport, error)
 	ReadSiteVisitorReport(ctx context.Context, filters *SiteReportFilters) (*SiteVisitorReport, error)
 	UpdateOrganizationSite(ctx context.Context, organizationID uint, siteID uint, params *UpdateOrganizationSiteParams) error
@@ -271,6 +272,22 @@ type SiteTimeOfWeekTrendReportDatum struct {
 	HourOfDay      int     `json:"hourOfDay"`
 	ViewCount      uint    `json:"viewCount"`
 	ViewPercentage float64 `json:"viewPercentage"`
+}
+
+type SiteUTMCampaignReportPaginationCursor struct {
+	UTMCampaign  string
+	VisitorCount uint64
+}
+
+type SiteUTMCampaignReport struct {
+	Data             []SiteUTMCampaignReportDatum                                       `json:"data"`
+	PaginationCursor *SiteReportPaginationCursor[SiteUTMCampaignReportPaginationCursor] `json:"paginationCursor" swaggertype:"string"`
+}
+
+type SiteUTMCampaignReportDatum struct {
+	UTMCampaign       string  `json:"utmCampaign"`
+	VisitorCount      uint64  `json:"visitorCount"`
+	VisitorPercentage float64 `json:"visitorPercentage"`
 }
 
 type SiteUTMSourceReportPaginationCursor struct {
