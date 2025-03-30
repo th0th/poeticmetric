@@ -475,6 +475,48 @@ func (s *service) ReadSiteTimeOfWeekTrendsReport(
 	return &report, nil
 }
 
+func (s *service) ReadSiteUTMSourceReport(
+	ctx context.Context,
+	filters *poeticmetric.SiteReportFilters,
+	paginationCursor *poeticmetric.SiteReportPaginationCursor[poeticmetric.SiteUTMSourceReportPaginationCursor],
+) (*poeticmetric.SiteUTMSourceReport, error) {
+	report := poeticmetric.SiteUTMSourceReport{
+		Data: []poeticmetric.SiteUTMSourceReportDatum{},
+	}
+
+	queryValues := map[string]any{
+		"limit": poeticmetric.SiteReportPageSize,
+	}
+	for k, v := range filters.Map() {
+		queryValues[k] = v
+	}
+	if paginationCursor != nil {
+		queryValues["paginationUTMSource"] = paginationCursor.Data.UTMSource
+		queryValues["paginationVisitorCount"] = paginationCursor.Data.VisitorCount
+	} else {
+		queryValues["paginationUTMSource"] = nil
+		queryValues["paginationVisitorCount"] = nil
+	}
+
+	err := s.clickHouse.Raw(siteUTMSourceReportQuery, queryValues).Scan(&report.Data).Error
+	if err != nil {
+		return nil, errors.Wrap(err, 0)
+	}
+
+	if len(report.Data) >= poeticmetric.SiteReportPageSize {
+		datum := report.Data[len(report.Data)-1]
+
+		report.PaginationCursor = &poeticmetric.SiteReportPaginationCursor[poeticmetric.SiteUTMSourceReportPaginationCursor]{
+			Data: poeticmetric.SiteUTMSourceReportPaginationCursor{
+				UTMSource:    datum.UTMSource,
+				VisitorCount: datum.VisitorCount,
+			},
+		}
+	}
+
+	return &report, nil
+}
+
 func (s *service) ReadSiteVisitorReport(ctx context.Context, filters *poeticmetric.SiteReportFilters) (*poeticmetric.SiteVisitorReport, error) {
 	report := poeticmetric.SiteVisitorReport{
 		IntervalSeconds: filters.IntervalSeconds(),
@@ -549,6 +591,9 @@ var siteReferrerReportQuery string
 
 //go:embed files/site_time_of_week_trends_report.sql
 var siteTimeOfWeekTrendsReportQuery string
+
+//go:embed files/site_utm_source_report.sql
+var siteUTMSourceReportQuery string
 
 //go:embed files/site_visitor_report_average_visitor_count.sql
 var siteVisitorReportAverageVisitorCountQuery string

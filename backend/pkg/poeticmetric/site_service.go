@@ -30,6 +30,7 @@ type SiteService interface {
 	ReadSiteReferrerHostReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteReferrerHostReportPaginationCursor]) (*SiteReferrerHostReport, error)
 	ReadSiteReferrerReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteReferrerReportPaginationCursor]) (*SiteReferrerReport, error)
 	ReadSiteTimeOfWeekTrendsReport(ctx context.Context, filters *SiteReportFilters) (*SiteTimeOfWeekTrendsReport, error)
+	ReadSiteUTMSourceReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteUTMSourceReportPaginationCursor]) (*SiteUTMSourceReport, error)
 	ReadSiteVisitorReport(ctx context.Context, filters *SiteReportFilters) (*SiteVisitorReport, error)
 	UpdateOrganizationSite(ctx context.Context, organizationID uint, siteID uint, params *UpdateOrganizationSiteParams) error
 }
@@ -241,7 +242,7 @@ type SiteReportFilters struct {
 	BrowserVersion         *string   `schema:"browserVersion"`
 	CountryISOCode         *string   `schema:"countryISOCode"`
 	DeviceType             *string   `schema:"deviceType"`
-	End                    time.Time `schema:"end"`
+	End                    time.Time `default:"2026-01-01T00:00:00Z" schema:"end"`
 	Language               *string   `schema:"language"`
 	Locale                 *string   `schema:"locale"`
 	OperatingSystemName    *string   `schema:"operatingSystemName"`
@@ -250,8 +251,8 @@ type SiteReportFilters struct {
 	Referrer               *string   `schema:"referrer"`
 	ReferrerHost           *string   `schema:"referrerHost"`
 	SiteID                 uint      `schema:"siteID"`
-	Start                  time.Time `schema:"start"`
-	TimeZone               *string   `schema:"timeZone"`
+	Start                  time.Time `default:"2025-01-01T00:00:00Z" schema:"start"`
+	TimeZone               *string   `default:"UTC" schema:"timeZone"`
 	UtmCampaign            *string   `schema:"utmCampaign"`
 	UtmContent             *string   `schema:"utmContent"`
 	UtmMedium              *string   `schema:"utmMedium"`
@@ -270,6 +271,22 @@ type SiteTimeOfWeekTrendReportDatum struct {
 	HourOfDay      int     `json:"hourOfDay"`
 	ViewCount      uint    `json:"viewCount"`
 	ViewPercentage float64 `json:"viewPercentage"`
+}
+
+type SiteUTMSourceReportPaginationCursor struct {
+	UTMSource    string
+	VisitorCount uint64
+}
+
+type SiteUTMSourceReport struct {
+	Data             []SiteUTMSourceReportDatum                                       `json:"data"`
+	PaginationCursor *SiteReportPaginationCursor[SiteUTMSourceReportPaginationCursor] `json:"paginationCursor" swaggertype:"string"`
+}
+
+type SiteUTMSourceReportDatum struct {
+	UTMSource         string  `json:"utmSource"`
+	VisitorCount      uint64  `json:"visitorCount"`
+	VisitorPercentage float64 `json:"visitorPercentage"`
 }
 
 type SiteVisitorReport struct {

@@ -349,7 +349,32 @@ func (h *Handler) ReadSiteTimeOfWeekTrendsReport(w http.ResponseWriter, r *http.
 	h.responder.JSON(w, http.StatusOK, report)
 }
 
+// ReadSiteUTMSourceReport godoc
+// @Description Read UTM source report for a site.
+// @Param filters query poeticmetric.SiteReportFilters true "Filters"
+// @Param cursor query string false "Pagination cursor"
+// @Router /site-reports/utm-source [get]
+// @Security UserAccessTokenAuthentication
+// @Success 200 {array} poeticmetric.SiteUTMSourceReport
+// @Summary Read UTM source report
+// @Tags site-reports
+func (h *Handler) ReadSiteUTMSourceReport(w http.ResponseWriter, r *http.Request) {
+	filters := middleware.GetSiteReportFilters(r)
 
+	paginationCursor, err := getPaginationCursor[poeticmetric.SiteUTMSourceReportPaginationCursor](r)
+	if err != nil {
+		h.responder.Error(w, errors.Wrap(err, 0))
+		return
+	}
+
+	report, err := h.siteService.ReadSiteUTMSourceReport(r.Context(), filters, paginationCursor)
+	if err != nil {
+		h.responder.Error(w, errors.Wrap(err, 0))
+		return
+	}
+
+	h.responder.JSON(w, http.StatusOK, report)
+}
 
 // ReadSiteVisitorReport godoc
 // @Description Read visitor report for a site.

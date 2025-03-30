@@ -22,6 +22,11 @@ WITH
       AND protocol(referrer) IN ('http', 'https')
       AND if(isNull(@referrer), TRUE, referrer = @referrer)
       AND if(isNull(@referrerHost), TRUE, domain(referrer) = @referrerHost)
+      AND if(isNull(@utmCampaign), TRUE, domain(utm_campaign) = @utmCampaign)
+      AND if(isNull(@utmContent), TRUE, domain(utm_content) = @utmContent)
+      AND if(isNull(@utmMedium), TRUE, domain(utm_medium) = @utmMedium)
+      AND if(isNull(@utmSource), TRUE, domain(utm_source) = @utmSource)
+      AND if(isNull(@utmTerm), TRUE, domain(utm_term) = @utmTerm)
   ) AS total_visitor_count
 SELECT
   *
@@ -50,6 +55,11 @@ FROM (
     AND protocol(referrer) IN ('http', 'https')
     AND if(isNull(@referrer), TRUE, referrer = @referrer)
     AND if(isNull(@referrerHost), TRUE, domain(referrer) = @referrerHost)
+    AND if(isNull(@utmCampaign), TRUE, domain(utm_campaign) = @utmCampaign)
+    AND if(isNull(@utmContent), TRUE, domain(utm_content) = @utmContent)
+    AND if(isNull(@utmMedium), TRUE, domain(utm_medium) = @utmMedium)
+    AND if(isNull(@utmSource), TRUE, domain(utm_source) = @utmSource)
+    AND if(isNull(@utmTerm), TRUE, domain(utm_term) = @utmTerm)
   GROUP BY referrer
   )
 WHERE

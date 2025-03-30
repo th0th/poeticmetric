@@ -9,7 +9,7 @@ WITH
       date_time < end
       AND date_time >= start
       AND site_id = @siteID
-      AND operating_system_version IS NOT NULL
+      AND utm_source IS NOT NULL
       AND if(isNull(@browserName), TRUE, browser_name = @browserName)
       AND if(isNull(@browserVersion), TRUE, browser_version = @browserVersion)
       AND if(isNull(@countryISOCode), TRUE, country_iso_code = @countryISOCode)
@@ -31,7 +31,7 @@ SELECT
   *
 FROM (
   SELECT
-    operating_system_version,
+    utm_source,
     count(DISTINCT visitor_id) AS visitor_count,
     round(100 * visitor_count / total_visitor_count, 2) AS visitor_percentage
   FROM events_buffer
@@ -39,7 +39,7 @@ FROM (
     date_time < end
     AND date_time >= start
     AND site_id = @siteID
-    AND operating_system_version IS NOT NULL
+    AND utm_source IS NOT NULL
     AND if(isNull(@browserName), TRUE, browser_name = @browserName)
     AND if(isNull(@browserVersion), TRUE, browser_version = @browserVersion)
     AND if(isNull(@countryISOCode), TRUE, country_iso_code = @countryISOCode)
@@ -56,14 +56,13 @@ FROM (
     AND if(isNull(@utmMedium), TRUE, domain(utm_medium) = @utmMedium)
     AND if(isNull(@utmSource), TRUE, domain(utm_source) = @utmSource)
     AND if(isNull(@utmTerm), TRUE, domain(utm_term) = @utmTerm)
-  GROUP BY operating_system_version
+  GROUP BY utm_source
   )
 WHERE
   if(
-    isNull(@paginationVisitorCount) AND isNull(@paginationOperatingSystemVersion),
+    isNull(@paginationVisitorCount) AND isNull(@paginationUTMSource),
     TRUE,
-    visitor_count < @paginationVisitorCount OR
-    (visitor_count = @paginationVisitorCount AND operating_system_version < @paginationOperatingSystemVersion)
+    visitor_count < @paginationVisitorCount OR (visitor_count = @paginationVisitorCount AND utm_source < @paginationUTMSource)
   )
 ORDER BY visitor_count DESC
 LIMIT @limit;

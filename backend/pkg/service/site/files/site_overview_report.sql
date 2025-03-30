@@ -1,9 +1,6 @@
 WITH
   toDateTime(@start) AS start,
   toDateTime(@end) AS end,
-  timeDiff(start, end) AS diff_seconds,
-  start - INTERVAL diff_seconds SECOND AS start2,
-  end - INTERVAL diff_seconds SECOND AS end2,
   (
     SELECT
       round(
@@ -32,6 +29,11 @@ WITH
       AND if(isNull(@path), TRUE, pathFull(url) = @path)
       AND if(isNull(@referrer), TRUE, referrer = @referrer)
       AND if(isNull(@referrerHost), TRUE, domain(referrer) = @referrerHost)
+      AND if(isNull(@utmCampaign), TRUE, domain(utm_campaign) = @utmCampaign)
+      AND if(isNull(@utmContent), TRUE, domain(utm_content) = @utmContent)
+      AND if(isNull(@utmMedium), TRUE, domain(utm_medium) = @utmMedium)
+      AND if(isNull(@utmSource), TRUE, domain(utm_source) = @utmSource)
+      AND if(isNull(@utmTerm), TRUE, domain(utm_term) = @utmTerm)
   ) AS previous
 SELECT
   toUInt64(
@@ -101,4 +103,9 @@ WHERE
   AND if(isNull(@operatingSystemVersion), TRUE, operating_system_version = @operatingSystemVersion)
   AND if(isNull(@path), TRUE, pathFull(url) = @path)
   AND if(isNull(@referrer), TRUE, referrer = @referrer)
-  AND if(isNull(@referrerHost), TRUE, domain(referrer) = @referrerHost);
+  AND if(isNull(@referrerHost), TRUE, domain(referrer) = @referrerHost)
+  AND if(isNull(@utmCampaign), TRUE, domain(utm_campaign) = @utmCampaign)
+  AND if(isNull(@utmContent), TRUE, domain(utm_content) = @utmContent)
+  AND if(isNull(@utmMedium), TRUE, domain(utm_medium) = @utmMedium)
+  AND if(isNull(@utmSource), TRUE, domain(utm_source) = @utmSource)
+  AND if(isNull(@utmTerm), TRUE, domain(utm_term) = @utmTerm);

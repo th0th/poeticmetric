@@ -396,6 +396,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
                         "name": "end",
                         "in": "query"
                     },
@@ -441,11 +442,13 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
                         "name": "start",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "default": "UTC",
                         "name": "timeZone",
                         "in": "query"
                     },
@@ -529,6 +532,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
                         "name": "end",
                         "in": "query"
                     },
@@ -574,11 +578,13 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
                         "name": "start",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "default": "UTC",
                         "name": "timeZone",
                         "in": "query"
                     },
@@ -662,6 +668,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
                         "name": "end",
                         "in": "query"
                     },
@@ -707,11 +714,13 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
                         "name": "start",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "default": "UTC",
                         "name": "timeZone",
                         "in": "query"
                     },
@@ -795,6 +804,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
                         "name": "end",
                         "in": "query"
                     },
@@ -840,11 +850,13 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
                         "name": "start",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "default": "UTC",
                         "name": "timeZone",
                         "in": "query"
                     },
@@ -925,6 +937,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
                         "name": "end",
                         "in": "query"
                     },
@@ -970,11 +983,13 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
                         "name": "start",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "default": "UTC",
                         "name": "timeZone",
                         "in": "query"
                     },
@@ -1058,6 +1073,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
                         "name": "end",
                         "in": "query"
                     },
@@ -1103,11 +1119,13 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
                         "name": "start",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "default": "UTC",
                         "name": "timeZone",
                         "in": "query"
                     },
@@ -1191,6 +1209,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
                         "name": "end",
                         "in": "query"
                     },
@@ -1236,11 +1255,13 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
                         "name": "start",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "default": "UTC",
                         "name": "timeZone",
                         "in": "query"
                     },
@@ -1324,6 +1345,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
                         "name": "end",
                         "in": "query"
                     },
@@ -1369,11 +1391,13 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
                         "name": "start",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "default": "UTC",
                         "name": "timeZone",
                         "in": "query"
                     },
@@ -1451,6 +1475,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
                         "name": "end",
                         "in": "query"
                     },
@@ -1496,11 +1521,13 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
                         "name": "start",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "default": "UTC",
                         "name": "timeZone",
                         "in": "query"
                     },
@@ -1578,6 +1605,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
                         "name": "end",
                         "in": "query"
                     },
@@ -1623,11 +1651,13 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
                         "name": "start",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "default": "UTC",
                         "name": "timeZone",
                         "in": "query"
                     },
@@ -1711,6 +1741,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
                         "name": "end",
                         "in": "query"
                     },
@@ -1756,11 +1787,13 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
                         "name": "start",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "default": "UTC",
                         "name": "timeZone",
                         "in": "query"
                     },
@@ -1844,6 +1877,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
                         "name": "end",
                         "in": "query"
                     },
@@ -1889,11 +1923,13 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
                         "name": "start",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "default": "UTC",
                         "name": "timeZone",
                         "in": "query"
                     },
@@ -1977,6 +2013,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
                         "name": "end",
                         "in": "query"
                     },
@@ -2022,11 +2059,13 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
                         "name": "start",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "default": "UTC",
                         "name": "timeZone",
                         "in": "query"
                     },
@@ -2072,18 +2111,18 @@ const docTemplate = `{
                 }
             }
         },
-        "/site-reports/visitor": {
+        "/site-reports/utm-source": {
             "get": {
                 "security": [
                     {
                         "UserAccessTokenAuthentication": []
                     }
                 ],
-                "description": "Read visitor report for a site.",
+                "description": "Read UTM source report for a site.",
                 "tags": [
                     "site-reports"
                 ],
-                "summary": "Read visitor report",
+                "summary": "Read UTM source report",
                 "parameters": [
                     {
                         "type": "string",
@@ -2107,6 +2146,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
                         "name": "end",
                         "in": "query"
                     },
@@ -2152,11 +2192,149 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
                         "name": "start",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "default": "UTC",
+                        "name": "timeZone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmCampaign",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmContent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmMedium",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmSource",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmTerm",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pagination cursor",
+                        "name": "cursor",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/poeticmetric.SiteUTMSourceReport"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/site-reports/visitor": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read visitor report for a site.",
+                "tags": [
+                    "site-reports"
+                ],
+                "summary": "Read visitor report",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "browserName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "browserVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "countryISOCode",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "deviceType",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
+                        "name": "end",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "language",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "locale",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "path",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrerHost",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "siteID",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
+                        "name": "start",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "UTC",
                         "name": "timeZone",
                         "in": "query"
                     },
@@ -3091,6 +3269,34 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "viewPercentage": {
+                    "type": "number"
+                }
+            }
+        },
+        "poeticmetric.SiteUTMSourceReport": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/poeticmetric.SiteUTMSourceReportDatum"
+                    }
+                },
+                "paginationCursor": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.SiteUTMSourceReportDatum": {
+            "type": "object",
+            "properties": {
+                "utmSource": {
+                    "type": "string"
+                },
+                "visitorCount": {
+                    "type": "integer"
+                },
+                "visitorPercentage": {
                     "type": "number"
                 }
             }
