@@ -232,7 +232,7 @@ func (s *service) ReadSiteOperatingSystemNameReport(
 		report.PaginationCursor = &poeticmetric.SiteReportPaginationCursor[poeticmetric.SiteOperatingSystemNameReportPaginationCursor]{
 			Data: poeticmetric.SiteOperatingSystemNameReportPaginationCursor{
 				OperatingSystemName: datum.OperatingSystemName,
-				VisitorCount: datum.VisitorCount,
+				VisitorCount:        datum.VisitorCount,
 			},
 		}
 	}
@@ -274,7 +274,7 @@ func (s *service) ReadSiteOperatingSystemVersionReport(
 		report.PaginationCursor = &poeticmetric.SiteReportPaginationCursor[poeticmetric.SiteOperatingSystemVersionReportPaginationCursor]{
 			Data: poeticmetric.SiteOperatingSystemVersionReportPaginationCursor{
 				OperatingSystemVersion: datum.OperatingSystemVersion,
-				VisitorCount: datum.VisitorCount,
+				VisitorCount:           datum.VisitorCount,
 			},
 		}
 	}
@@ -509,6 +509,48 @@ func (s *service) ReadSiteUTMCampaignReport(
 		report.PaginationCursor = &poeticmetric.SiteReportPaginationCursor[poeticmetric.SiteUTMCampaignReportPaginationCursor]{
 			Data: poeticmetric.SiteUTMCampaignReportPaginationCursor{
 				UTMCampaign:  datum.UTMCampaign,
+				VisitorCount: datum.VisitorCount,
+			},
+		}
+	}
+
+	return &report, nil
+}
+
+func (s *service) ReadSiteUTMContentReport(
+	ctx context.Context,
+	filters *poeticmetric.SiteReportFilters,
+	paginationCursor *poeticmetric.SiteReportPaginationCursor[poeticmetric.SiteUTMContentReportPaginationCursor],
+) (*poeticmetric.SiteUTMContentReport, error) {
+	report := poeticmetric.SiteUTMContentReport{
+		Data: []poeticmetric.SiteUTMContentReportDatum{},
+	}
+
+	queryValues := map[string]any{
+		"limit": poeticmetric.SiteReportPageSize,
+	}
+	for k, v := range filters.Map() {
+		queryValues[k] = v
+	}
+	if paginationCursor != nil {
+		queryValues["paginationUTMContent"] = paginationCursor.Data.UTMContent
+		queryValues["paginationVisitorCount"] = paginationCursor.Data.VisitorCount
+	} else {
+		queryValues["paginationUTMContent"] = nil
+		queryValues["paginationVisitorCount"] = nil
+	}
+
+	err := s.clickHouse.Raw(siteUTMCampaignReportQuery, queryValues).Scan(&report.Data).Error
+	if err != nil {
+		return nil, errors.Wrap(err, 0)
+	}
+
+	if len(report.Data) >= poeticmetric.SiteReportPageSize {
+		datum := report.Data[len(report.Data)-1]
+
+		report.PaginationCursor = &poeticmetric.SiteReportPaginationCursor[poeticmetric.SiteUTMContentReportPaginationCursor]{
+			Data: poeticmetric.SiteUTMContentReportPaginationCursor{
+				UTMContent:   datum.UTMContent,
 				VisitorCount: datum.VisitorCount,
 			},
 		}
