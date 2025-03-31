@@ -5,10 +5,15 @@ import { MouseEvent, MouseEventHandler, TouchEvent, useMemo } from "react";
 import { Link, useLocation, useSearchParams } from "wouter";
 import ActivityIndicator from "~/components/ActivityIndicator";
 import ChartTooltip from "~/components/ChartTooltip";
+import NoData from "~/components/NoData";
 import useSiteCountryReport from "~/hooks/api/useSiteCountryReport";
 import { getUpdatedSearch } from "~/lib/router";
 import Modal from "./Modal";
 import { map } from "./map";
+
+type InnerCountryProps = {
+  report: Array<HydratedSiteCountryReport>;
+};
 
 type MapDatum = {
   className?: string;
@@ -24,9 +29,26 @@ type Tooltip = {
 };
 
 export default function Country() {
+  const { data: report } = useSiteCountryReport();
+
+  return report === undefined ? (
+    <div className="align-items-center d-flex flex-fill justify-content-center p-4">
+      <ActivityIndicator />
+    </div>
+  ) : (
+    <>
+      {report[0].data.length === 0 ? (
+        <NoData />
+      ) : (
+        <InnerCountry report={report} />
+      )}
+    </>
+  );
+}
+
+function InnerCountry({ report }: InnerCountryProps) {
   const [location] = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { data: report } = useSiteCountryReport();
   const { hideTooltip, showTooltip, tooltipData, tooltipLeft, tooltipOpen, tooltipTop } = useTooltip<Tooltip>();
 
   const data = useMemo<Array<HydratedSiteCountryReportDatum>>(() => {
@@ -119,7 +141,7 @@ export default function Country() {
                 </thead>
 
                 <tbody>
-                  {data.slice(0,5).map((d) => (
+                  {data.slice(0, 5).map((d) => (
                     <tr className="parent" key={d.countryISOCode}>
                       <td>
                         <Link

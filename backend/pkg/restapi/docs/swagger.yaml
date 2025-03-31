@@ -278,7 +278,7 @@ definitions:
   poeticmetric.SitePageViewReport:
     properties:
       averagePageViewCount:
-        type: integer
+        type: number
       data:
         items:
           $ref: '#/definitions/poeticmetric.SitePageViewReportDatum'
@@ -465,7 +465,7 @@ definitions:
   poeticmetric.SiteVisitorReport:
     properties:
       averageVisitorCount:
-        type: integer
+        type: number
       data:
         items:
           $ref: '#/definitions/poeticmetric.SiteVisitorReportDatum'

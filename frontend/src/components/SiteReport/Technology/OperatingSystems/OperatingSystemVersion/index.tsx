@@ -1,16 +1,20 @@
 import { useMemo } from "react";
 import { Link, useLocation, useSearchParams } from "wouter";
 import ActivityIndicator from "~/components/ActivityIndicator";
+import NoData from "~/components/NoData";
 import useSiteOperatingSystemVersionReport from "~/hooks/api/useSiteOperatingSystemVersionReport";
 import useSiteReportData from "~/hooks/useSiteReportData";
 import { getUpdatedSearch } from "~/lib/router";
 import Modal from "./Modal";
 
-export default function OperatingSystemVersion() {
+type InnerOperatingSystemVersionProps = {
+  report: Array<HydratedSiteOperatingSystemVersionReport>;
+};
+
+function InnerOperatingSystemVersion({ report }: InnerOperatingSystemVersionProps) {
   const [location] = useLocation();
   const [searchParams] = useSearchParams();
   const { filters } = useSiteReportData();
-  const { data: report } = useSiteOperatingSystemVersionReport();
 
   const data = useMemo(() => {
     if (report === undefined) {
@@ -66,6 +70,24 @@ export default function OperatingSystemVersion() {
       )}
 
       <Modal />
+    </>
+  );
+}
+
+export default function OperatingSystemVersion() {
+  const { data: report } = useSiteOperatingSystemVersionReport();
+
+  return report === undefined ? (
+    <div className="align-items-center d-flex flex-fill justify-content-center p-4">
+      <ActivityIndicator />
+    </div>
+  ) : (
+    <>
+      {report[0].data.length === 0 ? (
+        <NoData />
+      ) : (
+        <InnerOperatingSystemVersion report={report} />
+      )}
     </>
   );
 }

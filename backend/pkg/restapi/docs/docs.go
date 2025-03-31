@@ -3671,7 +3671,7 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "averagePageViewCount": {
-                    "type": "integer"
+                    "type": "number"
                 },
                 "data": {
                     "type": "array",
@@ -3961,7 +3961,7 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "averageVisitorCount": {
-                    "type": "integer"
+                    "type": "number"
                 },
                 "data": {
                     "type": "array",

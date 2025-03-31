@@ -1,16 +1,39 @@
 import { useMemo } from "react";
 import { Link, useLocation, useSearchParams } from "wouter";
 import ActivityIndicator from "~/components/ActivityIndicator";
+import NoData from "~/components/NoData";
 import useSiteBrowserVersionReport from "~/hooks/api/useSiteBrowserVersionReport";
 import useSiteReportData from "~/hooks/useSiteReportData";
 import { getUpdatedSearch } from "~/lib/router";
 import Modal from "./Modal";
 
+type InnerBrowserVersionProps = {
+  report: Array<HydratedSiteBrowserVersionReport>;
+};
+
 export default function BrowserVersion() {
+  const { data: report } = useSiteBrowserVersionReport();
+
+  return report === undefined ? (
+    <div className="align-items-center d-flex flex-fill justify-content-center p-4">
+      <ActivityIndicator />
+    </div>
+  ) : (
+    <>
+      {report[0].data.length === 0 ? (
+        <NoData />
+      ) : (
+        <InnerBrowserVersion report={report} />
+      )}
+    </>
+  );
+}
+
+function InnerBrowserVersion({ report }: InnerBrowserVersionProps) {
   const [location] = useLocation();
   const [searchParams] = useSearchParams();
   const { filters } = useSiteReportData();
-  const { data: report } = useSiteBrowserVersionReport();
+
 
   const data = useMemo(() => {
     if (report === undefined) {

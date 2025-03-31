@@ -1,14 +1,18 @@
 import { useMemo } from "react";
 import { Link, useLocation, useSearchParams } from "wouter";
 import ActivityIndicator from "~/components/ActivityIndicator";
+import NoData from "~/components/NoData";
 import useSiteLanguageReport from "~/hooks/api/useSiteLanguageReport";
 import { getUpdatedSearch } from "~/lib/router";
 import Chart from "./Chart";
 
-export default function Language() {
+type InnerLanguageProps = {
+  report: Array<HydratedSiteLanguageReport>;
+};
+
+function InnerLanguage({ report }: InnerLanguageProps) {
   const [location] = useLocation();
   const [searchParams] = useSearchParams();
-  const { data: report } = useSiteLanguageReport();
 
   const data = useMemo(() => {
     if (report === undefined) {
@@ -71,5 +75,19 @@ export default function Language() {
         </div>
       </div>
     </>
+  );
+}
+
+export default function Language() {
+  const { data: report } = useSiteLanguageReport();
+
+  return report === undefined ? (
+    <div className="align-items-center d-flex flex-fill justify-content-center p-4">
+      <ActivityIndicator />
+    </div>
+  ) : report[0].data.length === 0 ? (
+    <NoData />
+  ) : (
+    <InnerLanguage report={report} />
   );
 }

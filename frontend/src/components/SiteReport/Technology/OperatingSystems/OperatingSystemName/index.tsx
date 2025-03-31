@@ -1,15 +1,19 @@
 import { createElement, useMemo } from "react";
 import { Link, useLocation, useSearchParams } from "wouter";
 import ActivityIndicator from "~/components/ActivityIndicator";
+import NoData from "~/components/NoData";
 import useSiteOperatingSystemNameReport from "~/hooks/api/useSiteOperatingSystemNameReport";
 import { getOperatingSystemIcon } from "~/lib/icons";
 import { getUpdatedSearch } from "~/lib/router";
 import Modal from "./Modal";
 
-export default function OperatingSystemName() {
+type InnerOperatingSystemNameProps = {
+  report: Array<HydratedSiteOperatingSystemNameReport>;
+};
+
+function InnerOperatingSystemName({ report }: InnerOperatingSystemNameProps) {
   const [location] = useLocation();
   const [searchParams] = useSearchParams();
-  const { data: report } = useSiteOperatingSystemNameReport();
 
   const data = useMemo(() => {
     if (report === undefined) {
@@ -44,7 +48,10 @@ export default function OperatingSystemName() {
                       title={d.operatingSystemName}
                       to={`${location}${getUpdatedSearch(searchParams, { operatingSystemName: d.operatingSystemName })}`}
                     >
-                      {createElement(getOperatingSystemIcon(d.operatingSystemName), { className: "flex-grow-0 flex-shrink-0", size: "1.2em" })}
+                      {createElement(getOperatingSystemIcon(d.operatingSystemName), {
+                        className: "flex-grow-0 flex-shrink-0",
+                        size: "1.2em",
+                      })}
 
                       <span className="text-truncate">{d.operatingSystemName}</span>
                     </Link>
@@ -66,6 +73,24 @@ export default function OperatingSystemName() {
       )}
 
       <Modal />
+    </>
+  );
+}
+
+export default function OperatingSystemName() {
+  const { data: report } = useSiteOperatingSystemNameReport();
+
+  return report === undefined ? (
+    <div className="align-items-center d-flex flex-fill justify-content-center p-4">
+      <ActivityIndicator />
+    </div>
+  ) : (
+    <>
+      {report[0].data.length === 0 ? (
+        <NoData />
+      ) : (
+        <InnerOperatingSystemName report={report} />
+      )}
     </>
   );
 }

@@ -2,6 +2,7 @@ import { IconExternalLink } from "@tabler/icons-react";
 import { useMemo } from "react";
 import { Link, useLocation, useSearchParams } from "wouter";
 import ActivityIndicator from "~/components/ActivityIndicator";
+import NoData from "~/components/NoData";
 import useSitePathReport from "~/hooks/api/useSitePathReport";
 import { getUpdatedSearch } from "~/lib/router";
 import Modal from "./Modal";
@@ -33,52 +34,58 @@ export default function Path() {
             </div>
           ) : (
             <>
-              <table className="fs-7 mb-0 table table-borderless table-layout-fixed table-sm w-100">
-                <thead>
-                  <tr>
-                    <th>Page</th>
+              {data.length === 0 ? (
+                <NoData />
+              ) : (
+                <>
+                  <table className="fs-7 mb-0 table table-borderless table-layout-fixed table-sm w-100">
+                    <thead>
+                      <tr>
+                        <th>Page</th>
 
-                    <th className="text-end w-5rem">Visitors</th>
-                  </tr>
-                </thead>
+                        <th className="text-end w-5rem">Visitors</th>
+                      </tr>
+                    </thead>
 
-                <tbody>
-                  {data.map((d) => (
-                    <tr className="parent" key={d.path}>
-                      <td>
-                        <div className="align-items-center d-flex gap-2">
-                          <Link
-                            className="text-body text-decoration-none text-decoration-underline-focus-visible text-decoration-underline-hover text-truncate"
-                            title={d.path}
-                            to={`${location}${getUpdatedSearch(searchParams, { path: d.path })}`}
-                          >
-                            {d.path}
-                          </Link>
+                    <tbody>
+                      {data.map((d) => (
+                        <tr className="parent" key={d.path}>
+                          <td>
+                            <div className="align-items-center d-flex gap-2">
+                              <Link
+                                className="text-body text-decoration-none text-decoration-underline-focus-visible text-decoration-underline-hover text-truncate"
+                                title={d.path}
+                                to={`${location}${getUpdatedSearch(searchParams, { path: d.path })}`}
+                              >
+                                {d.path}
+                              </Link>
 
-                          <a className="child-d-block" href={d.url} target="_blank" title={d.url}>
-                            <IconExternalLink className="d-block" size="1em" />
-                          </a>
-                        </div>
-                      </td>
+                              <a className="child-d-block" href={d.url} target="_blank" title={d.url}>
+                                <IconExternalLink className="d-block" size="1em" />
+                              </a>
+                            </div>
+                          </td>
 
-                      <td className="text-end w-5rem">{d.visitorCountDisplay}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                          <td className="text-end w-5rem">{d.visitorCountDisplay}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
 
-              <Link
-                className="bg-opacity-0 bg-opacity-10-focus-visible bg-opacity-10-hover bg-primary border-1 border-top d-block fw-medium mb-n8 mt-auto mx-n8 p-3 text-center text-decoration-none"
-                to={`${location}${getUpdatedSearch(searchParams, { detail: "path" })}`}
-              >
-                See more
-              </Link>
+                  <Link
+                    className="bg-opacity-0 bg-opacity-10-focus-visible bg-opacity-10-hover bg-primary border-1 border-top d-block fw-medium mb-n8 mt-auto mx-n8 p-3 text-center text-decoration-none"
+                    to={`${location}${getUpdatedSearch(searchParams, { detail: "path" })}`}
+                  >
+                    See more
+                  </Link>
+
+                  <Modal />
+                </>
+              )}
             </>
           )}
         </div>
       </div>
-
-      <Modal />
     </>
   );
 }

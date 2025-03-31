@@ -9,7 +9,7 @@ import (
 	"github.com/go-errors/errors"
 )
 
-const SiteReportPageSize = 4
+const SiteReportPageSize = 100
 
 type SiteService interface {
 	ServiceWithPostgres
@@ -197,7 +197,7 @@ type SitePathReportPaginationCursor struct {
 }
 
 type SitePageViewReport struct {
-	AveragePageViewCount *uint64                   `json:"averagePageViewCount"`
+	AveragePageViewCount *float64                  `json:"averagePageViewCount"`
 	Data                 []SitePageViewReportDatum `json:"data"`
 	IntervalSeconds      uint64                    `json:"intervalSeconds"`
 }
@@ -358,7 +358,7 @@ type SiteUTMTermReportPaginationCursor struct {
 }
 
 type SiteVisitorReport struct {
-	AverageVisitorCount *uint64                  `json:"averageVisitorCount"`
+	AverageVisitorCount *float64                 `json:"averageVisitorCount"`
 	Data                []SiteVisitorReportDatum `json:"data"`
 	IntervalSeconds     uint64                   `json:"intervalSeconds"`
 }

@@ -1,28 +1,40 @@
 import { useMemo } from "react";
 import { Link, useLocation, useSearchParams } from "wouter";
 import ActivityIndicator from "~/components/ActivityIndicator";
+import NoData from "~/components/NoData";
 import useSiteUTMCampaignReport from "~/hooks/api/useSiteUTMCampaignReport";
 import { getUpdatedSearch } from "~/lib/router";
 import Modal from "./Modal";
 
+type InnerCampaignProps = {
+  report: Array<HydratedSiteUTMCampaignReport>;
+};
+
 export default function Campaign() {
-  const [location] = useLocation();
-  const [searchParams] = useSearchParams();
   const { data: report } = useSiteUTMCampaignReport();
-
-  const data = useMemo<Array<HydratedSiteUTMCampaignReportDatum>>(() => {
-    if (report === undefined) {
-      return [];
-    }
-
-    return report[0].data.slice(0, 5);
-  }, [report]);
 
   return report === undefined ? (
     <div className="align-items-center d-flex flex-fill justify-content-center p-4">
       <ActivityIndicator />
     </div>
   ) : (
+    <>
+      {report[0].data.length === 0 ? (
+        <NoData />
+      ) : (
+        <InnerCampaign report={report} />
+      )}
+    </>
+  );
+}
+
+function InnerCampaign({ report }: InnerCampaignProps) {
+  const [location] = useLocation();
+  const [searchParams] = useSearchParams();
+
+  const data = useMemo(() => report[0].data.slice(0, 5), [report]);
+
+  return (
     <>
       <table className="fs-7 mb-0 table table-borderless table-layout-fixed table-sm w-100">
         <thead>

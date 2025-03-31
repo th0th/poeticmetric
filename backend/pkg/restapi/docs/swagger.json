@@ -3663,7 +3663,7 @@
             "type": "object",
             "properties": {
                 "averagePageViewCount": {
-                    "type": "integer"
+                    "type": "number"
                 },
                 "data": {
                     "type": "array",
@@ -3953,7 +3953,7 @@
             "type": "object",
             "properties": {
                 "averageVisitorCount": {
-                    "type": "integer"
+                    "type": "number"
                 },
                 "data": {
                     "type": "array",

@@ -11,6 +11,7 @@ import { useCallback, useMemo } from "react";
 import { useSearchParams } from "wouter";
 import ActivityIndicator from "~/components/ActivityIndicator";
 import ChartTooltip from "~/components/ChartTooltip";
+import NoData from "~/components/NoData";
 import { axisLeftTickFormat } from "~/components/SiteReport/Geography/Language/Chart";
 import useSiteDeviceTypeReport from "~/hooks/api/useSiteDeviceTypeReport";
 
@@ -32,7 +33,13 @@ export default function Devices() {
       <ActivityIndicator />
     </div>
   ) : (
-    <InnerDevices report={report} />
+    <>
+      {report.length === 0 ? (
+        <NoData />
+      ) : (
+        <InnerDevices report={report} />
+      )}
+    </>
   );
 }
 
