@@ -237,6 +237,21 @@ export function hydrateSiteTimeOfWeekTrendsReportDatum(d: SiteTimeOfWeekTrendsRe
   };
 }
 
+export function hydrateSiteUTMSourceReport(d: SiteUTMSourceReport): HydratedSiteUTMSourceReport {
+  return {
+    ...d,
+    data: d.data.map(hydrateSiteUTMSourceReportDatum),
+  };
+}
+
+export function hydrateSiteUTMSourceReportDatum(d: SiteUTMSourceReportDatum): HydratedSiteUTMSourceReportDatum {
+  return {
+    ...d,
+    visitorCountDisplay: millify(d.visitorCount),
+    visitorPercentageDisplay: `${d.visitorPercentage}%`,
+  };
+}
+
 export function hydrateSiteVisitorReport(d: SiteVisitorReport): HydratedSiteVisitorReport {
   return {
     ...d,

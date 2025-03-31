@@ -127,6 +127,15 @@ type HydratedSiteTimeOfWeekTrendsReportDatum = Overwrite<SiteTimeOfWeekTrendsRep
   viewPercentageDisplay: string;
 }>;
 
+type HydratedSiteUTMSourceReport = Overwrite<SiteUTMSourceReport, {
+  data: Array<HydratedSiteUTMSourceReportDatum>;
+}>;
+
+type HydratedSiteUTMSourceReportDatum = Overwrite<SiteUTMSourceReportDatum, {
+  visitorCountDisplay: string;
+  visitorPercentageDisplay: string;
+}>;
+
 type HydratedSiteVisitorReport = Overwrite<SiteVisitorReport, {
   averageVisitorCountDisplay: string;
   data: Array<HydratedSiteVisitorReportDatum>;
@@ -293,6 +302,17 @@ type SiteTimeOfWeekTrendsReportDatum = {
   hourOfDay: number;
   viewCount: number;
   viewPercentage: number;
+};
+
+type SiteUTMSourceReport = {
+  data: Array<SiteUTMSourceReportDatum>;
+  paginationCursor: string | null;
+};
+
+type SiteUTMSourceReportDatum = {
+  utmSource: string;
+  visitorCount: number;
+  visitorPercentage: number;
 };
 
 type SiteVisitorReport = {
