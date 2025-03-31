@@ -1,5 +1,5 @@
 SELECT
-  round(avg(page_view_count)) AS average_page_view_count
+  if(isNaN(avg(page_view_count)), NULL, round(avg(page_view_count))) AS average_page_view_count
 FROM (
   WITH
     toDateTime(@start) AS start,

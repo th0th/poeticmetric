@@ -1,5 +1,5 @@
 SELECT
-  round(avg(visitor_count)) AS average_visitor_count
+  if(isNaN(avg(visitor_count)), NULL, round(avg(visitor_count))) AS average_visitor_count
 FROM (
   WITH
     toDateTime(@start) AS start,
