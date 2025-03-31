@@ -540,7 +540,7 @@ func (s *service) ReadSiteUTMContentReport(
 		queryValues["paginationVisitorCount"] = nil
 	}
 
-	err := s.clickHouse.Raw(siteUTMCampaignReportQuery, queryValues).Scan(&report.Data).Error
+	err := s.clickHouse.Raw(siteUTMContentReportQuery, queryValues).Scan(&report.Data).Error
 	if err != nil {
 		return nil, errors.Wrap(err, 0)
 	}
@@ -762,6 +762,9 @@ var siteTimeOfWeekTrendsReportQuery string
 
 //go:embed files/site_utm_campaign_report.sql
 var siteUTMCampaignReportQuery string
+
+//go:embed files/site_utm_content_report.sql
+var siteUTMContentReportQuery string
 
 //go:embed files/site_utm_medium_report.sql
 var siteUTMMediumReportQuery string

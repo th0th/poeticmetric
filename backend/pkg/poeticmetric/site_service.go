@@ -9,7 +9,7 @@ import (
 	"github.com/go-errors/errors"
 )
 
-const SiteReportPageSize = 100
+const SiteReportPageSize = 4
 
 type SiteService interface {
 	ServiceWithPostgres

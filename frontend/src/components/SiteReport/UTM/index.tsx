@@ -1,7 +1,11 @@
 import { ReactNode, useCallback, useMemo } from "react";
 import { Dropdown, DropdownProps } from "react-bootstrap";
 import { useSearchParams } from "wouter";
+import Campaign from "./Campaign";
+import Content from "./Content";
+import Medium from "./Medium";
 import Source from "./Source";
+import Term from "./Term";
 
 type Section = {
   content: ReactNode;
@@ -14,11 +18,11 @@ const routerQuerySectionSlugKey = "utm";
 export default function UTM() {
   const [searchParams, setSearchParams] = useSearchParams();
   const sections: Array<Section> = useMemo(() => [
-    { content: <Source />, title: "UTM sources" },
-    { content: null, slug: "campaigns", title: "UTM campaigns" },
-    { content: null, slug: "mediums", title: "UTM mediums" },
-    { content: null, slug: "contents", title: "UTM contents" },
-    { content: null, slug: "terms", title: "UTM terms" },
+    { content: <Source />, title: "UTM source" },
+    { content: <Campaign />, slug: "campaign", title: "UTM campaign" },
+    { content: <Medium />, slug: "medium", title: "UTM medium" },
+    { content: <Content />, slug: "content", title: "UTM content" },
+    { content: <Term />, slug: "term", title: "UTM term" },
   ], []);
   const section = useMemo<Section>(() => {
     const slug = searchParams.get(routerQuerySectionSlugKey);

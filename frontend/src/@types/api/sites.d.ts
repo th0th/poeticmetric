@@ -127,11 +127,47 @@ type HydratedSiteTimeOfWeekTrendsReportDatum = Overwrite<SiteTimeOfWeekTrendsRep
   viewPercentageDisplay: string;
 }>;
 
+type HydratedSiteUTMCampaignReport = Overwrite<SiteUTMCampaignReport, {
+  data: Array<HydratedSiteUTMCampaignReportDatum>;
+}>;
+
+type HydratedSiteUTMCampaignReportDatum = Overwrite<SiteUTMCampaignReportDatum, {
+  visitorCountDisplay: string;
+  visitorPercentageDisplay: string;
+}>;
+
+type HydratedSiteUTMContentReport = Overwrite<SiteUTMContentReport, {
+  data: Array<HydratedSiteUTMContentReportDatum>;
+}>;
+
+type HydratedSiteUTMContentReportDatum = Overwrite<SiteUTMContentReportDatum, {
+  visitorCountDisplay: string;
+  visitorPercentageDisplay: string;
+}>;
+
+type HydratedSiteUTMMediumReport = Overwrite<SiteUTMMediumReport, {
+  data: Array<HydratedSiteUTMMediumReportDatum>;
+}>;
+
+type HydratedSiteUTMMediumReportDatum = Overwrite<SiteUTMMediumReportDatum, {
+  visitorCountDisplay: string;
+  visitorPercentageDisplay: string;
+}>;
+
 type HydratedSiteUTMSourceReport = Overwrite<SiteUTMSourceReport, {
   data: Array<HydratedSiteUTMSourceReportDatum>;
 }>;
 
 type HydratedSiteUTMSourceReportDatum = Overwrite<SiteUTMSourceReportDatum, {
+  visitorCountDisplay: string;
+  visitorPercentageDisplay: string;
+}>;
+
+type HydratedSiteUTMTermReport = Overwrite<SiteUTMTermReport, {
+  data: Array<HydratedSiteUTMTermReportDatum>;
+}>;
+
+type HydratedSiteUTMTermReportDatum = Overwrite<SiteUTMTermReportDatum, {
   visitorCountDisplay: string;
   visitorPercentageDisplay: string;
 }>;
@@ -304,6 +340,39 @@ type SiteTimeOfWeekTrendsReportDatum = {
   viewPercentage: number;
 };
 
+type SiteUTMCampaignReport = {
+  data: Array<SiteUTMCampaignReportDatum>;
+  paginationCursor: string | null;
+};
+
+type SiteUTMCampaignReportDatum = {
+  utmCampaign: string;
+  visitorCount: number;
+  visitorPercentage: number;
+};
+
+type SiteUTMContentReport = {
+  data: Array<SiteUTMContentReportDatum>;
+  paginationCursor: string | null;
+};
+
+type SiteUTMContentReportDatum = {
+  utmContent: string;
+  visitorCount: number;
+  visitorPercentage: number;
+};
+
+type SiteUTMMediumReport = {
+  data: Array<SiteUTMMediumReportDatum>;
+  paginationCursor: string | null;
+};
+
+type SiteUTMMediumReportDatum = {
+  utmMedium: string;
+  visitorCount: number;
+  visitorPercentage: number;
+};
+
 type SiteUTMSourceReport = {
   data: Array<SiteUTMSourceReportDatum>;
   paginationCursor: string | null;
@@ -311,6 +380,17 @@ type SiteUTMSourceReport = {
 
 type SiteUTMSourceReportDatum = {
   utmSource: string;
+  visitorCount: number;
+  visitorPercentage: number;
+};
+
+type SiteUTMTermReport = {
+  data: Array<SiteUTMTermReportDatum>;
+  paginationCursor: string | null;
+};
+
+type SiteUTMTermReportDatum = {
+  utmTerm: string;
   visitorCount: number;
   visitorPercentage: number;
 };

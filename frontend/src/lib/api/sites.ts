@@ -237,6 +237,51 @@ export function hydrateSiteTimeOfWeekTrendsReportDatum(d: SiteTimeOfWeekTrendsRe
   };
 }
 
+export function hydrateUTMCampaignReport(d: SiteUTMCampaignReport): HydratedSiteUTMCampaignReport {
+  return {
+    ...d,
+    data: d.data.map(hydrateUTMCampaignReportDatum),
+  };
+}
+
+export function hydrateUTMCampaignReportDatum(d: SiteUTMCampaignReportDatum): HydratedSiteUTMCampaignReportDatum {
+  return {
+    ...d,
+    visitorCountDisplay: millify(d.visitorCount),
+    visitorPercentageDisplay: `${d.visitorPercentage}%`,
+  };
+}
+
+export function hydrateSiteUTMContentReport(d: SiteUTMContentReport): HydratedSiteUTMContentReport {
+  return {
+    ...d,
+    data: d.data.map(hydrateSiteUTMContentReportDatum),
+  };
+}
+
+export function hydrateSiteUTMContentReportDatum(d: SiteUTMContentReportDatum): HydratedSiteUTMContentReportDatum {
+  return {
+    ...d,
+    visitorCountDisplay: millify(d.visitorCount),
+    visitorPercentageDisplay: `${d.visitorPercentage}%`,
+  };
+}
+
+export function hydrateSiteUTMMediumReport(d: SiteUTMMediumReport): HydratedSiteUTMMediumReport {
+  return {
+    ...d,
+    data: d.data.map(hydrateSiteUTMMediumReportDatum),
+  };
+}
+
+export function hydrateSiteUTMMediumReportDatum(d: SiteUTMMediumReportDatum): HydratedSiteUTMMediumReportDatum {
+  return {
+    ...d,
+    visitorCountDisplay: millify(d.visitorCount),
+    visitorPercentageDisplay: `${d.visitorPercentage}%`,
+  };
+}
+
 export function hydrateSiteUTMSourceReport(d: SiteUTMSourceReport): HydratedSiteUTMSourceReport {
   return {
     ...d,
@@ -245,6 +290,21 @@ export function hydrateSiteUTMSourceReport(d: SiteUTMSourceReport): HydratedSite
 }
 
 export function hydrateSiteUTMSourceReportDatum(d: SiteUTMSourceReportDatum): HydratedSiteUTMSourceReportDatum {
+  return {
+    ...d,
+    visitorCountDisplay: millify(d.visitorCount),
+    visitorPercentageDisplay: `${d.visitorPercentage}%`,
+  };
+}
+
+export function hydrateSiteUTMTermReport(d: SiteUTMTermReport): HydratedSiteUTMTermReport {
+  return {
+    ...d,
+    data: d.data.map(hydrateSiteUTMTermReportDatum),
+  };
+}
+
+export function hydrateSiteUTMTermReportDatum(d: SiteUTMTermReportDatum): HydratedSiteUTMTermReportDatum {
   return {
     ...d,
     visitorCountDisplay: millify(d.visitorCount),
