@@ -1,10 +1,10 @@
 import { FC, useMemo } from "react";
+import { useSearchParams } from "wouter";
 import NotFound from "~/components/NotFound";
-import useSearchParams from "~/hooks/useSearchParams";
 
 export default function withRequiredSearchParams(Component: FC, paramNames: Array<string>) {
   function Wrapped() {
-    const [, searchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
 
     const shouldRender = useMemo<boolean>(() => {
       for (const paramName of paramNames) {

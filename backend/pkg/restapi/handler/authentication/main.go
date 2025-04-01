@@ -2,8 +2,9 @@ package authentication
 
 import (
 	"encoding/json"
-	"errors"
 	"net/http"
+
+	"github.com/go-errors/errors"
 
 	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/middleware"
@@ -39,7 +40,7 @@ func (h *Handler) CreateUserAccessToken(w http.ResponseWriter, r *http.Request) 
 
 	userAccessToken, err := h.authenticationService.CreateUserAccessToken(r.Context(), authentication.User.ID)
 	if err != nil {
-		h.responder.Error(w, err)
+		h.responder.Error(w, errors.Wrap(err, 0))
 		return
 	}
 
@@ -59,7 +60,7 @@ func (h *Handler) DeleteUserAccessToken(w http.ResponseWriter, r *http.Request) 
 
 	err := h.authenticationService.DeleteUserAccessToken(r.Context(), authentication.UserAccessToken.ID)
 	if err != nil {
-		h.responder.Error(w, err)
+		h.responder.Error(w, errors.Wrap(err, 0))
 		return
 	}
 
@@ -78,13 +79,13 @@ func (h *Handler) ResetUserPassword(w http.ResponseWriter, r *http.Request) {
 	params := poeticmetric.ResetUserPasswordParams{}
 	err := json.NewDecoder(r.Body).Decode(&params)
 	if err != nil {
-		h.responder.Error(w, err)
+		h.responder.Error(w, errors.Wrap(err, 0))
 		return
 	}
 
 	err = h.authenticationService.ResetUserPassword(r.Context(), &params)
 	if err != nil {
-		h.responder.Error(w, err)
+		h.responder.Error(w, errors.Wrap(err, 0))
 		return
 	}
 
@@ -102,14 +103,14 @@ func (h *Handler) SendUserPasswordRecoveryEmail(w http.ResponseWriter, r *http.R
 	params := poeticmetric.SendUserPasswordRecoveryEmailParams{}
 	err := json.NewDecoder(r.Body).Decode(&params)
 	if err != nil {
-		h.responder.Error(w, err)
+		h.responder.Error(w, errors.Wrap(err, 0))
 		return
 	}
 
 	err = h.authenticationService.SendUserPasswordRecoveryEmail(r.Context(), &params)
 	if err != nil {
 		if !errors.Is(err, poeticmetric.ErrNotFound) {
-			h.responder.Error(w, err)
+			h.responder.Error(w, errors.Wrap(err, 0))
 			return
 		}
 	}

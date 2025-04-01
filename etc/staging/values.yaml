@@ -31,6 +31,9 @@ poeticmetric:
     fromAddress: poeticmetric@staging.poeticmetric.com
     host: email-smtp.eu-west-1.amazonaws.com
     port: 587
+rabbitmq:
+  persistence:
+    enabled: false
 valkey:
   persistence:
     enabled: false

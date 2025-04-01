@@ -1,6 +1,8 @@
 @import "base";
 @import "fonts";
 @import "highlight";
+@import "parent";
+@import "visx";
 
 // global
 @import "bootstrap/scss/root";
@@ -37,6 +39,9 @@
 
 // utilities
 @import "bootstrap/scss/utilities/api";
+
+// 3rd party
+@import "./react-datepicker";
 
 :root {
   --header-height: 4rem;

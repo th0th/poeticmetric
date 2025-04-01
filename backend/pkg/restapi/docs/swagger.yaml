@@ -137,6 +137,349 @@ definitions:
       email:
         type: string
     type: object
+  poeticmetric.SiteBrowserNameReport:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/poeticmetric.SiteBrowserNameReportDatum'
+        type: array
+      paginationCursor:
+        type: string
+    type: object
+  poeticmetric.SiteBrowserNameReportDatum:
+    properties:
+      browserName:
+        type: string
+      visitorCount:
+        type: integer
+      visitorPercentage:
+        type: number
+    type: object
+  poeticmetric.SiteBrowserVersionReport:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/poeticmetric.SiteBrowserVersionReportDatum'
+        type: array
+      paginationCursor:
+        type: string
+    type: object
+  poeticmetric.SiteBrowserVersionReportDatum:
+    properties:
+      browserVersion:
+        type: string
+      visitorCount:
+        type: integer
+      visitorPercentage:
+        type: number
+    type: object
+  poeticmetric.SiteCountryReport:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/poeticmetric.SiteCountryReportDatum'
+        type: array
+      paginationCursor:
+        type: string
+    type: object
+  poeticmetric.SiteCountryReportDatum:
+    properties:
+      country:
+        type: string
+      countryISOCode:
+        type: string
+      visitorCount:
+        type: integer
+      visitorPercentage:
+        type: number
+    type: object
+  poeticmetric.SiteDeviceTypeReportDatum:
+    properties:
+      deviceType:
+        type: string
+      visitorCount:
+        type: integer
+      visitorPercentage:
+        type: number
+    type: object
+  poeticmetric.SiteLanguageReport:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/poeticmetric.SiteLanguageReportDatum'
+        type: array
+      paginationCursor:
+        type: string
+    type: object
+  poeticmetric.SiteLanguageReportDatum:
+    properties:
+      language:
+        type: string
+      visitorCount:
+        type: integer
+      visitorPercentage:
+        type: number
+    type: object
+  poeticmetric.SiteOperatingSystemNameReport:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/poeticmetric.SiteOperatingSystemNameReportDatum'
+        type: array
+      paginationCursor:
+        type: string
+    type: object
+  poeticmetric.SiteOperatingSystemNameReportDatum:
+    properties:
+      operatingSystemName:
+        type: string
+      visitorCount:
+        type: integer
+      visitorPercentage:
+        type: number
+    type: object
+  poeticmetric.SiteOperatingSystemVersionReport:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/poeticmetric.SiteOperatingSystemVersionReportDatum'
+        type: array
+      paginationCursor:
+        type: string
+    type: object
+  poeticmetric.SiteOperatingSystemVersionReportDatum:
+    properties:
+      operatingSystemVersion:
+        type: string
+      visitorCount:
+        type: integer
+      visitorPercentage:
+        type: number
+    type: object
+  poeticmetric.SiteOverviewReport:
+    properties:
+      averagePageViewDurationSeconds:
+        type: integer
+      averagePageViewDurationSecondsPercentageChange:
+        type: integer
+      pageViewCount:
+        type: integer
+      pageViewCountPerVisitor:
+        type: number
+      pageViewCountPerVisitorPercentageChange:
+        type: integer
+      pageViewCountPercentageChange:
+        type: integer
+      visitorCount:
+        type: integer
+      visitorCountPercentageChange:
+        type: integer
+    type: object
+  poeticmetric.SitePageViewReport:
+    properties:
+      averagePageViewCount:
+        type: number
+      data:
+        items:
+          $ref: '#/definitions/poeticmetric.SitePageViewReportDatum'
+        type: array
+      intervalSeconds:
+        type: integer
+    type: object
+  poeticmetric.SitePageViewReportDatum:
+    properties:
+      dateTime:
+        type: string
+      pageViewCount:
+        type: integer
+    type: object
+  poeticmetric.SitePathReport:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/poeticmetric.SitePathReportDatum'
+        type: array
+      paginationCursor:
+        type: string
+    type: object
+  poeticmetric.SitePathReportDatum:
+    properties:
+      averageDurationSeconds:
+        type: integer
+      bouncePercentage:
+        type: number
+      path:
+        type: string
+      url:
+        type: string
+      viewCount:
+        type: integer
+      viewPercentage:
+        type: number
+      visitorCount:
+        type: integer
+      visitorPercentage:
+        type: number
+    type: object
+  poeticmetric.SiteReferrerHostReport:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/poeticmetric.SiteReferrerHostReportDatum'
+        type: array
+      paginationCursor:
+        type: string
+    type: object
+  poeticmetric.SiteReferrerHostReportDatum:
+    properties:
+      referrerHost:
+        type: string
+      visitorCount:
+        type: integer
+      visitorPercentage:
+        type: number
+    type: object
+  poeticmetric.SiteReferrerReport:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/poeticmetric.SiteReferrerReportDatum'
+        type: array
+      paginationCursor:
+        type: string
+    type: object
+  poeticmetric.SiteReferrerReportDatum:
+    properties:
+      referrer:
+        type: string
+      referrerHost:
+        type: string
+      referrerPath:
+        type: string
+      visitorCount:
+        type: integer
+      visitorPercentage:
+        type: number
+    type: object
+  poeticmetric.SiteTimeOfWeekTrendReportDatum:
+    properties:
+      dayOfWeek:
+        type: integer
+      hourOfDay:
+        type: integer
+      viewCount:
+        type: integer
+      viewPercentage:
+        type: number
+    type: object
+  poeticmetric.SiteUTMCampaignReport:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/poeticmetric.SiteUTMCampaignReportDatum'
+        type: array
+      paginationCursor:
+        type: string
+    type: object
+  poeticmetric.SiteUTMCampaignReportDatum:
+    properties:
+      utmCampaign:
+        type: string
+      visitorCount:
+        type: integer
+      visitorPercentage:
+        type: number
+    type: object
+  poeticmetric.SiteUTMContentReport:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/poeticmetric.SiteUTMContentReportDatum'
+        type: array
+      paginationCursor:
+        type: string
+    type: object
+  poeticmetric.SiteUTMContentReportDatum:
+    properties:
+      utmContent:
+        type: string
+      visitorCount:
+        type: integer
+      visitorPercentage:
+        type: number
+    type: object
+  poeticmetric.SiteUTMMediumReport:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/poeticmetric.SiteUTMMediumReportDatum'
+        type: array
+      paginationCursor:
+        type: string
+    type: object
+  poeticmetric.SiteUTMMediumReportDatum:
+    properties:
+      utmMedium:
+        type: string
+      visitorCount:
+        type: integer
+      visitorPercentage:
+        type: number
+    type: object
+  poeticmetric.SiteUTMSourceReport:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/poeticmetric.SiteUTMSourceReportDatum'
+        type: array
+      paginationCursor:
+        type: string
+    type: object
+  poeticmetric.SiteUTMSourceReportDatum:
+    properties:
+      utmSource:
+        type: string
+      visitorCount:
+        type: integer
+      visitorPercentage:
+        type: number
+    type: object
+  poeticmetric.SiteUTMTermReport:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/poeticmetric.SiteUTMTermReportDatum'
+        type: array
+      paginationCursor:
+        type: string
+    type: object
+  poeticmetric.SiteUTMTermReportDatum:
+    properties:
+      utmTerm:
+        type: string
+      visitorCount:
+        type: integer
+      visitorPercentage:
+        type: number
+    type: object
+  poeticmetric.SiteVisitorReport:
+    properties:
+      averageVisitorCount:
+        type: number
+      data:
+        items:
+          $ref: '#/definitions/poeticmetric.SiteVisitorReportDatum'
+        type: array
+      intervalSeconds:
+        type: integer
+    type: object
+  poeticmetric.SiteVisitorReportDatum:
+    properties:
+      dateTime:
+        type: string
+      visitorCount:
+        type: integer
+    type: object
   poeticmetric.UpdateOrganizationSiteParams:
     properties:
       domain:
@@ -386,6 +729,1567 @@ paths:
       summary: Run bootstrap
       tags:
       - boostrap
+  /site-reports/browser-name:
+    get:
+      description: Read browser name report for a site.
+      parameters:
+      - in: query
+        name: browserName
+        type: string
+      - in: query
+        name: browserVersion
+        type: string
+      - in: query
+        name: countryISOCode
+        type: string
+      - in: query
+        name: deviceType
+        type: string
+      - default: "2026-01-01T00:00:00Z"
+        in: query
+        name: end
+        type: string
+      - in: query
+        name: language
+        type: string
+      - in: query
+        name: locale
+        type: string
+      - in: query
+        name: operatingSystemName
+        type: string
+      - in: query
+        name: operatingSystemVersion
+        type: string
+      - in: query
+        name: path
+        type: string
+      - in: query
+        name: referrer
+        type: string
+      - in: query
+        name: referrerHost
+        type: string
+      - in: query
+        name: siteID
+        type: integer
+      - default: "2025-01-01T00:00:00Z"
+        in: query
+        name: start
+        type: string
+      - default: UTC
+        in: query
+        name: timeZone
+        type: string
+      - in: query
+        name: utmCampaign
+        type: string
+      - in: query
+        name: utmContent
+        type: string
+      - in: query
+        name: utmMedium
+        type: string
+      - in: query
+        name: utmSource
+        type: string
+      - in: query
+        name: utmTerm
+        type: string
+      - description: Pagination cursor
+        in: query
+        name: cursor
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.SiteBrowserNameReport'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read browser name report
+      tags:
+      - site-reports
+  /site-reports/browser-version:
+    get:
+      description: Read browser version report for a site.
+      parameters:
+      - in: query
+        name: browserName
+        type: string
+      - in: query
+        name: browserVersion
+        type: string
+      - in: query
+        name: countryISOCode
+        type: string
+      - in: query
+        name: deviceType
+        type: string
+      - default: "2026-01-01T00:00:00Z"
+        in: query
+        name: end
+        type: string
+      - in: query
+        name: language
+        type: string
+      - in: query
+        name: locale
+        type: string
+      - in: query
+        name: operatingSystemName
+        type: string
+      - in: query
+        name: operatingSystemVersion
+        type: string
+      - in: query
+        name: path
+        type: string
+      - in: query
+        name: referrer
+        type: string
+      - in: query
+        name: referrerHost
+        type: string
+      - in: query
+        name: siteID
+        type: integer
+      - default: "2025-01-01T00:00:00Z"
+        in: query
+        name: start
+        type: string
+      - default: UTC
+        in: query
+        name: timeZone
+        type: string
+      - in: query
+        name: utmCampaign
+        type: string
+      - in: query
+        name: utmContent
+        type: string
+      - in: query
+        name: utmMedium
+        type: string
+      - in: query
+        name: utmSource
+        type: string
+      - in: query
+        name: utmTerm
+        type: string
+      - description: Pagination cursor
+        in: query
+        name: cursor
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.SiteBrowserVersionReport'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read browser version report
+      tags:
+      - site-reports
+  /site-reports/country:
+    get:
+      description: Read country report for a site.
+      parameters:
+      - in: query
+        name: browserName
+        type: string
+      - in: query
+        name: browserVersion
+        type: string
+      - in: query
+        name: countryISOCode
+        type: string
+      - in: query
+        name: deviceType
+        type: string
+      - default: "2026-01-01T00:00:00Z"
+        in: query
+        name: end
+        type: string
+      - in: query
+        name: language
+        type: string
+      - in: query
+        name: locale
+        type: string
+      - in: query
+        name: operatingSystemName
+        type: string
+      - in: query
+        name: operatingSystemVersion
+        type: string
+      - in: query
+        name: path
+        type: string
+      - in: query
+        name: referrer
+        type: string
+      - in: query
+        name: referrerHost
+        type: string
+      - in: query
+        name: siteID
+        type: integer
+      - default: "2025-01-01T00:00:00Z"
+        in: query
+        name: start
+        type: string
+      - default: UTC
+        in: query
+        name: timeZone
+        type: string
+      - in: query
+        name: utmCampaign
+        type: string
+      - in: query
+        name: utmContent
+        type: string
+      - in: query
+        name: utmMedium
+        type: string
+      - in: query
+        name: utmSource
+        type: string
+      - in: query
+        name: utmTerm
+        type: string
+      - description: Pagination cursor
+        in: query
+        name: cursor
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.SiteCountryReport'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read country report
+      tags:
+      - site-reports
+  /site-reports/device-type:
+    get:
+      description: Read device type report for a site.
+      parameters:
+      - in: query
+        name: browserName
+        type: string
+      - in: query
+        name: browserVersion
+        type: string
+      - in: query
+        name: countryISOCode
+        type: string
+      - in: query
+        name: deviceType
+        type: string
+      - default: "2026-01-01T00:00:00Z"
+        in: query
+        name: end
+        type: string
+      - in: query
+        name: language
+        type: string
+      - in: query
+        name: locale
+        type: string
+      - in: query
+        name: operatingSystemName
+        type: string
+      - in: query
+        name: operatingSystemVersion
+        type: string
+      - in: query
+        name: path
+        type: string
+      - in: query
+        name: referrer
+        type: string
+      - in: query
+        name: referrerHost
+        type: string
+      - in: query
+        name: siteID
+        type: integer
+      - default: "2025-01-01T00:00:00Z"
+        in: query
+        name: start
+        type: string
+      - default: UTC
+        in: query
+        name: timeZone
+        type: string
+      - in: query
+        name: utmCampaign
+        type: string
+      - in: query
+        name: utmContent
+        type: string
+      - in: query
+        name: utmMedium
+        type: string
+      - in: query
+        name: utmSource
+        type: string
+      - in: query
+        name: utmTerm
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              items:
+                $ref: '#/definitions/poeticmetric.SiteDeviceTypeReportDatum'
+              type: array
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read device type report
+      tags:
+      - site-reports
+  /site-reports/language:
+    get:
+      description: Read language report for a site.
+      parameters:
+      - in: query
+        name: browserName
+        type: string
+      - in: query
+        name: browserVersion
+        type: string
+      - in: query
+        name: countryISOCode
+        type: string
+      - in: query
+        name: deviceType
+        type: string
+      - default: "2026-01-01T00:00:00Z"
+        in: query
+        name: end
+        type: string
+      - in: query
+        name: language
+        type: string
+      - in: query
+        name: locale
+        type: string
+      - in: query
+        name: operatingSystemName
+        type: string
+      - in: query
+        name: operatingSystemVersion
+        type: string
+      - in: query
+        name: path
+        type: string
+      - in: query
+        name: referrer
+        type: string
+      - in: query
+        name: referrerHost
+        type: string
+      - in: query
+        name: siteID
+        type: integer
+      - default: "2025-01-01T00:00:00Z"
+        in: query
+        name: start
+        type: string
+      - default: UTC
+        in: query
+        name: timeZone
+        type: string
+      - in: query
+        name: utmCampaign
+        type: string
+      - in: query
+        name: utmContent
+        type: string
+      - in: query
+        name: utmMedium
+        type: string
+      - in: query
+        name: utmSource
+        type: string
+      - in: query
+        name: utmTerm
+        type: string
+      - description: Pagination cursor
+        in: query
+        name: cursor
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.SiteLanguageReport'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read language report
+      tags:
+      - site-reports
+  /site-reports/operating-system-name:
+    get:
+      description: Read operating system name report for a site.
+      parameters:
+      - in: query
+        name: browserName
+        type: string
+      - in: query
+        name: browserVersion
+        type: string
+      - in: query
+        name: countryISOCode
+        type: string
+      - in: query
+        name: deviceType
+        type: string
+      - default: "2026-01-01T00:00:00Z"
+        in: query
+        name: end
+        type: string
+      - in: query
+        name: language
+        type: string
+      - in: query
+        name: locale
+        type: string
+      - in: query
+        name: operatingSystemName
+        type: string
+      - in: query
+        name: operatingSystemVersion
+        type: string
+      - in: query
+        name: path
+        type: string
+      - in: query
+        name: referrer
+        type: string
+      - in: query
+        name: referrerHost
+        type: string
+      - in: query
+        name: siteID
+        type: integer
+      - default: "2025-01-01T00:00:00Z"
+        in: query
+        name: start
+        type: string
+      - default: UTC
+        in: query
+        name: timeZone
+        type: string
+      - in: query
+        name: utmCampaign
+        type: string
+      - in: query
+        name: utmContent
+        type: string
+      - in: query
+        name: utmMedium
+        type: string
+      - in: query
+        name: utmSource
+        type: string
+      - in: query
+        name: utmTerm
+        type: string
+      - description: Pagination cursor
+        in: query
+        name: cursor
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.SiteOperatingSystemNameReport'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read operating system name report
+      tags:
+      - site-reports
+  /site-reports/operating-system-version:
+    get:
+      description: Read operating system version report for a site.
+      parameters:
+      - in: query
+        name: browserName
+        type: string
+      - in: query
+        name: browserVersion
+        type: string
+      - in: query
+        name: countryISOCode
+        type: string
+      - in: query
+        name: deviceType
+        type: string
+      - default: "2026-01-01T00:00:00Z"
+        in: query
+        name: end
+        type: string
+      - in: query
+        name: language
+        type: string
+      - in: query
+        name: locale
+        type: string
+      - in: query
+        name: operatingSystemName
+        type: string
+      - in: query
+        name: operatingSystemVersion
+        type: string
+      - in: query
+        name: path
+        type: string
+      - in: query
+        name: referrer
+        type: string
+      - in: query
+        name: referrerHost
+        type: string
+      - in: query
+        name: siteID
+        type: integer
+      - default: "2025-01-01T00:00:00Z"
+        in: query
+        name: start
+        type: string
+      - default: UTC
+        in: query
+        name: timeZone
+        type: string
+      - in: query
+        name: utmCampaign
+        type: string
+      - in: query
+        name: utmContent
+        type: string
+      - in: query
+        name: utmMedium
+        type: string
+      - in: query
+        name: utmSource
+        type: string
+      - in: query
+        name: utmTerm
+        type: string
+      - description: Pagination cursor
+        in: query
+        name: cursor
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.SiteOperatingSystemVersionReport'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read operating system version report
+      tags:
+      - site-reports
+  /site-reports/overview:
+    get:
+      description: Read overview report for a site.
+      parameters:
+      - in: query
+        name: browserName
+        type: string
+      - in: query
+        name: browserVersion
+        type: string
+      - in: query
+        name: countryISOCode
+        type: string
+      - in: query
+        name: deviceType
+        type: string
+      - default: "2026-01-01T00:00:00Z"
+        in: query
+        name: end
+        type: string
+      - in: query
+        name: language
+        type: string
+      - in: query
+        name: locale
+        type: string
+      - in: query
+        name: operatingSystemName
+        type: string
+      - in: query
+        name: operatingSystemVersion
+        type: string
+      - in: query
+        name: path
+        type: string
+      - in: query
+        name: referrer
+        type: string
+      - in: query
+        name: referrerHost
+        type: string
+      - in: query
+        name: siteID
+        type: integer
+      - default: "2025-01-01T00:00:00Z"
+        in: query
+        name: start
+        type: string
+      - default: UTC
+        in: query
+        name: timeZone
+        type: string
+      - in: query
+        name: utmCampaign
+        type: string
+      - in: query
+        name: utmContent
+        type: string
+      - in: query
+        name: utmMedium
+        type: string
+      - in: query
+        name: utmSource
+        type: string
+      - in: query
+        name: utmTerm
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.SiteOverviewReport'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read overview report
+      tags:
+      - site-reports
+  /site-reports/page-view:
+    get:
+      description: Read page view report for a site.
+      parameters:
+      - in: query
+        name: browserName
+        type: string
+      - in: query
+        name: browserVersion
+        type: string
+      - in: query
+        name: countryISOCode
+        type: string
+      - in: query
+        name: deviceType
+        type: string
+      - default: "2026-01-01T00:00:00Z"
+        in: query
+        name: end
+        type: string
+      - in: query
+        name: language
+        type: string
+      - in: query
+        name: locale
+        type: string
+      - in: query
+        name: operatingSystemName
+        type: string
+      - in: query
+        name: operatingSystemVersion
+        type: string
+      - in: query
+        name: path
+        type: string
+      - in: query
+        name: referrer
+        type: string
+      - in: query
+        name: referrerHost
+        type: string
+      - in: query
+        name: siteID
+        type: integer
+      - default: "2025-01-01T00:00:00Z"
+        in: query
+        name: start
+        type: string
+      - default: UTC
+        in: query
+        name: timeZone
+        type: string
+      - in: query
+        name: utmCampaign
+        type: string
+      - in: query
+        name: utmContent
+        type: string
+      - in: query
+        name: utmMedium
+        type: string
+      - in: query
+        name: utmSource
+        type: string
+      - in: query
+        name: utmTerm
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.SitePageViewReport'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read page view report
+      tags:
+      - site-reports
+  /site-reports/path:
+    get:
+      description: Read path report for a site.
+      parameters:
+      - in: query
+        name: browserName
+        type: string
+      - in: query
+        name: browserVersion
+        type: string
+      - in: query
+        name: countryISOCode
+        type: string
+      - in: query
+        name: deviceType
+        type: string
+      - default: "2026-01-01T00:00:00Z"
+        in: query
+        name: end
+        type: string
+      - in: query
+        name: language
+        type: string
+      - in: query
+        name: locale
+        type: string
+      - in: query
+        name: operatingSystemName
+        type: string
+      - in: query
+        name: operatingSystemVersion
+        type: string
+      - in: query
+        name: path
+        type: string
+      - in: query
+        name: referrer
+        type: string
+      - in: query
+        name: referrerHost
+        type: string
+      - in: query
+        name: siteID
+        type: integer
+      - default: "2025-01-01T00:00:00Z"
+        in: query
+        name: start
+        type: string
+      - default: UTC
+        in: query
+        name: timeZone
+        type: string
+      - in: query
+        name: utmCampaign
+        type: string
+      - in: query
+        name: utmContent
+        type: string
+      - in: query
+        name: utmMedium
+        type: string
+      - in: query
+        name: utmSource
+        type: string
+      - in: query
+        name: utmTerm
+        type: string
+      - description: Pagination cursor
+        in: query
+        name: cursor
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.SitePathReport'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read path report
+      tags:
+      - site-reports
+  /site-reports/referrer:
+    get:
+      description: Read referrer report for a site.
+      parameters:
+      - in: query
+        name: browserName
+        type: string
+      - in: query
+        name: browserVersion
+        type: string
+      - in: query
+        name: countryISOCode
+        type: string
+      - in: query
+        name: deviceType
+        type: string
+      - default: "2026-01-01T00:00:00Z"
+        in: query
+        name: end
+        type: string
+      - in: query
+        name: language
+        type: string
+      - in: query
+        name: locale
+        type: string
+      - in: query
+        name: operatingSystemName
+        type: string
+      - in: query
+        name: operatingSystemVersion
+        type: string
+      - in: query
+        name: path
+        type: string
+      - in: query
+        name: referrer
+        type: string
+      - in: query
+        name: referrerHost
+        type: string
+      - in: query
+        name: siteID
+        type: integer
+      - default: "2025-01-01T00:00:00Z"
+        in: query
+        name: start
+        type: string
+      - default: UTC
+        in: query
+        name: timeZone
+        type: string
+      - in: query
+        name: utmCampaign
+        type: string
+      - in: query
+        name: utmContent
+        type: string
+      - in: query
+        name: utmMedium
+        type: string
+      - in: query
+        name: utmSource
+        type: string
+      - in: query
+        name: utmTerm
+        type: string
+      - description: Pagination cursor
+        in: query
+        name: cursor
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.SiteReferrerReport'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read referrer report
+      tags:
+      - site-reports
+  /site-reports/referrer-host:
+    get:
+      description: Read referrer host report for a site.
+      parameters:
+      - in: query
+        name: browserName
+        type: string
+      - in: query
+        name: browserVersion
+        type: string
+      - in: query
+        name: countryISOCode
+        type: string
+      - in: query
+        name: deviceType
+        type: string
+      - default: "2026-01-01T00:00:00Z"
+        in: query
+        name: end
+        type: string
+      - in: query
+        name: language
+        type: string
+      - in: query
+        name: locale
+        type: string
+      - in: query
+        name: operatingSystemName
+        type: string
+      - in: query
+        name: operatingSystemVersion
+        type: string
+      - in: query
+        name: path
+        type: string
+      - in: query
+        name: referrer
+        type: string
+      - in: query
+        name: referrerHost
+        type: string
+      - in: query
+        name: siteID
+        type: integer
+      - default: "2025-01-01T00:00:00Z"
+        in: query
+        name: start
+        type: string
+      - default: UTC
+        in: query
+        name: timeZone
+        type: string
+      - in: query
+        name: utmCampaign
+        type: string
+      - in: query
+        name: utmContent
+        type: string
+      - in: query
+        name: utmMedium
+        type: string
+      - in: query
+        name: utmSource
+        type: string
+      - in: query
+        name: utmTerm
+        type: string
+      - description: Pagination cursor
+        in: query
+        name: cursor
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.SiteReferrerHostReport'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read referrer host report
+      tags:
+      - site-reports
+  /site-reports/time-of-week-trends:
+    get:
+      description: Read time of week trends report for a site.
+      parameters:
+      - in: query
+        name: browserName
+        type: string
+      - in: query
+        name: browserVersion
+        type: string
+      - in: query
+        name: countryISOCode
+        type: string
+      - in: query
+        name: deviceType
+        type: string
+      - default: "2026-01-01T00:00:00Z"
+        in: query
+        name: end
+        type: string
+      - in: query
+        name: language
+        type: string
+      - in: query
+        name: locale
+        type: string
+      - in: query
+        name: operatingSystemName
+        type: string
+      - in: query
+        name: operatingSystemVersion
+        type: string
+      - in: query
+        name: path
+        type: string
+      - in: query
+        name: referrer
+        type: string
+      - in: query
+        name: referrerHost
+        type: string
+      - in: query
+        name: siteID
+        type: integer
+      - default: "2025-01-01T00:00:00Z"
+        in: query
+        name: start
+        type: string
+      - default: UTC
+        in: query
+        name: timeZone
+        type: string
+      - in: query
+        name: utmCampaign
+        type: string
+      - in: query
+        name: utmContent
+        type: string
+      - in: query
+        name: utmMedium
+        type: string
+      - in: query
+        name: utmSource
+        type: string
+      - in: query
+        name: utmTerm
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              items:
+                $ref: '#/definitions/poeticmetric.SiteTimeOfWeekTrendReportDatum'
+              type: array
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read time of week trends report
+      tags:
+      - site-reports
+  /site-reports/utm-campaign:
+    get:
+      description: Read UTM campaign report for a site.
+      parameters:
+      - in: query
+        name: browserName
+        type: string
+      - in: query
+        name: browserVersion
+        type: string
+      - in: query
+        name: countryISOCode
+        type: string
+      - in: query
+        name: deviceType
+        type: string
+      - default: "2026-01-01T00:00:00Z"
+        in: query
+        name: end
+        type: string
+      - in: query
+        name: language
+        type: string
+      - in: query
+        name: locale
+        type: string
+      - in: query
+        name: operatingSystemName
+        type: string
+      - in: query
+        name: operatingSystemVersion
+        type: string
+      - in: query
+        name: path
+        type: string
+      - in: query
+        name: referrer
+        type: string
+      - in: query
+        name: referrerHost
+        type: string
+      - in: query
+        name: siteID
+        type: integer
+      - default: "2025-01-01T00:00:00Z"
+        in: query
+        name: start
+        type: string
+      - default: UTC
+        in: query
+        name: timeZone
+        type: string
+      - in: query
+        name: utmCampaign
+        type: string
+      - in: query
+        name: utmContent
+        type: string
+      - in: query
+        name: utmMedium
+        type: string
+      - in: query
+        name: utmSource
+        type: string
+      - in: query
+        name: utmTerm
+        type: string
+      - description: Pagination cursor
+        in: query
+        name: cursor
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.SiteUTMCampaignReport'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read UTM campaign report
+      tags:
+      - site-reports
+  /site-reports/utm-content:
+    get:
+      description: Read UTM content report for a site.
+      parameters:
+      - in: query
+        name: browserName
+        type: string
+      - in: query
+        name: browserVersion
+        type: string
+      - in: query
+        name: countryISOCode
+        type: string
+      - in: query
+        name: deviceType
+        type: string
+      - default: "2026-01-01T00:00:00Z"
+        in: query
+        name: end
+        type: string
+      - in: query
+        name: language
+        type: string
+      - in: query
+        name: locale
+        type: string
+      - in: query
+        name: operatingSystemName
+        type: string
+      - in: query
+        name: operatingSystemVersion
+        type: string
+      - in: query
+        name: path
+        type: string
+      - in: query
+        name: referrer
+        type: string
+      - in: query
+        name: referrerHost
+        type: string
+      - in: query
+        name: siteID
+        type: integer
+      - default: "2025-01-01T00:00:00Z"
+        in: query
+        name: start
+        type: string
+      - default: UTC
+        in: query
+        name: timeZone
+        type: string
+      - in: query
+        name: utmCampaign
+        type: string
+      - in: query
+        name: utmContent
+        type: string
+      - in: query
+        name: utmMedium
+        type: string
+      - in: query
+        name: utmSource
+        type: string
+      - in: query
+        name: utmTerm
+        type: string
+      - description: Pagination cursor
+        in: query
+        name: cursor
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.SiteUTMContentReport'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read UTM content report
+      tags:
+      - site-reports
+  /site-reports/utm-medium:
+    get:
+      description: Read UTM medium report for a site.
+      parameters:
+      - in: query
+        name: browserName
+        type: string
+      - in: query
+        name: browserVersion
+        type: string
+      - in: query
+        name: countryISOCode
+        type: string
+      - in: query
+        name: deviceType
+        type: string
+      - default: "2026-01-01T00:00:00Z"
+        in: query
+        name: end
+        type: string
+      - in: query
+        name: language
+        type: string
+      - in: query
+        name: locale
+        type: string
+      - in: query
+        name: operatingSystemName
+        type: string
+      - in: query
+        name: operatingSystemVersion
+        type: string
+      - in: query
+        name: path
+        type: string
+      - in: query
+        name: referrer
+        type: string
+      - in: query
+        name: referrerHost
+        type: string
+      - in: query
+        name: siteID
+        type: integer
+      - default: "2025-01-01T00:00:00Z"
+        in: query
+        name: start
+        type: string
+      - default: UTC
+        in: query
+        name: timeZone
+        type: string
+      - in: query
+        name: utmCampaign
+        type: string
+      - in: query
+        name: utmContent
+        type: string
+      - in: query
+        name: utmMedium
+        type: string
+      - in: query
+        name: utmSource
+        type: string
+      - in: query
+        name: utmTerm
+        type: string
+      - description: Pagination cursor
+        in: query
+        name: cursor
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.SiteUTMMediumReport'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read UTM medium report
+      tags:
+      - site-reports
+  /site-reports/utm-source:
+    get:
+      description: Read UTM source report for a site.
+      parameters:
+      - in: query
+        name: browserName
+        type: string
+      - in: query
+        name: browserVersion
+        type: string
+      - in: query
+        name: countryISOCode
+        type: string
+      - in: query
+        name: deviceType
+        type: string
+      - default: "2026-01-01T00:00:00Z"
+        in: query
+        name: end
+        type: string
+      - in: query
+        name: language
+        type: string
+      - in: query
+        name: locale
+        type: string
+      - in: query
+        name: operatingSystemName
+        type: string
+      - in: query
+        name: operatingSystemVersion
+        type: string
+      - in: query
+        name: path
+        type: string
+      - in: query
+        name: referrer
+        type: string
+      - in: query
+        name: referrerHost
+        type: string
+      - in: query
+        name: siteID
+        type: integer
+      - default: "2025-01-01T00:00:00Z"
+        in: query
+        name: start
+        type: string
+      - default: UTC
+        in: query
+        name: timeZone
+        type: string
+      - in: query
+        name: utmCampaign
+        type: string
+      - in: query
+        name: utmContent
+        type: string
+      - in: query
+        name: utmMedium
+        type: string
+      - in: query
+        name: utmSource
+        type: string
+      - in: query
+        name: utmTerm
+        type: string
+      - description: Pagination cursor
+        in: query
+        name: cursor
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.SiteUTMSourceReport'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read UTM source report
+      tags:
+      - site-reports
+  /site-reports/utm-term:
+    get:
+      description: Read UTM term report for a site.
+      parameters:
+      - in: query
+        name: browserName
+        type: string
+      - in: query
+        name: browserVersion
+        type: string
+      - in: query
+        name: countryISOCode
+        type: string
+      - in: query
+        name: deviceType
+        type: string
+      - default: "2026-01-01T00:00:00Z"
+        in: query
+        name: end
+        type: string
+      - in: query
+        name: language
+        type: string
+      - in: query
+        name: locale
+        type: string
+      - in: query
+        name: operatingSystemName
+        type: string
+      - in: query
+        name: operatingSystemVersion
+        type: string
+      - in: query
+        name: path
+        type: string
+      - in: query
+        name: referrer
+        type: string
+      - in: query
+        name: referrerHost
+        type: string
+      - in: query
+        name: siteID
+        type: integer
+      - default: "2025-01-01T00:00:00Z"
+        in: query
+        name: start
+        type: string
+      - default: UTC
+        in: query
+        name: timeZone
+        type: string
+      - in: query
+        name: utmCampaign
+        type: string
+      - in: query
+        name: utmContent
+        type: string
+      - in: query
+        name: utmMedium
+        type: string
+      - in: query
+        name: utmSource
+        type: string
+      - in: query
+        name: utmTerm
+        type: string
+      - description: Pagination cursor
+        in: query
+        name: cursor
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.SiteUTMTermReport'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read UTM term report
+      tags:
+      - site-reports
+  /site-reports/visitor:
+    get:
+      description: Read visitor report for a site.
+      parameters:
+      - in: query
+        name: browserName
+        type: string
+      - in: query
+        name: browserVersion
+        type: string
+      - in: query
+        name: countryISOCode
+        type: string
+      - in: query
+        name: deviceType
+        type: string
+      - default: "2026-01-01T00:00:00Z"
+        in: query
+        name: end
+        type: string
+      - in: query
+        name: language
+        type: string
+      - in: query
+        name: locale
+        type: string
+      - in: query
+        name: operatingSystemName
+        type: string
+      - in: query
+        name: operatingSystemVersion
+        type: string
+      - in: query
+        name: path
+        type: string
+      - in: query
+        name: referrer
+        type: string
+      - in: query
+        name: referrerHost
+        type: string
+      - in: query
+        name: siteID
+        type: integer
+      - default: "2025-01-01T00:00:00Z"
+        in: query
+        name: start
+        type: string
+      - default: UTC
+        in: query
+        name: timeZone
+        type: string
+      - in: query
+        name: utmCampaign
+        type: string
+      - in: query
+        name: utmContent
+        type: string
+      - in: query
+        name: utmMedium
+        type: string
+      - in: query
+        name: utmSource
+        type: string
+      - in: query
+        name: utmTerm
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.SiteVisitorReport'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read visitor report
+      tags:
+      - site-reports
   /sites:
     get:
       description: List sites.

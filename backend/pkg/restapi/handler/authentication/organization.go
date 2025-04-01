@@ -37,7 +37,7 @@ func (h *Handler) DeleteOrganization(w http.ResponseWriter, r *http.Request) {
 
 	err = h.authenticationService.DeleteOrganization(r.Context(), auth.User.OrganizationID, &params)
 	if err != nil {
-		h.responder.Error(w, err)
+		h.responder.Error(w, errors.Wrap(err, 0))
 		return
 	}
 
@@ -54,7 +54,7 @@ func (h *Handler) DeleteOrganization(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) GetOrganizationDeletionOptions(w http.ResponseWriter, r *http.Request) {
 	organizationDeletionReasons, err := h.authenticationService.ListOrganizationDeletionReasons(r.Context())
 	if err != nil {
-		h.responder.Error(w, err)
+		h.responder.Error(w, errors.Wrap(err, 0))
 		return
 	}
 

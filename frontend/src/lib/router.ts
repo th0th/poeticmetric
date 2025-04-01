@@ -1,4 +1,4 @@
-export function getUpdatedSearch(search: string, params?: Record<string, string | null>): string {
+export function getUpdatedSearch(search: URLSearchParams | string, params?: Record<string, string | null>): string {
   const newSearchParams = new URLSearchParams(search);
 
   if (params !== undefined) {

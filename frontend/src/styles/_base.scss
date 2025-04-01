@@ -91,13 +91,20 @@ $utilities: map-merge($utilities, (
     class: cursor,
     property: cursor,
     values: (
-      grab: grab,
-      grabbing: grabbing,
+      pointer: pointer,
     ),
   ),
   "end": map-merge(map-get($utilities, "end"), (
     responsive: true,
   )),
+  "fill": (
+    class: fill,
+    property: fill,
+    values: (
+      current-color: currentColor,
+      "transparent": transparent,
+    ),
+  ),
   "font-family": map-merge(map-get($utilities, "font-family"), (
     values: map-merge(map-get(map-get($utilities, "font-family"), "values"), (
       serif: $font-family-serif,
@@ -117,6 +124,7 @@ $utilities: map-merge($utilities, (
     ),
   )),
   "height": map-merge(map-get($utilities, "height"), (
+    responsive: true,
     values: map-merge(map-merge(map-get(map-get($utilities, "height"), "values"), $fixed-sizes), (
       "vh-100-header-height": calc(100vh - var(--header-height)),
     )),
@@ -176,16 +184,6 @@ $utilities: map-merge($utilities, (
       0: 0,
       100: 100%,
     )),
-  ),
-  "monitor-kind": (
-    css-var: true,
-    css-variable-name: monitor-kind-color,
-    class: monitor-kind,
-    values: (
-      heartbeat: #{$green},
-      http: #{$blue},
-      ping: #{$orange},
-    ),
   ),
   "opacity": map-merge(map-get($utilities, "opacity"), (
     values: map-merge(map-get(map-get($utilities, "opacity"), "values"), (
@@ -253,7 +251,14 @@ $utilities: map-merge($utilities, (
   "start": map-merge(map-get($utilities, "start"), (
     responsive: true,
   )),
-  "stroke": (
+  "stroke-color": (
+    class: "stroke",
+    property: stroke,
+    values: (
+      current-color: currentColor,
+    ),
+  ),
+  "stroke-width": (
     class: stroke,
     property: stroke-width,
     values: (
@@ -262,31 +267,16 @@ $utilities: map-merge($utilities, (
       2: 2,
     ),
   ),
+  "table-layout": (
+    class: table-layout,
+    property: table-layout,
+    values: (
+      fixed: fixed,
+    ),
+  ),
   "top": map-merge(map-get($utilities, "top"), (
     responsive: true,
   )),
-  "status-color": (
-    css-var: true,
-    css-variable-name: status-color,
-    class: status,
-    values: (
-      danger: var(--#{$prefix}danger),
-      secondary: var(--#{$prefix}secondary),
-      success: var(--#{$prefix}success),
-      warning: var(--#{$prefix}warning),
-    ),
-  ),
-  "status-color-rgb": (
-    css-var: true,
-    css-variable-name: status-color-rgb,
-    class: status,
-    values: (
-      danger: var(--#{$prefix}danger-rgb),
-      secondary: var(--#{$prefix}secondary-rgb),
-      success: var(--#{$prefix}success-rgb),
-      warning: var(--#{$prefix}warning-rgb),
-    ),
-  ),
   "text-decoration": map-merge(map-get($utilities, "text-decoration"), (
     state: focus-visible hover,
   )),

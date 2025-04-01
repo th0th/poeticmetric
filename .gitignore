@@ -6,6 +6,8 @@
 
 # frontend
 /frontend/node_modules
+/frontend/src/styles/style.css
+/frontend/src/styles/style.css.map
 
 # others
 .DS_Store
