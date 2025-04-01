@@ -5,6 +5,7 @@ import SiteReportFiltersTimeInput from "~/components/SiteReportFiltersTimeInput"
 import Title from "~/components/Title";
 import useSite from "~/hooks/api/useSite";
 import SiteReportDataProvider from "../SiteReportDataProvider";
+import Filters from "./Filters";
 import Geography from "./Geography";
 import Overview from "./Overview";
 import Path from "./Path";
@@ -34,8 +35,10 @@ export default function SiteReport() {
         </Breadcrumb>
 
         <SiteReportDataProvider>
-          <div className="d-flex flex-row mt-12">
+          <div className="d-flex flex-column flex-sm-row gap-4 justify-content-between mt-12">
             <SiteReportFiltersTimeInput />
+
+            <Filters />
           </div>
 
           <div className="mt-8">
