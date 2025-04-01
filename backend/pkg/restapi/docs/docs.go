@@ -361,6 +361,2566 @@ const docTemplate = `{
                 }
             }
         },
+        "/site-reports/browser-name": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read browser name report for a site.",
+                "tags": [
+                    "site-reports"
+                ],
+                "summary": "Read browser name report",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "browserName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "browserVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "countryISOCode",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "deviceType",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
+                        "name": "end",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "language",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "locale",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "path",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrerHost",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "siteID",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
+                        "name": "start",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "UTC",
+                        "name": "timeZone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmCampaign",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmContent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmMedium",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmSource",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmTerm",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pagination cursor",
+                        "name": "cursor",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/poeticmetric.SiteBrowserNameReport"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/site-reports/browser-version": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read browser version report for a site.",
+                "tags": [
+                    "site-reports"
+                ],
+                "summary": "Read browser version report",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "browserName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "browserVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "countryISOCode",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "deviceType",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
+                        "name": "end",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "language",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "locale",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "path",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrerHost",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "siteID",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
+                        "name": "start",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "UTC",
+                        "name": "timeZone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmCampaign",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmContent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmMedium",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmSource",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmTerm",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pagination cursor",
+                        "name": "cursor",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/poeticmetric.SiteBrowserVersionReport"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/site-reports/country": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read country report for a site.",
+                "tags": [
+                    "site-reports"
+                ],
+                "summary": "Read country report",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "browserName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "browserVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "countryISOCode",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "deviceType",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
+                        "name": "end",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "language",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "locale",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "path",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrerHost",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "siteID",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
+                        "name": "start",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "UTC",
+                        "name": "timeZone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmCampaign",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmContent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmMedium",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmSource",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmTerm",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pagination cursor",
+                        "name": "cursor",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/poeticmetric.SiteCountryReport"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/site-reports/device-type": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read device type report for a site.",
+                "tags": [
+                    "site-reports"
+                ],
+                "summary": "Read device type report",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "browserName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "browserVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "countryISOCode",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "deviceType",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
+                        "name": "end",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "language",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "locale",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "path",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrerHost",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "siteID",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
+                        "name": "start",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "UTC",
+                        "name": "timeZone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmCampaign",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmContent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmMedium",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmSource",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmTerm",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/definitions/poeticmetric.SiteDeviceTypeReportDatum"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/site-reports/language": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read language report for a site.",
+                "tags": [
+                    "site-reports"
+                ],
+                "summary": "Read language report",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "browserName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "browserVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "countryISOCode",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "deviceType",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
+                        "name": "end",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "language",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "locale",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "path",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrerHost",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "siteID",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
+                        "name": "start",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "UTC",
+                        "name": "timeZone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmCampaign",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmContent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmMedium",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmSource",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmTerm",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pagination cursor",
+                        "name": "cursor",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/poeticmetric.SiteLanguageReport"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/site-reports/operating-system-name": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read operating system name report for a site.",
+                "tags": [
+                    "site-reports"
+                ],
+                "summary": "Read operating system name report",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "browserName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "browserVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "countryISOCode",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "deviceType",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
+                        "name": "end",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "language",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "locale",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "path",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrerHost",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "siteID",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
+                        "name": "start",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "UTC",
+                        "name": "timeZone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmCampaign",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmContent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmMedium",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmSource",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmTerm",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pagination cursor",
+                        "name": "cursor",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/poeticmetric.SiteOperatingSystemNameReport"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/site-reports/operating-system-version": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read operating system version report for a site.",
+                "tags": [
+                    "site-reports"
+                ],
+                "summary": "Read operating system version report",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "browserName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "browserVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "countryISOCode",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "deviceType",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
+                        "name": "end",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "language",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "locale",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "path",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrerHost",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "siteID",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
+                        "name": "start",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "UTC",
+                        "name": "timeZone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmCampaign",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmContent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmMedium",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmSource",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmTerm",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pagination cursor",
+                        "name": "cursor",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/poeticmetric.SiteOperatingSystemVersionReport"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/site-reports/overview": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read overview report for a site.",
+                "tags": [
+                    "site-reports"
+                ],
+                "summary": "Read overview report",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "browserName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "browserVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "countryISOCode",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "deviceType",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
+                        "name": "end",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "language",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "locale",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "path",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrerHost",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "siteID",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
+                        "name": "start",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "UTC",
+                        "name": "timeZone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmCampaign",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmContent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmMedium",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmSource",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmTerm",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/poeticmetric.SiteOverviewReport"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/site-reports/page-view": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read page view report for a site.",
+                "tags": [
+                    "site-reports"
+                ],
+                "summary": "Read page view report",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "browserName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "browserVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "countryISOCode",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "deviceType",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
+                        "name": "end",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "language",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "locale",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "path",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrerHost",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "siteID",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
+                        "name": "start",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "UTC",
+                        "name": "timeZone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmCampaign",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmContent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmMedium",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmSource",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmTerm",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/poeticmetric.SitePageViewReport"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/site-reports/path": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read path report for a site.",
+                "tags": [
+                    "site-reports"
+                ],
+                "summary": "Read path report",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "browserName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "browserVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "countryISOCode",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "deviceType",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
+                        "name": "end",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "language",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "locale",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "path",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrerHost",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "siteID",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
+                        "name": "start",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "UTC",
+                        "name": "timeZone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmCampaign",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmContent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmMedium",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmSource",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmTerm",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pagination cursor",
+                        "name": "cursor",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/poeticmetric.SitePathReport"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/site-reports/referrer": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read referrer report for a site.",
+                "tags": [
+                    "site-reports"
+                ],
+                "summary": "Read referrer report",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "browserName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "browserVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "countryISOCode",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "deviceType",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
+                        "name": "end",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "language",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "locale",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "path",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrerHost",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "siteID",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
+                        "name": "start",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "UTC",
+                        "name": "timeZone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmCampaign",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmContent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmMedium",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmSource",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmTerm",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pagination cursor",
+                        "name": "cursor",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/poeticmetric.SiteReferrerReport"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/site-reports/referrer-host": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read referrer host report for a site.",
+                "tags": [
+                    "site-reports"
+                ],
+                "summary": "Read referrer host report",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "browserName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "browserVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "countryISOCode",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "deviceType",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
+                        "name": "end",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "language",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "locale",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "path",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrerHost",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "siteID",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
+                        "name": "start",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "UTC",
+                        "name": "timeZone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmCampaign",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmContent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmMedium",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmSource",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmTerm",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pagination cursor",
+                        "name": "cursor",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/poeticmetric.SiteReferrerHostReport"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/site-reports/time-of-week-trends": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read time of week trends report for a site.",
+                "tags": [
+                    "site-reports"
+                ],
+                "summary": "Read time of week trends report",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "browserName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "browserVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "countryISOCode",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "deviceType",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
+                        "name": "end",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "language",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "locale",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "path",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrerHost",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "siteID",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
+                        "name": "start",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "UTC",
+                        "name": "timeZone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmCampaign",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmContent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmMedium",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmSource",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmTerm",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/definitions/poeticmetric.SiteTimeOfWeekTrendReportDatum"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/site-reports/utm-campaign": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read UTM campaign report for a site.",
+                "tags": [
+                    "site-reports"
+                ],
+                "summary": "Read UTM campaign report",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "browserName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "browserVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "countryISOCode",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "deviceType",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
+                        "name": "end",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "language",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "locale",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "path",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrerHost",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "siteID",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
+                        "name": "start",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "UTC",
+                        "name": "timeZone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmCampaign",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmContent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmMedium",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmSource",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmTerm",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pagination cursor",
+                        "name": "cursor",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/poeticmetric.SiteUTMCampaignReport"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/site-reports/utm-content": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read UTM content report for a site.",
+                "tags": [
+                    "site-reports"
+                ],
+                "summary": "Read UTM content report",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "browserName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "browserVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "countryISOCode",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "deviceType",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
+                        "name": "end",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "language",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "locale",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "path",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrerHost",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "siteID",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
+                        "name": "start",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "UTC",
+                        "name": "timeZone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmCampaign",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmContent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmMedium",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmSource",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmTerm",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pagination cursor",
+                        "name": "cursor",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/poeticmetric.SiteUTMContentReport"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/site-reports/utm-medium": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read UTM medium report for a site.",
+                "tags": [
+                    "site-reports"
+                ],
+                "summary": "Read UTM medium report",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "browserName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "browserVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "countryISOCode",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "deviceType",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
+                        "name": "end",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "language",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "locale",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "path",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrerHost",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "siteID",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
+                        "name": "start",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "UTC",
+                        "name": "timeZone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmCampaign",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmContent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmMedium",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmSource",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmTerm",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pagination cursor",
+                        "name": "cursor",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/poeticmetric.SiteUTMMediumReport"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/site-reports/utm-source": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read UTM source report for a site.",
+                "tags": [
+                    "site-reports"
+                ],
+                "summary": "Read UTM source report",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "browserName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "browserVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "countryISOCode",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "deviceType",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
+                        "name": "end",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "language",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "locale",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "path",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrerHost",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "siteID",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
+                        "name": "start",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "UTC",
+                        "name": "timeZone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmCampaign",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmContent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmMedium",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmSource",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmTerm",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pagination cursor",
+                        "name": "cursor",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/poeticmetric.SiteUTMSourceReport"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/site-reports/utm-term": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read UTM term report for a site.",
+                "tags": [
+                    "site-reports"
+                ],
+                "summary": "Read UTM term report",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "browserName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "browserVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "countryISOCode",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "deviceType",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
+                        "name": "end",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "language",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "locale",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "path",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrerHost",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "siteID",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
+                        "name": "start",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "UTC",
+                        "name": "timeZone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmCampaign",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmContent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmMedium",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmSource",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmTerm",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pagination cursor",
+                        "name": "cursor",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/poeticmetric.SiteUTMTermReport"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/site-reports/visitor": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read visitor report for a site.",
+                "tags": [
+                    "site-reports"
+                ],
+                "summary": "Read visitor report",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "browserName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "browserVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "countryISOCode",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "deviceType",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
+                        "name": "end",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "language",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "locale",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "path",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrerHost",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "siteID",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
+                        "name": "start",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "UTC",
+                        "name": "timeZone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmCampaign",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmContent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmMedium",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmSource",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmTerm",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/poeticmetric.SiteVisitorReport"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/sites": {
             "get": {
                 "security": [
@@ -890,6 +3450,538 @@ const docTemplate = `{
             "properties": {
                 "email": {
                     "type": "string"
+                }
+            }
+        },
+        "poeticmetric.SiteBrowserNameReport": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/poeticmetric.SiteBrowserNameReportDatum"
+                    }
+                },
+                "paginationCursor": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.SiteBrowserNameReportDatum": {
+            "type": "object",
+            "properties": {
+                "browserName": {
+                    "type": "string"
+                },
+                "visitorCount": {
+                    "type": "integer"
+                },
+                "visitorPercentage": {
+                    "type": "number"
+                }
+            }
+        },
+        "poeticmetric.SiteBrowserVersionReport": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/poeticmetric.SiteBrowserVersionReportDatum"
+                    }
+                },
+                "paginationCursor": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.SiteBrowserVersionReportDatum": {
+            "type": "object",
+            "properties": {
+                "browserVersion": {
+                    "type": "string"
+                },
+                "visitorCount": {
+                    "type": "integer"
+                },
+                "visitorPercentage": {
+                    "type": "number"
+                }
+            }
+        },
+        "poeticmetric.SiteCountryReport": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/poeticmetric.SiteCountryReportDatum"
+                    }
+                },
+                "paginationCursor": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.SiteCountryReportDatum": {
+            "type": "object",
+            "properties": {
+                "country": {
+                    "type": "string"
+                },
+                "countryISOCode": {
+                    "type": "string"
+                },
+                "visitorCount": {
+                    "type": "integer"
+                },
+                "visitorPercentage": {
+                    "type": "number"
+                }
+            }
+        },
+        "poeticmetric.SiteDeviceTypeReportDatum": {
+            "type": "object",
+            "properties": {
+                "deviceType": {
+                    "type": "string"
+                },
+                "visitorCount": {
+                    "type": "integer"
+                },
+                "visitorPercentage": {
+                    "type": "number"
+                }
+            }
+        },
+        "poeticmetric.SiteLanguageReport": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/poeticmetric.SiteLanguageReportDatum"
+                    }
+                },
+                "paginationCursor": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.SiteLanguageReportDatum": {
+            "type": "object",
+            "properties": {
+                "language": {
+                    "type": "string"
+                },
+                "visitorCount": {
+                    "type": "integer"
+                },
+                "visitorPercentage": {
+                    "type": "number"
+                }
+            }
+        },
+        "poeticmetric.SiteOperatingSystemNameReport": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/poeticmetric.SiteOperatingSystemNameReportDatum"
+                    }
+                },
+                "paginationCursor": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.SiteOperatingSystemNameReportDatum": {
+            "type": "object",
+            "properties": {
+                "operatingSystemName": {
+                    "type": "string"
+                },
+                "visitorCount": {
+                    "type": "integer"
+                },
+                "visitorPercentage": {
+                    "type": "number"
+                }
+            }
+        },
+        "poeticmetric.SiteOperatingSystemVersionReport": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/poeticmetric.SiteOperatingSystemVersionReportDatum"
+                    }
+                },
+                "paginationCursor": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.SiteOperatingSystemVersionReportDatum": {
+            "type": "object",
+            "properties": {
+                "operatingSystemVersion": {
+                    "type": "string"
+                },
+                "visitorCount": {
+                    "type": "integer"
+                },
+                "visitorPercentage": {
+                    "type": "number"
+                }
+            }
+        },
+        "poeticmetric.SiteOverviewReport": {
+            "type": "object",
+            "properties": {
+                "averagePageViewDurationSeconds": {
+                    "type": "integer"
+                },
+                "averagePageViewDurationSecondsPercentageChange": {
+                    "type": "integer"
+                },
+                "pageViewCount": {
+                    "type": "integer"
+                },
+                "pageViewCountPerVisitor": {
+                    "type": "number"
+                },
+                "pageViewCountPerVisitorPercentageChange": {
+                    "type": "integer"
+                },
+                "pageViewCountPercentageChange": {
+                    "type": "integer"
+                },
+                "visitorCount": {
+                    "type": "integer"
+                },
+                "visitorCountPercentageChange": {
+                    "type": "integer"
+                }
+            }
+        },
+        "poeticmetric.SitePageViewReport": {
+            "type": "object",
+            "properties": {
+                "averagePageViewCount": {
+                    "type": "number"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/poeticmetric.SitePageViewReportDatum"
+                    }
+                },
+                "intervalSeconds": {
+                    "type": "integer"
+                }
+            }
+        },
+        "poeticmetric.SitePageViewReportDatum": {
+            "type": "object",
+            "properties": {
+                "dateTime": {
+                    "type": "string"
+                },
+                "pageViewCount": {
+                    "type": "integer"
+                }
+            }
+        },
+        "poeticmetric.SitePathReport": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/poeticmetric.SitePathReportDatum"
+                    }
+                },
+                "paginationCursor": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.SitePathReportDatum": {
+            "type": "object",
+            "properties": {
+                "averageDurationSeconds": {
+                    "type": "integer"
+                },
+                "bouncePercentage": {
+                    "type": "number"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "viewCount": {
+                    "type": "integer"
+                },
+                "viewPercentage": {
+                    "type": "number"
+                },
+                "visitorCount": {
+                    "type": "integer"
+                },
+                "visitorPercentage": {
+                    "type": "number"
+                }
+            }
+        },
+        "poeticmetric.SiteReferrerHostReport": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/poeticmetric.SiteReferrerHostReportDatum"
+                    }
+                },
+                "paginationCursor": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.SiteReferrerHostReportDatum": {
+            "type": "object",
+            "properties": {
+                "referrerHost": {
+                    "type": "string"
+                },
+                "visitorCount": {
+                    "type": "integer"
+                },
+                "visitorPercentage": {
+                    "type": "number"
+                }
+            }
+        },
+        "poeticmetric.SiteReferrerReport": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/poeticmetric.SiteReferrerReportDatum"
+                    }
+                },
+                "paginationCursor": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.SiteReferrerReportDatum": {
+            "type": "object",
+            "properties": {
+                "referrer": {
+                    "type": "string"
+                },
+                "referrerHost": {
+                    "type": "string"
+                },
+                "referrerPath": {
+                    "type": "string"
+                },
+                "visitorCount": {
+                    "type": "integer"
+                },
+                "visitorPercentage": {
+                    "type": "number"
+                }
+            }
+        },
+        "poeticmetric.SiteTimeOfWeekTrendReportDatum": {
+            "type": "object",
+            "properties": {
+                "dayOfWeek": {
+                    "type": "integer"
+                },
+                "hourOfDay": {
+                    "type": "integer"
+                },
+                "viewCount": {
+                    "type": "integer"
+                },
+                "viewPercentage": {
+                    "type": "number"
+                }
+            }
+        },
+        "poeticmetric.SiteUTMCampaignReport": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/poeticmetric.SiteUTMCampaignReportDatum"
+                    }
+                },
+                "paginationCursor": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.SiteUTMCampaignReportDatum": {
+            "type": "object",
+            "properties": {
+                "utmCampaign": {
+                    "type": "string"
+                },
+                "visitorCount": {
+                    "type": "integer"
+                },
+                "visitorPercentage": {
+                    "type": "number"
+                }
+            }
+        },
+        "poeticmetric.SiteUTMContentReport": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/poeticmetric.SiteUTMContentReportDatum"
+                    }
+                },
+                "paginationCursor": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.SiteUTMContentReportDatum": {
+            "type": "object",
+            "properties": {
+                "utmContent": {
+                    "type": "string"
+                },
+                "visitorCount": {
+                    "type": "integer"
+                },
+                "visitorPercentage": {
+                    "type": "number"
+                }
+            }
+        },
+        "poeticmetric.SiteUTMMediumReport": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/poeticmetric.SiteUTMMediumReportDatum"
+                    }
+                },
+                "paginationCursor": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.SiteUTMMediumReportDatum": {
+            "type": "object",
+            "properties": {
+                "utmMedium": {
+                    "type": "string"
+                },
+                "visitorCount": {
+                    "type": "integer"
+                },
+                "visitorPercentage": {
+                    "type": "number"
+                }
+            }
+        },
+        "poeticmetric.SiteUTMSourceReport": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/poeticmetric.SiteUTMSourceReportDatum"
+                    }
+                },
+                "paginationCursor": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.SiteUTMSourceReportDatum": {
+            "type": "object",
+            "properties": {
+                "utmSource": {
+                    "type": "string"
+                },
+                "visitorCount": {
+                    "type": "integer"
+                },
+                "visitorPercentage": {
+                    "type": "number"
+                }
+            }
+        },
+        "poeticmetric.SiteUTMTermReport": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/poeticmetric.SiteUTMTermReportDatum"
+                    }
+                },
+                "paginationCursor": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.SiteUTMTermReportDatum": {
+            "type": "object",
+            "properties": {
+                "utmTerm": {
+                    "type": "string"
+                },
+                "visitorCount": {
+                    "type": "integer"
+                },
+                "visitorPercentage": {
+                    "type": "number"
+                }
+            }
+        },
+        "poeticmetric.SiteVisitorReport": {
+            "type": "object",
+            "properties": {
+                "averageVisitorCount": {
+                    "type": "number"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/poeticmetric.SiteVisitorReportDatum"
+                    }
+                },
+                "intervalSeconds": {
+                    "type": "integer"
+                }
+            }
+        },
+        "poeticmetric.SiteVisitorReportDatum": {
+            "type": "object",
+            "properties": {
+                "dateTime": {
+                    "type": "string"
+                },
+                "visitorCount": {
+                    "type": "integer"
                 }
             }
         },

@@ -1,6 +1,7 @@
 import classNames from "classnames";
-import { lazy } from "react";
+import { lazy, Suspense } from "react";
 import { Link, Redirect, Route } from "wouter";
+import ActivityIndicator from "~/components/ActivityIndicator";
 import Breadcrumb from "~/components/Breadcrumb";
 import Title from "~/components/Title";
 import useAuthentication from "~/hooks/useAuthentication";
@@ -92,12 +93,22 @@ export default function Settings() {
           </div>
 
           <div className="col">
-            <Route component={AccountDeletion} path="/settings/account-deletion" />
-            <Route component={OrganizationDetails} path="/settings/organization-details" />
-            <Route component={Password} path="/settings/password" />
-            <Route component={Profile} path="/settings/profile" />
+            <Suspense
+              fallback={(
+                <div className="align-items-center d-flex flex-grow-1 justify-content-center">
+                  <ActivityIndicator />
+                </div>
+              )}
+            >
+              <Route component={AccountDeletion} path="/settings/account-deletion" />
+              <Route component={OrganizationDetails} path="/settings/organization-details" />
+              <Route component={Password} path="/settings/password" />
+              <Route component={Profile} path="/settings/profile" />
+            </Suspense>
 
-            <Route path="/settings"><Redirect to="/settings/profile" /></Route>
+            <Route path="/settings">
+              <Redirect to="/settings/profile" />
+            </Route>
           </div>
         </div>
       </div>

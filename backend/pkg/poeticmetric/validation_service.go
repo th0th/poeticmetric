@@ -14,6 +14,7 @@ type ValidationService interface {
 	OrganizationDeletionParams(ctx context.Context, params *OrganizationDeletionParams) error
 	ResetUserPasswordParams(ctx context.Context, params *ResetUserPasswordParams) error
 	SendUserPasswordRecoveryEmailParams(ctx context.Context, params *SendUserPasswordRecoveryEmailParams) error
+	SiteReportFilters(ctx context.Context, organizationID uint, filters *SiteReportFilters) error
 	UpdateAuthenticationUserParams(ctx context.Context, params *UpdateAuthenticationUserParams) error
 	UpdateOrganizationParams(ctx context.Context, params *UpdateOrganizationParams) error
 	UpdateOrganizationSiteParams(ctx context.Context, organizationID uint, siteID uint, params *UpdateOrganizationSiteParams) error

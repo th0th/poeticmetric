@@ -7,17 +7,20 @@ import (
 )
 
 type NewParams struct {
+	ClickHouse        *gorm.DB
 	Postgres          *gorm.DB
 	ValidationService poeticmetric.ValidationService
 }
 
 type service struct {
+	clickHouse        *gorm.DB
 	postgres          *gorm.DB
 	validationService poeticmetric.ValidationService
 }
 
 func New(params NewParams) poeticmetric.SiteService {
 	return &service{
+		clickHouse:        params.ClickHouse,
 		postgres:          params.Postgres,
 		validationService: params.ValidationService,
 	}

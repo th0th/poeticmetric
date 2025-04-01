@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/go-errors/errors"
+	"github.com/gorilla/schema"
 	"github.com/justinas/alice"
 	amqp "github.com/rabbitmq/amqp091-go"
 	"github.com/rs/zerolog"
@@ -25,6 +26,7 @@ import (
 	bootstraphandler "github.com/th0th/poeticmetric/backend/pkg/restapi/handler/bootstrap"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/handler/events"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/handler/root"
+	"github.com/th0th/poeticmetric/backend/pkg/restapi/handler/sitereports"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/handler/sites"
 	trackinghandler "github.com/th0th/poeticmetric/backend/pkg/restapi/handler/tracking"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/handler/users"
@@ -87,6 +89,9 @@ func main() {
 		Logger.Panic().Stack().Err(errors.Wrap(err, 0)).Msg("failed to init valkey client")
 	}
 
+	decoder := schema.NewDecoder()
+	decoder.IgnoreUnknownKeys(true)
+
 	validationService := validation.New(validation.NewParams{
 		EnvService: envService,
 		Postgres:   postgres,
@@ -118,6 +123,7 @@ func main() {
 	})
 
 	siteService := site.New(site.NewParams{
+		ClickHouse:        clickHouse,
 		Postgres:          postgres,
 		ValidationService: validationService,
 	})
@@ -162,6 +168,11 @@ func main() {
 		EnvService: envService,
 	})
 
+	siteReportsHandler := sitereports.New(sitereports.NewParams{
+		Responder:   responder,
+		SiteService: siteService,
+	})
+
 	sitesHandler := sites.New(sites.NewParams{
 		Responder:   responder,
 		SiteService: siteService,
@@ -184,6 +195,7 @@ func main() {
 	permissionBasicAuthenticated := alice.New(middleware.PermissionBasicAuthenticated(responder))
 	permissionUserAccessTokenAuthenticated := alice.New(middleware.PermissionUserAccessTokenAuthenticated(responder))
 	permissionOwner := alice.New(middleware.PermissionOrganizationOwner(responder))
+	siteReportFilters := alice.New(middleware.SiteReportFiltersHandler(validationService, decoder, responder))
 
 	// handlers: authentication
 	mux.Handle("DELETE /authentication/organization", permissionBasicAuthenticated.Extend(permissionOwner).ThenFunc(authenticationHandler.DeleteOrganization))
@@ -218,6 +230,27 @@ func main() {
 	mux.Handle("GET /sites", permissionUserAccessTokenAuthenticated.ThenFunc(sitesHandler.List))
 	mux.Handle("GET /sites/{siteID}", permissionUserAccessTokenAuthenticated.ThenFunc(sitesHandler.Read))
 	mux.Handle("PATCH /sites/{siteID}", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(sitesHandler.Update))
+
+	// handlers: site reports
+	mux.Handle("GET /site-reports/browser-name", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteBrowserNameReport))
+	mux.Handle("GET /site-reports/browser-version", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteBrowserVersionReport))
+	mux.Handle("GET /site-reports/country", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteCountryReport))
+	mux.Handle("GET /site-reports/device-type", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteDeviceTypeReport))
+	mux.Handle("GET /site-reports/language", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteLanguageReport))
+	mux.Handle("GET /site-reports/operating-system-name", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteOperatingSystemNameReport))
+	mux.Handle("GET /site-reports/operating-system-version", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteOperatingSystemVersionReport))
+	mux.Handle("GET /site-reports/overview", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteOverviewReport))
+	mux.Handle("GET /site-reports/page-view", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSitePageViewReport))
+	mux.Handle("GET /site-reports/path", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSitePathReport))
+	mux.Handle("GET /site-reports/referrer", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteReferrerReport))
+	mux.Handle("GET /site-reports/referrer-host", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteReferrerHostReport))
+	mux.Handle("GET /site-reports/time-of-week-trends", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteTimeOfWeekTrendsReport))
+	mux.Handle("GET /site-reports/utm-campaign", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteUTMCampaignReport))
+	mux.Handle("GET /site-reports/utm-content", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteUTMContentReport))
+	mux.Handle("GET /site-reports/utm-medium", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteUTMMediumReport))
+	mux.Handle("GET /site-reports/utm-source", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteUTMSourceReport))
+	mux.Handle("GET /site-reports/utm-term", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteUTMTermReport))
+	mux.Handle("GET /site-reports/visitor", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteVisitorReport))
 
 	// handlers: tracker
 	mux.HandleFunc("GET /pm.js", trackingHandler.Script)

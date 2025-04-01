@@ -20,7 +20,7 @@ export default function Tags() {
 
   useEffect(() => {
     async function run() {
-      let url = "https://webhook.webgazer.io/webhook/poeticmetric-tags";
+      let url = "https://webhooks.unius.sh/webhook/poeticmetric-tags";
 
       if (tagsEnvironment !== undefined && tagsEnvironment !== "") {
         url += `?environment=${tagsEnvironment}`;

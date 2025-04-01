@@ -3,12 +3,12 @@ import classNames from "classnames";
 import { useMemo } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
+import { useSearchParams } from "wouter";
 import ActivityOverlay from "~/components/ActivityOverlay";
 import Avatar from "~/components/Avatar";
 import Breadcrumb from "~/components/Breadcrumb";
 import Result from "~/components/Result";
 import Title from "~/components/Title";
-import useSearchParams from "~/hooks/useSearchParams";
 import { api } from "~/lib/api";
 import { setErrors } from "~/lib/form";
 
@@ -19,7 +19,7 @@ type Form = {
 
 export default function TeamMemberForm() {
   const { showBoundary } = useErrorBoundary();
-  const [, searchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const userID = searchParams.get("userID");
   const title = useMemo(() => userID === null ? "Invite team member" : "Edit team member", [userID]);
   const { formState: { errors, isLoading, isSubmitSuccessful, isSubmitting }, handleSubmit, register, setError, watch } = useForm<Form>({

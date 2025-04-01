@@ -3,9 +3,10 @@ package middleware
 import (
 	"context"
 	"encoding/base64"
-	"errors"
 	"net/http"
 	"strings"
+
+	"github.com/go-errors/errors"
 
 	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
 )
@@ -47,7 +48,7 @@ func AuthenticationHandler(
 						return
 					}
 
-					responder.Error(w, err)
+					responder.Error(w, errors.Wrap(err, 0))
 					return
 				}
 			} else if strings.HasPrefix(strings.ToLower(authorizationHeader), "bearer ") {
@@ -58,7 +59,7 @@ func AuthenticationHandler(
 						return
 					}
 
-					responder.Error(w, err)
+					responder.Error(w, errors.Wrap(err, 0))
 					return
 				}
 			}
@@ -121,7 +122,7 @@ func userAccessTokenAuthentication(authenticationService poeticmetric.Authentica
 	user, userAccessToken, err := authenticationService.ReadUserByUserAccessToken(r.Context(), token)
 	if err != nil {
 		if errors.Is(err, poeticmetric.ErrNotFound) {
-			return nil, errAuthenticationFailed
+			return nil, errors.Wrap(errAuthenticationFailed, 0)
 		}
 
 		return nil, err

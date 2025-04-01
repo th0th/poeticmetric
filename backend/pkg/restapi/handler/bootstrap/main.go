@@ -41,7 +41,7 @@ func (h *Handler) Check(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		h.responder.Error(w, err)
+		h.responder.Error(w, errors.Wrap(err, 0))
 		return
 	}
 
@@ -59,13 +59,13 @@ func (h *Handler) Run(w http.ResponseWriter, r *http.Request) {
 	params := poeticmetric.BootstrapServiceRunParams{}
 	err := json.NewDecoder(r.Body).Decode(&params)
 	if err != nil {
-		h.responder.Error(w, err)
+		h.responder.Error(w, errors.Wrap(err, 0))
 		return
 	}
 
 	_, err = h.bootstrapService.Run(r.Context(), &params)
 	if err != nil {
-		h.responder.Error(w, err)
+		h.responder.Error(w, errors.Wrap(err, 0))
 		return
 	}
 
