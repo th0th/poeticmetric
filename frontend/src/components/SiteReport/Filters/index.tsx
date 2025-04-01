@@ -63,19 +63,19 @@ export default function Filters() {
 
       <Dropdown.Menu>
         {filters.map((d) => (
-          <Dropdown.Item as="div" className="align-items-center d-flex gap-6 justify-content-between" key={d.key}>
+          <div className="align-items-center bg-body-tertiary-hover d-flex gap-6 justify-content-between px-8 text-nowrap" key={d.key}>
             <div>
               <span className="fw-medium">{d.keyDisplay}:{" "}</span>
               {d.value}
             </div>
 
             <Link
-              className="flex-grow-0 flex-shrink-0 link-danger"
+              className="flex-grow-0 flex-shrink-0 link-danger px-4 py-2"
               href={`${location}${getUpdatedSearch(searchParams, { [d.key]: null })}`}
             >
-              <IconCircleXFilled size="1.4em" />
+              <IconCircleXFilled className="d-block" size="1.4em" />
             </Link>
-          </Dropdown.Item>
+          </div>
         ))}
 
         <div className="mt-4 mx-8 text-center">
