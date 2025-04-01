@@ -11,7 +11,7 @@ WITH
         )
       ) AS average_page_view_duration_seconds,
       count(*) AS page_view_count,
-      if(isFinite(page_view_count / visitor_count), round(page_view_count / visitor_count, 1), 0) AS page_view_count_per_visitor,
+      if(isFinite(page_view_count / visitor_count), round(page_view_count / visitor_count, 1), NULL) AS page_view_count_per_visitor,
       count(DISTINCT visitor_id) AS visitor_count
     FROM events_buffer
     WHERE
@@ -65,10 +65,10 @@ SELECT
     NULL
   ) AS page_view_count_percentage_change,
 
-  if(isFinite(page_view_count / visitor_count), round(page_view_count / visitor_count, 1), 0) AS page_view_count_per_visitor,
+  if(isFinite(page_view_count / visitor_count), round(page_view_count / visitor_count, 1), NULL) AS page_view_count_per_visitor,
 
   if(
-    previous.page_view_count_per_visitor != 0,
+    page_view_count_per_visitor IS NOT NULL AND previous.page_view_count_per_visitor != 0,
     toInt16(
       round(
         100 * (page_view_count_per_visitor - previous.page_view_count_per_visitor) / previous.page_view_count_per_visitor

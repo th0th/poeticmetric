@@ -141,10 +141,16 @@ export function hydrateSiteOverviewReport(d: SiteOverviewReport): HydratedSiteOv
     averagePageViewDurationSecondsDisplay: d.averagePageViewDurationSeconds !== null
       ? humanizeSeconds(d.averagePageViewDurationSeconds)
       : "N/A",
+    averagePageViewDurationSecondsPercentageChangeDisplay: d.averagePageViewDurationSecondsPercentageChange !== null
+      ? `${d.averagePageViewDurationSecondsPercentageChange}%`
+      : "N/A",
     averagePageViewDurationSecondsPercentageChangeVariant: getVariant(d.averagePageViewDurationSecondsPercentageChange),
     pageViewCountDisplay: millify(d.pageViewCount),
     pageViewCountPerVisitorDisplay: d.pageViewCountPerVisitor !== null
       ? d.pageViewCountPerVisitor.toFixed(1)
+      : "N/A",
+    pageViewCountPerVisitorPercentageChangeDisplay: d.pageViewCountPerVisitorPercentageChange !== null
+      ? `${d.pageViewCountPerVisitorPercentageChange}%`
       : "N/A",
     pageViewCountPerVisitorPercentageChangeVariant: getVariant(d.pageViewCountPerVisitorPercentageChange),
     pageViewCountPercentageChangeVariant: getVariant(d.pageViewCountPercentageChange),

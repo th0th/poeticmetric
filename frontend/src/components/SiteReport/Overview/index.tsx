@@ -59,7 +59,7 @@ export default function Overview() {
               >
                 {createElement(changeVariantIcons[report.pageViewCountPerVisitorPercentageChangeVariant], { size: "1em" })}
 
-                {`${report.pageViewCountPerVisitorPercentageChange}%`}
+                {report.pageViewCountPerVisitorPercentageChangeDisplay}
               </div>
             </div>
 
@@ -73,7 +73,7 @@ export default function Overview() {
               >
                 {createElement(changeVariantIcons[report.averagePageViewDurationSecondsPercentageChangeVariant], { size: "1em" })}
 
-                {`${report.averagePageViewDurationSecondsPercentageChange}%`}
+                {report.averagePageViewDurationSecondsPercentageChangeDisplay}
               </div>
             </div>
           </div>

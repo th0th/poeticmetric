@@ -67,9 +67,11 @@ type HydratedSiteOperatingSystemVersionReportDatum = Overwrite<SiteOperatingSyst
 
 type HydratedSiteOverviewReport = Overwrite<SiteOverviewReport, {
   averagePageViewDurationSecondsDisplay: string;
+  averagePageViewDurationSecondsPercentageChangeDisplay: string;
   averagePageViewDurationSecondsPercentageChangeVariant: DisplayVariant;
   pageViewCountDisplay: string;
   pageViewCountPerVisitorDisplay: string;
+  pageViewCountPerVisitorPercentageChangeDisplay: string;
   pageViewCountPerVisitorPercentageChangeVariant: DisplayVariant;
   pageViewCountPercentageChangeVariant: DisplayVariant;
   visitorCountDisplay: string;
