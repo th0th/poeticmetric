@@ -17,6 +17,7 @@ COPY public public
 COPY scripts scripts
 COPY src src
 COPY index.html .
+COPY server.js .
 COPY tsconfig.json .
 COPY tsconfig.node.json .
 COPY vite.config.ts .
