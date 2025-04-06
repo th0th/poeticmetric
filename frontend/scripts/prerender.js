@@ -7,7 +7,7 @@ import { getRoutes } from "./routes.js";
 const baseDir = getBaseDir();
 
 const template = readFileSync(join(baseDir, "dist", "static", "index.html"), "utf-8");
-const { render } = await import("../dist/server/entry-server.js");
+const { render } = await import("../dist/server/entry-server.js"); // eslint-disable-line import/no-unresolved
 
 async function prerender() {
   const routes = getRoutes();
