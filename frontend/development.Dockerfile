@@ -5,11 +5,14 @@ RUN npm install --global pnpm
 
 WORKDIR /poeticmetric
 
+# copy only package definition files
 COPY package.json .
 COPY pnpm-lock.yaml .
 
+# install dependencies
 RUN pnpm install
 
+# copy the rest of the files
 COPY public public
 COPY scripts scripts
 COPY src src
@@ -18,17 +21,8 @@ COPY tsconfig.json .
 COPY tsconfig.node.json .
 COPY vite.config.ts .
 
-ARG IS_HOSTED=false
-ARG TAGS_ENVIRONMENT
-
-ENV VITE_IS_HOSTED=${IS_HOSTED}
-ENV VITE_TAGS_ENVIRONMENT=${TAGS_ENVIRONMENT}
-
-RUN pnpm run build
-
-COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-COPY bin bin
+COPY docker-entrypoint.development.sh /usr/local/bin/docker-entrypoint.sh
 
 EXPOSE 80
 
-ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["docker-entrypoint.sh"]
