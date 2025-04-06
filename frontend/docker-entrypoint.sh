@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
 set -eo pipefail
 
-: "${BASE_URL:?Please set the environment variable.}"
-: "${REST_API_BASE_URL:?Please set the environment variable.}"
+: "${VITE_BASE_URL:?Please set the environment variable.}"
+: "${VITE_REST_API_BASE_URL:?Please set the environment variable.}"
 
 # robots.txt
 if [[ "${ALLOW_ROBOTS}" == "true" ]]; then
@@ -19,6 +19,6 @@ find . \
   -exec \
     sed \
     -i \
-    -e "s|https://api.placeholder.poeticmetric.com|${REST_API_BASE_URL}|g" \
-    -e "s|https://placeholder.poeticmetric.com|${BASE_URL}|g" \
+    -e "s|https://api.placeholder.poeticmetric.com|${VITE_REST_API_BASE_URL}|g" \
+    -e "s|https://placeholder.poeticmetric.com|${VITE_BASE_URL}|g" \
     {} \;
