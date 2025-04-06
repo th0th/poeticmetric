@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-set -eo pipefail
-
-. $(dirname "$(readlink -f "$0")")/base
-BIN_DIR=$(get-bin-dir)
-
-printf "Generating robots.txt..."
-"${BIN_DIR}/generate-robots-txt"
-printf " Done.\n"

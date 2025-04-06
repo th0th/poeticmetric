@@ -1,7 +1,7 @@
 import { range } from "lodash-es";
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import getBaseDir from "./base.js";
+import { getBaseDir } from "./base.js";
 
 const baseDir = getBaseDir();
 
@@ -17,8 +17,8 @@ const docsPaths = readdirSync(join(baseDir, "src", "docs"), { withFileTypes: tru
       .map((d2) => `${d.name.split("_")[1]}/${d2.name.split("_")[1]}`);
   }).flat().sort();
 
-export default function getRoutes() {
-  const routesFileContent = readFileSync("src/Components/App/index.tsx", "utf-8");
+export function getRoutes() {
+  const routesFileContent = readFileSync("src/components/App/index.tsx", "utf-8");
   const routePaths = [...routesFileContent.matchAll(/path="(.*)"/ig)].map((d) => d[1]);
   const routes = [];
 

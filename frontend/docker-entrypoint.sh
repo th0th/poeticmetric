@@ -1,10 +1,24 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 set -eo pipefail
 
-/poeticmetric/bin/bootstrap
+: "${BASE_URL:?Please set the environment variable.}"
+: "${REST_API_BASE_URL:?Please set the environment variable.}"
 
-if [ "$NODE_ENV" == "production" ]; then
-  exec pnpm run start
+# robots.txt
+if [[ "${ALLOW_ROBOTS}" == "true" ]]; then
+  mv "robots-allow.txt" "robots.txt"
+  rm -rf "robots-disallow.txt"
 else
-  exec pnpm run dev
+  mv "robots-disallow.txt" "robots.txt"
+  rm -rf "robots-allow.txt"
 fi
+
+# replace the placeholders with environment variables
+find . \
+  -type f \
+  -exec \
+    sed \
+    -i \
+    -e "s|https://api.placeholder.poeticmetric.com|${REST_API_BASE_URL}|g" \
+    -e "s|https://placeholder.poeticmetric.com|${BASE_URL}|g" \
+    {} \;

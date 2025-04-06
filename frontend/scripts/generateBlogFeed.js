@@ -3,7 +3,7 @@ import { Feed } from "feed";
 import matter from "gray-matter";
 import { mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import getBaseDir from "./base.js";
+import { getBaseDir, placeholderBaseURL } from "./base.js";
 
 const baseDir = getBaseDir();
 const outDir = join(baseDir, "public", "blog");
@@ -17,13 +17,13 @@ function generateBlogFeed() {
   const feed = new Feed({
     author: { link: "https://www.poeticmetric.com", name: "PoeticMetric Team" },
     copyright: "All rights reserved, WebGazer, Inc.",
-    favicon: `${process.env.VITE_BASE_URL}/favicon.ico`,
-    feed: `${process.env.VITE_BASE_URL}/blog/${feedFileName}`,
+    favicon: `${placeholderBaseURL}/favicon.ico`,
+    feed: `${placeholderBaseURL}/blog/${feedFileName}`,
     generator: "PoeticMetric",
-    id: `${process.env.VITE_BASE_URL}/blog`,
-    image: `${process.env.VITE_BASE_URL}`,
+    id: `${placeholderBaseURL}/blog`,
+    image: `${placeholderBaseURL}`,
     language: "en",
-    link: `${process.env.VITE_BASE_URL}/blog`,
+    link: `${placeholderBaseURL}/blog`,
     title: "PoeticMetric Blog RSS",
   });
 
@@ -33,7 +33,7 @@ function generateBlogFeed() {
     const markdown = matter(markdownContent);
 
     const date = dayjs(dateString);
-    const link = `${process.env.VITE_BASE_URL}/blog/${slug}`;
+    const link = `${placeholderBaseURL}/blog/${slug}`;
 
     feed.addItem({
       author: markdown.data.author !== undefined ? [

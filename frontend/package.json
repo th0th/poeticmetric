@@ -67,6 +67,7 @@
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-sort-destructure-keys": "^2.0.0",
     "eslint-plugin-typescript-sort-keys": "^3.3.0",
+    "generate-robotstxt": "^8.0.3",
     "globals": "^16.0.0",
     "stylelint": "^16.17.0",
     "stylelint-config-standard-scss": "^14.0.0",

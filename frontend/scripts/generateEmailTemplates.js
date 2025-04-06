@@ -1,7 +1,7 @@
 import { execSync } from "node:child_process";
 import { readdirSync, renameSync, rmdirSync } from "node:fs";
 import { join } from "node:path";
-import getBaseDir from "./base.js";
+import { getBaseDir } from "./base.js";
 
 const baseDir = getBaseDir();
 const outPath = join(baseDir, "emails-out");

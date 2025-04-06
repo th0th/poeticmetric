@@ -2,8 +2,8 @@ import { writeFile } from "node:fs";
 import { join } from "node:path";
 import { Readable } from "node:stream";
 import { SitemapStream, streamToPromise } from "sitemap";
-import getBaseDir from "./base.js";
-import getRoutes from "./getRoutes.js";
+import { getBaseDir, placeholderBaseURL } from "./base.js";
+import { getRoutes } from "./routes.js";
 
 const baseDir = getBaseDir();
 const routes = getRoutes();
@@ -37,7 +37,7 @@ async function main() {
     });
 
   const stream = new SitemapStream({
-    hostname: process.env.VITE_BASE_URL,
+    hostname: placeholderBaseURL,
     xmlns: { image: false, news: false, video: false, xhtml: false },
   });
 
