@@ -43,8 +43,6 @@ spec:
           name: package-json
         - mountPath: /poeticmetric/pnpm-lock.yaml
           name: pnpm-lock-yaml
-        - mountPath: /poeticmetric/server.js
-          name: server-js
         - mountPath: /poeticmetric/tsconfig.json
           name: tsconfig-json
         - mountPath: /poeticmetric/tsconfig.node.json
@@ -63,6 +61,9 @@ spec:
           path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/public
         name: public
       - hostPath:
+          path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/scripts
+        name: scripts
+      - hostPath:
           path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/src
         name: src
       - hostPath:
@@ -74,9 +75,6 @@ spec:
       - hostPath:
           path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/pnpm-lock.yaml
         name: pnpm-lock-yaml
-      - hostPath:
-          path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/server.js
-        name: server-js
       - hostPath:
           path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/tsconfig.json
         name: tsconfig-json

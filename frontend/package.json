@@ -1,17 +1,4 @@
 {
-  "name": "frontend",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "build": "npm run build:client && npm run build:server",
-    "build:client": "vite build --ssrManifest --outDir dist/client",
-    "build:server": "vite build --ssr src/entry-server.tsx --outDir dist/server",
-    "dev": "node server.js",
-    "lint": "eslint -c eslint.config.js",
-    "preview": "cross-env NODE_ENV=production node server",
-    "stylelint": "stylelint \"src/**/*.scss\""
-  },
   "dependencies": {
     "@react-hookz/web": "^25.1.0",
     "@tabler/icons-react": "^3.31.0",
@@ -37,6 +24,7 @@
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
     "express": "^5.1.0",
+    "feed": "^4.2.2",
     "framer-motion": "^12.6.2",
     "gray-matter": "^4.0.3",
     "highlight.js": "^11.11.1",
@@ -56,6 +44,7 @@
     "react-hook-form": "^7.55.0",
     "sass-embedded": "^1.86.0",
     "sirv": "^3.0.1",
+    "sitemap": "^8.0.0",
     "swr": "^2.3.3",
     "wouter": "^3.6.0"
   },
@@ -87,10 +76,30 @@
     "vite": "^6.2.4",
     "vite-plugin-node-polyfills": "^0.23.0"
   },
+  "name": "frontend",
   "pnpm": {
     "onlyBuiltDependencies": [
       "@swc/core",
       "esbuild"
     ]
-  }
+  },
+  "private": true,
+  "scripts": {
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "vite build --ssrManifest --outDir dist/client",
+    "build:server": "vite build --ssr src/entry-server.tsx --outDir dist/server",
+    "dev": "node scripts/serve.js",
+    "email-dev": "email dev",
+    "email-export": "node scripts/generateEmailTemplates.js",
+    "generateBlogFeed": "node scripts/generateBlogFeed.js",
+    "generateIncidentsMapJson": "node scripts/generateIncidentsMapJson.cjs",
+    "generateRobotsTxt": "node scripts/generateRobotsTxt.js",
+    "generateSitemap": "node scripts/generateSitemap.js",
+    "lint": "eslint .",
+    "prerender": "vite build --outDir dist/static && pnpm run build:server && node scripts/prerender.js",
+    "preview": "cross-env NODE_ENV=production node --experimental-specifier-resolution server",
+    "stylelint": "stylelint \"src/**/*.scss\""
+  },
+  "type": "module",
+  "version": "0.0.0"
 }

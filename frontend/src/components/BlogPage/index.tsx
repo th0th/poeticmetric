@@ -41,7 +41,7 @@ export default function BlogPage() {
     <>
       <Title>Blog</Title>
       <Description>
-        On WebGazer Blog, you can find about product news and updates. We also share tips and tricks that are helpful better uptime and
+        On PoeticMetric Blog, you can find about product news and updates. We also share tips and tricks that are helpful better uptime and
         availability.
       </Description>
       <CanonicalLink path={page === 1 ? "/blog" : `/blog/page/${page}`} />

@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+. $(dirname "$(readlink -f "$0")")/base
+PUBLIC_DIR="$(get-public-dir)"
+
+if [[ "${ALLOW_ROBOTS}" == "true" ]]; then
+  : "${FRONTEND_BASE_URL:?Please set the environment variable.}"
+fi
+
+CONTENT="User-agent: *\n"
+if [[ "${ALLOW_ROBOTS}" == "true" ]]; then
+  CONTENT+="Allow: /\n"
+  CONTENT+="Sitemap: ${FRONTEND_BASE_URL}/sitemap.xml\n"
+else
+  CONTENT+="Disallow: /\n"
+fi
+
+printf "${CONTENT}" > "${PUBLIC_DIR}/robots.txt"
