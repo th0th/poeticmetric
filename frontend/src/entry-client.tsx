@@ -4,7 +4,7 @@ import App from "~/components/App";
 
 hydrateRoot(
   document.getElementById("root") as HTMLElement,
-  <StrictMode>
+  (<StrictMode>
     <App />
-  </StrictMode>,
+  </StrictMode>),
 );
