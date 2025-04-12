@@ -11,6 +11,7 @@ const routes = getRoutes();
 const routesToExclude = [
   "/404",
   "/billing",
+  "/bootstrap",
   "/docs",
   "/email-address-verification",
   "/password-reset",
