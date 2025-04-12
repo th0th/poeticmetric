@@ -27,28 +27,35 @@ export default function User({ className, user, ...props }: UserProps) {
         </div>
       </div>
 
-      <div className="card-footer">
-        <div className="d-flex flex-column flex-sm-row gap-4">
-          <Link className="btn btn-primary btn-sm" to={`/team/edit?userID=${user.id}`}>Edit</Link>
+      {authUser?.isOrganizationOwner ? (
+        <div className="card-footer">
+          <div className="d-flex flex-column flex-sm-row gap-4">
+            <Link className="btn btn-primary btn-sm" to={`/team/edit?userID=${user.id}`}>Edit</Link>
 
-          <Link className="btn btn-danger btn-sm" to={`/team${getUpdatedSearch(searchParams, { action: "delete", userID: user.id.toString() })}`}>
-            Delete
-          </Link>
-
-          {authUser?.isOrganizationOwner && !user.isOrganizationOwner && user.isEmailVerified ? (
-            <>
-              <div className="d-none d-sm-block mx-auto" />
-
+            {!user.isOrganizationOwner ? (
               <Link
-                className="btn btn-outline-secondary btn-sm"
-                to={`/team${getUpdatedSearch(searchParams, { action: "transferOwnership", userID: user.id.toString() })}`}
+                className="btn btn-danger btn-sm"
+                to={`/team${getUpdatedSearch(searchParams, { action: "delete", userID: user.id.toString() })}`}
               >
-                Transfer ownership
+                Delete
               </Link>
-            </>
-          ) : null}
+            ) : null}
+
+            {!user.isOrganizationOwner && user.isEmailVerified ? (
+              <>
+                <div className="d-none d-sm-block mx-auto" />
+
+                <Link
+                  className="btn btn-outline-secondary btn-sm"
+                  to={`/team${getUpdatedSearch(searchParams, { action: "transferOwnership", userID: user.id.toString() })}`}
+                >
+                  Transfer ownership
+                </Link>
+              </>
+            ) : null}
+          </div>
         </div>
-      </div>
+      ) : null}
     </div>
   );
 }
