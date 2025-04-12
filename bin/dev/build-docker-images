@@ -12,6 +12,7 @@ docker build \
 docker build \
   --build-arg IS_HOSTED=true \
   --build-arg TAGS_ENVIRONMENT=development \
+  --file "${BASE_DIR}/frontend/development.Dockerfile" \
   --tag ghcr.io/th0th/poeticmetric/frontend:development \
   "${BASE_DIR}/frontend" &
 

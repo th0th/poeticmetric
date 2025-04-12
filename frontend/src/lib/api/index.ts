@@ -1,3 +1,4 @@
+import { placeholderRestAPIBaseURL } from "~/lib/base";
 import { getUserAccessToken, setUserAccessToken } from "../user-access-token";
 
 export const api = {
@@ -26,7 +27,7 @@ export async function apiCall(path: string, init?: RequestInit): Promise<Respons
     ...init?.headers,
   };
 
-  return fetch(`/api${path}`, { ...init, headers });
+  return fetch(`${placeholderRestAPIBaseURL}${path}`, { ...init, headers });
 }
 
 export function getFetcher() {
