@@ -19,12 +19,17 @@ spec:
     spec:
       containers:
       - env:
-        - name: NODE_ENV
-          value: {{ if .Values.poeticmetric.development.enabled }}development{{ else }}production{{ end }}
-        - name: VITE_FRONTEND_BASE_URL
+        - name: VITE_BASE_URL
           valueFrom:
             configMapKeyRef:
               key: FRONTEND_BASE_URL
+              name: {{ include "poeticmetric.fullname" . }}-poeticmetric
+        - name: NODE_ENV
+          value: {{ if .Values.poeticmetric.development.enabled }}development{{ else }}production{{ end }}
+        - name: VITE_REST_API_BASE_URL
+          valueFrom:
+            configMapKeyRef:
+              key: REST_API_BASE_URL
               name: {{ include "poeticmetric.fullname" . }}-poeticmetric
         image: {{ printf "%s:%s" .Values.poeticmetric.frontend.image.repository .Values.poeticmetric.frontend.image.tag }}
         imagePullPolicy: {{ .Values.poeticmetric.frontend.image.pullPolicy }}
@@ -43,8 +48,6 @@ spec:
           name: package-json
         - mountPath: /poeticmetric/pnpm-lock.yaml
           name: pnpm-lock-yaml
-        - mountPath: /poeticmetric/server.js
-          name: server-js
         - mountPath: /poeticmetric/tsconfig.json
           name: tsconfig-json
         - mountPath: /poeticmetric/tsconfig.node.json
@@ -63,6 +66,9 @@ spec:
           path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/public
         name: public
       - hostPath:
+          path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/scripts
+        name: scripts
+      - hostPath:
           path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/src
         name: src
       - hostPath:
@@ -74,9 +80,6 @@ spec:
       - hostPath:
           path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/pnpm-lock.yaml
         name: pnpm-lock-yaml
-      - hostPath:
-          path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/server.js
-        name: server-js
       - hostPath:
           path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/tsconfig.json
         name: tsconfig-json

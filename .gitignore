@@ -5,7 +5,9 @@
 /.idea/workspace.xml
 
 # frontend
+/frontend/dist
 /frontend/node_modules
+/frontend/public/robots.txt
 /frontend/src/styles/style.css
 /frontend/src/styles/style.css.map
 
