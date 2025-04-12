@@ -3,33 +3,32 @@ import { Modal } from "react-bootstrap";
 import { useErrorBoundary } from "react-error-boundary";
 import { useLocation, useSearchParams } from "wouter";
 import Portal from "~/components/Portal";
+import useUser from "~/hooks/api/useUser";
 import useUsers from "~/hooks/api/useUsers";
 import { api } from "~/lib/api";
 import { getUpdatedSearch } from "~/lib/router";
 
 type State = {
+  isHiding: boolean;
   isInProgress: boolean;
-  isShown: boolean;
-  user: HydratedUser | null;
 };
 
 export default function DeleteModal() {
   const { showBoundary } = useErrorBoundary();
   const [location, navigate] = useLocation();
   const [searchParams] = useSearchParams();
-  const [state, setState] = useState<State>({ isInProgress: false, isShown: false, user: null });
-  const isEnabled = useMemo(() => searchParams.get("action") === "delete", [searchParams]);
-  const userID = useMemo(() => Number(searchParams.get("userID")) || null, [searchParams]);
+  const [state, setState] = useState<State>({ isHiding: false, isInProgress: false });
+  const userID = useMemo(() => Number(searchParams.get("userID")) || undefined, [searchParams]);
+  const { data: user, error: userError } = useUser(userID);
   const { mutate } = useUsers();
 
-  async function confirmDeletion() {
+  async function confirm() {
     try {
       setState((s) => ({ ...s, isInProgress: true }));
       const response = await api.delete(`/users/${userID}`);
 
       if (response.ok) {
         await mutate();
-
         hide();
       }
     } catch (e) {
@@ -41,65 +40,68 @@ export default function DeleteModal() {
 
   function handleExited() {
     navigate(`${location}${getUpdatedSearch(searchParams, { action: null, userID: null })}`, { replace: true });
+    setState((s) => ({ ...s, isHiding: false }));
   }
 
   function hide() {
-    setState((s) => ({ ...s, isShown: false }));
+    setState((s) => ({ ...s, isHiding: true }));
   }
 
   useEffect(() => {
-    if (isEnabled && userID !== null) {
-      setState((s) => ({ ...s, isShown: true }));
+    if (user?.isOrganizationOwner) {
+      hide();
     }
-  }, [isEnabled, userID]);
-
-  useEffect(() => {
-    async function getUser() {
-      try {
-        if (userID === null) {
-          return;
-        }
-
-        const response = await api.get(`/users/${userID}`);
-
-        if (response.ok) {
-          const user = await response.json();
-          setState((s) => ({ ...s, user }));
-        }
-      } catch (e) {
-        showBoundary(e);
-      }
-    }
-
-    getUser().catch((e) => {
-      showBoundary(e);
-    });
-  }, [showBoundary, userID]);
+  }, [user?.isOrganizationOwner]);
 
   return (
     <Portal>
-      <Modal centered onExited={handleExited} onHide={hide} show={state.isShown}>
+      <Modal centered onExited={handleExited} onHide={hide} show={userID !== undefined && !state.isHiding}>
         <Modal.Header closeButton>
           <Modal.Title>Delete user</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
-          Are you sure you want to delete team member
-          {" "}
-          <span className="fw-semi-bold">{state.user?.name}</span>
-          ?
+          {user !== undefined ? (
+            <>
+              Are you sure you want to delete team member
+              {" "}
+              <span className="fw-semi-bold">{user?.name}</span>
+              ?
+            </>
+          ) : (
+            <>
+              {userError !== undefined ? (
+                <div>
+                  <span className="fw-bold">An error occurred:</span>
+                  {" "}
+                  {userError.message}
+                </div>
+              ) : (
+                <div className="d-flex justify-content-center">
+                  <div className="spinner spinner-border text-primary" role="status" />
+                </div>
+              )}
+            </>
+          )}
         </Modal.Body>
 
         <Modal.Footer as="fieldset" disabled={state.isInProgress}>
           <button className="btn btn-secondary" onClick={hide} type="button">Cancel</button>
 
-          <button className="align-items-center btn btn-danger d-flex gap-4" onClick={confirmDeletion} type="button">
-            {state.isInProgress ? (
-              <span className="spinner-border spinner-border-sm" />
-            ) : null}
+          {userError === undefined ? (
+            <button
+              className="align-items-center btn btn-danger d-flex gap-4"
+              disabled={user === undefined}
+              onClick={confirm}
+              type="button"
+            >
+              {state.isInProgress ? (
+                <span className="spinner-border spinner-border-sm" />
+              ) : null}
 
-            Delete
-          </button>
+              Delete
+            </button>
+          ) : null}
         </Modal.Footer>
       </Modal>
     </Portal>

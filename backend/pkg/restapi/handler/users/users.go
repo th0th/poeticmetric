@@ -50,10 +50,11 @@ func (h *Handler) Delete(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		if errors.Is(err, poeticmetric.ErrNotFound) {
 			h.responder.NotFound(w)
-			return
+		} else if errors.Is(err, poeticmetric.ErrCantDeleteOwnerUser) {
+			h.responder.Detail(w, http.StatusBadRequest, "Organization owner can't be deleted.")
+		} else {
+			h.responder.Error(w, errors.Wrap(err, 0))
 		}
-
-		h.responder.Error(w, errors.Wrap(err, 0))
 		return
 	}
 
@@ -125,7 +126,11 @@ func (h *Handler) Read(w http.ResponseWriter, r *http.Request) {
 
 	organizationUser, err := h.userService.ReadOrganizationUser(r.Context(), auth.User.OrganizationID, userID)
 	if err != nil {
-		h.responder.Error(w, errors.Wrap(err, 0))
+		if errors.Is(err, poeticmetric.ErrNotFound) {
+			h.responder.NotFound(w)
+		} else {
+			h.responder.Error(w, errors.Wrap(err, 0))
+		}
 		return
 	}
 

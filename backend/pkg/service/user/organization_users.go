@@ -14,12 +14,24 @@ import (
 func (s *service) DeleteOrganizationUser(ctx context.Context, organizationID uint, userID uint) error {
 	postgres := poeticmetric.ServicePostgres(ctx, s)
 
-	q := postgres.Where(poeticmetric.User{ID: userID, OrganizationID: organizationID}).Delete(&poeticmetric.User{})
-	if q.Error != nil {
-		return errors.Wrap(q.Error, 0)
+	user := poeticmetric.User{}
+	err := postgres.
+		Select("ID", "IsOrganizationOwner").
+		First(&user, poeticmetric.User{ID: userID, OrganizationID: organizationID}, "ID", "OrganizationID").
+		Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return errors.Wrap(poeticmetric.ErrNotFound, 0)
+		}
 	}
-	if q.RowsAffected != 1 {
-		return errors.Wrap(poeticmetric.ErrNotFound, 0)
+
+	if user.IsOrganizationOwner {
+		return errors.Wrap(poeticmetric.ErrCantDeleteOwnerUser, 0)
+	}
+
+	err = postgres.Delete(&user).Error
+	if err != nil {
+		return errors.Wrap(err, 0)
 	}
 
 	return nil
