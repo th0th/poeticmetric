@@ -23,14 +23,14 @@ require (
 	github.com/stripe/stripe-go/v79 v79.12.0
 	github.com/swaggo/http-swagger/v2 v2.0.2
 	github.com/swaggo/swag v1.16.4
-	github.com/tdewolff/minify/v2 v2.22.4
+	github.com/tdewolff/minify/v2 v2.23.1
 	github.com/testcontainers/testcontainers-go v0.36.0
 	github.com/testcontainers/testcontainers-go/modules/postgres v0.36.0
-	github.com/valkey-io/valkey-go v1.0.56
-	github.com/valkey-io/valkey-go/valkeylimiter v1.0.56
-	golang.org/x/crypto v0.36.0
-	golang.org/x/oauth2 v0.28.0
-	golang.org/x/sync v0.12.0
+	github.com/valkey-io/valkey-go v1.0.57
+	github.com/valkey-io/valkey-go/valkeylimiter v1.0.57
+	golang.org/x/crypto v0.37.0
+	golang.org/x/oauth2 v0.29.0
+	golang.org/x/sync v0.13.0
 	google.golang.org/api v0.228.0
 	gorm.io/driver/clickhouse v0.6.1
 	gorm.io/driver/postgres v1.5.11
@@ -109,7 +109,7 @@ require (
 	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/stretchr/objx v0.5.2 // indirect
 	github.com/swaggo/files/v2 v2.0.0 // indirect
-	github.com/tdewolff/parse/v2 v2.7.21 // indirect
+	github.com/tdewolff/parse/v2 v2.7.23 // indirect
 	github.com/th0th/disposableemail v0.0.2-0.20241107110532-1e027547679f // indirect
 	github.com/tklauser/go-sysconf v0.3.12 // indirect
 	github.com/tklauser/numcpus v0.6.1 // indirect
@@ -122,8 +122,8 @@ require (
 	go.uber.org/atomic v1.11.0 // indirect
 	golang.org/x/exp v0.0.0-20230510235704-dd950f8aeaea // indirect
 	golang.org/x/net v0.37.0 // indirect
-	golang.org/x/sys v0.31.0 // indirect
-	golang.org/x/text v0.23.0 // indirect
+	golang.org/x/sys v0.32.0 // indirect
+	golang.org/x/text v0.24.0 // indirect
 	golang.org/x/tools v0.31.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250313205543-e70fdf4c4cb4 // indirect
 	google.golang.org/grpc v1.71.0 // indirect
