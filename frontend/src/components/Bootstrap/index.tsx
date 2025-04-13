@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { Link } from "wouter";
 import ActivityOverlay from "~/components/ActivityOverlay";
 import Title from "~/components/Title";
+import useAuthentication from "~/hooks/useAuthentication";
 import { api } from "~/lib/api";
 import { base64Encode } from "~/lib/base64";
 import { setErrors } from "~/lib/form";
@@ -22,6 +23,7 @@ type Form = {
 };
 
 export default function Bootstrap() {
+  const { refresh } = useAuthentication();
   const { showBoundary } = useErrorBoundary();
   const { formState: { errors, isLoading, isSubmitSuccessful, isSubmitting }, handleSubmit, register, setError, watch } = useForm<Form>({
     defaultValues: async () => {
@@ -92,6 +94,7 @@ export default function Bootstrap() {
 
         if (accessTokenResponse.ok) {
           setUserAccessToken(accessTokenResponseJson.token);
+          await refresh();
         } else {
           setErrors(setError, accessTokenResponseJson);
         }
@@ -130,7 +133,7 @@ export default function Bootstrap() {
               <>
                 {isSubmitSuccessful ? (
                   <div className="text-center mt-8">
-                    <Link className="btn btn-primary" to="/">Go to app</Link>
+                    <Link className="btn btn-primary" to="/sites">Go to app</Link>
                   </div>
                 ) : (
                   <form className="card mt-16 overflow-hidden position-relative" onSubmit={handleSubmit(submit)}>
