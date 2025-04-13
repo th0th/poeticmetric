@@ -24,7 +24,7 @@ export default function DocsArticle() {
 
       <div className="container-fluid d-flex flex-grow-1">
         <div className="bg-body row">
-          <div className="border-end-md col-12 col-md-auto d-flex flex-column">
+          <div className="border-end-md d-flex flex-column flex-shrink-0 w-md-16rem">
             <Menu />
           </div>
 

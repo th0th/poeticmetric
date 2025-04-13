@@ -107,14 +107,14 @@ function Menu({ className, ...props }: MenuProps, ref: Ref<HTMLElement>) {
                           <li {...props} key={article.slug}>
                             <Link
                               className={classNames(
-                                "align-items-center d-flex flex-row gap-2 px-4 py-2 rounded text-decoration-none",
+                                "d-block px-4 py-2 rounded text-decoration-none",
                                 currentCategory.slug === category.slug && currentArticle.slug === article.slug
                                   ? "text-body bg-body-secondary text-body-emphasis" :
                                   "bg-body-secondary-focus-visible bg-body-secondary-hover text-body-secondary",
                               )}
                               to={`/docs/${category.slug}/${article.slug}`}
                             >
-                              {createElement(icons[article.icon] || IconFile, { className: "flex-shrink-0", size: 16 })}
+                              {createElement(icons[article.icon] || IconFile, { className: "align-text-bottom me-2", size: 16 })}
 
                               <span>{article.title}</span>
                             </Link>
