@@ -102,7 +102,6 @@ func (r *Responder) String(w http.ResponseWriter, contentType string, data []byt
 }
 
 func (r *Responder) Unauthorized(w http.ResponseWriter) {
-	w.Header().Set("WWW-Authenticate", `Basic realm="Restricted"`)
 	r.Detail(w, http.StatusUnauthorized, "Invalid credentials.")
 }
 
