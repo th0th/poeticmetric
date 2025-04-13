@@ -43,7 +43,10 @@ export default function Technology() {
       <div className="card-body d-flex flex-column h-lg-18rem">
         <div className="align-items-center d-flex h-2rem mb-6">
           <Dropdown onSelect={handleDropdownSelect}>
-            <Dropdown.Toggle as="button" className="bg-transparent bg-opacity-10-hover bg-primary-hover border-0 fw-medium px-4 rounded">
+            <Dropdown.Toggle
+              as="button"
+              className="bg-transparent bg-opacity-10-hover bg-primary-hover border-0 fw-medium px-4 rounded text-body"
+            >
               {section.title}
             </Dropdown.Toggle>
 
