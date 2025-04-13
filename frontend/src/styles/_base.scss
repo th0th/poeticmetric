@@ -314,6 +314,7 @@ $utilities: map-merge($utilities, (
     )),
   )),
   "width": map-merge(map-get($utilities, "width"), (
+    responsive: true,
     values: map-merge(map-get(map-get($utilities, "width"), "values"), map-merge($fixed-sizes, (
       "33": 33.3333%,
       "66": 66.6667%,
