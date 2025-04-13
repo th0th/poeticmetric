@@ -9,8 +9,8 @@ type AppErrorBoundaryProps = {
 export default function AppErrorBoundary({ children }: AppErrorBoundaryProps) {
   return (
     <ErrorBoundary
-      fallback={(
-        <Error />
+      fallbackRender={({ error, resetErrorBoundary }) => (
+        <Error error={error} resetErrorBoundary={resetErrorBoundary} />
       )}
       onError={(e) => {
         console.error(e); // eslint-disable-line no-console
