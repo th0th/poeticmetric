@@ -20,7 +20,7 @@ const docsPaths = readdirSync(join(baseDir, "src", "docs"), { withFileTypes: tru
 export function getRoutes() {
   const routesFileContent = readFileSync("src/components/App/index.tsx", "utf-8");
   const routePaths = [...routesFileContent.matchAll(/path="(.*)"/ig)].map((d) => d[1]);
-  const routes = [];
+  const routes = ["/404"];
 
   for (const routePath of routePaths) {
     handleRoutePath(routes, routePath);
