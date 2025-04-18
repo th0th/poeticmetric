@@ -117,8 +117,10 @@ func (s *service) Run(ctx context.Context, params *poeticmetric.BootstrapService
 	} else {
 		plans = []*poeticmetric.Plan{
 			{
-				ID:   1,
-				Name: "Default",
+				ID:                1,
+				MaxEventsPerMonth: -1,
+				MaxUsers:          -1,
+				Name:              "Default",
 			},
 		}
 	}
@@ -221,11 +223,11 @@ func (s *service) Run(ctx context.Context, params *poeticmetric.BootstrapService
 						DurationSeconds: uint32(gofakeit.IntRange(1, 1200)), //nolint:gosec
 						ID:              uuid.NewString(),
 						Kind:            poeticmetric.EventKindPageView,
-						Locale:    &languageBcp,
-						SiteID:    site.ID,
-						TimeZone:  &timeZone,
-						URL:       gofakeit.RandomString(urls),
-						UserAgent: gofakeit.RandomString(userAgents),
+						Locale:          &languageBcp,
+						SiteID:          site.ID,
+						TimeZone:        &timeZone,
+						URL:             gofakeit.RandomString(urls),
+						UserAgent:       gofakeit.RandomString(userAgents),
 					}
 
 					if gofakeit.Bool() {

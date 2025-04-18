@@ -66,7 +66,7 @@ func (s *service) InviteOrganizationUser(ctx context.Context, organizationID uin
 
 		err2 = s.emailService.Send(poeticmetric.SendEmailParams{
 			Subject:  fmt.Sprintf("Join %s on PoeticMetric", organization.Name),
-			Template: poeticmetric.InviteEmailTemplate,
+			Template: poeticmetric.InvitationEmailTemplate,
 			TemplateData: poeticmetric.InviteEmailTemplateParams{
 				User: &user,
 			},
