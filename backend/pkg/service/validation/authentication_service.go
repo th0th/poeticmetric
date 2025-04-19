@@ -13,6 +13,56 @@ import (
 	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
 )
 
+func (s *service) ActivateUserParams(ctx context.Context, params *poeticmetric.ActivateUserParams) error {
+	validationErrs := v.Validate(v.Schema{
+		v.F("activationToken", params.ActivationToken): v.All(
+			v.Nonzero[*string]().Msg("This field is required."),
+			
+			v.Nested(func(x *string) v.Validator {
+				return v.Value(*x, s.userActivationToken(ctx).Msg("Activation token is not valid."))
+			}),
+		),
+
+		v.F("name", params.Name): v.All(
+			v.Nonzero[*string]().Msg("This field is required."),
+
+			v.Nested(func(x *string) v.Validator {
+				return v.Value(*x, v.LenString(poeticmetric.UserNameMinLength, poeticmetric.UserNameMaxLength).Msg(fmt.Sprintf(
+					"The user name must be between %d and %d characters long.",
+					poeticmetric.UserNameMinLength,
+					poeticmetric.UserNameMaxLength,
+				)))
+			}),
+		),
+
+		v.F("newPassword", params.NewPassword): v.All(
+			v.Nonzero[*string]().Msg("This field is required."),
+
+			v.Nested(func(x *string) v.Validator {
+				return v.Value(*x, v.LenString(poeticmetric.UserPasswordMinLength, poeticmetric.UserPasswordMaxLength).Msg(fmt.Sprintf(
+					"The password must be between %d and %d characters long.",
+					poeticmetric.UserPasswordMinLength,
+					poeticmetric.UserPasswordMaxLength,
+				)))
+			}),
+		),
+
+		v.F("newPassword2", params.NewPassword2): v.All(
+			v.Nonzero[*string]().Msg("This field is required."),
+
+			v.Nested(func(x *string) v.Validator {
+				return v.Value(*x, v.Eq(*params.NewPassword).Msg("Passwords do not match."))
+			}),
+		),
+	})
+
+	if len(validationErrs) > 0 {
+		return errors.Wrap(validationErrs, 0)
+	}
+
+	return nil
+}
+
 func (s *service) ChangeUserPasswordParams(ctx context.Context, params *poeticmetric.ChangeUserPasswordParams) error {
 	validationErrs := v.Validate(v.Schema{
 		v.F("newPassword", params.NewPassword): v.All(
@@ -214,6 +264,34 @@ func (s *service) UpdateOrganizationParams(ctx context.Context, params *poeticme
 	}
 
 	return nil
+}
+
+func (s *service) userActivationToken(ctx context.Context) *v.MessageValidator {
+	mv := v.MessageValidator{
+		Message: "is not valid",
+	}
+
+	mv.Validator = v.Func(func(field *v.Field) v.Errors {
+		value, ok := field.Value.(string)
+		if !ok {
+			return v.NewUnsupportedErrors("userActivationToken", field, "string")
+		}
+
+		postgres := poeticmetric.ServicePostgres(ctx, s)
+
+		err := postgres.First(&poeticmetric.User{}, poeticmetric.User{ActivationToken: &value}, "ActivationToken").Error
+		if err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return v.NewInvalidErrors(field, mv.Message)
+			}
+
+			return v.NewErrors(field.Name, v.ErrUnsupported, err.Error())
+		}
+
+		return nil
+	})
+
+	return &mv
 }
 
 func (s *service) userPasswordResetToken(ctx context.Context, token string) (bool, error) {

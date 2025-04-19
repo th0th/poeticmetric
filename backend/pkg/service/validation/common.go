@@ -20,7 +20,7 @@ func (s *service) organizationCanAddUser(ctx context.Context) *v.MessageValidato
 	mv.Validator = v.Func(func(field *v.Field) v.Errors {
 		value, ok := field.Value.(uint)
 		if !ok {
-			return v.NewUnsupportedErrors("organizationCanHaveUser", field, "bool")
+			return v.NewUnsupportedErrors("organizationCanAddUser", field, "bool")
 		}
 
 		postgres := poeticmetric.ServicePostgres(ctx, s)

@@ -7,6 +7,7 @@ import (
 type ValidationService interface {
 	ServiceWithPostgres
 
+	ActivateUserParams(ctx context.Context, params *ActivateUserParams) error
 	ChangeUserPasswordParams(ctx context.Context, params *ChangeUserPasswordParams) error
 	CreateEventParams(ctx context.Context, params *CreateEventParams) error
 	CreateOrganizationSiteParams(ctx context.Context, organizationID uint, params *CreateOrganizationSiteParams) error

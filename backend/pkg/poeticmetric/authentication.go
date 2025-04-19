@@ -13,12 +13,14 @@ const (
 type AuthenticationService interface {
 	ServiceWithPostgres
 
+	ActivateUser(ctx context.Context, params *ActivateUserParams) error
 	ChangeUserPassword(ctx context.Context, userID uint, params *ChangeUserPasswordParams) error
 	CreateUserAccessToken(ctx context.Context, userID uint) (*AuthenticationUserAccessToken, error)
 	DeleteOrganization(ctx context.Context, organizationID uint, params *OrganizationDeletionParams) error
 	DeleteUserAccessToken(ctx context.Context, userAccessTokenID uint) error
 	ListOrganizationDeletionReasons(ctx context.Context) ([]*OrganizationDeletionReason, error)
 	ReadOrganization(ctx context.Context, organizationID uint) (*AuthenticationOrganization, error)
+	ReadPlan(ctx context.Context, planID uint) (*AuthenticationPlan, error)
 	ReadUser(ctx context.Context, userID uint) (*AuthenticationUser, error)
 	ReadUserAccessToken(ctx context.Context, userAccessTokenID uint) (*AuthenticationUserAccessToken, error)
 	ReadUserByEmailPassword(ctx context.Context, email string, password string) (*User, error)
@@ -30,8 +32,23 @@ type AuthenticationService interface {
 	ValidateUserPasswordResetToken(ctx context.Context, token string) (bool, error)
 }
 
+type ActivateUserParams struct {
+	ActivationToken *string `json:"activationToken"`
+	Name            *string `json:"name"`
+	NewPassword     *string `json:"newPassword"`
+	NewPassword2    *string `json:"newPassword2"`
+}
+
 type AuthenticationOrganization struct {
-	Name string `json:"name"`
+	CreatedAt time.Time           `json:"createdAt"`
+	Name      string              `json:"name"`
+	UpdatedAt time.Time           `json:"updatedAt"`
+}
+
+type AuthenticationPlan struct {
+	MaxEventsPerMonth int    `json:"maxEventsPerMonth"`
+	MaxUsers          int    `json:"maxUsers"`
+	Name              string `json:"name"`
 }
 
 type AuthenticationUser struct {
@@ -84,8 +101,12 @@ type UpdateOrganizationParams struct {
 	Name *string `json:"name"`
 }
 
-func (o *AuthenticationOrganization) TableName() string {
+func (*AuthenticationOrganization) TableName() string {
 	return "organizations"
+}
+
+func (*AuthenticationPlan) TableName() string {
+	return "plans"
 }
 
 func (*AuthenticationUserAccessToken) TableName() string {

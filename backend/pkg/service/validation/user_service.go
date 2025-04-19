@@ -28,18 +28,6 @@ func (s *service) InviteOrganizationUserParams(ctx context.Context, organization
 				))
 			}),
 		),
-
-		v.F("name", params.Name): v.All(
-			v.Nonzero[*string]().Msg("This field is required."),
-
-			v.Nested(func(x *string) v.Validator {
-				return v.Value(*x, v.LenString(poeticmetric.UserNameMinLength, poeticmetric.UserNameMaxLength).Msg(fmt.Sprintf(
-					"This field should be between %d and %d characters in length.",
-					poeticmetric.UserNameMinLength,
-					poeticmetric.UserNameMaxLength,
-				)))
-			}),
-		),
 	})
 
 	if len(validationErrs) > 0 {
