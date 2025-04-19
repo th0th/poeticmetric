@@ -19,11 +19,11 @@ import (
 func (h *Handler) ReadPlan(w http.ResponseWriter, r *http.Request) {
 	authentication := middleware.GetAuthentication(r.Context())
 
-	user, err := h.authenticationService.ReadPlan(r.Context(), authentication.User.Organization.PlanID)
+	plan, err := h.authenticationService.ReadPlan(r.Context(), authentication.User.Organization.PlanID)
 	if err != nil {
 		h.responder.Error(w, errors.Wrap(err, 0))
 		return
 	}
 
-	h.responder.JSON(w, http.StatusOK, user)
+	h.responder.JSON(w, http.StatusOK, plan)
 }
