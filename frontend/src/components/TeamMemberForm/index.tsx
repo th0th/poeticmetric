@@ -7,6 +7,7 @@ import { useSearchParams } from "wouter";
 import ActivityOverlay from "~/components/ActivityOverlay";
 import Avatar from "~/components/Avatar";
 import Breadcrumb from "~/components/Breadcrumb";
+import PlanLimitHandler from "~/components/PlanLimitHandler";
 import Result from "~/components/Result";
 import Title from "~/components/Title";
 import { api } from "~/lib/api";
@@ -80,63 +81,69 @@ export default function TeamMemberForm() {
               toTitle="Go back to team"
             />
           ) : (
-            <form className="card overflow-hidden position-relative" onSubmit={handleSubmit(submit)}>
-              <ActivityOverlay isActive={isLoading} />
+            <PlanLimitHandler isDisabled={userID !== null} kind="user">
+              <form className="card overflow-hidden position-relative" onSubmit={handleSubmit(submit)}>
+                <ActivityOverlay isActive={isLoading} />
 
-              <fieldset className="card-body gap-12 vstack" disabled={isSubmitting}>
-                <Avatar alt="Avatar" className="mx-auto" email={email} size={128} />
-
-                <div>
-                  <label className="form-label" htmlFor="input-name">Name</label>
-
-                  <input
-                    className={classNames("form-control", { "is-invalid": errors.name })}
-                    id="input-name"
-                    maxLength={70}
-                    minLength={1}
-                    required
-                    {...register("name")}
-                  />
-
-                  <div className="invalid-feedback">{errors.name?.message}</div>
-                </div>
-
-                <div>
-                  <label className="form-label" htmlFor="input-email">E-mail address</label>
-
-                  <input
-                    className={classNames("form-control", { "is-invalid": errors.email })}
-                    disabled={userID !== null}
-                    id="input-email"
-                    required
-                    type="email"
-                    {...register("email")}
-                  />
-
-                  <div className="invalid-feedback">{errors.email?.message}</div>
-
+                <fieldset className="card-body gap-12 vstack" disabled={isSubmitting}>
                   {userID !== null ? (
-                    <div className="form-text">
-                      Changing a team member&apos;s e-mail address after creation is not possible. You can delete this account and send an
-                      invitation to the new e-mail address.
-                    </div>
+                    <>
+                      <Avatar alt="Avatar" className="mx-auto" email={email} size={128} />
+
+                      <div>
+                        <label className="form-label" htmlFor="input-name">Name</label>
+
+                        <input
+                          className={classNames("form-control", { "is-invalid": errors.name })}
+                          id="input-name"
+                          maxLength={70}
+                          minLength={1}
+                          required
+                          {...register("name")}
+                        />
+
+                        <div className="invalid-feedback">{errors.name?.message}</div>
+                      </div>
+                    </>
                   ) : null}
-                </div>
 
-                <div>
-                  <button className="align-items-center btn btn-primary d-flex gap-4" type="submit">
-                    {isSubmitting ? (
-                      <>
-                        <span className="spinner-border spinner-border-sm" />
-                        {" "}
-                      </>
+                  <div>
+                    <label className="form-label" htmlFor="input-email">E-mail address</label>
+
+                    <input
+                      className={classNames("form-control", { "is-invalid": errors.email })}
+                      disabled={userID !== null}
+                      id="input-email"
+                      required
+                      type="email"
+                      {...register("email")}
+                    />
+
+                    <div className="invalid-feedback">{errors.email?.message}</div>
+
+                    {userID !== null ? (
+                      <div className="form-text">
+                        Changing a team member&apos;s e-mail address after creation is not possible. You can delete this account and send an
+                        invitation to the new e-mail address.
+                      </div>
                     ) : null}
+                  </div>
 
-                    {userID === null ? "Invite team member" : "Save team member"}
-                  </button>
-                </div>
-              </fieldset>
-            </form>
+                  <div>
+                    <button className="align-items-center btn btn-primary d-flex gap-4" type="submit">
+                      {isSubmitting ? (
+                        <>
+                          <span className="spinner-border spinner-border-sm" />
+                          {" "}
+                        </>
+                      ) : null}
+
+                      {userID === null ? "Invite team member" : "Save team member"}
+                    </button>
+                  </div>
+                </fieldset>
+              </form>
+            </PlanLimitHandler>
           )}
         </div>
       </div>

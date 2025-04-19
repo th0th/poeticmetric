@@ -16,6 +16,29 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/authentication/activate-user": {
+            "post": {
+                "description": "Activate user with the activation token.",
+                "tags": [
+                    "authentication"
+                ],
+                "summary": "Activate user",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/poeticmetric.AuthenticationUser"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responder.DetailResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/authentication/change-user-password": {
             "post": {
                 "security": [
@@ -146,6 +169,34 @@ const docTemplate = `{
                             "items": {
                                 "$ref": "#/definitions/poeticmetric.OrganizationDeletionReason"
                             }
+                        }
+                    }
+                }
+            }
+        },
+        "/authentication/plan": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read the current plan of the authenticated user's organization.",
+                "tags": [
+                    "authentication"
+                ],
+                "summary": "Read plan",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/poeticmetric.AuthenticationPlan"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responder.DetailResponse"
                         }
                     }
                 }
@@ -3243,6 +3294,26 @@ const docTemplate = `{
         "poeticmetric.AuthenticationOrganization": {
             "type": "object",
             "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.AuthenticationPlan": {
+            "type": "object",
+            "properties": {
+                "maxEventsPerMonth": {
+                    "type": "integer"
+                },
+                "maxUsers": {
+                    "type": "integer"
+                },
                 "name": {
                     "type": "string"
                 }
@@ -3338,9 +3409,6 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "email": {
-                    "type": "string"
-                },
-                "name": {
                     "type": "string"
                 }
             }

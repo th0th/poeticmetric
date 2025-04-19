@@ -1,3 +1,15 @@
+type AuthenticationOrganization = {
+  createdAt: string;
+  name: string;
+  updatedAt: string;
+};
+
+type AuthenticationPlan = {
+  maxEventsPerMonth: number;
+  maxUsers: number;
+  name: string;
+};
+
 type AuthenticationUser = {
   createdAt: string;
   email: string;
@@ -7,6 +19,11 @@ type AuthenticationUser = {
   name: string;
   updatedAt: string;
 };
+
+type HydratedAuthenticationOrganization = Overwrite<AuthenticationOrganization, {
+  createdAtDayjs: import("dayjs").Dayjs;
+  updatedAtDayjs: import("dayjs").Dayjs;
+}>;
 
 type HydratedAuthenticationUser = Overwrite<AuthenticationUser, {
   canWrite: boolean;

@@ -1,0 +1,413 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "additionalProperties": false,
+    "description": "Schema for PoeticMetric helm chart values",
+    "properties": {
+        "clickhouse": {
+            "additionalProperties": false,
+            "properties": {
+                "image": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "pullPolicy": {
+                            "type": "string"
+                        },
+                        "repository": {
+                            "type": "string"
+                        },
+                        "tag": {
+                            "type": "number"
+                        }
+                    },
+                    "type": "object"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "persistence": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "size": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "resources": {
+                    "additionalProperties": false,
+                    "properties": {},
+                    "type": "object"
+                },
+                "user": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "ghcrAuth": {
+            "type": "string"
+        },
+        "mailpit": {
+            "additionalProperties": false,
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                },
+                "image": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "pullPolicy": {
+                            "type": "string"
+                        },
+                        "repository": {
+                            "type": "string"
+                        },
+                        "tag": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "ingress": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "annotations": {
+                            "additionalProperties": false,
+                            "properties": {},
+                            "type": "object"
+                        },
+                        "host": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        },
+        "pgbouncer": {
+            "additionalProperties": false,
+            "properties": {
+                "config": {
+                    "additionalProperties": false,
+                    "properties": {},
+                    "type": "object"
+                },
+                "image": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "pullPolicy": {
+                            "type": "string"
+                        },
+                        "repository": {
+                            "type": "string"
+                        },
+                        "tag": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "replicas": {
+                    "type": "integer"
+                },
+                "resources": {
+                    "additionalProperties": false,
+                    "properties": {},
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        },
+        "poeticmetric": {
+            "additionalProperties": false,
+            "properties": {
+                "backend": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "image": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "pullPolicy": {
+                                    "type": "string"
+                                },
+                                "repository": {
+                                    "type": "string"
+                                },
+                                "tag": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "type": "object"
+                },
+                "development": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "databaseDebug": {
+                            "type": "boolean"
+                        },
+                        "debug": {
+                            "type": "boolean"
+                        },
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "hostBasePath": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "frontend": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "image": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "pullPolicy": {
+                                    "type": "string"
+                                },
+                                "repository": {
+                                    "type": "string"
+                                },
+                                "tag": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "ingress": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "annotations": {
+                                    "additionalProperties": false,
+                                    "properties": {},
+                                    "type": "object"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "replicas": {
+                            "type": "integer"
+                        },
+                        "resources": {
+                            "additionalProperties": false,
+                            "properties": {},
+                            "type": "object"
+                        },
+                        "tagsEnvironment": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "host": {
+                    "type": "string"
+                },
+                "restApi": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "ingress": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "annotations": {
+                                    "additionalProperties": false,
+                                    "properties": {},
+                                    "type": "object"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "replicas": {
+                            "type": "integer"
+                        },
+                        "resources": {
+                            "additionalProperties": false,
+                            "properties": {},
+                            "type": "object"
+                        }
+                    },
+                    "type": "object"
+                },
+                "smtp": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "fromAddress": {
+                            "type": "string"
+                        },
+                        "host": {
+                            "type": "string"
+                        },
+                        "password": {
+                            "type": "string"
+                        },
+                        "port": {
+                            "type": "integer"
+                        },
+                        "user": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "workers": {
+                    "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                            "concurrency": {
+                                "type": "integer"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "queues": {
+                                "type": "array"
+                            },
+                            "replicas": {
+                                "type": "integer"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "type": "array"
+                }
+            },
+            "type": "object"
+        },
+        "postgres": {
+            "additionalProperties": false,
+            "properties": {
+                "image": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "pullPolicy": {
+                            "type": "string"
+                        },
+                        "repository": {
+                            "type": "string"
+                        },
+                        "tag": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "persistence": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "size": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "resources": {
+                    "additionalProperties": false,
+                    "properties": {},
+                    "type": "object"
+                },
+                "user": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "rabbitmq": {
+            "additionalProperties": false,
+            "properties": {
+                "image": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "repository": {
+                            "type": "string"
+                        },
+                        "tag": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "persistence": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        }
+                    },
+                    "type": "object"
+                },
+                "serviceMonitor": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        }
+                    },
+                    "type": "object"
+                },
+                "user": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "valkey": {
+            "additionalProperties": false,
+            "properties": {
+                "image": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "pullPolicy": {
+                            "type": "string"
+                        },
+                        "repository": {
+                            "type": "string"
+                        },
+                        "tag": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "persistence": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "size": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "resources": {
+                    "additionalProperties": false,
+                    "properties": {},
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        }
+    },
+    "title": "PoeticMetric Helm Values Schema",
+    "type": "object"
+}

@@ -41,5 +41,45 @@
       <option name="workingDir" value="$FileDir$" />
       <envs />
     </TaskOptions>
+    <TaskOptions isEnabled="true">
+      <option name="arguments" value="run email-export" />
+      <option name="checkSyntaxErrors" value="true" />
+      <option name="description" />
+      <option name="exitCodeBehavior" value="ERROR" />
+      <option name="fileExtension" value="*" />
+      <option name="immediateSync" value="true" />
+      <option name="name" value="Build e-mail templates" />
+      <option name="output" value="$ProjectFileDir$/backend/pkg/service/email/files/templates" />
+      <option name="outputFilters">
+        <array />
+      </option>
+      <option name="outputFromStdout" value="false" />
+      <option name="program" value="pnpm" />
+      <option name="runOnExternalChanges" value="true" />
+      <option name="scopeName" value="E-mail templates" />
+      <option name="trackOnlyRoot" value="false" />
+      <option name="workingDir" value="$ProjectFileDir$/frontend" />
+      <envs />
+    </TaskOptions>
+    <TaskOptions isEnabled="true">
+      <option name="arguments" value="" />
+      <option name="checkSyntaxErrors" value="true" />
+      <option name="description" />
+      <option name="exitCodeBehavior" value="ERROR" />
+      <option name="fileExtension" value="yml" />
+      <option name="immediateSync" value="true" />
+      <option name="name" value="Generate helm chart values schema" />
+      <option name="output" value="$ProjectFileDir$/chart/values.schema.json" />
+      <option name="outputFilters">
+        <array />
+      </option>
+      <option name="outputFromStdout" value="false" />
+      <option name="program" value="$ProjectFileDir$/bin/dev/generate-helm-chart-values-schema" />
+      <option name="runOnExternalChanges" value="true" />
+      <option name="scopeName" value="Chart values.yaml" />
+      <option name="trackOnlyRoot" value="false" />
+      <option name="workingDir" value="" />
+      <envs />
+    </TaskOptions>
   </component>
 </project>

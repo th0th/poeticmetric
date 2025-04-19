@@ -2,11 +2,12 @@ package authentication
 
 import (
 	"context"
-	"reflect"
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/brianvoe/gofakeit/v7"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	gormpostgres "gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
@@ -15,7 +16,7 @@ import (
 	"github.com/th0th/poeticmetric/backend/pkg/test/testcontainer"
 )
 
-func Test_service_GetOrganization(t *testing.T) {
+func Test_service_ReadOrganization(t *testing.T) {
 	ctx := context.Background()
 
 	t.Run("unit", func(t *testing.T) {
@@ -23,16 +24,16 @@ func Test_service_GetOrganization(t *testing.T) {
 			sqlmock.QueryMatcherOption(sqlmock.QueryMatcherEqual),
 		)
 		if err != nil {
-			t.Fatal(err)
+			require.NoError(t, err)
 		}
 
 		postgres, err := gorm.Open(gormpostgres.New(gormpostgres.Config{Conn: db}), &gorm.Config{})
 		if err != nil {
-			t.Fatal(err)
+			require.NoError(t, err)
 		}
 
 		// language=postgresql
-		selectQuery := `SELECT * FROM "organizations" WHERE "organizations"."id" = $1 ORDER BY "organizations"."name" LIMIT $2`
+		selectQuery := `SELECT * FROM "organizations" WHERE "organizations"."id" = $1 ORDER BY "organizations"."created_at" LIMIT $2`
 
 		type fields struct {
 			postgres *gorm.DB
@@ -80,22 +81,15 @@ func Test_service_GetOrganization(t *testing.T) {
 					tt.setup()
 				}
 
-				got, err := s.ReadOrganization(tt.args.ctx, tt.args.organizationID)
+				got, err2 := s.ReadOrganization(tt.args.ctx, tt.args.organizationID)
 				if tt.wantErr == nil {
-					if err != nil {
-						t.Errorf("service.ReadOrganization() error = %v, wantErr %v", err, tt.wantErr)
-						return
-					}
+					assert.NoError(t, err2)
 				}
 
-				if !reflect.DeepEqual(tt.want, got) {
-					t.Errorf("service.ReadOrganization() = %v, want %v", got, tt.want)
-				}
+				assert.Equal(t, tt.want, got)
 
-				err = postgresMock.ExpectationsWereMet()
-				if err != nil {
-					t.Errorf("expectations were not met: %v", err)
-				}
+				err2 = postgresMock.ExpectationsWereMet()
+				assert.NoError(t, err2)
 			})
 		}
 	})
@@ -104,9 +98,7 @@ func Test_service_GetOrganization(t *testing.T) {
 		postgresCtr, postgres := testcontainer.NewPostgres(t, ctx)
 		t.Cleanup(func() {
 			err := postgresCtr.Terminate(ctx)
-			if err != nil {
-				t.Fatal(err)
-			}
+			require.NoError(t, err)
 		})
 
 		s := service{
@@ -119,17 +111,14 @@ func Test_service_GetOrganization(t *testing.T) {
 		modelhelper.Organization(t, postgres, &organization)
 
 		authenticationOrganization, err := s.ReadOrganization(ctx, 1)
-		if err != nil {
-			t.Errorf("service.ReadOrganization() error = %v", err)
-			return
-		}
+		require.NoError(t, err)
 
 		expectedAuthenticationOrganization := poeticmetric.AuthenticationOrganization{
 			Name:     organization.Name,
 		}
 
-		if !reflect.DeepEqual(expectedAuthenticationOrganization, *authenticationOrganization) {
-			t.Errorf("service.ReadOrganization() = %v, want %v", *authenticationOrganization, expectedAuthenticationOrganization)
-		}
+		assert.Equal(t, expectedAuthenticationOrganization.Name, authenticationOrganization.Name)
+		assert.NotZero(t, authenticationOrganization.CreatedAt)
+		assert.NotZero(t, authenticationOrganization.UpdatedAt)
 	})
 }

@@ -50,6 +50,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.24.0",
+    "@react-email/components": "^0.0.36",
     "@stylistic/eslint-plugin": "^4.2.0",
     "@types/chroma-js": "^3.1.1",
     "@types/express": "^5.0.1",
@@ -69,6 +70,7 @@
     "eslint-plugin-typescript-sort-keys": "^3.3.0",
     "generate-robotstxt": "^8.0.3",
     "globals": "^16.0.0",
+    "react-email": "^4.0.7",
     "stylelint": "^16.18.0",
     "stylelint-config-standard-scss": "^14.0.0",
     "stylelint-order": "^6.0.4",

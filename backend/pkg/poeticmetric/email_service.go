@@ -5,7 +5,7 @@ import (
 )
 
 const (
-	InviteEmailTemplate           EmailTemplate = "invite.gohtml"
+	InvitationEmailTemplate       EmailTemplate = "invitation.gohtml"
 	PasswordRecoveryEmailTemplate EmailTemplate = "password-recovery.gohtml"
 )
 
@@ -39,7 +39,7 @@ type PasswordRecoveryEmailTemplateParams struct {
 
 func EmailTemplates() []EmailTemplate {
 	return []EmailTemplate{
-		InviteEmailTemplate,
+		InvitationEmailTemplate,
 		PasswordRecoveryEmailTemplate,
 	}
 }

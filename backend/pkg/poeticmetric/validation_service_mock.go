@@ -11,6 +11,10 @@ type ValidationServiceMock struct {
 	mock.Mock
 }
 
+func (m *ValidationServiceMock) ActivateUserParams(ctx context.Context, params *ActivateUserParams) error {
+	return m.Called(ctx, params).Error(0)
+}
+
 func (m *ValidationServiceMock) ChangeUserPasswordParams(ctx context.Context, params *ChangeUserPasswordParams) error {
 	return m.Called(ctx, params).Error(0)
 }

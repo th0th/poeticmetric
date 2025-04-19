@@ -1,6 +1,19 @@
 definitions:
   poeticmetric.AuthenticationOrganization:
     properties:
+      createdAt:
+        type: string
+      name:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  poeticmetric.AuthenticationPlan:
+    properties:
+      maxEventsPerMonth:
+        type: integer
+      maxUsers:
+        type: integer
       name:
         type: string
     type: object
@@ -63,8 +76,6 @@ definitions:
   poeticmetric.InviteOrganizationUserParams:
     properties:
       email:
-        type: string
-      name:
         type: string
     type: object
   poeticmetric.OrganizationDeletionParams:
@@ -513,6 +524,21 @@ info:
   title: PoeticMetric REST API
   version: "1.0"
 paths:
+  /authentication/activate-user:
+    post:
+      description: Activate user with the activation token.
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/poeticmetric.AuthenticationUser'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responder.DetailResponse'
+      summary: Activate user
+      tags:
+      - authentication
   /authentication/change-user-password:
     post:
       description: Change currently authenticated user's password.
@@ -593,6 +619,23 @@ paths:
       security:
       - UserAccessTokenAuthentication: []
       summary: List organization deletion reasons
+      tags:
+      - authentication
+  /authentication/plan:
+    get:
+      description: Read the current plan of the authenticated user's organization.
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/poeticmetric.AuthenticationPlan'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responder.DetailResponse'
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read plan
       tags:
       - authentication
   /authentication/reset-user-password:
