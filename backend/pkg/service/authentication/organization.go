@@ -88,7 +88,7 @@ func (s *service) ReadOrganization(ctx context.Context, organizationID uint) (*p
 	postgres := poeticmetric.ServicePostgres(ctx, s)
 
 	organization := poeticmetric.AuthenticationOrganization{}
-	err := postgres.Joins("Plan").First(&organization, poeticmetric.Organization{ID: organizationID}, "ID").Error
+	err := postgres.First(&organization, poeticmetric.Organization{ID: organizationID}, "ID").Error
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, errors.Wrap(poeticmetric.ErrNotFound, 0)

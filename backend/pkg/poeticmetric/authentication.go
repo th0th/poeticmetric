@@ -42,13 +42,10 @@ type ActivateUserParams struct {
 type AuthenticationOrganization struct {
 	CreatedAt time.Time           `json:"createdAt"`
 	Name      string              `json:"name"`
-	Plan      *AuthenticationPlan `json:"plan"`
-	PlanID    uint                `json:"-"`
 	UpdatedAt time.Time           `json:"updatedAt"`
 }
 
 type AuthenticationPlan struct {
-	ID                uint   `json:"-"`
 	MaxEventsPerMonth int    `json:"maxEventsPerMonth"`
 	MaxUsers          int    `json:"maxUsers"`
 	Name              string `json:"name"`

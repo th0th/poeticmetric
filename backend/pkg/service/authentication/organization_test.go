@@ -15,7 +15,7 @@ import (
 	"github.com/th0th/poeticmetric/backend/pkg/test/testcontainer"
 )
 
-func Test_service_GetOrganization(t *testing.T) {
+func Test_service_ReadOrganization(t *testing.T) {
 	ctx := context.Background()
 
 	t.Run("unit", func(t *testing.T) {
@@ -80,10 +80,10 @@ func Test_service_GetOrganization(t *testing.T) {
 					tt.setup()
 				}
 
-				got, err := s.ReadOrganization(tt.args.ctx, tt.args.organizationID)
+				got, err2 := s.ReadOrganization(tt.args.ctx, tt.args.organizationID)
 				if tt.wantErr == nil {
-					if err != nil {
-						t.Errorf("service.ReadOrganization() error = %v, wantErr %v", err, tt.wantErr)
+					if err2 != nil {
+						t.Errorf("service.ReadOrganization() error = %v, wantErr %v", err2, tt.wantErr)
 						return
 					}
 				}
@@ -92,9 +92,9 @@ func Test_service_GetOrganization(t *testing.T) {
 					t.Errorf("service.ReadOrganization() = %v, want %v", got, tt.want)
 				}
 
-				err = postgresMock.ExpectationsWereMet()
-				if err != nil {
-					t.Errorf("expectations were not met: %v", err)
+				err2 = postgresMock.ExpectationsWereMet()
+				if err2 != nil {
+					t.Errorf("expectations were not met: %v", err2)
 				}
 			})
 		}

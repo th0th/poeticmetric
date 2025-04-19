@@ -3300,9 +3300,6 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
-                "plan": {
-                    "$ref": "#/definitions/poeticmetric.AuthenticationPlan"
-                },
                 "updatedAt": {
                     "type": "string"
                 }
