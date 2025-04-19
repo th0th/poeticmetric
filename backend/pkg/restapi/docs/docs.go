@@ -151,6 +151,34 @@ const docTemplate = `{
                 }
             }
         },
+        "/authentication/plan": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read the current plan of the authenticated user's organization.",
+                "tags": [
+                    "authentication"
+                ],
+                "summary": "Read plan",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/poeticmetric.AuthenticationPlan"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responder.DetailResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/authentication/reset-user-password": {
             "post": {
                 "description": "Reset user's password also deleting all existing user access tokens for that user.",
@@ -3243,6 +3271,29 @@ const docTemplate = `{
         "poeticmetric.AuthenticationOrganization": {
             "type": "object",
             "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "plan": {
+                    "$ref": "#/definitions/poeticmetric.AuthenticationPlan"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.AuthenticationPlan": {
+            "type": "object",
+            "properties": {
+                "maxEventsPerMonth": {
+                    "type": "integer"
+                },
+                "maxUsers": {
+                    "type": "integer"
+                },
                 "name": {
                     "type": "string"
                 }

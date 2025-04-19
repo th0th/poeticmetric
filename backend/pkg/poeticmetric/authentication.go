@@ -19,6 +19,7 @@ type AuthenticationService interface {
 	DeleteUserAccessToken(ctx context.Context, userAccessTokenID uint) error
 	ListOrganizationDeletionReasons(ctx context.Context) ([]*OrganizationDeletionReason, error)
 	ReadOrganization(ctx context.Context, organizationID uint) (*AuthenticationOrganization, error)
+	ReadPlan(ctx context.Context, planID uint) (*AuthenticationPlan, error)
 	ReadUser(ctx context.Context, userID uint) (*AuthenticationUser, error)
 	ReadUserAccessToken(ctx context.Context, userAccessTokenID uint) (*AuthenticationUserAccessToken, error)
 	ReadUserByEmailPassword(ctx context.Context, email string, password string) (*User, error)
@@ -31,7 +32,18 @@ type AuthenticationService interface {
 }
 
 type AuthenticationOrganization struct {
-	Name string `json:"name"`
+	CreatedAt time.Time           `json:"createdAt"`
+	Name      string              `json:"name"`
+	Plan      *AuthenticationPlan `json:"plan"`
+	PlanID    uint                `json:"-"`
+	UpdatedAt time.Time           `json:"updatedAt"`
+}
+
+type AuthenticationPlan struct {
+	ID                uint   `json:"-"`
+	MaxEventsPerMonth int    `json:"maxEventsPerMonth"`
+	MaxUsers          int    `json:"maxUsers"`
+	Name              string `json:"name"`
 }
 
 type AuthenticationUser struct {
@@ -84,8 +96,12 @@ type UpdateOrganizationParams struct {
 	Name *string `json:"name"`
 }
 
-func (o *AuthenticationOrganization) TableName() string {
+func (*AuthenticationOrganization) TableName() string {
 	return "organizations"
+}
+
+func (*AuthenticationPlan) TableName() string {
+	return "plans"
 }
 
 func (*AuthenticationUserAccessToken) TableName() string {

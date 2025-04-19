@@ -8,6 +8,7 @@ import (
 	"html/template"
 	"net/smtp"
 	"slices"
+	"strings"
 	texttemplate "text/template"
 
 	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
@@ -100,7 +101,9 @@ func (s *service) Send(params poeticmetric.SendEmailParams) error {
 
 func funcMap(envService poeticmetric.EnvService) template.FuncMap {
 	return template.FuncMap{
-		"frontendUrl": func(path string) string {
+		"frontendUrl": func(paths ...string) string {
+			path := strings.Join(paths, "")
+
 			return envService.FrontendURL(path)
 		},
 	}

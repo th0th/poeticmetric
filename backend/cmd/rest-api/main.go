@@ -201,6 +201,7 @@ func main() {
 	mux.Handle("DELETE /authentication/organization", permissionBasicAuthenticated.Extend(permissionOwner).ThenFunc(authenticationHandler.DeleteOrganization))
 	mux.Handle("GET /authentication/organization", permissionUserAccessTokenAuthenticated.ThenFunc(authenticationHandler.ReadOrganization))
 	mux.Handle("GET /authentication/organization-deletion-options", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(authenticationHandler.GetOrganizationDeletionOptions))
+	mux.Handle("GET /authentication/plan", permissionUserAccessTokenAuthenticated.ThenFunc(authenticationHandler.ReadPlan))
 	mux.Handle("GET /authentication/user", permissionUserAccessTokenAuthenticated.ThenFunc(authenticationHandler.ReadUser))
 	mux.Handle("POST /authentication/user-access-tokens", sensitiveRateLimit.Extend(permissionBasicAuthenticated).ThenFunc(authenticationHandler.CreateUserAccessToken))
 	mux.Handle("DELETE /authentication/user-access-tokens", permissionUserAccessTokenAuthenticated.ThenFunc(authenticationHandler.DeleteUserAccessToken))

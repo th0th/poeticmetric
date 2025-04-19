@@ -1,3 +1,4 @@
+import { Middleware, SWRHook } from "swr";
 import { placeholderRestAPIBaseURL } from "~/lib/base";
 import { getUserAccessToken, setUserAccessToken } from "../user-access-token";
 
@@ -55,3 +56,7 @@ export function getFetcher() {
 
   return fetcher;
 }
+
+export const disableMiddleware: Middleware = (useSWRNext: SWRHook) => (_, fetcher, config) => {
+  return useSWRNext(null, fetcher, config);
+};

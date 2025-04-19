@@ -1,6 +1,21 @@
 definitions:
   poeticmetric.AuthenticationOrganization:
     properties:
+      createdAt:
+        type: string
+      name:
+        type: string
+      plan:
+        $ref: '#/definitions/poeticmetric.AuthenticationPlan'
+      updatedAt:
+        type: string
+    type: object
+  poeticmetric.AuthenticationPlan:
+    properties:
+      maxEventsPerMonth:
+        type: integer
+      maxUsers:
+        type: integer
       name:
         type: string
     type: object
@@ -593,6 +608,23 @@ paths:
       security:
       - UserAccessTokenAuthentication: []
       summary: List organization deletion reasons
+      tags:
+      - authentication
+  /authentication/plan:
+    get:
+      description: Read the current plan of the authenticated user's organization.
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/poeticmetric.AuthenticationPlan'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responder.DetailResponse'
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read plan
       tags:
       - authentication
   /authentication/reset-user-password:
