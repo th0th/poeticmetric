@@ -208,6 +208,7 @@ func main() {
 	mux.Handle("PATCH /authentication/user", permissionUserAccessTokenAuthenticated.ThenFunc(authenticationHandler.UpdateUser))
 	mux.Handle("PATCH /authentication/organization", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(authenticationHandler.UpdateOrganization))
 	mux.Handle("POST /authentication/change-user-password", permissionBasicAuthenticated.ThenFunc(authenticationHandler.ChangeUserPassword))
+	mux.HandleFunc("POST /authentication/activate-user", authenticationHandler.ActivateUser)
 	mux.HandleFunc("POST /authentication/send-user-password-recovery-email", authenticationHandler.SendUserPasswordRecoveryEmail)
 	mux.HandleFunc("POST /authentication/reset-user-password", authenticationHandler.ResetUserPassword)
 

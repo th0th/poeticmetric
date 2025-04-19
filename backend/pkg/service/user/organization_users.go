@@ -51,7 +51,6 @@ func (s *service) InviteOrganizationUser(ctx context.Context, organizationID uin
 
 	user := poeticmetric.User{
 		Email:          *params.Email,
-		Name:           *params.Name,
 		OrganizationID: organizationID,
 	}
 

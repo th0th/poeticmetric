@@ -13,6 +13,7 @@ const (
 type AuthenticationService interface {
 	ServiceWithPostgres
 
+	ActivateUser(ctx context.Context, params *ActivateUserParams) error
 	ChangeUserPassword(ctx context.Context, userID uint, params *ChangeUserPasswordParams) error
 	CreateUserAccessToken(ctx context.Context, userID uint) (*AuthenticationUserAccessToken, error)
 	DeleteOrganization(ctx context.Context, organizationID uint, params *OrganizationDeletionParams) error
@@ -29,6 +30,13 @@ type AuthenticationService interface {
 	UpdateOrganization(ctx context.Context, organizationID uint, params *UpdateOrganizationParams) error
 	UpdateUser(ctx context.Context, userID uint, params *UpdateAuthenticationUserParams) error
 	ValidateUserPasswordResetToken(ctx context.Context, token string) (bool, error)
+}
+
+type ActivateUserParams struct {
+	ActivationToken *string `json:"activationToken"`
+	Name            *string `json:"name"`
+	NewPassword     *string `json:"newPassword"`
+	NewPassword2    *string `json:"newPassword2"`
 }
 
 type AuthenticationOrganization struct {

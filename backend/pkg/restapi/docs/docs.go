@@ -16,6 +16,29 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/authentication/activate-user": {
+            "post": {
+                "description": "Activate user with the activation token.",
+                "tags": [
+                    "authentication"
+                ],
+                "summary": "Activate user",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/poeticmetric.AuthenticationUser"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responder.DetailResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/authentication/change-user-password": {
             "post": {
                 "security": [
@@ -3389,9 +3412,6 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "email": {
-                    "type": "string"
-                },
-                "name": {
                     "type": "string"
                 }
             }

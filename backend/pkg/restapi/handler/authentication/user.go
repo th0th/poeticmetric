@@ -11,6 +11,30 @@ import (
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/middleware"
 )
 
+// ActivateUser godoc
+// @Description Activate user with the activation token.
+// @Failure 400 {object} responder.DetailResponse
+// @Router /authentication/activate-user [post]
+// @Success 200 {object} poeticmetric.AuthenticationUser
+// @Summary Activate user
+// @Tags authentication
+func (h *Handler) ActivateUser(w http.ResponseWriter, r *http.Request) {
+	params := poeticmetric.ActivateUserParams{}
+	err := json.NewDecoder(r.Body).Decode(&params)
+	if err != nil {
+		h.responder.Error(w, errors.Wrap(err, 0))
+		return
+	}
+
+	err = h.authenticationService.ActivateUser(r.Context(), &params)
+	if err != nil {
+		h.responder.Error(w, errors.Wrap(err, 0))
+		return
+	}
+
+	h.responder.Detail(w, http.StatusOK, "User activated successfully.")
+}
+
 // ReadUser godoc
 // @Description Read currently authenticated user.
 // @Failure 400 {object} responder.DetailResponse

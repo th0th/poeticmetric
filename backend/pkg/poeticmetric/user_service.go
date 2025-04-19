@@ -27,7 +27,6 @@ type OrganizationUser struct {
 
 type InviteOrganizationUserParams struct {
 	Email *string `json:"email"`
-	Name  *string `json:"name"`
 }
 
 type UpdateOrganizationUserParams struct {

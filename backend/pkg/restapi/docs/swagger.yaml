@@ -79,8 +79,6 @@ definitions:
     properties:
       email:
         type: string
-      name:
-        type: string
     type: object
   poeticmetric.OrganizationDeletionParams:
     properties:
@@ -528,6 +526,21 @@ info:
   title: PoeticMetric REST API
   version: "1.0"
 paths:
+  /authentication/activate-user:
+    post:
+      description: Activate user with the activation token.
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/poeticmetric.AuthenticationUser'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responder.DetailResponse'
+      summary: Activate user
+      tags:
+      - authentication
   /authentication/change-user-password:
     post:
       description: Change currently authenticated user's password.

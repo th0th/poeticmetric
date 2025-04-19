@@ -86,22 +86,26 @@ export default function TeamMemberForm() {
                 <ActivityOverlay isActive={isLoading} />
 
                 <fieldset className="card-body gap-12 vstack" disabled={isSubmitting}>
-                  <Avatar alt="Avatar" className="mx-auto" email={email} size={128} />
+                  {userID !== null ? (
+                    <>
+                      <Avatar alt="Avatar" className="mx-auto" email={email} size={128} />
 
-                  <div>
-                    <label className="form-label" htmlFor="input-name">Name</label>
+                      <div>
+                        <label className="form-label" htmlFor="input-name">Name</label>
 
-                    <input
-                      className={classNames("form-control", { "is-invalid": errors.name })}
-                      id="input-name"
-                      maxLength={70}
-                      minLength={1}
-                      required
-                      {...register("name")}
-                    />
+                        <input
+                          className={classNames("form-control", { "is-invalid": errors.name })}
+                          id="input-name"
+                          maxLength={70}
+                          minLength={1}
+                          required
+                          {...register("name")}
+                        />
 
-                    <div className="invalid-feedback">{errors.name?.message}</div>
-                  </div>
+                        <div className="invalid-feedback">{errors.name?.message}</div>
+                      </div>
+                    </>
+                  ) : null}
 
                   <div>
                     <label className="form-label" htmlFor="input-email">E-mail address</label>

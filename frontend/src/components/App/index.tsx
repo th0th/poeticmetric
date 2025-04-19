@@ -32,6 +32,7 @@ dayjs.extend(dayjsDuration);
 dayjs.extend(dayjsLocalizedFormat);
 dayjs.extend(dayjsRelativeTime);
 
+const Activation = lazy(() => import("~/components/Activation"));
 const BlogPage = lazy(() => import("~/components/BlogPage"));
 const BlogPost = lazy(() => import("~/components/BlogPost"));
 const Bootstrap = lazy(() => import("~/components/Bootstrap"));
@@ -76,6 +77,7 @@ export default function App({ path }: AppProps) {
                   <Suspense fallback={suspenseFallback}>
                     <Switch>
                       <Route component={Home} path="/" />
+                      <Route component={withAuthorization(Activation, { isAuthenticated: false })} path="/activation" />
                       <Route component={BlogPage} path="/blog" />
                       <Route component={BlogPage} path="/blog/page/:blogPage" />
                       <Route component={BlogPost} path="/blog/:blogPostSlug" />
