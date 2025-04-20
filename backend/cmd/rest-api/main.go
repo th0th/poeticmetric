@@ -263,6 +263,7 @@ func main() {
 	mux.Handle("GET /users", permissionUserAccessTokenAuthenticated.ThenFunc(usersHandler.List))
 	mux.Handle("PATCH /users/{userID}", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(usersHandler.Update))
 	mux.Handle("POST /users", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(usersHandler.Invite))
+	mux.Handle("POST /users/resend-invitation-email", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(usersHandler.ResendInvitationEmail))
 
 	httpServer := http.Server{
 		Handler: alice.New(

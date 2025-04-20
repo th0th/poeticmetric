@@ -13,6 +13,7 @@ type ValidationService interface {
 	CreateOrganizationSiteParams(ctx context.Context, organizationID uint, params *CreateOrganizationSiteParams) error
 	InviteOrganizationUserParams(ctx context.Context, organizationID uint, params *InviteOrganizationUserParams) error
 	OrganizationDeletionParams(ctx context.Context, params *OrganizationDeletionParams) error
+	ResendOrganizationUserInvitationEmailParams(ctx context.Context, organizationID uint, params *ResendOrganizationUserInvitationEmailParams) error
 	ResetUserPasswordParams(ctx context.Context, params *ResetUserPasswordParams) error
 	SendUserPasswordRecoveryEmailParams(ctx context.Context, params *SendUserPasswordRecoveryEmailParams) error
 	SiteReportFilters(ctx context.Context, organizationID uint, filters *SiteReportFilters) error

@@ -69,7 +69,7 @@ func (s *service) InviteOrganizationUser(ctx context.Context, organizationID uin
 			TemplateData: poeticmetric.InviteEmailTemplateParams{
 				User: &user,
 			},
-			To: &mail.Address{Address: user.Email, Name: user.Name},
+			To: &mail.Address{Address: user.Email},
 		})
 		if err2 != nil {
 			return errors.Wrap(err2, 0)
@@ -95,6 +95,7 @@ func (s *service) ListOrganizationUsers(ctx context.Context, organizationID uint
 	organizationUsers := []*poeticmetric.OrganizationUser{}
 	err := postgres.
 		Order("is_organization_owner desc").
+		Order("is_active").
 		Order("name").
 		Find(&organizationUsers, poeticmetric.User{OrganizationID: organizationID}, "OrganizationID").
 		Error
@@ -119,6 +120,47 @@ func (s *service) ReadOrganizationUser(ctx context.Context, organizationID uint,
 	}
 
 	return &organizationUser, nil
+}
+
+func (s *service) ResendOrganizationUserInvitationEmail(ctx context.Context, organizationID uint, params *poeticmetric.ResendOrganizationUserInvitationEmailParams) error {
+	err := s.validationService.ResendOrganizationUserInvitationEmailParams(ctx, organizationID, params)
+	if err != nil {
+		return errors.Wrap(err, 0)
+	}
+
+	postgres := poeticmetric.ServicePostgres(ctx, s)
+
+	user := poeticmetric.User{}
+	err = postgres.
+		Joins("Organization", postgres.Select("Name")).
+		Select("ActivationToken", "Email", "IsEmailVerified").
+		First(&user, poeticmetric.User{ID: *params.UserID, OrganizationID: organizationID}, "ID", "OrganizationID").
+		Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return errors.Wrap(poeticmetric.ErrNotFound, 0)
+		}
+
+		return errors.Wrap(err, 0)
+	}
+
+	if user.IsEmailVerified {
+		return errors.Wrap(poeticmetric.ErrUserAlreadyVerifiedEmail, 0)
+	}
+
+	err = s.emailService.Send(poeticmetric.SendEmailParams{
+		Subject:  fmt.Sprintf("Join %s on PoeticMetric", user.Organization.Name),
+		Template: poeticmetric.InvitationEmailTemplate,
+		TemplateData: poeticmetric.InviteEmailTemplateParams{
+			User: &user,
+		},
+		To: &mail.Address{Address: user.Email, Name: user.Name},
+	})
+	if err != nil {
+		return errors.Wrap(err, 0)
+	}
+
+	return nil
 }
 
 func (s *service) UpdateOrganizationUser(ctx context.Context, organizationID uint, userID uint, params *poeticmetric.UpdateOrganizationUserParams) error {

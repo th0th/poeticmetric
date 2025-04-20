@@ -36,7 +36,7 @@
       <option name="outputFromStdout" value="false" />
       <option name="program" value="$ProjectFileDir$/frontend/node_modules/.bin/sass" />
       <option name="runOnExternalChanges" value="true" />
-      <option name="scopeName" value="Recently Changed Files" />
+      <option name="scopeName" value="Project Files" />
       <option name="trackOnlyRoot" value="false" />
       <option name="workingDir" value="$FileDir$" />
       <envs />

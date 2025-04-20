@@ -2,6 +2,7 @@ import classNames from "classnames";
 import { JSX, PropsWithoutRef } from "react";
 import { Link, useSearchParams } from "wouter";
 import Avatar from "~/components/Avatar";
+import PendingIndicator from "~/components/Team/User/PendingIndicator";
 import useAuthentication from "~/hooks/useAuthentication";
 import { getUpdatedSearch } from "~/lib/router";
 
@@ -17,11 +18,17 @@ export default function User({ className, user, ...props }: UserProps) {
     <div {...props} className={classNames("card", className)}>
       <div className="card-body overflow-hidden">
         <div className="d-flex gap-6">
-          <Avatar alt={user.name} className="flex-grow-0 flex-shrink-0" email={user.email} size={96} />
+          <div className="flex-grow-0 flex-shrink-0 position-relative">
+            <Avatar alt={user.name} className="d-block" email={user.email} size={96} />
+
+            {!user.isEmailVerified ? (
+              <PendingIndicator userID={user.id} />
+            ) : null}
+          </div>
 
           <div className="flex-grow-1 flex-shrink-1 overflow-hidden">
             <div className="fs-7 fw-bold text-body-tertiary text-truncate">{user.isOrganizationOwner ? "Owner" : "Team member"}</div>
-            <div className="fs-5 fw-bold text-truncate" title={user.name}>{user.name}</div>
+            <div className="fs-5 fw-bold text-truncate" title={user.name}>{user.name === "" ? "N/A" : user.name}</div>
             <div className="fs-7 fw-semi-bold text-body-tertiary text-truncate" title={user.email}>{user.email}</div>
           </div>
         </div>
