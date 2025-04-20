@@ -186,7 +186,7 @@
                             "additionalProperties": false,
                             "properties": {
                                 "annotations": {
-                                    "additionalProperties": false,
+                                    "additionalProperties": true,
                                     "properties": {},
                                     "type": "object"
                                 }
