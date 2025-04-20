@@ -7,7 +7,7 @@ clickhouse:
   persistence:
     enabled: true
     size: 10Gi
-  resources: {}
+  resources: {} # @schema $ref: https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements ; skipProperties: true
   user: poeticmetric
 ghcrAuth: ""
 mailpit:
@@ -17,16 +17,16 @@ mailpit:
     repository: axllent/mailpit
     tag: latest
   ingress:
-    annotations: {}
+    annotations: {} # @schema additionalProperties: true
     host: ""
 pgbouncer:
-  config: {}
+  config: {} # @schema additionalProperties: true
   image:
     pullPolicy: IfNotPresent
     repository: bitnami/pgbouncer
     tag: "1"
   replicas: 1
-  resources: {}
+  resources: {} # @schema $ref: https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements ; skipProperties: true
 postgres:
   image:
     pullPolicy: IfNotPresent
@@ -36,7 +36,7 @@ postgres:
   persistence:
     enabled: true
     size: 10Gi
-  resources: {}
+  resources: {} # @schema $ref: https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements ; skipProperties: true
   user: poeticmetric
 poeticmetric:
   backend:
@@ -57,14 +57,14 @@ poeticmetric:
     ingress:
       annotations: {}
     replicas: 1
-    resources: {}
+    resources: {} # @schema $ref: https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements ; skipProperties: true
     tagsEnvironment: ""
   host: poeticmetric.com
   restApi:
     ingress:
-      annotations: {}
+      annotations: {} # @schema additionalProperties: true
     replicas: 1
-    resources: {}
+    resources: {} # @schema $ref: https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements ; skipProperties: true
   smtp:
     fromAddress: poeticmetric@poeticmetric.com
     host: ""
@@ -95,4 +95,4 @@ valkey:
   persistence:
     enabled: true
     size: 10Gi
-  resources: {}
+  resources: {} # @schema $ref: https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements ; skipProperties: true
