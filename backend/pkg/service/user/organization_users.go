@@ -154,7 +154,7 @@ func (s *service) ResendOrganizationUserInvitationEmail(ctx context.Context, org
 		TemplateData: poeticmetric.InviteEmailTemplateParams{
 			User: &user,
 		},
-		To: &mail.Address{Address: user.Email, Name: user.Name},
+		To: &mail.Address{Address: user.Email},
 	})
 	if err != nil {
 		return errors.Wrap(err, 0)

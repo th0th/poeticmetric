@@ -39,6 +39,10 @@ func (m *ValidationServiceMock) Postgres() *gorm.DB {
 	return m.Called().Get(0).(*gorm.DB)
 }
 
+func (m *ValidationServiceMock) ResendOrganizationUserInvitationEmailParams(ctx context.Context, organizationID uint, params *ResendOrganizationUserInvitationEmailParams) error {
+	return m.Called(ctx, organizationID, params).Error(0)
+}
+
 func (m *ValidationServiceMock) ResetUserPasswordParams(ctx context.Context, params *ResetUserPasswordParams) error {
 	return m.Called(ctx, params).Error(0)
 }
