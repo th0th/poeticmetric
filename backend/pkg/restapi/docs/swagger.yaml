@@ -2446,7 +2446,7 @@ paths:
       tags:
       - users
     post:
-      description: Invite a new user to organization.
+      description: Resend invitation e-mail to user.
       parameters:
       - description: Params
         in: body
@@ -2455,15 +2455,15 @@ paths:
         schema:
           $ref: '#/definitions/poeticmetric.InviteOrganizationUserParams'
       responses:
-        "200":
-          description: OK
+        "202":
+          description: Accepted
           schema:
             items:
-              $ref: '#/definitions/poeticmetric.OrganizationUser'
+              $ref: '#/definitions/responder.DetailResponse'
             type: array
       security:
       - UserAccessTokenAuthentication: []
-      summary: Invite user
+      summary: Resend invitation e-mail
       tags:
       - users
   /users/{userID}:

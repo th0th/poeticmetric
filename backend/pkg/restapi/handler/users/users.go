@@ -137,6 +137,37 @@ func (h *Handler) Read(w http.ResponseWriter, r *http.Request) {
 	h.responder.JSON(w, http.StatusOK, organizationUser)
 }
 
+// ResendInvitationEmail godoc
+// @Description Resend invitation e-mail to user.
+// @Param params body poeticmetric.InviteOrganizationUserParams true "Params"
+// @Router /users [post]
+// @Security UserAccessTokenAuthentication
+// @Success 202 {array} responder.DetailResponse
+// @Summary Resend invitation e-mail
+// @Tags users
+func (h *Handler) ResendInvitationEmail(w http.ResponseWriter, r *http.Request) {
+	auth := middleware.GetAuthentication(r.Context())
+
+	params := poeticmetric.ResendOrganizationUserInvitationEmailParams{}
+	err := json.NewDecoder(r.Body).Decode(&params)
+	if err != nil {
+		h.responder.Error(w, errors.Wrap(err, 0))
+		return
+	}
+
+	err = h.userService.ResendOrganizationUserInvitationEmail(r.Context(), auth.User.OrganizationID, &params)
+	if err != nil {
+		if errors.Is(err, poeticmetric.ErrNotFound) {
+			h.responder.NotFound(w)
+		} else {
+			h.responder.Error(w, errors.Wrap(err, 0))
+		}
+		return
+	}
+
+	h.responder.Detail(w, http.StatusAccepted, "OK.")
+}
+
 // Update godoc
 // @Description Update organization user.
 // @Param userID path int true "User ID"

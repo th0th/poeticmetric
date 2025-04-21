@@ -12,6 +12,7 @@ type UserService interface {
 	InviteOrganizationUser(ctx context.Context, organizationID uint, params *InviteOrganizationUserParams) (*OrganizationUser, error)
 	ListOrganizationUsers(ctx context.Context, organizationID uint) ([]*OrganizationUser, error)
 	ReadOrganizationUser(ctx context.Context, organizationID uint, userID uint) (*OrganizationUser, error)
+	ResendOrganizationUserInvitationEmail(ctx context.Context, organizationID uint, params *ResendOrganizationUserInvitationEmailParams) error
 	UpdateOrganizationUser(ctx context.Context, organizationID uint, userID uint, params *UpdateOrganizationUserParams) error
 }
 
@@ -27,6 +28,10 @@ type OrganizationUser struct {
 
 type InviteOrganizationUserParams struct {
 	Email *string `json:"email"`
+}
+
+type ResendOrganizationUserInvitationEmailParams struct {
+	UserID *uint `json:"userID"`
 }
 
 type UpdateOrganizationUserParams struct {

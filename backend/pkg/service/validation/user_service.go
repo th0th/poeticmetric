@@ -37,6 +37,24 @@ func (s *service) InviteOrganizationUserParams(ctx context.Context, organization
 	return nil
 }
 
+func (s *service) ResendOrganizationUserInvitationEmailParams(ctx context.Context, organizationID uint, params *poeticmetric.ResendOrganizationUserInvitationEmailParams) error {
+	validationErrs := v.Validate(v.Schema{
+		v.F("userID", params.UserID): v.All(
+			v.Nonzero[*uint]().Msg("This field is required."),
+
+			v.Nested(func(x *uint) v.Validator {
+				return v.Value(*x, s.organizationUserID(ctx, organizationID).Msg("Please provide a valid user ID."))
+			}),
+		),
+	})
+
+	if len(validationErrs) > 0 {
+		return errors.Wrap(validationErrs, 0)
+	}
+
+	return nil
+}
+
 func (s *service) UpdateOrganizationUserParams(ctx context.Context, organizationID uint, userID uint, params *poeticmetric.UpdateOrganizationUserParams) error {
 	validationErrs := v.Validate(v.Schema{
 		v.F("name", params.Name): v.Any(
