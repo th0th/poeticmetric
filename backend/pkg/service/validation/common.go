@@ -43,6 +43,34 @@ func (s *service) organizationCanAddUser(ctx context.Context) *v.MessageValidato
 	return &mv
 }
 
+func (s *service) organizationUserID(ctx context.Context, organizationID uint) *v.MessageValidator {
+	mv := v.MessageValidator{
+		Message: "is not valid",
+	}
+
+	mv.Validator = v.Func(func(field *v.Field) v.Errors {
+		value, ok := field.Value.(uint)
+		if !ok {
+			return v.NewUnsupportedErrors("organizationUserID", field, "uint")
+		}
+
+		postgres := poeticmetric.ServicePostgres(ctx, s)
+
+		err := postgres.First(&poeticmetric.User{}, poeticmetric.User{ID: value, OrganizationID: organizationID}, "ID", "OrganizationID").Error
+		if err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return v.NewInvalidErrors(field, mv.Message)
+			}
+
+			return v.NewErrors(field.Name, v.ErrUnsupported, err.Error())
+		}
+
+		return nil
+	})
+
+	return &mv
+}
+
 func (s *service) siteURL(ctx context.Context) *v.MessageValidator {
 	mv := v.MessageValidator{
 		Message: "is not valid",

@@ -3159,11 +3159,11 @@ const docTemplate = `{
                         "UserAccessTokenAuthentication": []
                     }
                 ],
-                "description": "Invite a new user to organization.",
+                "description": "Resend invitation e-mail to user.",
                 "tags": [
                     "users"
                 ],
-                "summary": "Invite user",
+                "summary": "Resend invitation e-mail",
                 "parameters": [
                     {
                         "description": "Params",
@@ -3176,12 +3176,12 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
+                    "202": {
+                        "description": "Accepted",
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/poeticmetric.OrganizationUser"
+                                "$ref": "#/definitions/responder.DetailResponse"
                             }
                         }
                     }

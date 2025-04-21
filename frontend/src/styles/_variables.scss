@@ -135,6 +135,7 @@ $theme-colors: map-merge($theme-colors, (
   "navy": $navy,
 ));
 $tooltip-max-width: 240px;
+$tooltip-opacity: 1;
 $tooltip-padding-y: 0.5rem;
 $zindex-levels: map-merge($zindex-levels, (
   1046: 1046,
