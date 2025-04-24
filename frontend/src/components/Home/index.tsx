@@ -1,6 +1,7 @@
 import { IconBolt, IconChartBar, IconCode, IconCookieOff, IconPlug, IconUsers } from "@tabler/icons-react";
 import classNames from "classnames";
 import { Link } from "wouter";
+import CallToAction from "~/components/CallToAction";
 import Description from "~/components/Description";
 import Features, { FeaturesProps } from "~/components/Features";
 import Title from "~/components/Title";
@@ -97,6 +98,12 @@ export default function Home() {
         description="Analytics shouldn't be a headache or a privacy risk. With PoeticMetric, you'll have the tools (and peace of mind) to actually enjoy checking your stats."
         features={features}
         title="A Better Way to Do Analytics"
+      />
+
+      <CallToAction
+        className="bg-body-tertiary"
+        description="PoeticMetric gives you the clear answers you need to help your business grow, and takes care of the privacy rules in the background. You stay on the right side of the law, your customers’ trust stays intact, and you get to focus on what’s next."
+        title="Confident growth. Worry-free compliance."
       />
     </>
   );
