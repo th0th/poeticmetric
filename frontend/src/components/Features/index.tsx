@@ -20,7 +20,7 @@ export type FeaturesProps = Overwrite<Omit<PropsWithoutRef<JSX.IntrinsicElements
 
 export default function Features({ className, description, features, title, ...props }: FeaturesProps) {
   return (
-    <section {...props} className={classNames(className)}>
+    <section {...props} className={classNames("pb-48", className)}>
       <div className="bg-body-tertiary pb-64 pt-40">
         <div className="container">
           <div className="text-center">
