@@ -34,7 +34,7 @@ poeticmetric:
   smtp:
     fromAddress: poeticmetric@dev.poeticmetric.com
     host: poeticmetric-mailpit
-    port: "1025"
+    port: 1025
   workers:
   - concurrency: 1
     name: ""
@@ -43,6 +43,9 @@ poeticmetric:
 postgres:
   password: poeticmetric
 rabbitmq:
+  ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: self-signed
   password: poeticmetric
   serviceMonitor:
     enabled: false

@@ -8,8 +8,8 @@ import (
 	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
 )
 
-func (s *service) CreateEvent(ctx context.Context, params *poeticmetric.CreateEventParams) error {
-	err := s.publish(ctx, poeticmetric.QueueDefaultName, poeticmetric.WorkCreateEvent, params, nil)
+func (s *service) DeleteUnverifiedOrganizations(ctx context.Context) error {
+	err := s.publish(ctx, poeticmetric.QueueDefaultName, poeticmetric.WorkCreateEvent, nil, nil)
 	if err != nil {
 		return errors.Wrap(err, 0)
 	}

@@ -15,6 +15,7 @@ RUN mkdir bin
 RUN CGO_ENABLED=0 go build -a -o bin/migrator cmd/migrator/*
 RUN CGO_ENABLED=0 go build -a -o bin/rest-api cmd/rest-api/*
 RUN CGO_ENABLED=0 go build -a -o bin/worker cmd/worker/*
+RUN CGO_ENABLED=0 go build -a -o bin/scheduler cmd/scheduler/*
 
 FROM alpine:3
 
@@ -25,6 +26,7 @@ WORKDIR /poeticmetric
 COPY --from=0 /go/bin/migrate /usr/local/bin/migrate
 COPY --from=0 /poeticmetric/bin/migrator /usr/local/bin/poeticmetric-migrator
 COPY --from=0 /poeticmetric/bin/rest-api /usr/local/bin/poeticmetric-rest-api
+COPY --from=0 /poeticmetric/bin/scheduler /usr/local/bin/poeticmetric-scheduler
 COPY --from=0 /poeticmetric/bin/worker /usr/local/bin/poeticmetric-worker
 
 COPY docker-entrypoint.sh /usr/local/bin/

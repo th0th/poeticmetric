@@ -13,6 +13,7 @@ type EnvService interface {
 	ClickHouseDatabase() string
 	ClickHouseDsn() string
 	Debug() bool
+	DefaultPlanName() *string
 	FrontendURL(path string) string
 	GoogleOAuthConfig() (*oauth2.Config, error)
 	GormConfig() *gorm.Config
@@ -25,6 +26,7 @@ type EnvService interface {
 	SmtpAddr() string
 	SmtpAuth() smtp.Auth
 	SmtpFrom() *mail.Address
+	UnverifiedOrganizationDeletionDays() *int
 	ValkeyAddr() string
 	ValkeyClientOption() govalkey.ClientOption
 	ValkeyPassword() string
@@ -51,8 +53,10 @@ type EnvServiceVars struct {
 	GoogleClientSecret *string `env:"GOOGLE_CLIENT_SECRET"`
 
 	// PoeticMetric
-	WorkerConcurrency int      `env:"WORKER_CONCURRENCY" envDefault:"1"`
-	WorkerQueues      []string `env:"WORKER_QUEUES" envDefault:""`
+	DefaultPlanName                    *string  `env:"DEFAULT_PLAN_NAME"`
+	UnverifiedOrganizationDeletionDays *int     `env:"UNVERIFIED_ORGANIZATION_DELETION_DAYS"`
+	WorkerConcurrency                  int      `env:"WORKER_CONCURRENCY" envDefault:"1"`
+	WorkerQueues                       []string `env:"WORKER_QUEUES" envDefault:""`
 
 	// Postgres
 	PostgresDatabase string `env:"POSTGRES_DATABASE,notEmpty,required"`

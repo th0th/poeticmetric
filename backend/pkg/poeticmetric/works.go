@@ -13,7 +13,8 @@ const (
 )
 
 const (
-	WorkCreateEvent WorkName = "CreateEvent"
+	WorkCreateEvent                   WorkName = "CreateEvent"
+	WorkDeleteUnverifiedOrganizations WorkName = "DeleteUnverifiedOrganizations"
 )
 
 type Queue struct {
@@ -33,9 +34,10 @@ type WorkName string
 
 type WorkPublisher interface {
 	CreateEvent(ctx context.Context, params *CreateEventParams) error
+	DeleteUnverifiedOrganizations(ctx context.Context) error
 }
 
-type Worker interface{
+type Worker interface {
 	Run(ctx context.Context) error
 }
 

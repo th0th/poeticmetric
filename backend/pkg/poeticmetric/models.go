@@ -3,6 +3,7 @@ package poeticmetric
 import (
 	"crypto/sha256"
 	"fmt"
+	"math/rand"
 	"net/url"
 	"time"
 
@@ -20,6 +21,10 @@ const (
 
 const (
 	EventKindPageView EventKind = "PAGE_VIEW"
+)
+
+const (
+	LogKindUnverifiedOrganizationsDeletion LogKind = "UNVERIFIED_ORGANIZATIONS_DELETION"
 )
 
 const (
@@ -71,6 +76,30 @@ type Event struct {
 type EventDeviceType = string
 
 type EventKind = string
+
+type Log struct {
+	Data     any `gorm:"serializer:json"`
+	DateTime time.Time
+	ID       uint
+	Kind     LogKind
+}
+
+type LogKind string
+
+type LogUnverifiedOrganizationsDeletionData []LogUnverifiedOrganizationsDeletionDatum
+
+type LogUnverifiedOrganizationsDeletionDatum struct {
+	OrganizationCreatedAt        time.Time  `json:"organizationCreatedAt"`
+	OrganizationID               uint       `json:"organizationID"`
+	OrganizationName             string     `json:"organizationName"`
+	OrganizationUpdatedAt        time.Time  `json:"organizationUpdatedAt"`
+	UserCreatedAt                time.Time  `json:"userCreatedAt"`
+	UserEmail                    string     `json:"userEmail"`
+	UserID                       uint       `json:"userID"`
+	UserLastAccessTokenCreatedAt *time.Time `json:"userLastAccessTokenCreatedAt"`
+	UserName                     string     `json:"userName"`
+	UserUpdatedAt                time.Time  `json:"userUpdatedAt"`
+}
 
 type Organization struct {
 	CreatedAt               time.Time
@@ -130,7 +159,7 @@ type User struct {
 	ActivationToken          *string
 	CreatedAt                time.Time
 	Email                    string
-	EmailVerificationToken   *string
+	EmailVerificationCode    *string
 	ID                       uint
 	IsActive                 bool
 	IsEmailVerified          bool
@@ -265,6 +294,10 @@ func (e *Event) TableName() string {
 
 func (u *User) SetActivationToken() {
 	u.ActivationToken = Pointer(uniuri.New())
+}
+
+func (u *User) SetEmailVerificationCode() {
+	u.EmailVerificationCode = Pointer(fmt.Sprintf("%04d", rand.Intn(9999))) //nolint:gosec
 }
 
 func (u *User) SetPassword(password string) error {

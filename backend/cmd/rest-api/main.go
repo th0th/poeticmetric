@@ -106,6 +106,7 @@ func main() {
 
 	authenticationService := authentication.New(authentication.NewParams{
 		EmailService:      emailService,
+		EnvService:        envService,
 		Postgres:          postgres,
 		ValidationService: validationService,
 	})

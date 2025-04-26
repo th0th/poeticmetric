@@ -8,3 +8,4 @@ data:
   FRONTEND_BASE_URL: {{ printf "https://%s" .Values.poeticmetric.host | quote }}
   FRONTEND_TAGS_ENVIRONMENT: {{ .Values.poeticmetric.frontend.tagsEnvironment | quote }}
   REST_API_BASE_URL: {{ printf "https://%s/api" .Values.poeticmetric.host | quote }}
+  UNVERIFIED_ORGANIZATION_DELETION_DAYS: {{ .Values.poeticmetric.unverifiedOrganizationDeletionDays | quote }}

@@ -17,6 +17,7 @@ import (
 	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
 	"github.com/th0th/poeticmetric/backend/pkg/service/env"
 	"github.com/th0th/poeticmetric/backend/pkg/service/event"
+	"github.com/th0th/poeticmetric/backend/pkg/service/organization"
 	workerservice "github.com/th0th/poeticmetric/backend/pkg/service/worker"
 )
 
@@ -38,13 +39,13 @@ func main() {
 		Logger.Panic().Stack().Err(errors.Wrap(err, 0)).Msg("clickhouse initialization failed")
 	}
 
-	rabbitMq, err := amqp.Dial(envService.RabbitMqURL())
+	rabbitMQ, err := amqp.Dial(envService.RabbitMqURL())
 	if err != nil {
 		Logger.Panic().Stack().Err(errors.Wrap(err, 0)).Msg("rabbitmq initialization failed")
 	}
-	defer rabbitMq.Close()
+	defer rabbitMQ.Close()
 
-	err = poeticmetric.DeclareQueues(rabbitMq)
+	err = poeticmetric.DeclareQueues(rabbitMQ)
 	if err != nil {
 		Logger.Panic().Stack().Err(errors.Wrap(err, 0)).Msg("queue declaration failed")
 	}
@@ -62,6 +63,11 @@ func main() {
 		Valkey:     valkey,
 	})
 
+	organizationService := organization.New(organization.NewParams{
+		EnvService: envService,
+		Postgres:   postgres,
+	})
+
 	locker, err := valkeylock.NewLocker(valkeylock.LockerOption{
 		ClientBuilder: func(option govalkey.ClientOption) (govalkey.Client, error) {
 			return valkey, nil
@@ -75,9 +81,10 @@ func main() {
 	defer locker.Close()
 
 	worker := workerservice.New(workerservice.NewParams{
-		EnvService:   envService,
-		EventService: eventService,
-		RabbitMq:     rabbitMq,
+		EnvService:          envService,
+		EventService:        eventService,
+		OrganizationService: organizationService,
+		RabbitMq:            rabbitMQ,
 	})
 
 	go func() {

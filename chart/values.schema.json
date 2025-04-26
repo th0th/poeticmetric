@@ -235,6 +235,17 @@
                     },
                     "type": "object"
                 },
+                "scheduler": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "resources": {
+                            "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
+                            "additionalProperties": false,
+                            "type": "object"
+                        }
+                    },
+                    "type": "object"
+                },
                 "smtp": {
                     "additionalProperties": false,
                     "properties": {
@@ -255,6 +266,14 @@
                         }
                     },
                     "type": "object"
+                },
+                "stripe": {
+                    "additionalProperties": true,
+                    "properties": {},
+                    "type": "object"
+                },
+                "unverifiedOrganizationDeletionDays": {
+                    "type": "integer"
                 },
                 "workers": {
                     "items": {
@@ -334,6 +353,20 @@
                             "type": "string"
                         },
                         "tag": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "ingress": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "annotations": {
+                            "additionalProperties": true,
+                            "properties": {},
+                            "type": "object"
+                        },
+                        "host": {
                             "type": "string"
                         }
                     },
