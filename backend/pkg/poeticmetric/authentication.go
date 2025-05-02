@@ -27,6 +27,7 @@ type AuthenticationService interface {
 	ReadUserByUserAccessToken(ctx context.Context, token string) (*User, *UserAccessToken, error)
 	ResetUserPassword(ctx context.Context, params *ResetUserPasswordParams) error
 	SendUserPasswordRecoveryEmail(ctx context.Context, params *SendUserPasswordRecoveryEmailParams) error
+	SignUp(ctx context.Context, params *SignUpParams) (*AuthenticationUser, error)
 	UpdateOrganization(ctx context.Context, organizationID uint, params *UpdateOrganizationParams) error
 	UpdateUser(ctx context.Context, userID uint, params *UpdateAuthenticationUserParams) error
 	ValidateUserPasswordResetToken(ctx context.Context, token string) (bool, error)
@@ -40,9 +41,9 @@ type ActivateUserParams struct {
 }
 
 type AuthenticationOrganization struct {
-	CreatedAt time.Time           `json:"createdAt"`
-	Name      string              `json:"name"`
-	UpdatedAt time.Time           `json:"updatedAt"`
+	CreatedAt time.Time `json:"createdAt"`
+	Name      string    `json:"name"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 type AuthenticationPlan struct {
@@ -85,6 +86,14 @@ type OrganizationDeletionReason struct {
 
 type SendUserPasswordRecoveryEmailParams struct {
 	Email *string `json:"email"`
+}
+
+type SignUpParams struct {
+	OrganizationName     *string `example:"PoeticMetric" json:"organizationName"`
+	OrganizationTimeZone *string `example:"UTC" json:"organizationTimeZone"`
+	UserEmail            *string `example:"user@poeticmetric.com" json:"userEmail"`
+	UserName             *string `example:"Name Surname" json:"userName"`
+	UserPassword         *string `json:"userPassword"`
 }
 
 type ResetUserPasswordParams struct {

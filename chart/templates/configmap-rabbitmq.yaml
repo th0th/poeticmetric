@@ -7,4 +7,4 @@ metadata:
 data:
   HOST: "{{ include "poeticmetric.fullname" . }}-rabbitmq"
   PORT: "5672"
-  VHOST: "webgazer"
+  VHOST: "poeticmetric"

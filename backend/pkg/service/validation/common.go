@@ -137,6 +137,38 @@ func (s *service) siteUniqueDomain(ctx context.Context, siteID *uint) *v.Message
 	return &mv
 }
 
+func (s *service) timeZone(ctx context.Context) *v.MessageValidator {
+	mv := v.MessageValidator{
+		Message: "is not valid",
+	}
+
+	mv.Validator = v.Func(func(field *v.Field) v.Errors {
+		value, ok := field.Value.(string)
+		if !ok {
+			return v.NewUnsupportedErrors("timeZone", field, "string")
+		}
+
+		postgres := poeticmetric.ServicePostgres(ctx, s)
+		err := postgres.
+			Table("pg_timezone_names").
+			Select("name").
+			Where("name = ?", value).
+			First(&map[string]any{}).
+			Error
+		if err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return v.NewInvalidErrors(field, mv.Message)
+			}
+
+			return v.NewErrors(field.Name, v.ErrUnsupported, err.Error())
+		}
+
+		return nil
+	})
+
+	return &mv
+}
+
 func (s *service) userUniqueEmail(ctx context.Context, userID *uint) *v.MessageValidator {
 	mv := v.MessageValidator{
 		Message: "is not unique",

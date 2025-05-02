@@ -65,12 +65,16 @@ poeticmetric:
       annotations: {} # @schema additionalProperties: true
     replicas: 1
     resources: {} # @schema $ref: https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements ; skipProperties: true
+  scheduler:
+    resources: {} # @schema $ref: https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements ; skipProperties: true
   smtp:
     fromAddress: poeticmetric@poeticmetric.com
     host: ""
     password: ""
     port: 587
     user: ""
+  stripe: {} # @schema additionalProperties: true
+  unverifiedOrganizationDeletionDays: 7
   workers:
   - concurrency: 1
     name: ""
@@ -80,6 +84,9 @@ rabbitmq:
   image:
     repository: rabbitmq
     tag: 3-management-alpine
+  ingress:
+    annotations: {} # @schema additionalProperties: true
+    host: ""
   password: ""
   persistence:
     enabled: true
