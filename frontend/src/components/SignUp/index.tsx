@@ -32,8 +32,6 @@ export default function SignUp() {
     },
   });
 
-  console.log(location);
-
   async function submit(data: Form) {
     try {
       const response = await api.post("/authentication/sign-up", data);
