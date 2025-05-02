@@ -25,7 +25,7 @@ export default function SignUp() {
   const { showBoundary } = useErrorBoundary();
   const capture = useCapture();
   const { refresh } = useAuthentication();
-  const [location, navigate] = useLocation();
+  const [, navigate] = useLocation();
   const { formState: { errors, isSubmitting }, handleSubmit, register, setError } = useForm<Form>({
     defaultValues: {
       organizationTimeZone: getBrowserTimeZone() || "UTC",
