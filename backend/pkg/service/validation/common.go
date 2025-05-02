@@ -153,7 +153,9 @@ func (s *service) timeZone(ctx context.Context) *v.MessageValidator {
 			Table("pg_timezone_names").
 			Select("name").
 			Where("name = ?", value).
-			First(&map[string]any{}).
+			First(&struct {
+				Name string
+			}{}).
 			Error
 		if err != nil {
 			if errors.Is(err, gorm.ErrRecordNotFound) {

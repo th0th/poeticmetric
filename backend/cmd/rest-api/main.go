@@ -192,7 +192,20 @@ func main() {
 	mux := http.NewServeMux()
 
 	// middleware
-	sensitiveRateLimit := alice.New(middleware.SensitiveRateLimit(responder, valkey))
+	rateLimit1Per10Minutes := alice.New(middleware.RateLimit(middleware.RateLimitParams{
+		KeyPrefix:    "1per10minutes",
+		Limit:        1,
+		Responder:    responder,
+		ValkeyClient: valkey,
+		Window:       10 * time.Minute,
+	}))
+	rateLimit4PerMinute := alice.New(middleware.RateLimit(middleware.RateLimitParams{
+		KeyPrefix:    "sensitive",
+		Limit:        4,
+		Responder:    responder,
+		ValkeyClient: valkey,
+		Window:       time.Minute,
+	}))
 	permissionBasicAuthenticated := alice.New(middleware.PermissionBasicAuthenticated(responder))
 	permissionUserAccessTokenAuthenticated := alice.New(middleware.PermissionUserAccessTokenAuthenticated(responder))
 	permissionOwner := alice.New(middleware.PermissionOrganizationOwner(responder))
@@ -204,14 +217,17 @@ func main() {
 	mux.Handle("GET /authentication/organization-deletion-options", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(authenticationHandler.GetOrganizationDeletionOptions))
 	mux.Handle("GET /authentication/plan", permissionUserAccessTokenAuthenticated.ThenFunc(authenticationHandler.ReadPlan))
 	mux.Handle("GET /authentication/user", permissionUserAccessTokenAuthenticated.ThenFunc(authenticationHandler.ReadUser))
-	mux.Handle("POST /authentication/user-access-tokens", sensitiveRateLimit.Extend(permissionBasicAuthenticated).ThenFunc(authenticationHandler.CreateUserAccessToken))
+	mux.Handle("POST /authentication/user-access-tokens", rateLimit4PerMinute.Extend(permissionBasicAuthenticated).ThenFunc(authenticationHandler.CreateUserAccessToken))
 	mux.Handle("DELETE /authentication/user-access-tokens", permissionUserAccessTokenAuthenticated.ThenFunc(authenticationHandler.DeleteUserAccessToken))
 	mux.Handle("PATCH /authentication/user", permissionUserAccessTokenAuthenticated.ThenFunc(authenticationHandler.UpdateUser))
 	mux.Handle("PATCH /authentication/organization", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(authenticationHandler.UpdateOrganization))
 	mux.Handle("POST /authentication/change-user-password", permissionBasicAuthenticated.ThenFunc(authenticationHandler.ChangeUserPassword))
+	mux.Handle("POST /authentication/resend-user-email-address-verification-email", rateLimit1Per10Minutes.Extend(permissionUserAccessTokenAuthenticated).ThenFunc(authenticationHandler.ResendUserEmailAddressVerificationEmail))
+	mux.Handle("POST /authentication/verify-user-email-address", rateLimit4PerMinute.Extend(permissionUserAccessTokenAuthenticated).ThenFunc(authenticationHandler.VerifyUserEmailAddress))
 	mux.HandleFunc("POST /authentication/activate-user", authenticationHandler.ActivateUser)
 	mux.HandleFunc("POST /authentication/send-user-password-recovery-email", authenticationHandler.SendUserPasswordRecoveryEmail)
 	mux.HandleFunc("POST /authentication/reset-user-password", authenticationHandler.ResetUserPassword)
+	mux.HandleFunc("POST /authentication/sign-up", authenticationHandler.SignUp)
 
 	// handlers: bootstrap
 	mux.HandleFunc("GET /bootstrap", bootstrapHandler.Check)

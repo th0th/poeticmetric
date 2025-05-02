@@ -30,6 +30,7 @@
     "gray-matter": "^4.0.3",
     "highlight.js": "^11.11.1",
     "html-to-react": "^1.7.0",
+    "input-otp": "^1.4.2",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
     "lottie-react": "^2.4.1",
@@ -37,6 +38,7 @@
     "markdown-to-txt": "^2.0.1",
     "md5": "^2.3.0",
     "millify": "^6.1.0",
+    "posthog-js": "^1.236.7",
     "react": "^19.1.0",
     "react-bootstrap": "^2.10.9",
     "react-datepicker": "^7.6.0",
@@ -85,6 +87,7 @@
   "pnpm": {
     "onlyBuiltDependencies": [
       "@swc/core",
+      "core-js",
       "esbuild",
       "unrs-resolver"
     ]

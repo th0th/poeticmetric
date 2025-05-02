@@ -239,7 +239,9 @@ func (s *service) SignUpParams(ctx context.Context, params *poeticmetric.SignUpP
 		v.F("organizationTimeZone", params.OrganizationTimeZone): v.Any(
 			v.Zero[*string](),
 
-			s.timeZone(ctx).Msg("Please provide a valid time zone."),
+			v.Nested(func(x *string) v.Validator {
+				return v.Value(*x, s.timeZone(ctx).Msg("Please provide a valid time zone."))
+			}),
 		),
 
 		v.F("userEmail", params.UserEmail): v.All(
@@ -330,6 +332,24 @@ func (s *service) UpdateOrganizationParams(ctx context.Context, params *poeticme
 	return nil
 }
 
+func (s *service) VerifyUserEmailAddressParams(ctx context.Context, userID uint, params *poeticmetric.VerifyUserEmailAddressParams) error {
+	validationErrs := v.Validate(v.Schema{
+		v.F("userEmailVerificationCode", params.UserEmailVerificationCode): v.All(
+			v.Nonzero[*string]().Msg("This field is required."),
+
+			v.Nested(func(x *string) v.Validator {
+				return v.Value(*x, s.userEmailVerificationCode(ctx, userID).Msg("Code is not valid."))
+			}),
+		),
+	})
+
+	if len(validationErrs) > 0 {
+		return errors.Wrap(validationErrs, 0)
+	}
+
+	return nil
+}
+
 func (s *service) userActivationToken(ctx context.Context) *v.MessageValidator {
 	mv := v.MessageValidator{
 		Message: "is not valid",
@@ -344,6 +364,36 @@ func (s *service) userActivationToken(ctx context.Context) *v.MessageValidator {
 		postgres := poeticmetric.ServicePostgres(ctx, s)
 
 		err := postgres.First(&poeticmetric.User{}, poeticmetric.User{ActivationToken: &value}, "ActivationToken").Error
+		if err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return v.NewInvalidErrors(field, mv.Message)
+			}
+
+			return v.NewErrors(field.Name, v.ErrUnsupported, err.Error())
+		}
+
+		return nil
+	})
+
+	return &mv
+}
+
+func (s *service) userEmailVerificationCode(ctx context.Context, userID uint) *v.MessageValidator {
+	mv := v.MessageValidator{
+		Message: "is not valid",
+	}
+
+	mv.Validator = v.Func(func(field *v.Field) v.Errors {
+		value, ok := field.Value.(string)
+		if !ok {
+			return v.NewUnsupportedErrors("userEmailVerificationCode", field, "string")
+		}
+
+		postgres := poeticmetric.ServicePostgres(ctx, s)
+
+		err := postgres.
+			First(&poeticmetric.User{}, poeticmetric.User{ID: userID, EmailVerificationCode: &value}, "ID", "EmailVerificationCode").
+			Error
 		if err != nil {
 			if errors.Is(err, gorm.ErrRecordNotFound) {
 				return v.NewInvalidErrors(field, mv.Message)

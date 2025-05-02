@@ -202,6 +202,29 @@ const docTemplate = `{
                 }
             }
         },
+        "/authentication/resend-user-email-address-verification-email": {
+            "post": {
+                "description": "Resend the e-mail with the e-mail address verification code to the user.",
+                "tags": [
+                    "authentication"
+                ],
+                "summary": "Resend user e-mail address verification e-mail",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responder.DetailResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responder.DetailResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/authentication/reset-user-password": {
             "post": {
                 "description": "Reset user's password also deleting all existing user access tokens for that user.",
@@ -257,6 +280,29 @@ const docTemplate = `{
                 "responses": {
                     "201": {
                         "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/responder.DetailResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/authentication/sign-up": {
+            "post": {
+                "description": "Sign up a new user.",
+                "tags": [
+                    "authentication"
+                ],
+                "summary": "Sign up",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/poeticmetric.AuthenticationUser"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/responder.DetailResponse"
                         }
@@ -359,6 +405,34 @@ const docTemplate = `{
                 "responses": {
                     "204": {
                         "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responder.DetailResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/authentication/verify-user-email-address": {
+            "patch": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Verify user's e-mail address by the verification code.",
+                "tags": [
+                    "authentication"
+                ],
+                "summary": "Verify user e-mail address",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/poeticmetric.AuthenticationUser"
+                        }
                     },
                     "400": {
                         "description": "Bad Request",

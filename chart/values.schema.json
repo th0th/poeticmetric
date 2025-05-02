@@ -146,6 +146,9 @@
                     },
                     "type": "object"
                 },
+                "defaultPlanName": {
+                    "type": "string"
+                },
                 "development": {
                     "additionalProperties": false,
                     "properties": {

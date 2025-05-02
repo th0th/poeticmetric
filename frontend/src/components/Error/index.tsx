@@ -53,7 +53,7 @@ export default function Error({ error, resetErrorBoundary }: ErrorProps) {
               </div>
 
               <div className="mt-12">
-                <Link className="btn btn-lg btn-primary" to="/">Return to the home page</Link>
+                <Link className="btn btn-lg btn-primary" onClick={resetErrorBoundary} to="/">Return to the home page</Link>
               </div>
             </div>
           </div>
