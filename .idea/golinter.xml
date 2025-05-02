@@ -5,22 +5,20 @@
     <option name="enabledLinters">
       <list>
         <option value="staticcheck" />
-        <option value="exportloopref" />
         <option value="govet" />
         <option value="errorlint" />
         <option value="gocritic" />
         <option value="errcheck" />
+        <option value="copyloopvar" />
         <option value="ineffassign" />
         <option value="bodyclose" />
         <option value="gosec" />
-        <option value="unused" />
         <option value="whitespace" />
         <option value="goprintffuncname" />
-        <option value="gosimple" />
         <option value="prealloc" />
       </list>
     </option>
+    <option name="fastOnly" value="false" />
     <option name="linterSelected" value="true" />
-    <option name="useCustomConfigFile" value="true" />
   </component>
 </project>

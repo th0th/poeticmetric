@@ -82,7 +82,12 @@ func main() {
 	if err != nil {
 		Logger.Panic().Stack().Err(errors.Wrap(err, 0)).Msg("rabbitmq initialization failed")
 	}
-	defer rabbitMQ.Close()
+	defer func(rabbitMQ *amqp.Connection) {
+		err2 := rabbitMQ.Close()
+		if err2 != nil {
+			Logger.Panic().Stack().Err(errors.Wrap(err2, 0)).Msg("failed to close rabbitmq connection")
+		}
+	}(rabbitMQ)
 
 	valkey, err := govalkey.NewClient(envService.ValkeyClientOption())
 	if err != nil {

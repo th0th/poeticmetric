@@ -154,6 +154,9 @@ func (s *service) SignUp(ctx context.Context, params *poeticmetric.SignUpParams)
 			},
 			To: &mail.Address{Address: user.Email, Name: user.Name},
 		})
+		if err2 != nil {
+			return errors.Wrap(err2, 0)
+		}
 
 		return nil
 	})
