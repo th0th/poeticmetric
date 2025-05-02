@@ -25,12 +25,14 @@ type AuthenticationService interface {
 	ReadUserAccessToken(ctx context.Context, userAccessTokenID uint) (*AuthenticationUserAccessToken, error)
 	ReadUserByEmailPassword(ctx context.Context, email string, password string) (*User, error)
 	ReadUserByUserAccessToken(ctx context.Context, token string) (*User, *UserAccessToken, error)
+	ResendUserEmailAddressVerificationEmail(ctx context.Context, userID uint) error
 	ResetUserPassword(ctx context.Context, params *ResetUserPasswordParams) error
 	SendUserPasswordRecoveryEmail(ctx context.Context, params *SendUserPasswordRecoveryEmailParams) error
 	SignUp(ctx context.Context, params *SignUpParams) (*AuthenticationUser, error)
 	UpdateOrganization(ctx context.Context, organizationID uint, params *UpdateOrganizationParams) error
 	UpdateUser(ctx context.Context, userID uint, params *UpdateAuthenticationUserParams) error
 	ValidateUserPasswordResetToken(ctx context.Context, token string) (bool, error)
+	VerifyUserEmailAddress(ctx context.Context, userID uint, params *VerifyUserEmailAddressParams) error
 }
 
 type ActivateUserParams struct {
@@ -108,6 +110,10 @@ type UpdateAuthenticationUserParams struct {
 
 type UpdateOrganizationParams struct {
 	Name *string `json:"name"`
+}
+
+type VerifyUserEmailAddressParams struct {
+	UserEmailVerificationCode *string `json:"userEmailVerificationCode"`
 }
 
 func (*AuthenticationOrganization) TableName() string {

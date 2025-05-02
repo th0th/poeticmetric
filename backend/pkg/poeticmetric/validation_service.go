@@ -22,4 +22,5 @@ type ValidationService interface {
 	UpdateOrganizationParams(ctx context.Context, params *UpdateOrganizationParams) error
 	UpdateOrganizationSiteParams(ctx context.Context, organizationID uint, siteID uint, params *UpdateOrganizationSiteParams) error
 	UpdateOrganizationUserParams(ctx context.Context, organizationID uint, userID uint, params *UpdateOrganizationUserParams) error
+	VerifyUserEmailAddressParams(ctx context.Context, userID uint, params *VerifyUserEmailAddressParams) error
 }

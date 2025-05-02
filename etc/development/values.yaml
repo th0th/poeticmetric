@@ -15,6 +15,7 @@ poeticmetric:
     image:
       pullPolicy: Never
       tag: development
+  defaultPlanName: "Hobbyist"
   development:
     debug: true
     enabled: true

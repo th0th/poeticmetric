@@ -27,5 +27,3 @@ export default function PrivacyPolicy() {
     </>
   );
 }
-
-export const Component = PrivacyPolicy;
