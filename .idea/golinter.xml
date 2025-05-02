@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="GoLinterSettings">
+    <option name="customConfigFile" value="$PROJECT_DIR$/backend/.golangci.yaml" />
     <option name="enabledLinters">
       <list>
         <option value="staticcheck" />
@@ -20,5 +21,6 @@
       </list>
     </option>
     <option name="linterSelected" value="true" />
+    <option name="useCustomConfigFile" value="true" />
   </component>
 </project>
