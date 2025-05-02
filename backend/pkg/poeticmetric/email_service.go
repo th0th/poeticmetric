@@ -7,6 +7,7 @@ import (
 const (
 	InvitationEmailTemplate       EmailTemplate = "invitation.gohtml"
 	PasswordRecoveryEmailTemplate EmailTemplate = "password-recovery.gohtml"
+	WelcomeEmailTemplate          EmailTemplate = "welcome.gohtml"
 )
 
 type EmailService interface {
@@ -37,9 +38,14 @@ type PasswordRecoveryEmailTemplateParams struct {
 	User *User
 }
 
+type WelcomeEmailTemplateParams struct {
+	User *User
+}
+
 func EmailTemplates() []EmailTemplate {
 	return []EmailTemplate{
 		InvitationEmailTemplate,
 		PasswordRecoveryEmailTemplate,
+		WelcomeEmailTemplate,
 	}
 }

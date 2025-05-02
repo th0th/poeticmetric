@@ -74,3 +74,7 @@ func (m *ValidationServiceMock) UpdateOrganizationSiteParams(ctx context.Context
 func (m *ValidationServiceMock) UpdateOrganizationUserParams(ctx context.Context, organizationID uint, userID uint, params *UpdateOrganizationUserParams) error {
 	return m.Called(ctx, organizationID, userID, params).Error(0)
 }
+
+func (m *ValidationServiceMock) VerifyUserEmailAddressParams(ctx context.Context, userID uint, params *VerifyUserEmailAddressParams) error {
+	return m.Called(ctx, userID, params).Error(0)
+}

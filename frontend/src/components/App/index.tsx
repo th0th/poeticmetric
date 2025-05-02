@@ -37,6 +37,7 @@ const BlogPage = lazy(() => import("~/components/BlogPage"));
 const BlogPost = lazy(() => import("~/components/BlogPost"));
 const Bootstrap = lazy(() => import("~/components/Bootstrap"));
 const DocsArticle = lazy(() => import("~/components/DocsArticle"));
+const EmailAddressVerification = lazy(() => import("~/components/EmailAddressVerification"));
 const Home = lazy(() => import("~/components/Home"));
 const Manifesto = lazy(() => import("~/components/Manifesto"));
 const OpenSource = lazy(() => import("~/components/OpenSource"));
@@ -45,6 +46,7 @@ const PasswordReset = lazy(() => import("~/components/PasswordReset"));
 const PrivacyPolicy = lazy(() => import("~/components/PrivacyPolicy"));
 const Settings = lazy(() => import("~/components/Settings"));
 const SignIn = lazy(() => import("~/components/SignIn"));
+const SignUp = lazy(() => import("~/components/SignUp"));
 const SiteForm = lazy(() => import("~/components/SiteForm"));
 const SiteReport = lazy(() => import("~/components/SiteReport"));
 const Sites = lazy(() => import("~/components/Sites"));
@@ -76,8 +78,9 @@ export default function App({ path }: AppProps) {
 
                   <Suspense fallback={suspenseFallback}>
                     <Switch>
+                      {/* site routes */}
                       <Route component={Home} path="/" />
-                      <Route component={withAuthorization(Activation, { isAuthenticated: false })} path="/activation" />
+
                       <Route component={BlogPage} path="/blog" />
                       <Route component={BlogPage} path="/blog/page/:blogPage" />
                       <Route component={BlogPost} path="/blog/:blogPostSlug" />
@@ -88,9 +91,14 @@ export default function App({ path }: AppProps) {
                       <Route component={PrivacyPolicy} path="/privacy-policy" />
                       <Route component={TermsOfService} path="/terms-of-service" />
 
+                      {/* application routes */}
                       <Route component={Bootstrap} path="/bootstrap" />
-                      <Route component={withAuthorization(PasswordRecovery, { isAuthenticated: false })} path="/password-recovery" />
-                      <Route component={withAuthorization(PasswordReset, { isAuthenticated: false })} path="/password-reset" />
+
+                      {/* application routes - authenticated */}
+                      <Route
+                        component={withAuthorization(EmailAddressVerification, { isAuthenticated: true })}
+                        path="/email-address-verification"
+                      />
                       <Route component={withAuthorization(Settings, { isAuthenticated: true })} path="/settings" />
                       <Route
                         component={withAuthorization(Settings, { isAuthenticated: true, isOrganizationOwner: true })}
@@ -102,8 +110,7 @@ export default function App({ path }: AppProps) {
                       />
                       <Route component={withAuthorization(Settings, { isAuthenticated: true })} path="/settings/password" />
                       <Route component={withAuthorization(Settings, { isAuthenticated: true })} path="/settings/profile" />
-                      <Route component={withAuthorization(SignIn, { isAuthenticated: false })} path="/sign-in" />
-                      <Route component={withAuthorization(Sites, { isAuthenticated: true })} path="/sites" />
+                      <Route component={withAuthorization(Sites, { isAuthenticated: true, isEmailVerified: true })} path="/sites" />
                       <Route
                         component={withAuthorization(SiteForm, { isAuthenticated: true, isOrganizationOwner: true })}
                         path="/sites/add"
@@ -128,6 +135,13 @@ export default function App({ path }: AppProps) {
                         component={withAuthorization(TeamMemberForm, { isAuthenticated: true, isOrganizationOwner: true })}
                         path="/team/invite"
                       />
+
+                      {/* application routes - unauthenticated */}
+                      <Route component={withAuthorization(Activation, { isAuthenticated: false })} path="/activation" />
+                      <Route component={withAuthorization(PasswordRecovery, { isAuthenticated: false })} path="/password-recovery" />
+                      <Route component={withAuthorization(PasswordReset, { isAuthenticated: false })} path="/password-reset" />
+                      <Route component={withAuthorization(SignIn, { isAuthenticated: false })} path="/sign-in" />
+                      <Route component={withAuthorization(SignUp, { isAuthenticated: false })} path="/sign-up" />
 
                       <Route>
                         <NotFound />

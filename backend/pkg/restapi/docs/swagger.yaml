@@ -638,6 +638,22 @@ paths:
       summary: Read plan
       tags:
       - authentication
+  /authentication/resend-user-email-address-verification-email:
+    post:
+      description: Resend the e-mail with the e-mail address verification code to
+        the user.
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responder.DetailResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responder.DetailResponse'
+      summary: Resend user e-mail address verification e-mail
+      tags:
+      - authentication
   /authentication/reset-user-password:
     post:
       description: Reset user's password also deleting all existing user access tokens
@@ -677,6 +693,21 @@ paths:
           schema:
             $ref: '#/definitions/responder.DetailResponse'
       summary: Send user password recovery e-mail
+      tags:
+      - authentication
+  /authentication/sign-up:
+    post:
+      description: Sign up a new user.
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/poeticmetric.AuthenticationUser'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responder.DetailResponse'
+      summary: Sign up
       tags:
       - authentication
   /authentication/user:
@@ -742,6 +773,23 @@ paths:
       security:
       - BasicAuthentication: []
       summary: Create user access token
+      tags:
+      - authentication
+  /authentication/verify-user-email-address:
+    patch:
+      description: Verify user's e-mail address by the verification code.
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/poeticmetric.AuthenticationUser'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responder.DetailResponse'
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Verify user e-mail address
       tags:
       - authentication
   /bootstrap:

@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/smtp"
+	"reflect"
 	"slices"
 	"strings"
 	texttemplate "text/template"
@@ -105,6 +106,21 @@ func funcMap(envService poeticmetric.EnvService) template.FuncMap {
 			path := strings.Join(paths, "")
 
 			return envService.FrontendURL(path)
+		},
+		"toString": func(x any) string {
+			x2 := x
+
+			r := reflect.ValueOf(x)
+
+			if r.Kind() == reflect.Ptr {
+				if x == nil {
+					return ""
+				}
+
+				x2 = r.Elem()
+			}
+
+			return fmt.Sprintf("%v", x2)
 		},
 	}
 }
