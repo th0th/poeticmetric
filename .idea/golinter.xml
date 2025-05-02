@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="GoLinterSettings">
-    <option name="customProjectDir" value="$PROJECT_DIR$/backend" />
     <option name="enabledLinters">
       <list>
         <option value="staticcheck" />
@@ -20,7 +19,6 @@
         <option value="prealloc" />
       </list>
     </option>
-    <option name="goLinterExe" value="$USER_HOME$/go/bin/golangci-lint" />
     <option name="linterSelected" value="true" />
   </component>
 </project>

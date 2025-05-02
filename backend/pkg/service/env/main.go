@@ -130,4 +130,8 @@ func (s *service) SmtpFrom() *mail.Address {
 	}
 }
 
+func (s *service) UnverifiedOrganizationDeletionDays() *int {
+	return s.vars.UnverifiedOrganizationDeletionDays
+}
+
 var Logger = zerolog.New(os.Stdout).With().Timestamp().Logger()

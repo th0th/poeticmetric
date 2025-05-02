@@ -17,28 +17,32 @@ import (
 )
 
 type NewParams struct {
-	EnvService   poeticmetric.EnvService
-	EventService poeticmetric.EventService
-	RabbitMq     *amqp.Connection
+	EnvService          poeticmetric.EnvService
+	EventService        poeticmetric.EventService
+	OrganizationService poeticmetric.OrganizationService
+	RabbitMq            *amqp.Connection
 }
 
 type service struct {
-	channel      *amqp.Channel
-	envService   poeticmetric.EnvService
-	eventService poeticmetric.EventService
-	rabbitMq     *amqp.Connection
-	runners      map[poeticmetric.WorkName]func(context.Context, []byte) error
+	channel             *amqp.Channel
+	envService          poeticmetric.EnvService
+	eventService        poeticmetric.EventService
+	organizationService poeticmetric.OrganizationService
+	rabbitMq            *amqp.Connection
+	runners             map[poeticmetric.WorkName]func(context.Context, []byte) error
 }
 
 func New(params NewParams) poeticmetric.Worker {
 	s := &service{
-		envService:   params.EnvService,
-		eventService: params.EventService,
-		rabbitMq:     params.RabbitMq,
+		envService:          params.EnvService,
+		eventService:        params.EventService,
+		organizationService: params.OrganizationService,
+		rabbitMq:            params.RabbitMq,
 	}
 
 	s.runners = map[poeticmetric.WorkName]func(context.Context, []byte) error{
-		poeticmetric.WorkCreateEvent: s.createEvent,
+		poeticmetric.WorkCreateEvent:                   s.createEvent,
+		poeticmetric.WorkDeleteUnverifiedOrganizations: s.deleteUnverifiedOrganizations,
 	}
 
 	return s

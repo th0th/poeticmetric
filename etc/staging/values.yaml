@@ -1,14 +1,9 @@
 clickhouse:
   persistence:
     enabled: false
-  resources: {}
-pgbouncer:
-  config: {}
-  resources: {}
 postgres:
   persistence:
     enabled: false
-  resources: {}
 poeticmetric:
   backend:
     image:
@@ -19,22 +14,23 @@ poeticmetric:
     ingress:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod-poeticmetric
-    resources: {}
     tagsEnvironment: staging
   host: staging.poeticmetric.com
   restApi:
     ingress:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod-poeticmetric
-    resources: {}
   smtp:
     fromAddress: poeticmetric@staging.poeticmetric.com
     host: email-smtp.eu-west-1.amazonaws.com
     port: 587
+  unverifiedOrganizationDeletionDays: 7
 rabbitmq:
+  ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod-poeticmetric
   persistence:
     enabled: false
 valkey:
   persistence:
     enabled: false
-  resources: {}

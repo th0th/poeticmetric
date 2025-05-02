@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    {{ toYaml .Values.rabbitmq.ingress.annotations | nindent 4 }}
+  labels:
+    {{ include "poeticmetric.labels" . | nindent 4 }}
+  name: {{ include "poeticmetric.fullname" . }}-rabbitmq
+spec:
+  rules:
+  - host: {{ .Values.rabbitmq.ingress.host | default (printf "rabbitmq.%s" .Values.poeticmetric.host) }}
+    http:
+      paths:
+      - backend:
+          service:
+            name: {{ include "poeticmetric.fullname" . }}-rabbitmq
+            port:
+              name: http
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - {{ .Values.mailpit.ingress.host | default (printf "rabbitmq.%s" .Values.poeticmetric.host) }}
+    secretName: {{ include "poeticmetric.fullname" . }}-rabbitmq-tls

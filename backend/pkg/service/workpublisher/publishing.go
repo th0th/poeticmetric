@@ -1,6 +1,7 @@
 package workpublisher
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"time"
@@ -50,7 +51,7 @@ func (s *service) openPublishChannel() error {
 	return nil
 }
 
-func (s *service) publish(routingKey poeticmetric.QueueName, workName poeticmetric.WorkName, workParams any, publishParams *publishParams) error {
+func (s *service) publish(ctx context.Context, routingKey poeticmetric.QueueName, workName poeticmetric.WorkName, workParams any, publishParams *publishParams) error {
 	var err error
 	s.channelInitOnce.Do(func() {
 		err = s.openPublishChannel()
@@ -83,7 +84,7 @@ func (s *service) publish(routingKey poeticmetric.QueueName, workName poeticmetr
 		}
 	}
 
-	err = s.channel.Publish("", string(routingKey), false, false, publishing)
+	err = s.channel.PublishWithContext(ctx, "", string(routingKey), false, false, publishing)
 	if err != nil {
 		return err
 	}

@@ -17,7 +17,7 @@ func (s *service) ActivateUserParams(ctx context.Context, params *poeticmetric.A
 	validationErrs := v.Validate(v.Schema{
 		v.F("activationToken", params.ActivationToken): v.All(
 			v.Nonzero[*string]().Msg("This field is required."),
-			
+
 			v.Nested(func(x *string) v.Validator {
 				return v.Value(*x, s.userActivationToken(ctx).Msg("Activation token is not valid."))
 			}),
@@ -217,6 +217,70 @@ func (s *service) SendUserPasswordRecoveryEmailParams(ctx context.Context, param
 
 	if len(validationErrs) > 0 {
 		return validationErrs
+	}
+
+	return nil
+}
+
+func (s *service) SignUpParams(ctx context.Context, params *poeticmetric.SignUpParams) error {
+	validationErrs := v.Validate(v.Schema{
+		v.F("organizationName", params.OrganizationName): v.All(
+			v.Nonzero[*string]().Msg("This field is required."),
+
+			v.Nested(func(x *string) v.Validator {
+				return v.Value(*x, v.LenString(poeticmetric.OrganizationNameMinLength, poeticmetric.OrganizationNameMaxLength).Msg(fmt.Sprintf(
+					"This field should be between %d and %d characters in length.",
+					poeticmetric.OrganizationNameMinLength,
+					poeticmetric.OrganizationNameMaxLength,
+				)))
+			}),
+		),
+
+		v.F("organizationTimeZone", params.OrganizationTimeZone): v.Any(
+			v.Zero[*string](),
+
+			s.timeZone(ctx).Msg("Please provide a valid time zone."),
+		),
+
+		v.F("userEmail", params.UserEmail): v.All(
+			v.Nonzero[*string]().Msg("This field is required."),
+
+			v.Nested(func(x *string) v.Validator {
+				return v.Value(*x, v.All(
+					vext.Email().Msg("Please provide a valid e-mail address."),
+					vext.EmailNonDisposable().Msg("Please provide a non-disposable e-mail address."),
+					s.userUniqueEmail(ctx, nil).Msg("This e-mail address is already in use."),
+				))
+			}),
+		),
+
+		v.F("userName", params.UserName): v.All(
+			v.Nonzero[*string]().Msg("This field is required."),
+
+			v.Nested(func(x *string) v.Validator {
+				return v.Value(*x, v.LenString(poeticmetric.UserNameMinLength, poeticmetric.UserNameMaxLength).Msg(fmt.Sprintf(
+					"This field should be between %d and %d characters in length.",
+					poeticmetric.UserNameMinLength,
+					poeticmetric.UserNameMaxLength,
+				)))
+			}),
+		),
+
+		v.F("userPassword", params.UserPassword): v.All(
+			v.Nonzero[*string]().Msg("This field is required."),
+
+			v.Nested(func(x *string) v.Validator {
+				return v.Value(*x, v.LenString(poeticmetric.UserPasswordMinLength, poeticmetric.UserPasswordMaxLength).Msg(fmt.Sprintf(
+					"This field should be between %d and %d characters in length.",
+					poeticmetric.UserPasswordMinLength,
+					poeticmetric.UserPasswordMaxLength,
+				)))
+			}),
+		),
+	})
+
+	if len(validationErrs) > 0 {
+		return errors.Wrap(validationErrs, 0)
 	}
 
 	return nil
