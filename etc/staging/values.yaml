@@ -8,6 +8,7 @@ poeticmetric:
   backend:
     image:
       tag: staging
+  defaultPlanName: "Hobbyist"
   frontend:
     image:
       tag: staging
