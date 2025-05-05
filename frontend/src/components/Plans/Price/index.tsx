@@ -1,7 +1,6 @@
 import classNames from "classnames";
 import { JSX, PropsWithoutRef, ReactNode, useContext, useMemo } from "react";
 import PlansContext, { monthlyEventCountSteps } from "~/contexts/PlansContext";
-import { Plan } from "../plans";
 
 export type PriceProps = Overwrite<Omit<PropsWithoutRef<JSX.IntrinsicElements["div"]>, "children">, {
   plan: Plan;
