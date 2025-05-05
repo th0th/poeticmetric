@@ -43,9 +43,10 @@ type ActivateUserParams struct {
 }
 
 type AuthenticationOrganization struct {
-	CreatedAt time.Time `json:"createdAt"`
-	Name      string    `json:"name"`
-	UpdatedAt time.Time `json:"updatedAt"`
+	CreatedAt                     time.Time `json:"createdAt"`
+	Name                          string    `json:"name"`
+	SubscriptionCancelAtPeriodEnd *bool     `json:"subscriptionCancelAtPeriodEnd"`
+	UpdatedAt                     time.Time `json:"updatedAt"`
 }
 
 type AuthenticationPlan struct {

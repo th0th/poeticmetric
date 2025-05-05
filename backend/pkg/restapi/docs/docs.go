@@ -3374,6 +3374,9 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
+                "subscriptionCancelAtPeriodEnd": {
+                    "type": "boolean"
+                },
                 "updatedAt": {
                     "type": "string"
                 }

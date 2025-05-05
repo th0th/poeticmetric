@@ -1,8 +1,13 @@
 type AuthenticationOrganization = {
   createdAt: string;
   name: string;
+  subscriptionCancelAtPeriodEnd: boolean | null;
+  subscriptionPeriod: AuthenticationOrganizationSubscriptionPeriod;
   updatedAt: string;
 };
+
+type AuthenticationOrganizationSubscriptionPeriod = "MONTH" | "YEAR";
+type AuthenticationOrganizationSubscriptionPeriodDisplay = "Month" | "Year";
 
 type AuthenticationPlan = {
   maxEventsPerMonth: number;
