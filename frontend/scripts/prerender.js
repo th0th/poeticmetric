@@ -20,17 +20,6 @@ async function prerender() {
     const html = getHtmlFromTemplate(template, await render((new URL(placeholderBaseURL)).hostname, path));
 
     writeFileSync(filePath, html);
-
-    if (path === "/s") {
-      const statusPageWithCustomDomainPath = join(baseDir, "dist", "static", "status-page-with-domain.html");
-
-      const statusPageWithCustomDomainHtml = getHtmlFromTemplate(
-        template,
-        await render("", "/"),
-      );
-
-      writeFileSync(statusPageWithCustomDomainPath, statusPageWithCustomDomainHtml);
-    }
   }
 }
 
