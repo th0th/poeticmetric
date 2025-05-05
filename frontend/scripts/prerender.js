@@ -1,6 +1,6 @@
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
-import { getBaseDir, placeholderBaseURL } from "./base.js";
+import { getBaseDir } from "./base.js";
 import getHtmlFromTemplate from "./getHtmlFromTemplate.js";
 import { getRoutes } from "./routes.js";
 
@@ -17,7 +17,8 @@ async function prerender() {
 
     mkdirSync(dirname(filePath), { recursive: true });
 
-    const html = getHtmlFromTemplate(template, await render((new URL(placeholderBaseURL)).hostname, path));
+    const rendered = await render(path);
+    const html = getHtmlFromTemplate(template, rendered);
 
     writeFileSync(filePath, html);
   }
