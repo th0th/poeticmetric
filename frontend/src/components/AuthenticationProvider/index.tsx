@@ -22,14 +22,7 @@ export default function AuthenticationProvider({ children }: { children: ReactNo
   }, [error, showBoundary]);
 
   return (
-    <AuthenticationContext.Provider
-      value={{
-        isValidating,
-        refresh,
-        signOut,
-        user,
-      }}
-    >
+    <AuthenticationContext.Provider value={{ isValidating, refresh, signOut, user }}>
       {children}
     </AuthenticationContext.Provider>
   );
