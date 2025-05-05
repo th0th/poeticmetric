@@ -43,6 +43,7 @@ const Manifesto = lazy(() => import("~/components/Manifesto"));
 const OpenSource = lazy(() => import("~/components/OpenSource"));
 const PasswordRecovery = lazy(() => import("~/components/PasswordRecovery"));
 const PasswordReset = lazy(() => import("~/components/PasswordReset"));
+const Pricing = lazy(() => import("~/components/Pricing"));
 const PrivacyPolicy = lazy(() => import("~/components/PrivacyPolicy"));
 const Settings = lazy(() => import("~/components/Settings"));
 const SignIn = lazy(() => import("~/components/SignIn"));
@@ -80,7 +81,6 @@ export default function App({ path }: AppProps) {
                     <Switch>
                       {/* site routes */}
                       <Route component={Home} path="/" />
-
                       <Route component={BlogPage} path="/blog" />
                       <Route component={BlogPage} path="/blog/page/:blogPage" />
                       <Route component={BlogPost} path="/blog/:blogPostSlug" />
@@ -88,6 +88,7 @@ export default function App({ path }: AppProps) {
                       <Route component={DocsArticle} path="/docs/:docsCategorySlug/:docsArticleSlug" />
                       <Route component={Manifesto} path="/manifesto" />
                       <Route component={OpenSource} path="/open-source" />
+                      <Route component={Pricing} path="/pricing" />
                       <Route component={PrivacyPolicy} path="/privacy-policy" />
                       <Route component={TermsOfService} path="/terms-of-service" />
 

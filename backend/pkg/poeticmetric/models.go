@@ -102,18 +102,19 @@ type LogUnverifiedOrganizationsDeletionDatum struct {
 }
 
 type Organization struct {
-	CreatedAt               time.Time
-	GoogleOauthRefreshToken *string
-	ID                      uint
-	IsOnTrial               bool
-	Name                    string
-	Plan                    *Plan
-	PlanID                  uint
-	StripeCustomerID        *string
-	SubscriptionPeriod      *string
-	TimeZone                string
-	TrialEndsAt             *time.Time
-	UpdatedAt               time.Time
+	CreatedAt                     time.Time
+	GoogleOauthRefreshToken       *string
+	ID                            uint
+	IsOnTrial                     bool
+	Name                          string
+	Plan                          *Plan
+	PlanID                        uint
+	StripeCustomerID              *string
+	SubscriptionCancelAtPeriodEnd *bool
+	SubscriptionPeriod            *string
+	TimeZone                      string
+	TrialEndsAt                   *time.Time
+	UpdatedAt                     time.Time
 }
 
 type OrganizationDeletion struct {
@@ -132,13 +133,13 @@ type OrganizationDeletion struct {
 }
 
 type Plan struct {
-	CreatedAt         time.Time `gorm:"not null"`
-	ID                uint      `gorm:"primaryKey"`
+	CreatedAt         time.Time
+	ID                uint
 	MaxEventsPerMonth int
 	MaxUsers          int
 	Name              string
 	StripeProductID   *string
-	UpdatedAt         time.Time `gorm:"not null"`
+	UpdatedAt         time.Time
 }
 
 type Site struct {
@@ -149,7 +150,7 @@ type Site struct {
 	ID                         uint
 	IsPublic                   bool
 	Name                       string
-	Organization               Organization `gorm:"constraint:OnDelete:CASCADE"`
+	Organization               Organization
 	OrganizationID             uint
 	SafeQueryParameters        []string `gorm:"serializer:json"`
 	UpdatedAt                  time.Time
