@@ -128,7 +128,7 @@ export default function Header({ layoutVariant }: HeaderProps) {
 
             <div className="align-items-center d-flex d-md-none flex-row gap-4 mt-auto">
               <div className="align-items-center d-flex flex-row gal-2">
-                <a className="p-2" href="https://www.linkedin.com/company/webgazer/" target="_blank">
+                <a className="p-2" href="https://www.linkedin.com/company/poeticmetric" target="_blank">
                   <IconBrandLinkedin />
                 </a>
 
