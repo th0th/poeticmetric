@@ -81,16 +81,16 @@ export default function useListFilters<T extends object>(
       searchParamValue = Array.from(valueSet).join(",");
     }
 
-    setSearchParams((d) => {
+    setSearchParams((s) => {
       if (searchParamValue === null) {
-        d.delete(name);
+        s.delete(name);
       } else {
-        d.set(name, searchParamValue);
+        s.set(name, searchParamValue);
       }
 
       s.sort();
 
-      return d;
+      return s;
     }, { preventScrollReset: true });
   }, [searchParams, setSearchParams]);
 
