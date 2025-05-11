@@ -24,22 +24,22 @@ require (
 	github.com/stripe/stripe-go/v79 v79.12.0
 	github.com/swaggo/http-swagger/v2 v2.0.2
 	github.com/swaggo/swag v1.16.4
-	github.com/tdewolff/minify/v2 v2.23.1
-	github.com/testcontainers/testcontainers-go v0.36.0
-	github.com/testcontainers/testcontainers-go/modules/postgres v0.36.0
-	github.com/valkey-io/valkey-go v1.0.57
-	github.com/valkey-io/valkey-go/valkeylimiter v1.0.57
-	golang.org/x/crypto v0.37.0
-	golang.org/x/oauth2 v0.29.0
-	golang.org/x/sync v0.13.0
-	google.golang.org/api v0.230.0
+	github.com/tdewolff/minify/v2 v2.23.5
+	github.com/testcontainers/testcontainers-go v0.37.0
+	github.com/testcontainers/testcontainers-go/modules/postgres v0.37.0
+	github.com/valkey-io/valkey-go v1.0.59
+	github.com/valkey-io/valkey-go/valkeylimiter v1.0.59
+	golang.org/x/crypto v0.38.0
+	golang.org/x/oauth2 v0.30.0
+	golang.org/x/sync v0.14.0
+	google.golang.org/api v0.232.0
 	gorm.io/driver/clickhouse v0.6.1
 	gorm.io/driver/postgres v1.5.11
-	gorm.io/gorm v1.25.12
+	gorm.io/gorm v1.26.1
 )
 
 require (
-	cloud.google.com/go/auth v0.16.0 // indirect
+	cloud.google.com/go/auth v0.16.1 // indirect
 	cloud.google.com/go/auth/oauth2adapt v0.2.8 // indirect
 	cloud.google.com/go/compute/metadata v0.6.0 // indirect
 	dario.cat/mergo v1.0.1 // indirect
@@ -87,7 +87,7 @@ require (
 	github.com/klauspost/compress v1.17.8 // indirect
 	github.com/lib/pq v1.10.9 // indirect
 	github.com/lufia/plan9stats v0.0.0-20211012122336-39d0f177ccd0 // indirect
-	github.com/magiconair/properties v1.8.9 // indirect
+	github.com/magiconair/properties v1.8.10 // indirect
 	github.com/mailru/easyjson v0.7.6 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
@@ -112,7 +112,7 @@ require (
 	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/stretchr/objx v0.5.2 // indirect
 	github.com/swaggo/files/v2 v2.0.0 // indirect
-	github.com/tdewolff/parse/v2 v2.7.23 // indirect
+	github.com/tdewolff/parse/v2 v2.8.0 // indirect
 	github.com/th0th/disposableemail v0.0.2-0.20241107110532-1e027547679f // indirect
 	github.com/tklauser/go-sysconf v0.3.12 // indirect
 	github.com/tklauser/numcpus v0.6.1 // indirect
@@ -125,10 +125,10 @@ require (
 	go.uber.org/atomic v1.11.0 // indirect
 	golang.org/x/exp v0.0.0-20230510235704-dd950f8aeaea // indirect
 	golang.org/x/net v0.39.0 // indirect
-	golang.org/x/sys v0.32.0 // indirect
-	golang.org/x/text v0.24.0 // indirect
+	golang.org/x/sys v0.33.0 // indirect
+	golang.org/x/text v0.25.0 // indirect
 	golang.org/x/tools v0.31.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20250414145226-207652e42e2e // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20250428153025-10db94c68c34 // indirect
 	google.golang.org/grpc v1.72.0 // indirect
 	google.golang.org/protobuf v1.36.6 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect

@@ -1,6 +1,6 @@
 import { useCallback, useContext } from "react";
 import { useErrorBoundary } from "react-error-boundary";
-import { Link } from "wouter";
+import { Link } from "react-router";
 import PlansContext from "~/contexts/PlansContext";
 import useAuthenticationOrganization from "~/hooks/api/useAuthenticationOrganization";
 import useAuthenticationPlan from "~/hooks/api/useAuthenticationPlan";

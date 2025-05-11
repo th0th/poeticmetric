@@ -1,9 +1,9 @@
 import { IconCircleXFilled } from "@tabler/icons-react";
 import { useMemo } from "react";
 import { Dropdown } from "react-bootstrap";
-import { Link, useLocation, useSearchParams } from "wouter";
+import { Link, useLocation } from "react-router";
 import useSiteReportData from "~/hooks/useSiteReportData";
-import { getUpdatedSearch } from "~/lib/router";
+import { getUpdatedLocation } from "~/lib/router";
 
 type Filter = {
   key: string;
@@ -30,8 +30,7 @@ const filterKeyDisplays: Record<Filter["key"], string> = {
 };
 
 export default function Filters() {
-  const [location] = useLocation();
-  const [searchParams] = useSearchParams();
+  const location = useLocation();
   const { filters: allFilters } = useSiteReportData();
 
   const filters = useMemo<Array<Filter>>(() => {
@@ -54,8 +53,8 @@ export default function Filters() {
       searchParamsUpdate[k] = null;
     });
 
-    return `${location}${getUpdatedSearch(searchParams, searchParamsUpdate)}`;
-  }, [location, searchParams]);
+    return getUpdatedLocation(location, { search: searchParamsUpdate });
+  }, [location]);
 
   return filters.length > 0 ? (
     <Dropdown autoClose="outside">
@@ -71,7 +70,8 @@ export default function Filters() {
 
             <Link
               className="flex-grow-0 flex-shrink-0 link-danger px-4 py-2"
-              href={`${location}${getUpdatedSearch(searchParams, { [d.key]: null })}`}
+              preventScrollReset
+              to={getUpdatedLocation(location, { search: { [d.key]: null } })}
             >
               <IconCircleXFilled className="d-block" size="1.4em" />
             </Link>
@@ -79,7 +79,7 @@ export default function Filters() {
         ))}
 
         <div className="mt-4 mx-8 text-center">
-          <Link className="btn btn-primary btn-sm" href={unfilteredLink}>Clear all filters</Link>
+          <Link className="btn btn-primary btn-sm" preventScrollReset to={unfilteredLink}>Clear all filters</Link>
         </div>
       </Dropdown.Menu>
     </Dropdown>

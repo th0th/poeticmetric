@@ -10,7 +10,7 @@ spec:
     port: 80
     protocol: TCP
     targetPort: 80
-  {{ if .Values.poeticmetric.development.enabled }}
+  {{ if .Values.poeticmetric.config.development.enabled }}
   - name: hmr
     port: 24678
     protocol: TCP

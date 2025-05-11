@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useErrorBoundary } from "react-error-boundary";
-import { useLocation, useSearchParams } from "wouter";
+import { useLocation, useNavigate, useSearchParams } from "react-router";
 import Portal from "~/components/Portal";
 import useUser from "~/hooks/api/useUser";
 import useUsers from "~/hooks/api/useUsers";
@@ -15,7 +15,8 @@ type State = {
 
 export default function DeleteModal() {
   const { showBoundary } = useErrorBoundary();
-  const [location, navigate] = useLocation();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [state, setState] = useState<State>({ isHiding: false, isInProgress: false });
   const userID = useMemo(() => Number(searchParams.get("userID")) || undefined, [searchParams]);

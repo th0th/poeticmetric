@@ -1,4 +1,4 @@
-import { useParams } from "wouter";
+import { useParams } from "react-router";
 import Breadcrumb from "~/components/Breadcrumb";
 import CanonicalLink from "~/components/CanonicalLink";
 import Markdown from "~/components/Markdown";
@@ -51,3 +51,5 @@ export default function DocsArticle() {
     </DocsArticleContext.Provider>
   );
 }
+
+export const Component = DocsArticle;

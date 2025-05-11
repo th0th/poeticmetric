@@ -1,10 +1,10 @@
 import { useMemo } from "react";
-import { Link, useLocation, useSearchParams } from "wouter";
+import { Link, useLocation } from "react-router";
 import ActivityIndicator from "~/components/ActivityIndicator";
 import NoData from "~/components/NoData";
 import useSiteOperatingSystemVersionReport from "~/hooks/api/useSiteOperatingSystemVersionReport";
 import useSiteReportData from "~/hooks/useSiteReportData";
-import { getUpdatedSearch } from "~/lib/router";
+import { getUpdatedLocation } from "~/lib/router";
 import Modal from "./Modal";
 
 type InnerOperatingSystemVersionProps = {
@@ -12,8 +12,7 @@ type InnerOperatingSystemVersionProps = {
 };
 
 function InnerOperatingSystemVersion({ report }: InnerOperatingSystemVersionProps) {
-  const [location] = useLocation();
-  const [searchParams] = useSearchParams();
+  const location = useLocation();
   const { filters } = useSiteReportData();
 
   const data = useMemo(() => {
@@ -47,8 +46,9 @@ function InnerOperatingSystemVersion({ report }: InnerOperatingSystemVersionProp
                   <td>
                     <Link
                       className="align-items-center d-flex gap-2 text-body text-decoration-none text-decoration-underline-focus-visible text-decoration-underline-hover"
+                      preventScrollReset
                       title={d.operatingSystemVersion}
-                      to={`${location}${getUpdatedSearch(searchParams, { operatingSystemVersion: d.operatingSystemVersion })}`}
+                      to={getUpdatedLocation(location, { search: { operatingSystemVersion: d.operatingSystemVersion } })}
                     >
                       <span className="text-truncate">{d.operatingSystemVersion}</span>
                     </Link>
@@ -62,7 +62,8 @@ function InnerOperatingSystemVersion({ report }: InnerOperatingSystemVersionProp
 
           <Link
             className="bg-opacity-0 bg-opacity-10-focus-visible bg-opacity-10-hover bg-primary border-1 border-top d-block fw-medium mb-n8 mt-auto mx-n8 p-3 text-center text-decoration-none"
-            to={`${location}${getUpdatedSearch(searchParams, { detail: "operating-system-version" })}`}
+            preventScrollReset
+            to={getUpdatedLocation(location, { search: { detail: "operating-system-version" } })}
           >
             See more
           </Link>

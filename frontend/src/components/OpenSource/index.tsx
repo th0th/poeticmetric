@@ -54,11 +54,11 @@ export default function OpenSource() {
         </div>
       </div>
 
-
-
       <article className="container py-16" id="article" style={{ maxWidth: 720 }}>
         <Markdown className="fs-5 lh-lg">{markdown}</Markdown>
       </article>
     </>
   );
 }
+
+export const Component = OpenSource;

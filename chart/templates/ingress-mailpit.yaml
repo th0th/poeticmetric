@@ -9,7 +9,7 @@ metadata:
   name: {{ include "poeticmetric.fullname" . }}-mailpit
 spec:
   rules:
-  - host: {{ .Values.mailpit.ingress.host | default (printf "mailpit.%s" .Values.poeticmetric.host) }}
+  - host: {{ .Values.mailpit.ingress.host | default (printf "mailpit.%s" .Values.poeticmetric.config.host) }}
     http:
       paths:
       - backend:
@@ -21,6 +21,6 @@ spec:
         pathType: Prefix
   tls:
   - hosts:
-    - {{ .Values.mailpit.ingress.host | default (printf "mailpit.%s" .Values.poeticmetric.host) }}
+    - {{ .Values.mailpit.ingress.host | default (printf "mailpit.%s" .Values.poeticmetric.config.host) }}
     secretName: {{ include "poeticmetric.fullname" . }}-mailpit-tls
 {{ end }}

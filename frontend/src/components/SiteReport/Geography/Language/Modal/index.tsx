@@ -1,0 +1,97 @@
+import { useMemo } from "react";
+import BaseModal from "react-bootstrap/Modal";
+import { Link, useLocation, useSearchParams } from "react-router";
+import ActivityIndicator from "~/components/ActivityIndicator";
+import useSiteLanguageReport from "~/hooks/api/useSiteLanguageReport";
+import { getUpdatedLocation } from "~/lib/router";
+
+export default function Modal() {
+  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { data: report, isValidating, setSize } = useSiteLanguageReport();
+
+  const data = useMemo<Array<HydratedSiteLanguageReportDatum>>(() => {
+    if (report === undefined) {
+      return [];
+    }
+
+    return report.reduce<Array<HydratedSiteLanguageReportDatum>>((a, v) => [...a, ...v.data], []);
+  }, [report]);
+
+  const hasMore = useMemo<boolean>(() => !!(report?.at(-1)?.paginationCursor), [report]);
+  const isShown = useMemo(() => searchParams.get("detail") === "language", [searchParams]);
+
+  function hide() {
+    setSearchParams((s) => {
+      s.delete("detail");
+
+      return s;
+    }, { preventScrollReset: true });
+  }
+
+  async function loadMore() {
+    return setSize((s) => s + 1);
+  }
+
+  return (
+    <BaseModal centered onHide={hide} show={isShown} size="lg">
+      <BaseModal.Header closeButton>
+        <BaseModal.Title>Languages</BaseModal.Title>
+      </BaseModal.Header>
+
+      <BaseModal.Body>
+        <table className="fs-7 table table-borderless table-hover table-layout-fixed table-striped">
+          <thead>
+            <tr>
+              <th className="w-8rem">Language</th>
+
+              <th />
+
+              <th className="text-center w-7rem">Visitors</th>
+
+              <th className="text-center w-5rem">%</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {data.map((d) => (
+              <tr className="parent" key={d.language}>
+                <td colSpan={2}>
+                  <div className="align-items-center d-flex gap-2">
+                    <Link
+                      className="text-body text-decoration-none text-decoration-underline-hover text-truncate"
+                      preventScrollReset
+                      title={d.language}
+                      to={getUpdatedLocation(location, { search: { detail: null, language: d.language } })}
+                    >
+                      {d.language}
+                    </Link>
+                  </div>
+                </td>
+                <td className="text-center">
+                  <span title={d.visitorCount.toString()}>{d.visitorCountDisplay}</span>
+                </td>
+
+                <td className="text-center">
+                  <span title={d.visitorPercentageDisplay}>{d.visitorPercentageDisplay}</span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        {isValidating ? (
+          <div className="d-flex justify-content-center mb-16">
+            <ActivityIndicator />
+          </div>
+        ) : null}
+
+        {hasMore ? (
+          <button className="btn btn-primary d-block mx-auto" disabled={isValidating} onClick={loadMore}>
+            Load more
+          </button>
+        ) : null}
+      </BaseModal.Body>
+    </BaseModal>
+  );
+}

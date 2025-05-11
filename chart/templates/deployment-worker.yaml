@@ -2,7 +2,7 @@
 {{ $fullname := include "poeticmetric.fullname" . }}
 {{ $labels := include "poeticmetric.labels" . }}
 {{ $selectorLabels := include "poeticmetric.selectorLabels" . }}
-{{ range .Values.poeticmetric.workers }}
+{{ range .Values.poeticmetric.config.workers }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -80,7 +80,7 @@ spec:
         resources:
           {{ toYaml (default dict .resources) | nindent 10 }}
         volumeMounts:
-        {{ if $Values.poeticmetric.development.hostBasePath }}
+        {{ if $Values.poeticmetric.config.development.hostBasePath }}
         - mountPath: /poeticmetric/cmd
           name: cmd
         - mountPath: /poeticmetric/pkg
@@ -95,18 +95,18 @@ spec:
       - name: {{ $fullname }}-ghcr-io
       {{ end }}
       volumes:
-      {{ if $Values.poeticmetric.development.hostBasePath }}
+      {{ if $Values.poeticmetric.config.development.hostBasePath }}
       - hostPath:
-          path: {{ $Values.poeticmetric.development.hostBasePath }}/backend/cmd
+          path: {{ $Values.poeticmetric.config.development.hostBasePath }}/backend/cmd
         name: cmd
       - hostPath:
-          path: {{ $Values.poeticmetric.development.hostBasePath }}/backend/pkg
+          path: {{ $Values.poeticmetric.config.development.hostBasePath }}/backend/pkg
         name: pkg
       - hostPath:
-          path: {{ $Values.poeticmetric.development.hostBasePath }}/backend/go.mod
+          path: {{ $Values.poeticmetric.config.development.hostBasePath }}/backend/go.mod
         name: go-mod
       - hostPath:
-          path: {{ $Values.poeticmetric.development.hostBasePath }}/backend/go.sum
+          path: {{ $Values.poeticmetric.config.development.hostBasePath }}/backend/go.sum
         name: go-sum
       {{ end }}
 ---

@@ -22,3 +22,5 @@ export default function Manifesto() {
     </>
   );
 }
+
+export const Component = Manifesto;

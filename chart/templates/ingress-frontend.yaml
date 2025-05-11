@@ -29,7 +29,7 @@ metadata:
     {{ include "poeticmetric.labels" . | nindent 4 }}
 spec:
   rules:
-  - host: {{ .Values.poeticmetric.host }}
+  - host: {{ .Values.poeticmetric.config.host }}
     http:
       paths:
       - backend:
@@ -39,7 +39,7 @@ spec:
               number: 80
         path: /
         pathType: Prefix
-      {{ if .Values.poeticmetric.development.enabled }}
+      {{ if .Values.poeticmetric.config.development.enabled }}
       - backend:
           service:
             name: {{ include "poeticmetric.fullname" . }}-frontend
@@ -50,5 +50,5 @@ spec:
       {{ end }}
   tls:
   - hosts:
-    - {{ .Values.poeticmetric.host }}
+    - {{ .Values.poeticmetric.config.host }}
     secretName: {{ include "poeticmetric.fullname" . }}-frontend-tls

@@ -44,12 +44,35 @@ poeticmetric:
       pullPolicy: Always
       repository: ghcr.io/th0th/poeticmetric/backend
       tag: latest
-  defaultPlanName: ""
-  development:
-    databaseDebug: false
-    debug: false
-    enabled: false
-    hostBasePath: ""
+  config:
+    defaultPlanName: ""
+    development:
+      databaseDebug: false
+      debug: false
+      enabled: false
+      hostBasePath: ""
+    host: poeticmetric.com
+    isHosted: false
+    restApi:
+      ingress:
+        annotations: { } # @schema additionalProperties: true
+      replicas: 1
+      resources: { } # @schema $ref: https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements ; skipProperties: true
+    scheduler:
+      resources: { } # @schema $ref: https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements ; skipProperties: true
+    smtp:
+      fromAddress: poeticmetric@poeticmetric.com
+      host: ""
+      password: ""
+      port: 587
+      user: ""
+    stripe: {} # @schema additionalProperties: true
+    unverifiedOrganizationDeletionDays: 7
+    workers:
+    - concurrency: 1
+      name: ""
+      queues: [ ]
+      replicas: 1
   frontend:
     image:
       pullPolicy: Always
@@ -60,27 +83,6 @@ poeticmetric:
     replicas: 1
     resources: {} # @schema $ref: https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements ; skipProperties: true
     tagsEnvironment: ""
-  host: poeticmetric.com
-  restApi:
-    ingress:
-      annotations: {} # @schema additionalProperties: true
-    replicas: 1
-    resources: {} # @schema $ref: https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements ; skipProperties: true
-  scheduler:
-    resources: {} # @schema $ref: https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements ; skipProperties: true
-  smtp:
-    fromAddress: poeticmetric@poeticmetric.com
-    host: ""
-    password: ""
-    port: 587
-    user: ""
-  stripe: {} # @schema additionalProperties: true
-  unverifiedOrganizationDeletionDays: 7
-  workers:
-  - concurrency: 1
-    name: ""
-    queues: [ ]
-    replicas: 1
 rabbitmq:
   image:
     repository: rabbitmq

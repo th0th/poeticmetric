@@ -135,3 +135,5 @@ export default function Profile() {
     </>
   );
 }
+
+export const Component = Profile;

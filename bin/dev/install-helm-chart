@@ -14,6 +14,6 @@ helm upgrade poeticmetric chart \
   --install \
   --kube-context docker-desktop \
   --namespace poeticmetric-development \
-  --set "poeticmetric.development.hostBasePath=${HOST_BASE_PATH}" \
-  --set "poeticmetric.stripe.metaEnvironment=${USER}@${HOSTNAME}" \
+  --set "poeticmetric.config.development.hostBasePath=${HOST_BASE_PATH}" \
+  --set "poeticmetric.config.stripe.metaEnvironment=${USER}@${HOSTNAME}" \
   --values "${BASE_DIR}/etc/development/values.yaml"

@@ -56,11 +56,11 @@ app.use('*all', async (req, res) => {
       render = (await import('./dist/server/entry-server.js')).render
     }
 
-    const rendered = await render(url)
+    const rendered = await render(req.originalUrl)
 
     const html = template
-      .replace(`<!--app-head-->`, rendered.head ?? '')
-      .replace(`<!--app-html-->`, rendered.html ?? '')
+      .replace(`<!--head-->`, rendered.head ?? '')
+      .replace(`<!--body-->`, rendered.body ?? '')
 
     res.status(200).set({ 'Content-Type': 'text/html' }).send(html)
   } catch (e) {

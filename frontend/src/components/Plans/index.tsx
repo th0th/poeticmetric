@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import millify from "millify";
+import { millify } from "millify";
 import { ChangeEvent, JSX, PropsWithoutRef, useState } from "react";
 import PlansContext, { monthlyEventCountSteps, PlansContextState } from "~/contexts/PlansContext";
 import useAuthenticationOrganization from "~/hooks/api/useAuthenticationOrganization";

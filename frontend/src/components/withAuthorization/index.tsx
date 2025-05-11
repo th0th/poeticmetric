@@ -1,8 +1,9 @@
-import { FC, useEffect, useMemo, useState } from "react";
-import { Link, useLocation } from "wouter";
+import { useEffect, useMemo, useState } from "react";
+import { Link, Outlet, useLocation } from "react-router";
 import ActivityIndicator from "~/components/ActivityIndicator";
 import Title from "~/components/Title";
 import useAuthorization, { ERR_EMAIL_NOT_VERIFIED, ERR_NOT_AUTHENTICATED, UseAuthorizationParams } from "~/hooks/useAuthorization";
+import { locationToString } from "~/lib/router";
 
 export type WithAuthorizationParams<IsAuthenticated extends boolean> = UseAuthorizationParams<IsAuthenticated>;
 
@@ -29,11 +30,11 @@ const descriptions: Record<string, string> = {
 };
 
 export default function withAuthorization<IsAuthenticated extends boolean>(
-  Component: FC,
   params: WithAuthorizationParams<IsAuthenticated>,
 ) {
   function Wrapped() {
-    const [location] = useLocation();
+    const location = useLocation();
+    const next = useMemo(() => encodeURIComponent(locationToString(location)), [location]);
     const [state, setState] = useState<State>({ isReady: false });
     const { error: authorizationError, isAuthorized } = useAuthorization(params);
     const title = useMemo(() => authorizationError === undefined ? "" : titles[authorizationError], [authorizationError]);
@@ -52,7 +53,7 @@ export default function withAuthorization<IsAuthenticated extends boolean>(
     ) : (
       <>
         {isAuthorized ? (
-          <Component />
+          <Outlet />
         ) : (
           <>
             <Title>{title}</Title>
@@ -67,11 +68,11 @@ export default function withAuthorization<IsAuthenticated extends boolean>(
 
                 <div className="align-items-center d-flex flex-column flex-sm-row gap-8 justify-content-center mt-12">
                   {isSignInButtonShown ? (
-                    <Link className="btn btn-primary" to={`/sign-in?next=${location}`}>Sign in to continue</Link>
+                    <Link className="btn btn-primary" to={`/sign-in?next=${next}`}>Sign in to continue</Link>
                   ) : null}
 
                   {isVerifyEmailButtonShown ? (
-                    <Link className="btn btn-primary" to={`/email-address-verification?next=${location}`}>Verify e-mail address</Link>
+                    <Link className="btn btn-primary" to={`/email-address-verification?next=${next}`}>Verify e-mail address</Link>
                   ) : null}
 
                   <Link className="btn btn-outline-primary" to="/">Go back to home page</Link>

@@ -1,5 +1,5 @@
 import { IconArrowBigDownLinesFilled } from "@tabler/icons-react";
-import { Link, useParams } from "wouter";
+import { Link, useParams } from "react-router";
 import CanonicalLink from "~/components/CanonicalLink";
 import Description from "~/components/Description";
 import Markdown from "~/components/Markdown";
@@ -94,3 +94,5 @@ export default function BlogPost() {
     </>
   );
 }
+
+export const Component = BlogPost;

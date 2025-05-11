@@ -1,7 +1,7 @@
 import { IconBrandGithub, IconBrandLinkedin, IconBrandX, TablerIcon } from "@tabler/icons-react";
 import classNames from "classnames";
 import { JSX, PropsWithoutRef } from "react";
-import { Link } from "wouter";
+import { Link } from "react-router";
 import Logo from "~/components/Logo";
 
 export type FooterProps = Omit<PropsWithoutRef<JSX.IntrinsicElements["footer"]>, "children">;

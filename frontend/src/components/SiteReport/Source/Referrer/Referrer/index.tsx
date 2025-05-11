@@ -1,15 +1,14 @@
 import { useMemo } from "react";
-import { Link, useLocation, useSearchParams } from "wouter";
+import { Link, useLocation } from "react-router";
 import ActivityIndicator from "~/components/ActivityIndicator";
 import FavIcon from "~/components/FavIcon";
 import NoData from "~/components/NoData";
 import useSiteReferrerReport from "~/hooks/api/useSiteReferrerReport";
-import { getUpdatedSearch } from "~/lib/router";
+import { getUpdatedLocation } from "~/lib/router";
 import Modal from "./Modal";
 
 export default function Referrer() {
-  const [location] = useLocation();
-  const [searchParams] = useSearchParams();
+  const location = useLocation();
   const { data: report } = useSiteReferrerReport();
 
   const data = useMemo(() => {
@@ -47,8 +46,9 @@ export default function Referrer() {
                       <td>
                         <Link
                           className="align-items-center d-flex gap-2 text-body text-decoration-none text-decoration-underline-focus-visible text-decoration-underline-hover"
+                          preventScrollReset
                           title={d.referrer}
-                          to={`${location}${getUpdatedSearch(searchParams, { referrer: d.referrer })}`}
+                          to={getUpdatedLocation(location, { search: { referrer: d.referrer } })}
                         >
                           <FavIcon className="flex-grow-0 flex-shrink-0" domain={d.referrerHost} size={16} />
 
@@ -64,7 +64,8 @@ export default function Referrer() {
 
               <Link
                 className="bg-opacity-0 bg-opacity-10-focus-visible bg-opacity-10-hover bg-primary border-1 border-top d-block fw-medium mb-n8 mt-auto mx-n8 p-3 text-center text-decoration-none"
-                to={`${location}${getUpdatedSearch(searchParams, { detail: "referrer" })}`}
+                preventScrollReset
+                to={getUpdatedLocation(location, { search: { detail: "referrer" } })}
               >
                 See more
               </Link>

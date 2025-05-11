@@ -1,12 +1,12 @@
 import { useMemo } from "react";
 import BaseModal from "react-bootstrap/Modal";
-import { Link, useLocation, useSearchParams } from "wouter";
+import { Link, useLocation, useSearchParams } from "react-router";
 import ActivityIndicator from "~/components/ActivityIndicator";
 import useSiteUTMCampaignReport from "~/hooks/api/useSiteUTMCampaignReport";
-import { getUpdatedSearch } from "~/lib/router";
+import { getUpdatedLocation } from "~/lib/router";
 
 export default function Modal() {
-  const [location] = useLocation();
+  const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const { data: report, isValidating, setSize } = useSiteUTMCampaignReport();
 
@@ -26,7 +26,7 @@ export default function Modal() {
       s.delete("detail");
 
       return s;
-    });
+    }, { preventScrollReset: true });
   }
 
   async function loadMore() {
@@ -57,7 +57,7 @@ export default function Modal() {
                   <Link
                     className="align-items-center d-flex gap-2 text-body text-decoration-none text-decoration-underline-hover"
                     title={d.utmCampaign}
-                    to={`${location}?${getUpdatedSearch(searchParams, { detail: null, utmCampaign: d.utmCampaign })}`}
+                    to={getUpdatedLocation(location, { search: { detail: null, utmCampaign: d.utmCampaign } })}
                   >
                     <span className="text-truncate">{d.utmCampaign}</span>
                   </Link>

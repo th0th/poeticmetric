@@ -1,6 +1,6 @@
 import { ReactNode, useCallback, useMemo } from "react";
 import { Dropdown, DropdownProps } from "react-bootstrap";
-import { useSearchParams } from "wouter";
+import { useSearchParams } from "react-router";
 import Country from "./Country";
 import Language from "./Language";
 
@@ -32,8 +32,10 @@ export default function Geography() {
         s.delete(routerQuerySectionSlugKey);
       }
 
+      s.sort();
+
       return s;
-    });
+    }, { preventScrollReset: true });
   }, [setSearchParams]);
 
   return (

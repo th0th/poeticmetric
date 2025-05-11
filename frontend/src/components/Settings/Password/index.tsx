@@ -174,3 +174,5 @@ export default function Password() {
     </>
   );
 }
+
+export const Component = Password;

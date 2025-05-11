@@ -2,15 +2,15 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    {{ if .Values.poeticmetric.restApi.ingress.annotations }}
-    {{ toYaml .Values.poeticmetric.restApi.ingress.annotations | nindent 4 }}
+    {{ if .Values.poeticmetric.config.restApi.ingress.annotations }}
+    {{ toYaml .Values.poeticmetric.config.restApi.ingress.annotations | nindent 4 }}
     {{ end }}
   name: {{ include "poeticmetric.fullname" . }}-rest-api
   labels:
     {{ include "poeticmetric.labels" . | nindent 4 }}
 spec:
   rules:
-  - host: {{ .Values.poeticmetric.host }}
+  - host: {{ .Values.poeticmetric.config.host }}
     http:
       paths:
       - backend:
@@ -22,5 +22,5 @@ spec:
         pathType: Prefix
   tls:
   - hosts:
-    - {{ .Values.poeticmetric.host }}
+    - {{ .Values.poeticmetric.config.host }}
     secretName: {{ include "poeticmetric.fullname" . }}-rest-api-tls

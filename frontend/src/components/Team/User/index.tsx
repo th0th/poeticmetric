@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { JSX, PropsWithoutRef } from "react";
-import { Link, useSearchParams } from "wouter";
+import { Link, useSearchParams } from "react-router";
 import Avatar from "~/components/Avatar";
 import PendingIndicator from "~/components/Team/User/PendingIndicator";
 import useAuthentication from "~/hooks/useAuthentication";

@@ -1,5 +1,5 @@
 import { JSX, PropsWithoutRef } from "react";
-import { Link } from "wouter";
+import { Link } from "react-router";
 
 export type AnchorProps = Pick<PropsWithoutRef<JSX.IntrinsicElements["a"]>, "className" | "href">;
 
