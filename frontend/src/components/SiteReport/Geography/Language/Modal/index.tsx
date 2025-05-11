@@ -1,26 +1,25 @@
-import { createElement, useMemo } from "react";
+import { useMemo } from "react";
 import BaseModal from "react-bootstrap/Modal";
 import { Link, useLocation, useSearchParams } from "react-router";
 import ActivityIndicator from "~/components/ActivityIndicator";
-import useSiteBrowserNameReport from "~/hooks/api/useSiteBrowserNameReport";
-import { getBrowserIcon } from "~/lib/icons";
+import useSiteLanguageReport from "~/hooks/api/useSiteLanguageReport";
 import { getUpdatedLocation } from "~/lib/router";
 
 export default function Modal() {
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { data: report, isValidating, setSize } = useSiteBrowserNameReport();
+  const { data: report, isValidating, setSize } = useSiteLanguageReport();
 
-  const data = useMemo<Array<HydratedSiteBrowserNameReportDatum>>(() => {
+  const data = useMemo<Array<HydratedSiteLanguageReportDatum>>(() => {
     if (report === undefined) {
       return [];
     }
 
-    return report.reduce<Array<HydratedSiteBrowserNameReportDatum>>((a, v) => [...a, ...v.data], []);
+    return report.reduce<Array<HydratedSiteLanguageReportDatum>>((a, v) => [...a, ...v.data], []);
   }, [report]);
 
   const hasMore = useMemo<boolean>(() => !!(report?.at(-1)?.paginationCursor), [report]);
-  const isShown = useMemo(() => searchParams.get("detail") === "browser-name", [searchParams]);
+  const isShown = useMemo(() => searchParams.get("detail") === "language", [searchParams]);
 
   function hide() {
     setSearchParams((s) => {
@@ -37,38 +36,45 @@ export default function Modal() {
   return (
     <BaseModal centered onHide={hide} show={isShown} size="lg">
       <BaseModal.Header closeButton>
-        <BaseModal.Title>Browsers</BaseModal.Title>
+        <BaseModal.Title>Languages</BaseModal.Title>
       </BaseModal.Header>
 
       <BaseModal.Body>
         <table className="fs-7 table table-borderless table-hover table-layout-fixed table-striped">
           <thead>
             <tr>
-              <th className="w-8rem">Browser</th>
+              <th className="w-8rem">Language</th>
+
               <th />
-              <th className="text-center w-5rem">Visitors</th>
-              <th className="text-end w-5rem">%</th>
+
+              <th className="text-center w-7rem">Visitors</th>
+
+              <th className="text-center w-5rem">%</th>
             </tr>
           </thead>
 
           <tbody>
             {data.map((d) => (
-              <tr className="parent" key={d.browserName}>
+              <tr className="parent" key={d.language}>
                 <td colSpan={2}>
-                  <Link
-                    className="align-items-center d-flex gap-2 text-body text-decoration-none text-decoration-underline-hover"
-                    preventScrollReset
-                    title={d.browserName}
-                    to={getUpdatedLocation(location, { search: { browserName: d.browserName, detail: null } })}
-                  >
-                    {createElement(getBrowserIcon(d.browserName), { className: "flex-grow-0 flex-shrink-0", size: "1.2em" })}
-
-                    <span className="text-truncate">{d.browserName}</span>
-                  </Link>
+                  <div className="align-items-center d-flex gap-2">
+                    <Link
+                      className="text-body text-decoration-none text-decoration-underline-hover text-truncate"
+                      preventScrollReset
+                      title={d.language}
+                      to={getUpdatedLocation(location, { search: { detail: null, language: d.language } })}
+                    >
+                      {d.language}
+                    </Link>
+                  </div>
+                </td>
+                <td className="text-center">
+                  <span title={d.visitorCount.toString()}>{d.visitorCountDisplay}</span>
                 </td>
 
-                <td className="text-center">{d.visitorCountDisplay}</td>
-                <td className="text-end">{d.visitorPercentageDisplay}</td>
+                <td className="text-center">
+                  <span title={d.visitorPercentageDisplay}>{d.visitorPercentageDisplay}</span>
+                </td>
               </tr>
             ))}
           </tbody>

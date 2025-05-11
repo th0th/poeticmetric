@@ -1,9 +1,5 @@
 clickhouse:
   password: poeticmetric
-  resources:
-    limits:
-      cpu: 500m
-      memory: 1Gi
   user: poeticmetric
 mailpit:
   enabled: true

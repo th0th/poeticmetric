@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { useMemo } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { FormProvider, useForm } from "react-hook-form";
-import { Link, useSearchParams } from "wouter";
+import { Link, useSearchParams } from "react-router";
 import ActivityOverlay from "~/components/ActivityOverlay";
 import Breadcrumb from "~/components/Breadcrumb";
 import Result from "~/components/Result";
@@ -164,3 +164,5 @@ export default function SiteForm() {
     </FormProvider>
   );
 }
+
+export const Component = SiteForm;

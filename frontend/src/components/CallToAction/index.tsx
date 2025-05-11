@@ -1,7 +1,7 @@
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import classNames from "classnames";
 import { JSX, PropsWithoutRef, ReactNode } from "react";
-import { Link } from "wouter";
+import { Link } from "react-router";
 import animationAnalytics from "./analytics.lottie?url";
 
 export type CallToActionProps = Overwrite<Omit<PropsWithoutRef<JSX.IntrinsicElements["section"]>, "children">, {
@@ -31,7 +31,9 @@ export default function CallToAction({ className, description, title, ...props }
             <div className="align-items-center d-flex flex-column flex-sm-row gap-6 mt-8">
               <Link className="btn btn-primary" to="/sign-up">Sign up now</Link>
 
-              <Link className="btn btn-link gap-4 hstack justify-content-center text-decoration-none" to="/pricing">See plans and pricing</Link>
+              <Link className="btn btn-link gap-4 hstack justify-content-center text-decoration-none" to="/pricing">
+                See plans and pricing
+              </Link>
             </div>
           </div>
         </div>

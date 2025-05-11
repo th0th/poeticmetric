@@ -1,26 +1,25 @@
 import { useMemo } from "react";
-import { useLocation } from "wouter";
-
-export const applicationLocations: Array<string> = [
-  "/billing",
-  "/settings",
-  "/settings/account-deletion",
-  "/settings/organization-details",
-  "/settings/password",
-  "/settings/profile",
-  "/sites",
-  "/sites/add",
-  "/sites/edit",
-  "/sites/report",
-  "/team",
-  "/team/edit",
-  "/team/invite",
-];
+import { useMatches } from "react-router";
 
 export default function useLayoutVariant(): LayoutVariant {
-  const [location] = useLocation();
+  const matches = useMatches();
 
-  return useMemo(() => {
-    return applicationLocations.includes(location) ? "application" : "site";
-  }, [location]);
+  return useMemo<"application" | "site">(() => {
+    for (const match of matches) {
+      if (hasLayoutVariant(match)) {
+        return match.handle.layoutVariant;
+      }
+    }
+
+    throw Error("No header variant found");
+  }, [matches]);
+}
+
+function hasLayoutVariant(match: unknown): match is { handle: { layoutVariant: "application" | "site" } } {
+  return typeof match === "object"
+    && match !== null
+    && "handle" in match
+    && typeof match.handle === "object"
+    && match.handle !== null
+    && "layoutVariant" in match.handle;
 }

@@ -3,7 +3,7 @@ type Path = {
   isoCode: string;
 };
 
-export const map: Array<Path> = [
+export const isoCodePaths: Array<Path> = [
   {
     d: "M619.874,393.722L620.373,393.573L620.477,394.411L622.671,393.93L624.99,394.009L626.684,394.1L628.604,392.028L630.695,390.054L632.467,388.146L633.001,389.202L633.382,391.639L631.949,391.651L631.72,393.648L632.216,394.073L630.947,394.674L630.939,395.919L630.122,397.175L630.049,398.394L629.484,399.032L621.056,397.508L619.981,394.428z",
     isoCode: "ARE",
@@ -697,3 +697,9 @@ export const map: Array<Path> = [
     isoCode: "ZWE",
   },
 ];
+
+export const isoCodePathMap = isoCodePaths.reduce<Record<string, string>>(function(a, c) {
+  a[c.isoCode] = c.d;
+
+  return a;
+}, {});

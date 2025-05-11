@@ -1,6 +1,6 @@
 import { IconCheck } from "@tabler/icons-react";
 import classNames from "classnames";
-import millify from "millify";
+import { millify } from "millify";
 import { createElement, ReactNode, useContext, useMemo } from "react";
 import InfoOverlay from "~/components/InfoOverlay";
 import PlansContext from "~/contexts/PlansContext";

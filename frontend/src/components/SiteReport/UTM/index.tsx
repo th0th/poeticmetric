@@ -1,6 +1,6 @@
 import { ReactNode, useCallback, useMemo } from "react";
 import { Dropdown, DropdownProps } from "react-bootstrap";
-import { useSearchParams } from "wouter";
+import { useSearchParams } from "react-router";
 import Campaign from "./Campaign";
 import Content from "./Content";
 import Medium from "./Medium";
@@ -38,8 +38,10 @@ export default function UTM() {
         s.delete(routerQuerySectionSlugKey);
       }
 
+      s.sort();
+
       return s;
-    });
+    }, { preventScrollReset: true });
   }, [setSearchParams]);
 
   return (

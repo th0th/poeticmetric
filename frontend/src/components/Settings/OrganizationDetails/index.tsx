@@ -128,3 +128,5 @@ export default function OrganizationDetails() {
     </>
   );
 }
+
+export const Component = OrganizationDetails;

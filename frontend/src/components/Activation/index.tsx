@@ -2,7 +2,7 @@ import { IconAlertTriangle } from "@tabler/icons-react";
 import classNames from "classnames";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
-import { Link, useSearchParams } from "wouter";
+import { Link, useSearchParams } from "react-router";
 import ActivityOverlay from "~/components/ActivityOverlay";
 import Title from "~/components/Title";
 import { api } from "~/lib/api";

@@ -1,5 +1,5 @@
 import { ReactNode, useEffect } from "react";
-import { useLocation } from "wouter";
+import { useNavigate } from "react-router";
 import useAuthentication from "~/hooks/useAuthentication";
 
 export type EmailAddressVerificationBlockProps = {
@@ -8,7 +8,7 @@ export type EmailAddressVerificationBlockProps = {
 
 export default function EmailAddressVerificationBlock({ children }: EmailAddressVerificationBlockProps) {
   const { user } = useAuthentication();
-  const [,navigate] = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (user && !user.isEmailVerified) {

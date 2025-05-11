@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { useMemo } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
-import { useSearchParams } from "wouter";
+import { useSearchParams } from "react-router";
 import ActivityOverlay from "~/components/ActivityOverlay";
 import Avatar from "~/components/Avatar";
 import Breadcrumb from "~/components/Breadcrumb";
@@ -150,3 +150,5 @@ export default function TeamMemberForm() {
     </>
   );
 }
+
+export const Component = TeamMemberForm;

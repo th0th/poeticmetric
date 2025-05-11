@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
-import { Link, useSearch } from "wouter";
+import { Link, useSearchParams } from "react-router";
 import ActivityOverlay from "~/components/ActivityOverlay";
 import Title from "~/components/Title";
 import { api } from "~/lib/api";
@@ -13,10 +13,10 @@ type Form = {
 
 export default function PasswordRecovery() {
   const { showBoundary } = useErrorBoundary();
-  const searchParams = useSearch();
+  const [searchParams] = useSearchParams();
   const { formState: { errors, isSubmitSuccessful, isSubmitting }, handleSubmit, register, setError } = useForm<Form>({
     defaultValues: {
-      email: new URLSearchParams(searchParams).get("email") || "",
+      email: searchParams.get("email") || "",
     },
   });
 

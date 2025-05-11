@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { Modal as BsModal, ModalProps } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { useLocation } from "wouter";
+import { useNavigate } from "react-router";
 import Portal from "~/components/Portal";
 import useAuthentication from "~/hooks/useAuthentication";
 import { api } from "~/lib/api";
@@ -24,7 +24,7 @@ type Form = {
 
 export default function Modal({ ...props }: ModalProps) {
   const [state, setState] = useState<State>({ isReady: false, reasons: [], selectedReason: null });
-  const [, navigate] = useLocation();
+  const navigate = useNavigate();
   const { signOut, user } = useAuthentication();
   const { formState: { errors }, handleSubmit, register, setError, watch } = useForm<Form>();
   const reason = watch("reason");

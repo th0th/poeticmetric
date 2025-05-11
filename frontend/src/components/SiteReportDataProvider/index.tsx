@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { ReactNode, useEffect, useMemo } from "react";
-import { useSearchParams } from "wouter";
+import { useSearchParams } from "react-router";
 import ActivityIndicator from "~/components/ActivityIndicator";
 import SiteReportDataContext, { SiteReportDataContextValue } from "~/contexts/SiteReportDataContext";
 import useSite from "~/hooks/api/useSite";

@@ -45,12 +45,13 @@
     "react-dom": "^19.1.0",
     "react-error-boundary": "^5.0.0",
     "react-github-btn": "^1.4.0",
+    "react-helmet-async": "^2.0.5",
     "react-hook-form": "^7.56.1",
+    "react-router": "^7.5.3",
     "sass-embedded": "^1.87.0",
     "sirv": "^3.0.1",
     "sitemap": "^8.0.0",
-    "swr": "^2.3.3",
-    "wouter": "^3.7.0"
+    "swr": "^2.3.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.1",

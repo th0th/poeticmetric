@@ -1,6 +1,6 @@
 import { ReactNode, useCallback, useMemo } from "react";
 import { Dropdown, DropdownProps } from "react-bootstrap";
-import { useSearchParams } from "wouter";
+import { useSearchParams } from "react-router";
 import Referrer from "~/components/SiteReport/Source/Referrer";
 
 type Section = {
@@ -31,8 +31,10 @@ export default function Source() {
         s.delete(routerQuerySectionSlugKey);
       }
 
+      s.sort();
+
       return s;
-    });
+    }, { preventScrollReset: true });
   }, [setSearchParams]);
 
   return (

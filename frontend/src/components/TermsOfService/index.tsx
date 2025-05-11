@@ -27,3 +27,5 @@ export default function TermsOfService() {
     </>
   );
 }
+
+export const Component = TermsOfService;

@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
-import { Link, useLocation, useSearch } from "wouter";
+import { Link, useNavigate, useSearchParams } from "react-router";
 import ActivityOverlay from "~/components/ActivityOverlay";
 import Title from "~/components/Title";
 import useAuthentication from "~/hooks/useAuthentication";
@@ -17,8 +17,8 @@ type Form = {
 
 export default function SignIn() {
   const { showBoundary } = useErrorBoundary();
-  const [, navigate] = useLocation();
-  const searchParams = useSearch();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { refresh } = useAuthentication();
   const { formState: { errors, isSubmitting }, handleSubmit, register, setError, watch } = useForm<Form>();
   const userEmail = watch("userEmail");
@@ -42,9 +42,9 @@ export default function SignIn() {
         setUserAccessToken(responseJson.token);
         await refresh();
 
-        const next = new URLSearchParams(searchParams).get("next");
-
-        navigate(next || "/sites");
+        const nextFromSearchParams = searchParams.get("next");
+        const next = nextFromSearchParams === null ? "/sites" : decodeURIComponent(nextFromSearchParams);
+        navigate(next);
       } else {
         setErrors(setError, responseJson);
       }
@@ -88,8 +88,8 @@ export default function SignIn() {
 
                     <Link
                       className="fs-7 ms-auto text-decoration-none text-decoration-underline-focus-visible text-decoration-underline-hover"
-                      href={passwordRecoveryLink}
                       tabIndex={1}
+                      to={passwordRecoveryLink}
                     >
                       Forgot password?
                     </Link>
@@ -118,3 +118,5 @@ export default function SignIn() {
     </>
   );
 }
+
+export const Component = SignIn;

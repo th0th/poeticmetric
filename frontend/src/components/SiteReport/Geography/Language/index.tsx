@@ -1,18 +1,18 @@
 import { useMemo } from "react";
-import { Link, useLocation, useSearchParams } from "wouter";
+import { Link, useLocation } from "react-router";
 import ActivityIndicator from "~/components/ActivityIndicator";
 import NoData from "~/components/NoData";
 import useSiteLanguageReport from "~/hooks/api/useSiteLanguageReport";
-import { getUpdatedSearch } from "~/lib/router";
+import { getUpdatedLocation } from "~/lib/router";
 import Chart from "./Chart";
+import Modal from "./Modal";
 
 type InnerLanguageProps = {
   report: Array<HydratedSiteLanguageReport>;
 };
 
 function InnerLanguage({ report }: InnerLanguageProps) {
-  const [location] = useLocation();
-  const [searchParams] = useSearchParams();
+  const location = useLocation();
 
   const data = useMemo(() => {
     if (report === undefined) {
@@ -51,8 +51,9 @@ function InnerLanguage({ report }: InnerLanguageProps) {
                       <td>
                         <Link
                           className="align-items-center d-flex gap-2 text-body text-decoration-none text-decoration-underline-focus-visible text-decoration-underline-hover"
+                          preventScrollReset
                           title={d.language}
-                          to={`${location}${getUpdatedSearch(searchParams, { language: d.language })}`}
+                          to={getUpdatedLocation(location, { search: { language: d.language } })}
                         >
                           <span className="text-truncate">{d.language}</span>
                         </Link>
@@ -66,7 +67,8 @@ function InnerLanguage({ report }: InnerLanguageProps) {
 
               <Link
                 className="bg-opacity-0 bg-opacity-10-focus-visible bg-opacity-10-hover bg-primary border-1 border-top d-block fw-medium mt-auto mx-n8 p-3 text-center text-decoration-none"
-                to={`${location}${getUpdatedSearch(searchParams, { detail: "language" })}`}
+                preventScrollReset
+                to={getUpdatedLocation(location, { search: { detail: "language" } })}
               >
                 See more
               </Link>
@@ -74,6 +76,8 @@ function InnerLanguage({ report }: InnerLanguageProps) {
           </div>
         </div>
       </div>
+
+      <Modal />
     </>
   );
 }

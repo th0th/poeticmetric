@@ -1,6 +1,6 @@
 import { IconBolt, IconChartBar, IconCode, IconCookieOff, IconPlug, IconUsers } from "@tabler/icons-react";
 import classNames from "classnames";
-import { Link } from "wouter";
+import { Link } from "react-router";
 import CallToAction from "~/components/CallToAction";
 import Description from "~/components/Description";
 import Features, { FeaturesProps } from "~/components/Features";
@@ -108,3 +108,5 @@ export default function Home() {
     </>
   );
 }
+
+export const Component = Home;

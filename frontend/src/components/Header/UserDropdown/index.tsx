@@ -1,5 +1,5 @@
 import { Dropdown, DropdownProps } from "react-bootstrap";
-import { Link } from "wouter";
+import { Link } from "react-router";
 import Avatar from "~/components/Avatar";
 import useAuthentication from "~/hooks/useAuthentication";
 

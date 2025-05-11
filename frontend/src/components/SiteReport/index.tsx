@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useSearchParams } from "wouter";
+import { useSearchParams } from "react-router";
 import Breadcrumb from "~/components/Breadcrumb";
 import SiteReportFiltersTimeInput from "~/components/SiteReportFiltersTimeInput";
 import Title from "~/components/Title";
@@ -81,3 +81,5 @@ export default function SiteReport() {
     </>
   );
 }
+
+export const Component = SiteReport;

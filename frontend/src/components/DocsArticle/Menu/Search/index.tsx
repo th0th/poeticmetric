@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { createElement, FocusEventHandler, JSX, PropsWithoutRef, useCallback, useEffect, useState } from "react";
 import { Modal as BaseModal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { Link } from "wouter";
+import { Link } from "react-router";
 import Portal from "~/components/Portal";
 import { getDocsCache } from "~/lib/docs";
 import icons from "../icons";

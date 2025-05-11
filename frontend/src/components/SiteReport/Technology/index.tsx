@@ -1,6 +1,6 @@
 import { ReactNode, useCallback, useMemo } from "react";
 import { Dropdown, DropdownProps } from "react-bootstrap";
-import { useSearchParams } from "wouter";
+import { useSearchParams } from "react-router";
 import Browsers from "./Browsers";
 import Devices from "./Devices";
 import OperatingSystems from "./OperatingSystems";
@@ -34,8 +34,10 @@ export default function Technology() {
         s.delete(routerQuerySectionSlugKey);
       }
 
+      s.sort();
+
       return s;
-    });
+    }, { preventScrollReset: true });
   }, [setSearchParams]);
 
   return (

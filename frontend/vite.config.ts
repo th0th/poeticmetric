@@ -39,4 +39,7 @@ export default defineConfig({
     host: true,
     strictPort: true,
   },
+  ssr: {
+    noExternal: ["react-helmet-async"],
+  },
 });

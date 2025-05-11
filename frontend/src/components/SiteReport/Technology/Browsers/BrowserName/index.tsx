@@ -1,10 +1,10 @@
 import { createElement, useMemo } from "react";
-import { Link, useLocation, useSearchParams } from "wouter";
+import { Link, useLocation } from "react-router";
 import ActivityIndicator from "~/components/ActivityIndicator";
 import NoData from "~/components/NoData";
 import useSiteBrowserNameReport from "~/hooks/api/useSiteBrowserNameReport";
 import { getBrowserIcon } from "~/lib/icons";
-import { getUpdatedSearch } from "~/lib/router";
+import { getUpdatedLocation } from "~/lib/router";
 import Modal from "./Modal";
 
 type InnerBrowserNameProps = {
@@ -26,8 +26,7 @@ export default function BrowserName() {
 }
 
 function InnerBrowserName({ report }: InnerBrowserNameProps) {
-  const [location] = useLocation();
-  const [searchParams] = useSearchParams();
+  const location = useLocation();
 
   const data = useMemo(() => report[0].data.slice(0, 5), [report]);
 
@@ -48,8 +47,9 @@ function InnerBrowserName({ report }: InnerBrowserNameProps) {
               <td>
                 <Link
                   className="align-items-center d-flex gap-2 text-body text-decoration-none text-decoration-underline-focus-visible text-decoration-underline-hover"
+                  preventScrollReset
                   title={d.browserName}
-                  to={`${location}${getUpdatedSearch(searchParams, { browserName: d.browserName })}`}
+                  to={getUpdatedLocation(location, { search: { browserName: d.browserName } })}
                 >
                   {createElement(getBrowserIcon(d.browserName), { className: "flex-grow-0 flex-shrink-0", size: "1.2em" })}
 
@@ -65,7 +65,8 @@ function InnerBrowserName({ report }: InnerBrowserNameProps) {
 
       <Link
         className="bg-opacity-0 bg-opacity-10-focus-visible bg-opacity-10-hover bg-primary border-1 border-top d-block fw-medium mb-n8 mt-auto mx-n8 p-3 text-center text-decoration-none"
-        to={`${location}${getUpdatedSearch(searchParams, { detail: "browser-name" })}`}
+        preventScrollReset
+        to={getUpdatedLocation(location, { search: { detail: "browser-name" } })}
       >
         See more
       </Link>

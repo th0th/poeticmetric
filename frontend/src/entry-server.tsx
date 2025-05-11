@@ -1,13 +1,36 @@
-import { StrictMode } from "react";
 import { renderToString } from "react-dom/server";
-import App from "~/components/App";
+import { HelmetProvider } from "react-helmet-async";
+import { createStaticHandler, createStaticRouter, StaticRouterProvider } from "react-router";
+import { placeholderBaseURL } from "~/lib/base";
+import routes from "~/routes";
 
-export function render(path: string) {
-  const html = renderToString(
-    <StrictMode>
-      <App path={path} />
-    </StrictMode>,
-  );
+export async function render(path: string) {
+  const { dataRoutes, query } = createStaticHandler(routes);
+  const req = new Request(`${placeholderBaseURL}${path}`);
+  const context = await query(req);
 
-  return { html };
+  if (context instanceof Response) {
+    throw context;
+  }
+
+  const router = createStaticRouter(dataRoutes, context);
+  const helmetContext: { helmet?: any } = {};
+
+  const body = renderToString((
+    <HelmetProvider context={helmetContext}>
+      <StaticRouterProvider context={context} router={router} />
+    </HelmetProvider>
+  ));
+
+  const helmet = helmetContext?.helmet;
+
+  const head = [
+    helmet.title.toString(),
+    helmet.priority.toString(),
+    helmet.meta.toString(),
+    helmet.link.toString(),
+    helmet.script.toString(),
+  ].join("");
+
+  return { body, head };
 }

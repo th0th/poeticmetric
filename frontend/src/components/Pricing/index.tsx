@@ -38,3 +38,5 @@ export default function Pricing() {
     </>
   );
 }
+
+export const Component = Pricing;

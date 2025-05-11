@@ -56,3 +56,5 @@ export default function AccountDeletion() {
     </>
   );
 }
+
+export const Component = AccountDeletion;

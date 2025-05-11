@@ -1,15 +1,8 @@
 import classNames from "classnames";
-import { lazy, Suspense } from "react";
-import { Link, Redirect, Route } from "wouter";
-import ActivityIndicator from "~/components/ActivityIndicator";
+import { NavLink, Outlet } from "react-router";
 import Breadcrumb from "~/components/Breadcrumb";
 import Title from "~/components/Title";
 import useAuthentication from "~/hooks/useAuthentication";
-
-const AccountDeletion = lazy(() => import("./AccountDeletion"));
-const OrganizationDetails = lazy(() => import("./OrganizationDetails"));
-const Password = lazy(() => import("./Password"));
-const Profile = lazy(() => import("./Profile"));
 
 export default function Settings() {
   const { user } = useAuthentication();
@@ -31,8 +24,8 @@ export default function Settings() {
               </li>
 
               <li className="nav-item">
-                <Link
-                  className={(isActive) => classNames(
+                <NavLink
+                  className={({ isActive }) => classNames(
                     "nav-link position-relative rounded text-body z-2-focus-visible",
                     isActive && "bg-body-secondary",
                     !isActive && "bg-body-tertiary-focus-visible bg-body-tertiary-hover",
@@ -40,12 +33,12 @@ export default function Settings() {
                   to="/settings/profile"
                 >
                   Profile
-                </Link>
+                </NavLink>
               </li>
 
               <li className="nav-item">
-                <Link
-                  className={(isActive) => classNames(
+                <NavLink
+                  className={({ isActive }) => classNames(
                     "nav-link position-relative rounded text-body z-2-focus-visible",
                     isActive && "bg-body-secondary",
                     !isActive && "bg-body-tertiary-focus-visible bg-body-tertiary-hover",
@@ -53,7 +46,7 @@ export default function Settings() {
                   to="/settings/password"
                 >
                   Password
-                </Link>
+                </NavLink>
               </li>
 
               {user?.isOrganizationOwner ? (
@@ -63,8 +56,8 @@ export default function Settings() {
                   </li>
 
                   <li className="nav-item">
-                    <Link
-                      className={(isActive) => classNames(
+                    <NavLink
+                      className={({ isActive }) => classNames(
                         "nav-link position-relative rounded text-body z-2-focus-visible",
                         isActive && "bg-body-secondary",
                         !isActive && "bg-body-tertiary-focus-visible bg-body-tertiary-hover",
@@ -72,12 +65,12 @@ export default function Settings() {
                       to="/settings/organization-details"
                     >
                       Organization details
-                    </Link>
+                    </NavLink>
                   </li>
 
                   <li className="nav-item">
-                    <Link
-                      className={(isActive) => classNames(
+                    <NavLink
+                      className={({ isActive }) => classNames(
                         "nav-link position-relative rounded text-body z-2-focus-visible",
                         isActive && "bg-body-secondary",
                         !isActive && "bg-body-tertiary-focus-visible bg-body-tertiary-hover",
@@ -85,7 +78,7 @@ export default function Settings() {
                       to="/settings/account-deletion"
                     >
                       Account deletion
-                    </Link>
+                    </NavLink>
                   </li>
                 </>
               ) : null}
@@ -93,25 +86,20 @@ export default function Settings() {
           </div>
 
           <div className="col">
-            <Suspense
-              fallback={(
-                <div className="align-items-center d-flex flex-grow-1 justify-content-center">
-                  <ActivityIndicator />
-                </div>
-              )}
-            >
-              <Route component={AccountDeletion} path="/settings/account-deletion" />
-              <Route component={OrganizationDetails} path="/settings/organization-details" />
-              <Route component={Password} path="/settings/password" />
-              <Route component={Profile} path="/settings/profile" />
-            </Suspense>
+            <Outlet />
+            {/*<Route component={AccountDeletion} path="/settings/account-deletion" />
+            <Route component={OrganizationDetails} path="/settings/organization-details" />
+            <Route component={Password} path="/settings/password" />
+            <Route component={Profile} path="/settings/profile" />
 
             <Route path="/settings">
               <Redirect to="/settings/profile" />
-            </Route>
+            </Route>*/}
           </div>
         </div>
       </div>
     </>
   );
 }
+
+export const Component = Settings;

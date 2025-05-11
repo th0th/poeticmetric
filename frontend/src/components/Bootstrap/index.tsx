@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { useMemo } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
-import { Link } from "wouter";
+import { Link } from "react-router";
 import ActivityOverlay from "~/components/ActivityOverlay";
 import Title from "~/components/Title";
 import useAuthentication from "~/hooks/useAuthentication";
@@ -245,3 +245,5 @@ export default function Bootstrap() {
     </>
   );
 };
+
+export const Component = Bootstrap;

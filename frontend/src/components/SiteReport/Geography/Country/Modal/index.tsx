@@ -1,12 +1,12 @@
 import { useMemo } from "react";
 import BaseModal from "react-bootstrap/Modal";
-import { Link, useLocation, useSearchParams } from "wouter";
+import { Link, useLocation, useSearchParams } from "react-router";
 import ActivityIndicator from "~/components/ActivityIndicator";
 import useSiteCountryReport from "~/hooks/api/useSiteCountryReport";
-import { getUpdatedSearch } from "~/lib/router";
+import { getUpdatedLocation } from "~/lib/router";
 
 export default function Modal() {
-  const [location] = useLocation();
+  const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const { data: report, isValidating, setSize } = useSiteCountryReport();
 
@@ -26,7 +26,7 @@ export default function Modal() {
       s.delete("detail");
 
       return s;
-    });
+    }, { preventScrollReset: true });
   }
 
   async function loadMore() {
@@ -60,8 +60,9 @@ export default function Modal() {
                   <div className="align-items-center d-flex gap-2">
                     <Link
                       className="text-body text-decoration-none text-decoration-underline-hover text-truncate"
+                      preventScrollReset
                       title={d.country}
-                      to={`${location}?${getUpdatedSearch(searchParams, { countryISOCode: d.countryISOCode })}`}
+                      to={getUpdatedLocation(location, { search: { countryISOCode: d.countryISOCode, detail: null } })}
                     >
                       {d.country}
                     </Link>
