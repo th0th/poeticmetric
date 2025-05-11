@@ -11,10 +11,26 @@ poeticmetric:
     image:
       pullPolicy: Never
       tag: development
-  defaultPlanName: "Hobbyist"
-  development:
-    debug: true
-    enabled: true
+  config:
+    defaultPlanName: "Hobbyist"
+    development:
+      debug: true
+      enabled: true
+    host: dev.poeticmetric.com
+    isHosted: true
+    restApi:
+      ingress:
+        annotations:
+          cert-manager.io/cluster-issuer: self-signed
+    smtp:
+      fromAddress: poeticmetric@dev.poeticmetric.com
+      host: poeticmetric-mailpit
+      port: 1025
+    workers:
+    - concurrency: 1
+      name: ""
+      queues: [ ]
+      replicas: 1
   frontend:
     image:
       pullPolicy: Never
@@ -23,20 +39,6 @@ poeticmetric:
       annotations:
         cert-manager.io/cluster-issuer: self-signed
     tagsEnvironment: development
-  host: dev.poeticmetric.com
-  restApi:
-    ingress:
-      annotations:
-        cert-manager.io/cluster-issuer: self-signed
-  smtp:
-    fromAddress: poeticmetric@dev.poeticmetric.com
-    host: poeticmetric-mailpit
-    port: 1025
-  workers:
-  - concurrency: 1
-    name: ""
-    queues: [ ]
-    replicas: 1
 postgres:
   password: poeticmetric
 rabbitmq:

@@ -19,17 +19,27 @@ spec:
     spec:
       containers:
       - env:
+        - name: NODE_ENV
+          value: {{ if .Values.poeticmetric.config.development.enabled }}development{{ else }}production{{ end }}
         - name: VITE_BASE_URL
           valueFrom:
             configMapKeyRef:
               key: FRONTEND_BASE_URL
               name: {{ include "poeticmetric.fullname" . }}-poeticmetric
-        - name: NODE_ENV
-          value: {{ if .Values.poeticmetric.development.enabled }}development{{ else }}production{{ end }}
+        - name: VITE_IS_HOSTED
+          valueFrom:
+            configMapKeyRef:
+              key: IS_HOSTED
+              name: {{ include "poeticmetric.fullname" . }}-poeticmetric
         - name: VITE_REST_API_BASE_URL
           valueFrom:
             configMapKeyRef:
               key: REST_API_BASE_URL
+              name: {{ include "poeticmetric.fullname" . }}-poeticmetric
+        - name: VITE_TAGS_ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              key: FRONTEND_TAGS_ENVIRONMENT
               name: {{ include "poeticmetric.fullname" . }}-poeticmetric
         image: {{ printf "%s:%s" .Values.poeticmetric.frontend.image.repository .Values.poeticmetric.frontend.image.tag }}
         imagePullPolicy: {{ .Values.poeticmetric.frontend.image.pullPolicy }}
@@ -37,7 +47,7 @@ spec:
         resources:
           {{ toYaml .Values.poeticmetric.frontend.resources | nindent 10 }}
         volumeMounts:
-        {{ if .Values.poeticmetric.development.hostBasePath }}
+        {{ if .Values.poeticmetric.config.development.hostBasePath }}
         - mountPath: /poeticmetric/public
           name: public
         - mountPath: /poeticmetric/src
@@ -63,35 +73,35 @@ spec:
       {{ end }}
       terminationGracePeriodSeconds: 5
       volumes:
-      {{ if .Values.poeticmetric.development.hostBasePath }}
+      {{ if .Values.poeticmetric.config.development.hostBasePath }}
       - hostPath:
-          path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/public
+          path: {{ .Values.poeticmetric.config.development.hostBasePath }}/frontend/public
         name: public
       - hostPath:
-          path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/scripts
+          path: {{ .Values.poeticmetric.config.development.hostBasePath }}/frontend/scripts
         name: scripts
       - hostPath:
-          path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/src
+          path: {{ .Values.poeticmetric.config.development.hostBasePath }}/frontend/src
         name: src
       - hostPath:
-          path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/index.html
+          path: {{ .Values.poeticmetric.config.development.hostBasePath }}/frontend/index.html
         name: index-html
       - hostPath:
-          path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/package.json
+          path: {{ .Values.poeticmetric.config.development.hostBasePath }}/frontend/package.json
         name: package-json
       - hostPath:
-          path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/pnpm-lock.yaml
+          path: {{ .Values.poeticmetric.config.development.hostBasePath }}/frontend/pnpm-lock.yaml
         name: pnpm-lock-yaml
       - hostPath:
-          path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/server.js
+          path: {{ .Values.poeticmetric.config.development.hostBasePath }}/frontend/server.js
         name: server-js
       - hostPath:
-          path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/tsconfig.json
+          path: {{ .Values.poeticmetric.config.development.hostBasePath }}/frontend/tsconfig.json
         name: tsconfig-json
       - hostPath:
-          path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/tsconfig.node.json
+          path: {{ .Values.poeticmetric.config.development.hostBasePath }}/frontend/tsconfig.node.json
         name: tsconfig-node-json
       - hostPath:
-          path: {{ .Values.poeticmetric.development.hostBasePath }}/frontend/vite.config.ts
+          path: {{ .Values.poeticmetric.config.development.hostBasePath }}/frontend/vite.config.ts
         name: vite-config-ts
       {{ end }}

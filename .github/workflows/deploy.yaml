@@ -121,8 +121,8 @@ jobs:
           --set clickhouse.password="${{ secrets.CLICKHOUSE_PASSWORD }}" \
           --set clickhouse.user="${{ secrets.CLICKHOUSE_USER }}" \
           --set ghcrAuth="${{ secrets.GHCR_AUTH }}" \
-          --set poeticmetric.smtp.password="${{ secrets.SMTP_PASSWORD }}" \
-          --set poeticmetric.smtp.user="${{ secrets.SMTP_USER }}" \
+          --set poeticmetric.config.smtp.password="${{ secrets.SMTP_PASSWORD }}" \
+          --set poeticmetric.config.smtp.user="${{ secrets.SMTP_USER }}" \
           --set postgres.password="${{ secrets.POSTGRES_PASSWORD }}" \
           --set postgres.user="${{ secrets.POSTGRES_USER }}" \
           --set rabbitmq.password="${{ secrets.RABBITMQ_PASSWORD }}" \

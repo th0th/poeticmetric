@@ -8,7 +8,7 @@ metadata:
   name: {{ include "poeticmetric.fullname" . }}-rabbitmq
 spec:
   rules:
-  - host: {{ .Values.rabbitmq.ingress.host | default (printf "rabbitmq.%s" .Values.poeticmetric.host) }}
+  - host: {{ .Values.rabbitmq.ingress.host | default (printf "rabbitmq.%s" .Values.poeticmetric.config.host) }}
     http:
       paths:
       - backend:
@@ -20,5 +20,5 @@ spec:
         pathType: Prefix
   tls:
   - hosts:
-    - {{ .Values.mailpit.ingress.host | default (printf "rabbitmq.%s" .Values.poeticmetric.host) }}
+    - {{ .Values.mailpit.ingress.host | default (printf "rabbitmq.%s" .Values.poeticmetric.config.host) }}
     secretName: {{ include "poeticmetric.fullname" . }}-rabbitmq-tls

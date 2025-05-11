@@ -1,4 +1,4 @@
-import { range } from "lodash-es";
+import { range, uniq } from "lodash-es";
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { getBaseDir } from "./base.js";
@@ -18,31 +18,59 @@ const docsPaths = readdirSync(join(baseDir, "src", "docs"), { withFileTypes: tru
   }).flat().sort();
 
 export function getRoutes() {
-  const routesFileContent = readFileSync("src/components/App/index.tsx", "utf-8");
-  const routePaths = [...routesFileContent.matchAll(/path="(.*)"/ig)].map((d) => d[1]);
-  const routes = ["/404"];
+  const routesFileContent = readFileSync("src/routes.ts", "utf-8");
 
-  for (const routePath of routePaths) {
-    handleRoutePath(routes, routePath);
+  let [routerRoutesStr] = routesFileContent.match(/(const routes.*?;)/s);
+  routerRoutesStr = routerRoutesStr.replace(/const routes.*?=/s, "routerRoutes =");
+  routerRoutesStr = routerRoutesStr.replace(
+    /Component:\s+(?:[a-zA-Z_][a-zA-Z0-9_]*\({.*?}\)|[^,]+),|lazy:\s*\(\)\s*=>\s*import\("([^"]*?)"\),/gs,
+    "hasC: true,",
+  );
+
+  let routerRoutes;
+
+  eval(routerRoutesStr);
+
+  /** @type {Array<string>} */
+  const routes = [];
+
+  for (const routerRoute of routerRoutes) {
+    handleRouteObject(routes, undefined, routerRoute);
   }
 
-  return routes;
+  return uniq(routes).sort();
 }
 
-function handleRoutePath(routes, routePath) {
-  if (routePath === "/blog/page/:blogPage") {
-    for (const blogPage of range(2, Math.ceil(blogPostDirectories.length / 10) + 1)) {
-      routes.push(`/blog/page/${blogPage}`);
+function handleRouteObject(routes, parentRoute, routeObject) {
+  const route = parentRoute !== undefined || routeObject.path !== undefined
+    ? `${parentRoute || ""}${parentRoute !== undefined && routeObject.path ? "/" : ""}${routeObject.path || ""}`
+    : undefined;
+
+  if (route !== undefined && routeObject.hasC) {
+    if (route === "*") {
+      routes.push("/404");
+    } else if (route === "/") {
+      routes.push("/");
+    } else if (route === "blog/page/:blogPage") {
+      for (const blogPage of range(2, Math.ceil(blogPostDirectories.length / 10) + 1)) {
+        routes.push(`/blog/page/${blogPage}`);
+      }
+    } else if (route === "blog/:blogPostSlug") {
+      for (const blogPostDirectory of blogPostDirectories) {
+        routes.push(`/blog/${blogPostDirectory.split("_")[1]}`);
+      }
+    } else if (route === "docs/:docsCategorySlug/:docsArticleSlug") {
+      for (const docsPath of docsPaths) {
+        routes.push(`/docs/${docsPath}`);
+      }
+    } else {
+      routes.push(`/${route}`);
     }
-  } else if (routePath === "/blog/:blogPostSlug") {
-    for (const blogPostDirectory of blogPostDirectories) {
-      routes.push(`/blog/${blogPostDirectory.split("_")[1]}`);
+  }
+
+  if (routeObject.children) {
+    for (const child of routeObject.children) {
+      handleRouteObject(routes, route, child);
     }
-  } else if (routePath === "/docs/:docsCategorySlug/:docsArticleSlug") {
-    for (const docsPath of docsPaths) {
-      routes.push(`/docs/${docsPath}`);
-    }
-  } else {
-    routes.push(routePath);
   }
 }

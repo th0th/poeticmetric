@@ -13,7 +13,6 @@ import AppErrorBoundary from "~/components/AppErrorBoundary";
 import ColorModeProvider from "~/components/ColorModeProvider";
 import SWRConfig from "~/components/SWRConfig";
 import Tags from "~/components/Tags";
-import { isHosted } from "~/lib/config";
 import AuthenticationProvider from "../AuthenticationProvider";
 import "~/styles/style.scss";
 
@@ -37,9 +36,6 @@ export default function App() {
             <AuthenticationProvider>
               <ColorModeProvider>
                 <Tags />
-                {isHosted ? (
-                  <Tags />
-                ) : null}
 
                 <Outlet />
               </ColorModeProvider>

@@ -6,7 +6,7 @@ metadata:
     restart-on-deploy: "true"
   name: {{ include "poeticmetric.fullname" . }}-rest-api
 spec:
-  replicas: {{ .Values.poeticmetric.restApi.replicas }}
+  replicas: {{ .Values.poeticmetric.config.restApi.replicas }}
   selector:
     matchLabels:
       {{ include "poeticmetric.selectorLabels" . | nindent 6 }}
@@ -69,9 +69,9 @@ spec:
         imagePullPolicy: {{ .Values.poeticmetric.backend.image.pullPolicy }}
         name: rest-api
         resources:
-          {{ toYaml .Values.poeticmetric.restApi.resources | nindent 10 }}
+          {{ toYaml .Values.poeticmetric.config.restApi.resources | nindent 10 }}
         volumeMounts:
-        {{ if .Values.poeticmetric.development.hostBasePath }}
+        {{ if .Values.poeticmetric.config.development.hostBasePath }}
         - mountPath: /poeticmetric/cmd
           name: cmd
         - mountPath: /poeticmetric/pkg
@@ -86,17 +86,17 @@ spec:
       - name: {{ include "poeticmetric.fullname" . }}-ghcr-io
       {{ end }}
       volumes:
-      {{ if .Values.poeticmetric.development.hostBasePath }}
+      {{ if .Values.poeticmetric.config.development.hostBasePath }}
       - hostPath:
-          path: {{ .Values.poeticmetric.development.hostBasePath }}/backend/cmd
+          path: {{ .Values.poeticmetric.config.development.hostBasePath }}/backend/cmd
         name: cmd
       - hostPath:
-          path: {{ .Values.poeticmetric.development.hostBasePath }}/backend/pkg
+          path: {{ .Values.poeticmetric.config.development.hostBasePath }}/backend/pkg
         name: pkg
       - hostPath:
-          path: {{ .Values.poeticmetric.development.hostBasePath }}/backend/go.mod
+          path: {{ .Values.poeticmetric.config.development.hostBasePath }}/backend/go.mod
         name: go-mod
       - hostPath:
-          path: {{ .Values.poeticmetric.development.hostBasePath }}/backend/go.sum
+          path: {{ .Values.poeticmetric.config.development.hostBasePath }}/backend/go.sum
         name: go-sum
       {{ end }}
