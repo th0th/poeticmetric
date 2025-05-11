@@ -2,7 +2,7 @@ import { IconDotsVertical, IconEdit, IconTrash } from "@tabler/icons-react";
 import classNames from "classnames";
 import { JSX, KeyboardEvent, MouseEvent, PropsWithoutRef, useMemo } from "react";
 import { Dropdown } from "react-bootstrap";
-import { Link, useLocation, useSearchParams } from "wouter";
+import { Link, useNavigate, useSearchParams } from "react-router";
 import FavIcon from "~/components/FavIcon";
 import Portal from "~/components/Portal";
 import useAuthentication from "~/hooks/useAuthentication";
@@ -13,7 +13,7 @@ export type SiteProps = Overwrite<PropsWithoutRef<JSX.IntrinsicElements["div"]>,
 }>;
 
 export default function Site({ className, site, ...props }: SiteProps) {
-  const [, navigate] = useLocation();
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { user } = useAuthentication();
   const reportLinkTo = useMemo(() => `/sites/report?siteID=${site.id}`, [site.id]);

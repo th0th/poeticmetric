@@ -1,9 +1,9 @@
 import { useMemo } from "react";
-import { Link, useLocation, useSearchParams } from "wouter";
+import { Link, useLocation } from "react-router";
 import ActivityIndicator from "~/components/ActivityIndicator";
 import NoData from "~/components/NoData";
 import useSiteUTMCampaignReport from "~/hooks/api/useSiteUTMCampaignReport";
-import { getUpdatedSearch } from "~/lib/router";
+import { getUpdatedLocation } from "~/lib/router";
 import Modal from "./Modal";
 
 type InnerCampaignProps = {
@@ -29,9 +29,7 @@ export default function Campaign() {
 }
 
 function InnerCampaign({ report }: InnerCampaignProps) {
-  const [location] = useLocation();
-  const [searchParams] = useSearchParams();
-
+  const location = useLocation();
   const data = useMemo(() => report[0].data.slice(0, 5), [report]);
 
   return (
@@ -51,8 +49,9 @@ function InnerCampaign({ report }: InnerCampaignProps) {
               <td>
                 <Link
                   className="align-items-center d-flex gap-2 text-body text-decoration-none text-decoration-underline-focus-visible text-decoration-underline-hover"
+                  preventScrollReset
                   title={d.utmCampaign}
-                  to={`${location}${getUpdatedSearch(searchParams, { utmCampaign: d.utmCampaign })}`}
+                  to={getUpdatedLocation(location, { search: { utmCampaign: d.utmCampaign } })}
                 >
                   <span className="text-truncate">{d.utmCampaign}</span>
                 </Link>
@@ -66,7 +65,8 @@ function InnerCampaign({ report }: InnerCampaignProps) {
 
       <Link
         className="bg-opacity-0 bg-opacity-10-focus-visible bg-opacity-10-hover bg-primary border-1 border-top d-block fw-medium mb-n8 mt-auto mx-n8 p-3 text-center text-decoration-none"
-        to={`${location}${getUpdatedSearch(searchParams, { detail: "utm-campaign" })}`}
+        preventScrollReset
+        to={getUpdatedLocation(location, { search: { detail: "utm-campaign" } })}
       >
         See more
       </Link>

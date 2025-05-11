@@ -1,5 +1,5 @@
 import { IconPlus } from "@tabler/icons-react";
-import { Link } from "wouter";
+import { Link } from "react-router";
 import Breadcrumb from "~/components/Breadcrumb";
 import Title from "~/components/Title";
 import useSites from "~/hooks/api/useSites";
@@ -50,3 +50,5 @@ export default function Sites() {
     </>
   );
 }
+
+export const Component = Sites;

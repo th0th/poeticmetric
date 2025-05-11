@@ -3,7 +3,7 @@ import { IconChevronRight, IconFile, IconVocabulary } from "@tabler/icons-react"
 import classNames from "classnames";
 import { createElement, forwardRef, JSX, PropsWithoutRef, Ref, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Collapse } from "react-bootstrap";
-import { Link } from "wouter";
+import { Link } from "react-router";
 import DocsArticleContext from "~/contexts/DocsArticleContext";
 import { getDocsCategories } from "~/lib/docs";
 import styles from "./Menu.module.scss";

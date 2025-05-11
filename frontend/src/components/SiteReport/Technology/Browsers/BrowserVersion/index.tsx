@@ -1,10 +1,10 @@
 import { useMemo } from "react";
-import { Link, useLocation, useSearchParams } from "wouter";
+import { Link, useLocation } from "react-router";
 import ActivityIndicator from "~/components/ActivityIndicator";
 import NoData from "~/components/NoData";
 import useSiteBrowserVersionReport from "~/hooks/api/useSiteBrowserVersionReport";
 import useSiteReportData from "~/hooks/useSiteReportData";
-import { getUpdatedSearch } from "~/lib/router";
+import { getUpdatedLocation } from "~/lib/router";
 import Modal from "./Modal";
 
 type InnerBrowserVersionProps = {
@@ -30,10 +30,8 @@ export default function BrowserVersion() {
 }
 
 function InnerBrowserVersion({ report }: InnerBrowserVersionProps) {
-  const [location] = useLocation();
-  const [searchParams] = useSearchParams();
+  const location = useLocation();
   const { filters } = useSiteReportData();
-
 
   const data = useMemo(() => {
     if (report === undefined) {
@@ -66,8 +64,9 @@ function InnerBrowserVersion({ report }: InnerBrowserVersionProps) {
                   <td>
                     <Link
                       className="align-items-center d-flex gap-2 text-body text-decoration-none text-decoration-underline-focus-visible text-decoration-underline-hover"
+                      preventScrollReset
                       title={d.browserVersion}
-                      to={`${location}${getUpdatedSearch(searchParams, { browserName: d.browserVersion })}`}
+                      to={getUpdatedLocation(location, { search: { browserVersion: d.browserVersion } })}
                     >
                       <span className="text-truncate">{d.browserVersion}</span>
                     </Link>
@@ -81,7 +80,8 @@ function InnerBrowserVersion({ report }: InnerBrowserVersionProps) {
 
           <Link
             className="bg-opacity-0 bg-opacity-10-focus-visible bg-opacity-10-hover bg-primary border-1 border-top d-block fw-medium mb-n8 mt-auto mx-n8 p-3 text-center text-decoration-none"
-            to={`${location}${getUpdatedSearch(searchParams, { detail: "browser-version" })}`}
+            preventScrollReset
+            to={getUpdatedLocation(location, { search: { detail: "browser-version" } })}
           >
             See more
           </Link>

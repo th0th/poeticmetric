@@ -2,7 +2,7 @@ import { IconAlertTriangle } from "@tabler/icons-react";
 import classNames from "classnames";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
-import { useSearch } from "wouter";
+import { useSearchParams } from "react-router";
 import ActivityOverlay from "~/components/ActivityOverlay";
 import Title from "~/components/Title";
 import { api } from "~/lib/api";
@@ -16,7 +16,7 @@ type Form = {
 
 export default function PasswordReset() {
   const { showBoundary } = useErrorBoundary();
-  const search = useSearch();
+  const [searchParams] = useSearchParams();
   const {
     formState: { errors, isLoading, isSubmitSuccessful, isSubmitting },
     handleSubmit,
@@ -32,7 +32,7 @@ export default function PasswordReset() {
       };
 
       try {
-        const passwordResetToken = new URLSearchParams(search).get("t") || "";
+        const passwordResetToken = searchParams.get("t") || "";
         const response = await api.post("/authentication/reset-user-password", { passwordResetToken });
         const responseJson = await response.json();
 

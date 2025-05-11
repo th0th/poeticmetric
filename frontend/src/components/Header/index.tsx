@@ -1,8 +1,8 @@
 import { IconBrandLinkedin, IconMail, IconMenu2 } from "@tabler/icons-react";
 import classNames from "classnames";
 import { JSX, PropsWithoutRef, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { NavLink as BsNavLink, Dropdown, Nav, NavItem, Navbar, Offcanvas } from "react-bootstrap";
-import { Link } from "wouter";
+import { Dropdown, Nav, Navbar, NavItem, NavLink as BsNavLink, Offcanvas } from "react-bootstrap";
+import { Link, NavLink } from "react-router";
 import Logo from "~/components/Logo";
 import useAuthentication from "~/hooks/useAuthentication";
 import styles from "./Header.module.scss";
@@ -119,9 +119,9 @@ export default function Header({ layoutVariant }: HeaderProps) {
                 </Dropdown>
               ) : (
                 <div className="nav-item" key={navItem.title}>
-                  <Link className={(isActive) => classNames("nav-link", isActive && "active")} to={navItem.to}>
+                  <NavLink className={(isActive) => classNames("nav-link", isActive && "active")} to={navItem.to}>
                     {navItem.title}
-                  </Link>
+                  </NavLink>
                 </div>
               ))}
             </Nav>

@@ -1,7 +1,7 @@
 import { IconArrowRight, TablerIcon } from "@tabler/icons-react";
 import classNames from "classnames";
 import { createElement, JSX, PropsWithoutRef, ReactNode } from "react";
-import { Link } from "wouter";
+import { Link } from "react-router";
 
 type Feature = {
   description: ReactNode;

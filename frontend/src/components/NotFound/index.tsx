@@ -1,4 +1,4 @@
-import { Link } from "wouter";
+import { Link } from "react-router";
 import Title from "~/components/Title";
 import ImageNotFound from "./not-found.svg";
 

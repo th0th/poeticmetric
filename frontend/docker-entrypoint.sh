@@ -19,6 +19,7 @@ find . \
   -exec \
     sed \
     -i \
-    -e "s|https://api.placeholder.poeticmetric.com|${VITE_REST_API_BASE_URL}|g" \
     -e "s|https://placeholder.poeticmetric.com|${VITE_BASE_URL}|g" \
+    -e "s|https://api.placeholder.poeticmetric.com|${VITE_REST_API_BASE_URL}|g" \
+    -e "s|___+++PLACEHOLDER_TAGS_ENVIRONMENT+++___|${VITE_TAGS_ENVIRONMENT:-none}|g" \
     {} \;

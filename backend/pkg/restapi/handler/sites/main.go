@@ -125,6 +125,11 @@ func (h *Handler) Read(w http.ResponseWriter, r *http.Request) {
 
 	organizationSite, err := h.siteService.ReadOrganizationSite(r.Context(), auth.User.OrganizationID, siteID)
 	if err != nil {
+		if errors.Is(err, poeticmetric.ErrNotFound) {
+			h.responder.NotFound(w)
+			return
+		}
+
 		h.responder.Error(w, errors.Wrap(err, 0))
 		return
 	}

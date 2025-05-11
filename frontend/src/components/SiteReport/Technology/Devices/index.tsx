@@ -8,12 +8,13 @@ import { scaleBand, scaleLinear } from "@visx/scale";
 import { Bar } from "@visx/shape";
 import { useTooltip } from "@visx/tooltip";
 import { useCallback, useMemo } from "react";
-import { useSearchParams } from "wouter";
+import { Link, useLocation } from "react-router";
 import ActivityIndicator from "~/components/ActivityIndicator";
 import ChartTooltip from "~/components/ChartTooltip";
 import NoData from "~/components/NoData";
 import { axisLeftTickFormat } from "~/components/SiteReport/Geography/Language/Chart";
 import useSiteDeviceTypeReport from "~/hooks/api/useSiteDeviceTypeReport";
+import { getUpdatedLocation } from "~/lib/router";
 
 type InnerDevicesProps = {
   report: HydratedSiteDeviceTypeReport;
@@ -44,7 +45,7 @@ export default function Devices() {
 }
 
 function InnerDevices({ report }: InnerDevicesProps) {
-  const [, setSearchParams] = useSearchParams();
+  const location = useLocation();
   const { height: parentHeight, parentRef, width: parentWidth } = useParentSize();
   const height = useMemo(() => Math.max(parentHeight, 180) || 0, [parentHeight]);
   const innerHeight = useMemo(() => height - padding.top - padding.bottom, [height]);
@@ -62,17 +63,10 @@ function InnerDevices({ report }: InnerDevicesProps) {
 
     return {
       ...d,
-      onRectClick: () => {
-        setSearchParams((s) => {
-          s.set("deviceType", d.deviceType);
-
-          return s;
-        });
-      },
       width,
       y,
     };
-  }), [report, setSearchParams, xScale, yScale]);
+  }), [report, xScale, yScale]);
   const { hideTooltip, showTooltip: rawShowTooltip, tooltipData, tooltipLeft, tooltipOpen, tooltipTop } = useTooltip<Tooltip>();
 
   const showTooltip = useCallback((
@@ -130,21 +124,25 @@ function InnerDevices({ report }: InnerDevicesProps) {
 
           <Group top={padding.top}>
             {chartData.map((d) => (
-              <rect
-                className="cursor-pointer"
-                fill="transparent"
-                height={bandwidth}
+              <Link
                 key={d.deviceTypeDisplay}
-                onClick={d.onRectClick}
-                onMouseLeave={hideTooltip}
-                onMouseMove={(event) => showTooltip(event, d)}
-                onTouchEnd={hideTooltip}
-                onTouchMove={(event) => showTooltip(event, d)}
-                tabIndex={0}
-                width={width}
-                x={0}
-                y={d.y}
-              />
+                preventScrollReset
+                to={getUpdatedLocation(location, { search: { deviceType: d.deviceType } })}
+              >
+                <rect
+                  className="cursor-pointer"
+                  fill="transparent"
+                  height={bandwidth}
+                  onMouseLeave={hideTooltip}
+                  onMouseMove={(event) => showTooltip(event, d)}
+                  onTouchEnd={hideTooltip}
+                  onTouchMove={(event) => showTooltip(event, d)}
+                  tabIndex={0}
+                  width={width}
+                  x={0}
+                  y={d.y}
+                />
+              </Link>
             ))}
           </Group>
         </svg>

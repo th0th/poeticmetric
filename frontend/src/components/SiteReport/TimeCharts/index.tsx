@@ -1,6 +1,6 @@
 import { ReactNode, useCallback, useMemo } from "react";
 import { Dropdown, DropdownProps } from "react-bootstrap";
-import { useSearchParams } from "wouter";
+import { useSearchParams } from "react-router";
 import PageViews from "~/components/SiteReport/TimeCharts/PageViews";
 import Visitors from "./Visitors";
 
@@ -33,8 +33,10 @@ export default function TimeCharts() {
         s.delete(routerQuerySectionSlugKey);
       }
 
+      s.sort();
+
       return s;
-    });
+    }, { preventScrollReset: true });
   }, [setSearchParams]);
 
   return (

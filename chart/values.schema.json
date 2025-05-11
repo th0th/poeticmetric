@@ -146,23 +146,121 @@
                     },
                     "type": "object"
                 },
-                "defaultPlanName": {
-                    "type": "string"
-                },
-                "development": {
+                "config": {
                     "additionalProperties": false,
                     "properties": {
-                        "databaseDebug": {
-                            "type": "boolean"
-                        },
-                        "debug": {
-                            "type": "boolean"
-                        },
-                        "enabled": {
-                            "type": "boolean"
-                        },
-                        "hostBasePath": {
+                        "defaultPlanName": {
                             "type": "string"
+                        },
+                        "development": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "databaseDebug": {
+                                    "type": "boolean"
+                                },
+                                "debug": {
+                                    "type": "boolean"
+                                },
+                                "enabled": {
+                                    "type": "boolean"
+                                },
+                                "hostBasePath": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "host": {
+                            "type": "string"
+                        },
+                        "isHosted": {
+                            "type": "boolean"
+                        },
+                        "restApi": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "ingress": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "annotations": {
+                                            "additionalProperties": true,
+                                            "properties": {},
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "replicas": {
+                                    "type": "integer"
+                                },
+                                "resources": {
+                                    "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
+                                    "additionalProperties": false,
+                                    "type": "object"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "scheduler": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "resources": {
+                                    "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
+                                    "additionalProperties": false,
+                                    "type": "object"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "smtp": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "fromAddress": {
+                                    "type": "string"
+                                },
+                                "host": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                },
+                                "port": {
+                                    "type": "integer"
+                                },
+                                "user": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "stripe": {
+                            "additionalProperties": true,
+                            "properties": {},
+                            "type": "object"
+                        },
+                        "unverifiedOrganizationDeletionDays": {
+                            "type": "integer"
+                        },
+                        "workers": {
+                            "items": {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "concurrency": {
+                                        "type": "integer"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "queues": {
+                                        "type": "array"
+                                    },
+                                    "replicas": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "type": "array"
                         }
                     },
                     "type": "object"
@@ -209,95 +307,6 @@
                         }
                     },
                     "type": "object"
-                },
-                "host": {
-                    "type": "string"
-                },
-                "restApi": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "ingress": {
-                            "additionalProperties": false,
-                            "properties": {
-                                "annotations": {
-                                    "additionalProperties": true,
-                                    "properties": {},
-                                    "type": "object"
-                                }
-                            },
-                            "type": "object"
-                        },
-                        "replicas": {
-                            "type": "integer"
-                        },
-                        "resources": {
-                            "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
-                            "additionalProperties": false,
-                            "type": "object"
-                        }
-                    },
-                    "type": "object"
-                },
-                "scheduler": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "resources": {
-                            "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
-                            "additionalProperties": false,
-                            "type": "object"
-                        }
-                    },
-                    "type": "object"
-                },
-                "smtp": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "fromAddress": {
-                            "type": "string"
-                        },
-                        "host": {
-                            "type": "string"
-                        },
-                        "password": {
-                            "type": "string"
-                        },
-                        "port": {
-                            "type": "integer"
-                        },
-                        "user": {
-                            "type": "string"
-                        }
-                    },
-                    "type": "object"
-                },
-                "stripe": {
-                    "additionalProperties": true,
-                    "properties": {},
-                    "type": "object"
-                },
-                "unverifiedOrganizationDeletionDays": {
-                    "type": "integer"
-                },
-                "workers": {
-                    "items": {
-                        "additionalProperties": false,
-                        "properties": {
-                            "concurrency": {
-                                "type": "integer"
-                            },
-                            "name": {
-                                "type": "string"
-                            },
-                            "queues": {
-                                "type": "array"
-                            },
-                            "replicas": {
-                                "type": "integer"
-                            }
-                        },
-                        "type": "object"
-                    },
-                    "type": "array"
                 }
             },
             "type": "object"

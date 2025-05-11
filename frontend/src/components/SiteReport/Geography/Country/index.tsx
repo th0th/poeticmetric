@@ -1,27 +1,24 @@
 import { localPoint } from "@visx/event";
 import { useTooltip } from "@visx/tooltip";
 import chroma from "chroma-js";
-import { MouseEvent, MouseEventHandler, TouchEvent, useMemo } from "react";
-import { Link, useLocation, useSearchParams } from "wouter";
+import { MouseEvent, TouchEvent, useMemo } from "react";
+import { Link, useLocation } from "react-router";
 import ActivityIndicator from "~/components/ActivityIndicator";
 import ChartTooltip from "~/components/ChartTooltip";
 import NoData from "~/components/NoData";
 import useSiteCountryReport from "~/hooks/api/useSiteCountryReport";
-import { getUpdatedSearch } from "~/lib/router";
+import { getUpdatedLocation } from "~/lib/router";
 import Modal from "./Modal";
-import { map } from "./map";
+import { isoCodePaths } from "./map";
 
 type InnerCountryProps = {
   report: Array<HydratedSiteCountryReport>;
 };
 
 type MapDatum = {
-  className?: string;
   d: string;
-  fill: string;
-  handleClick?: MouseEventHandler<SVGPathElement>;
-  handleMouseEvent?: (event: MouseEvent<SVGPathElement> | TouchEvent<SVGPathElement>) => void;
-  key: string;
+  datum: HydratedSiteCountryReportDatum | null;
+  isoCode: string;
 };
 
 type Tooltip = {
@@ -47,8 +44,7 @@ export default function Country() {
 }
 
 function InnerCountry({ report }: InnerCountryProps) {
-  const [location] = useLocation();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
   const { hideTooltip, showTooltip, tooltipData, tooltipLeft, tooltipOpen, tooltipTop } = useTooltip<Tooltip>();
 
   const data = useMemo<Array<HydratedSiteCountryReportDatum>>(() => {
@@ -67,36 +63,30 @@ function InnerCountry({ report }: InnerCountryProps) {
     Math.max(...data.map((d) => d.visitorCount), 10),
   ]), [data]);
 
-  const mapData = useMemo<Array<MapDatum>>(() => map.map((md) => {
-    const datum = data.find((d) => d.countryISOCode === md.isoCode);
-
+  const mapData = useMemo<Array<MapDatum>>(() => isoCodePaths.map((d) => {
     return {
-      className: datum !== undefined ? "cursor-pointer" : "",
-      d: md.d,
-      fill: colorScale(datum?.visitorCount || 0).toString(),
-      handleClick: datum === undefined ? undefined : () => {
-        setSearchParams((s) => {
-          s.set("countryISOCode", datum.countryISOCode);
-
-          return s;
-        });
-      },
-      handleMouseEvent: datum === undefined ? undefined : (event) => {
-        const coords = localPoint(document.body, event);
-
-        if (coords === null) {
-          return;
-        }
-
-        showTooltip({
-          tooltipData: { datum },
-          tooltipLeft: coords.x,
-          tooltipTop: coords.y,
-        });
-      },
-      key: md.isoCode,
+      ...d,
+      datum: data.find((dd) => dd.countryISOCode === d.isoCode) || null,
     };
-  }), [colorScale, data, showTooltip, setSearchParams]);
+  }), [data]);
+
+  function handleMouseEvent(event: MouseEvent<SVGPathElement> | TouchEvent<SVGPathElement>, datum: HydratedSiteCountryReportDatum | null) {
+    if (datum === null) {
+      return;
+    }
+
+    const coords = localPoint(document.body, event);
+
+    if (coords === null) {
+      return;
+    }
+
+    showTooltip({
+      tooltipData: { datum },
+      tooltipLeft: coords.x,
+      tooltipTop: coords.y,
+    });
+  }
 
   return data === null ? (
     <div className="align-items-center d-flex flex-fill justify-content-center p-4">
@@ -109,22 +99,29 @@ function InnerCountry({ report }: InnerCountryProps) {
           <div className="col-12 col-lg-7 d-flex flex-grow-1">
             <svg className="flex-grow-1">
               <svg className="d-block mx-auto" viewBox="0 0 1008.27 650.94">
-                {mapData.map((d) => (
-                  <path
-                    className={d.className}
-                    d={d.d}
-                    fill={d.fill}
-                    key={d.key}
-                    onClick={d.handleClick}
-                    onMouseMove={d.handleMouseEvent}
-                    onMouseOut={hideTooltip}
-                    onTouchEnd={hideTooltip}
-                    onTouchMove={d.handleMouseEvent}
-                    opacity={d.key === tooltipData?.datum.countryISOCode ? 0.9 : 1}
-                    stroke={window.getComputedStyle(document.documentElement).getPropertyValue("--bs-gray-300")}
-                    tabIndex={d.handleClick === undefined ? undefined : 0}
-                  />
-                ))}
+                {mapData.map((d) => {
+                  const path = (
+                    <path
+                      d={d.d}
+                      fill={colorScale(d.datum?.visitorCount || 0).toString()}
+                      key={d.isoCode}
+                      onMouseMove={(event) => handleMouseEvent(event, d.datum)}
+                      onMouseOut={hideTooltip}
+                      opacity={d.isoCode === tooltipData?.datum.countryISOCode ? 0.9 : 1}
+                      stroke={window.getComputedStyle(document.documentElement).getPropertyValue("--bs-gray-300")}
+                    />
+                  );
+
+                  return d.datum === null ? path : (
+                    <Link
+                      key={d.isoCode}
+                      preventScrollReset
+                      to={getUpdatedLocation(location, { search: { countryISOCode: d.datum?.countryISOCode } })}
+                    >
+                      {path}
+                    </Link>
+                  );
+                })}
               </svg>
             </svg>
           </div>
@@ -146,8 +143,9 @@ function InnerCountry({ report }: InnerCountryProps) {
                       <td>
                         <Link
                           className="align-items-center d-flex gap-2 text-body text-decoration-none text-decoration-underline-focus-visible text-decoration-underline-hover"
+                          preventScrollReset
                           title={d.country}
-                          to={`${location}${getUpdatedSearch(searchParams, { countryISOCode: d.countryISOCode })}`}
+                          to={getUpdatedLocation(location, { search: { countryISOCode: d.countryISOCode } })}
                         >
                           <span className="text-truncate">{d.country}</span>
                         </Link>
@@ -161,7 +159,8 @@ function InnerCountry({ report }: InnerCountryProps) {
 
               <Link
                 className="bg-opacity-0 bg-opacity-10-focus-visible bg-opacity-10-hover bg-primary border-1 border-top d-block fw-medium mt-auto mx-n8 p-3 text-center text-decoration-none"
-                to={`${location}${getUpdatedSearch(searchParams, { detail: "country" })}`}
+                preventScrollReset
+                to={getUpdatedLocation(location, { search: { detail: "country" } })}
               >
                 See more
               </Link>

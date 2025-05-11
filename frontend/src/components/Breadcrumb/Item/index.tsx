@@ -1,7 +1,7 @@
 import { IconArrowRight } from "@tabler/icons-react";
 import classNames from "classnames";
 import { JSX, PropsWithoutRef } from "react";
-import { Link, LinkProps } from "wouter";
+import { Link, LinkProps } from "react-router";
 
 export type ItemProps = Overwrite<PropsWithoutRef<JSX.IntrinsicElements["div"]>, {
   to?: LinkProps["to"];

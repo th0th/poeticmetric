@@ -1,9 +1,9 @@
 import { useMemo } from "react";
-import { Link, useLocation, useSearchParams } from "wouter";
+import { Link, useLocation } from "react-router";
 import ActivityIndicator from "~/components/ActivityIndicator";
 import NoData from "~/components/NoData";
 import useSiteUTMMediumReport from "~/hooks/api/useSiteUTMMediumReport";
-import { getUpdatedSearch } from "~/lib/router";
+import { getUpdatedLocation } from "~/lib/router";
 import Modal from "./Modal";
 
 type InnerMediumProps = {
@@ -11,9 +11,7 @@ type InnerMediumProps = {
 };
 
 function InnerMedium({ report }: InnerMediumProps) {
-  const [location] = useLocation();
-  const [searchParams] = useSearchParams();
-
+  const location = useLocation();
   const data = useMemo(() => report[0].data.slice(0, 5), [report]);
 
   return report === undefined ? (
@@ -41,8 +39,9 @@ function InnerMedium({ report }: InnerMediumProps) {
                   <td>
                     <Link
                       className="align-items-center d-flex gap-2 text-body text-decoration-none text-decoration-underline-focus-visible text-decoration-underline-hover"
+                      preventScrollReset
                       title={d.utmMedium}
-                      to={`${location}${getUpdatedSearch(searchParams, { utmMedium: d.utmMedium })}`}
+                      to={getUpdatedLocation(location, { search: { utmMedium: d.utmMedium } })}
                     >
                       <span className="text-truncate">{d.utmMedium}</span>
                     </Link>
@@ -56,7 +55,8 @@ function InnerMedium({ report }: InnerMediumProps) {
 
           <Link
             className="bg-opacity-0 bg-opacity-10-focus-visible bg-opacity-10-hover bg-primary border-1 border-top d-block fw-medium mb-n8 mt-auto mx-n8 p-3 text-center text-decoration-none"
-            to={`${location}${getUpdatedSearch(searchParams, { detail: "utm-medium" })}`}
+            preventScrollReset
+            to={getUpdatedLocation(location, { search: { detail: "utm-medium" } })}
           >
             See more
           </Link>

@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { range } from "lodash-es";
 import { useMemo } from "react";
-import { Link, useParams } from "wouter";
+import { Link, useParams } from "react-router";
 import CanonicalLink from "~/components/CanonicalLink";
 import Description from "~/components/Description";
 import NotFound from "~/components/NotFound";
@@ -86,3 +86,5 @@ export default function BlogPage() {
     <NotFound />
   );
 }
+
+export const Component = BlogPage;

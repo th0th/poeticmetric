@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from "react";
-import { Link, useLocation } from "wouter";
+import { Link, useLocation, useNavigate } from "react-router";
 import Title from "~/components/Title";
 import ImageError from "./error.svg";
 
@@ -9,7 +9,8 @@ export type ErrorProps = {
 };
 
 export default function Error({ error, resetErrorBoundary }: ErrorProps) {
-  const [location, navigate] = useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const isAuthenticationFailed = useMemo(() => error.message === "Invalid credentials.", [error]);
 

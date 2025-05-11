@@ -2,7 +2,7 @@ import { IconAlertCircleFilled } from "@tabler/icons-react";
 import classNames from "classnames";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
-import { Link, useLocation } from "wouter";
+import { Link, useNavigate } from "react-router";
 import Description from "~/components/Description";
 import Title from "~/components/Title";
 import useAuthentication from "~/hooks/useAuthentication";
@@ -25,7 +25,7 @@ export default function SignUp() {
   const { showBoundary } = useErrorBoundary();
   const capture = useCapture();
   const { refresh } = useAuthentication();
-  const [, navigate] = useLocation();
+  const navigate = useNavigate();
   const { formState: { errors, isSubmitting }, handleSubmit, register, setError } = useForm<Form>({
     defaultValues: {
       organizationTimeZone: getBrowserTimeZone() || "UTC",
@@ -49,7 +49,7 @@ export default function SignUp() {
 
         setUserAccessToken(createAccessTokenResponseJson.token);
         await refresh();
-        navigate("/email-address-verification?next=/sites");
+        navigate(`/email-address-verification?next=${encodeURIComponent("/sites")}`);
       } else {
         setErrors(setError, responseJson);
       }

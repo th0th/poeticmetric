@@ -1,13 +1,13 @@
 import { createElement, useMemo } from "react";
 import BaseModal from "react-bootstrap/Modal";
-import { Link, useLocation, useSearchParams } from "wouter";
+import { Link, useLocation, useSearchParams } from "react-router";
 import ActivityIndicator from "~/components/ActivityIndicator";
 import useSiteBrowserNameReport from "~/hooks/api/useSiteBrowserNameReport";
 import { getBrowserIcon } from "~/lib/icons";
-import { getUpdatedSearch } from "~/lib/router";
+import { getUpdatedLocation } from "~/lib/router";
 
 export default function Modal() {
-  const [location] = useLocation();
+  const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const { data: report, isValidating, setSize } = useSiteBrowserNameReport();
 
@@ -27,7 +27,7 @@ export default function Modal() {
       s.delete("detail");
 
       return s;
-    });
+    }, { preventScrollReset: true });
   }
 
   async function loadMore() {
@@ -57,8 +57,9 @@ export default function Modal() {
                 <td colSpan={2}>
                   <Link
                     className="align-items-center d-flex gap-2 text-body text-decoration-none text-decoration-underline-hover"
+                    preventScrollReset
                     title={d.browserName}
-                    to={`${location}?${getUpdatedSearch(searchParams, { browserName: d.browserName, detail: null })}`}
+                    to={getUpdatedLocation(location, { search: { browserName: d.browserName, detail: null } })}
                   >
                     {createElement(getBrowserIcon(d.browserName), { className: "flex-grow-0 flex-shrink-0", size: "1.2em" })}
 

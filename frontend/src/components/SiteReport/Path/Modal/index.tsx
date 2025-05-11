@@ -1,13 +1,13 @@
 import { IconExternalLink } from "@tabler/icons-react";
 import { useMemo } from "react";
 import BaseModal from "react-bootstrap/Modal";
-import { Link, useLocation, useSearchParams } from "wouter";
+import { Link, useLocation, useSearchParams } from "react-router";
 import ActivityIndicator from "~/components/ActivityIndicator";
 import useSitePathReport from "~/hooks/api/useSitePathReport";
-import { getUpdatedSearch } from "~/lib/router";
+import { getUpdatedLocation } from "~/lib/router";
 
 export default function Modal() {
-  const [location] = useLocation();
+  const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const { data: report, isValidating, setSize } = useSitePathReport();
 
@@ -27,7 +27,7 @@ export default function Modal() {
       s.delete("detail");
 
       return s;
-    });
+    }, { preventScrollReset: true });
   }
 
   async function loadMore() {
@@ -65,8 +65,9 @@ export default function Modal() {
                   <div className="align-items-center d-flex gap-2">
                     <Link
                       className="text-body text-decoration-none text-decoration-underline-hover text-truncate"
+                      preventScrollReset
                       title={d.path}
-                      to={`${location}?${getUpdatedSearch(searchParams, { path: d.path })}`}
+                      to={getUpdatedLocation(location, { search: { path: d.path } })}
                     >
                       {d.path}
                     </Link>
@@ -76,6 +77,7 @@ export default function Modal() {
                     </a>
                   </div>
                 </td>
+
                 <td className="text-center">
                   <span title={d.visitorCount.toString()}>{d.visitorCountDisplay}</span>
                 </td>

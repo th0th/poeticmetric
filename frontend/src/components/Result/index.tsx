@@ -1,7 +1,7 @@
 import { IconCircleCheck, TablerIcon } from "@tabler/icons-react";
 import classNames from "classnames";
 import { JSX, PropsWithoutRef, ReactNode } from "react";
-import { Link, LinkProps } from "wouter";
+import { Link, LinkProps } from "react-router";
 
 export type ResultProps = Overwrite<Omit<PropsWithoutRef<JSX.IntrinsicElements["div"]>, "children">, {
   description: ReactNode;

@@ -1,7 +1,7 @@
 import { IconMoodSad } from "@tabler/icons-react";
 import classNames from "classnames";
 import { JSX, PropsWithoutRef, useMemo } from "react";
-import { Link } from "wouter";
+import { Link } from "react-router";
 import useAuthenticationPlan from "~/hooks/api/useAuthenticationPlan";
 import useUsers from "~/hooks/api/useUsers";
 import { disableMiddleware } from "~/lib/api";

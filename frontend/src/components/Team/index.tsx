@@ -1,5 +1,5 @@
 import { IconUserPlus } from "@tabler/icons-react";
-import { Link } from "wouter";
+import { Link } from "react-router";
 import Breadcrumb from "~/components/Breadcrumb";
 import User from "~/components/Team/User";
 import Title from "~/components/Title";
@@ -54,3 +54,5 @@ export default function Team() {
     </>
   );
 }
+
+export const Component = Team;

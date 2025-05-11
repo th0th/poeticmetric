@@ -1,7 +1,7 @@
 import { Parser } from "html-to-react";
 import { useEffect, useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
-import { tagsEnvironment } from "~/lib/config";
+import { placeholderTagsEnvironment } from "~/lib/base";
 
 type State = {
   tags: Tags | null;
@@ -20,10 +20,18 @@ export default function Tags() {
 
   useEffect(() => {
     async function run() {
+      if (
+        placeholderTagsEnvironment === undefined
+        || typeof placeholderTagsEnvironment !== "string"
+        || placeholderTagsEnvironment === "none"
+      ) {
+        return;
+      }
+
       let url = "https://webhooks.unius.sh/webhook/poeticmetric-tags";
 
-      if (tagsEnvironment !== undefined && tagsEnvironment !== "") {
-        url += `?environment=${tagsEnvironment}`;
+      if (placeholderTagsEnvironment !== "") {
+        url += `?environment=${placeholderTagsEnvironment}`;
       }
 
       const response = await fetch(url);

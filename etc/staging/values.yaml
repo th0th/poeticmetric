@@ -8,7 +8,18 @@ poeticmetric:
   backend:
     image:
       tag: staging
-  defaultPlanName: "Hobbyist"
+  config:
+    defaultPlanName: "Hobbyist"
+    host: staging.poeticmetric.com
+    restApi:
+      ingress:
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-prod-poeticmetric
+    smtp:
+      fromAddress: poeticmetric@staging.poeticmetric.com
+      host: email-smtp.eu-west-1.amazonaws.com
+      port: 587
+    unverifiedOrganizationDeletionDays: 7
   frontend:
     image:
       tag: staging
@@ -16,16 +27,6 @@ poeticmetric:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod-poeticmetric
     tagsEnvironment: staging
-  host: staging.poeticmetric.com
-  restApi:
-    ingress:
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod-poeticmetric
-  smtp:
-    fromAddress: poeticmetric@staging.poeticmetric.com
-    host: email-smtp.eu-west-1.amazonaws.com
-    port: 587
-  unverifiedOrganizationDeletionDays: 7
 rabbitmq:
   ingress:
     annotations:

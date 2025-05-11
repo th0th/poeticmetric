@@ -2,14 +2,14 @@ import { IconAt } from "@tabler/icons-react";
 import classNames from "classnames";
 import BaseMarkdown, { MarkdownToJSX } from "markdown-to-jsx";
 import { useMemo } from "react";
-import Anchor from "~/components/Markdown/Anchor";
-import Blockquote from "~/components/Markdown/Blockquote";
-import Pre from "~/components/Markdown/Pre";
-import Table from "~/components/Markdown/Table";
 import MarkdownContext from "~/contexts/MarkdownContext";
 import Alert from "./Alert";
+import Anchor from "./Anchor";
+import Blockquote from "./Blockquote";
 import Image from "./Image";
 import styles from "./Markdown.module.scss";
+import Pre from "./Pre";
+import Table from "./Table";
 import TableOfContents from "./TableOfContents";
 
 export type MarkdownProps = {

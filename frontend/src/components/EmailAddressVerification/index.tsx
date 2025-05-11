@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { OTPInput } from "input-otp";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useSearchParams } from "wouter";
+import { Link, useSearchParams } from "react-router";
 import Title from "~/components/Title";
 import useAuthentication from "~/hooks/useAuthentication";
 import useCapture from "~/hooks/useCapture";

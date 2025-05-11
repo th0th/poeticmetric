@@ -2,9 +2,9 @@ import dayjs from "dayjs";
 import { Fragment, useCallback, useMemo, useState } from "react";
 import { Dropdown, DropdownProps } from "react-bootstrap";
 import DatePicker from "react-datepicker";
-import { Link, useLocation, useSearchParams } from "wouter";
+import { Link, useLocation, useSearchParams } from "react-router";
 import useSiteReportData from "~/hooks/useSiteReportData";
-import { getUpdatedSearch } from "~/lib/router";
+import { getUpdatedLocation } from "~/lib/router";
 
 export type SiteReportFiltersTimeInputProps = Omit<DropdownProps, "children">;
 
@@ -64,8 +64,8 @@ const options: Array<Array<Option>> = [
 ];
 
 export default function SiteReportFiltersTimeInput({ ...props }: SiteReportFiltersTimeInputProps) {
-  const [location] = useLocation();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
+  const [, setSearchParams] = useSearchParams();
   const [state, setState] = useState<State>({ isDatePickerVisible: false });
   const { filters: { end, start } } = useSiteReportData();
 
@@ -105,7 +105,7 @@ export default function SiteReportFiltersTimeInput({ ...props }: SiteReportFilte
         s.sort();
 
         return s;
-      });
+      }, { preventScrollReset: true });
 
       setState((s) => ({ ...s, start: undefined }));
       document.body.click();
@@ -124,10 +124,12 @@ export default function SiteReportFiltersTimeInput({ ...props }: SiteReportFilte
                 active={selectedOption?.title === o.title}
                 as={Link}
                 key={o.title}
-                to={`${location}${getUpdatedSearch(searchParams, {
-                  end: o.getEnd().toISOString(),
-                  start: o.getStart().toISOString(),
-                })}`}
+                to={getUpdatedLocation(location, {
+                  search: {
+                    end: o.getEnd().toISOString(),
+                    start: o.getStart().toISOString(),
+                  },
+                })}
               >
                 {o.title}
               </Dropdown.Item>

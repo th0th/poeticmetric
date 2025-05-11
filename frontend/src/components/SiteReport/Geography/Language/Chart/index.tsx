@@ -10,10 +10,11 @@ import { useTooltip } from "@visx/tooltip";
 import classNames from "classnames";
 import millify from "millify";
 import { JSX, useCallback, useMemo } from "react";
-import { useSearchParams } from "wouter";
+import { Link, useLocation } from "react-router";
 import ActivityIndicator from "~/components/ActivityIndicator";
 import ChartTooltip from "~/components/ChartTooltip";
 import useSiteLanguageReport from "~/hooks/api/useSiteLanguageReport";
+import { getUpdatedLocation } from "~/lib/router";
 
 export type ChartProps = Omit<JSX.IntrinsicElements["svg"], "children">;
 
@@ -28,7 +29,7 @@ type Tooltip = {
 const padding = { bottom: 30, left: 54, top: 8 };
 
 function InnerChart({ className, data, ...props }: InnerChartProps) {
-  const [, setSearchParams] = useSearchParams();
+  const location = useLocation();
   const { height: parentHeight, parentRef, width: parentWidth } = useParentSize();
   const height = useMemo(() => Math.max(parentHeight, 180) || 0, [parentHeight]);
   const innerHeight = useMemo(() => height - padding.top - padding.bottom, [height]);
@@ -45,17 +46,10 @@ function InnerChart({ className, data, ...props }: InnerChartProps) {
     return {
       ...d,
       height: innerHeight - y,
-      onRectClick: d.language === "Others" ? undefined : () => {
-        setSearchParams((s) => {
-          s.set("language", d.language);
-
-          return s;
-        });
-      },
       x: xScale(d.language),
       y,
     };
-  }), [data, innerHeight, setSearchParams, xScale, yScale]);
+  }), [data, innerHeight, xScale, yScale]);
   const barWidth = useMemo(() => xScale.bandwidth(), [xScale]);
   const { hideTooltip, showTooltip: rawShowTooltip, tooltipData, tooltipLeft, tooltipOpen, tooltipTop } = useTooltip<Tooltip>();
 
@@ -112,23 +106,33 @@ function InnerChart({ className, data, ...props }: InnerChartProps) {
                 ))}
 
                 <Group>
-                  {chartData.map((d) => (
-                    <rect
-                      className={classNames({ "cursor-pointer": d.onRectClick !== undefined })}
-                      fill="transparent"
-                      height={innerHeight}
-                      key={d.language}
-                      onClick={d.onRectClick}
-                      onMouseLeave={hideTooltip}
-                      onMouseMove={(event) => showTooltip(event, d)}
-                      onTouchEnd={hideTooltip}
-                      onTouchMove={(event) => showTooltip(event, d)}
-                      tabIndex={0}
-                      width={barWidth}
-                      x={d.x}
-                      y={0}
-                    />
-                  ))}
+                  {chartData.map((d) => {
+                    const rect = (
+                      <rect
+                        fill="transparent"
+                        height={innerHeight}
+                        key={d.language}
+                        onMouseLeave={hideTooltip}
+                        onMouseMove={(event) => showTooltip(event, d)}
+                        onTouchEnd={hideTooltip}
+                        onTouchMove={(event) => showTooltip(event, d)}
+                        tabIndex={d.language === "Others" ? undefined : 0}
+                        width={barWidth}
+                        x={d.x}
+                        y={0}
+                      />
+                    );
+
+                    return d.language === "Others" ? rect : (
+                      <Link
+                        key={d.language}
+                        preventScrollReset
+                        to={getUpdatedLocation(location, { search: { language: d.language } })}
+                      >
+                        {rect}
+                      </Link>
+                    );
+                  })}
                 </Group>
               </Group>
             </Group>
