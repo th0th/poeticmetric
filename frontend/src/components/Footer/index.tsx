@@ -46,7 +46,6 @@ const navColumns: Array<NavColumn> = [
   },
   {
     items: [
-
       { title: "Documentation", to: "/docs" },
       { title: "Blog", to: "/blog" },
     ],
@@ -54,6 +53,7 @@ const navColumns: Array<NavColumn> = [
   },
   {
     items: [
+      { title: "Contact", to: "/contact" },
       { title: "Terms of service", to: "/terms-of-service" },
       { title: "Privacy policy", to: "/privacy-policy" },
     ],

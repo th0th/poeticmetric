@@ -3,6 +3,7 @@ type Plan = {
   features: Array<PlanFeature>;
   name: string;
   price: PlanPrice;
+  requiresSalesContact: boolean;
 };
 
 type PlanFeature = {

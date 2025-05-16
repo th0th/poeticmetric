@@ -37,6 +37,12 @@ export default function Button({ plan }: ButtonProps) {
     }
   }, [set, showBoundary, subscriptionPeriod]);
 
+  if (plan.requiresSalesContact) {
+    return (
+      <Link className="btn btn-primary btn-sm d-block mt-10 w-100" to="/contact">Contact us</Link>
+    );
+  }
+
   return organization !== undefined ? (
     <button
       className="align-items-center btn btn-primary btn-sm d-flex gap-4 justify-content-center mt-10 w-100 "

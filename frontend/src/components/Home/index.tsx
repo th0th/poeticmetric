@@ -69,7 +69,7 @@ export default function Home() {
       <section className="py-64">
         <div className="container">
           <div className="text-center">
-            <h1 className="display-5 fw-semi-bold">
+            <h1 className="display-5 fw-bold">
               Privacy-first, regulation compliant
               <br />
               Google Analytics alternative

@@ -24,6 +24,7 @@ const routes: Array<RouteObject> = [
                 ],
                 path: "blog",
               },
+              { lazy: () => import("~/components/Contact"), path: "contact" },
               {
                 caseSensitive: true,
                 children: [

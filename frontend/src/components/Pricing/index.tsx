@@ -18,7 +18,7 @@ export default function Pricing() {
 
       <div className="container py-16">
         <div className="py-24 text-center">
-          <h1 className="display-5 fw-extra-bold">
+          <h1 className="display-5">
             Choose a plan
             <br />
             that fuels better decisions
@@ -34,7 +34,7 @@ export default function Pricing() {
 
       <Plans className="container py-16" />
 
-      <FAQ className="container py-16" />
+      <FAQ className="container py-16" id="faqs" />
     </>
   );
 }

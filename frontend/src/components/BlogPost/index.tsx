@@ -55,7 +55,7 @@ export default function BlogPost() {
           </div>
         </div>
 
-        <article className="container py-32" id="article" style={{ maxWidth: 720 }}>
+        <article className="container mw-50rem py-32" id="article">
           <Markdown className="fs-5 lh-lg" path={blogPost.path} type="blogPost">{blogPost.content}</Markdown>
         </article>
 

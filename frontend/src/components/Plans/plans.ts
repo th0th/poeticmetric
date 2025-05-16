@@ -25,6 +25,7 @@ export const plans: Array<Plan> = [
     ],
     name: "Hobbyist",
     price: "Free",
+    requiresSalesContact: false,
   },
   {
     description: "All the insights you need to grow your business, with bigger plans ready when you are.",
@@ -55,6 +56,7 @@ export const plans: Array<Plan> = [
       5000000: 299,
       /* eslint-enable */
     },
+    requiresSalesContact: false,
   },
   {
     description: "Custom solutions, priority support, and a dedicated team—built just for you.",
@@ -82,5 +84,6 @@ export const plans: Array<Plan> = [
       amount: 7800,
       subscriptionPeriod: "YEAR",
     },
+    requiresSalesContact: true,
   },
 ];

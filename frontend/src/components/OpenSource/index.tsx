@@ -13,7 +13,7 @@ export default function OpenSource() {
       <CanonicalLink path="/open-source" />
 
       <div className="bg-body-tertiary py-16 ">
-        <div className="container text-center" style={{ maxWidth: 720 }}>
+        <div className="container mw-50rem text-center">
           <h1 className="fs-1">PoeticMetric is the open source Google Analytics alternative</h1>
 
           <div className="fs-4 mt-16">
@@ -54,7 +54,7 @@ export default function OpenSource() {
         </div>
       </div>
 
-      <article className="container py-16" id="article" style={{ maxWidth: 720 }}>
+      <article className="container mw-50rem py-16" id="article">
         <Markdown className="fs-5 lh-lg">{markdown}</Markdown>
       </article>
     </>

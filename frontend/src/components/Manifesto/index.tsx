@@ -14,7 +14,7 @@ export default function Manifesto() {
         sustainability, and focus on efficiency set us apart in the analytics industry. Read our manifesto now.
       </Description>
 
-      <div className="container py-32">
+      <div className="container py-64">
         <div className="mx-auto mw-50rem">
           <Markdown className={classNames("fs-5 lh-lg", styles.manifesto)}>{markdown}</Markdown>
         </div>
