@@ -1,0 +1,48 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/woodpecker-ci/woodpecker/c6229ad333efb409c9d498cd2e54a33623fc5db3/pipeline/frontend/yaml/linter/schema/schema.json
+services:
+- environment:
+    DOCKER_TLS_CERTDIR: /dind-certs
+  image: docker:dind
+  name: docker
+  ports:
+  - 2376
+  - 32768
+  - 32769
+  privileged: true
+  volumes:
+  - dind-certs:/dind-certs
+
+steps:
+- commands:
+  - golangci-lint run --timeout 5m
+  depends_on: [ ]
+  directory: backend
+  image: golangci/golangci-lint
+  name: backend-lint
+
+- commands:
+  - go test ./...
+  depends_on: [ ]
+  directory: backend
+  environment:
+    DOCKER_HOST: "tcp://docker:2376"
+    DOCKER_CERT_PATH: "/dind-certs/client"
+    DOCKER_TLS_VERIFY: "1"
+  image: golang:1.24.3
+  name: backend-tests
+  volumes:
+  - dind-certs:/dind-certs
+
+- commands:
+  - npm install -g pnpm
+  - pnpm install
+  - pnpm exec -- tsc
+  - pnpm exec -- eslint .
+  - pnpm exec -- stylelint "src/**/*.scss"
+  depends_on: [ ]
+  directory: frontend
+  image: node:24
+  name: frontend
+
+when:
+- event: pull_request

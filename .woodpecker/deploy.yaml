@@ -1,0 +1,77 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/woodpecker-ci/woodpecker/c6229ad333efb409c9d498cd2e54a33623fc5db3/pipeline/frontend/yaml/linter/schema/schema.json
+steps:
+
+- directory: backend
+  image: woodpeckerci/plugin-docker-buildx
+  name: build-backend-image
+  settings:
+    password:
+      from_secret: CODEBERG_TOKEN
+    platforms: linux/amd64
+    registry: codeberg.org
+    repo: codeberg.org/${CI_REPO_OWNER}/${CI_REPO_NAME}/backend
+    tag: ${environment}
+    username:
+      from_secret: CODEBERG_USER
+
+- directory: frontend
+  image: woodpeckerci/plugin-docker-buildx
+  name: build-frontend-image
+  settings:
+    password:
+      from_secret: codeberg_token
+    platforms: linux/amd64
+    registry: codeberg.org
+    repo: codeberg.org/${CI_REPO_OWNER}/${CI_REPO_NAME}/frontend
+    tag: ${environment}
+    username:
+      from_secret: CODEBERG_USER
+
+- commands:
+  - mkdir ~/.kube
+  - echo $${KUBE_CONFIG} | base64 -d > ~/.kube/config
+  - chmod 400 ~/.kube/config
+  - |
+    helm upgrade poeticmetric chart \
+      --install \
+      --namespace $${KUBERNETES_NAMESPACE} \
+      --set clickhouse.password="$${CLICKHOUSE_PASSWORD}" \
+      --set poeticmetric.config.smtp.password="$${SMTP_PASSWORD}" \
+      --set poeticmetric.config.smtp.user="$${SMTP_USER}" \
+      --set poeticmetric.config.registryAuth.host="codeberg.org" \
+      --set poeticmetric.config.registryAuth.password="$${REGISTRY_PASSWORD}" \
+      --set poeticmetric.config.registryAuth.user="$${REGISTRY_USER}" \
+      --set postgres.password="$${POSTGRES_PASSWORD}" \
+      --set rabbitmq.password="$${RABBITMQ_PASSWORD}" \
+      --set valkey.password="$${VALKEY_PASSWORD}" \
+      --values etc/$${environment}/values.yaml
+  depends_on:
+  - build-backend-image
+  - build-frontend-image
+  environment:
+    CLICKHOUSE_PASSWORD:
+      from_secret: ${environment^^}_CLICKHOUSE_PASSWORD
+    KUBE_CONFIG:
+      from_secret: KUBE_CONFIG
+    KUBERNETES_NAMESPACE:
+      from_secret: ${environment^^}_KUBERNETES_NAMESPACE
+    POSTGRES_PASSWORD:
+      from_secret: ${environment^^}_POSTGRES_PASSWORD
+    RABBITMQ_PASSWORD:
+      from_secret: ${environment^^}_RABBITMQ_PASSWORD
+    REGISTRY_PASSWORD:
+      from_secret: CODEBERG_PACKAGES_TOKEN
+    REGISTRY_USER:
+      from_secret: CODEBERG_PACKAGES_USER
+    SMTP_PASSWORD:
+      from_secret: ${environment^^}_SMTP_PASSWORD
+    SMTP_USER:
+      from_secret: ${environment^^}_SMTP_USER
+    VALKEY_PASSWORD:
+      from_secret: ${environment^^}_VALKEY_PASSWORD
+  image: alpine/k8s:1.31.6
+  name: install-helm-chart
+
+when:
+  - event: manual
+    evaluate: "action == 'deploy'"
