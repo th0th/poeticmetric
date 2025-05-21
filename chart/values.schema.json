@@ -47,9 +47,6 @@
             },
             "type": "object"
         },
-        "ghcrAuth": {
-            "type": "string"
-        },
         "mailpit": {
             "additionalProperties": false,
             "properties": {
@@ -175,6 +172,21 @@
                         },
                         "isHosted": {
                             "type": "boolean"
+                        },
+                        "registryAuth": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "host": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                },
+                                "user": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
                         },
                         "restApi": {
                             "additionalProperties": false,

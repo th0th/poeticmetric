@@ -1,77 +1,87 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/woodpecker-ci/woodpecker/c6229ad333efb409c9d498cd2e54a33623fc5db3/pipeline/frontend/yaml/linter/schema/schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/woodpecker-ci/woodpecker/refs/heads/main/pipeline/frontend/yaml/linter/schema/schema.json
+services:
+- environment:
+    DOCKER_TLS_CERTDIR: /dind-certs
+  image: docker:dind
+  name: docker
+  ports:
+  - 2376
+  - 32768
+  - 32769
+  privileged: true
+  volumes:
+  - dind-certs:/dind-certs
+
+skip_clone: true
+
 steps:
 
-- directory: backend
-  image: woodpeckerci/plugin-docker-buildx
-  name: build-backend-image
-  settings:
-    password:
+- commands:
+  - git clone https://$${CODEBERG_USER}:$${CODEBERG_TOKEN}@codeberg.org/${CI_REPO_OWNER}/infrastructure.git infrastructure
+  depends_on: []
+  environment:
+    CODEBERG_TOKEN:
       from_secret: CODEBERG_TOKEN
-    platforms: linux/amd64
-    registry: codeberg.org
-    repo: codeberg.org/${CI_REPO_OWNER}/${CI_REPO_NAME}/backend
-    tag: ${environment}
-    username:
+    CODEBERG_USER:
       from_secret: CODEBERG_USER
-
-- directory: frontend
-  image: woodpeckerci/plugin-docker-buildx
-  name: build-frontend-image
-  settings:
-    password:
-      from_secret: codeberg_token
-    platforms: linux/amd64
-    registry: codeberg.org
-    repo: codeberg.org/${CI_REPO_OWNER}/${CI_REPO_NAME}/frontend
-    tag: ${environment}
-    username:
-      from_secret: CODEBERG_USER
+  image: alpine/git
+  name: clone-infrastructure
 
 - commands:
+  - |
+    docker run \
+    --rm \
+    -v /tmp:/home/app/.config/bws/state \
+    bitwarden/bws \
+      --access-token "$${BITWARDEN_ACCESS_TOKEN}" \
+      secret list \
+      --output env > secret-envs
+  depends_on: []
+  environment:
+    BITWARDEN_ACCESS_TOKEN:
+      from_secret: BITWARDEN_ACCESS_TOKEN
+    DOCKER_HOST: "tcp://docker:2376"
+    DOCKER_CERT_PATH: "/dind-certs/client"
+    DOCKER_TLS_VERIFY: "1"
+  image: docker:cli
+  name: secrets
+  volumes:
+  - dind-certs:/dind-certs
+
+- commands:
+  - cat secret-envs
+  - sed -i -e "s/^${CI_PIPELINE_DEPLOY_TARGET^^}_//" secret-envs
+  - source secret-envs
   - mkdir ~/.kube
   - echo $${KUBE_CONFIG} | base64 -d > ~/.kube/config
   - chmod 400 ~/.kube/config
   - |
-    helm upgrade poeticmetric chart \
+    helm upgrade poeticmetric poeticmetric \
       --install \
-      --namespace $${KUBERNETES_NAMESPACE} \
+      --namespace "$${KUBERNETES_NAMESPACE}" \
+      --repo https://codeberg.org/api/packages/${CI_REPO_OWNER}/helm \
       --set clickhouse.password="$${CLICKHOUSE_PASSWORD}" \
+      --set poeticmetric.backend.image.tag="${CI_COMMIT_TAG##v}" \
       --set poeticmetric.config.smtp.password="$${SMTP_PASSWORD}" \
       --set poeticmetric.config.smtp.user="$${SMTP_USER}" \
       --set poeticmetric.config.registryAuth.host="codeberg.org" \
       --set poeticmetric.config.registryAuth.password="$${REGISTRY_PASSWORD}" \
       --set poeticmetric.config.registryAuth.user="$${REGISTRY_USER}" \
+      --set poeticmetric.frontend.image.tag="${CI_COMMIT_TAG##v}" \
       --set postgres.password="$${POSTGRES_PASSWORD}" \
       --set rabbitmq.password="$${RABBITMQ_PASSWORD}" \
       --set valkey.password="$${VALKEY_PASSWORD}" \
-      --values etc/$${environment}/values.yaml
+      --values "infrastructure/etc/${CI_PIPELINE_DEPLOY_TARGET}/values.yaml" \
+      --version "${CI_COMMIT_TAG##v}"
   depends_on:
-  - build-backend-image
-  - build-frontend-image
+  - clone-infrastructure
+  - secrets
   environment:
-    CLICKHOUSE_PASSWORD:
-      from_secret: ${environment^^}_CLICKHOUSE_PASSWORD
     KUBE_CONFIG:
       from_secret: KUBE_CONFIG
-    KUBERNETES_NAMESPACE:
-      from_secret: ${environment^^}_KUBERNETES_NAMESPACE
-    POSTGRES_PASSWORD:
-      from_secret: ${environment^^}_POSTGRES_PASSWORD
-    RABBITMQ_PASSWORD:
-      from_secret: ${environment^^}_RABBITMQ_PASSWORD
-    REGISTRY_PASSWORD:
-      from_secret: CODEBERG_PACKAGES_TOKEN
-    REGISTRY_USER:
-      from_secret: CODEBERG_PACKAGES_USER
-    SMTP_PASSWORD:
-      from_secret: ${environment^^}_SMTP_PASSWORD
-    SMTP_USER:
-      from_secret: ${environment^^}_SMTP_USER
-    VALKEY_PASSWORD:
-      from_secret: ${environment^^}_VALKEY_PASSWORD
   image: alpine/k8s:1.31.6
   name: install-helm-chart
 
 when:
-  - event: manual
-    evaluate: "action == 'deploy'"
+- evaluate: "CI_PIPELINE_DEPLOY_TARGET in ['production', 'staging']"
+  event: deployment

@@ -1,5 +1,4 @@
 apiVersion: v2
-appVersion: "1.0.0"
 name: poeticmetric
 type: application
-version: 1.0.0
+version: 999.999.999

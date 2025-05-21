@@ -9,7 +9,6 @@ clickhouse:
     size: 10Gi
   resources: {} # @schema $ref: https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements ; skipProperties: true
   user: poeticmetric
-ghcrAuth: ""
 mailpit:
   enabled: false
   image:
@@ -42,7 +41,7 @@ poeticmetric:
   backend:
     image:
       pullPolicy: Always
-      repository: ghcr.io/th0th/poeticmetric/backend
+      repository: codeberg.org/poeticmetric/poeticmetric/backend
       tag: latest
   config:
     defaultPlanName: ""
@@ -53,6 +52,10 @@ poeticmetric:
       hostBasePath: ""
     host: poeticmetric.com
     isHosted: false
+    registryAuth:
+      host: ""
+      password: ""
+      user: ""
     restApi:
       ingress:
         annotations: { } # @schema additionalProperties: true
@@ -76,7 +79,7 @@ poeticmetric:
   frontend:
     image:
       pullPolicy: Always
-      repository: ghcr.io/th0th/poeticmetric/frontend
+      repository: codeberg.org/poeticmetric/poeticmetric/frontend
       tag: latest
     ingress:
       annotations: {} # @schema additionalProperties: true
