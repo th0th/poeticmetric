@@ -26,6 +26,12 @@ spec:
             configMapKeyRef:
               key: FRONTEND_BASE_URL
               name: {{ include "poeticmetric.fullname" . }}-poeticmetric
+        - name: VITE_GOOGLE_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              key: CLIENT_ID
+              name: {{ include "poeticmetric.fullname" . }}-google
+              optional: true
         - name: VITE_IS_HOSTED
           valueFrom:
             configMapKeyRef:

@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/caarlos0/env/v11"
+	"github.com/go-errors/errors"
 	"github.com/rs/zerolog"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
@@ -57,7 +58,7 @@ func (s *service) Debug() bool {
 
 func (s *service) GoogleOAuthConfig() (*oauth2.Config, error) {
 	if s.vars.GoogleClientID == nil || s.vars.GoogleClientSecret == nil {
-		return nil, fmt.Errorf("google oauth credentials are not set")
+		return nil, errors.Wrap(poeticmetric.ErrGoogleOAuthConfigMissing, 0)
 	}
 
 	return &oauth2.Config{
@@ -70,7 +71,7 @@ func (s *service) GoogleOAuthConfig() (*oauth2.Config, error) {
 }
 
 func (s *service) GormConfig() *gorm.Config {
-	logLevel := logger.Info
+	logLevel := logger.Error
 
 	if s.DatabaseDebug() {
 		logLevel = logger.Info

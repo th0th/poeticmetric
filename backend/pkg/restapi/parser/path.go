@@ -5,6 +5,8 @@ import (
 	"strconv"
 
 	"github.com/go-errors/errors"
+
+	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
 )
 
 func PathValue[T any](r *http.Request, name string) (T, error) {
@@ -26,7 +28,7 @@ func PathValue[T any](r *http.Request, name string) (T, error) {
 			value = uint(uint64Value)
 		}
 	default:
-		return defaultValue, errors.New("unsupported type")
+		return defaultValue, errors.Wrap(poeticmetric.ErrUnsupportedType, 0)
 	}
 
 	if err != nil {

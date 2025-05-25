@@ -146,12 +146,13 @@ func (s *service) Run(ctx context.Context, params *poeticmetric.BootstrapService
 	}
 
 	site := &poeticmetric.Site{
-		Domain:         "demo.yoursite.tld",
-		HasEvents:      true,
-		ID:             1,
-		IsPublic:       false,
-		Name:           "Demo site",
-		OrganizationID: organization.ID,
+		Domain:              "demo.yoursite.tld",
+		HasEvents:           true,
+		ID:                  1,
+		IsPublic:            false,
+		Name:                "Demo site",
+		OrganizationID:      organization.ID,
+		SafeQueryParameters: []string{},
 	}
 
 	var sequenceResetQueries []string

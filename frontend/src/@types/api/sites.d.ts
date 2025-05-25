@@ -1,3 +1,7 @@
+type GoogleSearchConsoleSite = {
+  siteURL: string;
+};
+
 type HydratedSite = Overwrite<Site, {
   createdAtDayjs: import("dayjs").Dayjs;
   updatedAtDayjs: import("dayjs").Dayjs;
@@ -36,6 +40,13 @@ type HydratedSiteDeviceTypeReportDatum = Overwrite<SiteDeviceTypeReportDatum, {
   deviceTypeDisplay: string;
   visitorCountDisplay: string;
   visitorPercentageDisplay: string;
+}>;
+
+type HydratedSiteGoogleSearchAnalyticsReport = Array<HydratedSiteGoogleSearchAnalyticsReportDatum>;
+
+type HydratedSiteGoogleSearchAnalyticsReportDatum = Overwrite<SiteGoogleSearchAnalyticsReportDatum, {
+  clicksDisplay: string;
+  impressionsDisplay: string;
 }>;
 
 type HydratedSiteLanguageReport = Overwrite<SiteLanguageReport, {
@@ -236,6 +247,16 @@ type SiteDeviceTypeReportDatum = {
   deviceType: string;
   visitorCount: number;
   visitorPercentage: number;
+};
+
+type SiteGoogleSearchAnalyticsReport = Array<SiteGoogleSearchAnalyticsReportDatum>;
+
+type SiteGoogleSearchAnalyticsReportDatum = {
+  clicks: number;
+  ctr: number;
+  impressions: number;
+  position: number;
+  query: string;
 };
 
 type SiteLanguageReport = {

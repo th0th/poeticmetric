@@ -33,7 +33,7 @@ steps:
   - helm package chart --app-version ${CI_COMMIT_TAG##v} --version ${CI_COMMIT_TAG##v}
   - |
     curl \
-    --user ${CODEBERG_USER}:${CODEBERG_TOKEN} \
+    --user $${CODEBERG_USER}:$${CODEBERG_TOKEN} \
     -X POST \
     --upload-file ./${CI_REPO_NAME}-${CI_COMMIT_TAG##v}.tgz \
     https://codeberg.org/api/packages/${CI_REPO_OWNER}/helm/api/charts

@@ -9,6 +9,7 @@ import (
 
 	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/middleware"
+	"github.com/th0th/poeticmetric/backend/pkg/restapi/parser"
 )
 
 type Handler struct {
@@ -122,6 +123,38 @@ func (h *Handler) ReadSiteDeviceTypeReport(w http.ResponseWriter, r *http.Reques
 
 	report, err := h.siteService.ReadSiteDeviceTypeReport(r.Context(), filters)
 	if err != nil {
+		h.responder.Error(w, errors.Wrap(err, 0))
+		return
+	}
+
+	h.responder.JSON(w, http.StatusOK, report)
+}
+
+// ReadSiteGoogleSearchTermsReport godoc
+// @Description Read Google search terms report for a site.
+// @Param filters query poeticmetric.SiteReportFilters true "Filters"
+// @Param page query int false "Page number"
+// @Router /site-reports/google-search-terms [get]
+// @Security UserAccessTokenAuthentication
+// @Success 200 {array} poeticmetric.SiteGoogleSearchTermsReport
+// @Summary Read Google search terms report
+// @Tags site-reports
+func (h *Handler) ReadSiteGoogleSearchTermsReport(w http.ResponseWriter, r *http.Request) {
+	filters := middleware.GetSiteReportFilters(r)
+
+	page, err := parser.QueryValue(r, "page", poeticmetric.Pointer(1))
+	if err != nil || page < 1 {
+		h.responder.Error(w, errors.Wrap(err, 0))
+		return
+	}
+
+	report, err := h.siteService.ReadSiteGoogleSearchTermsReport(r.Context(), filters, &page)
+	if err != nil {
+		if errors.Is(err, poeticmetric.ErrGoogleOAuthConfigMissing) {
+			h.responder.Detail(w, http.StatusBadRequest, "This feature is not available, because Google OAuth is not configured.")
+			return
+		}
+
 		h.responder.Error(w, errors.Wrap(err, 0))
 		return
 	}

@@ -10,17 +10,17 @@ export function getBaseDir() {
 
 function readFromBaseTs(name) {
   const baseTsContent = readFileSync(join(baseDir, "src", "lib", "base.ts"), { encoding: "utf-8" });
-  const variableLine = baseTsContent.split("\n").find((line) => line.includes(name));
+  const regex = new RegExp(`^export const ${name} = getEnvironmentVariable\\("(.*?)", "(.*?)"\\)`, "gm");
+  const arr = regex.exec(baseTsContent);
 
-  if (variableLine === undefined) {
+  if (arr === null) {
     throw new Error("Variable not found.");
   }
 
-  const [, variableStatement] = variableLine.replaceAll("import.meta.env", "process.env").split("=");
+  const [, environmentVariableName, defaultValue] = arr;
+  const line = `process.env.${environmentVariableName} || "${defaultValue}";`;
 
-  return eval(variableStatement);
+  return eval(line);
 }
 
-export const placeholderBaseURL = readFromBaseTs("placeholderBaseURL");
-export const placeholderRestAPIBaseURL = readFromBaseTs("placeholderRestAPIBaseURL");
-export const placeholderTagsEnvironment = readFromBaseTs("placeholderTagsEnvironment");
+export const baseURL = readFromBaseTs("baseURL");

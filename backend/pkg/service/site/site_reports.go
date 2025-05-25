@@ -3,9 +3,14 @@ package site
 import (
 	"context"
 	_ "embed"
+	"fmt"
+	"math"
 
 	"github.com/go-errors/errors"
+	"golang.org/x/oauth2"
 	"golang.org/x/sync/errgroup"
+	"google.golang.org/api/option"
+	"google.golang.org/api/searchconsole/v1"
 
 	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
 )
@@ -154,6 +159,103 @@ func (s *service) ReadSiteDeviceTypeReport(
 	}
 
 	return &siteDeviceTypeReport, nil
+}
+
+func (s *service) ReadSiteGoogleSearchTermsReport(
+	ctx context.Context,
+	filters *poeticmetric.SiteReportFilters,
+	page *int,
+) (poeticmetric.SiteGoogleSearchTermsReport, error) {
+	postgres := poeticmetric.ServicePostgres(ctx, s)
+
+	site := poeticmetric.Site{}
+	err := postgres.
+		Select("GoogleOauthRefreshToken", "GoogleSearchConsoleSiteUrl").
+		First(&site, poeticmetric.Site{ID: filters.SiteID}, "ID").
+		Error
+	if err != nil {
+		return nil, errors.Wrap(err, 0)
+	}
+
+	oauthConfig, err := s.envService.GoogleOAuthConfig()
+	if err != nil {
+		return nil, errors.Wrap(err, 0)
+	}
+
+	searchConsoleService, err := searchconsole.NewService(
+		ctx,
+		option.WithTokenSource(oauthConfig.TokenSource(ctx, &oauth2.Token{
+			RefreshToken: *site.GoogleOauthRefreshToken,
+		})),
+	)
+	if err != nil {
+		return nil, errors.Wrap(err, 0)
+	}
+
+	analyticsService := searchconsole.NewSearchanalyticsService(searchConsoleService)
+
+	queryFilters := []*searchconsole.ApiDimensionFilter{}
+
+	if filters.CountryISOCode != nil {
+		queryFilters = append(queryFilters, &searchconsole.ApiDimensionFilter{
+			Dimension:  "COUNTRY",
+			Expression: *filters.CountryISOCode,
+			Operator:   "EQUALS",
+		})
+	}
+
+	if filters.DeviceType != nil {
+		queryFilters = append(queryFilters, &searchconsole.ApiDimensionFilter{
+			Dimension:  "DEVICE",
+			Expression: *filters.DeviceType,
+			Operator:   "EQUALS",
+		})
+	}
+
+	if filters.Path != nil {
+		queryFilters = append(queryFilters, &searchconsole.ApiDimensionFilter{
+			Dimension:  "PAGE",
+			Expression: fmt.Sprintf(`.*?\/\/[^\/]*%s`, *filters.Path),
+			Operator:   "INCLUDING_REGEX",
+		})
+	}
+
+	queryRequest := &searchconsole.SearchAnalyticsQueryRequest{
+		AggregationType:       "BY_PAGE",
+		DataState:             "ALL",
+		DimensionFilterGroups: []*searchconsole.ApiDimensionFilterGroup{{Filters: queryFilters}},
+		Dimensions:            []string{"QUERY"},
+		EndDate:               filters.End.Format("2006-01-02"),
+		RowLimit:              poeticmetric.SiteReportPageSize,
+		StartDate:             filters.Start.Format("2006-01-02"),
+	}
+
+	if page != nil {
+		queryRequest.StartRow = int64((*page - 1) * poeticmetric.SiteReportPageSize)
+	}
+
+	queryResponse, err := analyticsService.Query(*site.GoogleSearchConsoleSiteUrl, queryRequest).Do()
+	if err != nil {
+		oauthRetrieveError := &oauth2.RetrieveError{}
+		if errors.As(err, &oauthRetrieveError) {
+			return nil, errors.Wrap(poeticmetric.ErrGoogleOAuthTokenInvalid, 0)
+		}
+
+		return nil, errors.Wrap(err, 0)
+	}
+
+	report := poeticmetric.SiteGoogleSearchTermsReport{}
+	for _, row := range queryResponse.Rows {
+		report = append(report, &poeticmetric.SiteGoogleSearchTermsReportDatum{
+			Clicks:      row.Clicks,
+			Ctr:         math.Round(row.Ctr) / 100,
+			Impressions: row.Impressions,
+			Position:    math.Round(row.Position*100) / 100,
+			Query:       row.Keys[0],
+		})
+	}
+
+	return report, nil
 }
 
 func (s *service) ReadSiteLanguageReport(
@@ -685,7 +787,10 @@ func (s *service) ReadSiteUTMTermReport(
 	return &report, nil
 }
 
-func (s *service) ReadSiteVisitorReport(ctx context.Context, filters *poeticmetric.SiteReportFilters) (*poeticmetric.SiteVisitorReport, error) {
+func (s *service) ReadSiteVisitorReport(
+	ctx context.Context,
+	filters *poeticmetric.SiteReportFilters,
+) (*poeticmetric.SiteVisitorReport, error) {
 	report := poeticmetric.SiteVisitorReport{
 		IntervalSeconds: filters.IntervalSeconds(),
 	}

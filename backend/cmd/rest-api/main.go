@@ -130,6 +130,7 @@ func main() {
 
 	siteService := site.New(site.NewParams{
 		ClickHouse:        clickHouse,
+		EnvService:        envService,
 		Postgres:          postgres,
 		ValidationService: validationService,
 	})
@@ -180,6 +181,7 @@ func main() {
 	})
 
 	sitesHandler := sites.New(sites.NewParams{
+		Decoder:     decoder,
 		Responder:   responder,
 		SiteService: siteService,
 	})
@@ -253,13 +255,16 @@ func main() {
 	mux.Handle("POST /sites", permissionUserAccessTokenAuthenticated.ThenFunc(sitesHandler.Create))
 	mux.Handle("GET /sites", permissionUserAccessTokenAuthenticated.ThenFunc(sitesHandler.List))
 	mux.Handle("GET /sites/{siteID}", permissionUserAccessTokenAuthenticated.ThenFunc(sitesHandler.Read))
+	mux.Handle("GET /sites/{siteID}/google-search-console-sites", permissionUserAccessTokenAuthenticated.ThenFunc(sitesHandler.ListGoogleSearchConsoleSites))
 	mux.Handle("PATCH /sites/{siteID}", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(sitesHandler.Update))
+	mux.Handle("POST /sites/{siteID}/google-oauth", permissionUserAccessTokenAuthenticated.ThenFunc(sitesHandler.SetGoogleOAuthRefreshToken))
 
 	// handlers: site reports
 	mux.Handle("GET /site-reports/browser-name", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteBrowserNameReport))
 	mux.Handle("GET /site-reports/browser-version", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteBrowserVersionReport))
 	mux.Handle("GET /site-reports/country", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteCountryReport))
 	mux.Handle("GET /site-reports/device-type", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteDeviceTypeReport))
+	mux.Handle("GET /site-reports/google-search-terms", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteGoogleSearchTermsReport))
 	mux.Handle("GET /site-reports/language", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteLanguageReport))
 	mux.Handle("GET /site-reports/operating-system-name", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteOperatingSystemNameReport))
 	mux.Handle("GET /site-reports/operating-system-version", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteOperatingSystemVersionReport))

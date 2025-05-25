@@ -1,5 +1,5 @@
 import { Middleware, SWRHook } from "swr";
-import { placeholderRestAPIBaseURL } from "~/lib/base";
+import { restAPIBaseURL } from "~/lib/base";
 import { getUserAccessToken, setUserAccessToken } from "../user-access-token";
 
 export const api = {
@@ -28,7 +28,7 @@ export async function apiCall(path: string, init?: RequestInit): Promise<Respons
     ...init?.headers,
   };
 
-  return fetch(`${placeholderRestAPIBaseURL}${path}`, { ...init, headers });
+  return fetch(`${restAPIBaseURL}${path}`, { ...init, headers });
 }
 
 export function getFetcher() {

@@ -2,6 +2,8 @@ package poeticmetric
 
 import (
 	"context"
+
+	"golang.org/x/oauth2"
 )
 
 type ValidationService interface {
@@ -16,6 +18,7 @@ type ValidationService interface {
 	ResendOrganizationUserInvitationEmailParams(ctx context.Context, organizationID uint, params *ResendOrganizationUserInvitationEmailParams) error
 	ResetUserPasswordParams(ctx context.Context, params *ResetUserPasswordParams) error
 	SendUserPasswordRecoveryEmailParams(ctx context.Context, params *SendUserPasswordRecoveryEmailParams) error
+	SetSiteGoogleOAuthRefreshTokenParams(ctx context.Context, params *SetSiteGoogleOAuthRefreshTokenParams) (*oauth2.Token, error)
 	SignUpParams(ctx context.Context, params *SignUpParams) error
 	SiteReportFilters(ctx context.Context, organizationID uint, filters *SiteReportFilters) error
 	UpdateAuthenticationUserParams(ctx context.Context, params *UpdateAuthenticationUserParams) error

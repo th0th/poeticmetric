@@ -33,47 +33,40 @@ spec:
         envFrom:
         - configMapRef:
             name: {{ $fullname }}-clickhouse
-            optional: false
           prefix: CLICKHOUSE_
         - prefix: CLICKHOUSE_
           secretRef:
             name: {{ $fullname }}-clickhouse
-            optional: false
+        - prefix: GOOGLE_
+          secretRef:
+            name: {{ $fullname }}-google
+            optional: true
         - configMapRef:
             name: {{ $fullname }}-postgres
-            optional: false
           prefix: POSTGRES_
         - prefix: POSTGRES_
           secretRef:
             name: {{ $fullname }}-postgres
-            optional: false
         - configMapRef:
             name: {{ $fullname }}-rabbitmq
-            optional: false
           prefix: RABBITMQ_
         - prefix: RABBITMQ_
           secretRef:
             name: {{ $fullname }}-rabbitmq
-            optional: false
         - prefix: SMTP_
           configMapRef:
             name: {{ $fullname }}-smtp
-            optional: false
         - prefix: SMTP_
           secretRef:
             name: {{ $fullname }}-smtp
-            optional: false
         - prefix: VALKEY_
           configMapRef:
             name: {{ $fullname }}-valkey
-            optional: false
         - prefix: VALKEY_
           secretRef:
             name: {{ $fullname }}-valkey
-            optional: false
         - configMapRef:
             name: {{ $fullname }}-poeticmetric
-            optional: false
         image: {{ printf "%s:%s" $Values.poeticmetric.backend.image.repository $Values.poeticmetric.backend.image.tag }}
         imagePullPolicy: {{ $Values.poeticmetric.backend.image.pullPolicy }}
         name: worker{{ if .name }}-{{ .name }}{{ end }}

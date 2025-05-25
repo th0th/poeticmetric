@@ -9,22 +9,12 @@ import (
 	"github.com/RussellLuo/vext"
 	"github.com/go-errors/errors"
 	"golang.org/x/oauth2"
-	"google.golang.org/api/option"
-	"google.golang.org/api/searchconsole/v1"
 	"gorm.io/gorm"
 
 	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
 )
 
 func (s *service) CreateOrganizationSiteParams(ctx context.Context, organizationID uint, params *poeticmetric.CreateOrganizationSiteParams) error {
-	postgres := poeticmetric.ServicePostgres(ctx, s)
-
-	organization := poeticmetric.Organization{}
-	err := postgres.Select("GoogleOauthRefreshToken").First(&organization, poeticmetric.Organization{ID: organizationID}, "ID").Error
-	if err != nil {
-		return errors.Wrap(err, 0)
-	}
-
 	errs := []error{}
 
 	validationErrs := v.Validate(v.Schema{
@@ -43,25 +33,6 @@ func (s *service) CreateOrganizationSiteParams(ctx context.Context, organization
 
 				return isOk
 			}).Msg("This domain is already in use."),
-		),
-
-		v.F("googleSearchConsoleSiteURL", params.GoogleSearchConsoleSiteURL): v.Any(
-			v.Zero[*string](),
-
-			v.All(
-				v.Is(func(_ any) bool {
-					return organization.GoogleOauthRefreshToken != nil
-				}).Msg("You need to connect your Google Search Console account to use this feature."),
-
-				v.Is(func(x *string) bool {
-					isOk, err2 := s.googleSearchConsoleSiteURL(ctx, organizationID, *x)
-					if err2 != nil {
-						errs = append(errs, err2)
-					}
-
-					return isOk
-				}),
-			),
 		),
 
 		v.F("isPublic", params.IsPublic): v.All(
@@ -92,6 +63,36 @@ func (s *service) CreateOrganizationSiteParams(ctx context.Context, organization
 	return nil
 }
 
+func (s *service) SetSiteGoogleOAuthRefreshTokenParams(ctx context.Context, params *poeticmetric.SetSiteGoogleOAuthRefreshTokenParams) (*oauth2.Token, error) {
+	var token *oauth2.Token
+
+	oAuthConfig, err := s.envService.GoogleOAuthConfig()
+	if err != nil {
+		return nil, errors.Wrap(err, 0)
+	}
+
+	validationErrs := v.Validate(v.Schema{
+		v.F("authCode", params.AuthCode): v.Any(
+			v.Zero[*string](),
+
+			v.All(
+				v.Nonzero[*string]().Msg("This field is required."),
+
+				v.Is(func(x *string) bool {
+					token, err = oAuthConfig.Exchange(ctx, *x)
+					return err == nil
+				}),
+			),
+		),
+	})
+
+	if len(validationErrs) > 0 {
+		return nil, validationErrs
+	}
+
+	return token, nil
+}
+
 func (s *service) SiteReportFilters(ctx context.Context, organizationID uint, filters *poeticmetric.SiteReportFilters) error {
 	validationErrs := v.Validate(v.Schema{
 		v.F("end", filters.End): v.All(
@@ -118,14 +119,6 @@ func (s *service) SiteReportFilters(ctx context.Context, organizationID uint, fi
 }
 
 func (s *service) UpdateOrganizationSiteParams(ctx context.Context, organizationID uint, siteID uint, params *poeticmetric.UpdateOrganizationSiteParams) error {
-	postgres := poeticmetric.ServicePostgres(ctx, s)
-
-	organization := poeticmetric.Organization{}
-	err := postgres.Select("GoogleOauthRefreshToken").First(&organization, poeticmetric.Organization{ID: organizationID}, "ID").Error
-	if err != nil {
-		return errors.Wrap(err, 0)
-	}
-
 	validationErrs := v.Validate(v.Schema{
 		v.F("domain", params.Domain): v.Any(
 			v.Zero[*string](),
@@ -139,13 +132,17 @@ func (s *service) UpdateOrganizationSiteParams(ctx context.Context, organization
 		),
 
 		v.F("googleSearchConsoleSiteURL", params.GoogleSearchConsoleSiteURL): v.Any(
-			v.Zero[*string](),
+			v.Is(func(x poeticmetric.Optional[string]) bool {
+				return !x.IsDefined
+			}),
 
-			v.All(
-				v.Is(func(_ any) bool {
-					return organization.GoogleOauthRefreshToken != nil
-				}).Msg("You need to connect your Google Search Console account to use this feature."),
-			),
+			v.Is(func(x poeticmetric.Optional[string]) bool {
+				return x.Value == nil
+			}),
+
+			v.Nested(func(x poeticmetric.Optional[string]) v.Validator {
+				return v.Value(*x.Value, s.googleSearchConsoleSiteURL(ctx, siteID).Msg("There is no such site on Google Search Console."))
+			}),
 		),
 
 		v.F("name", params.Name): v.Any(
@@ -170,44 +167,6 @@ func (s *service) UpdateOrganizationSiteParams(ctx context.Context, organization
 	return nil
 }
 
-func (s *service) googleSearchConsoleSiteURL(ctx context.Context, organizationID uint, siteURL string) (bool, error) {
-	postgres := poeticmetric.ServicePostgres(ctx, s)
-
-	organization := poeticmetric.Organization{}
-	err := postgres.Select("GoogleOauthRefreshToken").First(&organization, poeticmetric.Organization{ID: organizationID}, "ID").Error
-	if err != nil {
-		return false, err
-	}
-
-	if organization.GoogleOauthRefreshToken == nil {
-		return false, poeticmetric.ErrNoOrganizationGoogleOauthRefreshToken
-	}
-
-	oAuthConfig, err := s.envService.GoogleOAuthConfig()
-	if err != nil {
-		return false, err
-	}
-
-	searchConsoleService, err := searchconsole.NewService(
-		ctx,
-		option.WithTokenSource(oAuthConfig.TokenSource(ctx, &oauth2.Token{RefreshToken: *organization.GoogleOauthRefreshToken})),
-	)
-	if err != nil {
-		return false, err
-	}
-
-	site, err := searchConsoleService.Sites.Get(siteURL).Do()
-	if err != nil {
-		return false, err
-	}
-
-	if site.SiteUrl != siteURL {
-		return false, nil
-	}
-
-	return true, nil
-}
-
 func (s *service) organizationSiteID(ctx context.Context, organizationID uint) *v.MessageValidator {
 	mv := v.MessageValidator{
 		Message: "is not valid",
@@ -224,7 +183,7 @@ func (s *service) organizationSiteID(ctx context.Context, organizationID uint) *
 		err := postgres.
 			Model(&poeticmetric.Site{}).
 			Where(poeticmetric.Site{
-				ID: value,
+				ID:             value,
 				OrganizationID: organizationID,
 			}).
 			First(&poeticmetric.Site{}).

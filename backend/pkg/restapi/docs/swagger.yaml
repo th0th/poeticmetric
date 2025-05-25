@@ -64,8 +64,6 @@ definitions:
     properties:
       domain:
         type: string
-      googleSearchConsoleSiteURL:
-        type: string
       isPublic:
         type: boolean
       name:
@@ -78,6 +76,13 @@ definitions:
   poeticmetric.InviteOrganizationUserParams:
     properties:
       email:
+        type: string
+    type: object
+  poeticmetric.Optional-string:
+    properties:
+      isDefined:
+        type: boolean
+      value:
         type: string
     type: object
   poeticmetric.OrganizationDeletionParams:
@@ -105,6 +110,8 @@ definitions:
       googleSearchConsoleSiteURL:
         type: string
       hasEvents:
+        type: boolean
+      hasGoogleOauth:
         type: boolean
       id:
         type: integer
@@ -148,6 +155,11 @@ definitions:
   poeticmetric.SendUserPasswordRecoveryEmailParams:
     properties:
       email:
+        type: string
+    type: object
+  poeticmetric.SetSiteGoogleOAuthRefreshTokenParams:
+    properties:
+      authCode:
         type: string
     type: object
   poeticmetric.SiteBrowserNameReport:
@@ -214,6 +226,19 @@ definitions:
         type: integer
       visitorPercentage:
         type: number
+    type: object
+  poeticmetric.SiteGoogleSearchTermsReportDatum:
+    properties:
+      clicks:
+        type: number
+      ctr:
+        type: number
+      impressions:
+        type: number
+      position:
+        type: number
+      query:
+        type: string
     type: object
   poeticmetric.SiteLanguageReport:
     properties:
@@ -498,7 +523,7 @@ definitions:
       domain:
         type: string
       googleSearchConsoleSiteURL:
-        type: string
+        $ref: '#/definitions/poeticmetric.Optional-string'
       isPublic:
         type: boolean
       name:
@@ -1150,6 +1175,91 @@ paths:
       security:
       - UserAccessTokenAuthentication: []
       summary: Read device type report
+      tags:
+      - site-reports
+  /site-reports/google-search-terms:
+    get:
+      description: Read Google search terms report for a site.
+      parameters:
+      - in: query
+        name: browserName
+        type: string
+      - in: query
+        name: browserVersion
+        type: string
+      - in: query
+        name: countryISOCode
+        type: string
+      - in: query
+        name: deviceType
+        type: string
+      - default: "2026-01-01T00:00:00Z"
+        in: query
+        name: end
+        type: string
+      - in: query
+        name: language
+        type: string
+      - in: query
+        name: locale
+        type: string
+      - in: query
+        name: operatingSystemName
+        type: string
+      - in: query
+        name: operatingSystemVersion
+        type: string
+      - in: query
+        name: path
+        type: string
+      - in: query
+        name: referrer
+        type: string
+      - in: query
+        name: referrerHost
+        type: string
+      - in: query
+        name: siteID
+        type: integer
+      - default: "2025-01-01T00:00:00Z"
+        in: query
+        name: start
+        type: string
+      - default: UTC
+        in: query
+        name: timeZone
+        type: string
+      - in: query
+        name: utmCampaign
+        type: string
+      - in: query
+        name: utmContent
+        type: string
+      - in: query
+        name: utmMedium
+        type: string
+      - in: query
+        name: utmSource
+        type: string
+      - in: query
+        name: utmTerm
+        type: string
+      - description: Page number
+        in: query
+        name: page
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              items:
+                $ref: '#/definitions/poeticmetric.SiteGoogleSearchTermsReportDatum'
+              type: array
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read Google search terms report
       tags:
       - site-reports
   /site-reports/language:
@@ -2478,6 +2588,53 @@ paths:
       security:
       - UserAccessTokenAuthentication: []
       summary: Update site
+      tags:
+      - sites
+  /sites/{siteID}/google-oauth:
+    post:
+      description: Set site's Google OAuth refresh token using oauth.
+      parameters:
+      - description: Site ID
+        in: path
+        name: siteID
+        required: true
+        type: integer
+      - description: Params
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/poeticmetric.SetSiteGoogleOAuthRefreshTokenParams'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/poeticmetric.OrganizationSite'
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Set site Google OAuth refresh token
+      tags:
+      - sites
+  /sites/{siteID}/google-search-console-sites:
+    get:
+      description: List Google Search Console sites for the site with Google OAuth
+        refresh token.
+      parameters:
+      - description: Site ID
+        in: path
+        name: siteID
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.OrganizationSite'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: List Google Search Console sites
       tags:
       - sites
   /users:

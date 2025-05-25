@@ -31,7 +31,7 @@ func Test_service_Create(t *testing.T) {
 	mockValidationService := &poeticmetric.ValidationServiceMock{}
 
 	// language=postgresql
-	insertQuery := `INSERT INTO "sites" ("created_at","domain","google_search_console_site_url","has_events","is_public","name","organization_id","safe_query_parameters","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING "id"`
+	insertQuery := `INSERT INTO "sites" ("created_at","domain","google_oauth_refresh_token","google_search_console_site_url","has_events","is_public","name","organization_id","safe_query_parameters","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING "id"`
 
 	type fields struct {
 		postgres          *gorm.DB
@@ -71,7 +71,18 @@ func Test_service_Create(t *testing.T) {
 
 				sqlMock.ExpectBegin()
 				sqlMock.ExpectQuery(insertQuery).
-					WithArgs(sqlmock.AnyArg(), "www.domain.tld", sqlmock.AnyArg(), false, true, "random name", uint(1), sqlmock.AnyArg(), sqlmock.AnyArg()).
+					WithArgs(
+						sqlmock.AnyArg(),
+						"www.domain.tld",
+						sqlmock.AnyArg(),
+						sqlmock.AnyArg(),
+						false,
+						true,
+						"random name",
+						uint(1),
+						sqlmock.AnyArg(),
+						sqlmock.AnyArg(),
+					).
 					WillReturnRows(sqlMock.NewRows([]string{"id"}).AddRow(1))
 				sqlMock.ExpectCommit()
 			},
@@ -100,6 +111,7 @@ func Test_service_Create(t *testing.T) {
 			tt.wantErr(t, gotErr)
 
 			assert.Equal(t, tt.want.Domain, got.Domain)
+			assert.Equal(t, tt.want.GoogleOauthRefreshToken, got.GoogleOauthRefreshToken)
 			assert.Equal(t, tt.want.GoogleSearchConsoleSiteUrl, got.GoogleSearchConsoleSiteUrl)
 			assert.Equal(t, tt.want.HasEvents, got.HasEvents)
 			assert.Equal(t, tt.want.ID, got.ID)
@@ -127,7 +139,7 @@ func Test_service_List(t *testing.T) {
 	}
 
 	// language=postgresql
-	selectQuery := `SELECT "sites"."created_at","sites"."domain","sites"."google_search_console_site_url","sites"."has_events","sites"."id","sites"."is_public","sites"."name","sites"."safe_query_parameters","sites"."updated_at" FROM "sites" WHERE "sites"."organization_id" = $1`
+	selectQuery := `SELECT * FROM "sites" WHERE "sites"."organization_id" = $1 ORDER BY name`
 
 	type fields struct {
 		postgres *gorm.DB

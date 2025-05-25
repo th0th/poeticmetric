@@ -30,19 +30,16 @@ spec:
             configMapKeyRef:
               key: DATABASE
               name: {{ include "poeticmetric.fullname" . }}-clickhouse
-              optional: false
         - name: CLICKHOUSE_PASSWORD
           valueFrom:
             secretKeyRef:
               key: PASSWORD
               name: {{ include "poeticmetric.fullname" . }}-clickhouse
-              optional: false
         - name: CLICKHOUSE_USER
           valueFrom:
             secretKeyRef:
               key: USER
               name: {{ include "poeticmetric.fullname" . }}-clickhouse
-              optional: false
         image: {{ .Values.clickhouse.image.repository }}:{{ .Values.clickhouse.image.tag }}
         imagePullPolicy: {{ .Values.clickhouse.image.pullPolicy }}
         name: clickhouse

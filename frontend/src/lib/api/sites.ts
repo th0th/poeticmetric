@@ -68,6 +68,20 @@ export function hydrateSiteDeviceTypeReportDatum(d: SiteDeviceTypeReportDatum): 
   };
 }
 
+export function hydrateSiteGoogleSearchAnalyticsReport(d: SiteGoogleSearchAnalyticsReport): HydratedSiteGoogleSearchAnalyticsReport {
+  return d.map(hydrateSiteGoogleSearchAnalyticsReportDatum);
+}
+
+export function hydrateSiteGoogleSearchAnalyticsReportDatum(
+  d: SiteGoogleSearchAnalyticsReportDatum,
+): HydratedSiteGoogleSearchAnalyticsReportDatum {
+  return {
+    ...d,
+    clicksDisplay: d.clicks !== null ? millify(d.clicks) : "N/A",
+    impressionsDisplay: d.impressions !== null ? millify(d.impressions) : "N/A",
+  };
+}
+
 export function hydrateSiteLanguageReport(d: SiteLanguageReport): HydratedSiteLanguageReport {
   return {
     ...d,

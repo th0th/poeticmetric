@@ -4,6 +4,9 @@ import (
 	"context"
 
 	"github.com/go-errors/errors"
+	"golang.org/x/oauth2"
+	"google.golang.org/api/option"
+	"google.golang.org/api/searchconsole/v1"
 	"gorm.io/gorm"
 
 	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
@@ -19,7 +22,6 @@ func (s *service) CreateOrganizationSite(ctx context.Context, organizationID uin
 
 	site := &poeticmetric.Site{
 		Domain:                     *params.Domain,
-		GoogleSearchConsoleSiteUrl: params.GoogleSearchConsoleSiteURL,
 		IsPublic:                   *params.IsPublic,
 		Name:                       *params.Name,
 		SafeQueryParameters:        params.SafeQueryParameters,
@@ -58,11 +60,66 @@ func (s *service) DeleteOrganizationSite(ctx context.Context, organizationID uin
 	return nil
 }
 
+func (s *service) ListGoogleSearchConsoleSites(ctx context.Context, organizationID uint, siteID uint) ([]*poeticmetric.GoogleSearchConsoleSite, error) {
+	oauthConfig, err := s.envService.GoogleOAuthConfig()
+	if err != nil {
+		return nil, errors.Wrap(err, 0)
+	}
+
+	postgres := poeticmetric.ServicePostgres(ctx, s)
+
+	site := poeticmetric.Site{}
+	err = postgres.
+		Select("GoogleOauthRefreshToken").
+		First(&site, poeticmetric.Site{ID: siteID, OrganizationID: organizationID}, "ID", "OrganizationID").
+		Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, errors.Wrap(poeticmetric.ErrNotFound, 0)
+		}
+
+		return nil, errors.Wrap(err, 0)
+	}
+
+	if site.GoogleOauthRefreshToken == nil {
+		return nil, errors.Wrap(poeticmetric.ErrGoogleOAuthTokenNotSet, 0)
+	}
+
+	searchConsoleService, err := searchconsole.NewService(
+		ctx,
+		option.WithTokenSource(oauthConfig.TokenSource(ctx, &oauth2.Token{
+			RefreshToken: *site.GoogleOauthRefreshToken,
+		})),
+	)
+	if err != nil {
+		return nil, errors.Wrap(err, 0)
+	}
+
+	res, err := searchConsoleService.Sites.List().Do()
+	if err != nil {
+		urlError := &oauth2.RetrieveError{}
+		if errors.As(err, &urlError) {
+			return nil, errors.Wrap(poeticmetric.ErrGoogleOAuthTokenInvalid, 0)
+		}
+
+		return nil, errors.Wrap(err, 0)
+	}
+
+	searchConsoleSites := []*poeticmetric.GoogleSearchConsoleSite{}
+	for _, d := range res.SiteEntry {
+		searchConsoleSites = append(searchConsoleSites, &poeticmetric.GoogleSearchConsoleSite{
+			SiteURL: d.SiteUrl,
+		})
+	}
+
+	return searchConsoleSites, nil
+}
+
 func (s *service) ListOrganizationSites(ctx context.Context, organizationID uint) ([]*poeticmetric.OrganizationSite, error) {
 	postgres := poeticmetric.ServicePostgres(ctx, s)
 
 	organizationSites := []*poeticmetric.OrganizationSite{}
-	err := postgres.Model(&poeticmetric.Site{}).Find(&organizationSites, poeticmetric.Site{OrganizationID: organizationID}).Error
+	err := postgres.Order("name").Find(&organizationSites, poeticmetric.Site{OrganizationID: organizationID}).Error
 	if err != nil {
 		return nil, err
 	}
@@ -86,6 +143,35 @@ func (s *service) ReadOrganizationSite(ctx context.Context, organizationID uint,
 	return &organizationSite, nil
 }
 
+func (s *service) SetSiteGoogleOAuthRefreshToken(ctx context.Context, organizationID uint, siteID uint, params *poeticmetric.SetSiteGoogleOAuthRefreshTokenParams) error {
+	oAuthToken, err := s.validationService.SetSiteGoogleOAuthRefreshTokenParams(ctx, params)
+	if err != nil {
+		return errors.Wrap(err, 0)
+	}
+
+	update := poeticmetric.Site{}
+	fields := []string{"GoogleOauthRefreshToken"}
+
+	if oAuthToken == nil {
+		fields = append(fields, "GoogleSearchConsoleSiteUrl")
+	} else {
+		update.GoogleOauthRefreshToken = &oAuthToken.RefreshToken
+	}
+
+	postgres := poeticmetric.ServicePostgres(ctx, s)
+	err = postgres.
+		Model(&poeticmetric.Site{}).
+		Select(fields).
+		Where(poeticmetric.Site{ID: siteID, OrganizationID: organizationID}, "ID", "OrganizationID").
+		Updates(update).
+		Error
+	if err != nil {
+		return errors.Wrap(err, 0)
+	}
+
+	return nil
+}
+
 func (s *service) UpdateOrganizationSite(ctx context.Context, organizationID uint, siteID uint, params *poeticmetric.UpdateOrganizationSiteParams) error {
 	postgres := poeticmetric.ServicePostgres(ctx, s)
 
@@ -102,8 +188,8 @@ func (s *service) UpdateOrganizationSite(ctx context.Context, organizationID uin
 		fields = append(fields, "Domain")
 	}
 
-	if params.GoogleSearchConsoleSiteURL != nil {
-		update.GoogleSearchConsoleSiteUrl = params.GoogleSearchConsoleSiteURL
+	if params.GoogleSearchConsoleSiteURL.IsDefined {
+		update.GoogleSearchConsoleSiteUrl = params.GoogleSearchConsoleSiteURL.Value
 		fields = append(fields, "GoogleSearchConsoleSiteUrl")
 	}
 

@@ -11,10 +11,13 @@ import SafeQueryParameters from "~/components/SiteForm/SafeQueryParameters";
 import Title from "~/components/Title";
 import { api } from "~/lib/api";
 import { setErrors } from "~/lib/form";
+import GoogleSearchConsole from "./GoogleSearchConsole";
 
 export type Form = {
   domain: string;
-  googleSearchConsoleSiteURL: string;
+  googleSearchConsoleSiteURL: string | null;
+  hasGoogleOauth: boolean;
+  isGoogleSearchConsoleIntegrationEnabled: boolean;
   isPublic: boolean;
   name: string;
   safeQueryParameters: Array<{ value: string }>;
@@ -23,13 +26,15 @@ export type Form = {
 export default function SiteForm() {
   const { showBoundary } = useErrorBoundary();
   const [searchParams] = useSearchParams();
-  const siteID = useMemo(() => searchParams.get("siteID"), [searchParams]);
+  const siteID = useMemo(() => Number(searchParams.get("siteID")) || null, [searchParams]);
   const title = useMemo(() => siteID === null ? "Add site" : "Edit site", [siteID]);
   const form = useForm<Form>({
     defaultValues: async () => {
       const v: Form = {
         domain: "",
         googleSearchConsoleSiteURL: "",
+        hasGoogleOauth: false,
+        isGoogleSearchConsoleIntegrationEnabled: false,
         isPublic: false,
         name: "",
         safeQueryParameters: [],
@@ -40,6 +45,9 @@ export default function SiteForm() {
         const responseJson = await response.json();
 
         v.domain = responseJson.domain;
+        v.googleSearchConsoleSiteURL = responseJson.googleSearchConsoleSiteURL;
+        v.hasGoogleOauth = responseJson.hasGoogleOauth;
+        v.isGoogleSearchConsoleIntegrationEnabled = responseJson.googleSearchConsoleSiteURL !== null;
         v.isPublic = responseJson.isPublic;
         v.name = responseJson.name;
         v.safeQueryParameters = responseJson.safeQueryParameters.map((d: string) => ({ value: d }));
@@ -53,7 +61,7 @@ export default function SiteForm() {
   async function submit(data: Form) {
     const hydratedData = {
       ...data,
-      googleSearchConsoleSiteURL: data.googleSearchConsoleSiteURL === "" ? null : data.googleSearchConsoleSiteURL,
+      googleSearchConsoleSiteURL: data.isGoogleSearchConsoleIntegrationEnabled ? data.googleSearchConsoleSiteURL : null,
       safeQueryParameters: data.safeQueryParameters.map((x) => x.value),
     };
 
@@ -143,6 +151,10 @@ export default function SiteForm() {
                     </div>
                   </div>
                 </div>
+
+                {siteID !== null ? (
+                  <GoogleSearchConsole siteID={siteID} />
+                ) : null}
 
                 <div>
                   <button className="align-items-center btn btn-primary d-flex gap-4" type="submit">

@@ -1027,6 +1027,145 @@ const docTemplate = `{
                 }
             }
         },
+        "/site-reports/google-search-terms": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read Google search terms report for a site.",
+                "tags": [
+                    "site-reports"
+                ],
+                "summary": "Read Google search terms report",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "browserName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "browserVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "countryISOCode",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "deviceType",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2026-01-01T00:00:00Z",
+                        "name": "end",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "language",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "locale",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operatingSystemVersion",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "path",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "referrerHost",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "siteID",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "2025-01-01T00:00:00Z",
+                        "name": "start",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "UTC",
+                        "name": "timeZone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmCampaign",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmContent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmMedium",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmSource",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "utmTerm",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/definitions/poeticmetric.SiteGoogleSearchTermsReportDatum"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/site-reports/language": {
             "get": {
                 "security": [
@@ -3203,6 +3342,80 @@ const docTemplate = `{
                 }
             }
         },
+        "/sites/{siteID}/google-oauth": {
+            "post": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Set site's Google OAuth refresh token using oauth.",
+                "tags": [
+                    "sites"
+                ],
+                "summary": "Set site Google OAuth refresh token",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Site ID",
+                        "name": "siteID",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Params",
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/poeticmetric.SetSiteGoogleOAuthRefreshTokenParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/poeticmetric.OrganizationSite"
+                        }
+                    }
+                }
+            }
+        },
+        "/sites/{siteID}/google-search-console-sites": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "List Google Search Console sites for the site with Google OAuth refresh token.",
+                "tags": [
+                    "sites"
+                ],
+                "summary": "List Google Search Console sites",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Site ID",
+                        "name": "siteID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/poeticmetric.OrganizationSite"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/users": {
             "get": {
                 "security": [
@@ -3465,9 +3678,6 @@ const docTemplate = `{
                 "domain": {
                     "type": "string"
                 },
-                "googleSearchConsoleSiteURL": {
-                    "type": "string"
-                },
                 "isPublic": {
                     "type": "boolean"
                 },
@@ -3486,6 +3696,17 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "email": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.Optional-string": {
+            "type": "object",
+            "properties": {
+                "isDefined": {
+                    "type": "boolean"
+                },
+                "value": {
                     "type": "string"
                 }
             }
@@ -3528,6 +3749,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "hasEvents": {
+                    "type": "boolean"
+                },
+                "hasGoogleOauth": {
                     "type": "boolean"
                 },
                 "id": {
@@ -3594,6 +3818,14 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "email": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.SetSiteGoogleOAuthRefreshTokenParams": {
+            "type": "object",
+            "properties": {
+                "authCode": {
                     "type": "string"
                 }
             }
@@ -3696,6 +3928,26 @@ const docTemplate = `{
                 },
                 "visitorPercentage": {
                     "type": "number"
+                }
+            }
+        },
+        "poeticmetric.SiteGoogleSearchTermsReportDatum": {
+            "type": "object",
+            "properties": {
+                "clicks": {
+                    "type": "number"
+                },
+                "ctr": {
+                    "type": "number"
+                },
+                "impressions": {
+                    "type": "number"
+                },
+                "position": {
+                    "type": "number"
+                },
+                "query": {
+                    "type": "string"
                 }
             }
         },
@@ -4137,7 +4389,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "googleSearchConsoleSiteURL": {
-                    "type": "string"
+                    "$ref": "#/definitions/poeticmetric.Optional-string"
                 },
                 "isPublic": {
                     "type": "boolean"

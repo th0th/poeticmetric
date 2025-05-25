@@ -103,7 +103,6 @@ type LogUnverifiedOrganizationsDeletionDatum struct {
 
 type Organization struct {
 	CreatedAt                     time.Time
-	GoogleOauthRefreshToken       *string
 	ID                            uint
 	IsOnTrial                     bool
 	Name                          string
@@ -145,6 +144,7 @@ type Plan struct {
 type Site struct {
 	CreatedAt                  time.Time
 	Domain                     string
+	GoogleOauthRefreshToken    *string
 	GoogleSearchConsoleSiteUrl *string
 	HasEvents                  bool
 	ID                         uint

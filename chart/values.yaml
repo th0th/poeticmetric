@@ -50,6 +50,9 @@ poeticmetric:
       debug: false
       enabled: false
       hostBasePath: ""
+    google:
+      clientID: ""
+      clientSecret: ""
     host: poeticmetric.com
     isHosted: false
     registryAuth:

@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/stretchr/testify/mock"
+	"golang.org/x/oauth2"
 	"gorm.io/gorm"
 )
 
@@ -49,6 +50,16 @@ func (m *ValidationServiceMock) ResetUserPasswordParams(ctx context.Context, par
 
 func (m *ValidationServiceMock) SendUserPasswordRecoveryEmailParams(ctx context.Context, params *SendUserPasswordRecoveryEmailParams) error {
 	return m.Called(ctx, params).Error(0)
+}
+
+func (m *ValidationServiceMock) SetSiteGoogleOAuthRefreshTokenParams(ctx context.Context, params *SetSiteGoogleOAuthRefreshTokenParams) (*oauth2.Token, error) {
+	args := m.Called(ctx, params)
+
+	if token, ok := args.Get(0).(*oauth2.Token); ok {
+		return token, args.Error(1)
+	}
+
+	return nil, args.Error(1)
 }
 
 func (m *ValidationServiceMock) SignUpParams(ctx context.Context, params *SignUpParams) error {

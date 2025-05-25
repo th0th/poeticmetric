@@ -7,10 +7,62 @@ import (
 
 	v "github.com/RussellLuo/validating/v3"
 	"github.com/go-errors/errors"
+	"golang.org/x/oauth2"
+	"google.golang.org/api/option"
+	"google.golang.org/api/searchconsole/v1"
 	"gorm.io/gorm"
 
 	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
 )
+
+func (s *service) googleSearchConsoleSiteURL(ctx context.Context, siteID uint) *v.MessageValidator {
+	mv := v.MessageValidator{
+		Message: "is not valid",
+	}
+
+	mv.Validator = v.Func(func(field *v.Field) v.Errors {
+		value, ok := field.Value.(string)
+		if !ok {
+			return v.NewUnsupportedErrors("googleSearchConsoleSiteURL", field, "string")
+		}
+
+		postgres := poeticmetric.ServicePostgres(ctx, s)
+
+		site := poeticmetric.Site{}
+		err := postgres.Select("GoogleOauthRefreshToken").First(&site, poeticmetric.Site{ID: siteID}, "ID").Error
+		if err != nil {
+			return v.NewErrors(field.Name, v.ErrUnsupported, err.Error())
+		}
+
+		if site.GoogleOauthRefreshToken == nil {
+			return v.NewErrors(field.Name, v.ErrUnsupported, err.Error())
+		}
+
+		oauthConfig, err := s.envService.GoogleOAuthConfig()
+		if err != nil {
+			return v.NewErrors(field.Name, v.ErrUnsupported, err.Error())
+		}
+
+		searchConsoleService, err := searchconsole.NewService(
+			ctx,
+			option.WithTokenSource(oauthConfig.TokenSource(ctx, &oauth2.Token{
+				RefreshToken: *site.GoogleOauthRefreshToken,
+			})),
+		)
+		if err != nil {
+			return v.NewErrors(field.Name, v.ErrUnsupported, err.Error())
+		}
+
+		_, err = searchConsoleService.Sites.Get(value).Do()
+		if err != nil {
+			return v.NewInvalidErrors(field, mv.Message)
+		}
+
+		return nil
+	})
+
+	return &mv
+}
 
 func (s *service) organizationCanAddUser(ctx context.Context) *v.MessageValidator {
 	mv := v.MessageValidator{

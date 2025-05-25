@@ -24,47 +24,40 @@ spec:
         envFrom:
         - configMapRef:
             name: {{ include "poeticmetric.fullname" . }}-clickhouse
-            optional: false
           prefix: CLICKHOUSE_
         - prefix: CLICKHOUSE_
           secretRef:
             name: {{ include "poeticmetric.fullname" . }}-clickhouse
-            optional: false
+        - prefix: GOOGLE_
+          secretRef:
+            name: {{ include "poeticmetric.fullname" . }}-google
+            optional: true
         - configMapRef:
             name: {{ include "poeticmetric.fullname" . }}-postgres
-            optional: false
           prefix: POSTGRES_
         - prefix: POSTGRES_
           secretRef:
             name: {{ include "poeticmetric.fullname" . }}-postgres
-            optional: false
         - configMapRef:
             name: {{ include "poeticmetric.fullname" . }}-rabbitmq
-            optional: false
           prefix: RABBITMQ_
         - prefix: RABBITMQ_
           secretRef:
             name: {{ include "poeticmetric.fullname" . }}-rabbitmq
-            optional: false
         - prefix: SMTP_
           configMapRef:
             name: {{ include "poeticmetric.fullname" . }}-smtp
-            optional: false
         - prefix: SMTP_
           secretRef:
             name: {{ include "poeticmetric.fullname" . }}-smtp
-            optional: false
         - prefix: VALKEY_
           configMapRef:
             name: {{ include "poeticmetric.fullname" . }}-valkey
-            optional: false
         - prefix: VALKEY_
           secretRef:
             name: {{ include "poeticmetric.fullname" . }}-valkey
-            optional: false
         - configMapRef:
             name: {{ include "poeticmetric.fullname" . }}-poeticmetric
-            optional: false
         image: {{ printf "%s:%s" .Values.poeticmetric.backend.image.repository .Values.poeticmetric.backend.image.tag }}
         imagePullPolicy: {{ .Values.poeticmetric.backend.image.pullPolicy }}
         name: scheduler

@@ -2,7 +2,7 @@ import { writeFile } from "node:fs";
 import { join } from "node:path";
 import { Readable } from "node:stream";
 import { SitemapStream, streamToPromise } from "sitemap";
-import { getBaseDir, placeholderBaseURL } from "./base.js";
+import { getBaseDir, baseURL } from "./base.js";
 import { getRoutes } from "./routes.js";
 
 const baseDir = getBaseDir();
@@ -38,7 +38,7 @@ async function main() {
     });
 
   const stream = new SitemapStream({
-    hostname: placeholderBaseURL,
+    hostname: baseURL,
     xmlns: { image: false, news: false, video: false, xhtml: false },
   });
 

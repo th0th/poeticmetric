@@ -1,12 +1,12 @@
 import { renderToString } from "react-dom/server";
 import { HelmetProvider } from "react-helmet-async";
 import { createStaticHandler, createStaticRouter, StaticRouterProvider } from "react-router";
-import { placeholderBaseURL } from "~/lib/base";
+import { baseURL } from "~/lib/base";
 import routes from "~/routes";
 
 export async function render(path: string) {
   const { dataRoutes, query } = createStaticHandler(routes);
-  const req = new Request(`${placeholderBaseURL}${path}`);
+  const req = new Request(`${baseURL}${path}`);
   const context = await query(req);
 
   if (context instanceof Response) {

@@ -30,19 +30,16 @@ spec:
             configMapKeyRef:
               key: DATABASE
               name: {{ include "poeticmetric.fullname" . }}-postgres
-              optional: false
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
               key: PASSWORD
               name: {{ include "poeticmetric.fullname" . }}-postgres
-              optional: false
         - name: POSTGRES_USER
           valueFrom:
             secretKeyRef:
               key: USER
               name: {{ include "poeticmetric.fullname" . }}-postgres
-              optional: false
         image: {{ .Values.postgres.image.repository }}:{{ .Values.postgres.image.tag }}
         imagePullPolicy: {{ .Values.postgres.image.pullPolicy }}
         name: postgres

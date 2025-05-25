@@ -1,6 +1,7 @@
 import { ReactNode, useCallback, useMemo } from "react";
 import { Dropdown, DropdownProps } from "react-bootstrap";
 import { useSearchParams } from "react-router";
+import GoogleSearchTerms from "~/components/SiteReport/Source/GoogleSearchTerms";
 import Referrer from "~/components/SiteReport/Source/Referrer";
 
 type Section = {
@@ -15,7 +16,7 @@ export default function Source() {
   const [searchParams, setSearchParams] = useSearchParams();
   const sections: Array<Section> = useMemo(() => [
     { content: <Referrer />, title: "Referrers" },
-    { content: null, slug: "google-search-terms", title: "Google search terms" },
+    { content: <GoogleSearchTerms />, slug: "google-search-terms", title: "Google search terms" },
   ], []);
   const section = useMemo<Section>(() => {
     const slug = searchParams.get(routerQuerySectionSlugKey);

@@ -3,7 +3,7 @@ import { Feed } from "feed";
 import matter from "gray-matter";
 import { mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { getBaseDir, placeholderBaseURL } from "./base.js";
+import { getBaseDir, baseURL } from "./base.js";
 
 const baseDir = getBaseDir();
 const outDir = join(baseDir, "public", "blog");
@@ -17,13 +17,13 @@ function generateBlogFeed() {
   const feed = new Feed({
     author: { link: "https://www.poeticmetric.com", name: "PoeticMetric Team" },
     copyright: "All rights reserved, WebGazer, Inc.",
-    favicon: `${placeholderBaseURL}/favicon.ico`,
-    feed: `${placeholderBaseURL}/blog/${feedFileName}`,
+    favicon: `${baseURL}/favicon.ico`,
+    feed: `${baseURL}/blog/${feedFileName}`,
     generator: "PoeticMetric",
-    id: `${placeholderBaseURL}/blog`,
-    image: `${placeholderBaseURL}`,
+    id: `${baseURL}/blog`,
+    image: `${baseURL}`,
     language: "en",
-    link: `${placeholderBaseURL}/blog`,
+    link: `${baseURL}/blog`,
     title: "PoeticMetric Blog RSS",
   });
 
@@ -33,7 +33,7 @@ function generateBlogFeed() {
     const markdown = matter(markdownContent);
 
     const date = dayjs(dateString);
-    const link = `${placeholderBaseURL}/blog/${slug}`;
+    const link = `${baseURL}/blog/${slug}`;
 
     feed.addItem({
       author: markdown.data.author !== undefined ? [

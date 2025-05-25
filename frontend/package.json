@@ -2,6 +2,7 @@
   "dependencies": {
     "@lottiefiles/dotlottie-react": "^0.13.5",
     "@react-hookz/web": "^25.1.1",
+    "@react-oauth/google": "^0.12.2",
     "@tabler/icons-react": "^3.31.0",
     "@types/d3-array": "^3.2.1",
     "@visx/axis": "^3.12.0",

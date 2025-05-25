@@ -1,7 +1,7 @@
 import generateRobotsTxt from "generate-robotstxt";
 import { writeFile } from "node:fs";
 import { join } from "node:path";
-import { getBaseDir, placeholderBaseURL } from "./base.js";
+import { getBaseDir, baseURL } from "./base.js";
 
 const baseDir = getBaseDir();
 
@@ -16,7 +16,7 @@ async function main() {
             userAgent: "*",
           },
         ],
-        sitemap: `${placeholderBaseURL}/sitemap.xml`,
+        sitemap: `${baseURL}/sitemap.xml`,
       },
     },
     {
@@ -28,7 +28,7 @@ async function main() {
             userAgent: "*",
           },
         ],
-        sitemap: `${placeholderBaseURL}/sitemap.xml`,
+        sitemap: `${baseURL}/sitemap.xml`,
       },
     },
   ];

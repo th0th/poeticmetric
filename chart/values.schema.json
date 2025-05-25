@@ -167,6 +167,18 @@
                             },
                             "type": "object"
                         },
+                        "google": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "clientID": {
+                                    "type": "string"
+                                },
+                                "clientSecret": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
                         "host": {
                             "type": "string"
                         },
