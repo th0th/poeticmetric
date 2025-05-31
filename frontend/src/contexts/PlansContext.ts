@@ -1,11 +1,11 @@
 import { createContext, Dispatch, SetStateAction } from "react";
 
-export const monthlyEventCountSteps: Array<PlanMonthlyEventCount> = [100000, 500000, 1000000, 2000000, 5000000];
+export const monthlyEventCountSteps: Array<PlanMaxEventsPerMonth> = [100000, 500000, 1000000, 2000000, 5000000];
 
 export type PlansContextState = {
   monthlyEventCountStepIndex: number;
   planNameInProgress: string | null;
-  subscriptionPeriod: AuthenticationOrganizationSubscriptionPeriod;
+  subscriptionPeriod: OrganizationResponseSubscriptionPeriod;
 };
 
 export type PlansContextValue = PlansContextState & {

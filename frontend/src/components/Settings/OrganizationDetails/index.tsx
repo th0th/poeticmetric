@@ -31,7 +31,7 @@ export default function OrganizationDetails() {
       };
 
       try {
-        const response = await api.get("/authentication/organization");
+        const response = await api.get("/organization");
         const responseJson = await response.json();
 
         values.name = responseJson.name;
@@ -45,7 +45,7 @@ export default function OrganizationDetails() {
 
   async function submit(data: Form) {
     try {
-      const response = await api.patch("/authentication/organization", data);
+      const response = await api.patch("/organization", data);
       const responseJson = await response.json();
 
       if (!response.ok) {

@@ -30,7 +30,7 @@ export default function Modal({ ...props }: ModalProps) {
   const reason = watch("reason");
 
   async function submit(data: Form) {
-    const response = await api.delete("/authentication/organization", data, {
+    const response = await api.delete("/organization", data, {
       headers: {
         authorization: `basic ${base64Encode(`${user?.email}:${data.password}`)}`,
       },
@@ -51,7 +51,7 @@ export default function Modal({ ...props }: ModalProps) {
 
   useEffect(() => {
     async function getOptions() {
-      const response = await api.get("/authentication/organization-deletion-options");
+      const response = await api.get("/organization/deletion-options");
       const responseJson = await response.json();
 
       setState((s) => ({ ...s, isReady: true, reasons: responseJson.reasons }));

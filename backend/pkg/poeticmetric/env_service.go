@@ -12,6 +12,7 @@ import (
 type EnvService interface {
 	ClickHouseDatabase() string
 	ClickHouseDsn() string
+	ConfigureStripe()
 	Debug() bool
 	DefaultPlanName() *string
 	FrontendURL(path string) string
@@ -22,10 +23,13 @@ type EnvService interface {
 	PostgresDsn() string
 	RabbitMqURL() string
 	RESTApiURL(path string) string
-	RestApiBasePath() string
+	RESTApiBasePath() *string
 	SmtpAddr() string
 	SmtpAuth() smtp.Auth
 	SmtpFrom() *mail.Address
+	StripeAllowPromotionCodes() bool
+	StripeMetaEnvironment() string
+	StripeWebhookSigningSecret() string
 	UnverifiedOrganizationDeletionDays() *int
 	ValkeyAddr() string
 	ValkeyClientOption() govalkey.ClientOption
@@ -35,11 +39,12 @@ type EnvService interface {
 }
 
 type EnvServiceVars struct {
-	DatabaseDebug   bool   `env:"DATABASE_DEBUG" envDefault:"false"`
-	Debug           bool   `env:"DEBUG" envDefault:"false"`
-	FrontendBaseURL string `env:"FRONTEND_BASE_URL,notEmpty,required"`
-	IsHosted        bool   `env:"IS_HOSTED" envDefault:"false"`
-	RESTApiBaseURL  string `env:"REST_API_BASE_URL,notEmpty,required"`
+	DatabaseDebug   bool    `env:"DATABASE_DEBUG" envDefault:"false"`
+	Debug           bool    `env:"DEBUG" envDefault:"false"`
+	FrontendBaseURL string  `env:"FRONTEND_BASE_URL,notEmpty,required"`
+	IsHosted        bool    `env:"IS_HOSTED" envDefault:"false"`
+	RESTApiBaseURL  string  `env:"REST_API_BASE_URL,notEmpty,required"`
+	RESTApiBasePath *string `env:"REST_API_BASE_PATH"`
 
 	// Clickhouse
 	ClickhouseDatabase string `env:"CLICKHOUSE_DATABASE,notEmpty,required"`
@@ -78,6 +83,13 @@ type EnvServiceVars struct {
 	SmtpPassword    string `env:"SMTP_PASSWORD"`
 	SmtpPort        string `env:"SMTP_PORT,notEmpty,required"`
 	SmtpUser        string `env:"SMTP_USER"`
+
+	// Stripe
+	StripeAllowPromotionCodes  bool    `env:"STRIPE_ALLOW_PROMOTION_CODES" envDefault:"false"`
+	StripeMetaEnvironment      *string `env:"STRIPE_META_ENVIRONMENT"`
+	StripePublishableKey       *string `env:"STRIPE_PUBLISHABLE_KEY"`
+	StripeSecretKey            *string `env:"STRIPE_SECRET_KEY"`
+	StripeWebhookSigningSecret *string `env:"STRIPE_WEBHOOK_SIGNING_SECRET"`
 
 	// Valkey
 	ValkeyHost     string `env:"VALKEY_HOST,notEmpty,required"`

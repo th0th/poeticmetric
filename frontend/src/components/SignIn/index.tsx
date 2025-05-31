@@ -88,6 +88,7 @@ export default function SignIn() {
 
                     <Link
                       className="fs-7 ms-auto text-decoration-none text-decoration-underline-focus-visible text-decoration-underline-hover"
+                      /* eslint-disable-next-line jsx-a11y/tabindex-no-positive */
                       tabIndex={1}
                       to={passwordRecoveryLink}
                     >

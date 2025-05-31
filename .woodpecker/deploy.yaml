@@ -56,6 +56,11 @@ steps:
   - echo $${KUBE_CONFIG} | base64 -d > ~/.kube/config
   - chmod 400 ~/.kube/config
   - |
+    if [ -z "$${RESET}" ]; then
+      kubectl --namespace "$${KUBERNETES_NAMESPACE}" rollout restart statefulsets
+      sleep 4
+    fi
+  - |
     helm upgrade poeticmetric poeticmetric \
       --install \
       --namespace "$${KUBERNETES_NAMESPACE}" \
@@ -69,6 +74,9 @@ steps:
       --set poeticmetric.config.registryAuth.host="codeberg.org" \
       --set poeticmetric.config.registryAuth.password="$${REGISTRY_PASSWORD}" \
       --set poeticmetric.config.registryAuth.user="$${REGISTRY_USER}" \
+      --set poeticmetric.config.stripe.publishableKey="$${STRIPE_PUBLISHABLE_KEY}" \
+      --set poeticmetric.config.stripe.secretKey="$${STRIPE_SECRET_KEY}" \
+      --set poeticmetric.config.stripe.webhookSigningSecret="$${STRIPE_WEBHOOK_SIGNING_SECRET}" \
       --set poeticmetric.frontend.image.tag="${CI_COMMIT_TAG##v}" \
       --set postgres.password="$${POSTGRES_PASSWORD}" \
       --set rabbitmq.password="$${RABBITMQ_PASSWORD}" \

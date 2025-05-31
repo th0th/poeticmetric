@@ -35,7 +35,11 @@ func (s *service) ActivateUser(ctx context.Context, params *poeticmetric.Activat
 		return errors.Wrap(err, 0)
 	}
 
-	err = postgres.Model(&user).Select("ActivationToken", "IsActive", "IsEmailVerified", "Name", "Password").Updates(user).Error
+	err = postgres.
+		Model(&user).
+		Select("ActivationToken", "IsActive", "IsEmailVerified", "Name", "Password").
+		UpdateColumns(user).
+		Error
 	if err != nil {
 		return errors.Wrap(err, 0)
 	}

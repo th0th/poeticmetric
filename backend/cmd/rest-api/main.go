@@ -25,6 +25,7 @@ import (
 	authenticationhandler "github.com/th0th/poeticmetric/backend/pkg/restapi/handler/authentication"
 	bootstraphandler "github.com/th0th/poeticmetric/backend/pkg/restapi/handler/bootstrap"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/handler/events"
+	organizationhandler "github.com/th0th/poeticmetric/backend/pkg/restapi/handler/organization"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/handler/root"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/handler/sitereports"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/handler/sites"
@@ -37,6 +38,7 @@ import (
 	"github.com/th0th/poeticmetric/backend/pkg/service/email"
 	"github.com/th0th/poeticmetric/backend/pkg/service/env"
 	"github.com/th0th/poeticmetric/backend/pkg/service/event"
+	"github.com/th0th/poeticmetric/backend/pkg/service/organization"
 	"github.com/th0th/poeticmetric/backend/pkg/service/site"
 	"github.com/th0th/poeticmetric/backend/pkg/service/tracking"
 	"github.com/th0th/poeticmetric/backend/pkg/service/user"
@@ -66,7 +68,12 @@ func main() {
 		Logger.Panic().Stack().Err(errors.Wrap(err, 0)).Msg("failed to init env service")
 	}
 
-	docs.SwaggerInfo.BasePath = envService.RestApiBasePath()
+	envService.ConfigureStripe()
+
+	restAPIBasePath := envService.RESTApiBasePath()
+	if restAPIBasePath != nil {
+		docs.SwaggerInfo.BasePath = *restAPIBasePath
+	}
 
 	postgres, err := gorm.Open(gormpostgres.Open(envService.PostgresDsn()), envService.GormConfig())
 	if err != nil {
@@ -128,6 +135,13 @@ func main() {
 		Valkey:     valkey,
 	})
 
+	organizationService := organization.New(organization.NewParams{
+		EmailService:      emailService,
+		EnvService:        envService,
+		Postgres:          postgres,
+		ValidationService: validationService,
+	})
+
 	siteService := site.New(site.NewParams{
 		ClickHouse:        clickHouse,
 		EnvService:        envService,
@@ -169,6 +183,12 @@ func main() {
 		Responder:         responder,
 		ValidationService: validationService,
 		WorkPublisher:     workPublisher,
+	})
+
+	organizationHandler := organizationhandler.New(organizationhandler.NewParams{
+		EnvService:          envService,
+		Responder:           responder,
+		OrganizationService: organizationService,
 	})
 
 	rootHandler := root.New(root.NewParams{
@@ -219,15 +239,10 @@ func main() {
 	siteReportFilters := alice.New(middleware.SiteReportFiltersHandler(validationService, decoder, responder))
 
 	// handlers: authentication
-	mux.Handle("DELETE /authentication/organization", permissionBasicAuthenticated.Extend(permissionOwner).ThenFunc(authenticationHandler.DeleteOrganization))
-	mux.Handle("GET /authentication/organization", permissionUserAccessTokenAuthenticated.ThenFunc(authenticationHandler.ReadOrganization))
-	mux.Handle("GET /authentication/organization-deletion-options", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(authenticationHandler.GetOrganizationDeletionOptions))
-	mux.Handle("GET /authentication/plan", permissionUserAccessTokenAuthenticated.ThenFunc(authenticationHandler.ReadPlan))
 	mux.Handle("GET /authentication/user", permissionUserAccessTokenAuthenticated.ThenFunc(authenticationHandler.ReadUser))
 	mux.Handle("POST /authentication/user-access-tokens", rateLimit4PerMinute.Extend(permissionBasicAuthenticated).ThenFunc(authenticationHandler.CreateUserAccessToken))
 	mux.Handle("DELETE /authentication/user-access-tokens", permissionUserAccessTokenAuthenticated.ThenFunc(authenticationHandler.DeleteUserAccessToken))
 	mux.Handle("PATCH /authentication/user", permissionUserAccessTokenAuthenticated.ThenFunc(authenticationHandler.UpdateUser))
-	mux.Handle("PATCH /authentication/organization", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(authenticationHandler.UpdateOrganization))
 	mux.Handle("POST /authentication/change-user-password", permissionBasicAuthenticated.ThenFunc(authenticationHandler.ChangeUserPassword))
 	mux.Handle("POST /authentication/resend-user-email-address-verification-email", rateLimit1Per10Minutes.Extend(permissionUserAccessTokenAuthenticated).ThenFunc(authenticationHandler.ResendUserEmailAddressVerificationEmail))
 	mux.Handle("POST /authentication/verify-user-email-address", rateLimit4PerMinute.Extend(permissionUserAccessTokenAuthenticated).ThenFunc(authenticationHandler.VerifyUserEmailAddress))
@@ -246,6 +261,16 @@ func main() {
 
 	// handlers: events
 	mux.HandleFunc("POST /events", eventsHandler.Create)
+
+	// handlers: organization
+	mux.Handle("DELETE /organization", permissionBasicAuthenticated.Extend(permissionOwner).ThenFunc(organizationHandler.DeleteOrganization))
+	mux.Handle("GET /organization", permissionUserAccessTokenAuthenticated.ThenFunc(organizationHandler.ReadOrganization))
+	mux.Handle("GET /organization/deletion-options", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(organizationHandler.GetOrganizationDeletionOptions))
+	mux.Handle("GET /organization/plan", permissionUserAccessTokenAuthenticated.ThenFunc(organizationHandler.ReadPlan))
+	mux.Handle("PATCH /organization", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(organizationHandler.UpdateOrganization))
+	mux.Handle("POST /organization/change-plan", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(organizationHandler.ChangePlan))
+	mux.Handle("POST /organization/stripe-billing-portal-session", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(organizationHandler.CreateStripeBillingPortalSession))
+	mux.HandleFunc("POST /organization/stripe-webhook", organizationHandler.StripeWebhook)
 
 	// handlers: root
 	mux.HandleFunc("/{$}", rootHandler.Index())
@@ -294,7 +319,7 @@ func main() {
 
 	httpServer := http.Server{
 		Handler: alice.New(
-			middleware.BasePathHandler(envService),
+			middleware.BasePathHandler(restAPIBasePath),
 			middleware.AuthenticationHandler(authenticationService, responder),
 			hlog.NewHandler(Logger),
 			hlog.AccessHandler(func(r *http.Request, status, size int, duration time.Duration) {

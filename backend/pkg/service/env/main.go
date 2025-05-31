@@ -108,8 +108,8 @@ func (s *service) PostgresDsn() string {
 	)
 }
 
-func (s *service) RestApiBasePath() string {
-	return "/api"
+func (s *service) RESTApiBasePath() *string {
+	return s.vars.RESTApiBasePath
 }
 
 func (s *service) SmtpAddr() string {

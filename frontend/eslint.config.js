@@ -64,6 +64,7 @@ export default [
       "jsx-a11y": pluginJSXA11Y,
     },
     rules: {
+      ...pluginJSXA11Y.flatConfigs.recommended.rules,
       "jsx-a11y/no-autofocus": 0,
     },
   },

@@ -1,13 +1,13 @@
 import { useCallback } from "react";
 import useSWR, { BareFetcher, SWRConfiguration, SWRResponse, useSWRConfig } from "swr";
-import { hydrateAuthenticationOrganization } from "~/lib/api/authentication";
+import { hydrateAuthenticationOrganization } from "~/lib/api/organizations";
 
 type Config = SWRConfiguration<HydratedData, Error, BareFetcher<HydratedData>>;
-type Data = AuthenticationOrganization;
-type HydratedData = HydratedAuthenticationOrganization;
+type Data = OrganizationResponse;
+type HydratedData = HydratedOrganizationResponse;
 type Response = SWRResponse<HydratedData, Error>;
 
-export default function useAuthenticationOrganization(config?: Config): Response {
+export default function useOrganization(config?: Config): Response {
   const { fetcher: baseFetcher } = useSWRConfig();
 
   const fetcher = useCallback<BareFetcher<HydratedData>>(async (...args) => {
@@ -24,5 +24,5 @@ export default function useAuthenticationOrganization(config?: Config): Response
     return hydrateAuthenticationOrganization(data);
   }, [baseFetcher]);
 
-  return useSWR<HydratedData, Error>("/authentication/organization", { ...config, fetcher });
+  return useSWR<HydratedData, Error>("/organization", { ...config, fetcher });
 }

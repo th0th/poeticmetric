@@ -1,9 +1,9 @@
-import { useCallback, useContext } from "react";
+import { useCallback, useContext, useMemo } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { Link } from "react-router";
 import PlansContext from "~/contexts/PlansContext";
-import useAuthenticationOrganization from "~/hooks/api/useAuthenticationOrganization";
-import useAuthenticationPlan from "~/hooks/api/useAuthenticationPlan";
+import useOrganization from "~/hooks/api/useOrganization";
+import usePlan from "~/hooks/api/usePlan";
 import { api } from "~/lib/api";
 
 export type ButtonProps = {
@@ -12,14 +12,39 @@ export type ButtonProps = {
 
 export default function Button({ plan }: ButtonProps) {
   const { showBoundary } = useErrorBoundary();
-  const { data: organization } = useAuthenticationOrganization();
-  const { data: authenticationPlan } = useAuthenticationPlan();
-  const { planNameInProgress, set, subscriptionPeriod } = useContext(PlansContext);
+  const { data: organization } = useOrganization();
+  const { data: organizationPlan } = usePlan();
+  const { monthlyEventCountStepIndex, monthlyEventCountSteps, planNameInProgress, set, subscriptionPeriod } = useContext(PlansContext);
+  const isDisabled = useMemo(() => {
+    if (organization === undefined || organizationPlan === undefined) {
+      return false;
+    }
+
+    if (plan.price === "Free" && organization.subscriptionCancelAtPeriodEnd) {
+      return true;
+    }
+
+    if (organizationPlan.name === "Hobbyist" && plan.name === "Hobbyist") {
+      return true;
+    }
+
+    if (
+      !organization.subscriptionCancelAtPeriodEnd
+      && organizationPlan.name === plan.name
+      && organizationPlan.maxEventsPerMonth === monthlyEventCountSteps[monthlyEventCountStepIndex]
+      && organization.subscriptionPeriod === subscriptionPeriod
+    ) {
+      return true;
+    }
+
+    return false;
+  }, [monthlyEventCountStepIndex, monthlyEventCountSteps, organization, organizationPlan, plan, subscriptionPeriod]);
 
   const changePlan = useCallback(async (plan: Plan) => {
     set((s) => ({ ...s, planNameInProgress: plan.name }));
 
     const response = await api.post("/organization/change-plan", {
+      maxEventsPerMonth: monthlyEventCountSteps[monthlyEventCountStepIndex],
       planName: plan.name,
       subscriptionPeriod,
     });
@@ -35,7 +60,7 @@ export default function Button({ plan }: ButtonProps) {
     } else {
       showBoundary(JSON.stringify(responseJson));
     }
-  }, [set, showBoundary, subscriptionPeriod]);
+  }, [monthlyEventCountStepIndex, monthlyEventCountSteps, set, showBoundary, subscriptionPeriod]);
 
   if (plan.requiresSalesContact) {
     return (
@@ -46,24 +71,12 @@ export default function Button({ plan }: ButtonProps) {
   return organization !== undefined ? (
     <button
       className="align-items-center btn btn-primary btn-sm d-flex gap-4 justify-content-center mt-10 w-100 "
-      disabled={
-        (plan.price === "Free" && organization.subscriptionCancelAtPeriodEnd)
-        || (
-          !organization.subscriptionCancelAtPeriodEnd &&
-          organization.subscriptionPeriod === subscriptionPeriod &&
-          authenticationPlan?.name === plan.name
-        ) || (
-          authenticationPlan?.name === "Hobbyist" && plan.name === "Hobbyist"
-        )
-      }
+      disabled={isDisabled}
       onClick={() => changePlan(plan)}
       type="button"
     >
       {planNameInProgress === plan.name ? (
-        <>
-          <span className="spinner-border spinner-border-sm" />
-          {" "}
-        </>
+        <span className="spinner-border spinner-border-sm" />
       ) : null}
 
       {plan.price === "Free" && organization.subscriptionCancelAtPeriodEnd ? "Scheduled" : "Change plan"}

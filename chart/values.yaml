@@ -43,23 +43,24 @@ poeticmetric:
       pullPolicy: Always
       repository: codeberg.org/poeticmetric/poeticmetric/backend
       tag: latest
-  config:
+  config: # @schema additionalProperties: true
     defaultPlanName: ""
     development:
       databaseDebug: false
       debug: false
       enabled: false
       hostBasePath: ""
+    extra: {} # @schema additionalProperties: true
     google:
       clientID: ""
       clientSecret: ""
     host: poeticmetric.com
-    isHosted: false
     registryAuth:
       host: ""
       password: ""
       user: ""
     restApi:
+      basePath: /api
       ingress:
         annotations: { } # @schema additionalProperties: true
       replicas: 1
@@ -72,7 +73,11 @@ poeticmetric:
       password: ""
       port: 587
       user: ""
-    stripe: {} # @schema additionalProperties: true
+    stripe:
+      metaEnvironment: ""
+      publishableKey: ""
+      secretKey: ""
+      webhookSigningSecret: ""
     unverifiedOrganizationDeletionDays: 7
     workers:
     - concurrency: 1

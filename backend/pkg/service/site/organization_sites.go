@@ -163,7 +163,7 @@ func (s *service) SetSiteGoogleOAuthRefreshToken(ctx context.Context, organizati
 		Model(&poeticmetric.Site{}).
 		Select(fields).
 		Where(poeticmetric.Site{ID: siteID, OrganizationID: organizationID}, "ID", "OrganizationID").
-		Updates(update).
+		UpdateColumns(update).
 		Error
 	if err != nil {
 		return errors.Wrap(err, 0)

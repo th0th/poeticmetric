@@ -47,6 +47,10 @@ spec:
         - prefix: SMTP_
           secretRef:
             name: {{ include "poeticmetric.fullname" . }}-smtp
+        - prefix: STRIPE_
+          secretRef:
+            name: {{ include "poeticmetric.fullname" . }}-stripe
+            optional: true
         - prefix: VALKEY_
           configMapRef:
             name: {{ include "poeticmetric.fullname" . }}-valkey

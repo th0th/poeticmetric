@@ -5,11 +5,14 @@ import (
 	"fmt"
 	"math/rand"
 	"net/url"
+	"strconv"
+	"strings"
 	"time"
 
 	"github.com/dchest/uniuri"
 	"github.com/go-errors/errors"
 	"github.com/mileusna/useragent"
+	"github.com/stripe/stripe-go/v82"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -133,11 +136,12 @@ type OrganizationDeletion struct {
 
 type Plan struct {
 	CreatedAt         time.Time
+	DataRetentionDays *int
 	ID                uint
-	MaxEventsPerMonth int
-	MaxUsers          int
+	MaxEventsPerMonth *int
+	MaxSiteCount      *int
+	MaxUserCount      *int
 	Name              string
-	StripeProductID   *string
 	UpdatedAt         time.Time
 }
 
@@ -187,6 +191,50 @@ func EventKinds() []EventKind {
 	return []EventKind{
 		EventKindPageView,
 	}
+}
+
+func PlanMaxEventsPerMonthChoices() []int {
+	return []int{100000, 500000, 1000000, 2000000, 5000000}
+}
+
+func PlanStripePriceLookupKey(planName string, maxEventsPerMonth int, subscriptionPeriod string) string {
+	maxEventsKey := fmt.Sprintf("%dk", maxEventsPerMonth/1000)
+	if maxEventsPerMonth >= 1000000 {
+		maxEventsKey = fmt.Sprintf("%dm", maxEventsPerMonth/1000000)
+	}
+
+	return strings.ToLower(fmt.Sprintf("%s_%s_%sly", planName, maxEventsKey, subscriptionPeriod))
+}
+
+func StripeIntervalOrganizationSubscriptionPeriod(stripePlanInterval stripe.PlanInterval) (string, error) {
+	subscriptionPeriod := map[stripe.PlanInterval]string{
+		stripe.PlanIntervalMonth: OrganizationSubscriptionPeriodMonth,
+		stripe.PlanIntervalYear:  OrganizationSubscriptionPeriodYear,
+	}[stripePlanInterval]
+
+	if subscriptionPeriod == "" {
+		return "", errors.Wrap(ErrInvalidStripePlanPeriod, 0)
+	}
+
+	return subscriptionPeriod, nil
+}
+
+func StripePriceLookupKeyPlanMaxEventsPerMonth(stripePriceLookupKey string) (int, error) {
+	parts := strings.Split(stripePriceLookupKey, "_")
+	if len(parts) != 3 {
+		return 0, errors.Wrap(ErrInvalidStripePriceLookupKey, 0)
+	}
+
+	maxEventsPerMonthString := parts[1]
+	maxEventsPerMonthString = strings.ReplaceAll(maxEventsPerMonthString, "k", "000")
+	maxEventsPerMonthString = strings.ReplaceAll(maxEventsPerMonthString, "m", "000000")
+
+	maxEventsPerMonth, err := strconv.Atoi(maxEventsPerMonthString)
+	if err != nil {
+		return 0, errors.Wrap(err, 0)
+	}
+
+	return maxEventsPerMonth, nil
 }
 
 func (e *Event) Fill(ipAddress string, organizationSalt string, safeQueryParameters []string) error {

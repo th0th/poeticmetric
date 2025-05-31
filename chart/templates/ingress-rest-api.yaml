@@ -2,9 +2,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    {{ if .Values.poeticmetric.config.restApi.ingress.annotations }}
     {{ toYaml .Values.poeticmetric.config.restApi.ingress.annotations | nindent 4 }}
-    {{ end }}
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
   name: {{ include "poeticmetric.fullname" . }}-rest-api
   labels:
     {{ include "poeticmetric.labels" . | nindent 4 }}
@@ -18,8 +17,8 @@ spec:
             name: {{ include "poeticmetric.fullname" . }}-rest-api
             port:
               number: 80
-        path: /api/
-        pathType: Prefix
+        path: {{ .Values.poeticmetric.config.restApi.basePath }}/(.*)
+        pathType: ImplementationSpecific
   tls:
   - hosts:
     - {{ .Values.poeticmetric.config.host }}

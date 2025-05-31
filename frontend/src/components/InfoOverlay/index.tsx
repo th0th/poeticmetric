@@ -25,6 +25,7 @@ export default function InfoOverlay({ body, children, className, header, ...prop
       rootClose
       trigger="click"
     >
+      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
       <a
         className={classNames("btn-unstyled text-decoration-underline text-decoration-style-dashed text-reset", className)}
         href="#"

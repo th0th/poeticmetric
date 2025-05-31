@@ -93,33 +93,54 @@ func (s *service) Run(ctx context.Context, params *poeticmetric.BootstrapService
 	if s.envService.IsHosted() {
 		plans = []*poeticmetric.Plan{
 			{
+				DataRetentionDays: poeticmetric.Pointer(732),
 				ID:                1,
-				MaxEventsPerMonth: 100000,
-				MaxUsers:          1,
-				Name:              "Basic",
-				StripeProductID:   poeticmetric.Pointer("prod_KXK6a9Zmy3qcLz"),
+				MaxEventsPerMonth: poeticmetric.Pointer(100000),
+				MaxSiteCount:      poeticmetric.Pointer(1),
+				MaxUserCount:      poeticmetric.Pointer(1),
+				Name:              "Hobbyist",
 			},
 			{
+				DataRetentionDays: poeticmetric.Pointer(-1),
 				ID:                2,
-				MaxEventsPerMonth: 1000000,
-				MaxUsers:          3,
+				MaxEventsPerMonth: poeticmetric.Pointer(500000),
+				MaxSiteCount:      poeticmetric.Pointer(50),
+				MaxUserCount:      poeticmetric.Pointer(20),
 				Name:              "Pro",
-				StripeProductID:   poeticmetric.Pointer("prod_KXK7HFnQGBmP6D"),
 			},
 			{
+				DataRetentionDays: poeticmetric.Pointer(-1),
 				ID:                3,
-				MaxEventsPerMonth: 5000000,
-				MaxUsers:          50,
-				Name:              "Business",
-				StripeProductID:   poeticmetric.Pointer("prod_KXK83fu8EQrKfM"),
+				MaxEventsPerMonth: poeticmetric.Pointer(1000000),
+				MaxSiteCount:      poeticmetric.Pointer(50),
+				MaxUserCount:      poeticmetric.Pointer(20),
+				Name:              "Pro",
+			},
+			{
+				DataRetentionDays: poeticmetric.Pointer(-1),
+				ID:                4,
+				MaxEventsPerMonth: poeticmetric.Pointer(2000000),
+				MaxSiteCount:      poeticmetric.Pointer(50),
+				MaxUserCount:      poeticmetric.Pointer(20),
+				Name:              "Pro",
+			},
+			{
+				DataRetentionDays: poeticmetric.Pointer(-1),
+				ID:                5,
+				MaxEventsPerMonth: poeticmetric.Pointer(5000000),
+				MaxSiteCount:      poeticmetric.Pointer(50),
+				MaxUserCount:      poeticmetric.Pointer(20),
+				Name:              "Pro",
 			},
 		}
 	} else {
 		plans = []*poeticmetric.Plan{
 			{
+				DataRetentionDays: poeticmetric.Pointer(-1),
 				ID:                1,
-				MaxEventsPerMonth: -1,
-				MaxUsers:          -1,
+				MaxEventsPerMonth: poeticmetric.Pointer(-1),
+				MaxSiteCount:      poeticmetric.Pointer(-1),
+				MaxUserCount:      poeticmetric.Pointer(-1),
 				Name:              "Default",
 			},
 		}

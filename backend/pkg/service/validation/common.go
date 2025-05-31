@@ -123,6 +123,34 @@ func (s *service) organizationUserID(ctx context.Context, organizationID uint) *
 	return &mv
 }
 
+func (s *service) planName(ctx context.Context) *v.MessageValidator {
+	mv := v.MessageValidator{
+		Message: "is not valid",
+	}
+
+	mv.Validator = v.Func(func(field *v.Field) v.Errors {
+		value, ok := field.Value.(string)
+		if !ok {
+			return v.NewUnsupportedErrors("planName", field, "string")
+		}
+
+		postgres := poeticmetric.ServicePostgres(ctx, s)
+
+		err := postgres.Where(poeticmetric.Plan{Name: value}, "Name").First(&poeticmetric.Plan{}).Error
+		if err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return v.NewInvalidErrors(field, mv.Message)
+			}
+
+			return v.NewErrors(field.Name, v.ErrUnsupported, err.Error())
+		}
+
+		return nil
+	})
+
+	return &mv
+}
+
 func (s *service) siteURL(ctx context.Context) *v.MessageValidator {
 	mv := v.MessageValidator{
 		Message: "is not valid",

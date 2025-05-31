@@ -144,7 +144,7 @@
                     "type": "object"
                 },
                 "config": {
-                    "additionalProperties": false,
+                    "additionalProperties": true,
                     "properties": {
                         "defaultPlanName": {
                             "type": "string"
@@ -167,6 +167,11 @@
                             },
                             "type": "object"
                         },
+                        "extra": {
+                            "additionalProperties": true,
+                            "properties": {},
+                            "type": "object"
+                        },
                         "google": {
                             "additionalProperties": false,
                             "properties": {
@@ -181,9 +186,6 @@
                         },
                         "host": {
                             "type": "string"
-                        },
-                        "isHosted": {
-                            "type": "boolean"
                         },
                         "registryAuth": {
                             "additionalProperties": false,
@@ -203,6 +205,9 @@
                         "restApi": {
                             "additionalProperties": false,
                             "properties": {
+                                "basePath": {
+                                    "type": "string"
+                                },
                                 "ingress": {
                                     "additionalProperties": false,
                                     "properties": {
@@ -258,8 +263,21 @@
                             "type": "object"
                         },
                         "stripe": {
-                            "additionalProperties": true,
-                            "properties": {},
+                            "additionalProperties": false,
+                            "properties": {
+                                "metaEnvironment": {
+                                    "type": "string"
+                                },
+                                "publishableKey": {
+                                    "type": "string"
+                                },
+                                "secretKey": {
+                                    "type": "string"
+                                },
+                                "webhookSigningSecret": {
+                                    "type": "string"
+                                }
+                            },
                             "type": "object"
                         },
                         "unverifiedOrganizationDeletionDays": {

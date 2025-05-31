@@ -1,18 +1,17 @@
-package authentication
+package organization
 
 import (
 	"context"
 	"time"
 
 	"github.com/go-errors/errors"
-	"github.com/stripe/stripe-go/v79/customer"
-	"gorm.io/gorm"
+	"github.com/stripe/stripe-go/v82/customer"
 
 	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
 )
 
-func (s *service) DeleteOrganization(ctx context.Context, organizationID uint, params *poeticmetric.OrganizationDeletionParams) error {
-	err := s.validationService.OrganizationDeletionParams(ctx, params)
+func (s *service) DeleteOrganization(ctx context.Context, organizationID uint, request *poeticmetric.OrganizationDeletionRequest) error {
+	err := s.validationService.DeleteOrganizationRequest(ctx, request)
 	if err != nil {
 		return errors.Wrap(err, 0)
 	}
@@ -36,8 +35,8 @@ func (s *service) DeleteOrganization(ctx context.Context, organizationID uint, p
 		UserID:                       user.ID,
 		UserName:                     user.Name,
 		UserEmail:                    user.Email,
-		Reason:                       *params.Reason,
-		Detail:                       params.Detail,
+		Reason:                       *request.Reason,
+		Detail:                       request.Detail,
 	}
 
 	err = poeticmetric.ServicePostgresTransaction(ctx, s, func(ctx context.Context) error {
@@ -82,49 +81,4 @@ func (s *service) ListOrganizationDeletionReasons(ctx context.Context) ([]*poeti
 	}
 
 	return organizationDeletionReasons, nil
-}
-
-func (s *service) ReadOrganization(ctx context.Context, organizationID uint) (*poeticmetric.AuthenticationOrganization, error) {
-	postgres := poeticmetric.ServicePostgres(ctx, s)
-
-	organization := poeticmetric.AuthenticationOrganization{}
-	err := postgres.First(&organization, poeticmetric.Organization{ID: organizationID}, "ID").Error
-	if err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, errors.Wrap(poeticmetric.ErrNotFound, 0)
-		}
-
-		return nil, errors.Wrap(err, 0)
-	}
-
-	return &organization, nil
-}
-
-func (s *service) UpdateOrganization(ctx context.Context, organizationID uint, params *poeticmetric.UpdateOrganizationParams) error {
-	err := s.validationService.UpdateOrganizationParams(ctx, params)
-	if err != nil {
-		return errors.Wrap(err, 0)
-	}
-
-	postgres := poeticmetric.ServicePostgres(ctx, s)
-
-	organization := poeticmetric.Organization{ID: organizationID}
-	err = postgres.Select("ID").First(&organization, organization, "ID").Error
-	if err != nil {
-		return errors.Wrap(err, 0)
-	}
-
-	fields := []string{}
-
-	if params.Name != nil {
-		organization.Name = *params.Name
-		fields = append(fields, "Name")
-	}
-
-	err = postgres.Model(&organization).Select(fields).Updates(&organization).Error
-	if err != nil {
-		return errors.Wrap(err, 0)
-	}
-
-	return nil
 }

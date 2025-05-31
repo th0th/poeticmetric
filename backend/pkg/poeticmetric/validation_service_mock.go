@@ -16,6 +16,10 @@ func (m *ValidationServiceMock) ActivateUserParams(ctx context.Context, params *
 	return m.Called(ctx, params).Error(0)
 }
 
+func (m *ValidationServiceMock) ChangePlanRequest(ctx context.Context, request *ChangePlanRequest) error {
+	return m.Called(ctx, request).Error(0)
+}
+
 func (m *ValidationServiceMock) ChangeUserPasswordParams(ctx context.Context, params *ChangeUserPasswordParams) error {
 	return m.Called(ctx, params).Error(0)
 }
@@ -32,8 +36,8 @@ func (m *ValidationServiceMock) InviteOrganizationUserParams(ctx context.Context
 	return m.Called(ctx, organizationID, params).Error(0)
 }
 
-func (m *ValidationServiceMock) OrganizationDeletionParams(ctx context.Context, params *OrganizationDeletionParams) error {
-	return m.Called(ctx, params).Error(0)
+func (m *ValidationServiceMock) DeleteOrganizationRequest(ctx context.Context, request *OrganizationDeletionRequest) error {
+	return m.Called(ctx, request).Error(0)
 }
 
 func (m *ValidationServiceMock) Postgres() *gorm.DB {
@@ -74,12 +78,12 @@ func (m *ValidationServiceMock) UpdateAuthenticationUserParams(ctx context.Conte
 	return m.Called(ctx, params).Error(0)
 }
 
-func (m *ValidationServiceMock) UpdateOrganizationParams(ctx context.Context, params *UpdateOrganizationParams) error {
+func (m *ValidationServiceMock) UpdateOrganizationRequest(ctx context.Context, params *UpdateOrganizationRequest) error {
 	return m.Called(ctx, params).Error(0)
 }
 
-func (m *ValidationServiceMock) UpdateOrganizationSiteParams(ctx context.Context, organizationID uint, siteID uint, params *UpdateOrganizationSiteParams) error {
-	return m.Called(ctx, organizationID, siteID, params).Error(0)
+func (m *ValidationServiceMock) UpdateOrganizationSiteParams(ctx context.Context, organizationID uint, siteID uint, request *UpdateOrganizationSiteParams) error {
+	return m.Called(ctx, organizationID, siteID, request).Error(0)
 }
 
 func (m *ValidationServiceMock) UpdateOrganizationUserParams(ctx context.Context, organizationID uint, userID uint, params *UpdateOrganizationUserParams) error {

@@ -48,6 +48,16 @@ const routes: Array<RouteObject> = [
           {
             children: [
               { lazy: () => import("~/components/Bootstrap"), path: "bootstrap" },
+
+              // billing
+              {
+                Component: withAuthorization({ isAuthenticated: true, isOrganizationOwner: true }),
+                caseSensitive: true,
+                children: [
+                  { caseSensitive: true, lazy: () => import("~/components/Billing"), path: "billing" },
+                ],
+              },
+
               // settings
               {
                 Component: withAuthorization({ isAuthenticated: true }),

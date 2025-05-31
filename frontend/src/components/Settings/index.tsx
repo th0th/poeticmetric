@@ -1,11 +1,20 @@
 import classNames from "classnames";
-import { NavLink, Outlet } from "react-router";
+import { useEffect } from "react";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router";
 import Breadcrumb from "~/components/Breadcrumb";
 import Title from "~/components/Title";
 import useAuthentication from "~/hooks/useAuthentication";
 
 export default function Settings() {
   const { user } = useAuthentication();
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (pathname === "/settings") {
+      navigate("profile", { replace: true });
+    }
+  }, [navigate, pathname]);
 
   return (
     <>
@@ -30,7 +39,7 @@ export default function Settings() {
                     isActive && "bg-body-secondary",
                     !isActive && "bg-body-tertiary-focus-visible bg-body-tertiary-hover",
                   )}
-                  to="/settings/profile"
+                  to="profile"
                 >
                   Profile
                 </NavLink>
@@ -43,7 +52,7 @@ export default function Settings() {
                     isActive && "bg-body-secondary",
                     !isActive && "bg-body-tertiary-focus-visible bg-body-tertiary-hover",
                   )}
-                  to="/settings/password"
+                  to="password"
                 >
                   Password
                 </NavLink>
@@ -62,7 +71,7 @@ export default function Settings() {
                         isActive && "bg-body-secondary",
                         !isActive && "bg-body-tertiary-focus-visible bg-body-tertiary-hover",
                       )}
-                      to="/settings/organization-details"
+                      to="organization-details"
                     >
                       Organization details
                     </NavLink>
@@ -75,7 +84,7 @@ export default function Settings() {
                         isActive && "bg-body-secondary",
                         !isActive && "bg-body-tertiary-focus-visible bg-body-tertiary-hover",
                       )}
-                      to="/settings/account-deletion"
+                      to="account-deletion"
                     >
                       Account deletion
                     </NavLink>
@@ -87,14 +96,6 @@ export default function Settings() {
 
           <div className="col">
             <Outlet />
-            {/*<Route component={AccountDeletion} path="/settings/account-deletion" />
-            <Route component={OrganizationDetails} path="/settings/organization-details" />
-            <Route component={Password} path="/settings/password" />
-            <Route component={Profile} path="/settings/profile" />
-
-            <Route path="/settings">
-              <Redirect to="/settings/profile" />
-            </Route>*/}
           </div>
         </div>
       </div>

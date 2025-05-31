@@ -1,4 +1,4 @@
-package authentication
+package organization
 
 import (
 	"context"
@@ -47,7 +47,7 @@ func Test_service_ReadOrganization(t *testing.T) {
 			fields  fields
 			args    args
 			setup   func()
-			want    *poeticmetric.AuthenticationOrganization
+			want    *poeticmetric.OrganizationResponse
 			wantErr error
 		}{
 			{
@@ -65,7 +65,7 @@ func Test_service_ReadOrganization(t *testing.T) {
 						WithArgs(1, 1).
 						WillReturnRows(sqlmock.NewRows([]string{"name", "time_zone"}).AddRow("PoeticMetric", "UTC"))
 				},
-				want: &poeticmetric.AuthenticationOrganization{
+				want: &poeticmetric.OrganizationResponse{
 					Name: "PoeticMetric",
 				},
 				wantErr: nil,
@@ -110,15 +110,15 @@ func Test_service_ReadOrganization(t *testing.T) {
 		}
 		modelhelper.Organization(t, postgres, &organization)
 
-		authenticationOrganization, err := s.ReadOrganization(ctx, 1)
+		organizationResponse, err := s.ReadOrganization(ctx, 1)
 		require.NoError(t, err)
 
-		expectedAuthenticationOrganization := poeticmetric.AuthenticationOrganization{
+		expectedAuthenticationOrganization := poeticmetric.OrganizationResponse{
 			Name:     organization.Name,
 		}
 
-		assert.Equal(t, expectedAuthenticationOrganization.Name, authenticationOrganization.Name)
-		assert.NotZero(t, authenticationOrganization.CreatedAt)
-		assert.NotZero(t, authenticationOrganization.UpdatedAt)
+		assert.Equal(t, expectedAuthenticationOrganization.Name, organizationResponse.Name)
+		assert.NotZero(t, organizationResponse.CreatedAt)
+		assert.NotZero(t, organizationResponse.UpdatedAt)
 	})
 }

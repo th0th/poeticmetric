@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { millify } from "millify";
 import { ChangeEvent, JSX, PropsWithoutRef, useState } from "react";
 import PlansContext, { monthlyEventCountSteps, PlansContextState } from "~/contexts/PlansContext";
-import useAuthenticationOrganization from "~/hooks/api/useAuthenticationOrganization";
+import useOrganization from "~/hooks/api/useOrganization";
 import Button from "./Button";
 import Features from "./Features";
 import Price from "./Price";
@@ -11,11 +11,11 @@ import { plans } from "./plans";
 export type PlansProps = Omit<PropsWithoutRef<JSX.IntrinsicElements["div"]>, "children">;
 
 export default function Plans({ ...props }: PlansProps) {
-  const { data: authenticationOrganization } = useAuthenticationOrganization();
+  const { data: organization } = useOrganization();
   const [state, setState] = useState<PlansContextState>({
     monthlyEventCountStepIndex: 0,
     planNameInProgress: null,
-    subscriptionPeriod: authenticationOrganization?.subscriptionPeriod || "MONTH",
+    subscriptionPeriod: organization?.subscriptionPeriod || "MONTH",
   });
 
   function handleMonthlyEventCountStepIndexChange(event: ChangeEvent<HTMLInputElement>) {
@@ -93,19 +93,19 @@ export default function Plans({ ...props }: PlansProps) {
 
           <div className="mt-16">
             <div className="gy-16 row row-cols-1 row-cols-lg-3">
-              {plans.map((plan) => (
-                <div className="col" key={plan.name}>
+              {plans.map((d) => (
+                <div className="col" key={d.name}>
                   <div className="card d-flex flex-column">
                     <div className="card-body">
-                      <h5 className="card-title fw-semi-bold">{plan.name}</h5>
+                      <h5 className="card-title fw-semi-bold">{d.name}</h5>
 
-                      <div className="h-5rem mt-8 text-body-secondary">{plan.description}</div>
+                      <div className="h-5rem mt-8 text-body-secondary">{d.description}</div>
 
-                      <Price plan={plan} />
+                      <Price plan={d} />
 
-                      <Button plan={plan} />
+                      <Button plan={d} />
 
-                      <Features plan={plan} />
+                      <Features plan={d} />
                     </div>
                   </div>
                 </div>

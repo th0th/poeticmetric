@@ -59,6 +59,10 @@ spec:
         - prefix: SMTP_
           secretRef:
             name: {{ $fullname }}-smtp
+        - prefix: STRIPE_
+          secretRef:
+            name: {{ $fullname }}-stripe
+            optional: true
         - prefix: VALKEY_
           configMapRef:
             name: {{ $fullname }}-valkey

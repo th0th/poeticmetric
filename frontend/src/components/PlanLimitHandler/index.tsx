@@ -2,7 +2,7 @@ import { IconMoodSad } from "@tabler/icons-react";
 import classNames from "classnames";
 import { JSX, PropsWithoutRef, useMemo } from "react";
 import { Link } from "react-router";
-import useAuthenticationPlan from "~/hooks/api/useAuthenticationPlan";
+import usePlan from "~/hooks/api/usePlan";
 import useUsers from "~/hooks/api/useUsers";
 import { disableMiddleware } from "~/lib/api";
 
@@ -28,7 +28,7 @@ const tos: Record<PlanLimitHandlerProps["kind"], string> = {
 };
 
 export default function PlanLimitHandler({ children, className, isDisabled, kind, ...props }: PlanLimitHandlerProps) {
-  const { data: plan } = useAuthenticationPlan();
+  const { data: plan } = usePlan();
   const { data: users } = useUsers({ use: kind === "user" ? [] : [disableMiddleware] });
   const description = useMemo(() => descriptions[kind], [kind]);
   const title = useMemo(() => titles[kind], [kind]);

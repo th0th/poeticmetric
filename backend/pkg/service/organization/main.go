@@ -12,19 +12,25 @@ import (
 )
 
 type NewParams struct {
-	EnvService poeticmetric.EnvService
-	Postgres   *gorm.DB
+	EmailService      poeticmetric.EmailService
+	EnvService        poeticmetric.EnvService
+	Postgres          *gorm.DB
+	ValidationService poeticmetric.ValidationService
 }
 
 type service struct {
-	envService poeticmetric.EnvService
-	postgres   *gorm.DB
+	emailService      poeticmetric.EmailService
+	envService        poeticmetric.EnvService
+	postgres          *gorm.DB
+	validationService poeticmetric.ValidationService
 }
 
 func New(params NewParams) poeticmetric.OrganizationService {
 	return &service{
-		envService: params.EnvService,
-		postgres:   params.Postgres,
+		emailService:      params.EmailService,
+		envService:        params.EnvService,
+		postgres:          params.Postgres,
+		validationService: params.ValidationService,
 	}
 }
 
@@ -62,6 +68,51 @@ func (s *service) DeleteUnverifiedOrganizations(ctx context.Context) error {
 
 		return nil
 	})
+	if err != nil {
+		return errors.Wrap(err, 0)
+	}
+
+	return nil
+}
+
+func (s *service) ReadOrganization(ctx context.Context, organizationID uint) (*poeticmetric.OrganizationResponse, error) {
+	postgres := poeticmetric.ServicePostgres(ctx, s)
+
+	organizationResponse := poeticmetric.OrganizationResponse{}
+	err := postgres.First(&organizationResponse, poeticmetric.Organization{ID: organizationID}, "ID").Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, errors.Wrap(poeticmetric.ErrNotFound, 0)
+		}
+
+		return nil, errors.Wrap(err, 0)
+	}
+
+	return &organizationResponse, nil
+}
+
+func (s *service) UpdateOrganization(ctx context.Context, organizationID uint, request *poeticmetric.UpdateOrganizationRequest) error {
+	err := s.validationService.UpdateOrganizationRequest(ctx, request)
+	if err != nil {
+		return errors.Wrap(err, 0)
+	}
+
+	postgres := poeticmetric.ServicePostgres(ctx, s)
+
+	organization := poeticmetric.Organization{ID: organizationID}
+	err = postgres.Select("ID").First(&organization, organization, "ID").Error
+	if err != nil {
+		return errors.Wrap(err, 0)
+	}
+
+	fields := []string{}
+
+	if request.Name != nil {
+		organization.Name = *request.Name
+		fields = append(fields, "Name")
+	}
+
+	err = postgres.Model(&organization).Select(fields).Updates(&organization).Error
 	if err != nil {
 		return errors.Wrap(err, 0)
 	}

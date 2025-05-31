@@ -5,9 +5,10 @@ import (
 )
 
 const (
-	InvitationEmailTemplate       EmailTemplate = "invitation.gohtml"
-	PasswordRecoveryEmailTemplate EmailTemplate = "password-recovery.gohtml"
-	WelcomeEmailTemplate          EmailTemplate = "welcome.gohtml"
+	InvitationEmailTemplate        EmailTemplate = "invitation.gohtml"
+	PasswordRecoveryEmailTemplate  EmailTemplate = "password-recovery.gohtml"
+	SubscriptionStartEmailTemplate EmailTemplate = "subscription-start.gohtml"
+	WelcomeEmailTemplate           EmailTemplate = "welcome.gohtml"
 )
 
 type EmailService interface {
@@ -46,6 +47,7 @@ func EmailTemplates() []EmailTemplate {
 	return []EmailTemplate{
 		InvitationEmailTemplate,
 		PasswordRecoveryEmailTemplate,
+		SubscriptionStartEmailTemplate,
 		WelcomeEmailTemplate,
 	}
 }

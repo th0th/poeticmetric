@@ -67,113 +67,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/authentication/organization": {
-            "get": {
-                "security": [
-                    {
-                        "UserAccessTokenAuthentication": []
-                    }
-                ],
-                "description": "Read currently authenticated user's organization.",
-                "tags": [
-                    "authentication"
-                ],
-                "summary": "Read organization",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/poeticmetric.AuthenticationOrganization"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/responder.DetailResponse"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "security": [
-                    {
-                        "BasicAuthentication": []
-                    }
-                ],
-                "description": "Delete organization and all associated data irreversibly.",
-                "tags": [
-                    "authentication"
-                ],
-                "summary": "Delete organization",
-                "parameters": [
-                    {
-                        "description": "Params",
-                        "name": "params",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/poeticmetric.OrganizationDeletionParams"
-                        }
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No Content"
-                    }
-                }
-            },
-            "patch": {
-                "security": [
-                    {
-                        "UserAccessTokenAuthentication": []
-                    }
-                ],
-                "description": "Update currently authenticated user's organization.",
-                "tags": [
-                    "authentication"
-                ],
-                "summary": "Update organization",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/poeticmetric.AuthenticationOrganization"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/responder.DetailResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/authentication/organization-deletion-reasons": {
-            "get": {
-                "security": [
-                    {
-                        "UserAccessTokenAuthentication": []
-                    }
-                ],
-                "description": "List possible organization deletion reasons.",
-                "tags": [
-                    "authentication"
-                ],
-                "summary": "List organization deletion reasons",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/poeticmetric.OrganizationDeletionReason"
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/authentication/plan": {
             "get": {
                 "security": [
@@ -183,14 +76,14 @@ const docTemplate = `{
                 ],
                 "description": "Read the current plan of the authenticated user's organization.",
                 "tags": [
-                    "authentication"
+                    "organization"
                 ],
                 "summary": "Read plan",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/poeticmetric.AuthenticationPlan"
+                            "$ref": "#/definitions/poeticmetric.PlanResponse"
                         }
                     },
                     "400": {
@@ -482,6 +375,145 @@ const docTemplate = `{
                 "responses": {
                     "201": {
                         "description": "Created"
+                    }
+                }
+            }
+        },
+        "/organization": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read currently authenticated user's organization.",
+                "tags": [
+                    "organization"
+                ],
+                "summary": "Read organization",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/poeticmetric.OrganizationResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BasicAuthentication": []
+                    }
+                ],
+                "description": "Delete organization and all associated data irreversibly.",
+                "tags": [
+                    "organization"
+                ],
+                "summary": "Delete organization",
+                "parameters": [
+                    {
+                        "description": "Request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/poeticmetric.OrganizationDeletionRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            },
+            "patch": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Update currently authenticated user's organization.",
+                "tags": [
+                    "organization"
+                ],
+                "summary": "Update organization",
+                "parameters": [
+                    {
+                        "description": "Request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/poeticmetric.UpdateOrganizationRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/poeticmetric.OrganizationResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/organization/change-plan": {
+            "post": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Change organization plan.",
+                "tags": [
+                    "organization"
+                ],
+                "summary": "Change plan",
+                "parameters": [
+                    {
+                        "description": "Request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/poeticmetric.ChangePlanRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Accepted",
+                        "schema": {
+                            "$ref": "#/definitions/poeticmetric.ChangePlanResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/organization/deletion-reasons": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "List possible organization deletion reasons.",
+                "tags": [
+                    "organization"
+                ],
+                "summary": "List organization deletion reasons",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/poeticmetric.OrganizationDeletionReason"
+                            }
+                        }
                     }
                 }
             }
@@ -3578,37 +3610,6 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "poeticmetric.AuthenticationOrganization": {
-            "type": "object",
-            "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "subscriptionCancelAtPeriodEnd": {
-                    "type": "boolean"
-                },
-                "updatedAt": {
-                    "type": "string"
-                }
-            }
-        },
-        "poeticmetric.AuthenticationPlan": {
-            "type": "object",
-            "properties": {
-                "maxEventsPerMonth": {
-                    "type": "integer"
-                },
-                "maxUsers": {
-                    "type": "integer"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
         "poeticmetric.AuthenticationUser": {
             "type": "object",
             "properties": {
@@ -3672,6 +3673,28 @@ const docTemplate = `{
                 }
             }
         },
+        "poeticmetric.ChangePlanRequest": {
+            "type": "object",
+            "properties": {
+                "maxEventsPerMonth": {
+                    "type": "integer"
+                },
+                "planName": {
+                    "type": "string"
+                },
+                "subscriptionPeriod": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.ChangePlanResponse": {
+            "type": "object",
+            "properties": {
+                "redirectUrl": {
+                    "type": "string"
+                }
+            }
+        },
         "poeticmetric.CreateOrganizationSiteParams": {
             "type": "object",
             "properties": {
@@ -3711,17 +3734,6 @@ const docTemplate = `{
                 }
             }
         },
-        "poeticmetric.OrganizationDeletionParams": {
-            "type": "object",
-            "properties": {
-                "detail": {
-                    "type": "string"
-                },
-                "reason": {
-                    "type": "string"
-                }
-            }
-        },
         "poeticmetric.OrganizationDeletionReason": {
             "type": "object",
             "properties": {
@@ -3732,6 +3744,46 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "reason": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.OrganizationDeletionRequest": {
+            "type": "object",
+            "properties": {
+                "detail": {
+                    "type": "string"
+                },
+                "reason": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.OrganizationResponse": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "isOnTrial": {
+                    "type": "boolean"
+                },
+                "isStripeCustomer": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "subscriptionCancelAtPeriodEnd": {
+                    "type": "boolean"
+                },
+                "subscriptionPeriod": {
+                    "type": "string"
+                },
+                "trialEndsAt": {
+                    "type": "string"
+                },
+                "updatedAt": {
                     "type": "string"
                 }
             }
@@ -3796,6 +3848,20 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.PlanResponse": {
+            "type": "object",
+            "properties": {
+                "maxEventsPerMonth": {
+                    "type": "integer"
+                },
+                "maxUsers": {
+                    "type": "integer"
+                },
+                "name": {
                     "type": "string"
                 }
             }
@@ -4379,6 +4445,14 @@ const docTemplate = `{
                 },
                 "visitorCount": {
                     "type": "integer"
+                }
+            }
+        },
+        "poeticmetric.UpdateOrganizationRequest": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
                 }
             }
         },

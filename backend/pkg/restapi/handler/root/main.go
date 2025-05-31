@@ -22,6 +22,13 @@ func New(params NewParams) Handler {
 
 func (h *Handler) Index() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, h.envService.RestApiBasePath(), http.StatusFound)
+		basePath := "/"
+
+		restAPIBasePath := h.envService.RESTApiBasePath()
+		if restAPIBasePath != nil {
+			basePath = *restAPIBasePath
+		}
+
+		http.Redirect(w, r, basePath, http.StatusFound)
 	}
 }

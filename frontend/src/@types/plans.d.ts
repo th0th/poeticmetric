@@ -13,9 +13,9 @@ type PlanFeature = {
   variant?: "body-secondary" | "success";
 };
 
-type PlanMonthlyEventCount = 100000 | 500000 | 1000000 | 2000000 | 5000000;
+type PlanMaxEventsPerMonth = 100000 | 500000 | 1000000 | 2000000 | 5000000;
 
-type PlanPrice = "Free" | Record<PlanMonthlyEventCount, number> | {
+type PlanPrice = "Free" | Record<PlanMaxEventsPerMonth, number> | {
   amount: number;
-  subscriptionPeriod: AuthenticationOrganizationSubscriptionPeriod;
+  subscriptionPeriod: OrganizationResponseSubscriptionPeriod;
 };

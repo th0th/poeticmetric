@@ -15,9 +15,11 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
+	"github.com/th0th/poeticmetric/backend/pkg/service/email"
 	"github.com/th0th/poeticmetric/backend/pkg/service/env"
 	"github.com/th0th/poeticmetric/backend/pkg/service/event"
 	"github.com/th0th/poeticmetric/backend/pkg/service/organization"
+	"github.com/th0th/poeticmetric/backend/pkg/service/validation"
 	workerservice "github.com/th0th/poeticmetric/backend/pkg/service/worker"
 )
 
@@ -28,6 +30,8 @@ func main() {
 	if err != nil {
 		Logger.Panic().Stack().Err(errors.Wrap(err, 0)).Msg("env initialization failed")
 	}
+
+	envService.ConfigureStripe()
 
 	postgres, err := gorm.Open(gormpostgres.Open(envService.PostgresDsn()), envService.GormConfig())
 	if err != nil {
@@ -62,15 +66,29 @@ func main() {
 	defer valkey.Close()
 
 	// services
+	emailService, err := email.New(email.NewParams{
+		EnvService: envService,
+	})
+	if err != nil {
+		Logger.Panic().Stack().Err(errors.Wrap(err, 0)).Msg("email service initialization failed")
+	}
+
 	eventService := event.New(event.NewParams{
 		ClickHouse: clickHouse,
 		Postgres:   postgres,
 		Valkey:     valkey,
 	})
 
-	organizationService := organization.New(organization.NewParams{
+	validationService := validation.New(validation.NewParams{
 		EnvService: envService,
 		Postgres:   postgres,
+	})
+
+	organizationService := organization.New(organization.NewParams{
+		EmailService:      emailService,
+		EnvService:        envService,
+		Postgres:          postgres,
+		ValidationService: validationService,
 	})
 
 	locker, err := valkeylock.NewLocker(valkeylock.LockerOption{

@@ -1,24 +1,4 @@
 definitions:
-  poeticmetric.AuthenticationOrganization:
-    properties:
-      createdAt:
-        type: string
-      name:
-        type: string
-      subscriptionCancelAtPeriodEnd:
-        type: boolean
-      updatedAt:
-        type: string
-    type: object
-  poeticmetric.AuthenticationPlan:
-    properties:
-      maxEventsPerMonth:
-        type: integer
-      maxUsers:
-        type: integer
-      name:
-        type: string
-    type: object
   poeticmetric.AuthenticationUser:
     properties:
       createdAt:
@@ -60,6 +40,20 @@ definitions:
       userPassword2:
         type: string
     type: object
+  poeticmetric.ChangePlanRequest:
+    properties:
+      maxEventsPerMonth:
+        type: integer
+      planName:
+        type: string
+      subscriptionPeriod:
+        type: string
+    type: object
+  poeticmetric.ChangePlanResponse:
+    properties:
+      redirectUrl:
+        type: string
+    type: object
   poeticmetric.CreateOrganizationSiteParams:
     properties:
       domain:
@@ -85,13 +79,6 @@ definitions:
       value:
         type: string
     type: object
-  poeticmetric.OrganizationDeletionParams:
-    properties:
-      detail:
-        type: string
-      reason:
-        type: string
-    type: object
   poeticmetric.OrganizationDeletionReason:
     properties:
       detailTitle:
@@ -99,6 +86,32 @@ definitions:
       order:
         type: integer
       reason:
+        type: string
+    type: object
+  poeticmetric.OrganizationDeletionRequest:
+    properties:
+      detail:
+        type: string
+      reason:
+        type: string
+    type: object
+  poeticmetric.OrganizationResponse:
+    properties:
+      createdAt:
+        type: string
+      isOnTrial:
+        type: boolean
+      isStripeCustomer:
+        type: boolean
+      name:
+        type: string
+      subscriptionCancelAtPeriodEnd:
+        type: boolean
+      subscriptionPeriod:
+        type: string
+      trialEndsAt:
+        type: string
+      updatedAt:
         type: string
     type: object
   poeticmetric.OrganizationSite:
@@ -141,6 +154,15 @@ definitions:
       name:
         type: string
       updatedAt:
+        type: string
+    type: object
+  poeticmetric.PlanResponse:
+    properties:
+      maxEventsPerMonth:
+        type: integer
+      maxUsers:
+        type: integer
+      name:
         type: string
     type: object
   poeticmetric.ResetUserPasswordParams:
@@ -518,6 +540,11 @@ definitions:
       visitorCount:
         type: integer
     type: object
+  poeticmetric.UpdateOrganizationRequest:
+    properties:
+      name:
+        type: string
+    type: object
   poeticmetric.UpdateOrganizationSiteParams:
     properties:
       domain:
@@ -583,71 +610,6 @@ paths:
       summary: Change password
       tags:
       - authentication
-  /authentication/organization:
-    delete:
-      description: Delete organization and all associated data irreversibly.
-      parameters:
-      - description: Params
-        in: body
-        name: params
-        required: true
-        schema:
-          $ref: '#/definitions/poeticmetric.OrganizationDeletionParams'
-      responses:
-        "204":
-          description: No Content
-      security:
-      - BasicAuthentication: []
-      summary: Delete organization
-      tags:
-      - authentication
-    get:
-      description: Read currently authenticated user's organization.
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/poeticmetric.AuthenticationOrganization'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/responder.DetailResponse'
-      security:
-      - UserAccessTokenAuthentication: []
-      summary: Read organization
-      tags:
-      - authentication
-    patch:
-      description: Update currently authenticated user's organization.
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/poeticmetric.AuthenticationOrganization'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/responder.DetailResponse'
-      security:
-      - UserAccessTokenAuthentication: []
-      summary: Update organization
-      tags:
-      - authentication
-  /authentication/organization-deletion-reasons:
-    get:
-      description: List possible organization deletion reasons.
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/poeticmetric.OrganizationDeletionReason'
-            type: array
-      security:
-      - UserAccessTokenAuthentication: []
-      summary: List organization deletion reasons
-      tags:
-      - authentication
   /authentication/plan:
     get:
       description: Read the current plan of the authenticated user's organization.
@@ -655,7 +617,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/poeticmetric.AuthenticationPlan'
+            $ref: '#/definitions/poeticmetric.PlanResponse'
         "400":
           description: Bad Request
           schema:
@@ -664,7 +626,7 @@ paths:
       - UserAccessTokenAuthentication: []
       summary: Read plan
       tags:
-      - authentication
+      - organization
   /authentication/resend-user-email-address-verification-email:
     post:
       description: Resend the e-mail with the e-mail address verification code to
@@ -847,6 +809,90 @@ paths:
       summary: Run bootstrap
       tags:
       - boostrap
+  /organization:
+    delete:
+      description: Delete organization and all associated data irreversibly.
+      parameters:
+      - description: Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/poeticmetric.OrganizationDeletionRequest'
+      responses:
+        "204":
+          description: No Content
+      security:
+      - BasicAuthentication: []
+      summary: Delete organization
+      tags:
+      - organization
+    get:
+      description: Read currently authenticated user's organization.
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/poeticmetric.OrganizationResponse'
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read organization
+      tags:
+      - organization
+    patch:
+      description: Update currently authenticated user's organization.
+      parameters:
+      - description: Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/poeticmetric.UpdateOrganizationRequest'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/poeticmetric.OrganizationResponse'
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Update organization
+      tags:
+      - organization
+  /organization/change-plan:
+    post:
+      description: Change organization plan.
+      parameters:
+      - description: Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/poeticmetric.ChangePlanRequest'
+      responses:
+        "202":
+          description: Accepted
+          schema:
+            $ref: '#/definitions/poeticmetric.ChangePlanResponse'
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Change plan
+      tags:
+      - organization
+  /organization/deletion-reasons:
+    get:
+      description: List possible organization deletion reasons.
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/poeticmetric.OrganizationDeletionReason'
+            type: array
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: List organization deletion reasons
+      tags:
+      - organization
   /site-reports/browser-name:
     get:
       description: Read browser name report for a site.
