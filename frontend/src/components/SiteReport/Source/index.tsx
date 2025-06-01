@@ -3,6 +3,7 @@ import { Dropdown, DropdownProps } from "react-bootstrap";
 import { useSearchParams } from "react-router";
 import GoogleSearchTerms from "~/components/SiteReport/Source/GoogleSearchTerms";
 import Referrer from "~/components/SiteReport/Source/Referrer";
+import useSiteReportData from "~/hooks/useSiteReportData";
 
 type Section = {
   content: ReactNode;
@@ -13,11 +14,17 @@ type Section = {
 const routerQuerySectionSlugKey = "source";
 
 export default function Source() {
+  const { site } = useSiteReportData();
   const [searchParams, setSearchParams] = useSearchParams();
-  const sections: Array<Section> = useMemo(() => [
-    { content: <Referrer />, title: "Referrers" },
-    { content: <GoogleSearchTerms />, slug: "google-search-terms", title: "Google search terms" },
-  ], []);
+  const sections: Array<Section> = useMemo(() => {
+    const v: Array<Section> = [{ content: <Referrer />, title: "Referrers" }];
+
+    if (site.googleSearchConsoleSiteURL !== null) {
+      v.push({ content: <GoogleSearchTerms />, slug: "google-search-terms", title: "Google search terms" });
+    }
+
+    return v;
+  }, [site.googleSearchConsoleSiteURL]);
   const section = useMemo<Section>(() => {
     const slug = searchParams.get(routerQuerySectionSlugKey);
 
@@ -42,20 +49,26 @@ export default function Source() {
     <div className="card">
       <div className="card-body d-flex flex-column h-18rem">
         <div className="align-items-center d-flex h-2rem mb-6">
-          <Dropdown onSelect={handleDropdownSelect}>
-            <Dropdown.Toggle
-              as="button"
-              className="bg-transparent bg-opacity-10-hover bg-primary-hover border-0 fw-medium px-4 rounded text-body"
-            >
-              {section.title}
-            </Dropdown.Toggle>
+          {sections.length > 1 ? (
+            <Dropdown onSelect={handleDropdownSelect}>
+              <Dropdown.Toggle
+                as="button"
+                className="bg-transparent bg-opacity-10-hover bg-primary-hover border-0 fw-medium px-4 rounded text-body"
+              >
+                {section.title}
+              </Dropdown.Toggle>
 
-            <Dropdown.Menu>
-              {sections.map((d) => (
-                <Dropdown.Item eventKey={d.slug} key={d.title}>{d.title}</Dropdown.Item>
-              ))}
-            </Dropdown.Menu>
-          </Dropdown>
+              <Dropdown.Menu>
+                {sections.map((d) => (
+                  <Dropdown.Item eventKey={d.slug} key={d.title}>{d.title}</Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
+          ) : (
+            <>
+              <div className="fw-medium">{section.title}</div>
+            </>
+          )}
         </div>
 
         {section.content}

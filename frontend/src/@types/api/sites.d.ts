@@ -198,7 +198,7 @@ type HydratedSiteVisitorReportDatum = Overwrite<SiteVisitorReportDatum, {
 type Site = {
   createdAt: string;
   domain: string;
-  googleSearchConsoleSiteUrl: string | null;
+  googleSearchConsoleSiteURL: string | null;
   hasEvents: boolean;
   id: number;
   isPublic: boolean;

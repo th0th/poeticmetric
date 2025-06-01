@@ -37,6 +37,7 @@ spec:
             configMapKeyRef:
               key: IS_HOSTED
               name: {{ include "poeticmetric.fullname" . }}-poeticmetric
+              optional: true
         - name: VITE_REST_API_BASE_URL
           valueFrom:
             configMapKeyRef:

@@ -1,6 +1,7 @@
 import { IconArrowRight, IconTrendingDown, IconTrendingUp, TablerIcon } from "@tabler/icons-react";
 import classNames from "classnames";
 import { createElement } from "react";
+import ActivityIndicator from "~/components/ActivityIndicator";
 import useSiteOverviewReport from "~/hooks/api/useSiteOverviewReport";
 
 const changeVariantIcons: Record<DisplayVariant, TablerIcon> = {
@@ -22,7 +23,9 @@ export default function Overview() {
     <div className="card">
       <div className="card-body">
         {report === undefined ? (
-          <div>loading</div>
+          <div className="align-items-center d-flex flex-fill justify-content-center">
+            <ActivityIndicator />
+          </div>
         ) : (
           <div className="gy-6 row row-cols-1 row-cols-lg-4 row-cols-sm-2 text-center text-sm-start">
             <div className="col">
@@ -30,7 +33,12 @@ export default function Overview() {
 
               <div className="fs-3 fw-medium">{report.visitorCountDisplay}</div>
 
-              <div className={classNames("fs-7 gap-2 hstack justify-content-center justify-content-sm-start", changeVariantClassNames[report.visitorCountPercentageChangeVariant])}>
+              <div
+                className={classNames(
+                  "fs-7 gap-2 hstack justify-content-center justify-content-sm-start",
+                  changeVariantClassNames[report.visitorCountPercentageChangeVariant],
+                )}
+              >
                 {createElement(changeVariantIcons[report.visitorCountPercentageChangeVariant], { size: "1em" })}
 
                 {`${report.visitorCountPercentageChange}%`}
@@ -42,7 +50,12 @@ export default function Overview() {
 
               <div className="fs-3 fw-medium">{report.pageViewCountDisplay}</div>
 
-              <div className={classNames("fs-7 gap-2 hstack justify-content-center justify-content-sm-start", changeVariantClassNames[report.pageViewCountPercentageChangeVariant])}>
+              <div
+                className={classNames(
+                  "fs-7 gap-2 hstack justify-content-center justify-content-sm-start",
+                  changeVariantClassNames[report.pageViewCountPercentageChangeVariant],
+                )}
+              >
                 {createElement(changeVariantIcons[report.pageViewCountPercentageChangeVariant], { size: "1em" })}
 
                 {`${report.pageViewCountPercentageChange}%`}
@@ -55,7 +68,10 @@ export default function Overview() {
               <div className="fs-3 fw-medium">{report.pageViewCountPerVisitorDisplay}</div>
 
               <div
-                className={classNames("fs-7 gap-2 hstack justify-content-center justify-content-sm-start", changeVariantClassNames[report.pageViewCountPerVisitorPercentageChangeVariant])}
+                className={classNames(
+                  "fs-7 gap-2 hstack justify-content-center justify-content-sm-start",
+                  changeVariantClassNames[report.pageViewCountPerVisitorPercentageChangeVariant],
+                )}
               >
                 {createElement(changeVariantIcons[report.pageViewCountPerVisitorPercentageChangeVariant], { size: "1em" })}
 
@@ -69,7 +85,10 @@ export default function Overview() {
               <div className="fs-3 fw-medium">{report.averagePageViewDurationSecondsDisplay}</div>
 
               <div
-                className={classNames("fs-7 gap-2 hstack justify-content-center justify-content-sm-start", changeVariantClassNames[report.averagePageViewDurationSecondsPercentageChangeVariant])}
+                className={classNames(
+                  "fs-7 gap-2 hstack justify-content-center justify-content-sm-start",
+                  changeVariantClassNames[report.averagePageViewDurationSecondsPercentageChangeVariant],
+                )}
               >
                 {createElement(changeVariantIcons[report.averagePageViewDurationSecondsPercentageChangeVariant], { size: "1em" })}
 
