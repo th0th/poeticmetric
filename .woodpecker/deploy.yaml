@@ -56,7 +56,7 @@ steps:
   - echo $${KUBE_CONFIG} | base64 -d > ~/.kube/config
   - chmod 400 ~/.kube/config
   - |
-    if [ -z "$${RESET}" ]; then
+    if [ -n "$${RESET}" ]; then
       kubectl --namespace "$${KUBERNETES_NAMESPACE}" rollout restart statefulsets
       sleep 4
     fi
