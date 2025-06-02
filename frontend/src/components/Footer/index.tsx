@@ -95,8 +95,8 @@ export default function Footer({ className, ...props }: FooterProps) {
             <Logo className="flex-shrink-0 h-2rem" logotype />
 
             <div className="fs-7 text-body-secondary">
-              WebGazer keeps an eye on your online services so you don&apos;t have to. Monitor your websites, servers, and cron jobs, and
-              host status pages to keep everything running smoothly. Simple, reliable, and straightforward.
+              PoeticMetric gives you clear, privacy-friendly analytics to help your business grow. Get insights you trust, stay compliant,
+              and keep control of your data. All made easy with open source.
             </div>
           </div>
 
