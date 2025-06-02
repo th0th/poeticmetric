@@ -1,44 +1,32 @@
-# Building a Better Web: PoeticMetric's Vision
+### Building a better web:
 
-Many of the analytics tools out there give analytics, and even marketing, a bad name. For more than 15 years since it was made available in 2005, Google Analytics has been the go-to tool for businesses. It has been proven [way](https://www.nytimes.com/2019/09/04/technology/google-youtube-fine-ftc.html)  [too](https://www.bbc.com/news/technology-46944696)  [many](https://www.nytimes.com/2019/01/21/technology/google-europe-gdpr-fine.html)  [times](https://digitalguardian.com/blog/google-fined-57m-data-protection-watchdog-over-gdpr-violations) that even if it is advertised as free, it comes with a crucial cost: **Breach of people's privacy and abuse of people's psychological vulnerabilities to make more profit.**
+# PoeticMetric's Vision
 
-My personal disturbance about the data abuse became more bothersome as I kept coming across news articles about big companies like Google and Facebook abusing the data they collect. Fortunately, there have been some developments, both regulatory and public opinion-wise. There are academics doing research on the social and psychological impacts of surveillance capitalism, and as a result, lawmakers are making new regulations to stop this misconduct.
+For years, businesses have relied on products like Google Analytics, but every "free" offer often comes at an invisible cost: **your users' privacy and your own peace of mind**. That story is finally shifting, thanks to new rules, growing awareness, and, most importantly, solutions that put people back in control.
 
-**This, though, doesn't mean that the problem is solved.** Since there hasn't been anything stopping big companies from collecting, processing, and exploiting people's personal data for years, now there is a habitual pattern of "drifting with the tide" and not really caring about data privacy among the makers. No one is to blame, after all, this is what all of us found ourselves in without even noticing.
+I started PoeticMetric out of frustration with endless headlines about data misuse and shady marketing. But venting about the state of the industry only gets you so far. **If we want to change things for good, we need to offer businesses tools that don't just protect privacy, but actually help them grow and make smarter decisions.**
 
-What is the solution then? Well, expecting everybody to stop all these existing detrimental tools altogether at once is not realistic. What we should do instead is, **we should build safe equivalents to these tools and invite and accommodate other people.**
+That is what PoeticMetric is for. You get all the benefits of powerful analytics. Clarity, insight, and the confidence to make real improvements without having to trade away your values, your users' trust, or your company's compliance with privacy laws.
 
-That is where PoeticMetric comes in. **PoeticMetric is a free as in freedom, privacy-first, open source, regulation-compliant, and blazingly fast analytics tool.** And these are the four principles followed in the making of the PoeticMetric:
+As PoeticMetric has grown, I have noticed that a few simple ideas come up again and again. Whether I am planning features, hearing from users, or just thinking about what I wish analytics tools could do, these principles have a way of guiding every decision. They are not just empty words or nice marketing lines. They are the backbone of how we work and what we build.
 
-## 0. Freedom and data privacy above all
+## 0. Freedom and privacy for everyone
 
-PoeticMetric's primary principle is based on the [Free Software Foundation's free software definition](https://www.gnu.org/philosophy/free-sw.en.html) and the focus on information privacy.
+PoeticMetric is **free as in freedom**, and also **free as in beer** with the pro bono **Hobbyist** plan. The code is open and yours to explore, and your data stays yours. You never have to worry about it being sold, shared, or turned into someone else's ad revenue. We are here so you can make real, data-informed decisions for your business, knowing you are staying on the right side of the law and the people who use your site.
 
-**In order to represent a step forward to solve the surveillance capitalism problem software freedom and the data privacy focus is the principle we uphold above all.**
+## 1. Transparency you can check for yourself
 
-You probably heard the saying, "if you don't pay for the product, you are the product.". Google Analytics is free of charge because Google uses your website's visitor data to discover future patterns in the visitor's behavior and sell that to their own customer for ads. This is not a secret, it is their business model. This is not the case for PoeticMetric. The data collected from your website is 100% yours. We don't sell or monetize your data in any way.
+It shouldn't be up to trust alone. Our [full source code is public](https://codeberg.org/poeticmetric/poeticmetric), and we are clear about how data flows and what actually gets tracked. You can dive in, ask questions, export your site's analytics, or delete it all any time you choose.
 
-Technically speaking, in order to prevent abusive behavioral analysis, we don't collect, process, or encrypt any personal data; we don't use any technology that will allow anybody, even us, to pinpoint any individual.
+## 2. Insight, not overwhelm
 
-## 1. Transparency
+PoeticMetric is built to give you what actually matters: useful answers, not endless spreadsheets or vague numbers. Whether you are running a side project, a fast-growing business, or a larger operation, you get the information you need, right when you need it. We have kept the setup simple, the performance fast, and the reports easy to understand so you can focus on running your site, not deciphering your analytics.
 
-We say we don't do any harm. If you don't take my word for it, you can see it yourself: [PoeticMetric's full source code is publicly available.](https://github.com/th0th/poeticmetric)
+## 3. Sustainability, plain and simple
 
-Since the collected data is **100% yours as the site owner**, you can choose to export all the data or purge it irreversibly at any time.
+We are a bootstrapped, for-profit company, and that means no chasing after big investors or taking on features we don't believe in. Our goal is to stay self-sufficient so we can keep building features our actual users want, not just what looks good in a pitch deck. With our Free plan, you can get started and see if PoeticMetric fits your needs before you ever spend a dime.
 
-## 2. Efficiency
-
-There are all these analytics tools for the sake of the same thing: Marketing. At PoeticMetric, we might have a different approach when it comes to privacy. Still, in the end, **we are here to deliver the tool businesses need to get insights about their visitors and make decisions accordingly.** There are few other tools trying to accomplish the same goal as PoeticMetric: Privacy-focused analytics. **Sometimes we call them competitors, but sometimes comrades.**
-
-In order to be sustainable, we need to stay ahead of this competition. **So, we have to offer a secure, fast, practical, and easy-to-use service.** We keep that in mind while deciding on components that we pick to rely on, provisioning the infrastructure and provider to run the platform on, choosing features to implement with our limited workforce. We work hard to offer the best solution you need for your analytics needs.
-
-## 3. Sustainability
-
-**We are a for-profit, bootstrapped US company, and we rely solely on the revenue we generate.** It might mean that we miss some advantages that VC-backed startups have, like great media exposure or access to a bigger talent pool. However, not having investors to please, lets us focus on what we believe is important and not compromise.
-
-Since we don't have the option to spend money we don't make, we must be sustainable. No "build now, monetize later" attitude also means no "free plan". We have to charge from day one.
-
-**I hope PoeticMetric suits your business' needs, if not, don't hesitate to let us know, there is always room for improvement, and we are ready.**
+If something isn't working for you, or there is a feature we are missing that would make your life easier, please let us know. We are building this for you, and we are always listening.
 
 Cheers,  
 Gokhan

@@ -44,5 +44,16 @@ steps:
   image: node:24
   name: frontend
 
+- commands:
+  - |
+    SUM1=$(sha256sum MANIFESTO.md | awk '{print $1}')
+    SUM2=$(sha256sum frontend/src/components/Manifesto/manifesto.md | awk '{print $1}')
+    if [ "$SUM1" != "$SUM2" ]; then
+      echo "Manifesto file has changed, please update the frontend/src/components/Manifesto/manifesto.md file."
+      exit 1
+    fi
+  image: alpine:3
+  name: check-manifesto
+
 when:
 - event: pull_request
