@@ -518,6 +518,38 @@ const docTemplate = `{
                 }
             }
         },
+        "/public-sites/{siteDomain}": {
+            "get": {
+                "description": "Read a public site by its domain.",
+                "tags": [
+                    "sites"
+                ],
+                "summary": "Read public site",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Site Domain",
+                        "name": "siteDomain",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/poeticmetric.PublicSiteResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/responder.DetailResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/site-reports/browser-name": {
             "get": {
                 "security": [
@@ -3860,6 +3892,23 @@ const docTemplate = `{
                 },
                 "maxUsers": {
                     "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "poeticmetric.PublicSiteResponse": {
+            "type": "object",
+            "properties": {
+                "domain": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "isGoogleSearchConsoleSiteURLSet": {
+                    "type": "boolean"
                 },
                 "name": {
                     "type": "string"

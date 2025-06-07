@@ -93,7 +93,7 @@ func (s *service) SetSiteGoogleOAuthRefreshTokenParams(ctx context.Context, para
 	return token, nil
 }
 
-func (s *service) SiteReportFilters(ctx context.Context, organizationID uint, filters *poeticmetric.SiteReportFilters) error {
+func (s *service) SiteReportFilters(ctx context.Context, organizationID *uint, filters *poeticmetric.SiteReportFilters) error {
 	validationErrs := v.Validate(v.Schema{
 		v.F("end", filters.End): v.All(
 			v.Nonzero[time.Time]().Msg("This field is required."),
@@ -106,7 +106,7 @@ func (s *service) SiteReportFilters(ctx context.Context, organizationID uint, fi
 		v.F("siteID", filters.SiteID): v.All(
 			v.Nonzero[uint]().Msg("This field is required."),
 
-			s.organizationSiteID(ctx, organizationID).Msg("Please provide a valid site ID."),
+			s.siteIDForReports(ctx, organizationID).Msg("Please provide a valid site ID."),
 		),
 
 		v.F("start", filters.Start): v.Nonzero[time.Time]().Msg("This field is required."),
@@ -165,41 +165,6 @@ func (s *service) UpdateOrganizationSiteParams(ctx context.Context, organization
 	}
 
 	return nil
-}
-
-func (s *service) organizationSiteID(ctx context.Context, organizationID uint) *v.MessageValidator {
-	mv := v.MessageValidator{
-		Message: "is not valid",
-	}
-
-	mv.Validator = v.Func(func(field *v.Field) v.Errors {
-		value, ok := field.Value.(uint)
-		if !ok {
-			return v.NewUnsupportedErrors("organizationSiteID", field, "uint")
-		}
-
-		postgres := poeticmetric.ServicePostgres(ctx, s)
-
-		err := postgres.
-			Model(&poeticmetric.Site{}).
-			Where(poeticmetric.Site{
-				ID:             value,
-				OrganizationID: organizationID,
-			}).
-			First(&poeticmetric.Site{}).
-			Error
-		if err != nil {
-			if errors.Is(err, gorm.ErrRecordNotFound) {
-				return v.NewInvalidErrors(field, mv.Message)
-			}
-
-			return v.NewErrors(field.Name, v.ErrUnsupported, err.Error())
-		}
-
-		return nil
-	})
-
-	return &mv
 }
 
 func (s *service) uniqueSiteDomain(ctx context.Context, domain string, siteID *uint) (bool, error) {

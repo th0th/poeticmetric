@@ -151,6 +151,39 @@ func (s *service) planName(ctx context.Context) *v.MessageValidator {
 	return &mv
 }
 
+func (s *service) siteIDForReports(ctx context.Context, organizationID *uint) *v.MessageValidator {
+	mv := v.MessageValidator{
+		Message: "invalid site ID",
+	}
+
+	mv.Validator = v.Func(func(field *v.Field) v.Errors {
+		value, ok := field.Value.(uint)
+		if !ok {
+			return v.NewUnsupportedErrors("siteIDForReports", field, "uint")
+		}
+
+		postgres := poeticmetric.ServicePostgres(ctx, s)
+
+		site := poeticmetric.Site{}
+		err := postgres.Select("IsPublic", "OrganizationID").First(&site, poeticmetric.Site{ID: value}, "ID").Error
+		if err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return v.NewInvalidErrors(field, mv.Message)
+			}
+
+			return v.NewErrors(field.Name, v.ErrUnsupported, err.Error())
+		}
+
+		if site.IsPublic || (organizationID != nil && site.OrganizationID == *organizationID) {
+			return nil
+		}
+
+		return v.NewInvalidErrors(field, mv.Message)
+	})
+
+	return &mv
+}
+
 func (s *service) siteURL(ctx context.Context) *v.MessageValidator {
 	mv := v.MessageValidator{
 		Message: "is not valid",

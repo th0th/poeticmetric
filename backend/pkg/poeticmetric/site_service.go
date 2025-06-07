@@ -19,6 +19,7 @@ type SiteService interface {
 	ListGoogleSearchConsoleSites(ctx context.Context, organizationID uint, siteID uint) ([]*GoogleSearchConsoleSite, error)
 	ListOrganizationSites(ctx context.Context, organizationID uint) ([]*OrganizationSite, error)
 	ReadOrganizationSite(ctx context.Context, organizationID uint, siteID uint) (*OrganizationSite, error)
+	ReadPublicSite(ctx context.Context, siteDomain string) (*PublicSiteResponse, error)
 	ReadSiteBrowserNameReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteBrowserNameReportPaginationCursor]) (*SiteBrowserNameReport, error)
 	ReadSiteBrowserVersionReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteBrowserVersionReportPaginationCursor]) (*SiteBrowserVersionReport, error)
 	ReadSiteCountryReport(ctx context.Context, filters *SiteReportFilters, paginationCursor *SiteReportPaginationCursor[SiteCountryReportPaginationCursor]) (*SiteCountryReport, error)
@@ -58,7 +59,7 @@ type OrganizationSite struct {
 	CreatedAt                  time.Time `json:"createdAt"`
 	Domain                     string    `json:"domain"`
 	GoogleOauthRefreshToken    *string   `json:"-"`
-	GoogleSearchConsoleSiteUrl *string   `json:"googleSearchConsoleSiteURL"`
+	GoogleSearchConsoleSiteURL *string   `json:"googleSearchConsoleSiteURL"`
 	HasEvents                  bool      `json:"hasEvents"`
 	HasGoogleOauth             bool      `gorm:"-" json:"hasGoogleOauth"`
 	ID                         uint      `json:"id"`

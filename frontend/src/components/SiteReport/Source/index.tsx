@@ -19,12 +19,12 @@ export default function Source() {
   const sections: Array<Section> = useMemo(() => {
     const v: Array<Section> = [{ content: <Referrer />, title: "Referrers" }];
 
-    if (site.googleSearchConsoleSiteURL !== null) {
+    if (site.isGoogleSearchConsoleSiteURLSet !== null) {
       v.push({ content: <GoogleSearchTerms />, slug: "google-search-terms", title: "Google search terms" });
     }
 
     return v;
-  }, [site.googleSearchConsoleSiteURL]);
+  }, [site.isGoogleSearchConsoleSiteURLSet]);
   const section = useMemo<Section>(() => {
     const slug = searchParams.get(routerQuerySectionSlugKey);
 

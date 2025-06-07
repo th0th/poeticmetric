@@ -56,7 +56,16 @@ export default function SiteForm() {
       return v;
     },
   });
-  const { formState: { errors, isLoading, isSubmitSuccessful, isSubmitting }, handleSubmit, register, setError } = form;
+  const { formState: { errors, isLoading, isSubmitSuccessful, isSubmitting }, handleSubmit, register, setError, watch } = form;
+  const domain = watch("domain");
+
+  const publicURL = useMemo(() => {
+    if (domain === "") {
+      return null;
+    }
+
+    return `${import.meta.env.VITE_BASE_URL}/s?d=${domain}`;
+  }, [domain]);
 
   async function submit(data: Form) {
     const hydratedData = {
@@ -155,6 +164,35 @@ export default function SiteForm() {
                 {siteID !== null ? (
                   <GoogleSearchConsole siteID={siteID} />
                 ) : null}
+
+                <div>
+                  <h5>Public reports</h5>
+
+                  <div className="card">
+                    <div className="card-body">
+                      <div className="gap-8 vstack">
+                        <div className="form-text">
+                          To make your site&apos;s stats public, you can enable this option. When this is option is enabled, your
+                          site&apos;s statis will be accessible by everyone
+                          {publicURL === null ? "." : `at ${publicURL}.`}
+                        </div>
+
+                        <div className="form-check">
+                          <input
+                            className={classNames("form-check-input", { "is-invalid": errors.isPublic })}
+                            id="input-is-public"
+                            type="checkbox"
+                            {...register("isPublic")}
+                          />
+
+                          <label className="form-check-label" htmlFor="input-is-public">
+                            Make this site&apos;s reports publicly available
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
                 <div>
                   <button className="align-items-center btn btn-primary d-flex gap-4" type="submit">

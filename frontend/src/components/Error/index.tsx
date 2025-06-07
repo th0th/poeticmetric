@@ -5,14 +5,14 @@ import ImageError from "./error.svg";
 
 export type ErrorProps = {
   error: any;
-  resetErrorBoundary: (...args: any[]) => void;
+  resetErrorBoundary?: (...args: any[]) => void;
 };
 
 export default function Error({ error, resetErrorBoundary }: ErrorProps) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const isAuthenticationFailed = useMemo(() => error.message === "Invalid credentials.", [error]);
+  const isAuthenticationFailed = useMemo(() => error?.message === "Invalid credentials.", [error]);
 
   useEffect(() => {
     if (isAuthenticationFailed) {

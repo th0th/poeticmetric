@@ -170,7 +170,7 @@ func (s *service) ReadSiteGoogleSearchTermsReport(
 
 	site := poeticmetric.Site{}
 	err := postgres.
-		Select("GoogleOauthRefreshToken", "GoogleSearchConsoleSiteUrl").
+		Select("GoogleOauthRefreshToken", "GoogleSearchConsoleSiteURL").
 		First(&site, poeticmetric.Site{ID: filters.SiteID}, "ID").
 		Error
 	if err != nil {
@@ -234,7 +234,7 @@ func (s *service) ReadSiteGoogleSearchTermsReport(
 		queryRequest.StartRow = int64((*page - 1) * poeticmetric.SiteReportPageSize)
 	}
 
-	queryResponse, err := analyticsService.Query(*site.GoogleSearchConsoleSiteUrl, queryRequest).Do()
+	queryResponse, err := analyticsService.Query(*site.GoogleSearchConsoleSiteURL, queryRequest).Do()
 	if err != nil {
 		oauthRetrieveError := &oauth2.RetrieveError{}
 		if errors.As(err, &oauthRetrieveError) {

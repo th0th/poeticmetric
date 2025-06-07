@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"net/url"
 	"os"
 	"os/signal"
 	"time"
@@ -70,10 +71,14 @@ func main() {
 
 	envService.ConfigureStripe()
 
-	restAPIBasePath := envService.RESTApiBasePath()
-	if restAPIBasePath != nil {
-		docs.SwaggerInfo.BasePath = *restAPIBasePath
+	restAPIBaseUrl := envService.RESTApiURL("")
+	parsedRestAPIBaseURL, err := url.Parse(restAPIBaseUrl)
+	if err != nil {
+		Logger.Panic().Stack().Err(errors.Wrap(err, 0)).Msg("failed to parse REST API base URL")
 	}
+
+	docs.SwaggerInfo.Host = parsedRestAPIBaseURL.Host
+	docs.SwaggerInfo.BasePath = parsedRestAPIBaseURL.Path
 
 	postgres, err := gorm.Open(gormpostgres.Open(envService.PostgresDsn()), envService.GormConfig())
 	if err != nil {
@@ -276,6 +281,7 @@ func main() {
 	mux.HandleFunc("/{$}", rootHandler.Index())
 
 	// handlers: sites
+	mux.HandleFunc("GET /public-sites/{siteDomain}", sitesHandler.ReadPublicSite)
 	mux.Handle("DELETE /sites/{siteID}", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(sitesHandler.Delete))
 	mux.Handle("POST /sites", permissionUserAccessTokenAuthenticated.ThenFunc(sitesHandler.Create))
 	mux.Handle("GET /sites", permissionUserAccessTokenAuthenticated.ThenFunc(sitesHandler.List))
@@ -285,26 +291,26 @@ func main() {
 	mux.Handle("POST /sites/{siteID}/google-oauth", permissionUserAccessTokenAuthenticated.ThenFunc(sitesHandler.SetGoogleOAuthRefreshToken))
 
 	// handlers: site reports
-	mux.Handle("GET /site-reports/browser-name", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteBrowserNameReport))
-	mux.Handle("GET /site-reports/browser-version", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteBrowserVersionReport))
-	mux.Handle("GET /site-reports/country", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteCountryReport))
-	mux.Handle("GET /site-reports/device-type", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteDeviceTypeReport))
-	mux.Handle("GET /site-reports/google-search-terms", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteGoogleSearchTermsReport))
-	mux.Handle("GET /site-reports/language", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteLanguageReport))
-	mux.Handle("GET /site-reports/operating-system-name", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteOperatingSystemNameReport))
-	mux.Handle("GET /site-reports/operating-system-version", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteOperatingSystemVersionReport))
-	mux.Handle("GET /site-reports/overview", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteOverviewReport))
-	mux.Handle("GET /site-reports/page-view", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSitePageViewReport))
-	mux.Handle("GET /site-reports/path", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSitePathReport))
-	mux.Handle("GET /site-reports/referrer", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteReferrerReport))
-	mux.Handle("GET /site-reports/referrer-host", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteReferrerHostReport))
-	mux.Handle("GET /site-reports/time-of-week-trends", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteTimeOfWeekTrendsReport))
-	mux.Handle("GET /site-reports/utm-campaign", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteUTMCampaignReport))
-	mux.Handle("GET /site-reports/utm-content", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteUTMContentReport))
-	mux.Handle("GET /site-reports/utm-medium", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteUTMMediumReport))
-	mux.Handle("GET /site-reports/utm-source", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteUTMSourceReport))
-	mux.Handle("GET /site-reports/utm-term", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteUTMTermReport))
-	mux.Handle("GET /site-reports/visitor", permissionUserAccessTokenAuthenticated.Extend(siteReportFilters).ThenFunc(siteReportsHandler.ReadSiteVisitorReport))
+	mux.Handle("GET /site-reports/browser-name", siteReportFilters.ThenFunc(siteReportsHandler.ReadSiteBrowserNameReport))
+	mux.Handle("GET /site-reports/browser-version", siteReportFilters.ThenFunc(siteReportsHandler.ReadSiteBrowserVersionReport))
+	mux.Handle("GET /site-reports/country", siteReportFilters.ThenFunc(siteReportsHandler.ReadSiteCountryReport))
+	mux.Handle("GET /site-reports/device-type", siteReportFilters.ThenFunc(siteReportsHandler.ReadSiteDeviceTypeReport))
+	mux.Handle("GET /site-reports/google-search-terms", siteReportFilters.ThenFunc(siteReportsHandler.ReadSiteGoogleSearchTermsReport))
+	mux.Handle("GET /site-reports/language", siteReportFilters.ThenFunc(siteReportsHandler.ReadSiteLanguageReport))
+	mux.Handle("GET /site-reports/operating-system-name", siteReportFilters.ThenFunc(siteReportsHandler.ReadSiteOperatingSystemNameReport))
+	mux.Handle("GET /site-reports/operating-system-version", siteReportFilters.ThenFunc(siteReportsHandler.ReadSiteOperatingSystemVersionReport))
+	mux.Handle("GET /site-reports/overview", siteReportFilters.ThenFunc(siteReportsHandler.ReadSiteOverviewReport))
+	mux.Handle("GET /site-reports/page-view", siteReportFilters.ThenFunc(siteReportsHandler.ReadSitePageViewReport))
+	mux.Handle("GET /site-reports/path", siteReportFilters.ThenFunc(siteReportsHandler.ReadSitePathReport))
+	mux.Handle("GET /site-reports/referrer", siteReportFilters.ThenFunc(siteReportsHandler.ReadSiteReferrerReport))
+	mux.Handle("GET /site-reports/referrer-host", siteReportFilters.ThenFunc(siteReportsHandler.ReadSiteReferrerHostReport))
+	mux.Handle("GET /site-reports/time-of-week-trends", siteReportFilters.ThenFunc(siteReportsHandler.ReadSiteTimeOfWeekTrendsReport))
+	mux.Handle("GET /site-reports/utm-campaign", siteReportFilters.ThenFunc(siteReportsHandler.ReadSiteUTMCampaignReport))
+	mux.Handle("GET /site-reports/utm-content", siteReportFilters.ThenFunc(siteReportsHandler.ReadSiteUTMContentReport))
+	mux.Handle("GET /site-reports/utm-medium", siteReportFilters.ThenFunc(siteReportsHandler.ReadSiteUTMMediumReport))
+	mux.Handle("GET /site-reports/utm-source", siteReportFilters.ThenFunc(siteReportsHandler.ReadSiteUTMSourceReport))
+	mux.Handle("GET /site-reports/utm-term", siteReportFilters.ThenFunc(siteReportsHandler.ReadSiteUTMTermReport))
+	mux.Handle("GET /site-reports/visitor", siteReportFilters.ThenFunc(siteReportsHandler.ReadSiteVisitorReport))
 
 	// handlers: tracker
 	mux.HandleFunc("GET /pm.js", trackingHandler.Script)
@@ -319,7 +325,7 @@ func main() {
 
 	httpServer := http.Server{
 		Handler: alice.New(
-			middleware.BasePathHandler(restAPIBasePath),
+			middleware.BasePathHandler(envService.RESTApiBasePath()),
 			middleware.AuthenticationHandler(authenticationService, responder),
 			hlog.NewHandler(Logger),
 			hlog.AccessHandler(func(r *http.Request, status, size int, duration time.Duration) {

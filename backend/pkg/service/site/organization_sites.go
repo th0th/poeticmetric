@@ -36,7 +36,7 @@ func (s *service) CreateOrganizationSite(ctx context.Context, organizationID uin
 	return &poeticmetric.OrganizationSite{
 		CreatedAt:                  site.CreatedAt,
 		Domain:                     site.Domain,
-		GoogleSearchConsoleSiteUrl: site.GoogleSearchConsoleSiteUrl,
+		GoogleSearchConsoleSiteURL: site.GoogleSearchConsoleSiteURL,
 		HasEvents:                  site.HasEvents,
 		ID:                         site.ID,
 		IsPublic:                   site.IsPublic,
@@ -153,7 +153,7 @@ func (s *service) SetSiteGoogleOAuthRefreshToken(ctx context.Context, organizati
 	fields := []string{"GoogleOauthRefreshToken"}
 
 	if oAuthToken == nil {
-		fields = append(fields, "GoogleSearchConsoleSiteUrl")
+		fields = append(fields, "GoogleSearchConsoleSiteURL")
 	} else {
 		update.GoogleOauthRefreshToken = &oAuthToken.RefreshToken
 	}
@@ -189,8 +189,8 @@ func (s *service) UpdateOrganizationSite(ctx context.Context, organizationID uin
 	}
 
 	if params.GoogleSearchConsoleSiteURL.IsDefined {
-		update.GoogleSearchConsoleSiteUrl = params.GoogleSearchConsoleSiteURL.Value
-		fields = append(fields, "GoogleSearchConsoleSiteUrl")
+		update.GoogleSearchConsoleSiteURL = params.GoogleSearchConsoleSiteURL.Value
+		fields = append(fields, "GoogleSearchConsoleSiteURL")
 	}
 
 	if params.IsPublic != nil {

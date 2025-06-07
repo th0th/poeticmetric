@@ -149,7 +149,7 @@ type Site struct {
 	CreatedAt                  time.Time
 	Domain                     string
 	GoogleOauthRefreshToken    *string
-	GoogleSearchConsoleSiteUrl *string
+	GoogleSearchConsoleSiteURL *string
 	HasEvents                  bool
 	ID                         uint
 	IsPublic                   bool

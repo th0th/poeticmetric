@@ -21,7 +21,7 @@ type ValidationService interface {
 	SendUserPasswordRecoveryEmailParams(ctx context.Context, params *SendUserPasswordRecoveryEmailParams) error
 	SetSiteGoogleOAuthRefreshTokenParams(ctx context.Context, params *SetSiteGoogleOAuthRefreshTokenParams) (*oauth2.Token, error)
 	SignUpParams(ctx context.Context, params *SignUpParams) error
-	SiteReportFilters(ctx context.Context, organizationID uint, filters *SiteReportFilters) error
+	SiteReportFilters(ctx context.Context, organizationID *uint, filters *SiteReportFilters) error
 	UpdateAuthenticationUserParams(ctx context.Context, params *UpdateAuthenticationUserParams) error
 	UpdateOrganizationRequest(ctx context.Context, request *UpdateOrganizationRequest) error
 	UpdateOrganizationSiteParams(ctx context.Context, organizationID uint, siteID uint, params *UpdateOrganizationSiteParams) error

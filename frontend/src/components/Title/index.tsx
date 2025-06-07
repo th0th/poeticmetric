@@ -1,8 +1,8 @@
-import { useMemo } from "react";
+import { JSX, PropsWithoutRef, useMemo } from "react";
 
 export type TitleProps = {
-  children: string;
-  template?: "blog" | "default" | "docs" | "statusPage";
+  children: PropsWithoutRef<JSX.IntrinsicElements["title"]>["children"];
+  template?: "blog" | "default" | "docs" | "none";
 };
 
 export default function Title({ children, template = "default" }: TitleProps) {
@@ -11,7 +11,7 @@ export default function Title({ children, template = "default" }: TitleProps) {
       blog: `${children} | PoeticMetric blog`,
       default: `${children} | PoeticMetric`,
       docs: `${children} | PoeticMetric docs`,
-      statusPage: `${children}`,
+      none: `${children}`,
     })[template];
   }, [children, template]);
 

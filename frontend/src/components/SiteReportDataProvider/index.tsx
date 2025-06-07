@@ -3,21 +3,16 @@ import { ReactNode, useEffect, useMemo } from "react";
 import { useSearchParams } from "react-router";
 import ActivityIndicator from "~/components/ActivityIndicator";
 import SiteReportDataContext, { SiteReportDataContextValue } from "~/contexts/SiteReportDataContext";
-import useSite from "~/hooks/api/useSite";
 
 export type SiteReportProviderProps = {
   children?: ReactNode;
+  site: SiteReportDataContextValue["site"];
 };
 
-export default function SiteReportDataProvider({ children }: SiteReportProviderProps) {
+export default function SiteReportDataProvider({ children, site }: SiteReportProviderProps) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const siteID = useMemo(() => Number(searchParams.get("siteID")) || undefined, [searchParams]);
-  const { data: site } = useSite(siteID);
-  const value = useMemo<SiteReportDataContextValue | null>(() => {
-    if (site === undefined) {
-      return null;
-    }
 
+  const value = useMemo<SiteReportDataContextValue | null>(() => {
     // end
     let end = dayjs().startOf("day").add(1, "day");
     const endFromQuery = searchParams.get("end");
@@ -54,7 +49,6 @@ export default function SiteReportDataProvider({ children }: SiteReportProviderP
       path: searchParams.get("path"),
       referrer: searchParams.get("referrer"),
       referrerHost: searchParams.get("referrerHost"),
-      siteID: site.id,
       start,
       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       utmCampaign: searchParams.get("utmCampaign"),
@@ -64,11 +58,9 @@ export default function SiteReportDataProvider({ children }: SiteReportProviderP
       utmTerm: searchParams.get("utmTerm"),
     };
 
-    const urlSearchParams = new URLSearchParams();
+    const urlSearchParams = new URLSearchParams({ siteID: site.id.toString() });
     Object.entries(filters).map(([key, value]) => {
-      if (typeof value === "number") {
-        urlSearchParams.set(key, value.toString());
-      } else if (typeof value === "string") {
+      if (typeof value === "string") {
         urlSearchParams.set(key, value);
       } else if (dayjs.isDayjs(value)) {
         urlSearchParams.set(key, value.toISOString());

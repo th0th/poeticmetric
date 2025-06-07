@@ -15,7 +15,6 @@ export type SiteReportDataContextValue = {
     path: string | null;
     referrer: string | null;
     referrerHost: string | null;
-    siteID: number;
     start: Dayjs;
     timeZone: string | null;
     utmCampaign: string | null;
@@ -24,7 +23,10 @@ export type SiteReportDataContextValue = {
     utmSource: string | null;
     utmTerm: string | null;
   };
-  site: HydratedSite;
+  site: {
+    id: number;
+    isGoogleSearchConsoleSiteURLSet: boolean;
+  };
 };
 
 export default createContext<SiteReportDataContextValue>(undefined!);

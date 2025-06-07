@@ -36,6 +36,7 @@ const routes: Array<RouteObject> = [
               { caseSensitive: true, lazy: () => import("~/components/Manifesto"), path: "manifesto" },
               { caseSensitive: true, lazy: () => import("~/components/OpenSource"), path: "open-source" },
               { caseSensitive: true, lazy: () => import("~/components/Pricing"), path: "pricing" },
+              { caseSensitive: true, lazy: () => import("~/components/PublicSiteReport"), path: "s" },
               { caseSensitive: true, lazy: () => import("~/components/PrivacyPolicy"), path: "privacy-policy" },
               { caseSensitive: true, lazy: () => import("~/components/TermsOfService"), path: "terms-of-service" },
             ],
@@ -96,7 +97,7 @@ const routes: Array<RouteObject> = [
                         caseSensitive: true,
                         children: [
                           { caseSensitive: true, lazy: () => import("~/components/SiteForm"), path: "edit" },
-                          { caseSensitive: true, lazy: () => import("~/components/SiteReport"), path: "report" },
+                          { caseSensitive: true, lazy: () => import("~/components/OrganizationSiteReport"), path: "report" },
                         ],
                       },
                     ],

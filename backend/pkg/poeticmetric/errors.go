@@ -13,6 +13,7 @@ var (
 	ErrNoDefaultPlan                         = errors.New("no default plan")
 	ErrNoOrganizationGoogleOauthRefreshToken = errors.New("organization doesn't have a google oauth refresh token")
 	ErrNotFound                              = errors.New("not found")
+	ErrSiteIsNotPublic                       = errors.New("site is not public")
 	ErrStripeConfigMissing                   = errors.New("stripe config missing")
 	ErrInvalidStripePlanPeriod               = errors.New("invalid stripe plan period")
 	ErrInvalidStripePriceLookupKey           = errors.New("invalid stripe price lookup key")

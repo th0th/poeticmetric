@@ -70,7 +70,7 @@ func (m *ValidationServiceMock) SignUpParams(ctx context.Context, params *SignUp
 	return m.Called(ctx, params).Error(0)
 }
 
-func (m *ValidationServiceMock) SiteReportFilters(ctx context.Context, organizationID uint, filters *SiteReportFilters) error {
+func (m *ValidationServiceMock) SiteReportFilters(ctx context.Context, organizationID *uint, filters *SiteReportFilters) error {
 	return m.Called(ctx, organizationID, filters).Error(0)
 }
 

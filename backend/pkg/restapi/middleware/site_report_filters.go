@@ -38,7 +38,12 @@ func SiteReportFiltersHandler(
 				return
 			}
 
-			err = validationService.SiteReportFilters(r.Context(), auth.User.OrganizationID, &filters)
+			var organizationID *uint
+			if auth != nil && auth.User != nil {
+				organizationID = &auth.User.OrganizationID
+			}
+
+			err = validationService.SiteReportFilters(r.Context(), organizationID, &filters)
 			if err != nil {
 				responder.Error(w, errors.Wrap(err, 0))
 				return

@@ -165,6 +165,17 @@ definitions:
       name:
         type: string
     type: object
+  poeticmetric.PublicSiteResponse:
+    properties:
+      domain:
+        type: string
+      id:
+        type: integer
+      isGoogleSearchConsoleSiteURLSet:
+        type: boolean
+      name:
+        type: string
+    type: object
   poeticmetric.ResetUserPasswordParams:
     properties:
       passwordResetToken:
@@ -893,6 +904,27 @@ paths:
       summary: List organization deletion reasons
       tags:
       - organization
+  /public-sites/{siteDomain}:
+    get:
+      description: Read a public site by its domain.
+      parameters:
+      - description: Site Domain
+        in: path
+        name: siteDomain
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/poeticmetric.PublicSiteResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/responder.DetailResponse'
+      summary: Read public site
+      tags:
+      - sites
   /site-reports/browser-name:
     get:
       description: Read browser name report for a site.

@@ -88,7 +88,7 @@ func Test_service_Create(t *testing.T) {
 			},
 			want: &poeticmetric.OrganizationSite{
 				Domain:                     "www.domain.tld",
-				GoogleSearchConsoleSiteUrl: nil,
+				GoogleSearchConsoleSiteURL: nil,
 				HasEvents:                  false,
 				ID:                         1,
 				IsPublic:                   true,
@@ -112,7 +112,7 @@ func Test_service_Create(t *testing.T) {
 
 			assert.Equal(t, tt.want.Domain, got.Domain)
 			assert.Equal(t, tt.want.GoogleOauthRefreshToken, got.GoogleOauthRefreshToken)
-			assert.Equal(t, tt.want.GoogleSearchConsoleSiteUrl, got.GoogleSearchConsoleSiteUrl)
+			assert.Equal(t, tt.want.GoogleSearchConsoleSiteURL, got.GoogleSearchConsoleSiteURL)
 			assert.Equal(t, tt.want.HasEvents, got.HasEvents)
 			assert.Equal(t, tt.want.ID, got.ID)
 			assert.Equal(t, tt.want.IsPublic, got.IsPublic)
@@ -198,7 +198,7 @@ func Test_service_List(t *testing.T) {
 					ID:                         1,
 					Name:                       "random name",
 					Domain:                     "www.domain.tld",
-					GoogleSearchConsoleSiteUrl: nil,
+					GoogleSearchConsoleSiteURL: nil,
 					HasEvents:                  true,
 					IsPublic:                   false,
 					SafeQueryParameters:        []string{},
