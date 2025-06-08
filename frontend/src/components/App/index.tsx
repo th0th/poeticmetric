@@ -10,10 +10,10 @@ import { StrictMode } from "react";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
 import { Outlet, ScrollRestoration } from "react-router";
 import AppErrorBoundary from "~/components/AppErrorBoundary";
+import AuthenticationProvider from "~/components/AuthenticationProvider";
 import ColorModeProvider from "~/components/ColorModeProvider";
 import SWRConfig from "~/components/SWRConfig";
 import Tags from "~/components/Tags";
-import AuthenticationProvider from "../AuthenticationProvider";
 import "~/styles/style.scss";
 
 dayjs.locale("en-gb");

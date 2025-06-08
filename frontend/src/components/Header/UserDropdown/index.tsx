@@ -1,5 +1,6 @@
+import { useCallback } from "react";
 import { Dropdown, DropdownProps } from "react-bootstrap";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Avatar from "~/components/Avatar";
 import useAuthentication from "~/hooks/useAuthentication";
 
@@ -8,9 +9,20 @@ export type UserDropdownProps = Overwrite<Omit<DropdownProps, "align" | "childre
 }>;
 
 export default function UserDropdown({ layoutVariant, ...props }: UserDropdownProps) {
-  const { signOut, user } = useAuthentication();
+  const navigate = useNavigate();
+  const { setState: setAuthenticationState, signOut, user } = useAuthentication();
 
-  return user ? (
+  const signOutAndNavigateToHome = useCallback(() => {
+    setAuthenticationState((s) => ({ ...s, isNavigationInProgress: true }));
+    signOut();
+    navigate("/");
+  }, [navigate, setAuthenticationState, signOut]);
+
+  if (user === undefined || user === null) {
+    return null;
+  }
+
+  return (
     <Dropdown {...props} align="end">
       <Dropdown.Toggle
         as="button"
@@ -39,8 +51,8 @@ export default function UserDropdown({ layoutVariant, ...props }: UserDropdownPr
 
         <Dropdown.Divider />
 
-        <Dropdown.Item as="button" onClick={() => signOut()}>Sign out</Dropdown.Item>
+        <Dropdown.Item as="button" onClick={signOutAndNavigateToHome}>Sign out</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
-  ) : null;
+  );
 }

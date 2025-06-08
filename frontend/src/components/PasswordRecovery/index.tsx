@@ -85,3 +85,5 @@ export default function PasswordRecovery() {
     </>
   );
 }
+
+export const Component = PasswordRecovery;

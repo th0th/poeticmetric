@@ -272,6 +272,7 @@ func main() {
 	mux.Handle("GET /organization", permissionUserAccessTokenAuthenticated.ThenFunc(organizationHandler.ReadOrganization))
 	mux.Handle("GET /organization/deletion-options", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(organizationHandler.GetOrganizationDeletionOptions))
 	mux.Handle("GET /organization/plan", permissionUserAccessTokenAuthenticated.ThenFunc(organizationHandler.ReadPlan))
+	mux.Handle("GET /organization/usage", permissionUserAccessTokenAuthenticated.ThenFunc(organizationHandler.ReadOrganizationUsage))
 	mux.Handle("PATCH /organization", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(organizationHandler.UpdateOrganization))
 	mux.Handle("POST /organization/change-plan", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(organizationHandler.ChangePlan))
 	mux.Handle("POST /organization/stripe-billing-portal-session", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(organizationHandler.CreateStripeBillingPortalSession))

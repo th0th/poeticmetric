@@ -149,3 +149,5 @@ export default function PasswordReset() {
     </>
   );
 }
+
+export const Component = PasswordReset;

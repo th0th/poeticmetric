@@ -1,12 +1,8 @@
-import { ReactNode, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useEffect } from "react";
+import { Outlet, useNavigate } from "react-router";
 import useAuthentication from "~/hooks/useAuthentication";
 
-export type EmailAddressVerificationBlockProps = {
-  children: ReactNode;
-};
-
-export default function EmailAddressVerificationBlock({ children }: EmailAddressVerificationBlockProps) {
+export default function EmailAddressVerificationBlock() {
   const { user } = useAuthentication();
   const navigate = useNavigate();
 
@@ -16,9 +12,15 @@ export default function EmailAddressVerificationBlock({ children }: EmailAddress
     }
   }, [navigate, user]);
 
-  return user?.isEmailVerified === false ? (
+  if (user?.isEmailVerified === true) {
+    return <Outlet />;
+  }
+
+  return (
     <div className="align-items-center d-flex flex-grow-1 justify-content-center p-8">
       <div className="spinner-border text-primary" />
     </div>
-  ) : children;
+  );
 }
+
+export const Component = EmailAddressVerificationBlock;

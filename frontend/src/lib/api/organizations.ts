@@ -15,6 +15,14 @@ export function hydrateAuthenticationOrganization(d: OrganizationResponse): Hydr
   };
 }
 
+export function hydrateOrganizationUsageResponse(d: OrganizationUsageResponse): HydratedOrganizationUsageResponse {
+  return {
+    ...d,
+    canAddSite: d.maxSiteCount === null || d.siteCount < d.maxSiteCount,
+    canAddUser: d.maxUserCount === null || d.userCount < d.maxUserCount,
+  };
+}
+
 export function hydratePlanResponse(d: PlanResponse): HydratedPlanResponse {
   return {
     ...d,

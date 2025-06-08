@@ -5,5 +5,4 @@ interface Window {
     setUser: (email: string, params: setUserParams) => void;
     toggleBubbleVisibility: (a: "hide" | "show") => void;
   };
-  plausible?: (eventName: string, eventProperties?: Record<string, string>) => void;
 }

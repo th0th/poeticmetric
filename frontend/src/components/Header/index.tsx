@@ -37,11 +37,17 @@ export default function Header({ layoutVariant }: HeaderProps) {
     if (layoutVariant === "application") {
       const v = [];
 
-      if (user !== undefined && user !== null && user.isEmailVerified) {
-        v.push(
-          { title: "Sites", to: "/sites" },
-          { title: "Team", to: "/team" },
-        );
+      if (user !== undefined && user !== null) {
+        if (user.isEmailVerified) {
+          v.push(
+            { title: "Sites", to: "/sites" },
+            { title: "Team", to: "/team" },
+          );
+        } else {
+          v.push(
+            { title: "E-mail address verification", to: "/email-address-verification" },
+          );
+        }
       }
 
       return v;

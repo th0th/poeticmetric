@@ -1,6 +1,6 @@
 import React, { JSX, useMemo } from "react";
-import List from "../List";
-import { TableOfContentsItem } from "../tableOfContentsItem";
+import List from "../List"; // eslint-disable-line @typescript-eslint/no-restricted-imports
+import { TableOfContentsItem } from "../tableOfContentsItem"; // eslint-disable-line @typescript-eslint/no-restricted-imports
 
 export type ItemProps = Overwrite<React.PropsWithoutRef<JSX.IntrinsicElements["li"]>, Overwrite<TableOfContentsItem, {
   allItems: Array<TableOfContentsItem>;

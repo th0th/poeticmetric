@@ -4,6 +4,11 @@ type HydratedOrganizationResponse = Overwrite<OrganizationResponse, {
   updatedAtDayjs: import("dayjs").Dayjs;
 }>;
 
+type HydratedOrganizationUsageResponse = Overwrite<OrganizationUsageResponse, {
+  canAddSite: boolean;
+  canAddUser: boolean;
+}>;
+
 type HydratedPlanResponse = Overwrite<PlanResponse, {
   maxEventsPerMonthDisplay: string;
 }>;
@@ -25,11 +30,19 @@ type OrganizationResponse = {
   updatedAt: string;
 };
 
+type OrganizationUsageResponse = {
+  maxSiteCount: number | null;
+  maxUserCount: number | null;
+  siteCount: number;
+  userCount: number;
+};
+
 type OrganizationResponseSubscriptionPeriod = "MONTH" | "YEAR";
 type OrganizationResponseSubscriptionPeriodDisplay = "Month" | "Year";
 
 type PlanResponse = {
   maxEventsPerMonth: number;
-  maxUsers: number;
+  maxSiteCount: number | null;
+  maxUserCount: number | null;
   name: string;
 };

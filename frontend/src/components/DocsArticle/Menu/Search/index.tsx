@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router";
 import Portal from "~/components/Portal";
 import { getDocsCache } from "~/lib/docs";
-import icons from "../icons";
+import icons from "../icons"; // eslint-disable-line @typescript-eslint/no-restricted-imports
 
 export type SearchProps = Overwrite<Omit<PropsWithoutRef<JSX.IntrinsicElements["div"]>, "children">, {
   onItemClick?: () => void;

@@ -6,6 +6,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { Link, useSearchParams } from "react-router";
 import ActivityOverlay from "~/components/ActivityOverlay";
 import Breadcrumb from "~/components/Breadcrumb";
+import PlanLimitHandler from "~/components/PlanLimitHandler";
 import Result from "~/components/Result";
 import SafeQueryParameters from "~/components/SiteForm/SafeQueryParameters";
 import Title from "~/components/Title";
@@ -111,103 +112,105 @@ export default function SiteForm() {
               toTitle="Go back to sites"
             />
           ) : (
-            <form className="card overflow-hidden position-relative" onSubmit={handleSubmit(submit)}>
-              <ActivityOverlay isActive={isLoading} />
+            <PlanLimitHandler isDisabled={siteID !== null} kind="site">
+              <form className="card overflow-hidden position-relative" onSubmit={handleSubmit(submit)}>
+                <ActivityOverlay isActive={isLoading} />
 
-              <fieldset className="card-body gap-12 vstack" disabled={isSubmitting}>
-                <div>
-                  <label className="form-label" htmlFor="input-domain">Domain name</label>
+                <fieldset className="card-body gap-12 vstack" disabled={isSubmitting}>
+                  <div>
+                    <label className="form-label" htmlFor="input-domain">Domain name</label>
 
-                  <input
-                    className={classNames("form-control", { "is-invalid": errors.domain })}
-                    id="input-domain"
-                    required
-                    {...register("domain")}
-                  />
-                </div>
+                    <input
+                      className={classNames("form-control", { "is-invalid": errors.domain })}
+                      id="input-domain"
+                      required
+                      {...register("domain")}
+                    />
+                  </div>
 
-                <div>
-                  <label className="form-label" htmlFor="input-name">Name</label>
+                  <div>
+                    <label className="form-label" htmlFor="input-name">Name</label>
 
-                  <input
-                    className={classNames("form-control", { "is-invalid": errors.name })}
-                    id="input-name"
-                    maxLength={70}
-                    minLength={1}
-                    required
-                    {...register("name")}
-                  />
+                    <input
+                      className={classNames("form-control", { "is-invalid": errors.name })}
+                      id="input-name"
+                      maxLength={70}
+                      minLength={1}
+                      required
+                      {...register("name")}
+                    />
 
-                  <div className="invalid-feedback">{errors.name?.message}</div>
-                </div>
+                    <div className="invalid-feedback">{errors.name?.message}</div>
+                  </div>
 
-                <div>
-                  <h5>Safe query parameters</h5>
+                  <div>
+                    <h5>Safe query parameters</h5>
 
-                  <div className="card">
-                    <div className="card-body">
-                      <div className="gap-8 vstack">
-                        <div className="form-text">
-                          You can select query parameters that are safe to saved while processing the data. You can read more about query
-                          parameters
+                    <div className="card">
+                      <div className="card-body">
+                        <div className="gap-8 vstack">
+                          <div className="form-text">
+                            You can select query parameters that are safe to saved while processing the data. You can read more about query
+                            parameters
+                            {" "}
+                            <Link target="_blank" to="/docs/websites/query-parameters">here</Link>
+                            .
+                          </div>
+
+                          <SafeQueryParameters />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {siteID !== null ? (
+                    <GoogleSearchConsole siteID={siteID} />
+                  ) : null}
+
+                  <div>
+                    <h5>Public reports</h5>
+
+                    <div className="card">
+                      <div className="card-body">
+                        <div className="gap-8 vstack">
+                          <div className="form-text">
+                            To make your site&apos;s stats public, you can enable this option. When this is option is enabled, your
+                            site&apos;s statis will be accessible by everyone
+                            {publicURL === null ? "." : `at ${publicURL}.`}
+                          </div>
+
+                          <div className="form-check">
+                            <input
+                              className={classNames("form-check-input", { "is-invalid": errors.isPublic })}
+                              id="input-is-public"
+                              type="checkbox"
+                              {...register("isPublic")}
+                            />
+
+                            <label className="form-check-label" htmlFor="input-is-public">
+                              Make this site&apos;s reports publicly available
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <button className="align-items-center btn btn-primary d-flex gap-4" type="submit">
+                      {isSubmitting ? (
+                        <>
+                          <span className="spinner-border spinner-border-sm" />
                           {" "}
-                          <Link target="_blank" to="/docs/websites/query-parameters">here</Link>
-                          .
-                        </div>
+                        </>
+                      ) : null}
 
-                        <SafeQueryParameters />
-                      </div>
-                    </div>
+                      {siteID === null ? "Add site" : "Save site"}
+                    </button>
                   </div>
-                </div>
-
-                {siteID !== null ? (
-                  <GoogleSearchConsole siteID={siteID} />
-                ) : null}
-
-                <div>
-                  <h5>Public reports</h5>
-
-                  <div className="card">
-                    <div className="card-body">
-                      <div className="gap-8 vstack">
-                        <div className="form-text">
-                          To make your site&apos;s stats public, you can enable this option. When this is option is enabled, your
-                          site&apos;s statis will be accessible by everyone
-                          {publicURL === null ? "." : `at ${publicURL}.`}
-                        </div>
-
-                        <div className="form-check">
-                          <input
-                            className={classNames("form-check-input", { "is-invalid": errors.isPublic })}
-                            id="input-is-public"
-                            type="checkbox"
-                            {...register("isPublic")}
-                          />
-
-                          <label className="form-check-label" htmlFor="input-is-public">
-                            Make this site&apos;s reports publicly available
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <button className="align-items-center btn btn-primary d-flex gap-4" type="submit">
-                    {isSubmitting ? (
-                      <>
-                        <span className="spinner-border spinner-border-sm" />
-                        {" "}
-                      </>
-                    ) : null}
-
-                    {siteID === null ? "Add site" : "Save site"}
-                  </button>
-                </div>
-              </fieldset>
-            </form>
+                </fieldset>
+              </form>
+            </PlanLimitHandler>
           )}
         </div>
       </div>

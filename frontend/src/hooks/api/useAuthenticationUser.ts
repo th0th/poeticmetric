@@ -5,7 +5,7 @@ import { getUserAccessToken } from "~/lib/user-access-token";
 
 type Config = SWRConfiguration<HydratedData, Error, BareFetcher<HydratedData>>;
 type Data = AuthenticationUser;
-type HydratedData = HydratedAuthenticationUser | null | undefined;
+type HydratedData = HydratedAuthenticationUser | null;
 type Response = SWRResponse<HydratedData, Error>;
 
 export default function useAuthenticationUser(config?: Config): Response {
@@ -22,7 +22,7 @@ export default function useAuthenticationUser(config?: Config): Response {
 
     const data = (await baseFetcher(args) as Data);
 
-    if (data === null || data === undefined) {
+    if (data === undefined) {
       return data;
     }
 

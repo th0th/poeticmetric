@@ -518,6 +518,28 @@ const docTemplate = `{
                 }
             }
         },
+        "/organization/usage": {
+            "get": {
+                "security": [
+                    {
+                        "UserAccessTokenAuthentication": []
+                    }
+                ],
+                "description": "Read usage statistics for the authenticated user's organization.",
+                "tags": [
+                    "organization"
+                ],
+                "summary": "Read organization usage",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/poeticmetric.OrganizationUsageResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/public-sites/{siteDomain}": {
             "get": {
                 "description": "Read a public site by its domain.",
@@ -3858,6 +3880,23 @@ const docTemplate = `{
                 }
             }
         },
+        "poeticmetric.OrganizationUsageResponse": {
+            "type": "object",
+            "properties": {
+                "maxSiteCount": {
+                    "type": "integer"
+                },
+                "maxUserCount": {
+                    "type": "integer"
+                },
+                "siteCount": {
+                    "type": "integer"
+                },
+                "userCount": {
+                    "type": "integer"
+                }
+            }
+        },
         "poeticmetric.OrganizationUser": {
             "type": "object",
             "properties": {
@@ -3890,7 +3929,10 @@ const docTemplate = `{
                 "maxEventsPerMonth": {
                     "type": "integer"
                 },
-                "maxUsers": {
+                "maxSiteCount": {
+                    "type": "integer"
+                },
+                "maxUserCount": {
                     "type": "integer"
                 },
                 "name": {

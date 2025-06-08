@@ -1,6 +1,6 @@
 import { Section } from "@react-email/components";
 import { CSSProperties } from "react";
-import Text from "../Text";
+import Text from "~emails/_components/Text";
 
 const styles: Record<string, CSSProperties> = {
   section: {

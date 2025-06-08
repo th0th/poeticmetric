@@ -8,6 +8,7 @@ import pluginTypescriptSortKeys from "eslint-plugin-typescript-sort-keys";
 import globals from "globals";
 import typescriptEslint from "typescript-eslint";
 
+// eslint-disable-next-line import/no-unused-modules
 export default [
   {
     files: ["**/*.{js,ts,tsx}"],
@@ -42,6 +43,8 @@ export default [
     ...pluginImport.flatConfigs.recommended,
     rules: {
       ...pluginImport.flatConfigs.recommended.rules,
+      "import/no-extraneous-dependencies": ["error"],
+      "import/no-unused-modules": ["error", { ignoreExports: ["**/index.*"], unusedExports: true }],
       "import/order": ["error", {
         alphabetize: { order: "asc" },
         groups: [["builtin", "external"], "parent", "sibling", "index"],
@@ -119,6 +122,11 @@ export default [
     rules: {
       "@typescript-eslint/consistent-type-definitions": ["error", "type"],
       "@typescript-eslint/no-explicit-any": 0,
+      "@typescript-eslint/no-restricted-imports": ["error", {
+        patterns: [
+          { group: ["../*"], message: "Usage of relative parent imports is not allowed." },
+        ],
+      }],
       "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
     },
   },

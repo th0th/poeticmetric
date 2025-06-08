@@ -16,6 +16,7 @@ type OrganizationService interface {
 	DeleteUnverifiedOrganizations(ctx context.Context) error
 	ListOrganizationDeletionReasons(ctx context.Context) ([]*OrganizationDeletionReason, error)
 	ReadOrganization(ctx context.Context, organizationID uint) (*OrganizationResponse, error)
+	ReadOrganizationUsage(ctx context.Context, organizationID uint) (*OrganizationUsageResponse, error)
 	ReadPlan(ctx context.Context, planID uint) (*PlanResponse, error)
 	UpdateOrganization(ctx context.Context, organizationID uint, request *UpdateOrganizationRequest) error
 	UpdateOrganizationSubscription(ctx context.Context, request *UpdateOrganizationSubscriptionRequest) error
@@ -58,9 +59,17 @@ type OrganizationResponse struct {
 	UpdatedAt                     time.Time  `json:"updatedAt"`
 }
 
+type OrganizationUsageResponse struct {
+	MaxSiteCount int `json:"maxSiteCount"`
+	MaxUserCount int `json:"maxUserCount"`
+	SiteCount    int `json:"siteCount"`
+	UserCount    int `json:"userCount"`
+}
+
 type PlanResponse struct {
 	MaxEventsPerMonth int    `json:"maxEventsPerMonth"`
-	MaxUsers          int    `json:"maxUsers"`
+	MaxSiteCount      int    `json:"maxSiteCount"`
+	MaxUserCount      int    `json:"maxUserCount"`
 	Name              string `json:"name"`
 }
 

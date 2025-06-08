@@ -1,6 +1,6 @@
 import { Middleware, SWRHook } from "swr";
 import { restAPIBaseURL } from "~/lib/base";
-import { getUserAccessToken, setUserAccessToken } from "../user-access-token";
+import { getUserAccessToken, setUserAccessToken } from "~/lib/user-access-token";
 
 export const api = {
   delete(endpoint: string, payload?: object, config?: Omit<RequestInit, "body" | "method">) {

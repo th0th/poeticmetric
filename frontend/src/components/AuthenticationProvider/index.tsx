@@ -1,6 +1,7 @@
-import { ReactNode, useCallback, useEffect } from "react";
+import { ReactNode, useCallback, useEffect, useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
-import AuthenticationContext from "~/contexts/AuthenticationContext";
+import { useLocation } from "react-router";
+import AuthenticationContext, { AuthenticationContextState } from "~/contexts/AuthenticationContext";
 import useAuthenticationUser from "~/hooks/api/useAuthenticationUser";
 import useOrganization from "~/hooks/api/useOrganization";
 import usePlan from "~/hooks/api/usePlan";
@@ -8,32 +9,48 @@ import { setUserAccessToken } from "~/lib/user-access-token";
 
 export default function AuthenticationProvider({ children }: { children: ReactNode }) {
   const { showBoundary } = useErrorBoundary();
-  const { data: user, error, isValidating, mutate: mutateAuthenticationUser } = useAuthenticationUser();
-  const { mutate: mutateOrganization } = useOrganization();
-  const { mutate: mutatePlan } = usePlan();
+  const location = useLocation();
+  const [state, setState] = useState<AuthenticationContextState>({ isNavigationInProgress: false });
+  const { data: user, error: userError, mutate: mutateUser } = useAuthenticationUser();
+  const { mutate: mutateOrganization } = useOrganization({
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnMount: false,
+    revalidateOnReconnect: false,
+  });
+  const { mutate: mutatePlan } = usePlan({
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnMount: false,
+    revalidateOnReconnect: false,
+  });
 
-  const refresh = useCallback(async () => {await mutateAuthenticationUser();}, [mutateAuthenticationUser]);
+  const refresh = useCallback(async () => {
+    await Promise.all([
+      mutateUser(),
+      mutateOrganization(),
+      mutatePlan(),
+    ]);
+  }, [mutateUser, mutateOrganization, mutatePlan]);
 
   const signOut = useCallback(async () => {
     setUserAccessToken(null);
 
-    await Promise.all([
-      mutateAuthenticationUser(null),
-      mutateOrganization(undefined),
-      mutatePlan(undefined),
-    ]);
-
-    await mutateAuthenticationUser(null);
-  }, [mutateAuthenticationUser, mutateOrganization, mutatePlan]);
+    await refresh();
+  }, [refresh]);
 
   useEffect(() => {
-    if (error !== undefined) {
-      showBoundary(error);
+    setState((s) => ({ ...s, isNavigationInProgress: false }));
+  }, [location]);
+
+  useEffect(() => {
+    if (userError !== undefined) {
+      showBoundary(userError);
     }
-  }, [error, showBoundary]);
+  }, [showBoundary, userError]);
 
   return (
-    <AuthenticationContext.Provider value={{ isValidating, refresh, signOut, user }}>
+    <AuthenticationContext.Provider value={{ refresh, setState, signOut, state, user }}>
       {children}
     </AuthenticationContext.Provider>
   );

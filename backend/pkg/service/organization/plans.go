@@ -2,6 +2,7 @@ package organization
 
 import (
 	"context"
+	_ "embed"
 	"fmt"
 	"net/mail"
 
@@ -186,6 +187,45 @@ func (s *service) ChangePlan(ctx context.Context, organizationID uint, request *
 	return &response, nil
 }
 
+func (s *service) ReadOrganizationUsage(ctx context.Context, organizationID uint) (*poeticmetric.OrganizationUsageResponse, error) {
+	postgres := poeticmetric.ServicePostgres(ctx, s)
+
+	response := poeticmetric.OrganizationUsageResponse{}
+	err := postgres.Raw(readOrganizationPlanLimitsQuery, map[string]any{
+		"organizationID": organizationID,
+	}).First(&response).Error
+	if err != nil {
+		return nil, errors.Wrap(err, 0)
+	}
+
+	// sites
+	var siteCount int64
+	err = postgres.
+		Model(&poeticmetric.Site{}).
+		Where(poeticmetric.Site{OrganizationID: organizationID}, "OrganizationID").
+		Count(&siteCount).
+		Error
+	if err != nil {
+		return nil, errors.Wrap(err, 0)
+	}
+
+	// users
+	var userCount int64
+	err = postgres.
+		Model(&poeticmetric.User{}).
+		Where(poeticmetric.User{OrganizationID: organizationID}, "OrganizationID").
+		Count(&userCount).
+		Error
+	if err != nil {
+		return nil, errors.Wrap(err, 0)
+	}
+
+	response.SiteCount = int(siteCount)
+	response.UserCount = int(userCount)
+
+	return &response, nil
+}
+
 func (s *service) ReadPlan(ctx context.Context, planID uint) (*poeticmetric.PlanResponse, error) {
 	postgres := poeticmetric.ServicePostgres(ctx, s)
 
@@ -336,3 +376,6 @@ func (s *service) organizationStripeSubscription(ctx context.Context, stripeCust
 
 	return stripeSubscription, nil
 }
+
+//go:embed files/organization_plan_limits.sql
+var readOrganizationPlanLimitsQuery string

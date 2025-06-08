@@ -139,6 +139,17 @@ definitions:
       updatedAt:
         type: string
     type: object
+  poeticmetric.OrganizationUsageResponse:
+    properties:
+      maxSiteCount:
+        type: integer
+      maxUserCount:
+        type: integer
+      siteCount:
+        type: integer
+      userCount:
+        type: integer
+    type: object
   poeticmetric.OrganizationUser:
     properties:
       createdAt:
@@ -160,7 +171,9 @@ definitions:
     properties:
       maxEventsPerMonth:
         type: integer
-      maxUsers:
+      maxSiteCount:
+        type: integer
+      maxUserCount:
         type: integer
       name:
         type: string
@@ -902,6 +915,19 @@ paths:
       security:
       - UserAccessTokenAuthentication: []
       summary: List organization deletion reasons
+      tags:
+      - organization
+  /organization/usage:
+    get:
+      description: Read usage statistics for the authenticated user's organization.
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/poeticmetric.OrganizationUsageResponse'
+      security:
+      - UserAccessTokenAuthentication: []
+      summary: Read organization usage
       tags:
       - organization
   /public-sites/{siteDomain}:

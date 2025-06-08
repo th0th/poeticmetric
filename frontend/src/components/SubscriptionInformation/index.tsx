@@ -8,10 +8,14 @@ import usePlan from "~/hooks/api/usePlan";
 export type SubscriptionInformationProps = Omit<PropsWithoutRef<JSX.IntrinsicElements["div"]>, "children">;
 
 export default function SubscriptionInformation({ className, ...props }: SubscriptionInformationProps) {
-  const { data: plan } = usePlan();
   const { data: organization } = useOrganization();
+  const { data: plan } = usePlan();
 
-  return organization === undefined || plan === undefined ? null : (
+  if (organization === undefined || organization === null || plan === undefined || plan === null) {
+    return null;
+  }
+
+  return (
     <div {...props} className={classNames("card", className)}>
       <div className="card-body">
         <>

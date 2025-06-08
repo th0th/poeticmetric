@@ -176,3 +176,5 @@ export default function Activation() {
     </>
   );
 }
+
+export const Component = Activation;

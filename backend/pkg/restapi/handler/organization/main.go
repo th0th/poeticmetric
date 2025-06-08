@@ -148,6 +148,25 @@ func (h *Handler) ReadOrganization(w http.ResponseWriter, r *http.Request) {
 	h.responder.JSON(w, http.StatusOK, user)
 }
 
+// ReadOrganizationUsage godoc
+// @Description Read usage statistics for the authenticated user's organization.
+// @Router /organization/usage [get]
+// @Security UserAccessTokenAuthentication
+// @Success 200 {object} poeticmetric.OrganizationUsageResponse
+// @Summary Read organization usage
+// @Tags organization
+func (h *Handler) ReadOrganizationUsage(w http.ResponseWriter, r *http.Request) {
+	authentication := middleware.GetAuthentication(r.Context())
+
+	response, err := h.organizationService.ReadOrganizationUsage(r.Context(), authentication.User.OrganizationID)
+	if err != nil {
+		h.responder.Error(w, errors.Wrap(err, 0))
+		return
+	}
+
+	h.responder.JSON(w, http.StatusOK, response)
+}
+
 // ReadPlan godoc
 // @Description Read the current plan of the authenticated user's organization.
 // @Failure 400 {object} responder.DetailResponse

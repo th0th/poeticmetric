@@ -16,7 +16,7 @@ export default function Button({ plan }: ButtonProps) {
   const { data: organizationPlan } = usePlan();
   const { monthlyEventCountStepIndex, monthlyEventCountSteps, planNameInProgress, set, subscriptionPeriod } = useContext(PlansContext);
   const isDisabled = useMemo(() => {
-    if (organization === undefined || organizationPlan === undefined) {
+    if (organization === undefined || organization === null || organizationPlan === undefined || organizationPlan === null) {
       return false;
     }
 
@@ -68,22 +68,30 @@ export default function Button({ plan }: ButtonProps) {
     );
   }
 
-  return organization !== undefined ? (
-    <button
-      className="align-items-center btn btn-primary btn-sm d-flex gap-4 justify-content-center mt-10 w-100 "
-      disabled={isDisabled}
-      onClick={() => changePlan(plan)}
-      type="button"
-    >
-      {planNameInProgress === plan.name ? (
-        <span className="spinner-border spinner-border-sm" />
-      ) : null}
+  if (organization !== undefined && organization !== null) {
+    return (
+      <button
+        className="align-items-center btn btn-primary btn-sm d-flex gap-4 justify-content-center mt-10 w-100 "
+        disabled={isDisabled}
+        onClick={() => changePlan(plan)}
+        type="button"
+      >
+        {planNameInProgress === plan.name ? (
+          <span className="spinner-border spinner-border-sm" />
+        ) : null}
 
-      {plan.price === "Free" && organization.subscriptionCancelAtPeriodEnd ? "Scheduled" : "Change plan"}
-    </button>
-  ) : plan.name === "Hobbyist" ? (
-    <Link className="btn btn-primary btn-sm d-block mt-10 w-100" to="/sign-up">Get started</Link>
-  ) : (
+        {plan.price === "Free" && organization.subscriptionCancelAtPeriodEnd ? "Scheduled" : "Change plan"}
+      </button>
+    );
+  }
+
+  if (plan.name === "Hobbyist") {
+    return (
+      <Link className="btn btn-primary btn-sm d-block mt-10 w-100" to="/sign-up">Get started</Link>
+    );
+  }
+
+  return (
     <>
       <Link className="btn btn-primary btn-sm d-block mt-10 w-100" to="/sign-up">Start free trial</Link>
       <small className="fs-8 mt-2 text-muted">No credit card required.</small>

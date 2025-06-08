@@ -204,3 +204,5 @@ export default function EmailAddressVerification() {
     </>
   );
 }
+
+export const Component = EmailAddressVerification;

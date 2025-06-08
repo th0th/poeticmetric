@@ -21,6 +21,10 @@ type Form = {
   userPassword: string;
 };
 
+export function x() {
+
+}
+
 export default function SignUp() {
   const { showBoundary } = useErrorBoundary();
   const capture = useCapture();
@@ -62,8 +66,8 @@ export default function SignUp() {
     <>
       <Title>Sign up</Title>
       <Description>
-        Join PoeticMetric today and start monitoring your website&apos;s uptime and performance. Sign up now to access reliable cron job and
-        site monitoring services.
+        Create your PoeticMetric account and start your free trial. Get privacy-first analytics, clear insights, and full control over your
+        data. No credit card required.
       </Description>
 
       <div className="container py-10">
@@ -101,12 +105,10 @@ export default function SignUp() {
                         className={classNames("form-control", errors.userName && "is-invalid")}
                         id="input-user-name"
                         required
-                        {...register("userName", { required: true })}
+                        {...register("userName")}
                       />
 
-                      {errors.userName !== undefined ? (
-                        <div className="invalid-feedback">{errors.userName.message}</div>
-                      ) : null}
+                      <div className="invalid-feedback">{errors.userName?.message}</div>
                     </div>
 
                     <div>
@@ -118,12 +120,10 @@ export default function SignUp() {
                         id="input-user-email"
                         required
                         type="email"
-                        {...register("userEmail", { required: true })}
+                        {...register("userEmail")}
                       />
 
-                      {errors.userEmail !== undefined ? (
-                        <div className="invalid-feedback">{errors.userEmail.message}</div>
-                      ) : null}
+                      <div className="invalid-feedback">{errors.userEmail?.message}</div>
                     </div>
 
                     <div>
@@ -135,7 +135,7 @@ export default function SignUp() {
                         id="input-user-password"
                         required
                         type="password"
-                        {...register("userPassword", { required: true })}
+                        {...register("userPassword")}
                       />
 
                       {errors.userPassword !== undefined ? (
@@ -151,7 +151,7 @@ export default function SignUp() {
                         className={classNames("form-control", errors.organizationName && "is-invalid")}
                         id="input-organization-name"
                         required
-                        {...register("organizationName", { required: true })}
+                        {...register("organizationName")}
                       />
 
                       {errors.organizationName !== undefined ? (
@@ -188,3 +188,4 @@ export default function SignUp() {
   );
 }
 
+export const Component = SignUp;

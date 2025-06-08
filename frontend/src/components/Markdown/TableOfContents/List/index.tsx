@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import React, { JSX } from "react";
-import Item from "../Item";
-import { TableOfContentsItem } from "../tableOfContentsItem";
+import Item from "../Item"; // eslint-disable-line @typescript-eslint/no-restricted-imports
+import { TableOfContentsItem } from "../tableOfContentsItem"; // eslint-disable-line @typescript-eslint/no-restricted-imports
 
 export type ListProps = Overwrite<React.PropsWithoutRef<JSX.IntrinsicElements["ol"]>, {
   allItems: Array<TableOfContentsItem>;

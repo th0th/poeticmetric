@@ -19,12 +19,13 @@ export default function SignIn() {
   const { showBoundary } = useErrorBoundary();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { refresh } = useAuthentication();
+  const { refresh, setState: setAuthenticationState } = useAuthentication();
   const { formState: { errors, isSubmitting }, handleSubmit, register, setError, watch } = useForm<Form>();
   const userEmail = watch("userEmail");
 
-  const passwordRecoveryLink = useMemo(
-    () => `/password-recovery${userEmail === "" ? "" : `?email=${encodeURIComponent(userEmail)}`}`,
+  const passwordRecoveryLink = useMemo(() => `/password-recovery${userEmail === ""
+      ? ""
+      : `?email=${encodeURIComponent(userEmail)}`}`,
     [userEmail],
   );
 
@@ -39,6 +40,7 @@ export default function SignIn() {
       const responseJson = await response.json();
 
       if (response.ok) {
+        setAuthenticationState((s) => ({ ...s, isNavigationInProgress: true }));
         setUserAccessToken(responseJson.token);
         await refresh();
 

@@ -1,5 +1,5 @@
 import { CSSProperties } from "react";
-import Text, { TextProps } from "../Text";
+import Text, { TextProps } from "~emails/_components/Text";
 
 export type TitleProps = TextProps;
 

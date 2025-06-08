@@ -1,5 +1,6 @@
+import { useEffect } from "react";
+import { useErrorBoundary } from "react-error-boundary";
 import { useSearchParams } from "react-router";
-import Error from "~/components/Error";
 import NotFound from "~/components/NotFound";
 import SiteReport from "~/components/SiteReport";
 import SiteReportDataProvider from "~/components/SiteReportDataProvider";
@@ -7,9 +8,20 @@ import Title from "~/components/Title";
 import usePublicSite from "~/hooks/api/usePublicSite";
 
 export default function PublicSiteReport() {
+  const { showBoundary } = useErrorBoundary();
   const [searchParams] = useSearchParams();
   const siteDomain = searchParams.get("d");
   const { data: publicSite, error: publicSiteError } = usePublicSite(siteDomain);
+
+  useEffect(() => {
+    if (publicSiteError !== undefined && publicSiteError.message !== "Not found.") {
+      showBoundary(publicSiteError);
+    }
+  }, [publicSiteError, showBoundary]);
+
+  if (publicSiteError !== undefined && publicSiteError.message === "Not found.") {
+    return <NotFound />;
+  }
 
   if (publicSite !== undefined) {
     return (
@@ -25,14 +37,6 @@ export default function PublicSiteReport() {
         </div>
       </>
     );
-  }
-
-  if (publicSiteError !== undefined) {
-    if (publicSiteError.message === "Not found.") {
-      return <NotFound />;
-    } else {
-      return <Error error={publicSiteError} />;
-    }
   }
 
   return (
