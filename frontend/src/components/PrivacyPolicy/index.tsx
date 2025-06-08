@@ -15,13 +15,15 @@ export default function PrivacyPolicy() {
 
       <div className="bg-body">
         <div className="container mw-50rem py-16">
-          <Breadcrumb>
-            <Breadcrumb.Title>Privacy policy</Breadcrumb.Title>
-          </Breadcrumb>
+          <div className="mw-50rem mx-auto">
+            <Breadcrumb>
+              <Breadcrumb.Title>Privacy policy</Breadcrumb.Title>
+            </Breadcrumb>
 
-          <div className="fw-semi-bold mt-2 text-body-tertiary">Last updated on Apr 9, 2023</div>
+            <div className="fw-semi-bold mt-2 text-body-tertiary">Last updated on Apr 9, 2023</div>
 
-          <Markdown className="mt-3">{md.content}</Markdown>
+            <Markdown className="mt-3">{md.content}</Markdown>
+          </div>
         </div>
       </div>
     </>

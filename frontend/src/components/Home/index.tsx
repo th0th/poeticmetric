@@ -14,14 +14,14 @@ const features: FeaturesProps["features"] = [
     detail: "Privacy is where PoeticMetric actually starts, not just a checkbox we ticked later. We don't do invasive cookies or follow-your-every-move tracking. Your users get their space respected. You can feel good knowing you're doing analytics the right way, without worrying about crossing any lines.",
     icon: IconCookieOff,
     iconWrapperClassName: "bg-primary",
-    title: "Privacy by Design",
+    title: "Privacy by design",
   },
   {
     description: "Trust you can verify",
     detail: "PoeticMetric's code is right out in the open for anyone to see and check. If you want to dive in or even run your own version, you're more than welcome. We believe in transparency for real, not just as a buzzword.",
     icon: IconCode,
     iconWrapperClassName: "bg-primary",
-    title: "Open Source",
+    title: "Open source",
   },
   {
     description: "Installs in minutes, not hours",
@@ -29,14 +29,14 @@ const features: FeaturesProps["features"] = [
     icon: IconPlug,
     iconWrapperClassName: "bg-primary",
     link: "/docs/websites/adding-the-script-to-your-website",
-    title: "Effortless Integration",
+    title: "Effortless integration",
   },
   {
     description: "Simple, clutter-free reports",
     detail: "You don't get buried in dashboards or numbers you don't care about. PoeticMetric just puts the important stuff front and center, in a way that makes sense. Whether you're new to analytics or have been staring at charts for years, you can get what you need and get back to work.",
     icon: IconChartBar,
     iconWrapperClassName: "bg-primary",
-    title: "Clear Insights",
+    title: "Clear insights",
   },
   {
     description: "Built for modern workflows",
@@ -44,7 +44,7 @@ const features: FeaturesProps["features"] = [
     icon: IconUsers,
     iconWrapperClassName: "bg-primary",
     link: "/docs/team/introduction",
-    title: "Team Collaboration",
+    title: "Team collaboration",
   },
   {
     description: "Analytics at top speed",
@@ -52,7 +52,7 @@ const features: FeaturesProps["features"] = [
     icon: IconBolt,
     iconWrapperClassName: "bg-primary",
     link: "https://dev.poeticmetric.com/docs/websites/adding-the-script-to-your-website",
-    title: "Lightning Fast",
+    title: "Lightning fast",
   },
 ];
 

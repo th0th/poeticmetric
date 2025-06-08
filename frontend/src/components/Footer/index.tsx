@@ -1,4 +1,4 @@
-import { IconBrandGithub, IconBrandLinkedin, IconBrandX, TablerIcon } from "@tabler/icons-react";
+import { IconBrandLinkedin, IconBrandMastodon, IconCode, TablerIcon } from "@tabler/icons-react";
 import classNames from "classnames";
 import { JSX, PropsWithoutRef } from "react";
 import { Link } from "react-router";
@@ -63,19 +63,19 @@ const navColumns: Array<NavColumn> = [
 
 const socialLinks: Array<SocialLink> = [
   {
-    href: "https://x.com/WebGazerIO",
-    icon: IconBrandX,
-    title: "X",
+    href: "https://codeberg.org/poeticmetric/poeticmetric",
+    icon: IconCode,
+    title: "Source code",
   },
   {
-    href: "https://github.com/WebGazerIO",
-    icon: IconBrandGithub,
-    title: "GitHub",
+    href: "https://fosstodon.org/@poeticmetric",
+    icon: IconBrandMastodon,
+    title: "Mastodon",
   },
   {
-    href: "https://linkedin.com/company/WebGazer",
+    href: "https://linkedin.com/company/PoeticMetric",
     icon: IconBrandLinkedin,
-    title: "Linkedin",
+    title: "LinkedIn",
   },
 ];
 

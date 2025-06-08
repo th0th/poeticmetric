@@ -14,14 +14,16 @@ export default function TermsOfService() {
       <CanonicalLink path="/terms-of-service" />
 
       <div className="bg-body">
-        <div className="container mw-50rem py-16">
-          <Breadcrumb>
-            <Breadcrumb.Title>Terms of service</Breadcrumb.Title>
-          </Breadcrumb>
+        <div className="container py-16">
+          <div className="mw-50rem mx-auto">
+            <Breadcrumb>
+              <Breadcrumb.Title>Terms of service</Breadcrumb.Title>
+            </Breadcrumb>
 
-          <div className="fw-semi-bold mt-2 text-body-tertiary">Last updated on Jan 2, 2023</div>
+            <div className="fw-semi-bold mt-2 text-body-tertiary">Last updated on Jan 2, 2023</div>
 
-          <Markdown className="mt-3">{md.content}</Markdown>
+            <Markdown className="mt-3">{md.content}</Markdown>
+          </div>
         </div>
       </div>
     </>
