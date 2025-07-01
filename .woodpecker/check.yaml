@@ -9,8 +9,6 @@ services:
   - 32768
   - 32769
   privileged: true
-  volumes:
-  - dind-certs:/dind-certs
 
 steps:
 - commands:
@@ -27,11 +25,9 @@ steps:
   environment:
     DOCKER_HOST: "tcp://docker:2376"
     DOCKER_CERT_PATH: "/dind-certs/client"
-    DOCKER_TLS_VERIFY: "1"
+    DOCKER_TLS_VERIFY: "0"
   image: golang:1.24.3
   name: backend-tests
-  volumes:
-  - dind-certs:/dind-certs
 
 - commands:
   - npm install -g pnpm
