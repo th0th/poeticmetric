@@ -9,8 +9,6 @@ services:
   - 32768
   - 32769
   privileged: true
-  volumes:
-  - dind-certs:/dind-certs
 
 skip_clone: true
 
@@ -42,11 +40,9 @@ steps:
       from_secret: BITWARDEN_ACCESS_TOKEN
     DOCKER_HOST: "tcp://docker:2376"
     DOCKER_CERT_PATH: "/dind-certs/client"
-    DOCKER_TLS_VERIFY: "1"
+    DOCKER_TLS_VERIFY: "0"
   image: docker:cli
   name: secrets
-  volumes:
-  - dind-certs:/dind-certs
 
 - commands:
   - cat secret-envs
