@@ -9,6 +9,7 @@ services:
   - 32768
   - 32769
   privileged: true
+  volumes: []
 
 steps:
 - commands:
