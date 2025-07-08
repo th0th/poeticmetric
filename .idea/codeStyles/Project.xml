@@ -126,9 +126,6 @@
     <editorconfig>
       <option name="ENABLED" value="false" />
     </editorconfig>
-    <yaml>
-      <option name="INDENT_SEQUENCE_VALUE" value="false" />
-    </yaml>
     <codeStyleSettings language="CSS">
       <indentOptions>
         <option name="INDENT_SIZE" value="2" />
@@ -202,6 +199,7 @@
     </codeStyleSettings>
     <codeStyleSettings language="yaml">
       <option name="SPACE_WITHIN_BRACKETS" value="false" />
+      <option name="SPACE_WITHIN_BRACES" value="false" />
     </codeStyleSettings>
   </code_scheme>
 </component>
