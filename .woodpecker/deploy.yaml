@@ -1,93 +1,95 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/woodpecker-ci/woodpecker/refs/heads/main/pipeline/frontend/yaml/linter/schema/schema.json
 services:
-- environment:
-    DOCKER_TLS_CERTDIR: /dind-certs
-  image: docker:dind
-  name: docker
-  ports:
-  - 2376
-  - 32768
-  - 32769
-  privileged: true
+  - environment:
+      DOCKER_TLS_CERTDIR: /dind-certs
+    image: docker:dind
+    name: docker
+    ports:
+      - 2376
+      - 32768
+      - 32769
+    privileged: true
+    volumes:
+      - woodpecker-ci:dind-certs:/dind-certs
 
 skip_clone: true
 
 steps:
 
-- commands:
-  - git clone https://$${CODEBERG_USER}:$${CODEBERG_TOKEN}@codeberg.org/${CI_REPO_OWNER}/infrastructure.git infrastructure
-  depends_on: []
-  environment:
-    CODEBERG_TOKEN:
-      from_secret: CODEBERG_TOKEN
-    CODEBERG_USER:
-      from_secret: CODEBERG_USER
-  image: alpine/git
-  name: clone-infrastructure
+  - commands:
+      - git clone https://$${CODEBERG_USER}:$${CODEBERG_TOKEN}@codeberg.org/${CI_REPO_OWNER}/infrastructure.git infrastructure
+    environment:
+      CODEBERG_TOKEN:
+        from_secret: CODEBERG_TOKEN
+      CODEBERG_USER:
+        from_secret: CODEBERG_USER
+    image: alpine/git
+    name: clone-infrastructure
 
-- commands:
-  - |
-    docker run \
-    --rm \
-    -v /tmp:/home/app/.config/bws/state \
-    bitwarden/bws \
-      --access-token "$${BITWARDEN_ACCESS_TOKEN}" \
-      secret list \
-      --output env > secret-envs
-  depends_on: []
-  environment:
-    BITWARDEN_ACCESS_TOKEN:
-      from_secret: BITWARDEN_ACCESS_TOKEN
-    DOCKER_HOST: "tcp://docker:2376"
-    DOCKER_CERT_PATH: "/dind-certs/client"
-    DOCKER_TLS_VERIFY: "0"
-  image: docker:cli
-  name: secrets
+  - commands:
+      - |
+        docker run \
+        --rm \
+        -v /tmp:/home/app/.config/bws/state \
+        bitwarden/bws \
+          --access-token "$${BITWARDEN_ACCESS_TOKEN}" \
+          secret list \
+          --output env > secret-envs
+    environment:
+      BITWARDEN_ACCESS_TOKEN:
+        from_secret: BITWARDEN_ACCESS_TOKEN
+      DOCKER_CERT_PATH: "/dind-certs/client"
+      DOCKER_HOST: "tcp://docker:2376"
+      DOCKER_TLS_VERIFY: "1"
+    image: docker:cli
+    name: secrets
+    volumes:
+      - woodpecker-ci:dind-certs:/dind-certs
 
-- commands:
-  - cat secret-envs
-  - sed -i -e "s/^${CI_PIPELINE_DEPLOY_TARGET^^}_//" secret-envs
-  - source secret-envs
-  - mkdir ~/.kube
-  - echo $${KUBE_CONFIG} | base64 -d > ~/.kube/config
-  - chmod 400 ~/.kube/config
-  - |
-    if [ -n "$${RESET}" ]; then
-      kubectl --namespace "$${KUBERNETES_NAMESPACE}" rollout restart statefulsets
-      sleep 4
-    fi
-  - |
-    helm upgrade poeticmetric poeticmetric \
-      --install \
-      --namespace "$${KUBERNETES_NAMESPACE}" \
-      --repo https://codeberg.org/api/packages/${CI_REPO_OWNER}/helm \
-      --set clickhouse.password="$${CLICKHOUSE_PASSWORD}" \
-      --set poeticmetric.backend.image.tag="${CI_COMMIT_TAG##v}" \
-      --set poeticmetric.config.google.clientID="$${GOOGLE_CLIENT_ID}" \
-      --set poeticmetric.config.google.clientSecret="$${GOOGLE_CLIENT_SECRET}" \
-      --set poeticmetric.config.smtp.password="$${SMTP_PASSWORD}" \
-      --set poeticmetric.config.smtp.user="$${SMTP_USER}" \
-      --set poeticmetric.config.registryAuth.host="codeberg.org" \
-      --set poeticmetric.config.registryAuth.password="$${REGISTRY_PASSWORD}" \
-      --set poeticmetric.config.registryAuth.user="$${REGISTRY_USER}" \
-      --set poeticmetric.config.stripe.publishableKey="$${STRIPE_PUBLISHABLE_KEY}" \
-      --set poeticmetric.config.stripe.secretKey="$${STRIPE_SECRET_KEY}" \
-      --set poeticmetric.config.stripe.webhookSigningSecret="$${STRIPE_WEBHOOK_SIGNING_SECRET}" \
-      --set poeticmetric.frontend.image.tag="${CI_COMMIT_TAG##v}" \
-      --set postgres.password="$${POSTGRES_PASSWORD}" \
-      --set rabbitmq.password="$${RABBITMQ_PASSWORD}" \
-      --set valkey.password="$${VALKEY_PASSWORD}" \
-      --values "infrastructure/etc/${CI_PIPELINE_DEPLOY_TARGET}/values.yaml" \
-      --version "${CI_COMMIT_TAG##v}"
-  depends_on:
-  - clone-infrastructure
-  - secrets
-  environment:
-    KUBE_CONFIG:
-      from_secret: KUBE_CONFIG
-  image: alpine/k8s:1.31.6
-  name: install-helm-chart
+  - commands:
+      - cat secret-envs
+      - sed -i -e "s/^${CI_PIPELINE_DEPLOY_TARGET^^}_//" secret-envs
+      - source secret-envs
+      - mkdir ~/.kube
+      - echo $${KUBE_CONFIG} | base64 -d > ~/.kube/config
+      - chmod 400 ~/.kube/config
+      - |
+        if [ -n "$${RESET}" ]; then
+          kubectl --namespace "$${KUBERNETES_NAMESPACE}" rollout restart statefulsets
+          sleep 4
+        fi
+      - |
+        helm upgrade poeticmetric poeticmetric \
+          --install \
+          --namespace "$${KUBERNETES_NAMESPACE}" \
+          --repo https://codeberg.org/api/packages/${CI_REPO_OWNER}/helm \
+          --set clickhouse.password="$${CLICKHOUSE_PASSWORD}" \
+          --set poeticmetric.backend.image.tag="${CI_COMMIT_TAG##v}" \
+          --set poeticmetric.config.google.clientID="$${GOOGLE_CLIENT_ID}" \
+          --set poeticmetric.config.google.clientSecret="$${GOOGLE_CLIENT_SECRET}" \
+          --set poeticmetric.config.smtp.password="$${SMTP_PASSWORD}" \
+          --set poeticmetric.config.smtp.user="$${SMTP_USER}" \
+          --set poeticmetric.config.registryAuth.host="codeberg.org" \
+          --set poeticmetric.config.registryAuth.password="$${REGISTRY_PASSWORD}" \
+          --set poeticmetric.config.registryAuth.user="$${REGISTRY_USER}" \
+          --set poeticmetric.config.stripe.publishableKey="$${STRIPE_PUBLISHABLE_KEY}" \
+          --set poeticmetric.config.stripe.secretKey="$${STRIPE_SECRET_KEY}" \
+          --set poeticmetric.config.stripe.webhookSigningSecret="$${STRIPE_WEBHOOK_SIGNING_SECRET}" \
+          --set poeticmetric.frontend.image.tag="${CI_COMMIT_TAG##v}" \
+          --set postgres.password="$${POSTGRES_PASSWORD}" \
+          --set rabbitmq.password="$${RABBITMQ_PASSWORD}" \
+          --set valkey.password="$${VALKEY_PASSWORD}" \
+          --values "infrastructure/etc/${CI_PIPELINE_DEPLOY_TARGET}/values.yaml" \
+          --version "${CI_COMMIT_TAG##v}"
+    depends_on:
+      - clone-infrastructure
+      - secrets
+    environment:
+      KUBE_CONFIG:
+        from_secret: KUBE_CONFIG
+    image: alpine/k8s:1.33.1
+    name: install-helm-chart
 
 when:
-- evaluate: "CI_PIPELINE_DEPLOY_TARGET in ['production', 'staging']"
-  event: deployment
+  - evaluate: "CI_PIPELINE_DEPLOY_TARGET in ['production', 'staging']"
+    event: deployment
