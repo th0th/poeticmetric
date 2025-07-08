@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    {{ include "poeticmetric.labels" . | nindent 4 }}
+    restart-on-deploy: "true"
+  name: {{ include "poeticmetric.fullname" . }}-scheduler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{ include "poeticmetric.selectorLabels" . | nindent 6 }}
+      deployment: scheduler
+  template:
+    metadata:
+      labels:
+        {{ include "poeticmetric.selectorLabels" . | nindent 8 }}
+        deployment: scheduler
+    spec:
+      containers:
+      - env:
+        - name: INSTANCE
+          value: scheduler
+        envFrom:
+        - configMapRef:
+            name: {{ include "poeticmetric.fullname" . }}-clickhouse
+          prefix: CLICKHOUSE_
+        - prefix: CLICKHOUSE_
+          secretRef:
+            name: {{ include "poeticmetric.fullname" . }}-clickhouse
+        - prefix: GOOGLE_
+          secretRef:
+            name: {{ include "poeticmetric.fullname" . }}-google
+            optional: true
+        - configMapRef:
+            name: {{ include "poeticmetric.fullname" . }}-postgres
+          prefix: POSTGRES_
+        - prefix: POSTGRES_
+          secretRef:
+            name: {{ include "poeticmetric.fullname" . }}-postgres
+        - configMapRef:
+            name: {{ include "poeticmetric.fullname" . }}-rabbitmq
+          prefix: RABBITMQ_
+        - prefix: RABBITMQ_
+          secretRef:
+            name: {{ include "poeticmetric.fullname" . }}-rabbitmq
+        - prefix: SMTP_
+          configMapRef:
+            name: {{ include "poeticmetric.fullname" . }}-smtp
+        - prefix: SMTP_
+          secretRef:
+            name: {{ include "poeticmetric.fullname" . }}-smtp
+        - prefix: STRIPE_
+          secretRef:
+            name: {{ include "poeticmetric.fullname" . }}-stripe
+            optional: true
+        - prefix: VALKEY_
+          configMapRef:
+            name: {{ include "poeticmetric.fullname" . }}-valkey
+        - prefix: VALKEY_
+          secretRef:
+            name: {{ include "poeticmetric.fullname" . }}-valkey
+        - configMapRef:
+            name: {{ include "poeticmetric.fullname" . }}-poeticmetric
+        image: {{ printf "%s:%s" .Values.poeticmetric.backend.image.repository .Values.poeticmetric.backend.image.tag }}
+        imagePullPolicy: {{ .Values.poeticmetric.backend.image.pullPolicy }}
+        name: scheduler
+        resources:
+          {{ toYaml .Values.poeticmetric.config.scheduler.resources | nindent 10 }}
+        volumeMounts:
+        {{ if .Values.poeticmetric.config.development.hostBasePath }}
+        - mountPath: /poeticmetric/cmd
+          name: cmd
+        - mountPath: /poeticmetric/pkg
+          name: pkg
+        - mountPath: /poeticmetric/go.mod
+          name: go-mod
+        - mountPath: /poeticmetric/go.sum
+          name: go-sum
+        {{ end }}
+      {{ if .Values.poeticmetric.config.registryAuth }}
+      imagePullSecrets:
+      - name: {{ include "poeticmetric.fullname" . }}-registry-auth
+      {{ end }}
+      volumes:
+      {{ if .Values.poeticmetric.config.development.hostBasePath }}
+      - hostPath:
+          path: {{ .Values.poeticmetric.config.development.hostBasePath }}/backend/cmd
+        name: cmd
+      - hostPath:
+          path: {{ .Values.poeticmetric.config.development.hostBasePath }}/backend/pkg
+        name: pkg
+      - hostPath:
+          path: {{ .Values.poeticmetric.config.development.hostBasePath }}/backend/go.mod
+        name: go-mod
+      - hostPath:
+          path: {{ .Values.poeticmetric.config.development.hostBasePath }}/backend/go.sum
+        name: go-sum
+      {{ end }}

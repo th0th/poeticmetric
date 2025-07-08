@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    {{ include "poeticmetric.labels" . | nindent 4 }}
+  name: {{ include "poeticmetric.fullname" . }}-valkey
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      statefulSet: valkey
+      {{ include "poeticmetric.selectorLabels" . | nindent 6 }}
+  serviceName: valkey-hl
+  template:
+    metadata:
+      labels:
+        statefulSet: valkey
+        {{ include "poeticmetric.selectorLabels" . | nindent 8 }}
+      name: valkey
+    spec:
+      containers:
+      - env:
+        - name: PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: PASSWORD
+              name: {{ include "poeticmetric.fullname" . }}-valkey
+        image: {{ .Values.valkey.image.repository }}:{{ .Values.valkey.image.tag }}
+        name: valkey
+        resources:
+          {{ toYaml .Values.valkey.resources | nindent 10 }}
+        {{ if .Values.valkey.persistence.enabled }}
+        volumeMounts:
+        - mountPath: /data
+          name: data
+          subPath: valkey
+        {{ end }}
+  {{ if .Values.valkey.persistence.enabled }}
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Retain
+    whenScaled: Retain
+  volumeClaimTemplates:
+  - kind: PersistentVolumeClaim
+    apiVersion: v1
+    metadata:
+      name: data
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
+      volumeMode: Filesystem
+  {{ end }}

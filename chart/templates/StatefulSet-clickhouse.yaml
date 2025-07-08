@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    {{ include "poeticmetric.labels" . | nindent 4 }}
+  name: {{ include "poeticmetric.fullname" . }}-clickhouse
+spec:
+  {{ if .Values.clickhouse.persistence.enabled }}
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Retain
+    whenScaled: Retain
+  {{ end }}
+  replicas: 1
+  selector:
+    matchLabels:
+      statefulSet: clickhouse
+      {{ include "poeticmetric.selectorLabels" . | nindent 6 }}
+  serviceName: clickhouse-hl
+  template:
+    metadata:
+      labels:
+        statefulSet: clickhouse
+        {{ include "poeticmetric.selectorLabels" . | nindent 8 }}
+      name: clickhouse
+    spec:
+      containers:
+      - env:
+        - name: CLICKHOUSE_DB
+          valueFrom:
+            configMapKeyRef:
+              key: DATABASE
+              name: {{ include "poeticmetric.fullname" . }}-clickhouse
+        - name: CLICKHOUSE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: PASSWORD
+              name: {{ include "poeticmetric.fullname" . }}-clickhouse
+        - name: CLICKHOUSE_USER
+          valueFrom:
+            secretKeyRef:
+              key: USER
+              name: {{ include "poeticmetric.fullname" . }}-clickhouse
+        image: {{ .Values.clickhouse.image.repository }}:{{ .Values.clickhouse.image.tag }}
+        imagePullPolicy: {{ .Values.clickhouse.image.pullPolicy }}
+        name: clickhouse
+        resources: {{ toYaml .Values.clickhouse.resources | nindent 10 }}
+        volumeMounts:
+        - mountPath: /etc/clickhouse-server/config.d/custom_config.xml
+          name: configmap-clickhouse
+          subPath: CONFIG
+        {{ if .Values.clickhouse.persistence.enabled }}
+        - mountPath: /var/lib/clickhouse/
+          name: data
+          subPath: clickhouse
+        {{ end }}
+      volumes:
+      - configMap:
+          name: {{ include "poeticmetric.fullname" . }}-clickhouse
+        name: configmap-clickhouse
+  {{ if .Values.clickhouse.persistence.enabled }}
+  volumeClaimTemplates:
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: data
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
+      volumeMode: Filesystem
+  {{ end }}
