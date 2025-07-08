@@ -1,0 +1,10 @@
+extends: default
+ignore: |
+  unius/cloud-config.yaml
+rules:
+  braces: disable
+  document-start: disable
+  indentation:
+    spaces: 2
+  key-ordering: enable
+  line-length: disable
