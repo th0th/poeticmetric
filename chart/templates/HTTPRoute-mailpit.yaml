@@ -1,3 +1,4 @@
+{{ if .Values.poeticmetric.config.development.enabled }}
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -16,3 +17,5 @@ spec:
         - path:
             type: PathPrefix
             value: /
+
+{{ end }}
