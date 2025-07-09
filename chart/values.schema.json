@@ -77,19 +77,6 @@
                         }
                     },
                     "additionalProperties": false
-                },
-                "ingress": {
-                    "type": "object",
-                    "properties": {
-                        "annotations": {
-                            "type": "object",
-                            "additionalProperties": true
-                        },
-                        "host": {
-                            "type": "string"
-                        }
-                    },
-                    "additionalProperties": false
                 }
             },
             "additionalProperties": false
@@ -215,16 +202,6 @@
                                 "basePath": {
                                     "type": "string"
                                 },
-                                "ingress": {
-                                    "type": "object",
-                                    "properties": {
-                                        "annotations": {
-                                            "type": "object",
-                                            "additionalProperties": true
-                                        }
-                                    },
-                                    "additionalProperties": false
-                                },
                                 "replicas": {
                                     "type": "integer"
                                 },
@@ -331,16 +308,6 @@
                             },
                             "additionalProperties": false
                         },
-                        "ingress": {
-                            "type": "object",
-                            "properties": {
-                                "annotations": {
-                                    "type": "object",
-                                    "additionalProperties": true
-                                }
-                            },
-                            "additionalProperties": false
-                        },
                         "replicas": {
                             "type": "integer"
                         },
@@ -412,19 +379,6 @@
                             "type": "string"
                         },
                         "tag": {
-                            "type": "string"
-                        }
-                    },
-                    "additionalProperties": false
-                },
-                "ingress": {
-                    "type": "object",
-                    "properties": {
-                        "annotations": {
-                            "type": "object",
-                            "additionalProperties": true
-                        },
-                        "host": {
                             "type": "string"
                         }
                     },
