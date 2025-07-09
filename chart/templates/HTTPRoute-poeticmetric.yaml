@@ -1,0 +1,44 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  labels: {{ include "poeticmetric.labels" . | nindent 4 }}
+  name: {{ include "poeticmetric.fullname" . }}-poeticmetric
+spec:
+  hostnames:
+    - {{ .Values.poeticmetric.config.host }}
+  parentRefs: {{ toYaml .Values.gateway.parentRefs | nindent 4 }}
+  rules:
+    - backendRefs:
+        - kind: Service
+          name: {{ include "poeticmetric.fullname" . }}-frontend
+          port: 80
+      matches:
+        - path:
+            type: PathPrefix
+            value: /
+
+    - backendRefs:
+        - kind: Service
+          name: {{ include "poeticmetric.fullname" . }}-rest-api
+          port: 80
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /
+      matches:
+        - path:
+            type: PathPrefix
+            value: /api
+
+    {{ if .Values.poeticmetric.config.development.enabled }}
+    - backendRefs:
+        - kind: Service
+          name: {{ include "poeticmetric.fullname" . }}-frontend
+          port: 24678
+      matches:
+        - path:
+            type: PathPrefix
+            value: /hmr
+    {{ end }}

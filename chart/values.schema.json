@@ -1,13 +1,14 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "additionalProperties": false,
+    "title": "PoeticMetric Helm Values Schema",
     "description": "Schema for PoeticMetric helm chart values",
+    "type": "object",
     "properties": {
         "clickhouse": {
-            "additionalProperties": false,
+            "type": "object",
             "properties": {
                 "image": {
-                    "additionalProperties": false,
+                    "type": "object",
                     "properties": {
                         "pullPolicy": {
                             "type": "string"
@@ -19,13 +20,13 @@
                             "type": "number"
                         }
                     },
-                    "type": "object"
+                    "additionalProperties": false
                 },
                 "password": {
                     "type": "string"
                 },
                 "persistence": {
-                    "additionalProperties": false,
+                    "type": "object",
                     "properties": {
                         "enabled": {
                             "type": "boolean"
@@ -34,27 +35,36 @@
                             "type": "string"
                         }
                     },
-                    "type": "object"
+                    "additionalProperties": false
                 },
                 "resources": {
                     "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
-                    "additionalProperties": false,
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                 },
                 "user": {
                     "type": "string"
                 }
             },
-            "type": "object"
+            "additionalProperties": false
+        },
+        "gateway": {
+            "type": "object",
+            "properties": {
+                "parentRefs": {
+                    "type": "array"
+                }
+            },
+            "additionalProperties": false
         },
         "mailpit": {
-            "additionalProperties": false,
+            "type": "object",
             "properties": {
                 "enabled": {
                     "type": "boolean"
                 },
                 "image": {
-                    "additionalProperties": false,
+                    "type": "object",
                     "properties": {
                         "pullPolicy": {
                             "type": "string"
@@ -66,35 +76,33 @@
                             "type": "string"
                         }
                     },
-                    "type": "object"
+                    "additionalProperties": false
                 },
                 "ingress": {
-                    "additionalProperties": false,
+                    "type": "object",
                     "properties": {
                         "annotations": {
-                            "additionalProperties": true,
-                            "properties": {},
-                            "type": "object"
+                            "type": "object",
+                            "additionalProperties": true
                         },
                         "host": {
                             "type": "string"
                         }
                     },
-                    "type": "object"
+                    "additionalProperties": false
                 }
             },
-            "type": "object"
+            "additionalProperties": false
         },
         "pgbouncer": {
-            "additionalProperties": false,
+            "type": "object",
             "properties": {
                 "config": {
-                    "additionalProperties": true,
-                    "properties": {},
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": true
                 },
                 "image": {
-                    "additionalProperties": false,
+                    "type": "object",
                     "properties": {
                         "pullPolicy": {
                             "type": "string"
@@ -106,27 +114,27 @@
                             "type": "string"
                         }
                     },
-                    "type": "object"
+                    "additionalProperties": false
                 },
                 "replicas": {
                     "type": "integer"
                 },
                 "resources": {
                     "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
-                    "additionalProperties": false,
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                 }
             },
-            "type": "object"
+            "additionalProperties": false
         },
         "poeticmetric": {
-            "additionalProperties": false,
+            "type": "object",
             "properties": {
                 "backend": {
-                    "additionalProperties": false,
+                    "type": "object",
                     "properties": {
                         "image": {
-                            "additionalProperties": false,
+                            "type": "object",
                             "properties": {
                                 "pullPolicy": {
                                     "type": "string"
@@ -138,19 +146,19 @@
                                     "type": "string"
                                 }
                             },
-                            "type": "object"
+                            "additionalProperties": false
                         }
                     },
-                    "type": "object"
+                    "additionalProperties": false
                 },
                 "config": {
-                    "additionalProperties": true,
+                    "type": "object",
                     "properties": {
                         "defaultPlanName": {
                             "type": "string"
                         },
                         "development": {
-                            "additionalProperties": false,
+                            "type": "object",
                             "properties": {
                                 "databaseDebug": {
                                     "type": "boolean"
@@ -165,15 +173,14 @@
                                     "type": "string"
                                 }
                             },
-                            "type": "object"
+                            "additionalProperties": false
                         },
                         "extra": {
-                            "additionalProperties": true,
-                            "properties": {},
-                            "type": "object"
+                            "type": "object",
+                            "additionalProperties": true
                         },
                         "google": {
-                            "additionalProperties": false,
+                            "type": "object",
                             "properties": {
                                 "clientID": {
                                     "type": "string"
@@ -182,13 +189,13 @@
                                     "type": "string"
                                 }
                             },
-                            "type": "object"
+                            "additionalProperties": false
                         },
                         "host": {
                             "type": "string"
                         },
                         "registryAuth": {
-                            "additionalProperties": false,
+                            "type": "object",
                             "properties": {
                                 "host": {
                                     "type": "string"
@@ -200,49 +207,48 @@
                                     "type": "string"
                                 }
                             },
-                            "type": "object"
+                            "additionalProperties": false
                         },
                         "restApi": {
-                            "additionalProperties": false,
+                            "type": "object",
                             "properties": {
                                 "basePath": {
                                     "type": "string"
                                 },
                                 "ingress": {
-                                    "additionalProperties": false,
+                                    "type": "object",
                                     "properties": {
                                         "annotations": {
-                                            "additionalProperties": true,
-                                            "properties": {},
-                                            "type": "object"
+                                            "type": "object",
+                                            "additionalProperties": true
                                         }
                                     },
-                                    "type": "object"
+                                    "additionalProperties": false
                                 },
                                 "replicas": {
                                     "type": "integer"
                                 },
                                 "resources": {
                                     "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
-                                    "additionalProperties": false,
-                                    "type": "object"
+                                    "type": "object",
+                                    "additionalProperties": false
                                 }
                             },
-                            "type": "object"
+                            "additionalProperties": false
                         },
                         "scheduler": {
-                            "additionalProperties": false,
+                            "type": "object",
                             "properties": {
                                 "resources": {
                                     "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
-                                    "additionalProperties": false,
-                                    "type": "object"
+                                    "type": "object",
+                                    "additionalProperties": false
                                 }
                             },
-                            "type": "object"
+                            "additionalProperties": false
                         },
                         "smtp": {
-                            "additionalProperties": false,
+                            "type": "object",
                             "properties": {
                                 "fromAddress": {
                                     "type": "string"
@@ -260,10 +266,10 @@
                                     "type": "string"
                                 }
                             },
-                            "type": "object"
+                            "additionalProperties": false
                         },
                         "stripe": {
-                            "additionalProperties": false,
+                            "type": "object",
                             "properties": {
                                 "metaEnvironment": {
                                     "type": "string"
@@ -278,14 +284,15 @@
                                     "type": "string"
                                 }
                             },
-                            "type": "object"
+                            "additionalProperties": false
                         },
                         "unverifiedOrganizationDeletionDays": {
                             "type": "integer"
                         },
                         "workers": {
+                            "type": "array",
                             "items": {
-                                "additionalProperties": false,
+                                "type": "object",
                                 "properties": {
                                     "concurrency": {
                                         "type": "integer"
@@ -300,18 +307,17 @@
                                         "type": "integer"
                                     }
                                 },
-                                "type": "object"
-                            },
-                            "type": "array"
+                                "additionalProperties": false
+                            }
                         }
                     },
-                    "type": "object"
+                    "additionalProperties": true
                 },
                 "frontend": {
-                    "additionalProperties": false,
+                    "type": "object",
                     "properties": {
                         "image": {
-                            "additionalProperties": false,
+                            "type": "object",
                             "properties": {
                                 "pullPolicy": {
                                     "type": "string"
@@ -323,41 +329,40 @@
                                     "type": "string"
                                 }
                             },
-                            "type": "object"
+                            "additionalProperties": false
                         },
                         "ingress": {
-                            "additionalProperties": false,
+                            "type": "object",
                             "properties": {
                                 "annotations": {
-                                    "additionalProperties": true,
-                                    "properties": {},
-                                    "type": "object"
+                                    "type": "object",
+                                    "additionalProperties": true
                                 }
                             },
-                            "type": "object"
+                            "additionalProperties": false
                         },
                         "replicas": {
                             "type": "integer"
                         },
                         "resources": {
                             "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
-                            "additionalProperties": false,
-                            "type": "object"
+                            "type": "object",
+                            "additionalProperties": false
                         },
                         "tagsEnvironment": {
                             "type": "string"
                         }
                     },
-                    "type": "object"
+                    "additionalProperties": false
                 }
             },
-            "type": "object"
+            "additionalProperties": false
         },
         "postgres": {
-            "additionalProperties": false,
+            "type": "object",
             "properties": {
                 "image": {
-                    "additionalProperties": false,
+                    "type": "object",
                     "properties": {
                         "pullPolicy": {
                             "type": "string"
@@ -369,13 +374,13 @@
                             "type": "string"
                         }
                     },
-                    "type": "object"
+                    "additionalProperties": false
                 },
                 "password": {
                     "type": "string"
                 },
                 "persistence": {
-                    "additionalProperties": false,
+                    "type": "object",
                     "properties": {
                         "enabled": {
                             "type": "boolean"
@@ -384,24 +389,24 @@
                             "type": "string"
                         }
                     },
-                    "type": "object"
+                    "additionalProperties": false
                 },
                 "resources": {
                     "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
-                    "additionalProperties": false,
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                 },
                 "user": {
                     "type": "string"
                 }
             },
-            "type": "object"
+            "additionalProperties": false
         },
         "rabbitmq": {
-            "additionalProperties": false,
+            "type": "object",
             "properties": {
                 "image": {
-                    "additionalProperties": false,
+                    "type": "object",
                     "properties": {
                         "repository": {
                             "type": "string"
@@ -410,54 +415,53 @@
                             "type": "string"
                         }
                     },
-                    "type": "object"
+                    "additionalProperties": false
                 },
                 "ingress": {
-                    "additionalProperties": false,
+                    "type": "object",
                     "properties": {
                         "annotations": {
-                            "additionalProperties": true,
-                            "properties": {},
-                            "type": "object"
+                            "type": "object",
+                            "additionalProperties": true
                         },
                         "host": {
                             "type": "string"
                         }
                     },
-                    "type": "object"
+                    "additionalProperties": false
                 },
                 "password": {
                     "type": "string"
                 },
                 "persistence": {
-                    "additionalProperties": false,
+                    "type": "object",
                     "properties": {
                         "enabled": {
                             "type": "boolean"
                         }
                     },
-                    "type": "object"
+                    "additionalProperties": false
                 },
                 "serviceMonitor": {
-                    "additionalProperties": false,
+                    "type": "object",
                     "properties": {
                         "enabled": {
                             "type": "boolean"
                         }
                     },
-                    "type": "object"
+                    "additionalProperties": false
                 },
                 "user": {
                     "type": "string"
                 }
             },
-            "type": "object"
+            "additionalProperties": false
         },
         "valkey": {
-            "additionalProperties": false,
+            "type": "object",
             "properties": {
                 "image": {
-                    "additionalProperties": false,
+                    "type": "object",
                     "properties": {
                         "pullPolicy": {
                             "type": "string"
@@ -469,13 +473,13 @@
                             "type": "string"
                         }
                     },
-                    "type": "object"
+                    "additionalProperties": false
                 },
                 "password": {
                     "type": "string"
                 },
                 "persistence": {
-                    "additionalProperties": false,
+                    "type": "object",
                     "properties": {
                         "enabled": {
                             "type": "boolean"
@@ -484,17 +488,16 @@
                             "type": "string"
                         }
                     },
-                    "type": "object"
+                    "additionalProperties": false
                 },
                 "resources": {
                     "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
-                    "additionalProperties": false,
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                 }
             },
-            "type": "object"
+            "additionalProperties": false
         }
     },
-    "title": "PoeticMetric Helm Values Schema",
-    "type": "object"
+    "additionalProperties": false
 }

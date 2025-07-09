@@ -1,6 +1,4 @@
 extends: default
-ignore: |
-  unius/cloud-config.yaml
 rules:
   braces: disable
   document-start: disable

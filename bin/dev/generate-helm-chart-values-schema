@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
-. $(dirname "$(readlink -f "$0")")/base
+. "$(dirname "$(readlink -f "$0")")/base"
 BASE_DIR=$(get-base-dir)
 
 exec helm schema \
-  -input "${BASE_DIR}/chart/values.yaml" \
-  -noAdditionalProperties true \
-  -output "${BASE_DIR}/chart/values.schema.json" \
-  -schemaRoot.description "Schema for PoeticMetric helm chart values" \
-  -schemaRoot.title "PoeticMetric Helm Values Schema"
+  --values "${BASE_DIR}/chart/values.yaml" \
+  --no-additional-properties \
+  --output "${BASE_DIR}/chart/values.schema.json" \
+  --schema-root.description "Schema for PoeticMetric helm chart values" \
+  --schema-root.title "PoeticMetric Helm Values Schema"

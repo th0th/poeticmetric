@@ -1,0 +1,18 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  labels: {{ include "poeticmetric.labels" . | nindent 4 }}
+  name: {{ include "poeticmetric.fullname" . }}-mailpit
+spec:
+  hostnames:
+    - mailpit.{{ .Values.poeticmetric.config.host }}
+  parentRefs: {{ toYaml .Values.gateway.parentRefs | nindent 4 }}
+  rules:
+    - backendRefs:
+        - kind: Service
+          name: {{ include "poeticmetric.fullname" . }}-mailpit
+          port: 8025
+      matches:
+        - path:
+            type: PathPrefix
+            value: /
