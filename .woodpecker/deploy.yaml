@@ -4,7 +4,7 @@ skip_clone: true
 steps:
 
   - commands:
-      - git clone https://$${CODEBERG_USER}:$${CODEBERG_TOKEN}@codeberg.org/${CI_REPO_OWNER}/infrastructure.git infrastructure
+      - git clone https://$${CODEBERG_USER}:$${CODEBERG_TOKEN}@codeberg.org/${CI_REPO_OWNER}/poeticmetric-infrastructure.git infrastructure
     environment:
       CODEBERG_TOKEN:
         from_secret: CODEBERG_TOKEN
