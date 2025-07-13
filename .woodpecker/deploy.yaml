@@ -33,26 +33,26 @@ steps:
         done
     environment:
       # production
-      CLICKHOUSE_PASSWORD:
-        from_secret: CLICKHOUSE_PASSWORD
-      GOOGLE_CLIENT_ID:
-        from_secret: GOOGLE_CLIENT_ID
-      GOOGLE_CLIENT_SECRET:
-        from_secret: GOOGLE_CLIENT_SECRET
-      KUBERNETES_NAMESPACE:
-        from_secret: KUBERNETES_NAMESPACE
-      POSTGRES_PASSWORD:
-        from_secret: POSTGRES_PASSWORD
-      RABBITMQ_PASSWORD:
-        from_secret: RABBITMQ_PASSWORD
-      STRIPE_PUBLISHABLE_KEY:
-        from_secret: STRIPE_PUBLISHABLE_KEY
-      STRIPE_SECRET_KEY:
-        from_secret: STRIPE_SECRET_KEY
-      STRIPE_WEBHOOK_SIGNING_SECRET:
-        from_secret: STRIPE_WEBHOOK_SIGNING_SECRET
-      VALKEY_PASSWORD:
-        from_secret: VALKEY_PASSWORD
+#      CLICKHOUSE_PASSWORD:
+#        from_secret: CLICKHOUSE_PASSWORD
+#      GOOGLE_CLIENT_ID:
+#        from_secret: GOOGLE_CLIENT_ID
+#      GOOGLE_CLIENT_SECRET:
+#        from_secret: GOOGLE_CLIENT_SECRET
+#      KUBERNETES_NAMESPACE:
+#        from_secret: KUBERNETES_NAMESPACE
+#      POSTGRES_PASSWORD:
+#        from_secret: POSTGRES_PASSWORD
+#      RABBITMQ_PASSWORD:
+#        from_secret: RABBITMQ_PASSWORD
+#      STRIPE_PUBLISHABLE_KEY:
+#        from_secret: STRIPE_PUBLISHABLE_KEY
+#      STRIPE_SECRET_KEY:
+#        from_secret: STRIPE_SECRET_KEY
+#      STRIPE_WEBHOOK_SIGNING_SECRET:
+#        from_secret: STRIPE_WEBHOOK_SIGNING_SECRET
+#      VALKEY_PASSWORD:
+#        from_secret: VALKEY_PASSWORD
       # staging
       STAGING_CLICKHOUSE_PASSWORD:
         from_secret: STAGING_CLICKHOUSE_PASSWORD
