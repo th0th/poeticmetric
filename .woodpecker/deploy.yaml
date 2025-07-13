@@ -27,8 +27,7 @@ steps:
           STRIPE_SECRET_KEY \
           STRIPE_WEBHOOK_SIGNING_SECRET \
           VALKEY_PASSWORD; do
-            VAR_NAME="$${CI_PIPELINE_DEPLOY_TARGET^^}_$${V}"
-            echo $VAR_NAME
+            VAR_NAME="${CI_PIPELINE_DEPLOY_TARGET^^}_$${V}"
             echo "$${V}=$${!VAR_NAME}" >> environment-secrets
         done
     environment:
