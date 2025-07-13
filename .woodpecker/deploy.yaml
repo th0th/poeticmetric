@@ -1,17 +1,4 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/woodpecker-ci/woodpecker/refs/heads/main/pipeline/frontend/yaml/linter/schema/schema.json
-services:
-  - environment:
-      DOCKER_TLS_CERTDIR: /dind-certs
-    image: docker:dind
-    name: docker
-    ports:
-      - 2376
-      - 32768
-      - 32769
-    privileged: true
-    volumes:
-      - woodpecker-ci:dind-certs:/dind-certs
-
 skip_clone: true
 
 steps:
@@ -27,29 +14,71 @@ steps:
     name: clone-infrastructure
 
   - commands:
+      - touch environment-secrets
       - |
-        docker run \
-        --rm \
-        -v /tmp:/home/app/.config/bws/state \
-        bitwarden/bws \
-          --access-token "$${BITWARDEN_ACCESS_TOKEN}" \
-          secret list \
-          --output env > secret-envs
+        for V in \
+          CLICKHOUSE_PASSWORD \
+          GOOGLE_CLIENT_ID \
+          GOOGLE_CLIENT_SECRET \
+          KUBERNETES_NAMESPACE \
+          POSTGRES_PASSWORD \
+          RABBITMQ_PASSWORD \
+          STRIPE_PUBLISHABLE_KEY \
+          STRIPE_SECRET_KEY \
+          STRIPE_WEBHOOK_SIGNING_SECRET \
+          VALKEY_PASSWORD; do
+            VAR_NAME="${CI_PIPELINE_DEPLOY_TARGET^^}_${V}"
+            echo $VAR_NAME
+            echo "${V}=${!VAR_NAME}" >> environment-secrets
+        done
     environment:
-      BITWARDEN_ACCESS_TOKEN:
-        from_secret: BITWARDEN_ACCESS_TOKEN
-      DOCKER_CERT_PATH: "/dind-certs/client"
-      DOCKER_HOST: "tcp://docker:2376"
-      DOCKER_TLS_VERIFY: "1"
-    image: docker:cli
-    name: secrets
-    volumes:
-      - woodpecker-ci:dind-certs:/dind-certs
+      # production
+      CLICKHOUSE_PASSWORD:
+        from_secret: CLICKHOUSE_PASSWORD
+      GOOGLE_CLIENT_ID:
+        from_secret: GOOGLE_CLIENT_ID
+      GOOGLE_CLIENT_SECRET:
+        from_secret: GOOGLE_CLIENT_SECRET
+      KUBERNETES_NAMESPACE:
+        from_secret: KUBERNETES_NAMESPACE
+      POSTGRES_PASSWORD:
+        from_secret: POSTGRES_PASSWORD
+      RABBITMQ_PASSWORD:
+        from_secret: RABBITMQ_PASSWORD
+      STRIPE_PUBLISHABLE_KEY:
+        from_secret: STRIPE_PUBLISHABLE_KEY
+      STRIPE_SECRET_KEY:
+        from_secret: STRIPE_SECRET_KEY
+      STRIPE_WEBHOOK_SIGNING_SECRET:
+        from_secret: STRIPE_WEBHOOK_SIGNING_SECRET
+      VALKEY_PASSWORD:
+        from_secret: VALKEY_PASSWORD
+      # staging
+      STAGING_CLICKHOUSE_PASSWORD:
+        from_secret: STAGING_CLICKHOUSE_PASSWORD
+      STAGING_GOOGLE_CLIENT_ID:
+        from_secret: STAGING_GOOGLE_CLIENT_ID
+      STAGING_GOOGLE_CLIENT_SECRET:
+        from_secret: STAGING_GOOGLE_CLIENT_SECRET
+      STAGING_KUBERNETES_NAMESPACE:
+        from_secret: STAGING_KUBERNETES_NAMESPACE
+      STAGING_POSTGRES_PASSWORD:
+        from_secret: STAGING_POSTGRES_PASSWORD
+      STAGING_RABBITMQ_PASSWORD:
+        from_secret: STAGING_RABBITMQ_PASSWORD
+      STAGING_STRIPE_PUBLISHABLE_KEY:
+        from_secret: STAGING_STRIPE_PUBLISHABLE_KEY
+      STAGING_STRIPE_SECRET_KEY:
+        from_secret: STAGING_STRIPE_SECRET_KEY
+      STAGING_STRIPE_WEBHOOK_SIGNING_SECRET:
+        from_secret: STAGING_STRIPE_WEBHOOK_SIGNING_SECRET
+      STAGING_VALKEY_PASSWORD:
+        from_secret: STAGING_VALKEY_PASSWORD
+    image: alpine
+    name: environment-secrets
 
   - commands:
-      - cat secret-envs
-      - sed -i -e "s/^${CI_PIPELINE_DEPLOY_TARGET^^}_//" secret-envs
-      - source secret-envs
+      - source environment-secrets
       - mkdir ~/.kube
       - echo $${KUBE_CONFIG} | base64 -d > ~/.kube/config
       - chmod 400 ~/.kube/config
@@ -87,6 +116,10 @@ steps:
     environment:
       KUBE_CONFIG:
         from_secret: KUBE_CONFIG
+      SMTP_PASSWORD:
+        from_secret: SMTP_PASSWORD
+      SMTP_USER:
+        from_secret: SMTP_USER
     image: alpine/k8s:1.33.1
     name: install-helm-chart
 
