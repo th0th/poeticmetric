@@ -59,6 +59,7 @@
       <option name="ALIAS_CASE" value="1" />
       <option name="BUILT_IN_CASE" value="1" />
       <option name="ORIGINAL_CASE" value="true" />
+      <option name="QUOTE_IDENTIFIER" value="1" />
       <option name="QUOTE_TYPE" value="11" />
       <option name="QUERY_EL_LINE" value="101" />
       <option name="QUERY_EL_COMMA" value="2" />
