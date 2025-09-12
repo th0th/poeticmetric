@@ -2,113 +2,113 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    {{ include "poeticmetric.labels" . | nindent 4 }}
     restart-on-deploy: "true"
+    {{ include "poeticmetric.labels" . | nindent 4 }}
   name: {{ include "poeticmetric.fullname" . }}-frontend
 spec:
   replicas: {{ .Values.poeticmetric.frontend.replicas }}
   selector:
     matchLabels:
-      {{ include "poeticmetric.selectorLabels" . | nindent 6 }}
       deployment: frontend
+      {{ include "poeticmetric.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{ include "poeticmetric.selectorLabels" . | nindent 8 }}
         deployment: frontend
+        {{ include "poeticmetric.selectorLabels" . | nindent 8 }}
     spec:
       containers:
-      - env:
-        - name: NODE_ENV
-          value: {{ if .Values.poeticmetric.config.development.enabled }}development{{ else }}production{{ end }}
-        - name: VITE_BASE_URL
-          valueFrom:
-            configMapKeyRef:
-              key: FRONTEND_BASE_URL
-              name: {{ include "poeticmetric.fullname" . }}-poeticmetric
-        - name: VITE_GOOGLE_CLIENT_ID
-          valueFrom:
-            secretKeyRef:
-              key: CLIENT_ID
-              name: {{ include "poeticmetric.fullname" . }}-google
-              optional: true
-        - name: VITE_IS_HOSTED
-          valueFrom:
-            configMapKeyRef:
-              key: IS_HOSTED
-              name: {{ include "poeticmetric.fullname" . }}-poeticmetric
-              optional: true
-        - name: VITE_REST_API_BASE_URL
-          valueFrom:
-            configMapKeyRef:
-              key: REST_API_BASE_URL
-              name: {{ include "poeticmetric.fullname" . }}-poeticmetric
-        - name: VITE_TAGS_ENVIRONMENT
-          valueFrom:
-            configMapKeyRef:
-              key: FRONTEND_TAGS_ENVIRONMENT
-              name: {{ include "poeticmetric.fullname" . }}-poeticmetric
-        image: {{ printf "%s:%s" .Values.poeticmetric.frontend.image.repository .Values.poeticmetric.frontend.image.tag }}
-        imagePullPolicy: {{ .Values.poeticmetric.frontend.image.pullPolicy }}
-        name: frontend
-        resources:
-          {{ toYaml .Values.poeticmetric.frontend.resources | nindent 10 }}
-        volumeMounts:
-        {{ if .Values.poeticmetric.config.development.hostBasePath }}
-        - mountPath: /poeticmetric/public
-          name: public
-        - mountPath: /poeticmetric/src
-          name: src
-        - mountPath: /poeticmetric/index.html
-          name: index-html
-        - mountPath: /poeticmetric/package.json
-          name: package-json
-        - mountPath: /poeticmetric/pnpm-lock.yaml
-          name: pnpm-lock-yaml
-        - mountPath: /poeticmetric/server.js
-          name: server-js
-        - mountPath: /poeticmetric/tsconfig.json
-          name: tsconfig-json
-        - mountPath: /poeticmetric/tsconfig.node.json
-          name: tsconfig-node-json
-        - mountPath: /poeticmetric/vite.config.ts
-          name: vite-config-ts
-        {{ end }}
+        - env:
+            - name: NODE_ENV
+              value: {{ if .Values.poeticmetric.config.development.enabled }}development{{ else }}production{{ end }}
+            - name: VITE_BASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: FRONTEND_BASE_URL
+                  name: {{ include "poeticmetric.fullname" . }}-poeticmetric
+            - name: VITE_GOOGLE_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  key: CLIENT_ID
+                  name: {{ include "poeticmetric.fullname" . }}-google
+                  optional: true
+            - name: VITE_IS_HOSTED
+              valueFrom:
+                configMapKeyRef:
+                  key: IS_HOSTED
+                  name: {{ include "poeticmetric.fullname" . }}-poeticmetric
+                  optional: true
+            - name: VITE_REST_API_BASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: REST_API_BASE_URL
+                  name: {{ include "poeticmetric.fullname" . }}-poeticmetric
+            - name: VITE_TAGS_ENVIRONMENT
+              valueFrom:
+                configMapKeyRef:
+                  key: FRONTEND_TAGS_ENVIRONMENT
+                  name: {{ include "poeticmetric.fullname" . }}-poeticmetric
+          image: {{ printf "%s:%s" .Values.poeticmetric.frontend.image.repository .Values.poeticmetric.frontend.image.tag }}
+          imagePullPolicy: {{ .Values.poeticmetric.frontend.image.pullPolicy }}
+          name: frontend
+          resources:
+            {{ toYaml .Values.poeticmetric.frontend.resources | nindent 12 }}
+          volumeMounts:
+            {{ if .Values.poeticmetric.config.development.hostBasePath }}
+            - mountPath: /poeticmetric/public
+              name: public
+            - mountPath: /poeticmetric/src
+              name: src
+            - mountPath: /poeticmetric/index.html
+              name: index-html
+            - mountPath: /poeticmetric/package.json
+              name: package-json
+            - mountPath: /poeticmetric/pnpm-lock.yaml
+              name: pnpm-lock-yaml
+            - mountPath: /poeticmetric/server.js
+              name: server-js
+            - mountPath: /poeticmetric/tsconfig.json
+              name: tsconfig-json
+            - mountPath: /poeticmetric/tsconfig.node.json
+              name: tsconfig-node-json
+            - mountPath: /poeticmetric/vite.config.ts
+              name: vite-config-ts
+            {{ end }}
       {{ if .Values.poeticmetric.config.registryAuth }}
       imagePullSecrets:
-      - name: {{ include "poeticmetric.fullname" . }}-registry-auth
+        - name: {{ include "poeticmetric.fullname" . }}-registry-auth
       {{ end }}
       terminationGracePeriodSeconds: 5
       volumes:
       {{ if .Values.poeticmetric.config.development.hostBasePath }}
-      - hostPath:
-          path: {{ .Values.poeticmetric.config.development.hostBasePath }}/frontend/public
-        name: public
-      - hostPath:
-          path: {{ .Values.poeticmetric.config.development.hostBasePath }}/frontend/scripts
-        name: scripts
-      - hostPath:
-          path: {{ .Values.poeticmetric.config.development.hostBasePath }}/frontend/src
-        name: src
-      - hostPath:
-          path: {{ .Values.poeticmetric.config.development.hostBasePath }}/frontend/index.html
-        name: index-html
-      - hostPath:
-          path: {{ .Values.poeticmetric.config.development.hostBasePath }}/frontend/package.json
-        name: package-json
-      - hostPath:
-          path: {{ .Values.poeticmetric.config.development.hostBasePath }}/frontend/pnpm-lock.yaml
-        name: pnpm-lock-yaml
-      - hostPath:
-          path: {{ .Values.poeticmetric.config.development.hostBasePath }}/frontend/server.js
-        name: server-js
-      - hostPath:
-          path: {{ .Values.poeticmetric.config.development.hostBasePath }}/frontend/tsconfig.json
-        name: tsconfig-json
-      - hostPath:
-          path: {{ .Values.poeticmetric.config.development.hostBasePath }}/frontend/tsconfig.node.json
-        name: tsconfig-node-json
-      - hostPath:
-          path: {{ .Values.poeticmetric.config.development.hostBasePath }}/frontend/vite.config.ts
-        name: vite-config-ts
+        - hostPath:
+            path: {{ .Values.poeticmetric.config.development.hostBasePath }}/frontend/public
+          name: public
+        - hostPath:
+            path: {{ .Values.poeticmetric.config.development.hostBasePath }}/frontend/scripts
+          name: scripts
+        - hostPath:
+            path: {{ .Values.poeticmetric.config.development.hostBasePath }}/frontend/src
+          name: src
+        - hostPath:
+            path: {{ .Values.poeticmetric.config.development.hostBasePath }}/frontend/index.html
+          name: index-html
+        - hostPath:
+            path: {{ .Values.poeticmetric.config.development.hostBasePath }}/frontend/package.json
+          name: package-json
+        - hostPath:
+            path: {{ .Values.poeticmetric.config.development.hostBasePath }}/frontend/pnpm-lock.yaml
+          name: pnpm-lock-yaml
+        - hostPath:
+            path: {{ .Values.poeticmetric.config.development.hostBasePath }}/frontend/server.js
+          name: server-js
+        - hostPath:
+            path: {{ .Values.poeticmetric.config.development.hostBasePath }}/frontend/tsconfig.json
+          name: tsconfig-json
+        - hostPath:
+            path: {{ .Values.poeticmetric.config.development.hostBasePath }}/frontend/tsconfig.node.json
+          name: tsconfig-node-json
+        - hostPath:
+            path: {{ .Values.poeticmetric.config.development.hostBasePath }}/frontend/vite.config.ts
+          name: vite-config-ts
       {{ end }}

@@ -5,12 +5,11 @@ metadata:
     {{ include "poeticmetric.labels" . | nindent 4 }}
   name: {{ include "poeticmetric.fullname" . }}-postgres
 spec:
-  type: ClusterIP
+  ports:
+    - name: postgres
+      port: 5432
+      protocol: TCP
+      targetPort: 5432
   selector:
     statefulSet: postgres
     {{ include "poeticmetric.selectorLabels" . | nindent 4 }}
-  ports:
-  - name: postgres
-    port: 5432
-    protocol: TCP
-    targetPort: 5432

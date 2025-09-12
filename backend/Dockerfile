@@ -1,8 +1,8 @@
-FROM golang:1.24.1
+FROM golang:1.25.1
 
 WORKDIR /poeticmetric
 
-RUN CGO_ENABLED=0 go install -tags 'clickhouse,postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@v4.18.1
+RUN go install -tags 'clickhouse,postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@v4.18.1
 
 COPY go.mod go.sum ./
 RUN go mod download
@@ -12,10 +12,15 @@ COPY pkg pkg
 
 RUN mkdir bin
 
-RUN CGO_ENABLED=0 go build -a -o bin/migrator cmd/migrator/*
-RUN CGO_ENABLED=0 go build -a -o bin/rest-api cmd/rest-api/*
-RUN CGO_ENABLED=0 go build -a -o bin/worker cmd/worker/*
-RUN CGO_ENABLED=0 go build -a -o bin/scheduler cmd/scheduler/*
+ARG CGO_ENABLED=0
+ARG GO_BUILD_ARGS
+
+ENV CGO_ENABLED=${CGO_ENABLED}
+
+RUN go build -a -o bin/migrator ${GO_BUILD_ARGS} cmd/migrator/*
+RUN go build -a -o bin/rest-api ${GO_BUILD_ARGS} cmd/rest-api/*
+RUN go build -a -o bin/scheduler ${GO_BUILD_ARGS} cmd/scheduler/*
+RUN go build -a -o bin/worker ${GO_BUILD_ARGS} cmd/worker/*
 
 FROM alpine:3
 

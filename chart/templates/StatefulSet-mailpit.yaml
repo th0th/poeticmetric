@@ -20,6 +20,6 @@ spec:
       name: mailpit
     spec:
       containers:
-      - image: {{ .Values.mailpit.image.repository }}:{{ .Values.mailpit.image.tag }}
-        name: mailpit
+        - image: {{ .Values.mailpit.image.repository }}:{{ .Values.mailpit.image.tag }}
+          name: mailpit
 {{ end }}

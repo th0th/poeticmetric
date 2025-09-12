@@ -6,7 +6,7 @@ import Portal from "~/components/Portal";
 import useUser from "~/hooks/api/useUser";
 import useUsers from "~/hooks/api/useUsers";
 import { api } from "~/lib/api";
-import { getUpdatedSearch } from "~/lib/router";
+import { getUpdatedLocation } from "~/lib/router";
 
 type State = {
   isHiding: boolean;
@@ -40,7 +40,7 @@ export default function DeleteModal() {
   }
 
   function handleExited() {
-    navigate(`${location}${getUpdatedSearch(searchParams, { action: null, userID: null })}`, { replace: true });
+    navigate(getUpdatedLocation(location, { search: { action: null, userID: null } }), { replace: true });
     setState((s) => ({ ...s, isHiding: false }));
   }
 
@@ -64,9 +64,15 @@ export default function DeleteModal() {
         <Modal.Body>
           {user !== undefined ? (
             <>
-              Are you sure you want to delete team member
+              Are you sure you want to delete
               {" "}
-              <span className="fw-semi-bold">{user?.name}</span>
+              {user.name.trim() === "" ? "this team member" : (
+                <>
+                  team member
+                  {" "}
+                  <span className="fw-semi-bold">{user?.name}</span>
+                </>
+              )}
               ?
             </>
           ) : (

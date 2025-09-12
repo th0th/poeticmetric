@@ -5,12 +5,11 @@ metadata:
     {{ include "poeticmetric.labels" . | nindent 4 }}
   name: {{ include "poeticmetric.fullname" . }}-valkey
 spec:
-  type: ClusterIP
+  ports:
+    - name: valkey
+      port: 6379
+      protocol: TCP
+      targetPort: 6379
   selector:
     statefulSet: valkey
     {{ include "poeticmetric.selectorLabels" . | nindent 4 }}
-  ports:
-  - name: valkey
-    port: 6379
-    protocol: TCP
-    targetPort: 6379

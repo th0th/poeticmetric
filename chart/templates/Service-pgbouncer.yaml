@@ -10,7 +10,7 @@ spec:
     deployment: pgbouncer
     {{ include "poeticmetric.selectorLabels" . | nindent 4 }}
   ports:
-  - name: pgbouncer
-    port: 6432
-    protocol: TCP
-    targetPort: 6432
+    - name: pgbouncer
+      port: 6432
+      protocol: TCP
+      targetPort: 6432

@@ -1,4 +1,4 @@
-@use "react-datepicker/src/stylesheets/variables" as * with (
+@use "react-datepicker/src/stylesheets/variables.scss" as * with (
   $datepicker__background-color: var(--bs-body-bg),
   $datepicker__border-color: var(--bs-dropdown-border-color),
   $datepicker__border-radius: var(--bs-border-radius),
@@ -6,7 +6,7 @@
   $datepicker__header-color: var(--bs-body-color),
   $datepicker__text-color: var(--bs-body-color),
 );
-@use "react-datepicker/src/stylesheets/datepicker";
+@use "react-datepicker/src/stylesheets/datepicker.scss"; // stylelint-disable-line scss/load-partial-extension
 
 /* stylelint-disable selector-class-pattern */
 .react-datepicker {
@@ -20,7 +20,7 @@
     font-size: inherit;
   }
 
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-up(lg) {
     margin-top: -1px !important;
   }
 }

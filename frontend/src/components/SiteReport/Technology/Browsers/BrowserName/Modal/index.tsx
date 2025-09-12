@@ -1,5 +1,5 @@
 import { createElement, useMemo } from "react";
-import BaseModal from "react-bootstrap/Modal";
+import { Modal as BaseModal } from "react-bootstrap";
 import { Link, useLocation, useSearchParams } from "react-router";
 import ActivityIndicator from "~/components/ActivityIndicator";
 import useSiteBrowserNameReport from "~/hooks/api/useSiteBrowserNameReport";

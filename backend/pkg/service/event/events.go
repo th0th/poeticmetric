@@ -19,7 +19,10 @@ func (s *service) Create(ctx context.Context, params *poeticmetric.CreateEventPa
 	}
 
 	site := poeticmetric.Site{}
-	err = postgres.Select("ID", "OrganizationID", "SafeQueryParameters").First(&site, poeticmetric.Site{Domain: URL.Hostname()}).Error
+	err = postgres.
+		Select("HasEvents", "ID", "OrganizationID", "SafeQueryParameters").
+		First(&site, poeticmetric.Site{Domain: URL.Hostname()}).
+		Error
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return errors.Wrap(poeticmetric.ErrNotFound, 0)
@@ -54,6 +57,13 @@ func (s *service) Create(ctx context.Context, params *poeticmetric.CreateEventPa
 	err = s.clickHouse.Create(&event).Error
 	if err != nil {
 		return errors.Wrap(err, 0)
+	}
+
+	if !site.HasEvents {
+		err = postgres.Model(&site).UpdateColumn("HasEvents", true).Error
+		if err != nil {
+			return errors.Wrap(err, 0)
+		}
 	}
 
 	return nil

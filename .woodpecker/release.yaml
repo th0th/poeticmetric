@@ -1,75 +1,83 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/woodpecker-ci/woodpecker/refs/heads/main/pipeline/frontend/yaml/linter/schema/schema.json
-variables:
-- &base-release
-  depends_on:
-  - build-backend-image
-  - build-frontend-image
-  - build-helm-chart
-  image: woodpeckerci/plugin-release
-  settings: &base-release-settings
-    api_key:
-      from_secret: CODEBERG_TOKEN
-    title: ${CI_COMMIT_TAG}
-
 steps:
 
-- depends_on: []
-  directory: backend
-  image: woodpeckerci/plugin-docker-buildx
-  name: build-backend-image
-  settings:
-    password:
-      from_secret: CODEBERG_TOKEN
-    platforms: linux/amd64
-    registry: codeberg.org
-    repo: codeberg.org/${CI_REPO}/backend
-    tag: ${CI_COMMIT_TAG##v}
-    username:
-      from_secret: CODEBERG_USER
+  - backend_options:
+      kubernetes:
+        resources:
+          requests:
+            cpu: 2
+            memory: 2Gi
+    depends_on: []
+    directory: backend
+    image: woodpeckerci/plugin-docker-buildx
+    name: build-backend-image
+    settings:
+      build_args:
+        GO_BUILD_ARGS: "-p 2"
+      password:
+        from_secret: FORGEJO_TOKEN
+      platforms: linux/amd64
+      registry: code.unius.sh
+      repo: code.unius.sh/unius/poeticmetric-backend
+      tag: ${CI_COMMIT_TAG##v}
+      username:
+        from_secret: FORGEJO_USER
 
-- depends_on: []
-  directory: frontend
-  image: woodpeckerci/plugin-docker-buildx
-  name: build-frontend-image
-  settings:
-    password:
-      from_secret: CODEBERG_TOKEN
-    platforms: linux/amd64
-    registry: codeberg.org
-    repo: codeberg.org/${CI_REPO}/frontend
-    tag: ${CI_COMMIT_TAG##v}
-    username:
-      from_secret: CODEBERG_USER
+  - backend_options:
+      kubernetes:
+        resources:
+          requests:
+            cpu: 2
+            memory: 2Gi
+    depends_on: []
+    directory: frontend
+    image: woodpeckerci/plugin-docker-buildx
+    name: build-frontend-image
+    settings:
+      password:
+        from_secret: FORGEJO_TOKEN
+      platforms: linux/amd64
+      registry: code.unius.sh
+      repo: code.unius.sh/unius/poeticmetric-frontend
+      tag: ${CI_COMMIT_TAG##v}
+      username:
+        from_secret: FORGEJO_USER
 
-- commands:
-  - helm package chart --app-version ${CI_COMMIT_TAG##v} --version ${CI_COMMIT_TAG##v}
-  - |
-    curl \
-    --user $${CODEBERG_USER}:$${CODEBERG_TOKEN} \
-    -X POST \
-    --upload-file ./${CI_REPO_NAME}-${CI_COMMIT_TAG##v}.tgz \
-    https://codeberg.org/api/packages/${CI_REPO_OWNER}/helm/api/charts
-  depends_on: []
-  environment:
-    CODEBERG_TOKEN:
-      from_secret: CODEBERG_TOKEN
-    CODEBERG_USER:
-      from_secret: CODEBERG_USER
-  image: alpine/helm
-  name: build-helm-chart
+  - backend_options:
+      kubernetes:
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 1Gi
+    commands:
+      - helm package chart --app-version ${CI_COMMIT_TAG##v} --version ${CI_COMMIT_TAG##v}
+      - |
+        curl \
+        --user $${FORGEJO_USER}:$${FORGEJO_TOKEN} \
+        -X POST \
+        --upload-file ./${CI_REPO_NAME}-${CI_COMMIT_TAG##v}.tgz \
+        https://code.unius.sh/api/packages/unius/helm/api/charts
+    depends_on: []
+    environment:
+      FORGEJO_TOKEN:
+        from_secret: FORGEJO_TOKEN
+      FORGEJO_USER:
+        from_secret: FORGEJO_USER
+    image: alpine/helm
+    name: build-helm-chart
 
-- <<: *base-release
-  name: release
-  when:
-    evaluate: "not (CI_COMMIT_TAG contains 'alpha' or CI_COMMIT_TAG contains 'beta' or CI_COMMIT_TAG contains 'test')"
-
-- <<: *base-release
-  name: prerelease
-  settings:
-    <<: *base-release-settings
-    prerelease: true
-  when:
-    evaluate: "CI_COMMIT_TAG contains 'alpha' or CI_COMMIT_TAG contains 'beta' or CI_COMMIT_TAG contains 'test'"
+  - depends_on:
+      - build-backend-image
+      - build-frontend-image
+      - build-helm-chart
+    image: woodpeckerci/plugin-release
+    name: update-release
+    settings:
+      api_key:
+        from_secret: FORGEJO_TOKEN
+      note: Release is ready.
+      overwrite: true
+      title: ${CI_COMMIT_TAG}
 
 when:
-- event: tag
+  - event: tag

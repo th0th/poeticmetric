@@ -2,6 +2,7 @@ import { useEffect, useMemo } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useSearchParams } from "react-router";
 import Breadcrumb from "~/components/Breadcrumb";
+import NoEventsBlock from "~/components/NoEventsBlock";
 import NotFound from "~/components/NotFound";
 import SiteReport from "~/components/SiteReport";
 import SiteReportDataProvider from "~/components/SiteReportDataProvider";
@@ -40,9 +41,13 @@ export default function OrganizationSiteReport() {
             <Breadcrumb.Title>{title}</Breadcrumb.Title>
           </Breadcrumb>
 
-          <SiteReportDataProvider site={{ ...site, isGoogleSearchConsoleSiteURLSet: site.googleSearchConsoleSiteURL !== null }}>
-            <SiteReport />
-          </SiteReportDataProvider>
+          {site.hasEvents ? (
+            <SiteReportDataProvider site={{ ...site, isGoogleSearchConsoleSiteURLSet: site.googleSearchConsoleSiteURL !== null }}>
+              <SiteReport />
+            </SiteReportDataProvider>
+          ) : (
+            <NoEventsBlock siteID={site.id} />
+          )}
         </div>
       </>
     );

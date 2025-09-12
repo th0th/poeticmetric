@@ -63,7 +63,7 @@ const navColumns: Array<NavColumn> = [
 
 const socialLinks: Array<SocialLink> = [
   {
-    href: "https://codeberg.org/poeticmetric/poeticmetric",
+    href: "https://code.unius.sh/unius/poeticmetric",
     icon: IconCode,
     title: "Source code",
   },

@@ -31,5 +31,5 @@ FROM nginx:1-alpine
 WORKDIR /usr/share/nginx/html
 
 COPY etc/nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=0 /poeticmetric-frontend-build/dist/static /usr/share/nginx/html
 COPY docker-entrypoint.sh /docker-entrypoint.d/01-bootstrap.sh
+COPY --from=0 /poeticmetric-frontend-build/dist/static .

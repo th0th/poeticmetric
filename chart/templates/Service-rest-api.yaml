@@ -5,12 +5,11 @@ metadata:
     {{ include "poeticmetric.labels" . | nindent 4 }}
   name: {{ include "poeticmetric.fullname" . }}-rest-api
 spec:
-  type: ClusterIP
-  selector:
-    {{ include "poeticmetric.selectorLabels" . | nindent 4 }}
-    deployment: rest-api
   ports:
-  - name: http
-    port: 80
-    protocol: TCP
-    targetPort: 80
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 80
+  selector:
+    deployment: rest-api
+    {{ include "poeticmetric.selectorLabels" . | nindent 4 }}

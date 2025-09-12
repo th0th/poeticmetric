@@ -1,7 +1,4 @@
 apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: {{ include "poeticmetric.fullname" . }}-poeticmetric
 data:
   DATABASE_DEBUG: {{ .Values.poeticmetric.config.development.databaseDebug | quote }}
   DEBUG: {{ .Values.poeticmetric.config.development.debug | quote }}
@@ -13,3 +10,6 @@ data:
   {{ if .Values.poeticmetric.config.extra }}
   {{ toYaml .Values.poeticmetric.config.extra | nindent 2 }}
   {{ end }}
+kind: ConfigMap
+metadata:
+  name: {{ include "poeticmetric.fullname" . }}-poeticmetric

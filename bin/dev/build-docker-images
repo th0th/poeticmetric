@@ -6,14 +6,14 @@ BASE_DIR=$(get-base-dir)
 
 docker build \
   --file "${BASE_DIR}/backend/development.Dockerfile" \
-  --tag codeberg.org/poeticmetric/poeticmetric/backend:development \
+  --tag code.unius.sh/unius/poeticmetric-backend:development \
   "${BASE_DIR}/backend" &
 
 docker build \
   --build-arg IS_HOSTED=true \
   --build-arg TAGS_ENVIRONMENT=development \
   --file "${BASE_DIR}/frontend/development.Dockerfile" \
-  --tag codeberg.org/poeticmetric/poeticmetric/frontend:development \
+  --tag code.unius.sh/unius/poeticmetric-frontend:development \
   "${BASE_DIR}/frontend" &
 
 wait

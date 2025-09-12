@@ -42,7 +42,7 @@
         <property name="com.intellij.clouds.kubernetes.db.host.port" value="15432" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="true" />
         <property name="com.intellij.clouds.kubernetes.db.resource" value="postgres" />
-        <property name="com.intellij.clouds.kubernetes.db.context" value="webgazer" />
+        <property name="com.intellij.clouds.kubernetes.db.context" value="unius-old" />
         <property name="com.intellij.clouds.kubernetes.db.resource.type" value="Service" />
         <property name="com.intellij.clouds.kubernetes.db.namespace" value="poeticmetric" />
         <property name="com.intellij.clouds.kubernetes.db.container.port" value="5432" />

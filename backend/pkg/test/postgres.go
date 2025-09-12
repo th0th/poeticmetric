@@ -1,4 +1,4 @@
-package testcontainer
+package test
 
 import (
 	"context"
@@ -8,20 +8,32 @@ import (
 	"testing"
 
 	"github.com/go-errors/errors"
-	"github.com/testcontainers/testcontainers-go"
+	"github.com/stretchr/testify/require"
 	testcontainerspostgres "github.com/testcontainers/testcontainers-go/modules/postgres"
 	gormpostgres "gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 
 	"github.com/th0th/poeticmetric/backend/pkg/lib/migration"
-	"github.com/th0th/poeticmetric/backend/pkg/test/config"
+	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
+	"github.com/th0th/poeticmetric/backend/pkg/test/testconfig"
 )
 
-func NewPostgres(t *testing.T, ctx context.Context) (testcontainers.Container, *gorm.DB) {
-	database := "poeticmetric_test"
-	password := "poeticmetric_test" //nolint:gosec
-	user := "poeticmetric_test"
+var testPostgres = &poeticmetric.TestPostgres{}
+
+func Postgres(t *testing.T) *gorm.DB {
+	testPostgres.Once.Do(func() {
+		err := preparePostgres(t.Context())
+		require.NoError(t, err)
+	})
+
+	return testPostgres.DB
+}
+
+func preparePostgres(ctx context.Context) error {
+	database := "webgazer_test"
+	password := "webgazer_test" //nolint:gosec
+	user := "webgazer_test"
 
 	container, err := testcontainerspostgres.Run(
 		ctx,
@@ -32,22 +44,22 @@ func NewPostgres(t *testing.T, ctx context.Context) (testcontainers.Container, *
 		testcontainerspostgres.BasicWaitStrategies(),
 	)
 	if err != nil {
-		t.Fatal(errors.Wrap(err, 0))
+		return errors.Wrap(err, 0)
 	}
 
 	host, err := container.Host(ctx)
 	if err != nil {
-		t.Fatal(errors.Wrap(err, 0))
+		return errors.Wrap(err, 0)
 	}
 
 	mappedPort, err := container.MappedPort(ctx, "5432")
 	if err != nil {
-		t.Fatal(errors.Wrap(err, 0))
+		return errors.Wrap(err, 0)
 	}
 
-	logLevel := logger.Silent
+	logLevel := logger.Error
 
-	if config.Debug() {
+	if testconfig.Debug() {
 		logLevel = logger.Info
 	}
 
@@ -74,13 +86,16 @@ func NewPostgres(t *testing.T, ctx context.Context) (testcontainers.Container, *
 		},
 	)
 	if err != nil {
-		t.Fatal(errors.Wrap(err, 0))
+		return errors.Wrap(err, 0)
 	}
 
 	err = migration.Postgres(postgres, database)
 	if err != nil {
-		t.Fatal(errors.Wrap(err, 0))
+		return errors.Wrap(err, 0)
 	}
 
-	return container, postgres
+	testPostgres.Container = container
+	testPostgres.DB = postgres
+
+	return nil
 }

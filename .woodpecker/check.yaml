@@ -1,59 +1,59 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/woodpecker-ci/woodpecker/refs/heads/main/pipeline/frontend/yaml/linter/schema/schema.json
 services:
-- environment:
-    DOCKER_TLS_CERTDIR: /dind-certs
-  image: docker:dind
-  name: docker
-  ports:
-  - 2376
-  - 32768
-  - 32769
-  privileged: true
-  volumes:
-  - woodpecker-ci:dind-certs:/dind-certs
+  - environment:
+      DOCKER_TLS_CERTDIR: /dind-certs
+    image: docker:dind
+    name: docker
+    ports:
+      - 2376
+      - 32768
+      - 32769
+    privileged: true
+    volumes:
+      - woodpecker-dind-certs:/dind-certs
 
 steps:
-- commands:
-  - golangci-lint run --timeout 10m
-  depends_on: []
-  directory: backend
-  image: golangci/golangci-lint
-  name: backend-lint
+  - commands:
+      - golangci-lint run --timeout 10m
+    depends_on: []
+    directory: backend
+    image: golangci/golangci-lint
+    name: backend-lint
 
-- commands:
-  - go test ./...
-  depends_on: []
-  directory: backend
-  environment:
-    DOCKER_HOST: "tcp://docker:2376"
-    DOCKER_CERT_PATH: "/dind-certs/client"
-    DOCKER_TLS_VERIFY: "1"
-  image: golang:1.24.3
-  name: backend-tests
-  volumes:
-  - woodpecker-ci:dind-certs:/dind-certs
+  - commands:
+      - go test ./...
+    depends_on: []
+    directory: backend
+    environment:
+      DOCKER_CERT_PATH: "/dind-certs/client"
+      DOCKER_HOST: "tcp://docker:2376"
+      DOCKER_TLS_VERIFY: "1"
+    image: golang:1.25.1
+    name: backend-tests
+    volumes:
+      - woodpecker-dind-certs:/dind-certs
 
-- commands:
-  - npm install -g pnpm
-  - pnpm install
-  - pnpm exec -- tsc
-  - pnpm exec -- eslint .
-  - pnpm exec -- stylelint "src/**/*.scss"
-  depends_on: []
-  directory: frontend
-  image: node:24
-  name: frontend
+  - commands:
+      - npm install -g pnpm
+      - pnpm install
+      - pnpm exec -- tsc
+      - pnpm exec -- eslint .
+      - pnpm exec -- stylelint "src/**/*.scss"
+    depends_on: []
+    directory: frontend
+    image: node:24
+    name: frontend
 
-- commands:
-  - |
-    SUM1=$(sha256sum MANIFESTO.md | awk '{print $1}')
-    SUM2=$(sha256sum frontend/src/components/Manifesto/manifesto.md | awk '{print $1}')
-    if [ "$SUM1" != "$SUM2" ]; then
-      echo "Manifesto file has changed, please update the frontend/src/components/Manifesto/manifesto.md file."
-      exit 1
-    fi
-  image: alpine:3
-  name: check-manifesto
+  - commands:
+      - |
+        SUM1=$(sha256sum MANIFESTO.md | awk '{print $1}')
+        SUM2=$(sha256sum frontend/src/components/Manifesto/manifesto.md | awk '{print $1}')
+        if [ "$SUM1" != "$SUM2" ]; then
+          echo "Manifesto file has changed, please update the frontend/src/components/Manifesto/manifesto.md file."
+          exit 1
+        fi
+    image: alpine:3
+    name: check-manifesto
 
 when:
-- event: pull_request
+  - event: pull_request

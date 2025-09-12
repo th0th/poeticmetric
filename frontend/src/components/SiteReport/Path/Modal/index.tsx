@@ -1,6 +1,6 @@
 import { IconExternalLink } from "@tabler/icons-react";
 import { useMemo } from "react";
-import BaseModal from "react-bootstrap/Modal";
+import { Modal as BaseModal } from "react-bootstrap";
 import { Link, useLocation, useSearchParams } from "react-router";
 import ActivityIndicator from "~/components/ActivityIndicator";
 import useSitePathReport from "~/hooks/api/useSitePathReport";

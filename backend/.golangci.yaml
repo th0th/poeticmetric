@@ -17,6 +17,6 @@ linters:
   settings:
     gocritic:
       disabled-checks:
-      - ifElseChain
+        - ifElseChain
 
 version: "2"

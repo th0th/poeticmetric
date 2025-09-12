@@ -7,11 +7,11 @@ metadata:
   name: {{ include "poeticmetric.fullname" . }}-rest-api-debug
 spec:
   ports:
-  - name: delve
-    nodePort: 32345
-    port: 2345
-    protocol: TCP
-    targetPort: 2345
+    - name: delve
+      nodePort: 32345
+      port: 2345
+      protocol: TCP
+      targetPort: 2345
   selector:
     deployment: rest-api
     {{ include "poeticmetric.selectorLabels" . | nindent 4 }}
@@ -25,11 +25,11 @@ metadata:
   name: {{ include "poeticmetric.fullname" . }}-worker-debug
 spec:
   ports:
-  - name: delve
-    nodePort: 32346
-    port: 2345
-    protocol: TCP
-    targetPort: 2345
+    - name: delve
+      nodePort: 32346
+      port: 2345
+      protocol: TCP
+      targetPort: 2345
   selector:
     deployment: worker
     {{ include "poeticmetric.selectorLabels" . | nindent 4 }}

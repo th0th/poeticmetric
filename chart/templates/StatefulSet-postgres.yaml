@@ -24,43 +24,44 @@ spec:
       name: postgres
     spec:
       containers:
-      - env:
-        - name: POSTGRES_DB
-          valueFrom:
-            configMapKeyRef:
-              key: DATABASE
-              name: {{ include "poeticmetric.fullname" . }}-postgres
-        - name: POSTGRES_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              key: PASSWORD
-              name: {{ include "poeticmetric.fullname" . }}-postgres
-        - name: POSTGRES_USER
-          valueFrom:
-            secretKeyRef:
-              key: USER
-              name: {{ include "poeticmetric.fullname" . }}-postgres
-        image: {{ .Values.postgres.image.repository }}:{{ .Values.postgres.image.tag }}
-        imagePullPolicy: {{ .Values.postgres.image.pullPolicy }}
-        name: postgres
-        resources: {{ toYaml .Values.postgres.resources | nindent 10 }}
+        - env:
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  key: DATABASE
+                  name: {{ include "poeticmetric.fullname" . }}-postgres
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: PASSWORD
+                  name: {{ include "poeticmetric.fullname" . }}-postgres
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  key: USER
+                  name: {{ include "poeticmetric.fullname" . }}-postgres
+          image: {{ .Values.postgres.image.repository }}:{{ .Values.postgres.image.tag }}
+          imagePullPolicy: {{ .Values.postgres.image.pullPolicy }}
+          name: postgres
+          resources:
+            {{ toYaml .Values.postgres.resources | nindent 12 }}
         {{ if .Values.postgres.persistence.enabled }}
-        volumeMounts:
-        - mountPath: /var/lib/postgresql/data
-          name: data
-          subPath: postgres
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: data
+              subPath: postgres
         {{ end }}
   {{ if .Values.postgres.persistence.enabled }}
   volumeClaimTemplates:
-  - apiVersion: v1
-    kind: PersistentVolumeClaim
-    metadata:
-      name: data
-    spec:
-      accessModes:
-      - ReadWriteOnce
-      resources:
-        requests:
-          storage: 10Gi
-      volumeMode: Filesystem
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi
+        volumeMode: Filesystem
   {{ end }}

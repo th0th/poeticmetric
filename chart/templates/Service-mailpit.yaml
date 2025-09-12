@@ -7,14 +7,14 @@ metadata:
   name: {{ include "poeticmetric.fullname" . }}-mailpit
 spec:
   ports:
-  - name: smtp
-    port: 1025
-    protocol: TCP
-    targetPort: 1025
-  - name: http
-    port: 8025
-    protocol: TCP
-    targetPort: 8025
+    - name: smtp
+      port: 1025
+      protocol: TCP
+      targetPort: 1025
+    - name: http
+      port: 8025
+      protocol: TCP
+      targetPort: 8025
   selector:
     statefulSet: mailpit
     {{ include "poeticmetric.selectorLabels" . | nindent 4 }}

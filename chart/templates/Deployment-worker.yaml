@@ -23,88 +23,88 @@ spec:
         {{ $selectorLabels | nindent 8 }}
     spec:
       containers:
-      - env:
-        - name: INSTANCE
-          value: worker
-        - name: WORKER_CONCURRENCY
-          value: {{ .concurrency | quote }}
-        - name: WORKER_QUEUES
-          value: {{ .queues | join "," | quote }}
-        envFrom:
-        - configMapRef:
-            name: {{ $fullname }}-clickhouse
-          prefix: CLICKHOUSE_
-        - prefix: CLICKHOUSE_
-          secretRef:
-            name: {{ $fullname }}-clickhouse
-        - prefix: GOOGLE_
-          secretRef:
-            name: {{ $fullname }}-google
-            optional: true
-        - configMapRef:
-            name: {{ $fullname }}-postgres
-          prefix: POSTGRES_
-        - prefix: POSTGRES_
-          secretRef:
-            name: {{ $fullname }}-postgres
-        - configMapRef:
-            name: {{ $fullname }}-rabbitmq
-          prefix: RABBITMQ_
-        - prefix: RABBITMQ_
-          secretRef:
-            name: {{ $fullname }}-rabbitmq
-        - prefix: SMTP_
-          configMapRef:
-            name: {{ $fullname }}-smtp
-        - prefix: SMTP_
-          secretRef:
-            name: {{ $fullname }}-smtp
-        - prefix: STRIPE_
-          secretRef:
-            name: {{ $fullname }}-stripe
-            optional: true
-        - prefix: VALKEY_
-          configMapRef:
-            name: {{ $fullname }}-valkey
-        - prefix: VALKEY_
-          secretRef:
-            name: {{ $fullname }}-valkey
-        - configMapRef:
-            name: {{ $fullname }}-poeticmetric
-        image: {{ printf "%s:%s" $Values.poeticmetric.backend.image.repository $Values.poeticmetric.backend.image.tag }}
-        imagePullPolicy: {{ $Values.poeticmetric.backend.image.pullPolicy }}
-        name: worker{{ if .name }}-{{ .name }}{{ end }}
-        resources:
-          {{ toYaml (default dict .resources) | nindent 10 }}
-        volumeMounts:
+        - env:
+            - name: INSTANCE
+              value: worker
+            - name: WORKER_CONCURRENCY
+              value: {{ .concurrency | quote }}
+            - name: WORKER_QUEUES
+              value: {{ .queues | join "," | quote }}
+          envFrom:
+            - configMapRef:
+                name: {{ $fullname }}-clickhouse
+              prefix: CLICKHOUSE_
+            - prefix: CLICKHOUSE_
+              secretRef:
+                name: {{ $fullname }}-clickhouse
+            - prefix: GOOGLE_
+              secretRef:
+                name: {{ $fullname }}-google
+                optional: true
+            - configMapRef:
+                name: {{ $fullname }}-postgres
+              prefix: POSTGRES_
+            - prefix: POSTGRES_
+              secretRef:
+                name: {{ $fullname }}-postgres
+            - configMapRef:
+                name: {{ $fullname }}-rabbitmq
+              prefix: RABBITMQ_
+            - prefix: RABBITMQ_
+              secretRef:
+                name: {{ $fullname }}-rabbitmq
+            - prefix: SMTP_
+              configMapRef:
+                name: {{ $fullname }}-smtp
+            - prefix: SMTP_
+              secretRef:
+                name: {{ $fullname }}-smtp
+            - prefix: STRIPE_
+              secretRef:
+                name: {{ $fullname }}-stripe
+                optional: true
+            - prefix: VALKEY_
+              configMapRef:
+                name: {{ $fullname }}-valkey
+            - prefix: VALKEY_
+              secretRef:
+                name: {{ $fullname }}-valkey
+            - configMapRef:
+                name: {{ $fullname }}-poeticmetric
+          image: {{ printf "%s:%s" $Values.poeticmetric.backend.image.repository $Values.poeticmetric.backend.image.tag }}
+          imagePullPolicy: {{ $Values.poeticmetric.backend.image.pullPolicy }}
+          name: worker{{ if .name }}-{{ .name }}{{ end }}
+          resources:
+            {{ toYaml (default dict .resources) | nindent 12 }}
+          volumeMounts:
         {{ if $Values.poeticmetric.config.development.hostBasePath }}
-        - mountPath: /poeticmetric/cmd
-          name: cmd
-        - mountPath: /poeticmetric/pkg
-          name: pkg
-        - mountPath: /poeticmetric/go.mod
-          name: go-mod
-        - mountPath: /poeticmetric/go.sum
-          name: go-sum
+            - mountPath: /poeticmetric/cmd
+              name: cmd
+            - mountPath: /poeticmetric/pkg
+              name: pkg
+            - mountPath: /poeticmetric/go.mod
+              name: go-mod
+            - mountPath: /poeticmetric/go.sum
+              name: go-sum
         {{ end }}
       {{ if $Values.poeticmetric.config.registryAuth }}
       imagePullSecrets:
-      - name: {{ $fullname }}-registry-auth
+        - name: {{ $fullname }}-registry-auth
       {{ end }}
       volumes:
       {{ if $Values.poeticmetric.config.development.hostBasePath }}
-      - hostPath:
-          path: {{ $Values.poeticmetric.config.development.hostBasePath }}/backend/cmd
-        name: cmd
-      - hostPath:
-          path: {{ $Values.poeticmetric.config.development.hostBasePath }}/backend/pkg
-        name: pkg
-      - hostPath:
-          path: {{ $Values.poeticmetric.config.development.hostBasePath }}/backend/go.mod
-        name: go-mod
-      - hostPath:
-          path: {{ $Values.poeticmetric.config.development.hostBasePath }}/backend/go.sum
-        name: go-sum
+        - hostPath:
+            path: {{ $Values.poeticmetric.config.development.hostBasePath }}/backend/cmd
+          name: cmd
+        - hostPath:
+            path: {{ $Values.poeticmetric.config.development.hostBasePath }}/backend/pkg
+          name: pkg
+        - hostPath:
+            path: {{ $Values.poeticmetric.config.development.hostBasePath }}/backend/go.mod
+          name: go-mod
+        - hostPath:
+            path: {{ $Values.poeticmetric.config.development.hostBasePath }}/backend/go.sum
+          name: go-sum
       {{ end }}
 ---
 {{ end }}

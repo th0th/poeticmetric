@@ -1,4 +1,4 @@
-package config
+package testconfig
 
 import (
 	"os"

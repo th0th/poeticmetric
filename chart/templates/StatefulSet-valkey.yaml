@@ -19,36 +19,36 @@ spec:
       name: valkey
     spec:
       containers:
-      - env:
-        - name: PASSWORD
-          valueFrom:
-            secretKeyRef:
-              key: PASSWORD
-              name: {{ include "poeticmetric.fullname" . }}-valkey
-        image: {{ .Values.valkey.image.repository }}:{{ .Values.valkey.image.tag }}
-        name: valkey
-        resources:
-          {{ toYaml .Values.valkey.resources | nindent 10 }}
+        - env:
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: PASSWORD
+                  name: {{ include "poeticmetric.fullname" . }}-valkey
+          image: {{ .Values.valkey.image.repository }}:{{ .Values.valkey.image.tag }}
+          name: valkey
+          resources:
+            {{ toYaml .Values.valkey.resources | nindent 12 }}
         {{ if .Values.valkey.persistence.enabled }}
-        volumeMounts:
-        - mountPath: /data
-          name: data
-          subPath: valkey
+          volumeMounts:
+            - mountPath: /data
+              name: data
+              subPath: valkey
         {{ end }}
   {{ if .Values.valkey.persistence.enabled }}
   persistentVolumeClaimRetentionPolicy:
     whenDeleted: Retain
     whenScaled: Retain
   volumeClaimTemplates:
-  - kind: PersistentVolumeClaim
-    apiVersion: v1
-    metadata:
-      name: data
-    spec:
-      accessModes:
-      - ReadWriteOnce
-      resources:
-        requests:
-          storage: 10Gi
-      volumeMode: Filesystem
+    - kind: PersistentVolumeClaim
+      apiVersion: v1
+      metadata:
+        name: data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi
+        volumeMode: Filesystem
   {{ end }}

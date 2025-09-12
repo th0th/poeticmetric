@@ -29,7 +29,7 @@ poeticmetric:
   backend:
     image:
       pullPolicy: Always
-      repository: codeberg.org/unius/poeticmetric/backend
+      repository: code.unius.sh/unius/poeticmetric-backend
       tag: latest
   config: # @schema additionalProperties: true
     defaultPlanName: ""
@@ -73,7 +73,7 @@ poeticmetric:
   frontend:
     image:
       pullPolicy: Always
-      repository: codeberg.org/unius/poeticmetric/frontend
+      repository: code.unius.sh/unius/poeticmetric-frontend
       tag: latest
     replicas: 1
     resources: {} # @schema $ref: https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements ; skipProperties: true

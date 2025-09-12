@@ -6,15 +6,15 @@ metadata:
   name: {{ include "poeticmetric.fullname" . }}-frontend
 spec:
   ports:
-  - name: http
-    port: 80
-    protocol: TCP
-    targetPort: 80
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 80
   {{ if .Values.poeticmetric.config.development.enabled }}
-  - name: hmr
-    port: 24678
-    protocol: TCP
-    targetPort: 24678
+    - name: hmr
+      port: 24678
+      protocol: TCP
+      targetPort: 24678
   {{ end }}
   selector:
     {{ include "poeticmetric.selectorLabels" . | nindent 4 }}

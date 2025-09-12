@@ -12,8 +12,8 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/th0th/poeticmetric/backend/pkg/poeticmetric"
+	"github.com/th0th/poeticmetric/backend/pkg/test"
 	"github.com/th0th/poeticmetric/backend/pkg/test/modelhelper"
-	"github.com/th0th/poeticmetric/backend/pkg/test/testcontainer"
 )
 
 func Test_service_ReadOrganization(t *testing.T) {
@@ -95,11 +95,7 @@ func Test_service_ReadOrganization(t *testing.T) {
 	})
 
 	t.Run("integration", func(t *testing.T) {
-		postgresCtr, postgres := testcontainer.NewPostgres(t, ctx)
-		t.Cleanup(func() {
-			err := postgresCtr.Terminate(ctx)
-			require.NoError(t, err)
-		})
+		postgres := test.Postgres(t)
 
 		s := service{
 			postgres: postgres,

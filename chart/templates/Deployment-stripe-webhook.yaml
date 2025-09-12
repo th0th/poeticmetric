@@ -9,8 +9,8 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      {{ include "poeticmetric.selectorLabels" . | nindent 6 }}
       deployment: stripe-webhook
+      {{ include "poeticmetric.selectorLabels" . | nindent 6 }}
   strategy:
     rollingUpdate:
       maxSurge: 0
@@ -19,25 +19,25 @@ spec:
   template:
     metadata:
       labels:
-        {{ include "poeticmetric.selectorLabels" . | nindent 8 }}
         deployment: stripe-webhook
+        {{ include "poeticmetric.selectorLabels" . | nindent 8 }}
     spec:
       containers:
-      - command:
-        - "stripe"
-        - "listen"
-        - "--forward-to"
-        - "poeticmetric-rest-api/organization/stripe-webhook"
-        - "--events"
-        - "customer.subscription.created,customer.subscription.deleted,customer.subscription.updated"
-        - "--latest"
-        env:
-        - name: STRIPE_API_KEY
-          valueFrom:
-            secretKeyRef:
-              key: SECRET_KEY
-              name: {{ include "poeticmetric.fullname" . }}-stripe
-        image: stripe/stripe-cli:v1.27.0
-        imagePullPolicy: IfNotPresent
-        name: stripe-webhook
+        - command:
+            - "stripe"
+            - "listen"
+            - "--forward-to"
+            - "poeticmetric-rest-api/organization/stripe-webhook"
+            - "--events"
+            - "customer.subscription.created,customer.subscription.deleted,customer.subscription.updated"
+            - "--latest"
+          env:
+            - name: STRIPE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: SECRET_KEY
+                  name: {{ include "poeticmetric.fullname" . }}-stripe
+          image: stripe/stripe-cli:v1.27.0
+          imagePullPolicy: IfNotPresent
+          name: stripe-webhook
 {{ end }}
