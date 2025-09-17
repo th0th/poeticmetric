@@ -69,6 +69,7 @@ spec:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 10Gi
+            storage: {{ .Values.clickhouse.persistence.size }}
+        storageClassName: {{ .Values.clickhouse.persistence.storageClassName }}
         volumeMode: Filesystem
   {{ end }}

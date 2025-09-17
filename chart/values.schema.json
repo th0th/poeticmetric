@@ -33,6 +33,9 @@
                         },
                         "size": {
                             "type": "string"
+                        },
+                        "storageClassName": {
+                            "type": "string"
                         }
                     },
                     "additionalProperties": false
@@ -354,6 +357,9 @@
                         },
                         "size": {
                             "type": "string"
+                        },
+                        "storageClassName": {
+                            "type": "string"
                         }
                     },
                     "additionalProperties": false
@@ -392,6 +398,12 @@
                     "properties": {
                         "enabled": {
                             "type": "boolean"
+                        },
+                        "size": {
+                            "type": "string"
+                        },
+                        "storageClassName": {
+                            "type": "string"
                         }
                     },
                     "additionalProperties": false
@@ -439,6 +451,9 @@
                             "type": "boolean"
                         },
                         "size": {
+                            "type": "string"
+                        },
+                        "storageClassName": {
                             "type": "string"
                         }
                     },

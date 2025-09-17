@@ -59,6 +59,7 @@ spec:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 10Gi
+            storage: {{ .Values.rabbitmq.persistence.size }}
+        storageClassName: {{ .Values.rabbitmq.persistence.storageClassName }}
         volumeMode: Filesystem
   {{ end }}

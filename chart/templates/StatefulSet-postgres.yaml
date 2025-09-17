@@ -62,6 +62,7 @@ spec:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 10Gi
+            storage: {{ .Values.postgres.persistence.size }}
+        storageClassName: {{ .Values.postgres.persistence.storageClassName }}
         volumeMode: Filesystem
   {{ end }}

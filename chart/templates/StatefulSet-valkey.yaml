@@ -50,5 +50,6 @@ spec:
         resources:
           requests:
             storage: 10Gi
+        storageClassName: {{ .Values.valkey.persistence.storageClassName }}
         volumeMode: Filesystem
   {{ end }}
