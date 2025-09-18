@@ -72,4 +72,5 @@ spec:
             storage: {{ .Values.clickhouse.persistence.size }}
         storageClassName: {{ .Values.clickhouse.persistence.storageClassName }}
         volumeMode: Filesystem
+        volumeName: {{ .Release.Namespace}}-{{ include "poeticmetric.fullname" . }}-clickhouse
   {{ end }}
