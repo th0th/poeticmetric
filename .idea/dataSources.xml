@@ -33,7 +33,7 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="production - postgres" uuid="c25a32d4-6dbf-4658-9ec0-dc9d1e8ca013">
+    <data-source source="LOCAL" name="production old - postgres" uuid="c25a32d4-6dbf-4658-9ec0-dc9d1e8ca013">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
@@ -68,16 +68,16 @@
         <property name="verifyConnectionMode" value="false" />
       </driver-properties>
     </data-source>
-    <data-source source="LOCAL" name="production - clickhouse" uuid="00017018-69c0-42fe-8230-9357261e3983">
+    <data-source source="LOCAL" name="production old - clickhouse" uuid="00017018-69c0-42fe-8230-9357261e3983">
       <driver-ref>clickhouse</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.clickhouse.jdbc.ClickHouseDriver</jdbc-driver>
-      <jdbc-url>jdbc:clickhouse://localhost:18123/poeticmetric</jdbc-url>
+      <jdbc-url>jdbc:clickhouse://localhost:8123/poeticmetric</jdbc-url>
       <jdbc-additional-properties>
-        <property name="com.intellij.clouds.kubernetes.db.host.port" value="18123" />
+        <property name="com.intellij.clouds.kubernetes.db.host.port" value="8123" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="true" />
         <property name="com.intellij.clouds.kubernetes.db.resource" value="clickhouse" />
-        <property name="com.intellij.clouds.kubernetes.db.context" value="webgazer" />
+        <property name="com.intellij.clouds.kubernetes.db.context" value="unius-old" />
         <property name="com.intellij.clouds.kubernetes.db.resource.type" value="Service" />
         <property name="com.intellij.clouds.kubernetes.db.namespace" value="poeticmetric" />
         <property name="com.intellij.clouds.kubernetes.db.container.port" value="8123" />
@@ -93,7 +93,7 @@
         <property name="com.intellij.clouds.kubernetes.db.host.port" value="28123" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="true" />
         <property name="com.intellij.clouds.kubernetes.db.resource" value="poeticmetric-clickhouse" />
-        <property name="com.intellij.clouds.kubernetes.db.context" value="webgazer" />
+        <property name="com.intellij.clouds.kubernetes.db.context" value="unius" />
         <property name="com.intellij.clouds.kubernetes.db.resource.type" value="Service" />
         <property name="com.intellij.clouds.kubernetes.db.namespace" value="poeticmetric-staging" />
         <property name="com.intellij.clouds.kubernetes.db.container.port" value="8123" />
@@ -104,15 +104,47 @@
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:25432/poeticmetric</jdbc-url>
+      <jdbc-url>jdbc:postgresql://localhost:15432/poeticmetric</jdbc-url>
       <jdbc-additional-properties>
-        <property name="com.intellij.clouds.kubernetes.db.host.port" value="25432" />
+        <property name="com.intellij.clouds.kubernetes.db.host.port" value="15432" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="true" />
         <property name="com.intellij.clouds.kubernetes.db.resource" value="poeticmetric-postgres" />
-        <property name="com.intellij.clouds.kubernetes.db.context" value="webgazer" />
+        <property name="com.intellij.clouds.kubernetes.db.context" value="unius" />
         <property name="com.intellij.clouds.kubernetes.db.resource.type" value="Service" />
         <property name="com.intellij.clouds.kubernetes.db.namespace" value="poeticmetric-staging" />
         <property name="com.intellij.clouds.kubernetes.db.container.port" value="5432" />
+      </jdbc-additional-properties>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="production - postgres" uuid="f43e923f-0b0c-4de6-bc0d-65694754a842">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/poeticmetric</jdbc-url>
+      <jdbc-additional-properties>
+        <property name="com.intellij.clouds.kubernetes.db.host.port" value="5432" />
+        <property name="com.intellij.clouds.kubernetes.db.enabled" value="true" />
+        <property name="com.intellij.clouds.kubernetes.db.resource" value="poeticmetric-postgres" />
+        <property name="com.intellij.clouds.kubernetes.db.context" value="unius" />
+        <property name="com.intellij.clouds.kubernetes.db.resource.type" value="Service" />
+        <property name="com.intellij.clouds.kubernetes.db.namespace" value="poeticmetric" />
+        <property name="com.intellij.clouds.kubernetes.db.container.port" value="5432" />
+      </jdbc-additional-properties>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="production - clickhouse" uuid="6cdfe18d-d135-4351-88f1-ffb97d8aa9e2">
+      <driver-ref>clickhouse</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.clickhouse.jdbc.ClickHouseDriver</jdbc-driver>
+      <jdbc-url>jdbc:clickhouse://localhost:8123/poeticmetric</jdbc-url>
+      <jdbc-additional-properties>
+        <property name="com.intellij.clouds.kubernetes.db.host.port" value="8123" />
+        <property name="com.intellij.clouds.kubernetes.db.enabled" value="true" />
+        <property name="com.intellij.clouds.kubernetes.db.resource" value="poeticmetric-clickhouse" />
+        <property name="com.intellij.clouds.kubernetes.db.context" value="unius" />
+        <property name="com.intellij.clouds.kubernetes.db.resource.type" value="Service" />
+        <property name="com.intellij.clouds.kubernetes.db.namespace" value="poeticmetric" />
+        <property name="com.intellij.clouds.kubernetes.db.container.port" value="8123" />
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>

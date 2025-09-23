@@ -99,6 +99,8 @@ definitions:
     properties:
       createdAt:
         type: string
+      id:
+        type: integer
       isOnTrial:
         type: boolean
       isStripeCustomer:

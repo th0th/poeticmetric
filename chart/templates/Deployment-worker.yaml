@@ -26,6 +26,10 @@ spec:
         - env:
             - name: INSTANCE
               value: worker
+            - name: POSTGRES_HOST
+              value: {{ $fullname }}-pgbouncer
+            - name: POSTGRES_PORT
+              value: "6432"
             - name: WORKER_CONCURRENCY
               value: {{ .concurrency | quote }}
             - name: WORKER_QUEUES

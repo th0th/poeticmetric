@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+. $(dirname "$(readlink -f "$0")")/base
+BASE_DIR=$(get-base-dir)
+
+USER=$(whoami)
+HOSTNAME=$(hostname)
+
+HOST_BASE_PATH="${BASE_DIR}"
+
+if [[ -z "$1" ]]; then
+  # all chart
+  helm template chart \
+    --set "poeticmetric.config.development.hostBasePath=${HOST_BASE_PATH}" \
+    --set "poeticmetric.config.stripe.metaEnvironment=${USER}@${HOSTNAME}" \
+    --values "${BASE_DIR}/etc/development/values.yaml"
+else
+  # only specific template
+  helm template chart \
+    --set "poeticmetric.config.development.hostBasePath=${HOST_BASE_PATH}" \
+    --set "poeticmetric.config.stripe.metaEnvironment=${USER}@${HOSTNAME}" \
+    --show-only "templates/$1" \
+    --values "${BASE_DIR}/etc/development/values.yaml"
+fi

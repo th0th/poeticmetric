@@ -52,5 +52,5 @@ spec:
             storage: 10Gi
         storageClassName: {{ .Values.valkey.persistence.storageClassName }}
         volumeMode: Filesystem
-        volumeName: {{ .Release.Namespace}}-{{ include "poeticmetric.fullname" . }}-valkey
+        volumeName: {{ .Values.valkey.persistence.volumeName }}
   {{ end }}

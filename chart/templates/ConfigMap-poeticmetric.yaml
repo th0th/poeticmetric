@@ -3,13 +3,12 @@ data:
   DATABASE_DEBUG: {{ .Values.poeticmetric.config.development.databaseDebug | quote }}
   DEBUG: {{ .Values.poeticmetric.config.development.debug | quote }}
   DEFAULT_PLAN_NAME: {{ .Values.poeticmetric.config.defaultPlanName | quote }}
+  FRONTEND_ALLOW_ROBOTS: {{ .Values.poeticmetric.frontend.allowRobots | quote }}
   FRONTEND_BASE_URL: {{ printf "https://%s" .Values.poeticmetric.config.host | quote }}
   FRONTEND_TAGS_ENVIRONMENT: {{ .Values.poeticmetric.frontend.tagsEnvironment | quote }}
+  IS_HOSTED: {{ .Values.poeticmetric.config.isHosted | quote }}
   REST_API_BASE_URL: {{ printf "https://%s/api" .Values.poeticmetric.config.host | quote }}
   UNVERIFIED_ORGANIZATION_DELETION_DAYS: {{ .Values.poeticmetric.config.unverifiedOrganizationDeletionDays | quote }}
-  {{ if .Values.poeticmetric.config.extra }}
-  {{ toYaml .Values.poeticmetric.config.extra | nindent 2 }}
-  {{ end }}
 kind: ConfigMap
 metadata:
   name: {{ include "poeticmetric.fullname" . }}-poeticmetric

@@ -21,6 +21,10 @@ spec:
         - env:
             - name: INSTANCE
               value: scheduler
+            - name: POSTGRES_HOST
+              value: {{ include "poeticmetric.fullname" . }}-pgbouncer
+            - name: POSTGRES_PORT
+              value: "6432"
           envFrom:
             - configMapRef:
                 name: {{ include "poeticmetric.fullname" . }}-clickhouse

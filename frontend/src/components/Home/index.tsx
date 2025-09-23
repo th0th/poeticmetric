@@ -97,7 +97,7 @@ export default function Home() {
       <Features
         description="Analytics shouldn't be a headache or a privacy risk. With PoeticMetric, you'll have the tools (and peace of mind) to actually enjoy checking your stats."
         features={features}
-        title="A Better Way to Do Analytics"
+        title="A better way to do analytics"
       />
 
       <CallToAction

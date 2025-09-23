@@ -1,0 +1,11 @@
+{{ if .Values.postHog.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    {{ include "poeticmetric.labels" . | nindent 4 }}
+  name: {{ include "poeticmetric.fullname" . }}-posthog-proxy
+spec:
+  externalName: eu.i.posthog.com
+  type: ExternalName
+{{ end }}

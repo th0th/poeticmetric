@@ -1,0 +1,10 @@
+{{ if .Values.postHog.enabled }}
+apiVersion: v1
+data:
+  API_KEY: {{ .Values.postHog.apiKey | required ".Values.postHog.apiKey is required!" | quote }}
+kind: ConfigMap
+metadata:
+  labels:
+    {{ include "poeticmetric.labels" . | nindent 4 }}
+  name: {{ include "poeticmetric.fullname" . }}-posthog
+{{ end }}

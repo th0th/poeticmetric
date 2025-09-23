@@ -9,7 +9,7 @@ import (
 )
 
 func (s *service) DeleteUnverifiedOrganizations(ctx context.Context) error {
-	err := s.publish(ctx, poeticmetric.QueueDefaultName, poeticmetric.WorkCreateEvent, nil, nil)
+	err := s.publish(ctx, poeticmetric.QueueDefaultName, poeticmetric.WorkDeleteUnverifiedOrganizations, nil, nil)
 	if err != nil {
 		return errors.Wrap(err, 0)
 	}

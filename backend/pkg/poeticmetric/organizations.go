@@ -49,6 +49,7 @@ type OrganizationDeletionRequest struct {
 
 type OrganizationResponse struct {
 	CreatedAt                     time.Time  `json:"createdAt"`
+	ID                            uint       `json:"id"`
 	IsOnTrial                     bool       `json:"isOnTrial"`
 	IsStripeCustomer              bool       `gorm:"-" json:"isStripeCustomer"`
 	Name                          string     `json:"name"`

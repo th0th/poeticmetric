@@ -21,6 +21,7 @@ type OrganizationDeletionReason = {
 
 type OrganizationResponse = {
   createdAt: string;
+  id: number;
   isOnTrial: boolean;
   isStripeCustomer: boolean;
   name: string;

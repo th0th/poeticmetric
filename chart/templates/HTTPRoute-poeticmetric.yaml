@@ -1,7 +1,8 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  labels: {{ include "poeticmetric.labels" . | nindent 4 }}
+  labels:
+    {{ include "poeticmetric.labels" . | nindent 4 }}
   name: {{ include "poeticmetric.fullname" . }}-poeticmetric
 spec:
   hostnames:
@@ -25,12 +26,49 @@ spec:
         - type: URLRewrite
           urlRewrite:
             path:
-              type: ReplacePrefixMatch
+              replaceFullPath: /pm.js
+              type: ReplaceFullPath
+      matches:
+        - path:
+            type: Exact
+            value: /pm.js
+        - path:
+            type: Exact
+            value: /poeticmetric.js
+
+    - backendRefs:
+        - kind: Service
+          name: {{ include "poeticmetric.fullname" . }}-rest-api
+          port: 80
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
               replacePrefixMatch: /
+              type: ReplacePrefixMatch
       matches:
         - path:
             type: PathPrefix
             value: /api
+
+    {{ if .Values.postHog.enabled }}
+    - backendRefs:
+        - group: gateway.envoyproxy.io
+          kind: Backend
+          name: {{ include "poeticmetric.fullname" . }}-posthog
+          port: 443
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            hostname: eu.i.posthog.com
+            path:
+              replacePrefixMatch: /
+              type: ReplacePrefixMatch
+      matches:
+        - path:
+            type: PathPrefix
+            value: /ingest
+    {{ end }}
 
     {{ if .Values.poeticmetric.config.development.enabled }}
     - backendRefs:

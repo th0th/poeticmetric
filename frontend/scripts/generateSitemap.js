@@ -16,6 +16,7 @@ const routesToExclude = [
   "/email-address-verification",
   "/password-reset",
   "/settings(/.*)?",
+  "/s",
   "/sites(/.*)?",
   "/team(/.*)?",
 ];

@@ -12,6 +12,8 @@ import { Outlet, ScrollRestoration } from "react-router";
 import AppErrorBoundary from "~/components/AppErrorBoundary";
 import AuthenticationProvider from "~/components/AuthenticationProvider";
 import ColorModeProvider from "~/components/ColorModeProvider";
+import PostHogHandler from "~/components/PostHogHandler";
+import PostHogProvider from "~/components/PostHogProvider";
 import SWRConfig from "~/components/SWRConfig";
 import Tags from "~/components/Tags";
 import "~/styles/style.scss";
@@ -29,19 +31,22 @@ export default function App() {
   return (
     <StrictMode>
       <AppErrorBoundary>
-        <ScrollRestoration />
+        <PostHogProvider>
+          <ScrollRestoration />
 
-        <LazyMotion features={domAnimation}>
-          <SWRConfig>
-            <AuthenticationProvider>
-              <ColorModeProvider>
-                <Tags />
+          <LazyMotion features={domAnimation}>
+            <SWRConfig>
+              <AuthenticationProvider>
+                <ColorModeProvider>
+                  <Tags />
+                  <PostHogHandler />
 
-                <Outlet />
-              </ColorModeProvider>
-            </AuthenticationProvider>
-          </SWRConfig>
-        </LazyMotion>
+                  <Outlet />
+                </ColorModeProvider>
+              </AuthenticationProvider>
+            </SWRConfig>
+          </LazyMotion>
+        </PostHogProvider>
       </AppErrorBoundary>
     </StrictMode>
   );

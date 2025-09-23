@@ -19,6 +19,11 @@ spec:
     spec:
       containers:
         - env:
+            - name: ALLOW_ROBOTS
+              valueFrom:
+                configMapKeyRef:
+                  key: FRONTEND_ALLOW_ROBOTS
+                  name: {{ include "poeticmetric.fullname" . }}-poeticmetric
             - name: NODE_ENV
               value: {{ if .Values.poeticmetric.config.development.enabled }}development{{ else }}production{{ end }}
             - name: VITE_BASE_URL
@@ -37,6 +42,12 @@ spec:
                 configMapKeyRef:
                   key: IS_HOSTED
                   name: {{ include "poeticmetric.fullname" . }}-poeticmetric
+                  optional: true
+            - name: VITE_POSTHOG_API_KEY
+              valueFrom:
+                configMapKeyRef:
+                  key: API_KEY
+                  name: {{ include "poeticmetric.fullname" . }}-posthog
                   optional: true
             - name: VITE_REST_API_BASE_URL
               valueFrom:

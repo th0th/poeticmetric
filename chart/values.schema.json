@@ -36,12 +36,15 @@
                         },
                         "storageClassName": {
                             "type": "string"
+                        },
+                        "volumeName": {
+                            "type": "string"
                         }
                     },
                     "additionalProperties": false
                 },
                 "resources": {
-                    "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
+                    "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
                     "type": "object",
                     "additionalProperties": false
                 },
@@ -59,6 +62,14 @@
                 }
             },
             "additionalProperties": false
+        },
+        "global": {
+            "description": "Global values shared between all subcharts",
+            "$comment": "Added automatically by 'helm schema' to allow this chart to be used as a Helm dependency, as the `additionalProperties` setting would otherwise collide with Helm's special 'global' values key.",
+            "type": [
+                "object",
+                "null"
+            ]
         },
         "mailpit": {
             "type": "object",
@@ -110,7 +121,7 @@
                     "type": "integer"
                 },
                 "resources": {
-                    "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
+                    "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
                     "type": "object",
                     "additionalProperties": false
                 }
@@ -184,6 +195,9 @@
                         "host": {
                             "type": "string"
                         },
+                        "isHosted": {
+                            "type": "boolean"
+                        },
                         "registryAuth": {
                             "type": "object",
                             "properties": {
@@ -209,7 +223,7 @@
                                     "type": "integer"
                                 },
                                 "resources": {
-                                    "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
+                                    "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
                                     "type": "object",
                                     "additionalProperties": false
                                 }
@@ -220,7 +234,7 @@
                             "type": "object",
                             "properties": {
                                 "resources": {
-                                    "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
+                                    "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
                                     "type": "object",
                                     "additionalProperties": false
                                 }
@@ -296,6 +310,9 @@
                 "frontend": {
                     "type": "object",
                     "properties": {
+                        "allowRobots": {
+                            "type": "boolean"
+                        },
                         "image": {
                             "type": "object",
                             "properties": {
@@ -315,7 +332,7 @@
                             "type": "integer"
                         },
                         "resources": {
-                            "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
+                            "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
                             "type": "object",
                             "additionalProperties": false
                         },
@@ -328,9 +345,53 @@
             },
             "additionalProperties": false
         },
+        "postHog": {
+            "type": "object",
+            "properties": {
+                "apiKey": {
+                    "type": "string"
+                },
+                "enabled": {
+                    "type": "boolean"
+                }
+            },
+            "additionalProperties": false
+        },
         "postgres": {
             "type": "object",
             "properties": {
+                "backupCronJob": {
+                    "type": "object",
+                    "properties": {
+                        "destination": {
+                            "type": "object",
+                            "properties": {
+                                "kind": {
+                                    "type": "string"
+                                },
+                                "path": {
+                                    "type": "string"
+                                }
+                            },
+                            "additionalProperties": false
+                        },
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "extraEnvFrom": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.EnvFromSource"
+                            }
+                        },
+                        "resources": {
+                            "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
+                            "type": "object",
+                            "additionalProperties": false
+                        }
+                    },
+                    "additionalProperties": false
+                },
                 "image": {
                     "type": "object",
                     "properties": {
@@ -360,12 +421,15 @@
                         },
                         "storageClassName": {
                             "type": "string"
+                        },
+                        "volumeName": {
+                            "type": "string"
                         }
                     },
                     "additionalProperties": false
                 },
                 "resources": {
-                    "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
+                    "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
                     "type": "object",
                     "additionalProperties": false
                 },
@@ -403,6 +467,9 @@
                             "type": "string"
                         },
                         "storageClassName": {
+                            "type": "string"
+                        },
+                        "volumeName": {
                             "type": "string"
                         }
                     },
@@ -455,12 +522,15 @@
                         },
                         "storageClassName": {
                             "type": "string"
+                        },
+                        "volumeName": {
+                            "type": "string"
                         }
                     },
                     "additionalProperties": false
                 },
                 "resources": {
-                    "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.2/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
+                    "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
                     "type": "object",
                     "additionalProperties": false
                 }

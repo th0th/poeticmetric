@@ -37,6 +37,7 @@ FROM (
   WHERE
     date_time < end
     AND date_time >= start
+    AND domain(referrer) != @siteDomain
     AND site_id = @siteID
     AND if(isNull(@browserName), TRUE, browser_name = @browserName)
     AND if(isNull(@browserVersion), TRUE, browser_version = @browserVersion)

@@ -1,0 +1,16 @@
+{{ if .Values.postHog.enabled }}
+apiVersion: gateway.networking.k8s.io/v1alpha3
+kind: BackendTLSPolicy
+metadata:
+  labels:
+    {{ include "poeticmetric.labels" . | nindent 4 }}
+  name: {{ include "poeticmetric.fullname" . }}-posthog-assets
+spec:
+  targetRefs:
+    - group: gateway.envoyproxy.io
+      kind: Backend
+      name: {{ include "poeticmetric.fullname" . }}-posthog-assets
+  validation:
+    hostname: eu-assets.i.posthog.com
+    wellKnownCACertificates: System
+{{ end }}

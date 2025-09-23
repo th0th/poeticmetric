@@ -3819,6 +3819,9 @@ const docTemplate = `{
                 "createdAt": {
                     "type": "string"
                 },
+                "id": {
+                    "type": "integer"
+                },
                 "isOnTrial": {
                     "type": "boolean"
                 },

@@ -1,0 +1,41 @@
+{{ if .Values.postgres.backupCronJob.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  labels:
+    {{- include "poeticmetric.labels" . | nindent 4 }}
+  name: {{ include "poeticmetric.fullname" . }}-postgres-backup
+spec:
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - env:
+                - name: DESTINATION_KIND
+                  value: {{ .Values.postgres.backupCronJob.destination.kind }}
+                - name: DESTINATION_PATH
+                  value: {{ .Values.postgres.backupCronJob.destination.path }}
+                - name: POSTGRES_DB
+                  valueFrom:
+                    configMapKeyRef:
+                      key: DATABASE
+                      name: {{ include "poeticmetric.fullname" . }}-postgres
+                - name: POSTGRES_HOST
+                  value: {{ include "poeticmetric.fullname" . }}-postgres
+                - name: POSTGRES_PORT
+                  value: "5432"
+              envFrom:
+                - prefix: POSTGRES_
+                  secretRef:
+                    name: {{ include "poeticmetric.fullname" . }}-postgres
+                {{- if .Values.postgres.backupCronJob.extraEnvFrom }}
+                {{- .Values.postgres.backupCronJob.extraEnvFrom | toYaml | nindent 16 }}
+                {{- end }}
+              image: code.unius.sh/unius/postgres-backup:1.0.0
+              name: postgres-backup
+              resources:
+                {{- .Values.postgres.backupCronJob.resources | toYaml | nindent 16 }}
+          restartPolicy: Never
+  schedule: 0 7 * * *
+{{ end }}

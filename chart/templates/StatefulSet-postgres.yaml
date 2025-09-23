@@ -65,5 +65,5 @@ spec:
             storage: {{ .Values.postgres.persistence.size }}
         storageClassName: {{ .Values.postgres.persistence.storageClassName }}
         volumeMode: Filesystem
-        volumeName: {{ .Release.Namespace}}-{{ include "poeticmetric.fullname" . }}-postgres
+        volumeName: {{ .Values.postgres.persistence.volumeName }}
   {{ end }}

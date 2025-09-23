@@ -484,12 +484,21 @@ func (s *service) ReadSiteReferrerHostReport(
 	filters *poeticmetric.SiteReportFilters,
 	paginationCursor *poeticmetric.SiteReportPaginationCursor[poeticmetric.SiteReferrerHostReportPaginationCursor],
 ) (*poeticmetric.SiteReferrerHostReport, error) {
+	postgres := poeticmetric.ServicePostgres(ctx, s)
+
 	report := poeticmetric.SiteReferrerHostReport{
 		Data: []poeticmetric.SiteReferrerHostReportDatum{},
 	}
 
+	site := poeticmetric.Site{}
+	err := postgres.Select("Domain").First(&site, poeticmetric.Site{ID: filters.SiteID}, "ID").Error
+	if err != nil {
+		return nil, errors.Wrap(err, 0)
+	}
+
 	queryValues := map[string]any{
 		"limit": poeticmetric.SiteReportPageSize,
+		"siteDomain": site.Domain,
 	}
 	for k, v := range filters.Map() {
 		queryValues[k] = v
@@ -502,7 +511,7 @@ func (s *service) ReadSiteReferrerHostReport(
 		queryValues["paginationVisitorCount"] = nil
 	}
 
-	err := s.clickHouse.Raw(siteReferrerHostReportQuery, queryValues).Scan(&report.Data).Error
+	err = s.clickHouse.Raw(siteReferrerHostReportQuery, queryValues).Scan(&report.Data).Error
 	if err != nil {
 		return nil, errors.Wrap(err, 0)
 	}

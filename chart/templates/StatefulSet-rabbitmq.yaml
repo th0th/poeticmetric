@@ -62,5 +62,5 @@ spec:
             storage: {{ .Values.rabbitmq.persistence.size }}
         storageClassName: {{ .Values.rabbitmq.persistence.storageClassName }}
         volumeMode: Filesystem
-        volumeName: {{ .Release.Namespace}}-{{ include "poeticmetric.fullname" . }}-rabbitmq
+        volumeName: {{ .Values.rabbitmq.persistence.volumeName }}
   {{ end }}

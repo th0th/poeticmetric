@@ -33,7 +33,7 @@ func Test_service_ReadOrganization(t *testing.T) {
 		}
 
 		// language=postgresql
-		selectQuery := `SELECT * FROM "organizations" WHERE "organizations"."id" = $1 ORDER BY "organizations"."created_at" LIMIT $2`
+		selectQuery := `SELECT * FROM "organizations" WHERE "organizations"."id" = $1 ORDER BY "organizations"."id" LIMIT $2`
 
 		type fields struct {
 			postgres *gorm.DB

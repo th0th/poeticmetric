@@ -1,0 +1,13 @@
+{{ if .Values.postHog.enabled }}
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: Backend
+metadata:
+  labels:
+    {{ include "poeticmetric.labels" . | nindent 4 }}
+  name: {{ include "poeticmetric.fullname" . }}-posthog-assets
+spec:
+  endpoints:
+    - fqdn:
+        hostname: eu-assets.i.posthog.com
+        port: 443
+{{ end }}

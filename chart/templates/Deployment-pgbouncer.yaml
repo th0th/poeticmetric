@@ -24,20 +24,14 @@ spec:
                   key: DATABASE
                   name: {{ include "poeticmetric.fullname" . }}-postgres
             - name: POSTGRESQL_HOST
-              valueFrom:
-                configMapKeyRef:
-                  key: RAW_HOST
-                  name: {{ include "poeticmetric.fullname" . }}-postgres
+              value: {{ include "poeticmetric.fullname" . }}-postgres
             - name: POSTGRESQL_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: PASSWORD
                   name: {{ include "poeticmetric.fullname" . }}-postgres
             - name: POSTGRESQL_PORT
-              valueFrom:
-                configMapKeyRef:
-                  key: RAW_PORT
-                  name: {{ include "poeticmetric.fullname" . }}-postgres
+              value: "5432"
             - name: POSTGRESQL_USERNAME
               valueFrom:
                 secretKeyRef:

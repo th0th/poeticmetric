@@ -1,7 +1,8 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  labels: {{ include "poeticmetric.labels" . | nindent 4 }}
+  labels:
+    {{ include "poeticmetric.labels" . | nindent 4 }}
   name: {{ include "poeticmetric.fullname" . }}-rabbitmq
 spec:
   hostnames:

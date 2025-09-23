@@ -110,7 +110,7 @@ steps:
           kubectl --namespace "$${KUBERNETES_NAMESPACE}" rollout restart statefulsets
           sleep 4
         fi
-      - kubectl --namespace "$${KUBERNETES_NAMESPACE}" rollout status deployment --selector="restart-on-deploy=true"
+      - kubectl --namespace "$${KUBERNETES_NAMESPACE}" rollout restart deployment --selector="restart-on-deploy=true"
     depends_on:
       - clone-infrastructure
       - prepare-environment-secrets

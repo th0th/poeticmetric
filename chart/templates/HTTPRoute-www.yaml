@@ -1,0 +1,15 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  labels:
+    {{ include "poeticmetric.labels" . | nindent 4 }}
+  name: {{ include "poeticmetric.fullname" . }}-www
+spec:
+  hostnames:
+    - www.{{ .Values.poeticmetric.config.host }}
+  parentRefs: {{ toYaml .Values.gateway.parentRefs | nindent 4 }}
+  rules:
+    - filters:
+        - requestRedirect:
+            hostname: {{ .Values.poeticmetric.config.host }}
+          type: RequestRedirect
