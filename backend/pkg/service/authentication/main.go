@@ -21,6 +21,7 @@ type NewParams struct {
 type service struct {
 	emailService      poeticmetric.EmailService
 	envService        poeticmetric.EnvService
+	logService        poeticmetric.LogService
 	postgres          *gorm.DB
 	validationService poeticmetric.ValidationService
 }

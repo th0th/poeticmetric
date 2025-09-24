@@ -44,7 +44,7 @@ func (s *service) DeleteUnverifiedOrganizations(ctx context.Context) error {
 	err := poeticmetric.ServicePostgresTransaction(ctx, s, func(ctx context.Context) error {
 		postgres := poeticmetric.ServicePostgres(ctx, s)
 
-		var data poeticmetric.LogUnverifiedOrganizationsDeletionData
+		var data poeticmetric.UnverifiedOrganizationsDeletionLogData
 		err2 := postgres.
 			Raw(deleteUnverifiedOrganizationsQuery, map[string]any{
 				"unverifiedOrganizationDeletionDays": s.envService.UnverifiedOrganizationDeletionDays(),

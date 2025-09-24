@@ -150,6 +150,19 @@ func (s *service) SignUp(ctx context.Context, params *poeticmetric.SignUpParams)
 			return errors.Wrap(err2, 0)
 		}
 
+		err2 = s.logService.SignUp(ctx, &poeticmetric.SignUpLogData{
+			DateTime:             organization.CreatedAt,
+			OrganizationID:       organization.ID,
+			OrganizationName:     organization.Name,
+			OrganizationTimeZone: organization.TimeZone,
+			UserEmail:            user.Email,
+			UserID:               user.ID,
+			UserName:             user.Name,
+		})
+		if err2 != nil {
+			return errors.Wrap(err2, 0)
+		}
+
 		err2 = s.emailService.Send(poeticmetric.SendEmailParams{
 			Subject:  "Welcome to PoeticMetric! Please verify your e-mail address.",
 			Template: poeticmetric.WelcomeEmailTemplate,

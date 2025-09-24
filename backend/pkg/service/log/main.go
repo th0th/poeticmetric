@@ -27,7 +27,16 @@ func (s *service) Postgres() *gorm.DB {
 	return s.postgres
 }
 
-func (s *service) CreateUnverifiedOrganizationsDeletionLog(ctx context.Context, data *poeticmetric.LogUnverifiedOrganizationsDeletionData) error {
+func (s *service) SignUp(ctx context.Context, data *poeticmetric.SignUpLogData) error {
+	err := s.create(ctx, poeticmetric.LogKindSignUp, data)
+	if err != nil {
+		return errors.Wrap(err, 0)
+	}
+
+	return nil
+}
+
+func (s *service) UnverifiedOrganizationsDeletion(ctx context.Context, data *poeticmetric.UnverifiedOrganizationsDeletionLogData) error {
 	err := s.create(ctx, poeticmetric.LogKindUnverifiedOrganizationsDeletion, data)
 	if err != nil {
 		return errors.Wrap(err, 0)
