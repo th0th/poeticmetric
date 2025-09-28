@@ -85,7 +85,9 @@ poeticmetric:
     tagsEnvironment: ""
 postHog:
   apiKey: ""
+  assetsHostname: ""
   enabled: false
+  hostname: ""
 postgres:
   backupCronJob:
     destination:

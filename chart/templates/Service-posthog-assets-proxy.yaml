@@ -6,6 +6,6 @@ metadata:
     {{ include "poeticmetric.labels" . | nindent 4 }}
   name: {{ include "poeticmetric.fullname" . }}-posthog-assets-proxy
 spec:
-  externalName: eu-assets.i.posthog.com
+  externalName: {{ .Values.postHog.assetsHostname }}
   type: ExternalName
 {{ end }}

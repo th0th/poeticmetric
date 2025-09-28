@@ -11,6 +11,6 @@ spec:
       kind: Backend
       name: {{ include "poeticmetric.fullname" . }}-posthog-assets
   validation:
-    hostname: eu-assets.i.posthog.com
+    hostname: {{ .Values.postHog.assetsHostname }}
     wellKnownCACertificates: System
 {{ end }}

@@ -8,6 +8,6 @@ metadata:
 spec:
   endpoints:
     - fqdn:
-        hostname: eu-assets.i.posthog.com
+        hostname: {{ .Values.postHog.assetsHostname }}
         port: 443
 {{ end }}

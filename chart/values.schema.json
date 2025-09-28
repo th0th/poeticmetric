@@ -356,8 +356,14 @@
                 "apiKey": {
                     "type": "string"
                 },
+                "assetsHostname": {
+                    "type": "string"
+                },
                 "enabled": {
                     "type": "boolean"
+                },
+                "hostname": {
+                    "type": "string"
                 }
             },
             "additionalProperties": false

@@ -60,7 +60,7 @@ spec:
       filters:
         - type: URLRewrite
           urlRewrite:
-            hostname: eu.i.posthog.com
+            hostname: {{ .Values.postHog.hostname }}
             path:
               replacePrefixMatch: /
               type: ReplacePrefixMatch
