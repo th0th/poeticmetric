@@ -299,6 +299,11 @@
                                     },
                                     "replicas": {
                                         "type": "integer"
+                                    },
+                                    "resources": {
+                                        "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
+                                        "type": "object",
+                                        "additionalProperties": false
                                     }
                                 },
                                 "additionalProperties": false
@@ -473,6 +478,11 @@
                             "type": "string"
                         }
                     },
+                    "additionalProperties": false
+                },
+                "resources": {
+                    "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
+                    "type": "object",
                     "additionalProperties": false
                 },
                 "serviceMonitor": {
