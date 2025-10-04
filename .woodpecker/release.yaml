@@ -51,8 +51,8 @@ steps:
       - /usr/local/bin/docker buildx create --name builder --use > /dev/null 2>&1
       - |
         /usr/local/bin/docker buildx build \
-          --cache-from "access_key_id=$${HETZNER_ACCESS_KEY},bucket=unius-cache,endpoint_url=nbg1.your-objectstorage.com,secret_access_key=$${HETZNER_SECRET_KEY},type=s3" \
-          --cache-to "access_key_id=$${HETZNER_ACCESS_KEY},bucket=unius-cache,endpoint_url=nbg1.your-objectstorage.com,mode=max,type=s3,secret_access_key=$${HETZNER_SECRET_KEY}" \
+          --cache-from "access_key_id=$${HETZNER_ACCESS_KEY},bucket=unius-cache,endpoint_url=your-objectstorage.com,region=nbg1,secret_access_key=$${HETZNER_SECRET_KEY},type=s3" \
+          --cache-to "access_key_id=$${HETZNER_ACCESS_KEY},bucket=unius-cache,endpoint_url=your-objectstorage.com,mode=max,region=nbg1,secret_access_key=$${HETZNER_SECRET_KEY},type=s3" \
           --file "Dockerfile" \
           --output "type=image,push=true,rewrite-timestamp=true" \
           --platform "linux/amd64" \
