@@ -1,9 +1,11 @@
 apiVersion: v1
 data:
-  {{ .Values.pgbouncer.config | toYaml | nindent 2 }}
   AUTH_TYPE: "scram-sha-256"
+  {{- with .Values.pgbouncer.config }}
+  {{ toYaml . | nindent 2 }}
+  {{- end }}
 kind: ConfigMap
 metadata:
   labels:
-    {{ include "poeticmetric.labels" . | nindent 4 }}
+    {{- include "poeticmetric.labels" . | nindent 4 }}
   name: {{ include "poeticmetric.fullname" . }}-pgbouncer
