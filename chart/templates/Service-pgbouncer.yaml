@@ -5,11 +5,11 @@ metadata:
     {{ include "poeticmetric.labels" . | nindent 4 }}
   name: {{ include "poeticmetric.fullname" . }}-pgbouncer
 spec:
-  selector:
-    deployment: pgbouncer
-    {{ include "poeticmetric.selectorLabels" . | nindent 4 }}
   ports:
     - name: pgbouncer
       port: 5432
       protocol: TCP
       targetPort: 5432
+  selector:
+    deployment: pgbouncer
+    {{ include "poeticmetric.selectorLabels" . | nindent 4 }}

@@ -38,7 +38,6 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "poeticmetric.fullname" . }}-pgbouncer
-              prefix: PGBOUNCER_
           image: {{ printf "%s:%s" .Values.pgbouncer.image.repository .Values.pgbouncer.image.tag }}
           imagePullPolicy: {{ .Values.pgbouncer.image.pullPolicy }}
           name: pgbouncer
