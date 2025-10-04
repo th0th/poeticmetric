@@ -15,8 +15,8 @@ steps:
       - |
         /usr/local/bin/docker buildx build \
           --build-arg GO_BUILD_ARGS="-p 2" \
-          --cache-from "access_key_id=$${AWS_ACCESS_KEY_ID},bucket=unius-cache,region=eu-west-1,secret_access_key=$${AWS_SECRET_ACCESS_KEY},type=s3" \
-          --cache-to "access_key_id=$${AWS_ACCESS_KEY_ID},bucket=unius-cache,mode=max,region=eu-west-1,type=s3,secret_access_key=$${AWS_SECRET_ACCESS_KEY}" \
+          --cache-from "access_key_id=$${HETZNER_ACCESS_KEY},bucket=unius-cache,endpoint_url=nbg1.your-objectstorage.com,secret_access_key=$${HETZNER_SECRET_KEY},type=s3" \
+          --cache-to "access_key_id=$${HETZNER_ACCESS_KEY},bucket=unius-cache,endpoint_url=nbg1.your-objectstorage.com,mode=max,type=s3,secret_access_key=$${HETZNER_SECRET_KEY}" \
           --file "Dockerfile" \
           --output "type=image,push=true,rewrite-timestamp=true" \
           --platform "linux/amd64" \
