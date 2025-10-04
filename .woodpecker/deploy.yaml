@@ -103,7 +103,7 @@ steps:
           --set postgres.password="$${POSTGRES_PASSWORD}" \
           --set rabbitmq.password="$${RABBITMQ_PASSWORD}" \
           --set valkey.password="$${VALKEY_PASSWORD}" \
-          --values "infrastructure/etc/${CI_PIPELINE_DEPLOY_TARGET}/values.yaml" \
+          --values "infrastructure/${CI_PIPELINE_DEPLOY_TARGET}/values.yaml" \
           --version "${CI_COMMIT_TAG##v}"
       - |
         if [ -n "$${RESET}" ]; then

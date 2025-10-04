@@ -110,5 +110,22 @@ steps:
       overwrite: true
       title: ${CI_COMMIT_TAG}
 
+  - commands:
+      - git clone https://$${FORGEJO_USER}:$${FORGEJO_TOKEN}@code.unius.sh/${CI_REPO_OWNER}/poeticmetric-infrastructure.git infrastructure
+      - cd infrastructure
+      - git tag "${CI_COMMIT_TAG}"
+      - git push --tags
+    depends_on:
+      - build-backend-image
+      - build-frontend-image
+      - build-helm-chart
+    environment:
+      FORGEJO_TOKEN:
+        from_secret: FORGEJO_TOKEN
+      FORGEJO_USER:
+        from_secret: FORGEJO_USER
+    image: alpine/k8s:1.33.5
+    name: tag-infrastructure
+
 when:
   - event: tag
