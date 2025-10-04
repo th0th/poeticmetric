@@ -1,6 +1,7 @@
 apiVersion: v1
 data:
-  {{ toYaml .Values.pgbouncer.config | nindent 2 }}
+  AUTH_TYPE: "scram-sha-256"
+  {{ .Values.pgbouncer.config | toYaml | nindent 2 }}
 kind: ConfigMap
 metadata:
   labels:

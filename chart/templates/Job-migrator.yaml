@@ -21,7 +21,7 @@ spec:
             - name: POSTGRES_HOST
               value: {{ include "poeticmetric.fullname" . }}-pgbouncer
             - name: POSTGRES_PORT
-              value: "6432"
+              value: "5432"
           envFrom:
             - configMapRef:
                 name: {{ include "poeticmetric.fullname" . }}-clickhouse

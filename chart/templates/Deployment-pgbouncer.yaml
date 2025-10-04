@@ -18,21 +18,19 @@ spec:
     spec:
       containers:
         - env:
-            - name: PGBOUNCER_DATABASE
+            - name: DB_NAME
               valueFrom:
                 configMapKeyRef:
                   key: DATABASE
                   name: {{ include "poeticmetric.fullname" . }}-postgres
-            - name: POSTGRESQL_HOST
+            - name: DB_HOST
               value: {{ include "poeticmetric.fullname" . }}-postgres
-            - name: POSTGRESQL_PASSWORD
+            - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: PASSWORD
                   name: {{ include "poeticmetric.fullname" . }}-postgres
-            - name: POSTGRESQL_PORT
-              value: "5432"
-            - name: POSTGRESQL_USERNAME
+            - name: DB_USER
               valueFrom:
                 secretKeyRef:
                   key: USER

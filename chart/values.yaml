@@ -23,8 +23,8 @@ pgbouncer:
   config: {} # @schema additionalProperties: true
   image:
     pullPolicy: IfNotPresent
-    repository: th0th/pgbouncer
-    tag: "1"
+    repository: edoburu/pgbouncer
+    tag: v1.24.1-p1
   replicas: 1
   resources: {} # @schema $ref: https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements ; skipProperties: true
 poeticmetric:
