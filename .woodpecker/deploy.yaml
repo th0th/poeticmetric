@@ -21,7 +21,8 @@ steps:
           --namespace "$${KUBERNETES_NAMESPACE}" \
           --password "$${FORGEJO_TOKEN}" \
           --repo https://code.unius.sh/api/packages/${CI_REPO_OWNER}/helm \
-          --set images.tag="$${CI_COMMIT_TAG##v}" \
+          --set poeticmetric.backend.image.tag="$${CI_COMMIT_TAG##v}" \
+          --set poeticmetric.frontend.image.tag="$${CI_COMMIT_TAG##v}" \
           --username "$${FORGEJO_USER}" \
           --values "infrastructure/${CI_PIPELINE_DEPLOY_TARGET}/values.yaml" \
           --version "${CI_COMMIT_TAG##v}"
