@@ -10,7 +10,7 @@ steps:
     commands:
       - /usr/local/bin/dockerd --data-root /var/lib/docker --host=unix:///var/run/docker.sock > /dev/null 2>&1 &
       - while ! docker version > /dev/null 2>&1; do :; done
-      - echo "$${FORGEJO_TOKEN}" | docker login --password-stdin --username $${FORGEJO_USER} code.unius.sh > /dev/null 2>&1
+      - echo "$${FORGEJO_TOKEN}" | docker login --password-stdin --username $${FORGEJO_USER} ${CI_FORGE_URL##https://} > /dev/null 2>&1
       - /usr/local/bin/docker buildx create --name builder --use > /dev/null 2>&1
       - |
         /usr/local/bin/docker buildx build \
@@ -21,7 +21,7 @@ steps:
           --output "type=image,push=true,rewrite-timestamp=true" \
           --platform "linux/amd64" \
           --pull \
-          --tag "code.unius.sh/unius/poeticmetric-backend:${CI_COMMIT_TAG##v}" \
+          --tag "${CI_FORGE_URL##https://}/${CI_REPO_OWNER}/${CI_REPO_NAME}-backend:${CI_COMMIT_TAG##v}" \
           .
     depends_on: []
     directory: backend
@@ -47,7 +47,7 @@ steps:
     commands:
       - /usr/local/bin/dockerd --data-root /var/lib/docker --host=unix:///var/run/docker.sock > /dev/null 2>&1 &
       - while ! docker version > /dev/null 2>&1; do :; done
-      - echo "$${FORGEJO_TOKEN}" | docker login --password-stdin --username $${FORGEJO_USER} code.unius.sh > /dev/null 2>&1
+      - echo "$${FORGEJO_TOKEN}" | docker login --password-stdin --username $${FORGEJO_USER} ${CI_FORGE_URL##https://} > /dev/null 2>&1
       - /usr/local/bin/docker buildx create --name builder --use > /dev/null 2>&1
       - |
         /usr/local/bin/docker buildx build \
@@ -57,7 +57,7 @@ steps:
           --output "type=image,push=true,rewrite-timestamp=true" \
           --platform "linux/amd64" \
           --pull \
-          --tag "code.unius.sh/unius/poeticmetric-frontend:${CI_COMMIT_TAG##v}" \
+          --tag "${CI_FORGE_URL##https://}/${CI_REPO_OWNER}/${CI_REPO_NAME}-frontend:${CI_COMMIT_TAG##v}" \
           .
     depends_on: []
     directory: frontend
@@ -84,10 +84,10 @@ steps:
       - helm package chart --app-version ${CI_COMMIT_TAG##v} --version ${CI_COMMIT_TAG##v}
       - |
         curl \
-        --user $${FORGEJO_USER}:$${FORGEJO_TOKEN} \
-        -X POST \
-        --upload-file ./${CI_REPO_NAME}-${CI_COMMIT_TAG##v}.tgz \
-        https://code.unius.sh/api/packages/unius/helm/api/charts
+          --user $${FORGEJO_USER}:$${FORGEJO_TOKEN} \
+          -X POST \
+          --upload-file ./${CI_REPO_NAME}-${CI_COMMIT_TAG##v}.tgz \
+          ${CI_FORGE_URL}/api/packages/${CI_REPO_OWNER}/helm/api/charts
     depends_on: []
     environment:
       FORGEJO_TOKEN:
@@ -109,23 +109,6 @@ steps:
       note: Release is ready.
       overwrite: true
       title: ${CI_COMMIT_TAG}
-
-  - commands:
-      - git clone https://$${FORGEJO_USER}:$${FORGEJO_TOKEN}@code.unius.sh/${CI_REPO_OWNER}/poeticmetric-infrastructure.git infrastructure
-      - cd infrastructure
-      - git tag "${CI_COMMIT_TAG}"
-      - git push --tags
-    depends_on:
-      - build-backend-image
-      - build-frontend-image
-      - build-helm-chart
-    environment:
-      FORGEJO_TOKEN:
-        from_secret: FORGEJO_TOKEN
-      FORGEJO_USER:
-        from_secret: FORGEJO_USER
-    image: alpine/k8s:1.33.5
-    name: tag-infrastructure
 
 when:
   - event: tag
