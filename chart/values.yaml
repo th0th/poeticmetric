@@ -31,7 +31,7 @@ poeticmetric:
   backend:
     image:
       pullPolicy: Always
-      repository: code.unius.sh/poeticmetric/poeticmetric-backend
+      repository: code.unius.sh/poeticmetric/backend
       tag: latest
   config: # @schema additionalProperties: true
     defaultPlanName: ""
@@ -74,7 +74,7 @@ poeticmetric:
     allowRobots: true
     image:
       pullPolicy: Always
-      repository: code.unius.sh/poeticmetric/poeticmetric-frontend
+      repository: code.unius.sh/poeticmetric/frontend
       tag: latest
     replicas: 1
     resources: {} # @schema $ref: $k8s/podspec.json#/properties/resources

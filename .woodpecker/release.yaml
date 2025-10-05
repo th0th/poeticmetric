@@ -21,7 +21,7 @@ steps:
           --output "type=image,push=true,rewrite-timestamp=true" \
           --platform "linux/amd64" \
           --pull \
-          --tag "${CI_FORGE_URL##https://}/${CI_REPO_OWNER}/${CI_REPO_NAME}-backend:${CI_COMMIT_TAG##v}" \
+          --tag "${CI_FORGE_URL##https://}/${CI_REPO_OWNER}/backend:${CI_COMMIT_TAG##v}" \
           .
     depends_on: []
     directory: backend
@@ -57,7 +57,7 @@ steps:
           --output "type=image,push=true,rewrite-timestamp=true" \
           --platform "linux/amd64" \
           --pull \
-          --tag "${CI_FORGE_URL##https://}/${CI_REPO_OWNER}/${CI_REPO_NAME}-frontend:${CI_COMMIT_TAG##v}" \
+          --tag "${CI_FORGE_URL##https://}/${CI_REPO_OWNER}/frontend:${CI_COMMIT_TAG##v}" \
           .
     depends_on: []
     directory: frontend
