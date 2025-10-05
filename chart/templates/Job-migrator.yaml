@@ -78,10 +78,6 @@ spec:
               name: go-sum
           {{ end }}
       restartPolicy: Never
-      {{ if .Values.poeticmetric.config.registryAuth }}
-      imagePullSecrets:
-        - name: {{ include "poeticmetric.fullname" . }}-registry-auth
-      {{ end }}
       volumes:
       {{ if .Values.poeticmetric.config.development.hostBasePath }}
         - hostPath:

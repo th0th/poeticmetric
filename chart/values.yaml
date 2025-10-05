@@ -46,10 +46,6 @@ poeticmetric:
       clientSecret: ""
     host: poeticmetric.com
     isHosted: true
-    registryAuth:
-      host: ""
-      password: ""
-      user: ""
     restApi:
       basePath: /api
       replicas: 1

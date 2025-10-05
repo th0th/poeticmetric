@@ -91,10 +91,6 @@ spec:
             - mountPath: /poeticmetric/go.sum
               name: go-sum
         {{ end }}
-      {{ if $Values.poeticmetric.config.registryAuth }}
-      imagePullSecrets:
-        - name: {{ $fullname }}-registry-auth
-      {{ end }}
       volumes:
       {{ if $Values.poeticmetric.config.development.hostBasePath }}
         - hostPath:

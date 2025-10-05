@@ -198,21 +198,6 @@
                         "isHosted": {
                             "type": "boolean"
                         },
-                        "registryAuth": {
-                            "type": "object",
-                            "properties": {
-                                "host": {
-                                    "type": "string"
-                                },
-                                "password": {
-                                    "type": "string"
-                                },
-                                "user": {
-                                    "type": "string"
-                                }
-                            },
-                            "additionalProperties": false
-                        },
                         "restApi": {
                             "type": "object",
                             "properties": {
