@@ -33,22 +33,6 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="production old - postgres" uuid="c25a32d4-6dbf-4658-9ec0-dc9d1e8ca013">
-      <driver-ref>postgresql</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:15432/poeticmetric</jdbc-url>
-      <jdbc-additional-properties>
-        <property name="com.intellij.clouds.kubernetes.db.host.port" value="15432" />
-        <property name="com.intellij.clouds.kubernetes.db.enabled" value="true" />
-        <property name="com.intellij.clouds.kubernetes.db.resource" value="postgres" />
-        <property name="com.intellij.clouds.kubernetes.db.context" value="unius-old" />
-        <property name="com.intellij.clouds.kubernetes.db.resource.type" value="Service" />
-        <property name="com.intellij.clouds.kubernetes.db.namespace" value="poeticmetric" />
-        <property name="com.intellij.clouds.kubernetes.db.container.port" value="5432" />
-      </jdbc-additional-properties>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
     <data-source source="LOCAL" name="development - valkey" uuid="abe60c43-ae46-4e7d-87a6-a2686520058a">
       <driver-ref>redis</driver-ref>
       <synchronize>true</synchronize>
@@ -67,22 +51,6 @@
       <driver-properties>
         <property name="verifyConnectionMode" value="false" />
       </driver-properties>
-    </data-source>
-    <data-source source="LOCAL" name="production old - clickhouse" uuid="00017018-69c0-42fe-8230-9357261e3983">
-      <driver-ref>clickhouse</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>com.clickhouse.jdbc.ClickHouseDriver</jdbc-driver>
-      <jdbc-url>jdbc:clickhouse://localhost:8123/poeticmetric</jdbc-url>
-      <jdbc-additional-properties>
-        <property name="com.intellij.clouds.kubernetes.db.host.port" value="8123" />
-        <property name="com.intellij.clouds.kubernetes.db.enabled" value="true" />
-        <property name="com.intellij.clouds.kubernetes.db.resource" value="clickhouse" />
-        <property name="com.intellij.clouds.kubernetes.db.context" value="unius-old" />
-        <property name="com.intellij.clouds.kubernetes.db.resource.type" value="Service" />
-        <property name="com.intellij.clouds.kubernetes.db.namespace" value="poeticmetric" />
-        <property name="com.intellij.clouds.kubernetes.db.container.port" value="8123" />
-      </jdbc-additional-properties>
-      <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
     <data-source source="LOCAL" name="staging - clickhouse" uuid="70efe0db-8c46-4783-b202-25eaa2d75750">
       <driver-ref>clickhouse</driver-ref>
