@@ -16,7 +16,7 @@ PoeticMetric is **free as in freedom**, and also **free as in beer** with the pr
 
 ## 1. Transparency you can check for yourself
 
-It shouldn't be up to trust alone. Our [full source code is public](https://code.unius.sh/unius/poeticmetric), and we are clear about how data flows and what actually gets tracked. You can dive in, ask questions, export your site's analytics, or delete it all any time you choose.
+It shouldn't be up to trust alone. Our [full source code is public](https://code.unius.sh/poeticmetric/poeticmetric), and we are clear about how data flows and what actually gets tracked. You can dive in, ask questions, export your site's analytics, or delete it all any time you choose.
 
 ## 2. Insight, not overwhelm
 
