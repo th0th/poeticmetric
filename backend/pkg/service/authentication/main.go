@@ -14,6 +14,7 @@ import (
 type NewParams struct {
 	EmailService      poeticmetric.EmailService
 	EnvService        poeticmetric.EnvService
+	LogService        poeticmetric.LogService
 	Postgres          *gorm.DB
 	ValidationService poeticmetric.ValidationService
 }
@@ -30,6 +31,7 @@ func New(params NewParams) poeticmetric.AuthenticationService {
 	return &service{
 		emailService:      params.EmailService,
 		envService:        params.EnvService,
+		logService:        params.LogService,
 		postgres:          params.Postgres,
 		validationService: params.ValidationService,
 	}

@@ -39,6 +39,7 @@ import (
 	"github.com/th0th/poeticmetric/backend/pkg/service/email"
 	"github.com/th0th/poeticmetric/backend/pkg/service/env"
 	"github.com/th0th/poeticmetric/backend/pkg/service/event"
+	logservice "github.com/th0th/poeticmetric/backend/pkg/service/log"
 	"github.com/th0th/poeticmetric/backend/pkg/service/organization"
 	"github.com/th0th/poeticmetric/backend/pkg/service/site"
 	"github.com/th0th/poeticmetric/backend/pkg/service/tracking"
@@ -121,9 +122,14 @@ func main() {
 		Logger.Panic().Stack().Err(errors.Wrap(err, 0)).Msg("failed to init email service")
 	}
 
+	logService := logservice.New(logservice.NewParams{
+		Postgres: postgres,
+	})
+
 	authenticationService := authentication.New(authentication.NewParams{
 		EmailService:      emailService,
 		EnvService:        envService,
+		LogService:        logService,
 		Postgres:          postgres,
 		ValidationService: validationService,
 	})
