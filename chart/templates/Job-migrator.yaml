@@ -21,7 +21,7 @@ spec:
             - name: POSTGRES_HOST
               value: {{ include "poeticmetric.fullname" . }}-pgbouncer
             - name: POSTGRES_PORT
-              value: "6432"
+              value: "5432"
           envFrom:
             - configMapRef:
                 name: {{ include "poeticmetric.fullname" . }}-clickhouse
@@ -78,10 +78,6 @@ spec:
               name: go-sum
           {{ end }}
       restartPolicy: Never
-      {{ if .Values.poeticmetric.config.registryAuth }}
-      imagePullSecrets:
-        - name: {{ include "poeticmetric.fullname" . }}-registry-auth
-      {{ end }}
       volumes:
       {{ if .Values.poeticmetric.config.development.hostBasePath }}
         - hostPath:

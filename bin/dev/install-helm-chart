@@ -3,6 +3,7 @@ set -eo pipefail
 
 . $(dirname "$(readlink -f "$0")")/base
 BASE_DIR=$(get-base-dir)
+PARENT_DIR=$(dirname "${BASE_DIR}")
 
 USER=$(whoami)
 HOSTNAME=$(hostname)
@@ -16,4 +17,4 @@ helm upgrade poeticmetric chart \
   --namespace poeticmetric-development \
   --set "poeticmetric.config.development.hostBasePath=${HOST_BASE_PATH}" \
   --set "poeticmetric.config.stripe.metaEnvironment=${USER}@${HOSTNAME}" \
-  --values "${BASE_DIR}/etc/development/values.yaml"
+  --values "${PARENT_DIR}/infrastructure/development/values.yaml"

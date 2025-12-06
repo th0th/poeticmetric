@@ -29,7 +29,7 @@ spec:
             - name: POSTGRES_HOST
               value: {{ $fullname }}-pgbouncer
             - name: POSTGRES_PORT
-              value: "6432"
+              value: "5432"
             - name: WORKER_CONCURRENCY
               value: {{ .concurrency | quote }}
             - name: WORKER_QUEUES
@@ -91,10 +91,6 @@ spec:
             - mountPath: /poeticmetric/go.sum
               name: go-sum
         {{ end }}
-      {{ if $Values.poeticmetric.config.registryAuth }}
-      imagePullSecrets:
-        - name: {{ $fullname }}-registry-auth
-      {{ end }}
       volumes:
       {{ if $Values.poeticmetric.config.development.hostBasePath }}
         - hostPath:

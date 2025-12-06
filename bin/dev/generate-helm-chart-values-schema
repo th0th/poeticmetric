@@ -5,8 +5,8 @@ set -eo pipefail
 BASE_DIR=$(get-base-dir)
 
 exec helm schema \
-  --values "${BASE_DIR}/chart/values.yaml" \
-  --no-additional-properties \
+  --k8s-schema-version "v1.34.1" \
   --output "${BASE_DIR}/chart/values.schema.json" \
   --schema-root.description "Schema for PoeticMetric helm chart values" \
-  --schema-root.title "PoeticMetric Helm Values Schema"
+  --schema-root.title "PoeticMetric Helm Values Schema" \
+  --values "${BASE_DIR}/chart/values.yaml"

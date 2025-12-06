@@ -19,8 +19,7 @@
                         "tag": {
                             "type": "number"
                         }
-                    },
-                    "additionalProperties": false
+                    }
                 },
                 "password": {
                     "type": "string"
@@ -40,19 +39,16 @@
                         "volumeName": {
                             "type": "string"
                         }
-                    },
-                    "additionalProperties": false
+                    }
                 },
                 "resources": {
-                    "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
-                    "type": "object",
-                    "additionalProperties": false
+                    "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.34.1/podspec.json#/properties/resources",
+                    "type": "object"
                 },
                 "user": {
                     "type": "string"
                 }
-            },
-            "additionalProperties": false
+            }
         },
         "gateway": {
             "type": "object",
@@ -60,16 +56,7 @@
                 "parentRefs": {
                     "type": "array"
                 }
-            },
-            "additionalProperties": false
-        },
-        "global": {
-            "description": "Global values shared between all subcharts",
-            "$comment": "Added automatically by 'helm schema' to allow this chart to be used as a Helm dependency, as the `additionalProperties` setting would otherwise collide with Helm's special 'global' values key.",
-            "type": [
-                "object",
-                "null"
-            ]
+            }
         },
         "mailpit": {
             "type": "object",
@@ -89,11 +76,9 @@
                         "tag": {
                             "type": "string"
                         }
-                    },
-                    "additionalProperties": false
+                    }
                 }
-            },
-            "additionalProperties": false
+            }
         },
         "pgbouncer": {
             "type": "object",
@@ -114,19 +99,16 @@
                         "tag": {
                             "type": "string"
                         }
-                    },
-                    "additionalProperties": false
+                    }
                 },
                 "replicas": {
                     "type": "integer"
                 },
                 "resources": {
-                    "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
-                    "type": "object",
-                    "additionalProperties": false
+                    "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.34.1/podspec.json#/properties/resources",
+                    "type": "object"
                 }
-            },
-            "additionalProperties": false
+            }
         },
         "poeticmetric": {
             "type": "object",
@@ -146,11 +128,9 @@
                                 "tag": {
                                     "type": "string"
                                 }
-                            },
-                            "additionalProperties": false
+                            }
                         }
-                    },
-                    "additionalProperties": false
+                    }
                 },
                 "config": {
                     "type": "object",
@@ -173,8 +153,7 @@
                                 "hostBasePath": {
                                     "type": "string"
                                 }
-                            },
-                            "additionalProperties": false
+                            }
                         },
                         "extra": {
                             "type": "object",
@@ -189,29 +168,13 @@
                                 "clientSecret": {
                                     "type": "string"
                                 }
-                            },
-                            "additionalProperties": false
+                            }
                         },
                         "host": {
                             "type": "string"
                         },
                         "isHosted": {
                             "type": "boolean"
-                        },
-                        "registryAuth": {
-                            "type": "object",
-                            "properties": {
-                                "host": {
-                                    "type": "string"
-                                },
-                                "password": {
-                                    "type": "string"
-                                },
-                                "user": {
-                                    "type": "string"
-                                }
-                            },
-                            "additionalProperties": false
                         },
                         "restApi": {
                             "type": "object",
@@ -223,23 +186,19 @@
                                     "type": "integer"
                                 },
                                 "resources": {
-                                    "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
-                                    "type": "object",
-                                    "additionalProperties": false
+                                    "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.34.1/podspec.json#/properties/resources",
+                                    "type": "object"
                                 }
-                            },
-                            "additionalProperties": false
+                            }
                         },
                         "scheduler": {
                             "type": "object",
                             "properties": {
                                 "resources": {
-                                    "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
-                                    "type": "object",
-                                    "additionalProperties": false
+                                    "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.34.1/podspec.json#/properties/resources",
+                                    "type": "object"
                                 }
-                            },
-                            "additionalProperties": false
+                            }
                         },
                         "smtp": {
                             "type": "object",
@@ -259,8 +218,7 @@
                                 "user": {
                                     "type": "string"
                                 }
-                            },
-                            "additionalProperties": false
+                            }
                         },
                         "stripe": {
                             "type": "object",
@@ -277,8 +235,7 @@
                                 "webhookSigningSecret": {
                                     "type": "string"
                                 }
-                            },
-                            "additionalProperties": false
+                            }
                         },
                         "unverifiedOrganizationDeletionDays": {
                             "type": "integer"
@@ -301,12 +258,10 @@
                                         "type": "integer"
                                     },
                                     "resources": {
-                                        "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
-                                        "type": "object",
-                                        "additionalProperties": false
+                                        "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.34.1/podspec.json#/properties/resources",
+                                        "type": "object"
                                     }
-                                },
-                                "additionalProperties": false
+                                }
                             }
                         }
                     },
@@ -330,25 +285,21 @@
                                 "tag": {
                                     "type": "string"
                                 }
-                            },
-                            "additionalProperties": false
+                            }
                         },
                         "replicas": {
                             "type": "integer"
                         },
                         "resources": {
-                            "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
-                            "type": "object",
-                            "additionalProperties": false
+                            "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.34.1/podspec.json#/properties/resources",
+                            "type": "object"
                         },
                         "tagsEnvironment": {
                             "type": "string"
                         }
-                    },
-                    "additionalProperties": false
+                    }
                 }
-            },
-            "additionalProperties": false
+            }
         },
         "postHog": {
             "type": "object",
@@ -365,8 +316,7 @@
                 "hostname": {
                     "type": "string"
                 }
-            },
-            "additionalProperties": false
+            }
         },
         "postgres": {
             "type": "object",
@@ -383,8 +333,7 @@
                                 "path": {
                                     "type": "string"
                                 }
-                            },
-                            "additionalProperties": false
+                            }
                         },
                         "enabled": {
                             "type": "boolean"
@@ -396,12 +345,10 @@
                             }
                         },
                         "resources": {
-                            "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
-                            "type": "object",
-                            "additionalProperties": false
+                            "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.34.1/podspec.json#/properties/resources",
+                            "type": "object"
                         }
-                    },
-                    "additionalProperties": false
+                    }
                 },
                 "image": {
                     "type": "object",
@@ -415,8 +362,7 @@
                         "tag": {
                             "type": "string"
                         }
-                    },
-                    "additionalProperties": false
+                    }
                 },
                 "password": {
                     "type": "string"
@@ -436,19 +382,16 @@
                         "volumeName": {
                             "type": "string"
                         }
-                    },
-                    "additionalProperties": false
+                    }
                 },
                 "resources": {
-                    "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
-                    "type": "object",
-                    "additionalProperties": false
+                    "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.34.1/podspec.json#/properties/resources",
+                    "type": "object"
                 },
                 "user": {
                     "type": "string"
                 }
-            },
-            "additionalProperties": false
+            }
         },
         "rabbitmq": {
             "type": "object",
@@ -462,8 +405,7 @@
                         "tag": {
                             "type": "string"
                         }
-                    },
-                    "additionalProperties": false
+                    }
                 },
                 "password": {
                     "type": "string"
@@ -483,13 +425,11 @@
                         "volumeName": {
                             "type": "string"
                         }
-                    },
-                    "additionalProperties": false
+                    }
                 },
                 "resources": {
-                    "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
-                    "type": "object",
-                    "additionalProperties": false
+                    "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.34.1/podspec.json#/properties/resources",
+                    "type": "object"
                 },
                 "serviceMonitor": {
                     "type": "object",
@@ -497,14 +437,12 @@
                         "enabled": {
                             "type": "boolean"
                         }
-                    },
-                    "additionalProperties": false
+                    }
                 },
                 "user": {
                     "type": "string"
                 }
-            },
-            "additionalProperties": false
+            }
         },
         "valkey": {
             "type": "object",
@@ -521,8 +459,7 @@
                         "tag": {
                             "type": "string"
                         }
-                    },
-                    "additionalProperties": false
+                    }
                 },
                 "password": {
                     "type": "string"
@@ -542,17 +479,13 @@
                         "volumeName": {
                             "type": "string"
                         }
-                    },
-                    "additionalProperties": false
+                    }
                 },
                 "resources": {
-                    "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
-                    "type": "object",
-                    "additionalProperties": false
+                    "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.34.1/podspec.json#/properties/resources",
+                    "type": "object"
                 }
-            },
-            "additionalProperties": false
+            }
         }
-    },
-    "additionalProperties": false
+    }
 }

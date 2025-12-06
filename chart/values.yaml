@@ -9,7 +9,7 @@ clickhouse:
     size: 10Gi
     storageClassName: ""
     volumeName: ""
-  resources: {} # @schema $ref: https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements ; skipProperties: true
+  resources: {}  # @schema $ref: $k8s/podspec.json#/properties/resources
   user: poeticmetric
 gateway:
   parentRefs: []
@@ -20,42 +20,38 @@ mailpit:
     repository: axllent/mailpit
     tag: latest
 pgbouncer:
-  config: {} # @schema additionalProperties: true
+  config: {}  # @schema additionalProperties: true
   image:
     pullPolicy: IfNotPresent
-    repository: bitnami/pgbouncer
-    tag: "1"
+    repository: edoburu/pgbouncer
+    tag: v1.24.1-p1
   replicas: 1
-  resources: {} # @schema $ref: https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements ; skipProperties: true
+  resources: {}  # @schema $ref: $k8s/podspec.json#/properties/resources
 poeticmetric:
   backend:
     image:
       pullPolicy: Always
-      repository: code.unius.sh/unius/poeticmetric-backend
+      repository: code.unius.sh/poeticmetric/backend
       tag: latest
-  config: # @schema additionalProperties: true
+  config:  # @schema additionalProperties: true
     defaultPlanName: ""
     development:
       databaseDebug: false
       debug: false
       enabled: false
       hostBasePath: ""
-    extra: {} # @schema additionalProperties: true
+    extra: {}  # @schema additionalProperties: true
     google:
       clientID: ""
       clientSecret: ""
     host: poeticmetric.com
     isHosted: true
-    registryAuth:
-      host: ""
-      password: ""
-      user: ""
     restApi:
       basePath: /api
       replicas: 1
-      resources: {} # @schema $ref: https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements ; skipProperties: true
+      resources: {}  # @schema $ref: $k8s/podspec.json#/properties/resources
     scheduler:
-      resources: {} # @schema $ref: https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements ; skipProperties: true
+      resources: {}  # @schema $ref: $k8s/podspec.json#/properties/resources
     smtp:
       fromAddress: poeticmetric@poeticmetric.com
       host: ""
@@ -73,15 +69,15 @@ poeticmetric:
         name: ""
         queues: []
         replicas: 1
-        resources: {} # @schema $ref: https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements ; skipProperties: true
+        resources: {}  # @schema $ref: $k8s/podspec.json#/properties/resources
   frontend:
     allowRobots: true
     image:
       pullPolicy: Always
-      repository: code.unius.sh/unius/poeticmetric-frontend
+      repository: code.unius.sh/poeticmetric/frontend
       tag: latest
     replicas: 1
-    resources: {} # @schema $ref: https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements ; skipProperties: true
+    resources: {}  # @schema $ref: $k8s/podspec.json#/properties/resources
     tagsEnvironment: ""
 postHog:
   apiKey: ""
@@ -94,8 +90,8 @@ postgres:
       kind: ""
       path: ""
     enabled: false
-    extraEnvFrom: [] # @schema itemRef: https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.EnvFromSource ; skipProperties: true
-    resources: {} # @schema $ref: https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements ; skipProperties: true
+    extraEnvFrom: []  # @schema itemRef: https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.EnvFromSource ; skipProperties: true
+    resources: {}  # @schema $ref: $k8s/podspec.json#/properties/resources
   image:
     pullPolicy: IfNotPresent
     repository: postgres
@@ -106,7 +102,7 @@ postgres:
     size: 10Gi
     storageClassName: ""
     volumeName: ""
-  resources: {} # @schema $ref: https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements ; skipProperties: true
+  resources: {}  # @schema $ref: $k8s/podspec.json#/properties/resources
   user: poeticmetric
 rabbitmq:
   image:
@@ -118,7 +114,7 @@ rabbitmq:
     size: 10Gi
     storageClassName: ""
     volumeName: ""
-  resources: {} # @schema $ref: https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements ; skipProperties: true
+  resources: {}  # @schema $ref: $k8s/podspec.json#/properties/resources
   serviceMonitor:
     enabled: true
   user: poeticmetric
@@ -133,4 +129,4 @@ valkey:
     size: 10Gi
     storageClassName: ""
     volumeName: ""
-  resources: {} # @schema $ref: https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements ; skipProperties: true
+  resources: {}  # @schema $ref: $k8s/podspec.json#/properties/resources

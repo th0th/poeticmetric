@@ -85,10 +85,6 @@ spec:
             - mountPath: /poeticmetric/vite.config.ts
               name: vite-config-ts
             {{ end }}
-      {{ if .Values.poeticmetric.config.registryAuth }}
-      imagePullSecrets:
-        - name: {{ include "poeticmetric.fullname" . }}-registry-auth
-      {{ end }}
       terminationGracePeriodSeconds: 5
       volumes:
       {{ if .Values.poeticmetric.config.development.hostBasePath }}
