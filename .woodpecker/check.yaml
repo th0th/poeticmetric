@@ -28,7 +28,7 @@ steps:
       DOCKER_CERT_PATH: "/dind-certs/client"
       DOCKER_HOST: "tcp://docker:2376"
       DOCKER_TLS_VERIFY: "1"
-    image: golang:1.25.1
+    image: golang:1.25.5
     name: backend-tests
     volumes:
       - woodpecker-dind-certs:/dind-certs

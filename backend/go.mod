@@ -1,6 +1,6 @@
 module github.com/th0th/poeticmetric/backend
 
-go 1.25.1
+go 1.25.5
 
 require (
 	github.com/DATA-DOG/go-sqlmock v1.5.2
