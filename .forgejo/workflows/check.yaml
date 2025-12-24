@@ -1,0 +1,226 @@
+concurrency:
+  cancel-in-progress: true
+  group: ${{ forgejo.head_ref }}
+jobs:
+  check-pr-title:
+    name: Check PR title
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR title
+        run: |
+          PR_TITLE="${{ forgejo.event.pull_request.title }}"
+          if ! [[ "$PR_TITLE" =~ ^\[[A-Z]+-[1-9]+\][[:space:]].*$ ]]; then
+            echo "PR title does not follow the required format: [PROJECT-123] Description"
+            exit 1
+          fi
+
+  run-eslint:
+    if: forgejo.event.pull_request.draft == false
+    name: Run eslint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.1
+
+      - name: Setup node.js
+        uses: actions/setup-node@v6.1.0
+        with:
+          node-version-file: frontend/package.json
+
+      - name: Install pnpm
+        uses: actions/pnpm-action-setup@v4.2.0
+        with:
+          version: 10.26.0
+
+      - name: Get pnpm cache path
+        run: |
+          printf "CACHE_PATH=$(pnpm store path --silent)" >> $FORGEJO_ENV
+        working-directory: frontend
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v5.0.1
+        with:
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          path: ${{ env.CACHE_PATH }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install
+        working-directory: frontend
+
+      - name: Setup reviewdog
+        uses: actions/reviewdog-action-setup@v1.5.0
+
+      - env:
+          GITEA_ADDRESS: ${{ forgejo.server_url }}
+          REVIEWDOG_GITEA_API_TOKEN: ${{ secrets.FORGEJO_TOKEN }}
+        name: Run eslint
+        run: |
+          pnpm exec -- eslint . | reviewdog \
+            -f=eslint \
+            -fail-level=any \
+            -filter-mode=nofilter \
+            -reporter=gitea-pr-review
+        working-directory: frontend
+
+  run-golangci-lint:
+    if: forgejo.event.pull_request.draft == false
+    name: Run golangci-lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.1
+
+      - uses: actions/setup-go@v6.1.0
+        with:
+          go-version: 1.25.1
+
+      - name: Setup golangci-lint
+        uses: actions/golangci-lint-action@v9.2.0
+        with:
+          install-only: true
+          version: v2.7.2
+
+      - name: Setup reviewdog
+        uses: actions/reviewdog-action-setup@v1.5.0
+
+      - env:
+          GITEA_ADDRESS: ${{ forgejo.server_url }}
+          REVIEWDOG_GITEA_API_TOKEN: ${{ secrets.FORGEJO_TOKEN }}
+        name: Run golangci-lint
+        run: |
+          golangci-lint run | reviewdog \
+            -f=golangci-lint \
+            -fail-level=any \
+            -filter-mode=nofilter \
+            -reporter=gitea-pr-review
+        working-directory: backend
+
+  run-go-tests:
+    if: forgejo.event.pull_request.draft == false
+    name: Run go tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.1
+
+      - name: Setup Go
+        uses: actions/setup-go@v6.1.0
+        with:
+          cache-dependency-path: backend/go.sum
+          go-version-file: backend/go.mod
+
+      - name: Run go tests
+        run: go test ./...
+        working-directory: backend
+
+  run-stylelint:
+    if: forgejo.event.pull_request.draft == false
+    name: Run stylelint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.1
+
+      - name: Setup node.js
+        uses: actions/setup-node@v6.1.0
+        with:
+          node-version-file: frontend/package.json
+
+      - name: Install pnpm
+        uses: actions/pnpm-action-setup@v4.2.0
+        with:
+          version: 10.26.0
+
+      - name: Get pnpm store path
+        run: |
+          printf "CACHE_PATH=$(pnpm store path --silent)" >> $FORGEJO_ENV
+        working-directory: frontend
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v5.0.1
+        with:
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          path: ${{ env.CACHE_PATH }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install
+        working-directory: frontend
+
+      - name: Setup reviewdog
+        uses: actions/reviewdog-action-setup@v1.5.0
+
+      - env:
+          GITEA_ADDRESS: ${{ forgejo.server_url }}
+          REVIEWDOG_GITEA_API_TOKEN: ${{ secrets.FORGEJO_TOKEN }}
+        name: Run stylelint
+        run: |
+          pnpm exec -- stylelint src/**/*.scss | reviewdog \
+            -f=stylelint \
+            -fail-level=any \
+            -filter-mode=nofilter \
+            -reporter=gitea-pr-review
+        working-directory: frontend
+
+  run-tsc:
+    if: forgejo.event.pull_request.draft == false
+    name: Run tsc
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.1
+
+      - name: Setup node.js
+        uses: actions/setup-node@v6.1.0
+        with:
+          node-version-file: frontend/package.json
+
+      - name: Install pnpm
+        uses: actions/pnpm-action-setup@v4.2.0
+        with:
+          version: 10.26.0
+
+      - name: Get pnpm cache path
+        run: |
+          printf "CACHE_PATH=$(pnpm store path --silent)" >> $FORGEJO_ENV
+        working-directory: frontend
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v5.0.1
+        with:
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          path: ${{ env.CACHE_PATH }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install
+        working-directory: frontend
+
+      - name: Setup reviewdog
+        uses: actions/reviewdog-action-setup@v1.5.0
+
+      - env:
+          GITEA_ADDRESS: ${{ forgejo.server_url }}
+          REVIEWDOG_GITEA_API_TOKEN: ${{ secrets.FORGEJO_TOKEN }}
+        name: Run tsc
+        run: |
+          pnpm exec -- tsc | reviewdog \
+            -f=tsc \
+            -fail-level=any \
+            -filter-mode=nofilter \
+            -reporter=gitea-pr-review
+        working-directory: frontend
+name: Check
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - edited
+      - opened
+      - reopened
+      - synchronize
