@@ -1,0 +1,108 @@
+concurrency:
+  cancel-in-progress: true
+  group: ${{ forgejo.head_ref }}
+jobs:
+  build-and-push-backend-container-image:
+    name: Build and push backend container image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.1
+
+      - name: Log in to the container registry
+        uses: actions/docker-login-action@v3.6.0
+        with:
+          registry: ${{ vars.CONTAINER_REGISTRY }}
+          username: ${{ secrets.FORGEJO_RUNNER_USER }}
+          password: ${{ secrets.FORGEJO_RUNNER_TOKEN }}
+
+      - name: Set up docker buildx
+        uses: actions/docker-setup-buildx-action@v3.11.1
+        with:
+          endpoint: tcp://docker:2375
+
+      - name: Extract metadata for docker
+        id: meta
+        uses: actions/docker-metadata-action@v5.10.0
+        with:
+          images: ${{ vars.CONTAINER_REGISTRY }}/${{ forgejo.repository_owner }}/backend
+          tags: type=semver,pattern={{version}}
+
+      - name: Build and push docker image
+        uses: actions/docker-build-push-action@v6.18.0
+        with:
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          context: backend
+          labels: ${{ steps.meta.outputs.labels }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+
+  build-and-push-frontend-container-image:
+    name: Build and push frontend container image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.1
+
+      - name: Log in to the container registry
+        uses: actions/docker-login-action@v3.6.0
+        with:
+          registry: ${{ vars.CONTAINER_REGISTRY }}
+          username: ${{ secrets.FORGEJO_RUNNER_USER }}
+          password: ${{ secrets.FORGEJO_RUNNER_TOKEN }}
+
+      - name: Set up docker buildx
+        uses: actions/docker-setup-buildx-action@v3.11.1
+        with:
+          endpoint: tcp://docker:2375
+
+      - name: Extract metadata for docker
+        id: meta
+        uses: actions/docker-metadata-action@v5.10.0
+        with:
+          images: ${{ vars.CONTAINER_REGISTRY }}/${{ forgejo.repository_owner }}/frontend
+          tags: type=semver,pattern={{version}}
+
+      - name: Build and push docker image
+        uses: actions/docker-build-push-action@v6.18.0
+        with:
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          context: frontend
+          labels: ${{ steps.meta.outputs.labels }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+
+  build-and-release-helm-chart:
+    name: Build and release Helm chart
+    runs-on: ubuntu-latest
+    needs:
+      - build-and-push-backend-container-image
+      - build-and-push-frontend-container-image
+      - build-and-push-speed-test-container-image
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.1
+
+      - name: Setup helm
+        uses: actions/action-setup-kube-tools@v0.13.1
+        with:
+          helm: "4.0.4"
+          setup-tools: helm
+
+      - name: Build and release helm chart
+        run: |
+          REPOSITORY_NAME="${FORGEJO_REPOSITORY#${FORGEJO_REPOSITORY_OWNER}/}"
+          VERSION="${FORGEJO_REF_NAME#v}"
+          helm registry login "${{ vars.CONTAINER_REGISTRY }}" \
+            --password "${{ secrets.FORGEJO_RUNNER_TOKEN }}" \
+            --username "${{ secrets.FORGEJO_RUNNER_USER }}"
+          helm package chart --app-version "${VERSION}" --version "${VERSION}"
+          helm push "./${REPOSITORY_NAME}-${VERSION}.tgz" "oci://${{ vars.CONTAINER_REGISTRY }}/${FORGEJO_REPOSITORY_OWNER}"
+name: Release
+on:
+  push:
+    tags:
+      - v[0-9]+.[0-9]+.[0-9]+
+      - v[0-9]+.[0-9]+.[0-9]+-*
