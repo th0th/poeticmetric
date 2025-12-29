@@ -340,12 +340,13 @@ func main() {
 				hlog.FromRequest(r).Info().
 					Str("method", r.Method).
 					Stringer("url", r.URL).
+
 					Int("status", status).
 					Int("size", size).
 					Dur("duration", duration).
 					Msg("")
 			}),
-			hlog.RemoteIPHandler("ip"),
+			hlog.CustomHeaderHandler("ip", "X-Forwarded-For"),
 		).Then(mux),
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 10 * time.Second,
