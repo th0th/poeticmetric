@@ -87,6 +87,7 @@ export default function SiteForm() {
     }
   }
 
+  console.log({ formIsLoading: form.formState.isLoading });
   console.log({ isLoading });
 
   return (
