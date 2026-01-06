@@ -87,6 +87,8 @@ export default function SiteForm() {
     }
   }
 
+  console.log({ isLoading });
+
   return (
     <FormProvider {...form}>
       <Title>{title}</Title>
