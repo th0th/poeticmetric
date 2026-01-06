@@ -127,7 +127,7 @@ export default [
           { group: ["../*"], message: "Usage of relative parent imports is not allowed." },
         ],
       }],
-      "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+      "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_", caughtErrorsIgnorePattern: "^_" }],
     },
   },
 
