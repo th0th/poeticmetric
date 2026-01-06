@@ -6,6 +6,7 @@ import Portal from "~/components/Portal";
 import useSite from "~/hooks/api/useSite";
 import useSites from "~/hooks/api/useSites";
 import { api } from "~/lib/api";
+import { NewError } from "~/lib/errors";
 
 type State = {
   isHiding: boolean;
@@ -29,8 +30,8 @@ export default function DeleteModal() {
         await mutate();
         hide();
       }
-    } catch (e) {
-      showBoundary(e);
+    } catch (error) {
+      showBoundary(NewError(error));
     } finally {
       setState((s) => ({ ...s, isInProgress: false }));
     }

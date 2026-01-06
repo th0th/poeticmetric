@@ -6,6 +6,7 @@ import { useSearchParams } from "react-router";
 import ActivityOverlay from "~/components/ActivityOverlay";
 import Title from "~/components/Title";
 import { api } from "~/lib/api";
+import { NewError } from "~/lib/errors";
 import { setErrors } from "~/lib/form";
 
 type Form = {
@@ -43,8 +44,8 @@ export default function PasswordReset() {
         }
 
         return values;
-      } catch (e) {
-        showBoundary(e);
+      } catch (error) {
+        showBoundary(NewError(error));
       }
 
       return values;
@@ -61,7 +62,7 @@ export default function PasswordReset() {
         setErrors(setError, responseJson);
       }
     } catch (error) {
-      showBoundary(error);
+      showBoundary(NewError(error));
     }
   }
 

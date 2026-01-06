@@ -3,6 +3,7 @@ import { JSX, PropsWithoutRef, ReactNode, useCallback, useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import useOrganization from "~/hooks/api/useOrganization";
 import { api } from "~/lib/api";
+import { NewError } from "~/lib/errors";
 
 export type BillingPortalButtonProps = Overwrite<PropsWithoutRef<JSX.IntrinsicElements["button"]>, {
   children?: ReactNode;
@@ -25,7 +26,7 @@ export default function BillingPortalButton({ children = "Go to Billing Portal",
 
       window.location.href = responseJson.redirectUrl;
     } catch (error) {
-      showBoundary(JSON.stringify(error));
+      showBoundary(NewError(error));
 
       setState((s) => ({ ...s, isInProgress: false }));
     }

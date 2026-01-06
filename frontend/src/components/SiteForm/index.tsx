@@ -11,6 +11,7 @@ import Result from "~/components/Result";
 import SafeQueryParameters from "~/components/SiteForm/SafeQueryParameters";
 import Title from "~/components/Title";
 import { api } from "~/lib/api";
+import { NewError } from "~/lib/errors";
 import { setErrors } from "~/lib/form";
 import GoogleSearchConsole from "./GoogleSearchConsole";
 
@@ -55,7 +56,7 @@ export default function SiteForm() {
           v.safeQueryParameters = responseJson.safeQueryParameters.map((d: string) => ({ value: d }));
         }
       } catch (error) {
-        showBoundary(new Error("An error has occurred.", { cause: error }));
+        showBoundary(NewError(error));
       }
 
       return v;
@@ -86,8 +87,8 @@ export default function SiteForm() {
       if (!response.ok) {
         setErrors(setError, responseJSON);
       }
-    } catch (cause) {
-      showBoundary(new Error("An error has occurred.", { cause }));
+    } catch (error) {
+      showBoundary(NewError(error));
     }
   }
 

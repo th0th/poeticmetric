@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
 import { api } from "~/lib/api";
+import { NewError } from "~/lib/errors";
 import { setErrors } from "~/lib/form";
 
 type Form = {
@@ -35,8 +36,8 @@ export default function OrganizationDetails() {
         const responseJson = await response.json();
 
         values.name = responseJson.name;
-      } catch (e) {
-        showBoundary(e);
+      } catch (error) {
+        showBoundary(NewError(error));
       }
 
       return values;
@@ -54,8 +55,8 @@ export default function OrganizationDetails() {
         reset({ name: responseJson.name });
         setState((s) => ({ ...s, isDone: true }));
       }
-    } catch (e) {
-      showBoundary(e);
+    } catch (error) {
+      showBoundary(NewError(error));
     }
   }
 

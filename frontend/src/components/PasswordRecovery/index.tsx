@@ -5,6 +5,7 @@ import { Link, useSearchParams } from "react-router";
 import ActivityOverlay from "~/components/ActivityOverlay";
 import Title from "~/components/Title";
 import { api } from "~/lib/api";
+import { NewError } from "~/lib/errors";
 import { setErrors } from "~/lib/form";
 
 type Form = {
@@ -30,7 +31,7 @@ export default function PasswordRecovery() {
         setErrors(setError, responseJson);
       }
     } catch (error) {
-      showBoundary(error);
+      showBoundary(NewError(error));
     }
   }
 

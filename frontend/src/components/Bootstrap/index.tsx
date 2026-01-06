@@ -2,13 +2,14 @@ import { IconAlertTriangle } from "@tabler/icons-react";
 import classNames from "classnames";
 import { useMemo } from "react";
 import { useErrorBoundary } from "react-error-boundary";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { Link } from "react-router";
 import ActivityOverlay from "~/components/ActivityOverlay";
 import Title from "~/components/Title";
 import useAuthentication from "~/hooks/useAuthentication";
 import { api } from "~/lib/api";
 import { base64Encode } from "~/lib/base64";
+import { NewError } from "~/lib/errors";
 import { setErrors } from "~/lib/form";
 import { setUserAccessToken } from "~/lib/user-access-token";
 
@@ -25,7 +26,7 @@ type Form = {
 export default function Bootstrap() {
   const { refresh } = useAuthentication();
   const { showBoundary } = useErrorBoundary();
-  const { formState: { errors, isLoading, isSubmitSuccessful, isSubmitting }, handleSubmit, register, setError, watch } = useForm<Form>({
+  const { control, formState: { errors, isLoading, isSubmitSuccessful, isSubmitting }, handleSubmit, register, setError } = useForm<Form>({
     defaultValues: async () => {
       const values: Form = {
         createDemoSite: false,
@@ -43,14 +44,14 @@ export default function Bootstrap() {
         if (response.status === 400) {
           values.isAlreadyDone = true;
         }
-      } catch (e) {
-        showBoundary(e);
+      } catch (error) {
+        showBoundary(NewError(error));
       }
 
       return values;
     },
   });
-  const isAlreadyDone = watch("isAlreadyDone");
+  const isAlreadyDone = useWatch({ control, name: "isAlreadyDone" });
 
   const title = useMemo(() => {
     if (isAlreadyDone) {
@@ -101,8 +102,8 @@ export default function Bootstrap() {
       } else {
         setErrors(setError, responseJson);
       }
-    } catch (e) {
-      showBoundary(e);
+    } catch (error) {
+      showBoundary(NewError(error));
     }
   }
 
