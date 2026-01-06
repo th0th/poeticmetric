@@ -41,17 +41,21 @@ export default function SiteForm() {
         safeQueryParameters: [],
       };
 
-      if (siteID !== null) {
-        const response = await api.get(`/sites/${siteID}`);
-        const responseJson = await response.json();
+      try {
+        if (siteID !== null) {
+          const response = await api.get(`/sites/${siteID}`);
+          const responseJson = await response.json();
 
-        v.domain = responseJson.domain;
-        v.googleSearchConsoleSiteURL = responseJson.googleSearchConsoleSiteURL;
-        v.hasGoogleOauth = responseJson.hasGoogleOauth;
-        v.isGoogleSearchConsoleIntegrationEnabled = responseJson.googleSearchConsoleSiteURL !== null;
-        v.isPublic = responseJson.isPublic;
-        v.name = responseJson.name;
-        v.safeQueryParameters = responseJson.safeQueryParameters.map((d: string) => ({ value: d }));
+          v.domain = responseJson.domain;
+          v.googleSearchConsoleSiteURL = responseJson.googleSearchConsoleSiteURL;
+          v.hasGoogleOauth = responseJson.hasGoogleOauth;
+          v.isGoogleSearchConsoleIntegrationEnabled = responseJson.googleSearchConsoleSiteURL !== null;
+          v.isPublic = responseJson.isPublic;
+          v.name = responseJson.name;
+          v.safeQueryParameters = responseJson.safeQueryParameters.map((d: string) => ({ value: d }));
+        }
+      } catch (error) {
+        showBoundary(new Error("An error has occurred.", { cause: error }));
       }
 
       return v;
@@ -86,9 +90,6 @@ export default function SiteForm() {
       showBoundary(new Error("An error has occurred.", { cause }));
     }
   }
-
-  console.log({ formIsLoading: form.formState.isLoading });
-  console.log({ isLoading });
 
   return (
     <FormProvider {...form}>
@@ -168,9 +169,9 @@ export default function SiteForm() {
                     </div>
                   </div>
 
-                  {/*{siteID !== null ? (*/}
-                  {/*  <GoogleSearchConsole siteID={siteID} />*/}
-                  {/*) : null}*/}
+                  {siteID !== null ? (
+                    <GoogleSearchConsole siteID={siteID} />
+                  ) : null}
 
                   <div>
                     <h5>Public reports</h5>
