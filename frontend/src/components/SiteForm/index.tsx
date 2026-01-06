@@ -2,7 +2,7 @@ import { IconWorldCheck } from "@tabler/icons-react";
 import classNames from "classnames";
 import { useMemo } from "react";
 import { useErrorBoundary } from "react-error-boundary";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm, useWatch } from "react-hook-form";
 import { Link, useSearchParams } from "react-router";
 import ActivityOverlay from "~/components/ActivityOverlay";
 import Breadcrumb from "~/components/Breadcrumb";
@@ -57,8 +57,8 @@ export default function SiteForm() {
       return v;
     },
   });
-  const { formState: { errors, isLoading, isSubmitSuccessful, isSubmitting }, handleSubmit, register, setError, watch } = form;
-  const domain = watch("domain");
+  const { control, formState: { errors, isLoading, isSubmitSuccessful, isSubmitting }, handleSubmit, register, setError } = form;
+  const domain = useWatch({ control, name: "domain" });
 
   const publicURL = useMemo(() => {
     if (domain === "") {
@@ -82,8 +82,8 @@ export default function SiteForm() {
       if (!response.ok) {
         setErrors(setError, responseJSON);
       }
-    } catch (e) {
-      showBoundary(e);
+    } catch (cause) {
+      showBoundary(new Error("An error has occurred.", { cause }));
     }
   }
 
