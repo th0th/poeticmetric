@@ -1,8 +1,8 @@
 import { useDebouncedEffect } from "@react-hookz/web";
 import classNames from "classnames";
-import { createElement, FocusEventHandler, JSX, PropsWithoutRef, useCallback, useEffect, useState } from "react";
+import { createElement, FocusEventHandler, JSX, PropsWithoutRef, useCallback, useEffect, useEffectEvent, useState } from "react";
 import { Modal as BaseModal } from "react-bootstrap";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { Link } from "react-router";
 import Portal from "~/components/Portal";
 import { getDocsCache } from "~/lib/docs";
@@ -28,8 +28,8 @@ const cache = getDocsCache();
 
 export default function Search({ className, onItemClick, ...props }: SearchProps) {
   const [state, setState] = useState<State>({ isInProgress: false, isModalShown: false, results: [] });
-  const { register, setValue, watch } = useForm<Form>({ defaultValues: { term: "" } });
-  const term = watch("term");
+  const { control, register, setValue } = useForm<Form>({ defaultValues: { term: "" } });
+  const term = useWatch({ control, name: "term" });
 
   const handleDecoyInputFocus = useCallback<FocusEventHandler<HTMLInputElement>>((event) => {
     event.target.blur();
@@ -50,8 +50,12 @@ export default function Search({ className, onItemClick, ...props }: SearchProps
     onItemClick?.();
   }, [hideModal, onItemClick]);
 
+  const setIsInProgress = useEffectEvent((isInProgress: State["isInProgress"]) => {
+    setState((s) => ({ ...s, isInProgress }));
+  });
+
   useEffect(() => {
-    setState((s) => ({ ...s, isInProgress: true }));
+    setIsInProgress(true);
   }, [term]);
 
   useDebouncedEffect(() => {
@@ -105,7 +109,7 @@ export default function Search({ className, onItemClick, ...props }: SearchProps
           <BaseModal.Body className="p-0">
             <div className="p-6">
               <input
-                autoFocus  
+                autoFocus
                 className="form-control"
                 placeholder="Search..."
                 type="text"

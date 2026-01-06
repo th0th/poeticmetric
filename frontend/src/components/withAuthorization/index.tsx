@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useEffectEvent, useMemo, useState } from "react";
 import { Link, Outlet, useLocation } from "react-router";
 import ActivityIndicator from "~/components/ActivityIndicator";
 import Title from "~/components/Title";
@@ -44,8 +44,12 @@ export default function withAuthorization<IsAuthenticated extends boolean>(
     const isSignInButtonShown = useMemo(() => [ERR_NOT_AUTHENTICATED].includes(authorizationError || ""), [authorizationError]);
     const isVerifyEmailButtonShown = useMemo(() => [ERR_EMAIL_NOT_VERIFIED].includes(authorizationError || ""), [authorizationError]);
 
+    const setIsReady = useEffectEvent((isReady: State["isReady"]) => {
+      setState((s) => ({ ...s, isReady }));
+    });
+
     useEffect(() => {
-      setState((s) => ({ ...s, isReady: true }));
+      setIsReady(true);
     }, []);
 
     if (!state.isReady || isAuthorized === undefined || authenticationState.isNavigationInProgress) {

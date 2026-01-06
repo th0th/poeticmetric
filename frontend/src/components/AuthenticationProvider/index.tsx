@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useEffect, useState } from "react";
+import { ReactNode, useCallback, useEffect, useEffectEvent, useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useLocation } from "react-router";
 import AuthenticationContext, { AuthenticationContextState } from "~/contexts/AuthenticationContext";
@@ -39,8 +39,12 @@ export default function AuthenticationProvider({ children }: { children: ReactNo
     await refresh();
   }, [refresh]);
 
+  const setIsNavigationInProgress = useEffectEvent((isNavigationInProgress: AuthenticationContextState["isNavigationInProgress"]) => {
+    setState((s) => ({ ...s, isNavigationInProgress }));
+  });
+
   useEffect(() => {
-    setState((s) => ({ ...s, isNavigationInProgress: false }));
+    setIsNavigationInProgress(false);
   }, [location]);
 
   useEffect(() => {

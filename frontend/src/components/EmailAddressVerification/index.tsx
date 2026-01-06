@@ -2,7 +2,7 @@ import { IconMailbox } from "@tabler/icons-react";
 import classNames from "classnames";
 import { OTPInput } from "input-otp";
 import { useRef } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { Link, useSearchParams } from "react-router";
 import Title from "~/components/Title";
 import useAuthentication from "~/hooks/useAuthentication";
@@ -30,11 +30,11 @@ export default function EmailAddressVerification() {
 
   const {
     clearErrors,
+    control,
     formState: { errors, isSubmitSuccessful, isSubmitting },
     handleSubmit,
     setError,
     setValue,
-    watch,
   } = useForm<Form>({
     defaultValues: async () => {
       const v: Form = {
@@ -60,7 +60,7 @@ export default function EmailAddressVerification() {
     setError: setResendError,
   } = useForm<ResendForm>();
 
-  const emailVerificationCode = watch("userEmailVerificationCode");
+  const emailVerificationCode = useWatch({ control, name: "userEmailVerificationCode" });
 
   async function submit(data: Form) {
     const response = await api.post("/authentication/verify-user-email-address", data);
@@ -122,6 +122,7 @@ export default function EmailAddressVerification() {
                   <p>Don&apos;t forget to check your spam folder if you can&apos;t find the e-mail in your inbox.</p>
                 </div>
 
+                {/* eslint-disable-next-line react-hooks/refs */}
                 <form className="mt-8" onSubmit={handleSubmit(submit)} ref={form}>
                   <fieldset className="gap-12 vstack" disabled={isSubmitting}>
                     {errors.root !== undefined ? (
