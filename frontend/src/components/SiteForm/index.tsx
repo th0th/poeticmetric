@@ -126,6 +126,8 @@ export default function SiteForm() {
                       required
                       {...register("domain")}
                     />
+
+                    <div className="invalid-feedback">{errors.domain?.message}</div>
                   </div>
 
                   <div>
