@@ -168,9 +168,9 @@ export default function SiteForm() {
                     </div>
                   </div>
 
-                  {siteID !== null ? (
-                    <GoogleSearchConsole siteID={siteID} />
-                  ) : null}
+                  {/*{siteID !== null ? (*/}
+                  {/*  <GoogleSearchConsole siteID={siteID} />*/}
+                  {/*) : null}*/}
 
                   <div>
                     <h5>Public reports</h5>
