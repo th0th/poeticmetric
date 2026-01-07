@@ -8,6 +8,7 @@ import { Form } from "~/components/SiteForm";
 import { withGoogleOauth } from "~/components/withGoogleOAuth";
 import useSiteGoogleSearchConsoleSites from "~/hooks/api/useSiteGoogleSearchConsoleSites";
 import { api } from "~/lib/api";
+import { NewError } from "~/lib/errors";
 
 export type GoogleSearchConsoleIntegrationProps = {
   siteID: number;
@@ -41,8 +42,8 @@ function GoogleSearchConsole({ siteID }: GoogleSearchConsoleIntegrationProps) {
           setValue("hasGoogleOauth", true);
           await mutateSites();
         }
-      } catch (e) {
-        showBoundary(e);
+      } catch (error) {
+        showBoundary(NewError(error));
       }
     },
     overrideScope: true,

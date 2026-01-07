@@ -1,9 +1,11 @@
+import { usePrevious } from "@react-hookz/web";
 import { IconAlertTriangle, IconCircleCheck } from "@tabler/icons-react";
 import classNames from "classnames";
-import { useEffect, useState } from "react";
+import { useEffect, useEffectEvent, useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { api } from "~/lib/api";
+import { NewError } from "~/lib/errors";
 import { setErrors } from "~/lib/form";
 
 type Form = {
@@ -18,12 +20,12 @@ export default function OrganizationDetails() {
   const { showBoundary } = useErrorBoundary();
   const [state, setState] = useState<State>({ isDone: false });
   const {
-    formState: { errors, isSubmitSuccessful, isSubmitting },
+    control,
+    formState: { errors, isSubmitting },
     handleSubmit,
     register,
     reset,
     setError,
-    watch,
   } = useForm<Form>({
     defaultValues: async () => {
       const values: Form = {
@@ -35,13 +37,15 @@ export default function OrganizationDetails() {
         const responseJson = await response.json();
 
         values.name = responseJson.name;
-      } catch (e) {
-        showBoundary(e);
+      } catch (error) {
+        showBoundary(NewError(error));
       }
 
       return values;
     },
   });
+  const values = useWatch({ control });
+  const previousValues = usePrevious(values);
 
   async function submit(data: Form) {
     try {
@@ -54,20 +58,20 @@ export default function OrganizationDetails() {
         reset({ name: responseJson.name });
         setState((s) => ({ ...s, isDone: true }));
       }
-    } catch (e) {
-      showBoundary(e);
+    } catch (error) {
+      showBoundary(NewError(error));
     }
   }
 
-  useEffect(() => {
-    const { unsubscribe } = watch(() => {
-      if (state.isDone) {
-        setState((s) => ({ ...s, isDone: false }));
-      }
-    });
+  const handleChange = useEffectEvent(() => {
+    if (state.isDone && JSON.stringify(values) !== JSON.stringify(previousValues)) {
+      setState((s) => ({ ...s, isDone: false }));
+    }
+  });
 
-    return () => unsubscribe();
-  }, [isSubmitSuccessful, state.isDone, watch]);
+  useEffect(() => {
+    handleChange();
+  }, [previousValues, values]);
 
   return (
     <>

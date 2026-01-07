@@ -1,11 +1,12 @@
 import { IconAlertTriangle } from "@tabler/icons-react";
 import classNames from "classnames";
 import { useErrorBoundary } from "react-error-boundary";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { useSearchParams } from "react-router";
 import ActivityOverlay from "~/components/ActivityOverlay";
 import Title from "~/components/Title";
 import { api } from "~/lib/api";
+import { NewError } from "~/lib/errors";
 import { setErrors } from "~/lib/form";
 
 type Form = {
@@ -18,11 +19,11 @@ export default function PasswordReset() {
   const { showBoundary } = useErrorBoundary();
   const [searchParams] = useSearchParams();
   const {
+    control,
     formState: { errors, isLoading, isSubmitSuccessful, isSubmitting },
     handleSubmit,
     register,
     setError,
-    watch,
   } = useForm<Form>({
     defaultValues: async () => {
       const values: Form = {
@@ -43,14 +44,14 @@ export default function PasswordReset() {
         }
 
         return values;
-      } catch (e) {
-        showBoundary(e);
+      } catch (error) {
+        showBoundary(NewError(error));
       }
 
       return values;
     },
   });
-  const passwordResetToken = watch("passwordResetToken");
+  const passwordResetToken = useWatch({ control, name: "passwordResetToken" });
 
   async function submit(data: Form) {
     try {
@@ -61,7 +62,7 @@ export default function PasswordReset() {
         setErrors(setError, responseJson);
       }
     } catch (error) {
-      showBoundary(error);
+      showBoundary(NewError(error));
     }
   }
 

@@ -6,6 +6,7 @@ import Portal from "~/components/Portal";
 import useUser from "~/hooks/api/useUser";
 import useUsers from "~/hooks/api/useUsers";
 import { api } from "~/lib/api";
+import { NewError } from "~/lib/errors";
 import { getUpdatedLocation } from "~/lib/router";
 
 type State = {
@@ -32,8 +33,8 @@ export default function DeleteModal() {
         await mutate();
         hide();
       }
-    } catch (e) {
-      showBoundary(e);
+    } catch (error) {
+      showBoundary(NewError(error));
     } finally {
       setState((s) => ({ ...s, isInProgress: false }));
     }

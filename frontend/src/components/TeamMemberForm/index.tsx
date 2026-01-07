@@ -2,7 +2,7 @@ import { IconMailCheck, IconSquareRoundedCheck } from "@tabler/icons-react";
 import classNames from "classnames";
 import { useMemo } from "react";
 import { useErrorBoundary } from "react-error-boundary";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { useSearchParams } from "react-router";
 import ActivityOverlay from "~/components/ActivityOverlay";
 import Avatar from "~/components/Avatar";
@@ -11,6 +11,7 @@ import PlanLimitHandler from "~/components/PlanLimitHandler";
 import Result from "~/components/Result";
 import Title from "~/components/Title";
 import { api } from "~/lib/api";
+import { NewError } from "~/lib/errors";
 import { setErrors } from "~/lib/form";
 
 type Form = {
@@ -23,7 +24,7 @@ export default function TeamMemberForm() {
   const [searchParams] = useSearchParams();
   const userID = searchParams.get("userID");
   const title = useMemo(() => userID === null ? "Invite team member" : "Edit team member", [userID]);
-  const { formState: { errors, isLoading, isSubmitSuccessful, isSubmitting }, handleSubmit, register, setError, watch } = useForm<Form>({
+  const { control, formState: { errors, isLoading, isSubmitSuccessful, isSubmitting }, handleSubmit, register, setError } = useForm<Form>({
     defaultValues: async () => {
       const v: Form = {
         email: "",
@@ -41,7 +42,7 @@ export default function TeamMemberForm() {
       return v;
     },
   });
-  const email = watch("email", "");
+  const email = useWatch({ control, defaultValue: "", name: "email" });
 
   async function submit(data: Form) {
     try {
@@ -51,8 +52,8 @@ export default function TeamMemberForm() {
       if (!response.ok) {
         setErrors(setError, responseJSON);
       }
-    } catch (e) {
-      showBoundary(e);
+    } catch (error) {
+      showBoundary(NewError(error));
     }
   }
 

@@ -58,7 +58,7 @@ export default function Button({ plan }: ButtonProps) {
         set((s) => ({ ...s, planNameInProgress: null }));
       }
     } else {
-      showBoundary(JSON.stringify(responseJson));
+      showBoundary(new Error(JSON.stringify(responseJson)));
     }
   }, [monthlyEventCountStepIndex, monthlyEventCountSteps, set, showBoundary, subscriptionPeriod]);
 

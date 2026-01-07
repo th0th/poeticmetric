@@ -1,12 +1,13 @@
 import { useMemo } from "react";
 import { useErrorBoundary } from "react-error-boundary";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { Link, useNavigate, useSearchParams } from "react-router";
 import ActivityOverlay from "~/components/ActivityOverlay";
 import Title from "~/components/Title";
 import useAuthentication from "~/hooks/useAuthentication";
 import { api } from "~/lib/api";
 import { base64Encode } from "~/lib/base64";
+import { NewError } from "~/lib/errors";
 import { setErrors } from "~/lib/form";
 import { setUserAccessToken } from "~/lib/user-access-token";
 
@@ -20,8 +21,8 @@ export default function SignIn() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { refresh, setState: setAuthenticationState } = useAuthentication();
-  const { formState: { errors, isSubmitting }, handleSubmit, register, setError, watch } = useForm<Form>();
-  const userEmail = watch("userEmail");
+  const { control, formState: { errors, isSubmitting }, handleSubmit, register, setError } = useForm<Form>();
+  const userEmail = useWatch({ control, name: "userEmail" });
 
   const passwordRecoveryLink = useMemo(() => `/password-recovery${userEmail === ""
       ? ""
@@ -51,7 +52,7 @@ export default function SignIn() {
         setErrors(setError, responseJson);
       }
     } catch (error) {
-      showBoundary(error);
+      showBoundary(NewError(error));
     }
   }
 

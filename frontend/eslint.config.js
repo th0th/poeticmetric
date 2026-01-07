@@ -127,7 +127,7 @@ export default [
           { group: ["../*"], message: "Usage of relative parent imports is not allowed." },
         ],
       }],
-      "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+      "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_", caughtErrorsIgnorePattern: "^_" }],
     },
   },
 
@@ -136,7 +136,6 @@ export default [
       "@stylistic": stylistic,
     },
     rules: {
-      "@stylistic/jsx-props-no-multi-spaces": ["error"],
       "@stylistic/member-delimiter-style": ["error"],
       "@stylistic/no-multi-spaces": ["error"],
       "@stylistic/quote-props": ["error", "as-needed"],

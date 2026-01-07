@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import useAuthentication from "~/hooks/useAuthentication";
 import { api } from "~/lib/api";
 import { base64Encode } from "~/lib/base64";
+import { NewError } from "~/lib/errors";
 import { setErrors } from "~/lib/form";
 import { setUserAccessToken } from "~/lib/user-access-token";
 
@@ -65,8 +66,8 @@ export default function Password() {
 
       const accessTokenResponseJson = await accessTokenResponse.json();
       setUserAccessToken(accessTokenResponseJson.token);
-    } catch (e) {
-      showBoundary(e);
+    } catch (error) {
+      showBoundary(NewError(error));
     }
   }
 

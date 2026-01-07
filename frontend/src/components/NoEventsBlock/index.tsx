@@ -1,7 +1,7 @@
 import { IconClipboardCheckFilled, IconClipboardFilled, IconRefresh } from "@tabler/icons-react";
 import classNames from "classnames";
 import copy from "copy-to-clipboard";
-import { JSX, PropsWithoutRef, useCallback, useMemo, useState } from "react";
+import { JSX, Key, PropsWithoutRef, useCallback, useMemo, useState } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import SyntaxHighlighter from "~/components/SyntaxHighlighter";
 import useSite from "~/hooks/api/useSite";
@@ -13,22 +13,24 @@ export type NoEventsBlockProps = Overwrite<Omit<PropsWithoutRef<JSX.IntrinsicEle
 
 type State = {
   isCopied: boolean;
+  tooltipKey: Key;
 };
 
 export default function NoEventsBlock({ className, siteID, ...props }: NoEventsBlockProps) {
   const { isValidating, mutate } = useSite(siteID);
   const [state, setState] = useState<State>({
     isCopied: false,
+    tooltipKey: "",
   });
 
   const scriptCode = useMemo(() => `<script async src="${getTrackerURL()}"></script>`, []);
 
   const copyScriptCodeToClipboard = useCallback(() => {
     copy(scriptCode);
-    setState((s) => ({ ...s, isCopied: true }));
+    setState((s) => ({ ...s, isCopied: true, tooltipKey: Math.random() }));
 
     setTimeout(() => {
-      setState((s) => ({ ...s, isCopied: false }));
+      setState((s) => ({ ...s, isCopied: false, tooltipKey: Math.random() }));
     }, 2000);
   }, [scriptCode]);
 
@@ -43,7 +45,7 @@ export default function NoEventsBlock({ className, siteID, ...props }: NoEventsB
 
         <OverlayTrigger
           overlay={(
-            <Tooltip className="fs-xs fw-medium" key={Math.random()}>{state.isCopied ? "Copied!" : "Click to copy"}</Tooltip>
+            <Tooltip className="fs-xs fw-medium" key={state.tooltipKey}>{state.isCopied ? "Copied!" : "Click to copy"}</Tooltip>
           )}
           placement="bottom"
           trigger={["focus", "hover"]}

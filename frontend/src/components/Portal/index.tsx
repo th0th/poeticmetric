@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useMemo, useState } from "react";
+import { ReactNode, useEffect, useEffectEvent, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 
 export type PortalProps = {
@@ -13,8 +13,12 @@ export default function Portal({ children }: PortalProps) {
   const [state, setState] = useState<State>({ isReady: false });
   const rootElement = useMemo(() => state.isReady ? document.getElementById("root") : null, [state.isReady]);
 
+  const setIsReady = useEffectEvent((isReady: State["isReady"]) => {
+    setState((s) => ({ ...s, isReady }));
+  });
+
   useEffect(() => {
-    setState((s) => ({ ...s, isReady: true }));
+    setIsReady(true);
   }, []);
 
   return rootElement !== null ? createPortal(children, rootElement) : null;

@@ -1,7 +1,19 @@
 import { useWindowSize } from "@react-hookz/web";
 import { IconChevronRight, IconFile, IconVocabulary } from "@tabler/icons-react";
 import classNames from "classnames";
-import { createElement, forwardRef, JSX, PropsWithoutRef, Ref, useCallback, useContext, useEffect, useRef, useState } from "react";
+import {
+  createElement,
+  forwardRef,
+  JSX,
+  PropsWithoutRef,
+  Ref,
+  useCallback,
+  useContext,
+  useEffect,
+  useEffectEvent,
+  useRef,
+  useState,
+} from "react";
 import { Collapse } from "react-bootstrap";
 import { Link } from "react-router";
 import DocsArticleContext from "~/contexts/DocsArticleContext";
@@ -14,15 +26,16 @@ export type MenuProps = Omit<PropsWithoutRef<JSX.IntrinsicElements["nav"]>, "chi
 
 type State = {
   isOpen: boolean;
+  isTimeoutDisabled: boolean;
   openCategorySlugs: Array<string>;
 };
 
 const docsCategories = getDocsCategories();
 
 function Menu({ className, ...props }: MenuProps, ref: Ref<HTMLElement>) {
-  const isTransitionDisabled = useRef<boolean>(true);
+  const isReady = useRef<boolean>(false);
   const { article: currentArticle, category: currentCategory } = useContext(DocsArticleContext);
-  const [state, setState] = useState<State>({ isOpen: true, openCategorySlugs: [] });
+  const [state, setState] = useState<State>({ isOpen: true, isTimeoutDisabled: false, openCategorySlugs: [] });
   const { width } = useWindowSize();
 
   const toggle = useCallback(() => setState((state) => ({ ...state, isOpen: !state.isOpen })), []);
@@ -36,19 +49,34 @@ function Menu({ className, ...props }: MenuProps, ref: Ref<HTMLElement>) {
   })), []);
 
   const handleExited = useCallback(() => {
-    isTransitionDisabled.current = false;
-  }, []);
+    if (state.isTimeoutDisabled) {
+      setState((s) => ({ ...s, isTimeoutDisabled: false }));
+    }
+  }, [state.isTimeoutDisabled]);
+
+  const setIsOpen = useEffectEvent((isOpen: boolean = true) => {
+    setState((s) => ({ ...s, isOpen }));
+  });
+
+  const setIsTimeoutDisabled = useEffectEvent((isTimeoutDisabled: boolean) => {
+    setState((s) => ({ ...s, isTimeoutDisabled }));
+  });
 
   useEffect(() => {
-    setState((s) => {
-      const isOpen = width >= Number(getComputedStyle(document.body).getPropertyValue("--bs-breakpoint-md").replace("px", ""));
+    const breakpoint = Number(getComputedStyle(document.body).getPropertyValue("--bs-breakpoint-md").replace("px", ""));
 
-      if (isOpen) {
-        isTransitionDisabled.current = true;
+    if (width >= breakpoint) {
+      setIsTimeoutDisabled(true);
+      setIsOpen(true);
+    } else {
+      if (!isReady.current) {
+        setIsTimeoutDisabled(true);
+
+        isReady.current = true;
       }
 
-      return { ...s, isOpen };
-    });
+      setIsOpen(false);
+    }
   }, [width]);
 
   return (
@@ -68,7 +96,7 @@ function Menu({ className, ...props }: MenuProps, ref: Ref<HTMLElement>) {
         </button>
       </div>
 
-      <Collapse in={state.isOpen} onExited={handleExited} timeout={isTransitionDisabled.current ? 0 : undefined}>
+      <Collapse in={state.isOpen} onExited={handleExited} timeout={state.isTimeoutDisabled ? 0 : undefined}>
         <nav
           {...props}
           className={classNames("gap-2 overflow-auto sticky-top vstack", styles.menu, className)}

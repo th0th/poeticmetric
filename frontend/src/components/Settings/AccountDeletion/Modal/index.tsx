@@ -1,8 +1,8 @@
 import { IconAlertTriangle } from "@tabler/icons-react";
 import classNames from "classnames";
-import { useEffect, useState } from "react";
+import { useEffect, useEffectEvent, useState } from "react";
 import { Modal as BsModal, ModalProps } from "react-bootstrap";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { useNavigate } from "react-router";
 import Portal from "~/components/Portal";
 import useAuthentication from "~/hooks/useAuthentication";
@@ -26,8 +26,8 @@ export default function Modal({ ...props }: ModalProps) {
   const [state, setState] = useState<State>({ isReady: false, reasons: [], selectedReason: null });
   const navigate = useNavigate();
   const { signOut, user } = useAuthentication();
-  const { formState: { errors }, handleSubmit, register, setError, watch } = useForm<Form>();
-  const reason = watch("reason");
+  const { control, formState: { errors }, handleSubmit, register, setError } = useForm<Form>();
+  const reason = useWatch({ control, name: "reason" });
 
   async function submit(data: Form) {
     const response = await api.delete("/organization", data, {
@@ -60,8 +60,12 @@ export default function Modal({ ...props }: ModalProps) {
     getOptions().catch((e) => {throw e;});
   }, []);
 
-  useEffect(() => {
+  const setSelectedReason = useEffectEvent((reason: string) => {
     setState((s) => ({ ...s, selectedReason: s.reasons.find((r) => r.reason === reason) || null }));
+  });
+
+  useEffect(() => {
+    setSelectedReason(reason);
   }, [reason]);
 
   return (

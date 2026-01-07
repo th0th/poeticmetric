@@ -2,7 +2,7 @@ import { IconWorldCheck } from "@tabler/icons-react";
 import classNames from "classnames";
 import { useMemo } from "react";
 import { useErrorBoundary } from "react-error-boundary";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm, useWatch } from "react-hook-form";
 import { Link, useSearchParams } from "react-router";
 import ActivityOverlay from "~/components/ActivityOverlay";
 import Breadcrumb from "~/components/Breadcrumb";
@@ -11,6 +11,7 @@ import Result from "~/components/Result";
 import SafeQueryParameters from "~/components/SiteForm/SafeQueryParameters";
 import Title from "~/components/Title";
 import { api } from "~/lib/api";
+import { NewError } from "~/lib/errors";
 import { setErrors } from "~/lib/form";
 import GoogleSearchConsole from "./GoogleSearchConsole";
 
@@ -41,24 +42,28 @@ export default function SiteForm() {
         safeQueryParameters: [],
       };
 
-      if (siteID !== null) {
-        const response = await api.get(`/sites/${siteID}`);
-        const responseJson = await response.json();
+      try {
+        if (siteID !== null) {
+          const response = await api.get(`/sites/${siteID}`);
+          const responseJson = await response.json();
 
-        v.domain = responseJson.domain;
-        v.googleSearchConsoleSiteURL = responseJson.googleSearchConsoleSiteURL;
-        v.hasGoogleOauth = responseJson.hasGoogleOauth;
-        v.isGoogleSearchConsoleIntegrationEnabled = responseJson.googleSearchConsoleSiteURL !== null;
-        v.isPublic = responseJson.isPublic;
-        v.name = responseJson.name;
-        v.safeQueryParameters = responseJson.safeQueryParameters.map((d: string) => ({ value: d }));
+          v.domain = responseJson.domain;
+          v.googleSearchConsoleSiteURL = responseJson.googleSearchConsoleSiteURL;
+          v.hasGoogleOauth = responseJson.hasGoogleOauth;
+          v.isGoogleSearchConsoleIntegrationEnabled = responseJson.googleSearchConsoleSiteURL !== null;
+          v.isPublic = responseJson.isPublic;
+          v.name = responseJson.name;
+          v.safeQueryParameters = responseJson.safeQueryParameters.map((d: string) => ({ value: d }));
+        }
+      } catch (error) {
+        showBoundary(NewError(error));
       }
 
       return v;
     },
   });
-  const { formState: { errors, isLoading, isSubmitSuccessful, isSubmitting }, handleSubmit, register, setError, watch } = form;
-  const domain = watch("domain");
+  const { control, formState: { errors, isLoading, isSubmitSuccessful, isSubmitting }, handleSubmit, register, setError } = form;
+  const domain = useWatch({ control, name: "domain" });
 
   const publicURL = useMemo(() => {
     if (domain === "") {
@@ -82,8 +87,8 @@ export default function SiteForm() {
       if (!response.ok) {
         setErrors(setError, responseJSON);
       }
-    } catch (e) {
-      showBoundary(e);
+    } catch (error) {
+      showBoundary(NewError(error));
     }
   }
 
@@ -126,6 +131,8 @@ export default function SiteForm() {
                       required
                       {...register("domain")}
                     />
+
+                    <div className="invalid-feedback">{errors.domain?.message}</div>
                   </div>
 
                   <div>
