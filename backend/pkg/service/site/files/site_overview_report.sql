@@ -1,6 +1,7 @@
 WITH
   toDateTime(@start) AS start,
   toDateTime(@end) AS end,
+  start - (end - start) as previous_start,
   (
     SELECT
       round(
@@ -15,8 +16,8 @@ WITH
       count(DISTINCT visitor_id) AS visitor_count
     FROM events_buffer
     WHERE
-      date_time < end
-      AND date_time >= start
+      date_time < start
+      AND date_time >= previous_start
       AND site_id = @siteID
       AND if(isNull(@browserName), TRUE, browser_name = @browserName)
       AND if(isNull(@browserVersion), TRUE, browser_version = @browserVersion)
