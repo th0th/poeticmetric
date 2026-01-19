@@ -20,6 +20,7 @@ jobs:
         uses: actions/docker-setup-buildx-action@v3.11.1
         with:
           endpoint: tcp://docker:2375
+          platforms: linux/amd64,linux/arm64
 
       - name: Extract metadata for docker
         id: meta
@@ -56,6 +57,7 @@ jobs:
         uses: actions/docker-setup-buildx-action@v3.11.1
         with:
           endpoint: tcp://docker:2375
+          platforms: linux/amd64,linux/arm64
 
       - name: Extract metadata for docker
         id: meta
