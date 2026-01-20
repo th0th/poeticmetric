@@ -19,7 +19,7 @@ export default function PostHogProvider({ children }: PostHogProviderProps) {
   });
 
   useEffect(() => {
-    if (posthogAPIKey !== undefined && state.postHogClient === undefined) {
+    if (posthogAPIKey !== undefined && posthogAPIKey !== "none" && state.postHogClient === undefined) {
       posthog.init(posthogAPIKey, { api_host: "/ingest" });
 
       setPostHogClient(posthog);
