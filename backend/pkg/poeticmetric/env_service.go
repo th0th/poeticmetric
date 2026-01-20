@@ -46,7 +46,7 @@ type EnvServiceVars struct {
 	RESTApiBaseURL  string  `env:"REST_API_BASE_URL,notEmpty,required"`
 	RESTApiBasePath *string `env:"REST_API_BASE_PATH"`
 
-	// Clickhouse
+	// ClickHouse
 	ClickhouseDatabase string `env:"CLICKHOUSE_DATABASE,notEmpty,required"`
 	ClickhouseHost     string `env:"CLICKHOUSE_HOST,notEmpty,required"`
 	ClickhousePassword string `env:"CLICKHOUSE_PASSWORD,notEmpty,required"`
