@@ -11,6 +11,7 @@ import (
 
 	"github.com/go-errors/errors"
 	"github.com/gorilla/schema"
+	"github.com/rs/cors"
 	"github.com/justinas/alice"
 	amqp "github.com/rabbitmq/amqp091-go"
 	"github.com/rs/zerolog"
@@ -333,6 +334,7 @@ func main() {
 	httpServer := http.Server{
 		Handler: alice.New(
 			middleware.Recover(envService, responder, Logger),
+			cors.Default().Handler,
 			middleware.BasePathHandler(envService.RESTApiBasePath()),
 			middleware.AuthenticationHandler(authenticationService, responder),
 			hlog.NewHandler(Logger),
