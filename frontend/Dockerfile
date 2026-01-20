@@ -1,4 +1,4 @@
-FROM node:24-alpine
+FROM node:25.3.0-alpine
 
 WORKDIR /poeticmetric-frontend-build
 
