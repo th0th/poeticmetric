@@ -4,7 +4,7 @@ We value your data, and we are committed to being transparent about the data we 
 
 651 N. Broad Street, Suite 206, Middletown, DE, 19702, United States
 
-<https://www.poeticmetric.com>
+<https://poeticmetric.com>
 
 This Privacy Policy applies to WebGazer, Inc. , that provides a SaaS solution to make business decisions without compromising your visitors' privacy (hereinafter "PoeticMetric").The terms "we", or "our" used in this Policy mean our organization as the context requires.
 

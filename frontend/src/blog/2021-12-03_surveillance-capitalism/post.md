@@ -72,6 +72,6 @@ In the race to sell certainty, surveillance capitalism's economic imperatives ho
 
 Early on, it was obvious that machine intelligence relied on large amounts of data, necessitating data extraction economies of scale. It was eventually realized that volume is required but not sufficient. This realization fueled the "mobile revolution," which saw users go into the real world with cameras, computers, and microphones built into their fancy new phones.
 
-You can, however, begin to take a stand against surveillance capitalism by saying no. In this regard, [PoeticMetric](https://www.poeticmetric.com/) can help. PoeticMetric is a blazingly fast analytics tool that prioritizes privacy and complies with regulations.
+You can, however, begin to take a stand against surveillance capitalism by saying no. In this regard, [PoeticMetric](https://poeticmetric.com) can help. PoeticMetric is a blazingly fast analytics tool that prioritizes privacy and complies with regulations.
 
 There are no cookies or personal information collected. As a result, you do not have to be concerned about cookie banners, GDPR, CCPA, or PECR. Grow your business with PoeticMetric. Sign up today.

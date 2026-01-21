@@ -15,7 +15,7 @@ function generateBlogFeed() {
   const blogPostPaths = readdirSync(blogPath).sort().reverse();
 
   const feed = new Feed({
-    author: { link: "https://www.poeticmetric.com", name: "PoeticMetric Team" },
+    author: { link: "https://poeticmetric.com", name: "PoeticMetric Team" },
     copyright: "All rights reserved, WebGazer, Inc.",
     favicon: `${baseURL}/favicon.ico`,
     feed: `${baseURL}/blog/${feedFileName}`,

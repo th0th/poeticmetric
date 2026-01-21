@@ -58,7 +58,7 @@ Many search marketers have been sluggish in embracing GA4. However, they will ha
 
 Transfer to Google Analytics 4 as soon as possible to accumulate the required historical data before Universal Analytics stops accepting new hits.
 
-Alternatively, you can opt for a privacy-first, regulation-compliant, and lightning-fast analytics solution like [PoeticMetric](https://www.poeticmetric.com/?utm_source=poeticmetric&utm_medium=blog&utm_content=google-deprecates-universal-analytics-why-and-what-do-you-need-to-do-about-it&utm_term=what-now).
+Alternatively, you can opt for a privacy-first, regulation-compliant, and lightning-fast analytics solution like [PoeticMetric](https://poeticmetric.com/?utm_source=poeticmetric&utm_medium=blog&utm_content=google-deprecates-universal-analytics-why-and-what-do-you-need-to-do-about-it&utm_term=what-now).
 
 PoeticMetric should create a safer and more secure internet for everyone. In line with this, it does not collect visitors' IP addresses or employ persistent tracking technology such as cookies. Additionally, it complies with data protection requirements such as GDPR, CCPA, and PECR.
 
@@ -68,4 +68,4 @@ Additionally, the PoeticMetric dashboard presents all critical data succinctly a
 
 In today's measurement landscape, organizations must navigate new challenges better to understand their customers' complicated, multi-platform journeys while prioritizing protecting their privacy.
 
-To give your customers the privacy they deserve, get started with [PoeticMetric](https://www.poeticmetric.com/?utm_source=poeticmetric&utm_medium=blog&google-deprecates-universal-analytics-why-and-what-do-you-need-to-do-about-it&utm_term=get-started) today.
+To give your customers the privacy they deserve, get started with [PoeticMetric](https://poeticmetric.com/?utm_source=poeticmetric&utm_medium=blog&google-deprecates-universal-analytics-why-and-what-do-you-need-to-do-about-it&utm_term=get-started) today.

@@ -14,7 +14,7 @@ To start tracking your website's traffic, you need to update the HTML code of yo
 The PoeticMetric tracking script code is this:
 
 ```html
-<script async src="https://www.poeticmetric.com/pm.js"></script>
+<script async src="https://poeticmetric.com/pm.js"></script>
 ```
 
 Copy this code, and add it to the `<head>...</head>` section of the every page you want to track.
