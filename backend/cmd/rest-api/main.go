@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"net/url"
 	"os"
@@ -11,9 +10,9 @@ import (
 
 	"github.com/go-errors/errors"
 	"github.com/gorilla/schema"
-	"github.com/rs/cors"
 	"github.com/justinas/alice"
 	amqp "github.com/rabbitmq/amqp091-go"
+	"github.com/rs/cors"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/hlog"
 	httpswagger "github.com/swaggo/http-swagger/v2"
@@ -28,7 +27,6 @@ import (
 	bootstraphandler "github.com/th0th/poeticmetric/backend/pkg/restapi/handler/bootstrap"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/handler/events"
 	organizationhandler "github.com/th0th/poeticmetric/backend/pkg/restapi/handler/organization"
-	"github.com/th0th/poeticmetric/backend/pkg/restapi/handler/root"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/handler/sitereports"
 	"github.com/th0th/poeticmetric/backend/pkg/restapi/handler/sites"
 	trackinghandler "github.com/th0th/poeticmetric/backend/pkg/restapi/handler/tracking"
@@ -203,10 +201,6 @@ func main() {
 		OrganizationService: organizationService,
 	})
 
-	rootHandler := root.New(root.NewParams{
-		EnvService: envService,
-	})
-
 	siteReportsHandler := sitereports.New(sitereports.NewParams{
 		Responder:   responder,
 		SiteService: siteService,
@@ -268,7 +262,7 @@ func main() {
 	mux.HandleFunc("POST /bootstrap", bootstrapHandler.Run)
 
 	// handlers: docs
-	mux.Handle("/docs", http.RedirectHandler(fmt.Sprintf("%s/docs/", envService.RESTApiURL("")), http.StatusFound))
+	mux.Handle("/docs", http.RedirectHandler(envService.RESTApiURL("/docs/"), http.StatusFound))
 	mux.Handle("/docs/", httpswagger.Handler(httpswagger.DeepLinking(true), httpswagger.Layout(httpswagger.BaseLayout)))
 
 	// handlers: events
@@ -286,7 +280,7 @@ func main() {
 	mux.HandleFunc("POST /organization/stripe-webhook", organizationHandler.StripeWebhook)
 
 	// handlers: root
-	mux.HandleFunc("/{$}", rootHandler.Index())
+	mux.Handle("/{$}", http.RedirectHandler(envService.FrontendURL("/"), http.StatusFound))
 
 	// handlers: sites
 	mux.HandleFunc("GET /public-sites/{siteDomain}", sitesHandler.ReadPublicSite)
@@ -331,33 +325,54 @@ func main() {
 	mux.Handle("POST /users", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(usersHandler.Invite))
 	mux.Handle("POST /users/resend-invitation-email", permissionUserAccessTokenAuthenticated.Extend(permissionOwner).ThenFunc(usersHandler.ResendInvitationEmail))
 
-	httpServer := http.Server{
-		Handler: alice.New(
-			middleware.Recover(envService, responder, Logger),
-			cors.Default().Handler,
-			middleware.BasePathHandler(envService.RESTApiBasePath()),
-			middleware.AuthenticationHandler(authenticationService, responder),
-			hlog.NewHandler(Logger),
-			hlog.AccessHandler(func(r *http.Request, status, size int, duration time.Duration) {
-				hlog.FromRequest(r).Info().
-					Str("method", r.Method).
-					Stringer("url", r.URL).
+	// middlewares
+	httpServerMiddlewares := []alice.Constructor{}
+	httpServerMiddlewares = append(httpServerMiddlewares, middleware.Recover(envService, responder, Logger))
 
-					Int("status", status).
-					Int("size", size).
-					Dur("duration", duration).
-					Msg("")
-			}),
-			hlog.CustomHeaderHandler("ip", "X-Forwarded-For"),
-		).Then(mux),
+	if envService.RESTApiIsCORSEnabled() {
+		httpServerMiddlewares = append(httpServerMiddlewares, cors.New(cors.Options{
+			AllowCredentials: true,
+			AllowedHeaders:   []string{"*"},
+			AllowedMethods: []string{
+				http.MethodDelete,
+				http.MethodGet,
+				http.MethodPatch,
+				http.MethodPost,
+			},
+		}).Handler)
+	}
+
+	httpServerMiddlewares = append(
+		httpServerMiddlewares,
+		middleware.BasePathHandler(envService.RESTApiBasePath()),
+		middleware.AuthenticationHandler(authenticationService, responder),
+		hlog.NewHandler(Logger),
+		hlog.AccessHandler(func(r *http.Request, status, size int, duration time.Duration) {
+			hlog.FromRequest(r).Info().
+				Str("method", r.Method).
+				Stringer("url", r.URL).
+				Int("status", status).
+				Int("size", size).
+				Dur("duration", duration).
+				Msg("")
+		}),
+		hlog.CustomHeaderHandler("ip", "X-Forwarded-For"),
+	)
+
+	httpServer := http.Server{
+		Handler:      alice.New(httpServerMiddlewares...).Then(mux),
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 10 * time.Second,
 	}
 
-	err = httpServer.ListenAndServe()
-	if err != nil {
-		Logger.Panic().Stack().Err(errors.Wrap(err, 0)).Msg("failed to start http server")
-	}
+	go func() {
+		listenAndServeErr := httpServer.ListenAndServe()
+		if listenAndServeErr != nil {
+			if !errors.Is(listenAndServeErr, http.ErrServerClosed) {
+				Logger.Panic().Stack().Err(errors.Wrap(listenAndServeErr, 0)).Msg("failed to start http server")
+			}
+		}
+	}()
 
 	signalChannel := make(chan os.Signal, 1)
 	signal.Notify(signalChannel, os.Interrupt)

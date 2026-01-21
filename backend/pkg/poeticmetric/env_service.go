@@ -24,6 +24,7 @@ type EnvService interface {
 	RabbitMqURL() string
 	RESTApiURL(path string) string
 	RESTApiBasePath() *string
+	RESTApiIsCORSEnabled() bool
 	SmtpAddr() string
 	SmtpAuth() smtp.Auth
 	SmtpFrom() *mail.Address
@@ -39,12 +40,13 @@ type EnvService interface {
 }
 
 type EnvServiceVars struct {
-	DatabaseDebug   bool    `env:"DATABASE_DEBUG" envDefault:"false"`
-	Debug           bool    `env:"DEBUG" envDefault:"false"`
-	FrontendBaseURL string  `env:"FRONTEND_BASE_URL,notEmpty,required"`
-	IsHosted        bool    `env:"IS_HOSTED" envDefault:"false"`
-	RESTApiBaseURL  string  `env:"REST_API_BASE_URL,notEmpty,required"`
-	RESTApiBasePath *string `env:"REST_API_BASE_PATH"`
+	DatabaseDebug        bool    `env:"DATABASE_DEBUG" envDefault:"false"`
+	Debug                bool    `env:"DEBUG" envDefault:"false"`
+	FrontendBaseURL      string  `env:"FRONTEND_BASE_URL,notEmpty,required"`
+	IsHosted             bool    `env:"IS_HOSTED" envDefault:"false"`
+	RESTApiBaseURL       string  `env:"REST_API_BASE_URL,notEmpty,required"`
+	RESTApiBasePath      *string `env:"REST_API_BASE_PATH"`
+	RESTApiIsCORSEnabled bool    `env:"REST_API_IS_CORS_ENABLED" envDefault:"true"`
 
 	// ClickHouse
 	ClickhouseDatabase string `env:"CLICKHOUSE_DATABASE,notEmpty,required"`
