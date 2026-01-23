@@ -110,6 +110,7 @@
     "generateSitemap": "node scripts/generateSitemap.js",
     "lint": "eslint .",
     "prerender": "vite build --outDir dist/static && pnpm run build:server && node scripts/prerender.js",
+    "prerender-hosted": "vite build --outDir dist/static-hosted && pnpm run build:server && IS_HOSTED=true node scripts/prerender.js",
     "preview": "cross-env NODE_ENV=production node --experimental-specifier-resolution server",
     "stylelint": "stylelint \"src/**/*.scss\""
   },

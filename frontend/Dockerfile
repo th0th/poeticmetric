@@ -25,6 +25,7 @@ RUN pnpm run generateBlogFeed
 RUN pnpm run generateRobotsTxt
 RUN pnpm run generateSitemap
 RUN pnpm run prerender
+RUN pnpm run prerender-hosted
 
 FROM nginx:1-alpine
 
@@ -33,3 +34,4 @@ WORKDIR /usr/share/nginx/html
 COPY etc/nginx.conf /etc/nginx/conf.d/default.conf
 COPY docker-entrypoint.sh /docker-entrypoint.d/01-bootstrap.sh
 COPY --from=0 /poeticmetric-frontend-build/dist/static .
+COPY --from=0 /poeticmetric-frontend-build/dist/static-hosted /usr/share/nginx/html-hosted

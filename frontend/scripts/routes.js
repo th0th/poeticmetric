@@ -20,7 +20,9 @@ const docsPaths = readdirSync(join(baseDir, "src", "docs"), { withFileTypes: tru
 export function getRoutes() {
   const routesFileContent = readFileSync("src/routes.ts", "utf-8");
 
-  let [routerRoutesStr] = routesFileContent.match(/(const routes.*?;)/s);
+  let [routerRoutesStr] = routesFileContent.match(/(const applicationRoutes.*?const routes.*?;)/s);
+  routerRoutesStr = routerRoutesStr.replaceAll(": Array<RouteObject>", "");
+  routerRoutesStr = routerRoutesStr.replaceAll("isHosted", `"${(process.env.VITE_IS_HOSTED || "").toString()}"`);
   routerRoutesStr = routerRoutesStr.replace(/const routes.*?=/s, "routerRoutes =");
   routerRoutesStr = routerRoutesStr.replace(
     /Component:\s+(?:[a-zA-Z_][a-zA-Z0-9_]*\({.*?}\)|[^,]+),|lazy:\s*\(\)\s*=>\s*import\("([^"]*?)"\),/gs,

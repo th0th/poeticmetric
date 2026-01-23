@@ -1,10 +1,10 @@
 import { RouteObject } from "react-router";
+import App from "~/components/App";
 import EmailAddressVerificationBlock from "~/components/EmailAddressVerificationBlock";
 import Layout from "~/components/Layout";
 import withAuthorization from "~/components/withAuthorization";
 import withRequiredSearchParam from "~/components/withRequiredSearchParam";
 import { isHosted } from "~/lib/base";
-import App from "./components/App";
 
 const applicationRoutes: Array<RouteObject> = [
   { lazy: () => import("~/components/Bootstrap"), path: "bootstrap" },
