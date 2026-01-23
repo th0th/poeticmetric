@@ -98,9 +98,7 @@
   },
   "private": true,
   "scripts": {
-    "build": "pnpm run build:client && pnpm run build:server",
-    "build:client": "vite build --outDir dist/client",
-    "build:server": "vite build --ssr src/entry-server.tsx --outDir dist/server",
+    "build": "node scripts/build.js",
     "dev": "node server",
     "email-dev": "email dev",
     "email-export": "node scripts/generateEmailTemplates.js",
@@ -109,8 +107,7 @@
     "generateRobotsTxt": "node scripts/generateRobotsTxt.js",
     "generateSitemap": "node scripts/generateSitemap.js",
     "lint": "eslint .",
-    "prerender": "vite build --outDir dist/static && pnpm run build:server && node scripts/prerender.js",
-    "prerender-hosted": "vite build --outDir dist/static-hosted && pnpm run build:server && IS_HOSTED=true node scripts/prerender.js",
+    "prerender": "node scripts/prerender.js",
     "preview": "cross-env NODE_ENV=production node --experimental-specifier-resolution server",
     "stylelint": "stylelint \"src/**/*.scss\""
   },

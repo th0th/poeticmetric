@@ -1,9 +1,7 @@
 import generateRobotsTxt from "generate-robotstxt";
-import { writeFile } from "node:fs";
+import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { getBaseDir, baseURL } from "./base.js";
-
-const baseDir = getBaseDir();
+import { baseURL, getCommonOutDir } from "./base.js";
 
 async function main() {
   const configs = [
@@ -34,10 +32,11 @@ async function main() {
   ];
 
   for (const robotsTxt of configs) {
+    const outDir = getCommonOutDir();
+
     const content = await generateRobotsTxt(robotsTxt.options);
-    await writeFile(join(baseDir, "public", robotsTxt.fileName), content, function (error) {
-      if (error) throw error;
-    });
+    await mkdir(outDir, { recursive: true });
+    await writeFile(join(outDir, robotsTxt.fileName), content);
   }
 }
 

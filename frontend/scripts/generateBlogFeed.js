@@ -3,10 +3,10 @@ import { Feed } from "feed";
 import matter from "gray-matter";
 import { mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { getBaseDir, baseURL } from "./base.js";
+import { baseURL, getBaseDir, getBaseDistDir } from "./base.js";
 
 const baseDir = getBaseDir();
-const outDir = join(baseDir, "public", "blog");
+const outDir = join(getBaseDistDir(), "hosted", "public", "blog");
 const feedFileName = "feed.xml";
 const outPath = join(outDir, feedFileName);
 
