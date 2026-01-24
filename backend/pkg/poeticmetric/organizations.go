@@ -61,16 +61,16 @@ type OrganizationResponse struct {
 }
 
 type OrganizationUsageResponse struct {
-	MaxSiteCount int `json:"maxSiteCount"`
-	MaxUserCount int `json:"maxUserCount"`
+	MaxSiteCount *int `json:"maxSiteCount"`
+	MaxUserCount *int `json:"maxUserCount"`
 	SiteCount    int `json:"siteCount"`
 	UserCount    int `json:"userCount"`
 }
 
 type PlanResponse struct {
-	MaxEventsPerMonth int    `json:"maxEventsPerMonth"`
-	MaxSiteCount      int    `json:"maxSiteCount"`
-	MaxUserCount      int    `json:"maxUserCount"`
+	MaxEventsPerMonth *int    `json:"maxEventsPerMonth"`
+	MaxSiteCount      *int    `json:"maxSiteCount"`
+	MaxUserCount      *int    `json:"maxUserCount"`
 	Name              string `json:"name"`
 }
 
