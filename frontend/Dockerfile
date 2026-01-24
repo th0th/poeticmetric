@@ -33,4 +33,6 @@ COPY etc/nginx.conf /etc/nginx/conf.d/default.conf
 COPY docker-entrypoint.sh /docker-entrypoint.d/01-bootstrap.sh
 COPY --from=0 /poeticmetric-frontend-build/dist/common /poeticmetric/common
 COPY --from=0 /poeticmetric-frontend-build/dist/hosted/static /poeticmetric/hosted
-COPY --from=0 /poeticmetric-frontend-build/dist/non-hosted/static /poeticmetric/non-hosted
+COPY --from=0 /poeticmetric-frontend-build/dist/self-hosted/static /poeticmetric/self-hosted
+
+WORKDIR /usr/share/nginx/html

@@ -13,7 +13,7 @@ export function getBaseDistDir() {
 }
 
 export function getBaseOutDir() {
-  return join(getBaseDistDir(), process.env.VITE_IS_HOSTED === "true" ? "hosted" : "non-hosted");
+  return join(getBaseDistDir(), process.env.VITE_IS_HOSTED === "true" ? "hosted" : "self-hosted");
 }
 
 export function getCommonOutDir() {

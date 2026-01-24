@@ -6,23 +6,22 @@ set -eo pipefail
 
 cd /
 
-rm -rf /usr/share/nginx/html
+rm -rf "/usr/share/nginx/html"
+
 if [[ "${VITE_IS_HOSTED}" != "true" ]]; then
-  mv /poeticmetric/non-hosted /usr/share/nginx/html
+  cp -R "/poeticmetric/self-hosted" "/usr/share/nginx/html"
 else
-  mv /poeticmetric/hosted /usr/share/nginx/html
+  cp -R "/poeticmetric/hosted" "/usr/share/nginx/html"
 fi
 
-cd /usr/share/nginx/html
+cd "/usr/share/nginx/html"
 
 # robots.txt
 if [[ "${ALLOW_ROBOTS}" == "true" ]]; then
-  mv "/poeticmetric/common/robots-allow.txt" "robots.txt"
+  cp "/poeticmetric/common/robots-allow.txt" "robots.txt"
 else
-  mv "/poeticmetric/common/robots-disallow.txt" "robots.txt"
+  cp "/poeticmetric/common/robots-disallow.txt" "robots.txt"
 fi
-
-rm -rf /poeticmetric
 
 # replace the placeholders with environment variables
 find . \
