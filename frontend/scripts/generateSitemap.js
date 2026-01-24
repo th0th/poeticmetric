@@ -2,10 +2,8 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { Readable } from "node:stream";
 import { SitemapStream, streamToPromise } from "sitemap";
-import { baseURL, getBaseDir, getBaseOutDir, isHostedOptions } from "./base.js";
+import { baseURL, getBaseOutDir, isHostedOptions } from "./base.js";
 import { getRoutes } from "./routes.js";
-
-const baseDir = getBaseDir();
 
 const routesToExclude = [
   "/404",

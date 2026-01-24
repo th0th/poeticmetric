@@ -4,8 +4,8 @@ import { getBaseOutDir, isHostedOptions } from "./base.js";
 import getHtmlFromTemplate from "./getHtmlFromTemplate.js";
 import { getRoutes } from "./routes.js";
 
-const { render: hostedRender } = await import("../dist/hosted/server/entry-server.js");  
-const { render: selfHostedRender } = await import("../dist/self-hosted/server/entry-server.js");  
+const { render: hostedRender } = await import("../dist/hosted/server/entry-server.js"); // eslint-disable-line import/no-unresolved
+const { render: selfHostedRender } = await import("../dist/self-hosted/server/entry-server.js"); // eslint-disable-line import/no-unresolved
 
 async function prerender() {
   for (const isHostedOption of isHostedOptions) {
