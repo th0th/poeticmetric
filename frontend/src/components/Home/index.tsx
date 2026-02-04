@@ -51,7 +51,7 @@ const features: FeaturesProps["features"] = [
     detail: "You won't notice PoeticMetric slowing anything down, even during your busiest times. Everything runs in the background and keeps up as traffic spikes. Your stats are always fresh, with no waiting around and no crossed fingers.",
     icon: IconBolt,
     iconWrapperClassName: "bg-primary",
-    link: "https://dev.poeticmetric.com/docs/websites/adding-the-script-to-your-website",
+    link: "/docs/websites/adding-the-script-to-your-website",
     title: "Lightning fast",
   },
 ];

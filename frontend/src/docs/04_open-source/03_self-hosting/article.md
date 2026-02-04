@@ -63,7 +63,7 @@ So, pick a **different**, hard to guess password for each one, and make sure you
 
 #### Google Search Console integration variables
 
-`GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` are required only for [Google Search Console integration](https://dev.poeticmetric.com/docs/websites/google-search-console-integration). If you are planning to use the integration, you need to obtain them from [Google](https://developers.google.com/webmaster-tools). If you are not planning to use, you can safely skip and leave them as empty. You can also update these variables later.
+`GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` are required only for [Google Search Console integration](https://poeticmetric.com/docs/websites/google-search-console-integration). If you are planning to use the integration, you need to obtain them from [Google](https://developers.google.com/webmaster-tools). If you are not planning to use, you can safely skip and leave them as empty. You can also update these variables later.
 
 #### URLs
 
