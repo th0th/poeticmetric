@@ -90,21 +90,30 @@ Set `POETICMETRIC_SMTP_FROM_ADDRESS`, `POETICMETRIC_SMTP_HOST`, `POETICMETRIC_SM
 
 ### Running services
 
-Once you are done setting up your environment variables, you can bring PoeticMetric's services up by:
+Once you are done setting up your environment variables, bring PoeticMetric's services up:
 
 ```shell
 $ docker compose up -d
 ```
 
-If everything goes well, you should be able to access your self-hosted website analytics instance via the frontend URL you set in the [URLs](#urls) step. Go to `http://<your_frontend_base_url>/bootstrap` to initialize the database schemas, and create your account.
+### Run database migrations
+
+Before using the application for the first time, and after every update, run the database migrations:
+
+```shell
+$ docker compose run --rm -e INSTANCE=migrator rest-api
+```
+
+If everything goes well, you should be able to access your self-hosted website analytics instance via the frontend URL you set in the [URLs](#urls) step. Go to `http://<your_frontend_base_url>/bootstrap` to create your account.
 
 ## Updating
 
-When a fresh edition of PoeticMetric becomes available, simply follow these steps: temporarily halt PoeticMetric's services, retrieve the latest docker images, and restart the services. PoeticMetric takes care of updating the databases automatically whenever necessary.
+When a fresh edition of PoeticMetric becomes available, follow these steps: temporarily halt PoeticMetric's services, pull the latest images, run database migrations, then restart the services.
 
 ```shell
 $ docker compose down --remove-orphans
 $ docker compose pull
+$ docker compose run --rm -e INSTANCE=migrator rest-api
 $ docker compose up -d
 ```
 
