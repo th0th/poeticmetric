@@ -19,7 +19,7 @@ PoeticMetric can run successfully on memory as low as 2GB, however, we recommend
 
 ## Versions
 
-When you follow this tutorial, you will be deploying the latest stable version of PoeticMetric. However, a new version of PoeticMetric will be released with new features from time to time. Don't forget to check the section [Updating to a new version](#updating) before you leave.
+When you follow this tutorial, you will be deploying the latest stable version of PoeticMetric. The version to run is set by the `POETICMETRIC_VERSION` variable in your `.env` file (see [Set environment variables](#set-environment-variables)). A new version of PoeticMetric will be released with new features from time to time—don't forget to check the section [Updating to a new version](#updating) before you leave.
 
 PoeticMetric Analytics uses [semantic versioning](https://semver.org): `MAJOR.MINOR.PATCH`
 
