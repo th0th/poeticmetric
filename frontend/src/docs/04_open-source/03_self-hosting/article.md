@@ -14,7 +14,7 @@ You will need a server with Docker installed. PoeticMetric has Docker images pre
 PoeticMetric can run successfully on memory as low as 2GB, however, we recommend allocating at least 4GB of RAM for a smoother experience. However, keep in mind that as the traffic of your website goes up, you might need a more powerful server with a more powerful CPU and more RAM.
 
 <Alert variant="primary">
-    If you don't have a server, you can check it out [Hetzner Cloud](https://hetzner.cloud/?ref=IOqhEJnmxLGq) (referral link), we run our servers on their infrastructure, and we can recommend! 
+  If you don't have a server, you can check it out [Hetzner Cloud](https://hetzner.cloud/?ref=IOqhEJnmxLGq) (referral link), we run our servers on their infrastructure, and we can recommend! 
 </Alert>
 
 ## Versions
@@ -31,13 +31,13 @@ Even tough we suggest backing up your data periodically, and especially before p
 
 ## Running
 
-### Downloading
+### Getting the self-hosted files
 
-Start by downloading the required Docker Compose configuration. Download the `self-hosted.zip` file for the [latest release](https://github.com/th0th/poeticmetric/releases/latest), and unzip it:
+The Docker Compose configuration lives in the `self-hosted` folder of the repository. Clone the repo and change into that folder:
 
 ```shell
-$ curl -fsSL https://github.com/th0th/poeticmetric/releases/latest/download/self-hosted.tar.gz | tar -xz
-$ cd poeticmetric
+$ git clone https://code.unius.sh/poeticmetric/poeticmetric.git
+$ cd poeticmetric/self-hosted
 ```
 
 ### Set environment variables
@@ -54,10 +54,10 @@ You can leave most of them as they are, however, you will need to change some of
 
 These variables will be used for setting the password the relevant component on the first run:
 
-* `CLICKHOUSE_PASSWORD`
-* `POSTGRES_PASSWORD`
-* `RABBITMQ_PASSWORD`
-* `REDIS_PASSWORD`
+* `POETICMETRIC_CLICKHOUSE_PASSWORD`
+* `POETICMETRIC_POSTGRES_PASSWORD`
+* `POETICMETRIC_RABBITMQ_PASSWORD`
+* `POETICMETRIC_VALKEY_PASSWORD`
 
 So, pick a **different**, hard to guess password for each one, and make sure you make note of these. Normally, you won't use any of these passwords while using PoeticMetric. However, if you face any issue, you will need each of them. If you lose one of these passwords, your databases may become inaccessible, and you might lose data.
 
@@ -69,24 +69,24 @@ So, pick a **different**, hard to guess password for each one, and make sure you
 
 PoeticMetric has two components that are accessible by HTTP:
 
-* Frontend (`FRONTEND_BASE_URL`)
-* REST API (`REST_API_BASE_URL`)
+* Frontend (`POETICMETRIC_BASE_URL`)
+* REST API (`POETICMETRIC_REST_API_BASE_URL`)
 
-By the default `docker-compose.yaml`, frontend uses the port `8000`, and REST API `8001`. If you are not going to use a domain name, or a reverse proxy, you should set these as:
+By default in `compose.yaml`, the frontend uses port `8000` and the REST API `8001`. If you are not going to use a domain name or a reverse proxy, set these to:
 
-`FRONTEND_BASE_URL=http://<your_server_ip_address>:8000`
+`POETICMETRIC_BASE_URL=http://<your_server_ip_address>:8000`
 
 and
 
-`REST_API_BASE_URL=http://<your_server_ip_address>:8001`
+`POETICMETRIC_REST_API_BASE_URL=http://<your_server_ip_address>:8001`
 
-If you are going to use a reverse proxy with a domain name, you need to update the variables `FRONTEND_BASE_URL` and `REST_API_BASE_URL` accordingly, and configure two different virtual servers on your reverse proxy. One for the frontend, pointing to the port `8000`; and another one for the REST API, pointing to the port `8001`.
+If you are going to use a reverse proxy with a domain name, update `POETICMETRIC_BASE_URL` and `POETICMETRIC_REST_API_BASE_URL` accordingly, and configure two virtual servers on your reverse proxy: one for the frontend (port `8000`) and one for the REST API (port `8001`).
 
 #### SMTP variables
 
 PoeticMetric requires [Simple Mail Transfer Protocol (SMTP)](https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol) for delivering e-mails that are used for notifications, password recovery etc.
 
-Set `SMTP_FROM`, `SMTP_HOST`, `SMTP_PASSWORD`, `SMTP_PORT` and `SMTP_USER` variables according to your e-mail service provider.
+Set `POETICMETRIC_SMTP_FROM_ADDRESS`, `POETICMETRIC_SMTP_HOST`, `POETICMETRIC_SMTP_PASSWORD`, `POETICMETRIC_SMTP_PORT` and `POETICMETRIC_SMTP_USER` according to your e-mail service provider.
 
 ### Running services
 
@@ -110,4 +110,4 @@ $ docker compose up -d
 
 ## Getting help
 
-If you have any issues setting up your PoeticMetric Analytics instance, you can ask for community members' help on [GitHub Discussions](https://github.com/th0th/poeticmetric/discussions/new?category=self-hosted-help).
+If you have any issues setting up your PoeticMetric Analytics instance, you can open an issue or get help on the [repository](https://code.unius.sh/poeticmetric/poeticmetric).
