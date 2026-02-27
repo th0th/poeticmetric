@@ -4,13 +4,23 @@ set -eo pipefail
 : "${VITE_BASE_URL:?Please set the environment variable.}"
 : "${VITE_REST_API_BASE_URL:?Please set the environment variable.}"
 
+cd /
+
+rm -rf "/usr/share/nginx/html"
+
+if [[ "${VITE_IS_HOSTED}" != "true" ]]; then
+  cp -R "/poeticmetric/self-hosted" "/usr/share/nginx/html"
+else
+  cp -R "/poeticmetric/hosted" "/usr/share/nginx/html"
+fi
+
+cd "/usr/share/nginx/html"
+
 # robots.txt
 if [[ "${ALLOW_ROBOTS}" == "true" ]]; then
-  mv "robots-allow.txt" "robots.txt"
-  rm -rf "robots-disallow.txt"
+  cp "/poeticmetric/common/robots-allow.txt" "robots.txt"
 else
-  mv "robots-disallow.txt" "robots.txt"
-  rm -rf "robots-allow.txt"
+  cp "/poeticmetric/common/robots-disallow.txt" "robots.txt"
 fi
 
 # replace the placeholders with environment variables

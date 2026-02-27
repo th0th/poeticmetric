@@ -1,6 +1,5 @@
-import { baseURL, restAPIBaseURL } from "~/lib/base";
-import { getIsHosted } from "~/lib/hosted";
+import { baseURL, isHosted, restAPIBaseURL } from "~/lib/base";
 
 export function getTrackerURL() {
-  return `${getIsHosted() ? baseURL : restAPIBaseURL}/pm.js`;
+  return `${isHosted === "true" ? baseURL : restAPIBaseURL}/pm.js`;
 }

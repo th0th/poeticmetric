@@ -55,4 +55,4 @@ Furthermore, PoeticMetric can assist you in quickly identifying your highest-eng
 Make commercial decisions without jeopardizing the privacy of your visitors. PoeticMetric is a blazingly fast analytics tool that prioritizes privacy and complies with regulations. There are no cookies or personal information collected. As a result, you do not have to be concerned about cookie banners, GDPR, CCPA, or PECR.
 
 You will not have to worry about Instagram updates and algorithm changes if you focus on creating relationships with your audience and providing amazing content. After all, maintaining long-term engagement on Instagram requires authenticity and transparency.
-Start using [PoeticMetric](https://www.poeticmetric.com/sign-up?utm_source=poeticmetric&utm_medium=blog&utm_content=spies-or-lies-how-does-instagram-know-what-i-am-thinking&utm_term=start) today.
+Start using [PoeticMetric](https://poeticmetric.com/sign-up?utm_source=poeticmetric&utm_medium=blog&utm_content=spies-or-lies-how-does-instagram-know-what-i-am-thinking&utm_term=start) today.

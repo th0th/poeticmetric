@@ -112,6 +112,10 @@ func (s *service) RESTApiBasePath() *string {
 	return s.vars.RESTApiBasePath
 }
 
+func (s *service) RESTApiIsCORSEnabled() bool {
+	return s.vars.RESTApiIsCORSEnabled
+}
+
 func (s *service) SmtpAddr() string {
 	return fmt.Sprintf("%s:%s", s.vars.SmtpHost, s.vars.SmtpPort)
 }

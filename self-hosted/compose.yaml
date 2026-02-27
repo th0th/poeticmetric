@@ -1,0 +1,124 @@
+x-services-backend-common: &services-backend-common
+  depends_on:
+    clickhouse:
+      condition: service_healthy
+    postgres:
+      condition: service_healthy
+    rabbitmq:
+      condition: service_healthy
+    valkey:
+      condition: service_healthy
+  environment: &services-backend-common-environment
+    CLICKHOUSE_DATABASE: ${POETICMETRIC_CLICKHOUSE_DATABASE}
+    CLICKHOUSE_HOST: clickhouse
+    CLICKHOUSE_PASSWORD: ${POETICMETRIC_CLICKHOUSE_PASSWORD}
+    CLICKHOUSE_PORT: 9000
+    CLICKHOUSE_USER: ${POETICMETRIC_CLICKHOUSE_USER}
+    POSTGRES_DATABASE: ${POETICMETRIC_POSTGRES_DATABASE}
+    POSTGRES_HOST: postgres
+    POSTGRES_PASSWORD: ${POETICMETRIC_POSTGRES_PASSWORD}
+    POSTGRES_PORT: 5432
+    POSTGRES_USER: ${POETICMETRIC_POSTGRES_USER}
+    RABBITMQ_HOST: rabbitmq
+    RABBITMQ_PASSWORD: ${POETICMETRIC_RABBITMQ_PASSWORD}
+    RABBITMQ_PORT: 5672
+    RABBITMQ_USER: ${POETICMETRIC_RABBITMQ_USER}
+    RABBITMQ_VHOST: ${POETICMETRIC_RABBITMQ_VHOST}
+    FRONTEND_BASE_URL: ${POETICMETRIC_BASE_URL}
+    REST_API_BASE_URL: ${POETICMETRIC_REST_API_BASE_URL}
+    SMTP_FROM_ADDRESS: ${POETICMETRIC_SMTP_FROM_ADDRESS}
+    SMTP_HOST: ${POETICMETRIC_SMTP_HOST}
+    SMTP_PORT: ${POETICMETRIC_SMTP_PORT}
+    VALKEY_HOST: valkey
+    VALKEY_PASSWORD: ${POETICMETRIC_VALKEY_PASSWORD}
+    VALKEY_PORT: 6379
+  image: code.unius.sh/poeticmetric/backend:${POETICMETRIC_VERSION}
+
+volumes:
+  clickhouse:
+  postgres:
+  rabbitmq:
+  valkey:
+
+services:
+  clickhouse:
+    environment:
+      CLICKHOUSE_DB: ${POETICMETRIC_CLICKHOUSE_DATABASE}
+      CLICKHOUSE_PASSWORD: ${POETICMETRIC_CLICKHOUSE_PASSWORD}
+      CLICKHOUSE_USER: ${POETICMETRIC_CLICKHOUSE_USER}
+    healthcheck:
+      test: ["CMD-SHELL", "clickhouse-client --user ${POETICMETRIC_CLICKHOUSE_USER} --password ${POETICMETRIC_CLICKHOUSE_PASSWORD} --query 'SELECT 1'"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    image: clickhouse/clickhouse-server:25.2
+    volumes:
+      - clickhouse:/var/lib/clickhouse
+
+  frontend:
+    environment:
+      VITE_BASE_URL: ${POETICMETRIC_BASE_URL}
+      VITE_REST_API_BASE_URL: ${POETICMETRIC_REST_API_BASE_URL}
+    image: code.unius.sh/poeticmetric/frontend:${POETICMETRIC_VERSION}
+    ports:
+      - "127.0.0.1:8000:80"
+
+  postgres:
+    environment:
+      POSTGRES_DB: ${POETICMETRIC_POSTGRES_DATABASE}
+      POSTGRES_PASSWORD: ${POETICMETRIC_POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POETICMETRIC_POSTGRES_USER}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POETICMETRIC_POSTGRES_USER} -d ${POETICMETRIC_POSTGRES_DATABASE}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    image: postgres:18.1-alpine
+    volumes:
+      - postgres:/var/lib/postgresql
+
+  rabbitmq:
+    environment:
+      RABBITMQ_DEFAULT_PASS: ${POETICMETRIC_RABBITMQ_PASSWORD}
+      RABBITMQ_DEFAULT_USER: ${POETICMETRIC_RABBITMQ_USER}
+      RABBITMQ_DEFAULT_VHOST: ${POETICMETRIC_RABBITMQ_VHOST}
+    healthcheck:
+      test: ["CMD-SHELL", "rabbitmq-diagnostics -q ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    image: rabbitmq:4.2.2-management-alpine
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq
+
+  rest-api:
+    <<: *services-backend-common
+    environment:
+      <<: *services-backend-common-environment
+      INSTANCE: rest-api
+    ports:
+      - "127.0.0.1:8001:80"
+
+  scheduler:
+    <<: *services-backend-common
+    environment:
+      <<: *services-backend-common-environment
+      INSTANCE: scheduler
+
+  valkey:
+    environment:
+      PASSWORD: ${POETICMETRIC_VALKEY_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "valkey-cli -a ${POETICMETRIC_VALKEY_PASSWORD} ping | grep PONG"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    image: valkey/valkey:9.0.1-alpine
+    volumes:
+      - valkey:/data
+
+  worker:
+    <<: *services-backend-common
+    environment:
+      <<: *services-backend-common-environment
+      INSTANCE: worker

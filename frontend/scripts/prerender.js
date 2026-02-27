@@ -1,26 +1,32 @@
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
-import { getBaseDir } from "./base.js";
+import { getBaseOutDir, isHostedOptions } from "./base.js";
 import getHtmlFromTemplate from "./getHtmlFromTemplate.js";
 import { getRoutes } from "./routes.js";
 
-const baseDir = getBaseDir();
-
-const template = readFileSync(join(baseDir, "dist", "static", "index.html"), "utf-8");
-const { render } = await import("../dist/server/entry-server.js"); // eslint-disable-line import/no-unresolved
+const { render: hostedRender } = await import("../dist/hosted/server/entry-server.js"); // eslint-disable-line import/no-unresolved
+const { render: selfHostedRender } = await import("../dist/self-hosted/server/entry-server.js"); // eslint-disable-line import/no-unresolved
 
 async function prerender() {
-  const routes = getRoutes();
+  for (const isHostedOption of isHostedOptions) {
+    process.env.VITE_IS_HOSTED = isHostedOption;
+    const baseOutDir = getBaseOutDir();
+    const routes = getRoutes();
 
-  for (const path of routes) {
-    const filePath = join(baseDir, "dist", "static", `${path === "/" ? "index" : path}.html`);
+    const template = await readFile(join(baseOutDir, "static", "index.html"), "utf-8");
 
-    mkdirSync(dirname(filePath), { recursive: true });
+    const render = process.env.VITE_IS_HOSTED === "true" ? hostedRender : selfHostedRender;
 
-    const rendered = await render(path);
-    const html = getHtmlFromTemplate(template, rendered);
+    for (const path of routes) {
+      const filePath = join(baseOutDir, "static", `${path === "/" ? "index" : path}.html`);
 
-    writeFileSync(filePath, html);
+      await mkdir(dirname(filePath), { recursive: true });
+
+      const rendered = await render(path);
+      const html = getHtmlFromTemplate(template, rendered);
+
+      await writeFile(filePath, html);
+    }
   }
 }
 

@@ -44,7 +44,7 @@ Contributions by community members are rigorously peer-reviewed by the core cont
 
 Yes. PoeticMetric is available in two forms:
 
-1. A managed, Software as a Service (SaaS) that is offered by monthly or yearly subscription on [poeticmetric.com](https://www.poeticmetric.com).
+1. A managed, Software as a Service (SaaS) that is offered by monthly or yearly subscription on [poeticmetric.com](https://poeticmetric.com).
 2. Self-hosted version that you can deploy and maintain on your own infrastructure.
 
 Service and self-hosted versions are exactly the same product, they share the same codebase. The only difference is that, you fully deploy, manage and maintain the self-hosted version yourself.

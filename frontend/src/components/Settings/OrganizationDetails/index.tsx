@@ -5,6 +5,7 @@ import { useEffect, useEffectEvent, useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useForm, useWatch } from "react-hook-form";
 import { api } from "~/lib/api";
+import { isHosted } from "~/lib/base";
 import { NewError } from "~/lib/errors";
 import { setErrors } from "~/lib/form";
 
@@ -80,13 +81,13 @@ export default function OrganizationDetails() {
       <form className="card" onSubmit={handleSubmit(submit)}>
         <fieldset className="card-body gap-12 vstack" disabled={isSubmitting}>
           <div>
-            <div className="mb-8">
+            <div>
               Organization details are used only for displaying your organization&apos;s name on the website, it doesn&apos;t affect any
               other functionality.
             </div>
 
             {state.isDone ? (
-              <div className="alert alert-success align-items-center d-flex gap-6 mb-0">
+              <div className="alert alert-success align-items-center d-flex gap-6 mb-0 mt-8">
                 <IconCircleCheck className="flex-grow-0 flex-shrink-0" />
 
                 <div className="flex-grow-1">
@@ -94,13 +95,17 @@ export default function OrganizationDetails() {
                 </div>
               </div>
             ) : (
-              <div className="alert alert-warning align-items-center d-flex gap-6 mb-0">
-                <IconAlertTriangle className="flex-grow-0 flex-shrink-0" />
+              <>
+                {isHosted === "true" ? (
+                  <div className="alert alert-warning align-items-center d-flex gap-6 mb-0 mt-8">
+                    <IconAlertTriangle className="flex-grow-0 flex-shrink-0" />
 
-                <div className="flex-grow-1">
-                  If you need to change company details for invoices and receipts, please go to the billing section.
-                </div>
-              </div>
+                    <div className="flex-grow-1">
+                      If you need to change company details for invoices and receipts, please go to the billing section.
+                    </div>
+                  </div>
+                ) : null}
+              </>
             )}
           </div>
 

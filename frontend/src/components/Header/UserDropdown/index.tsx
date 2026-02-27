@@ -3,6 +3,7 @@ import { Dropdown, DropdownProps } from "react-bootstrap";
 import { Link, useNavigate } from "react-router";
 import Avatar from "~/components/Avatar";
 import useAuthentication from "~/hooks/useAuthentication";
+import { isHosted } from "~/lib/base";
 
 export type UserDropdownProps = Overwrite<Omit<DropdownProps, "align" | "children">, {
   layoutVariant: LayoutVariant;
@@ -41,11 +42,16 @@ export default function UserDropdown({ layoutVariant, ...props }: UserDropdownPr
           </>
         ) : null}
 
-        <Dropdown.Item as={Link} to="/docs">Docs</Dropdown.Item>
+        {isHosted === "true" ? (
+          <Dropdown.Item as={Link} to="/docs">Docs</Dropdown.Item>
+        ) : (
+          <Dropdown.Item href="https://poeticmetric.com/docs" target="_blank">Docs</Dropdown.Item>
+        )}
+
 
         <Dropdown.Item as={Link} to="/settings">Settings</Dropdown.Item>
 
-        {user.isOrganizationOwner ? (
+        {isHosted === "true" && user.isOrganizationOwner ? (
           <Dropdown.Item as={Link} to="/billing">Billing</Dropdown.Item>
         ) : null}
 

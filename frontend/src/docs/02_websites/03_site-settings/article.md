@@ -26,6 +26,6 @@ PoeticMetric doesn't store any query parameters since they might include persona
 
 ## Public reports
 
-By default, reports for the website are accessible only to the people with a team member account within your PoeticMetric organization. If you enable this option, reports for the site will be publicly accessible on `https://www.poeticmetric.com/s?d=www.yoursite.com`. This setting come into effect immediately, even if you enabled it earlier, the moment you uncheck this option and click **Save**, public access to website's reports will be disabled.
+By default, reports for the website are accessible only to the people with a team member account within your PoeticMetric organization. If you enable this option, reports for the site will be publicly accessible on `https://poeticmetric.com/s?d=www.yoursite.com`. This setting come into effect immediately, even if you enabled it earlier, the moment you uncheck this option and click **Save**, public access to website's reports will be disabled.
 
-For example, you can visit PoeticMetric's own reports on [https://www.poeticmetric.com/s?d=www.poeticmetric.com](https://www.poeticmetric.com/s?d=www.poeticmetric.com).
+For example, you can visit PoeticMetric's own reports on [https://poeticmetric.com/s?d=poeticmetric.com](https://poeticmetric.com/s?d=poeticmetric.com).

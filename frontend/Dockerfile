@@ -1,4 +1,4 @@
-FROM node:24-alpine
+FROM node:25.3.0-alpine
 
 WORKDIR /poeticmetric-frontend-build
 
@@ -22,14 +22,17 @@ COPY vite.config.ts .
 
 # build and export
 RUN pnpm run generateBlogFeed
-RUN pnpm run generateRobotsTxt
 RUN pnpm run generateSitemap
+RUN pnpm run build
 RUN pnpm run prerender
+RUN pnpm run generateRobotsTxt
 
 FROM nginx:1-alpine
 
-WORKDIR /usr/share/nginx/html
-
 COPY etc/nginx.conf /etc/nginx/conf.d/default.conf
 COPY docker-entrypoint.sh /docker-entrypoint.d/01-bootstrap.sh
-COPY --from=0 /poeticmetric-frontend-build/dist/static .
+COPY --from=0 /poeticmetric-frontend-build/dist/common /poeticmetric/common
+COPY --from=0 /poeticmetric-frontend-build/dist/hosted/static /poeticmetric/hosted
+COPY --from=0 /poeticmetric-frontend-build/dist/self-hosted/static /poeticmetric/self-hosted
+
+WORKDIR /usr/share/nginx/html

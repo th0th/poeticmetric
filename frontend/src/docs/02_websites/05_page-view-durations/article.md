@@ -7,7 +7,7 @@ How much time a visitor spends on a page is one of the critical engagement metri
 
 ## Google Analytics (and most of the other tools)
 
-**Google Analytics** measures time spent on the page like this: Visitor lands on your website at a particular time. When this visitor navigates to another page on your site, Google Analytics considers all the time between these two events as the "time on page". ** This approach requires tracking the visitor by a unique identifier, IP address, or a cookie.** In addition to that, the evaluation by this method is inaccurate and inadequate, too. Consider these cases:
+**Google Analytics** measures time spent on the page like this: Visitor lands on your website at a particular time. When this visitor navigates to another page on your site, Google Analytics considers all the time between these two events as the "time on page". **This approach requires tracking the visitor by a unique identifier, IP address, or a cookie.** In addition to that, the evaluation by this method is inaccurate and inadequate, too. Consider these cases:
 
 ### Case#1: Visitor views a single page
 
@@ -26,4 +26,4 @@ PoeticMetric measures the page view duration as accurately as possible.
 
 ### Sacrificed data point: Session duration
 
-As stated in the previous section, tracking a visitor between pages (i.e. along a session) requires attaching a certain identifier to that specific visitor. [**This is what we definitely don't do at PoeticMetric.**](/manifesto#1-being-privacy-first) So, we had to sacrifice the **session duration** data point in order to stay privacy-focused and compliant with the personal data privacy regulations.
+As stated in the previous section, tracking a visitor between pages (i.e. along a session) requires attaching a certain identifier to that specific visitor. [**This is what we definitely don't do at PoeticMetric.**](/manifesto#0-freedom-and-privacy-for-everyone) So, we had to sacrifice the **session duration** data point in order to stay privacy-focused and compliant with the personal data privacy regulations.
